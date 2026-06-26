@@ -7,11 +7,30 @@
 import * as THREE from "three";
 
 const REDUCE = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const DPR = Math.min(window.devicePixelRatio || 1, 1.75);
+// Touch GPUs (phones/tablets) have far less fill-rate than a desktop. Cap render
+// resolution lower there so a scene crossing the viewport mid-scroll can't drop frames.
+const COARSE = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+const capDPR = (x) => Math.min(window.devicePixelRatio || 1, COARSE ? Math.min(x, 1.3) : x);
+const DPR = capDPR(1.75);
 // True render-visibility: IntersectionObserver ignores visibility:hidden (e.g. the
 // closed chat panel), so a hidden canvas would keep rendering ~60fps. We check
 // visibility:hidden/display:none but NOT opacity, so opacity fade-in reveals still animate.
-const SHOWN = (c) => typeof c.checkVisibility !== "function" || c.checkVisibility({ checkVisibilityCSS: true });
+// checkVisibility() forces a SYNCHRONOUS LAYOUT on every call. Calling it once per
+// animation frame inside every scene's render loop thrashes layout during scroll —
+// it was the dominant cause of scroll jank on mobile. The only state it catches that
+// the IntersectionObserver can't is an ancestor toggled to visibility:hidden (the
+// closed chat panel), which changes on a click, not per frame. So cache the answer
+// and re-test at most ~4x/second: imperceptible delay, ~94% fewer forced layouts.
+const _visCache = new WeakMap();
+const SHOWN = (c) => {
+  if (typeof c.checkVisibility !== "function") return true;
+  const now = performance.now();
+  const e = _visCache.get(c);
+  if (e && now - e.t < 250) return e.v;
+  const v = c.checkVisibility({ checkVisibilityCSS: true });
+  _visCache.set(c, { t: now, v });
+  return v;
+};
 
 /* soft round sprite (shared) */
 function dotTexture(inner = "#eafff4", outer = "rgba(51,209,136,0)") {
@@ -282,7 +301,7 @@ function initGlobe(canvas) {
 /* ---------- MASALAH: 3D café diorama (2 floors, stairs, people, queue vs seated) ---------- */
 function initCafe(canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25)); // small stage, opaque fill -> cap DPR for fill-rate
+  renderer.setPixelRatio(capDPR(1.25)); // small stage, opaque fill -> cap DPR for fill-rate
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
   camera.position.set(8.4, 7.2, 10.2);
@@ -419,7 +438,7 @@ function initLivBot(canvas, framing) {
   const ACC = new THREE.Color("#33d188");
   const GOLD = new THREE.Color("#f5c451");
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  renderer.setPixelRatio(capDPR(1.75));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
   if (framing === "full") { camera.position.set(0, 0.18, 6.2); camera.lookAt(0, 0.05, 0); }
@@ -545,7 +564,7 @@ function initLivBot(canvas, framing) {
 /* ---------- (legacy barista 3D — unused) ---------- */
 function initLiv(canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  renderer.setPixelRatio(capDPR(1.75));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(33, 1, 0.1, 100);
   camera.position.set(0, 0.85, 8.2); camera.lookAt(0, 0.85, 0);
@@ -676,7 +695,7 @@ function makeLogoTexture(glyph) {
 }
 function initLivHost(canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  renderer.setPixelRatio(capDPR(1.75));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
   camera.position.set(0, 1.42, 4.15); camera.lookAt(0, 1.12, 0);
@@ -866,7 +885,7 @@ function initLivHost(canvas) {
 function initForest(canvas) {
   const wrap = canvas.parentElement, tip = wrap.querySelector(".holo-tip");
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
+  renderer.setPixelRatio(capDPR(1.6));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
   camera.position.set(0, 3.1, 6.4); camera.lookAt(0, 0.4, 0);
@@ -965,7 +984,7 @@ function initForest(canvas) {
 /* ---------- PROBLEMS: one shared scene, several low-poly groups (only the active renders) ---------- */
 function initProblems(canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.45));
+  renderer.setPixelRatio(capDPR(1.45));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
   camera.position.set(0, 2.5, 7.2); camera.lookAt(0, 0.65, 0);
@@ -1127,7 +1146,8 @@ function initProblems(canvas) {
 
   window.glyivProblems.show(0);
 
-  function resize() { const w = canvas.clientWidth || canvas.parentElement.clientWidth, h = canvas.clientHeight || canvas.parentElement.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); if (REDUCE) renderer.render(scene, camera); }
+  let cw = 0, ch = 0; // cached canvas size — avoids a per-frame clientWidth layout read
+  function resize() { const w = canvas.clientWidth || canvas.parentElement.clientWidth, h = canvas.clientHeight || canvas.parentElement.clientHeight; if (!w || !h) return; cw = w; ch = h; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); if (REDUCE) renderer.render(scene, camera); }
   const ro = new ResizeObserver(resize); ro.observe(canvas.parentElement); resize();
   let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
 
@@ -1143,7 +1163,7 @@ function initProblems(canvas) {
       g.updateMatrixWorld(true);
       g.userData.anim(t);
       const bs = bubblesByGroup[active] || [], ans = g.userData.anchors || [];
-      const W = canvas.clientWidth, H = canvas.clientHeight;
+      const W = cw, H = ch;
       bs.forEach((el, k) => { if (!ans[k]) return; _v.copy(ans[k]).applyMatrix4(g.matrixWorld).project(camera); if (_v.z > 1) { el.style.left = "-9999px"; return; } el.style.left = ((_v.x * 0.5 + 0.5) * W) + "px"; el.style.top = ((-_v.y * 0.5 + 0.5) * H) + "px"; });
     }
     renderer.render(scene, camera);

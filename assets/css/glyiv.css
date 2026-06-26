@@ -975,3 +975,39 @@ a.gv-btn.mm{display:inline-flex}
 
 /* reserve right gutter for the fixed edge section-nav (must be last to win the cascade) */
 @media (min-width:1101px){ .gv-section{padding-right:clamp(200px,14vw,234px)} }
+
+/* ============================ TOUCH PERF LAYER ============================
+   Scroll jank on phones/tablets is GPU-compositing saturation, not JS. Two costs
+   dominate on a mobile GPU and fire every scroll frame:
+     1. backdrop-filter:blur() on scrolling glass cards — the GPU re-samples and
+        re-blurs the backdrop under each panel on every frame it moves.
+     2. dozens of permanently will-change-promoted, never-pausing infinite ambient
+        animations (per-section grid drift + glow breathe, contour dash, spores).
+   Desktop/Mac absorbs this; touch GPUs choke. So on coarse-pointer devices we
+   trade the ambient eye-candy for a solid 60fps: drop every backdrop blur (with an
+   opaque panel fallback so contrast holds), freeze the decorative loops, and
+   release the compositor layers. The full effect set stays intact on hover/fine
+   pointers (laptops, desktops). */
+@media (hover:none) and (pointer:coarse){
+  /* 1 — kill backdrop blur everywhere; give glass panels an opaque tint instead */
+  .gv-card,.gv-statchip,.mc-wrap,.cf-viewport,.gv-burger,.gv-scrim,
+  .gv-chatwrap,.gv-secnav{ -webkit-backdrop-filter:none!important; backdrop-filter:none!important }
+  .gv-card,.mc-wrap,.cf-viewport{ background:rgba(9,33,23,.97) }
+  .gv-statchip{ background:rgba(9,33,23,.9) }
+  .gv-burger{ background:rgba(8,28,20,.95) }
+
+  /* 2 — freeze permanently-running ambient loops + release their GPU layers */
+  .gv-section__bg::before,.gv-section__bg::after,.gv-contour path,
+  .gv-hero__ring,.gv-hero__ring.r2{ animation:none!important }
+  .gv-section__bg::before,.gv-section__bg::after,.liv-launcher,
+  .liv-caption,.cf-track,.gv-glow,[class*="-glow"]{ will-change:auto!important }
+  .gv-spore{ display:none }            /* drifting spore layers: pure cost on touch */
+  .gv-grain{ display:none }            /* full-screen turbulence overlay: skip the extra fixed layer */
+
+  /* 3 — settle the breathing glow at a calm static state so it still reads as lit */
+  .gv-section__bg::after{ opacity:.6; transform:none }
+}
+@media (prefers-reduced-motion:reduce){
+  .gv-section__bg::before,.gv-section__bg::after,.gv-contour path{ animation:none!important }
+  .gv-section__bg::before,.gv-section__bg::after{ will-change:auto!important }
+}
