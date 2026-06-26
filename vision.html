@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Glyiv — Visi Jangka Panjang · Infrastruktur Data Karbon</title>
+<meta name="description" content="Visi jangka panjang Glyiv: dari data karbon level-item, e-wallet ber-karbon, marketplace Tree RWA + monitoring pohon, hingga menjadi Digital Public Infrastructure." />
+<meta name="theme-color" content="#06190f" />
+<link rel="icon" type="image/svg+xml" href="logo.svg" />
+<meta property="og:title" content="Glyiv — Visi Jangka Panjang" />
+<meta property="og:description" content="Dari kafe Makassar ke infrastruktur data karbon dunia." />
+<meta property="og:image" content="glyiv-thumb.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/glyiv.css" />
+<script src="assets/js/i18n.js?v=9"></script>
+<script src="assets/js/config.js?v=1"></script>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+</head>
+<body>
+
+<div class="gv-splash" aria-hidden="true">
+  <div class="gv-splash__inner">
+    <div class="gv-splash__mark"><svg viewBox="0 0 100 100" width="100%" height="100%"><defs><linearGradient id="spl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8affc1"/><stop offset=".55" stop-color="#1fae6b"/><stop offset="1" stop-color="#0d3526"/></linearGradient></defs><path d="M50 6C50 6 86 34 86 64C86 84 66 95 50 95C34 95 14 84 14 64C14 34 50 6 50 6Z" fill="url(#spl)"/><circle cx="50" cy="66" r="6" fill="#baffe0"/></svg></div>
+    <div class="gv-splash__word">GL<b>Y</b>IV</div>
+    <div class="gv-splash__tag">Vision · 2030+</div>
+    <div class="gv-splash__bar"><i></i></div>
+  </div>
+</div>
+
+<div class="gv-bg-root"></div>
+<div class="gv-grain"></div>
+
+<header class="gv-topbar2">
+  <a class="gv-brand" href="index.html"><svg class="gv-brand__logo" viewBox="0 0 100 100"><use href="#glyivmark"/></svg><div class="gv-brand__txt"><b>Glyiv</b><span>Visi 2030+</span></div></a>
+  <div style="display:flex;align-items:center;gap:8px">
+    <nav class="gv-topnav" aria-label="Tautan">
+      <a class="tlink" href="index.html">← Beranda</a>
+      <a class="tlink" href="demo.html">Demo</a>
+    </nav>
+    <button class="gv-burger" id="gvBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="gv-progress"><i id="gvProgress"></i></div>
+<div class="gv-scrim" id="gvScrim"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8affc1"/><stop offset=".55" stop-color="#1fae6b"/><stop offset="1" stop-color="#0d3526"/></linearGradient>
+  <symbol id="glyivmark" viewBox="0 0 100 100"><path d="M50 6C50 6 86 34 86 64C86 84 66 95 50 95C34 95 14 84 14 64C14 34 50 6 50 6Z" fill="url(#lg)"/><path d="M50 34C50 34 66 54 66 70C66 82 56 88 50 88C44 88 34 82 34 70C34 54 50 34 50 34Z" fill="#04150d" opacity=".5"/><circle cx="50" cy="66" r="5.5" fill="#baffe0"/></symbol>
+</defs></svg>
+
+<!-- RIGHT-EDGE SECTION NAV (koios style) -->
+<nav class="gv-secnav" id="gvSecnav" aria-label="Bagian">
+  <a class="gv-nav__item is-active" href="#v-home"><span class="num">01</span><span class="lbl">Visi</span><span class="tick"></span></a>
+  <a class="gv-nav__item" href="#data"><span class="num">02</span><span class="lbl">Data Karbon</span><span class="tick"></span></a>
+  <a class="gv-nav__item" href="#wallet"><span class="num">03</span><span class="lbl">E-Wallet</span><span class="tick"></span></a>
+  <a class="gv-nav__item" href="#rwa"><span class="num">04</span><span class="lbl">Tree RWA</span><span class="tick"></span></a>
+  <a class="gv-nav__item" href="#monitor"><span class="num">05</span><span class="lbl">Monitoring</span><span class="tick"></span></a>
+  <a class="gv-nav__item" href="#dpi"><span class="num">06</span><span class="lbl">DPI</span><span class="tick"></span></a>
+  <a class="gv-nav__item" href="#cta"><span class="num">07</span><span class="lbl">Investor</span><span class="tick"></span></a>
+</nav>
+
+<div class="gv-shell">
+  <main class="gv-main">
+
+    <!-- HERO -->
+    <section class="gv-section gv-hero" id="v-home">
+      <div class="gv-section__bg"></div>
+      <div class="gv-inner">
+        <div class="gv-hero__grid">
+          <div class="gv-hero__copy">
+            <div class="gv-eyebrow" data-reveal>Visi Jangka Panjang · Horizon 2030+</div>
+            <h1 class="gv-h1" data-reveal data-d="1">Dari kafe Makassar ke <span class="gv-grad">infrastruktur karbon</span> dunia.</h1>
+            <p class="gv-lead" data-reveal data-d="2">Setelah ribuan outlet menghasilkan data karbon level-item, Glyiv berkembang menjadi lapisan fondasi: data yang dijual ke institusi global, e-wallet pertama yang menampilkan karbon per item, dan marketplace aset karbon nyata (Tree RWA) dengan monitoring satelit.</p>
+            <div class="gv-hero__cta" data-reveal data-d="3">
+              <a class="gv-btn is-primary" href="#rwa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Jelajahi Visi</a>
+              <a class="gv-btn is-ghost" href="index.html">← Skala Awal</a>
+            </div>
+            <div class="gv-hero__stats" data-reveal data-d="4">
+              <div class="gv-statchip"><b>Item-level</b><span>data karbon</span></div>
+              <div class="gv-statchip"><b>Tree RWA</b><span>ERC-3643</span></div>
+              <div class="gv-statchip"><b>DPI</b><span>green standard</span></div>
+            </div>
+          </div>
+          <div class="gv-hero__stage" data-reveal data-d="2">
+            <canvas class="gv-hero__canvas" id="globeCanvas"></canvas>
+            <div class="gv-hero__ring r2"></div>
+            <div class="liv-name" style="position:absolute;bottom:2%;left:50%;transform:translateX(-50%);display:flex;gap:7px;align-items:center;font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;color:var(--bio);text-transform:uppercase"><span style="width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)"></span> Makassar → dunia</div>
+          </div>
+        </div>
+      </div>
+      <div class="gv-scroll-cue"><span>scroll</span><i></i></div>
+    </section>
+
+    <!-- DATA MOAT -->
+    <section class="gv-section is-glow-l" id="data">
+      <div class="gv-section__bg"></div>
+      <span class="gv-sec-tag">02 / Data Karbon</span>
+      <div class="gv-inner">
+        <div class="gv-eyebrow" data-reveal>Aset · Data Karbon</div>
+        <h2 class="gv-h2" data-reveal data-d="1">Data karbon <span class="gv-grad">level-item</span> — komoditas yang dicari dunia.</h2>
+        <p class="gv-lead" data-reveal data-d="2">Bank menghitung karbon dari belanja (spend-based). Glyiv mendata setiap <b style="color:var(--mint)">item</b> langsung dari sumbernya. Ini lompatan akurasi yang bernilai tinggi bagi institusi besar, grocery, hingga pembeli internasional.</p>
+        <div class="vi-compare gv-mt-m" data-reveal>
+          <div class="vi-col vi-spend">
+            <span class="vi-tag gv-mono">Bank · spend-based</span>
+            <div class="vi-est">±3,2<i>kg CO₂e</i></div>
+            <p class="vi-cap">Hanya tahu <b>berapa</b> kamu belanja, lalu dikalikan rata-rata kategori. Kasar &amp; mudah meleset.</p>
+          </div>
+          <div class="vi-vs"><span>vs</span></div>
+          <div class="vi-col vi-item">
+            <span class="vi-tag gv-mono">Glyiv · item-based</span>
+            <div class="vi-receipt">
+              <div class="vi-row"><span>☕ Kopi Susu</span><b data-co="0.52">0,00</b></div>
+              <div class="vi-row"><span>🥗 Salad Buah</span><b data-co="0.18">0,00</b></div>
+              <div class="vi-row"><span>🍞 Roti Bakar</span><b data-co="0.61">0,00</b></div>
+              <div class="vi-row"><span>🍚 Nasi Ayam</span><b data-co="0.94">0,00</b></div>
+              <div class="vi-row vi-trow"><span>Total presisi</span><b data-co="2.25">0,00</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="gv-grid c3 gv-mt-m">
+          <div class="gv-card" data-reveal data-d="1"><div class="gv-card__ic">🏢</div><h3>Lisensi data institusi</h3><p>Institusi & retail global butuh data Scope 3 yang granular untuk IFRS S2 & disclosure 2027.</p></div>
+          <div class="gv-card" data-reveal data-d="2"><div class="gv-card__ic">🛒</div><h3>Masuk ke grocery</h3><p>Metode item-based diterapkan di grocery store — bukan lagi sekadar estimasi kategori.</p></div>
+          <div class="gv-card" data-reveal data-d="3"><div class="gv-card__ic">🌐</div><h3>Standar internasional</h3><p>Tekanan iklim global lebih besar; data Glyiv jadi referensi lintas negara.</p></div>
+        </div>
+        <div class="gv-note is-green gv-mt-m" data-reveal>🛡️ <div>Privasi & kepemilikan data merchant dijaga (UU PDP). Insight agregat memakai pengaman antitrust (kategori kasar, jeda, ukuran grup minimum).</div></div>
+      </div>
+    </section>
+
+    <!-- E-WALLET -->
+    <section class="gv-section" id="wallet">
+      <div class="gv-section__bg"></div>
+      <span class="gv-sec-tag">03 / E-Wallet</span>
+      <div class="gv-inner">
+        <div class="gv-feature" style="align-items:center">
+          <div data-reveal>
+            <div class="gv-eyebrow">E-Wallet Ber-Karbon</div>
+            <h2 class="gv-h2">Dompet pertama yang <span class="gv-grad">menampilkan karbon</span> tiap belanja.</h2>
+            <p class="gv-muted">E-wallet hari ini tahu <i>berapa</i> kamu belanja, bukan <i>apa</i>. Glyiv mengintegrasikan green receipt + wallet: tiap transaksi punya rincian item dan jejak karbonnya. Dibangun via mitra berlisensi (rezim PJP Bank Indonesia); token $GLYIV hanya utilitas, bukan alat bayar.</p>
+            <div class="gv-pillrow">
+              <span class="gv-pill">🧾 Green receipt built-in</span>
+              <span class="gv-pill">💚 Karbon per transaksi</span>
+              <span class="gv-pill">🏦 Mitra berlisensi (PJP)</span>
+            </div>
+          </div>
+          <div class="gv-feature__media" data-reveal data-d="2" style="display:grid;place-items:center;padding:24px">
+            <div style="width:240px;background:linear-gradient(160deg,#0d3526,#06190f);border:1px solid var(--line2);border-radius:22px;padding:18px;box-shadow:var(--shadow-lg)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><span class="gv-mono gv-faint" style="font-size:10px">GLYIV WALLET</span><span style="font-size:18px">🌿</span></div>
+              <div class="gv-mono" style="color:var(--text-faint);font-size:10px">Saldo</div>
+              <div style="font-family:var(--f-disp);font-weight:800;font-size:28px;color:#fff;margin-bottom:14px">Rp 318.500</div>
+              <div style="border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:9px">
+                <div style="display:flex;justify-content:space-between;font-size:.82rem"><span class="gv-muted">☕ Kopi Susu</span><span class="gv-mono" style="color:var(--gold)">0.5 kg CO₂e</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:.82rem"><span class="gv-muted">🥗 Salad Buah 🌿</span><span class="gv-mono" style="color:var(--bio)">0.3 kg CO₂e</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:.82rem"><span class="gv-muted">🍞 Roti Bakar</span><span class="gv-mono" style="color:var(--gold)">0.6 kg CO₂e</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TREE RWA -->
+    <section class="gv-section is-glow-c" id="rwa">
+      <div class="gv-section__bg"></div>
+      <span class="gv-sec-tag">04 / Tree RWA</span>
+      <div class="gv-inner">
+        <div class="gv-eyebrow" data-reveal>Tree RWA · Marketplace</div>
+        <h2 class="gv-h2" data-reveal data-d="1">Pohon nyata, <span class="gv-grad">aset yang dapat ditebus.</span></h2>
+        <p class="gv-lead" data-reveal data-d="2">Pemilik lahan onboarding → kapasitas serapan dihitung lewat NDVI/Google Earth Engine → tiap hektar di-tokenisasi (ERC-721) lalu difraksi (ERC-3643). Institusi & retail membeli Carbon Absorption Token untuk mendanai dan menebus — disiplin MRV, selaras registri (SRN-PPI/SRUK/SPE-GRK).</p>
+
+        <div class="vi-pipe gv-mt-m" data-reveal>
+          <div class="vi-pipe-rail"><span class="vi-packet"></span></div>
+          <div class="vi-stage"><span class="vi-snum">1</span><div class="vi-sem">📜</div><b>Lahan onboard</b><small>Sertifikat + KYC</small></div>
+          <div class="vi-stage"><span class="vi-snum">2</span><div class="vi-sem">🛰️</div><b>NDVI / GEE</b><small>Serapan per hektar</small></div>
+          <div class="vi-stage"><span class="vi-snum">3</span><div class="vi-sem">🔗</div><b>Tokenisasi</b><small>ERC-721 → ERC-3643</small></div>
+          <div class="vi-stage"><span class="vi-snum">4</span><div class="vi-sem">🤝</div><b>Tebus &amp; danai</b><small>Absorption Token</small></div>
+        </div>
+
+        <div class="gv-grid c3 gv-mt-m">
+          <div class="gv-card" data-reveal data-d="1"><div class="gv-card__ic">🌳</div><h3>Beli pohon langsung</h3><p>Institusi dapat membeli hektar atau sebagiannya langsung lewat platform.</p></div>
+          <div class="gv-card" data-reveal data-d="2"><div class="gv-card__ic">💱</div><h3>Marketplace sekunder</h3><p>Token absorpsi diperdagangkan; Glyiv mengambil fee layanan, bukan spekulasi.</p></div>
+          <div class="gv-card" data-reveal data-d="3"><div class="gv-card__ic">🧾</div><h3>Bukti tebus (retire)</h3><p>Jejak audit & retirement yang dapat diverifikasi — bukan klaim kosong.</p></div>
+        </div>
+        <div class="gv-note gv-mt-m" data-reveal>⚠️ <div>Pasar karbon diatur ketat: unit karbon = efek (POJK 14/2023), peserta bursa = badan hukum. Glyiv menempuh bertahap: mulai sebagai penyedia MRV-software, lalu (opsional) LVV terakreditasi (KAN/ISO 17029 & 14065) sebagai entitas terpisah demi independensi.</div></div>
+      </div>
+    </section>
+
+    <!-- MONITORING -->
+    <section class="gv-section" id="monitor">
+      <div class="gv-section__bg"></div>
+      <span class="gv-sec-tag">05 / Monitoring</span>
+      <div class="gv-inner">
+        <div class="gv-feature flip" style="align-items:center">
+          <div class="gv-feature__media" data-reveal style="padding:0">
+            <div class="holo" id="holoWrap">
+              <canvas id="forestCanvas"></canvas>
+              <div class="holo-tip" id="holoTip"></div>
+              <div class="holo-hint gv-mono">⟲ seret untuk putar · arahkan ke pohon</div>
+            </div>
+          </div>
+          <div data-reveal data-d="2">
+            <div class="gv-eyebrow">Monitoring & Surveillance</div>
+            <h2 class="gv-h2">Pantau tiap pohon. <span class="gv-grad">Deteksi tiap penebangan.</span></h2>
+            <p class="gv-muted">NDVI + citra Sentinel mendukung monitoring kondisi pohon dan deteksi anomali — alert deforestasi, perubahan vegetasi, sinyal risiko. Catatan: NDVI bukan “meteran karbon”; akurasi grade-kredit butuh kalibrasi data lapangan (selaras panduan IPCC).</p>
+            <div class="gv-pillrow">
+              <span class="gv-pill">🛰️ Citra satelit</span>
+              <span class="gv-pill">🌲 Kesehatan pohon</span>
+              <span class="gv-pill">🚨 Alert deforestasi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DPI -->
+    <section class="gv-section is-tight is-glow-c" id="dpi">
+      <div class="gv-section__bg"></div>
+      <span class="gv-sec-tag">06 / DPI</span>
+      <div class="gv-inner gv-center">
+        <div class="gv-eyebrow is-center" data-reveal>Digital Public Infrastructure</div>
+        <h2 class="gv-h2" data-reveal data-d="1">Saat semua outlet memakainya, <br><span class="gv-grad">regulasi mengikuti.</span></h2>
+        <p class="gv-lead" data-reveal data-d="2" style="margin:0 auto">Seperti Gojek yang dulu mendahului regulasi, Glyiv bertujuan menjadi infrastruktur publik digital yang market-driven — sebuah “standar hijau” yang dipercaya pasar, lalu diadopsi kebijakan. Dibangun bertahap, integritas dulu, agar kredibel di mata regulator & dunia.</p>
+        <div class="gv-stats gv-mt-m" style="grid-template-columns:repeat(3,1fr)">
+          <div class="gv-stat" data-reveal data-d="1"><div class="gv-stat__num">10rb<span class="u">+</span></div><div class="gv-stat__k">Outlet (target Fase 3)</div></div>
+          <div class="gv-stat" data-reveal data-d="2"><div class="gv-stat__num">Std.<span class="u"> hijau</span></div><div class="gv-stat__k">Green receipt terbuka</div></div>
+          <div class="gv-stat" data-reveal data-d="3"><div class="gv-stat__num">DPI</div><div class="gv-stat__k">Infrastruktur publik</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="gv-section is-tight" id="cta">
+      <div class="gv-section__bg"></div>
+      <span class="gv-sec-tag">07 / Investor</span>
+      <div class="gv-inner">
+        <div class="gv-cta-band" data-reveal>
+          <div class="gv-eyebrow is-center">Bangun bersama kami</div>
+          <h2 class="gv-h2">Wedge hari ini. <span class="gv-grad">Infrastruktur esok.</span></h2>
+          <p class="gv-lead" style="margin:0 auto;max-width:58ch">Roadmap & business model bertahap (Fase 0–4) tersedia lengkap untuk investor, termasuk model pendapatan & struktur biaya tiap fase.</p>
+          <div class="gv-btns">
+            <a class="gv-btn is-primary" href="mailto:glyiv.archourium@gmail.com?subject=Permintaan%20Dokumen%20Investor%20Glyiv">Minta Dokumen Investor</a>
+            <a class="gv-btn is-gold" href="mailto:glyiv.archourium@gmail.com?subject=Glyiv%20Investasi">Hubungi Kami</a>
+            <a class="gv-btn is-ghost" href="index.html">← Skala Awal</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="gv-footer">
+      <div class="gv-footer__grid">
+        <div>
+          <div class="gv-brand" style="padding:0 0 12px"><svg class="gv-brand__logo" viewBox="0 0 100 100"><use href="#glyivmark"/></svg><div class="gv-brand__txt"><b>Glyiv</b><span>Carbon-Intelligent OS</span></div></div>
+          <p class="gv-muted" style="font-size:.88rem;max-width:34ch">Dari kafe Makassar ke infrastruktur data karbon dunia.</p>
+        </div>
+        <div><h5>Visi</h5><a href="#data">Data Karbon</a><a href="#wallet">E-Wallet</a><a href="#rwa">Tree RWA</a><a href="#dpi">DPI</a></div>
+        <div><h5>Skala Awal</h5><a href="index.html">Beranda</a><a href="demo.html">Coba Demo</a><a href="index.html#produk">Glyiv POS</a></div>
+        <div><h5>Investor</h5><a href="mailto:glyiv.archourium@gmail.com?subject=Permintaan%20Dokumen%20Investor%20Glyiv">Minta Dokumen</a><a href="mailto:glyiv.archourium@gmail.com?subject=Glyiv%20Investasi">Hubungi Kami</a><a href="https://github.com/glyiv" target="_blank" rel="noopener">GitHub</a></div>
+      </div>
+      <div class="gv-footer__bottom"><span>© <span data-year>2026</span> Glyiv · Archourium 🌿</span><span class="gv-mono">Horizon 2030+</span></div>
+    </footer>
+
+  </main>
+</div>
+
+<button class="liv-launcher" id="livLauncher" aria-label="Ngobrol dengan Liv"><canvas id="botLauncherCanvas"></canvas></button>
+<div class="liv-caption" id="livCaption"><b>LIV</b><span>asisten AI · gulir untuk jelajah</span></div>
+<section class="gv-chatwrap" id="gvChat" aria-label="Obrolan dengan Liv">
+  <div class="gv-chat__head">
+    <div class="gv-chat__title"><b>Liv</b><span><span class="on"></span> asisten AI · online</span></div>
+    <button class="gv-chat__x" id="gvChatClose" aria-label="Tutup">✕</button>
+  </div>
+  <div class="gv-chat__bot"><canvas id="botPanelCanvas"></canvas></div>
+  <div class="gv-chat__msgs" id="gvChatMsgs"></div>
+  <div class="gv-chat__quick">
+    <button class="gv-qchip" data-q="Apa itu Tree RWA?">Tree RWA</button>
+    <button class="gv-qchip" data-q="Gimana e-wallet ber-karbon bekerja?">E-Wallet</button>
+    <button class="gv-qchip" data-q="Apa itu DPI dalam konteks Glyiv?">DPI</button>
+  </div>
+  <div class="gv-chat__dock">
+    <input id="gvChatInput" type="text" placeholder="Tanya apa saja ke Liv…" aria-label="Pesan untuk Liv" autocomplete="off" />
+    <button class="gv-chat__send" id="gvChatSend" aria-label="Kirim">➤</button>
+  </div>
+</section>
+
+<script type="module" src="assets/js/scenes.js"></script>
+<script src="assets/js/glyiv.js" defer></script>
+</body>
+</html>
