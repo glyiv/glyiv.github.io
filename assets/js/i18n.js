@@ -97,21 +97,31 @@
       '<span class="' + (LANG === "id" ? "on" : "") + '">ID</span><i></i><span class="' + (LANG === "en" ? "on" : "") + '">EN</span>';
     var css = document.createElement("style");
     css.textContent =
-      "#glyivLangPill{position:fixed;top:16px;right:78px;z-index:120;display:flex;align-items:center;gap:6px;" +
-      "padding:7px 12px;border-radius:999px;border:1px solid rgba(138,255,193,.22);background:rgba(7,33,23,.72);" +
-      "backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer;font-family:'Space Mono',ui-monospace,monospace;" +
-      "font-size:11px;letter-spacing:.06em;color:#6f9580;box-shadow:0 8px 26px -12px rgba(0,0,0,.6);transition:.2s}" +
+      "#glyivLangPill{display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;padding:6px 11px;border-radius:999px;" +
+      "border:1px solid rgba(138,255,193,.22);background:rgba(7,33,23,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);" +
+      "cursor:pointer;font-family:'Space Mono',ui-monospace,monospace;font-size:11px;line-height:1;letter-spacing:.06em;color:#6f9580;" +
+      "box-shadow:0 8px 26px -12px rgba(0,0,0,.6);transition:.2s;-webkit-tap-highlight-color:transparent}" +
       "#glyivLangPill:hover{border-color:rgba(138,255,193,.4)}" +
-      "#glyivLangPill span{transition:.2s}#glyivLangPill span.on{color:#33d188;font-weight:700}" +
+      "#glyivLangPill span.on{color:#33d188;font-weight:700}" +
       "#glyivLangPill i{width:1px;height:11px;background:rgba(138,255,193,.25);display:block}" +
-      "@media(max-width:560px){#glyivLangPill{top:12px;right:66px;padding:6px 10px;font-size:10px}}";
+      "#glyivLangPill.glp-fixed{position:fixed;top:14px;right:16px;z-index:130}" +
+      "#glyivLangPill.glp-app{position:absolute;top:12px;right:10px;z-index:40}" +
+      ".app > .view .appbar,.app > .view .topnav{padding-right:84px}" +
+      "@media(max-width:560px){#glyivLangPill{padding:5px 9px;font-size:10px}}";
     document.head.appendChild(css);
     pill.addEventListener("click", function () {
       var next = LANG === "id" ? "en" : "id";
       try { localStorage.setItem(STORE, next); } catch (e) {}
       location.reload();
     });
-    document.body.appendChild(pill);
+    // place it INSIDE the page chrome so it never floats over the nav
+    var burger = document.querySelector(".gv-burger");
+    var tbRight = document.querySelector(".tb-right");
+    var app = document.querySelector(".app");
+    if (burger && burger.parentNode) { burger.parentNode.insertBefore(pill, burger); }
+    else if (tbRight) { tbRight.insertBefore(pill, tbRight.firstChild); }
+    else if (app) { pill.classList.add("glp-app"); app.appendChild(pill); }
+    else { pill.classList.add("glp-fixed"); document.body.appendChild(pill); }
   }
 
   function startObserver() {
