@@ -6,12 +6,18 @@ Static site published via GitHub Pages at **https://glyiv.github.io/**.
 > as the wedge in Makassar, scaling into item-level carbon-data infrastructure across Indonesia.
 
 ## Pages
-- `index.html` — main landing (initial scale: Glyiv POS, Liv, Green Membership, Carbon Engine, traction, roadmap, team).
-- `vision.html` — long-term vision (carbon-data infra, e-wallet, Tree RWA + monitoring, DPI).
+- `index.html` — **home**: Glyiv as a Carbon Intelligence Platform (thesis + holographic globe, why-now,
+  4-layer platform, carbon-flow signature, focus areas, market, competitive edge, roadmap, "Mulai dari mana?"
+  bridge → POS app, investor CTA). Carbon-first positioning for investors.
+- `pos.html` — **the POS product page** (formerly the landing): Glyiv POS, Liv, Green Membership, Carbon Engine,
+  traction, roadmap, team. Reached from the home's "Mulai dari mana?" bridge.
+- `vision.html` — redirect stub → `index.html` (the vision is now the home).
 - `demo.html` — interactive ordering demo (QR → chat with Liv → order → pay → track → allocate Green Points).
 - `demo-kasir.html` — cashier POS board demo (synced with the customer demo).
 - Investor docs (roadmap + business model) are kept OFF-site and shared privately as PDFs
   (generated under the project's `docs/` folder, outside this deploy repo).
+- Confidential strategy (exact ARR / revenue streams / funding rounds / named unsigned partners / internal OKRs
+  from the strategy decks) is intentionally NOT published on the public site.
 
 ## Tech
 - Plain HTML/CSS/JS (no build step). Fonts: Bricolage Grotesque, Plus Jakarta Sans, Space Mono.
