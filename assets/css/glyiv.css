@@ -1118,13 +1118,29 @@ a.gv-btn.mm{display:inline-flex}
 .holoemb,.holo-center{position:relative;aspect-ratio:1}
 .holoemb{width:100%}
 .holo-center{width:clamp(190px,26vw,300px);margin:16px auto 4px}
+/* flipped variant: emblem on the LEFT (avoids monotony) */
+.sec-lead.is-flip{grid-template-columns:clamp(150px,20vw,240px) 1fr}
+.sec-lead.is-flip .holoemb{order:-1}
+/* market: 3D emblem left, stat boxes right */
+.market-split{display:grid;grid-template-columns:clamp(200px,34vw,380px) 1fr;gap:clamp(24px,4vw,52px);align-items:center}
+.holoemb-lg{position:relative;aspect-ratio:1;width:100%}
+.holoemb-lg canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+.holoemb-lg canvas:active{cursor:grabbing}
+.holoemb-lg::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:18px;mix-blend-mode:screen;opacity:.45;background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(51,209,136,.05) 3px,rgba(51,209,136,.05) 4px)}
+.market-boxes{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+/* hero globe is drag-to-spin */
+.gv-hero__canvas{cursor:grab;touch-action:none}
+.gv-hero__ring,.hero-badge,.gv-hero__stage .liv-name{pointer-events:none}
 .holoemb canvas,.holo-center canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}
 .holoemb canvas:active,.holo-center canvas:active{cursor:grabbing}
 .holoemb::after,.holo-center::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:18px;mix-blend-mode:screen;opacity:.45;
   background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(51,209,136,.05) 3px,rgba(51,209,136,.05) 4px)}
 @media(max-width:860px){
-  .sec-lead{grid-template-columns:1fr;gap:12px}
+  .sec-lead,.sec-lead.is-flip{grid-template-columns:1fr;gap:12px}
   .holoemb{width:min(240px,66vw);margin:4px auto 0}
+  .sec-lead.is-flip .holoemb{order:0}
+  .market-split{grid-template-columns:1fr;gap:16px}
+  .holoemb-lg{width:min(240px,66vw);margin:0 auto}
 }
 
 /* long-word overflow safety (Indonesian compound words break instead of clipping) */

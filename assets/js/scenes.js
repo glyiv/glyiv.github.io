@@ -272,8 +272,12 @@ function initGlobe(canvas) {
     arcs.push({ curve, pulse, speed: 0.16 + (idx % 4) * 0.04, off: Math.random() });
   });
 
-  const target = { x: 0, y: 0 };
-  window.addEventListener("pointermove", (e) => { const p = e.touches ? e.touches[0] : e; target.x = (p.clientX / window.innerWidth - 0.5) * 0.5; target.y = (p.clientY / window.innerHeight - 0.5) * 0.4; }, { passive: true });
+  // drag to spin the globe (grab-rotate); gentle auto-spin resumes on release
+  let rotY = group.rotation.y, rotX = group.rotation.x, tRotY = rotY, tRotX = rotX, dragging = false, lastX = 0, lastY = 0, autorot = true;
+  canvas.style.cursor = "grab";
+  canvas.addEventListener("pointerdown", (e) => { dragging = true; autorot = false; lastX = e.clientX; lastY = e.clientY; canvas.style.cursor = "grabbing"; try { canvas.setPointerCapture(e.pointerId); } catch (x) {} });
+  window.addEventListener("pointerup", () => { if (dragging) { dragging = false; autorot = true; canvas.style.cursor = "grab"; } });
+  canvas.addEventListener("pointermove", (e) => { if (!dragging) return; tRotY += (e.clientX - lastX) * 0.008; tRotX = Math.max(-0.85, Math.min(0.85, tRotX + (e.clientY - lastY) * 0.006)); lastX = e.clientX; lastY = e.clientY; });
 
   function resize() {
     const w = canvas.clientWidth || canvas.parentElement.clientWidth;
@@ -290,8 +294,9 @@ function initGlobe(canvas) {
     requestAnimationFrame(frame);
     if (!visible || document.hidden || !SHOWN(canvas)) return;
     const t = clock.getElapsedTime();
-    group.rotation.y += REDUCE ? 0 : 0.0011;
-    group.rotation.x = lerp(group.rotation.x, target.y, 0.03);
+    if (autorot && !REDUCE) tRotY += 0.0011;
+    rotY += (tRotY - rotY) * 0.09; rotX += (tRotX - rotX) * 0.09;
+    group.rotation.y = rotY; group.rotation.x = rotX;
     arcs.forEach((o) => { const tt = (t * o.speed + o.off) % 1; o.pulse.position.copy(o.curve.getPoint(tt)); });
     renderer.render(scene, camera);
   }
