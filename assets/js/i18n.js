@@ -155,7 +155,7 @@
     if (LANG === "en") {
       // load the EN dictionary on demand, then translate
       var s = document.createElement("script");
-      s.src = "assets/js/i18n-en.js?v=9";
+      s.src = "assets/js/i18n-en.js?v=10";
       s.onload = applyEn;
       s.onerror = function () { injectToggle(); document.documentElement.classList.remove("i18n-hide"); };
       document.head.appendChild(s);
