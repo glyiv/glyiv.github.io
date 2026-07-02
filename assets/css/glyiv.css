@@ -1112,6 +1112,21 @@ a.gv-btn.mm{display:inline-flex}
   .plat__head{min-width:0;width:100%}
 }
 
+/* section holo emblems — one interactive 3D metaphor per section */
+.sec-lead{display:grid;grid-template-columns:1fr clamp(150px,20vw,240px);gap:clamp(20px,4vw,46px);align-items:center;margin-bottom:8px}
+.sec-lead__txt{min-width:0}
+.holoemb,.holo-center{position:relative;aspect-ratio:1}
+.holoemb{width:100%}
+.holo-center{width:clamp(190px,26vw,300px);margin:16px auto 4px}
+.holoemb canvas,.holo-center canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+.holoemb canvas:active,.holo-center canvas:active{cursor:grabbing}
+.holoemb::after,.holo-center::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:18px;mix-blend-mode:screen;opacity:.45;
+  background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(51,209,136,.05) 3px,rgba(51,209,136,.05) 4px)}
+@media(max-width:860px){
+  .sec-lead{grid-template-columns:1fr;gap:12px}
+  .holoemb{width:min(240px,66vw);margin:4px auto 0}
+}
+
 /* long-word overflow safety (Indonesian compound words break instead of clipping) */
 .gv-hero__copy,.gv-hero__grid>*,.gv-inner{min-width:0}
 .gv-h1,.gv-h2,.gv-h3,.gv-lead,.gv-muted,.plat__head b{overflow-wrap:break-word}

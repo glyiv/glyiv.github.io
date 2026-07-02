@@ -1171,6 +1171,108 @@ function initProblems(canvas) {
   if (REDUCE) renderer.render(scene, camera); else frame();
 }
 
+/* ---------- SECTION HOLO EMBLEMS: one interactive 3D metaphor per section ----------
+   Each <canvas data-holo="TYPE"> renders a small holographic object that signals the
+   section's topic at a glance. Shares the perf harness: drag-rotate, autorotate, DPR
+   cap, offscreen pause (IntersectionObserver + SHOWN), cached size. */
+function initHoloEmblem(canvas) {
+  const type = canvas.dataset.holo || "precision";
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(capDPR(1.5));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.set(0, 0, 5);
+  const world = new THREE.Group(); scene.add(world);
+  const keep = []; const K = (x) => { keep.push(x); return x; };
+  const GREEN = 0x33d188, BIO = 0x8affc1, LIME = 0x7df1a6, GOLD = 0xf5c451, EMER = 0x1fae6b;
+  const addPts = (arr, color, size, op) => new THREE.Points(K(new THREE.BufferGeometry().setAttribute("position", new THREE.BufferAttribute(arr, 3))), K(new THREE.PointsMaterial({ color, size, transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false })));
+  const edges = (geo, color, op) => new THREE.LineSegments(K(new THREE.EdgesGeometry(geo)), K(new THREE.LineBasicMaterial({ color, transparent: true, opacity: op })));
+  let update = () => {};
+
+  if (type === "precision") {
+    // scattered noise that resolves into an ordered data sphere -> estimate vs precise
+    const N = 440, scat = new Float32Array(N * 3), ord = new Float32Array(N * 3), pos = new Float32Array(N * 3);
+    for (let i = 0; i < N; i++) {
+      let x, y, z, d; do { x = Math.random() * 2 - 1; y = Math.random() * 2 - 1; z = Math.random() * 2 - 1; d = x * x + y * y + z * z; } while (d > 1);
+      scat[i * 3] = x * 1.75; scat[i * 3 + 1] = y * 1.75; scat[i * 3 + 2] = z * 1.75;
+      const gi = i + 0.5, phi = Math.acos(1 - 2 * gi / N), th = Math.PI * (1 + Math.sqrt(5)) * gi;
+      ord[i * 3] = Math.cos(th) * Math.sin(phi) * 1.4; ord[i * 3 + 1] = Math.cos(phi) * 1.4; ord[i * 3 + 2] = Math.sin(th) * Math.sin(phi) * 1.4;
+      pos[i * 3] = scat[i * 3]; pos[i * 3 + 1] = scat[i * 3 + 1]; pos[i * 3 + 2] = scat[i * 3 + 2];
+    }
+    const pts = addPts(pos, BIO, 0.06, 0.9); world.add(pts);
+    const ico = edges(new THREE.IcosahedronGeometry(1.4, 0), GREEN, 0); world.add(ico);
+    const g = pts.geometry;
+    update = (t) => { let k = Math.sin(t * 0.5) * 0.5 + 0.5; k = k * k * (3 - 2 * k); const a = g.attributes.position.array; for (let i = 0; i < N * 3; i++) a[i] = scat[i] + (ord[i] - scat[i]) * k; g.attributes.position.needsUpdate = true; ico.material.opacity = 0.55 * k; };
+  } else if (type === "layers") {
+    // four glowing stacked plates + data flowing upward -> the 4-layer platform
+    const cols = [EMER, LIME, BIO, GOLD], ys = [-1.2, -0.4, 0.4, 1.2];
+    ys.forEach((y, i) => {
+      const plate = new THREE.Mesh(K(new THREE.BoxGeometry(2.3, 0.13, 1.5)), K(new THREE.MeshBasicMaterial({ color: cols[i], transparent: true, opacity: 0.13, blending: THREE.AdditiveBlending, depthWrite: false }))); plate.position.y = y; world.add(plate);
+      const e = edges(new THREE.BoxGeometry(2.3, 0.13, 1.5), cols[i], 0.7); e.position.y = y; world.add(e);
+    });
+    const M = 64, pp = new Float32Array(M * 3), spd = new Float32Array(M);
+    for (let i = 0; i < M; i++) { pp[i * 3] = (Math.random() * 2 - 1) * 1.05; pp[i * 3 + 1] = Math.random() * 3 - 1.5; pp[i * 3 + 2] = (Math.random() * 2 - 1) * 0.65; spd[i] = 0.5 + Math.random() * 0.7; }
+    const parts = addPts(pp, BIO, 0.05, 0.85); world.add(parts); const g = parts.geometry;
+    update = () => { const a = g.attributes.position.array; for (let i = 0; i < M; i++) { a[i * 3 + 1] += spd[i] * 0.02; if (a[i * 3 + 1] > 1.65) { a[i * 3 + 1] = -1.65; a[i * 3] = (Math.random() * 2 - 1) * 1.05; a[i * 3 + 2] = (Math.random() * 2 - 1) * 0.65; } } g.attributes.position.needsUpdate = true; };
+  } else if (type === "flow") {
+    // a data packet flows up a helix through transformation rings -> carbon flow
+    const turns = 3, H = 3, R = 1.1, P = 96, hp = new Float32Array(P * 3);
+    for (let i = 0; i < P; i++) { const u = i / (P - 1), ang = u * turns * Math.PI * 2; hp[i * 3] = Math.cos(ang) * R; hp[i * 3 + 1] = (u - 0.5) * H; hp[i * 3 + 2] = Math.sin(ang) * R; }
+    world.add(addPts(hp, LIME, 0.05, 0.5));
+    [-1, 0, 1].forEach((y, i) => { const c = [EMER, BIO, GOLD][i]; const r = new THREE.Mesh(K(new THREE.TorusGeometry(1.18, 0.02, 8, 48)), K(new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending }))); r.rotation.x = Math.PI / 2; r.position.y = y; world.add(r); });
+    const pkt = new THREE.Mesh(K(new THREE.SphereGeometry(0.13, 12, 12)), K(new THREE.MeshBasicMaterial({ color: 0xeafff4, transparent: true, blending: THREE.AdditiveBlending })));
+    world.add(pkt);
+    update = (t) => { const u = (t * 0.18) % 1, ang = u * turns * Math.PI * 2; pkt.position.set(Math.cos(ang) * R, (u - 0.5) * H, Math.sin(ang) * R); };
+  } else if (type === "market") {
+    // rising bar chart in front of a wireframe globe -> market growth
+    const mGlobe = new THREE.LineSegments(K(new THREE.WireframeGeometry(new THREE.SphereGeometry(1.8, 14, 10))), K(new THREE.LineBasicMaterial({ color: EMER, transparent: true, opacity: 0.12 }))); world.add(mGlobe);
+    const bars = [], bn = 5, bc = [EMER, LIME, BIO, GOLD, LIME];
+    for (let i = 0; i < bn; i++) { const geo = new THREE.BoxGeometry(0.34, 1, 0.34); const b = new THREE.Mesh(K(geo), K(new THREE.MeshBasicMaterial({ color: bc[i], transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending }))); b.position.x = (i - (bn - 1) / 2) * 0.52; world.add(b); b.add(edges(geo, bc[i], 0.9)); bars.push(b); }
+    update = (t) => { bars.forEach((b, i) => { const h = 0.5 + i * 0.26 + Math.sin(t * 1.2 + i * 0.6) * 0.16 + 0.2; b.scale.y = h; b.position.y = -1 + h * 0.5; }); mGlobe.rotation.y = t * 0.1; };
+  } else if (type === "edge") {
+    // a bright data core with dim competitors orbiting -> Glyiv's advantage
+    world.add(new THREE.Mesh(K(new THREE.IcosahedronGeometry(0.95, 0)), K(new THREE.MeshBasicMaterial({ color: 0x0e3a28, transparent: true, opacity: 0.5 }))));
+    const coreW = edges(new THREE.IcosahedronGeometry(0.95, 0), BIO, 0.9); world.add(coreW);
+    const glow = new THREE.Mesh(K(new THREE.SphereGeometry(0.34, 16, 16)), K(new THREE.MeshBasicMaterial({ color: GREEN, transparent: true, opacity: 0.75, blending: THREE.AdditiveBlending }))); world.add(glow);
+    const sats = []; for (let i = 0; i < 3; i++) { const s = new THREE.Mesh(K(new THREE.SphereGeometry(0.14, 10, 10)), K(new THREE.MeshBasicMaterial({ color: 0x6f9580, transparent: true, opacity: 0.55 }))); world.add(s); sats.push({ m: s, r: 2.05, sp: 0.5 + i * 0.22, ph: i * 2.1, tl: i * 0.5 }); }
+    update = (t) => { coreW.rotation.y = t * 0.3; coreW.rotation.x = t * 0.15; glow.scale.setScalar(1 + Math.sin(t * 2) * 0.08); sats.forEach((s) => { const a = t * s.sp + s.ph; s.m.position.set(Math.cos(a) * s.r, Math.sin(a * 0.7 + s.tl) * 0.6, Math.sin(a) * s.r); }); };
+  } else { // "journey" — wireframe globe with an arc + a marker traveling Makassar -> world
+    const globe = new THREE.LineSegments(K(new THREE.WireframeGeometry(new THREE.SphereGeometry(1.3, 16, 12))), K(new THREE.LineBasicMaterial({ color: EMER, transparent: true, opacity: 0.28 }))); world.add(globe);
+    const A = new THREE.Vector3(-0.9, -0.5, 0.7).normalize().multiplyScalar(1.3);
+    const B = new THREE.Vector3(1.0, 0.85, -0.2).normalize().multiplyScalar(1.3);
+    const mid = A.clone().add(B).multiplyScalar(0.5).normalize().multiplyScalar(2.2);
+    const curve = new THREE.QuadraticBezierCurve3(A, mid, B);
+    world.add(new THREE.Mesh(K(new THREE.TubeGeometry(curve, 40, 0.02, 8, false)), K(new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending }))));
+    const start = new THREE.Mesh(K(new THREE.SphereGeometry(0.09, 10, 10)), K(new THREE.MeshBasicMaterial({ color: GREEN, transparent: true, blending: THREE.AdditiveBlending }))); start.position.copy(A); world.add(start);
+    const mk = new THREE.Mesh(K(new THREE.SphereGeometry(0.1, 12, 12)), K(new THREE.MeshBasicMaterial({ color: 0xeafff4, transparent: true, blending: THREE.AdditiveBlending }))); world.add(mk);
+    const end = new THREE.Mesh(K(new THREE.OctahedronGeometry(0.16, 0)), K(new THREE.MeshBasicMaterial({ color: GOLD, transparent: true, opacity: 0.9 }))); end.position.copy(B); world.add(end);
+    update = (t) => { mk.position.copy(curve.getPoint((t * 0.2) % 1)); globe.rotation.y = t * 0.12; end.rotation.y = t * 1.5; };
+  }
+
+  // drag rotate + autorotate
+  let rotY = 0.4, rotX = 0.14, tRotY = 0.4, tRotX = 0.14, dragging = false, lastX = 0, lastY = 0, autorot = true;
+  canvas.addEventListener("pointerdown", (e) => { dragging = true; autorot = false; lastX = e.clientX; lastY = e.clientY; try { canvas.setPointerCapture(e.pointerId); } catch (x) {} });
+  window.addEventListener("pointerup", () => { dragging = false; });
+  canvas.addEventListener("pointermove", (e) => { if (!dragging) return; tRotY += (e.clientX - lastX) * 0.01; tRotX = Math.max(-0.6, Math.min(0.6, tRotX + (e.clientY - lastY) * 0.008)); lastX = e.clientX; lastY = e.clientY; });
+
+  let cw = 0, ch = 0; const host = canvas.parentElement;
+  function resize() { const w = canvas.clientWidth || host.clientWidth, h = canvas.clientHeight || host.clientHeight; if (!w || !h) return; cw = w; ch = h; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); if (REDUCE) renderer.render(scene, camera); }
+  const ro = new ResizeObserver(resize); ro.observe(host); resize();
+  let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
+
+  function frame() {
+    requestAnimationFrame(frame);
+    if (!visible || document.hidden || !SHOWN(canvas)) return;
+    const t = performance.now() * 0.001;
+    if (autorot) tRotY += 0.004;
+    rotY += (tRotY - rotY) * 0.08; rotX += (tRotX - rotX) * 0.08;
+    world.rotation.y = rotY; world.rotation.x = rotX;
+    update(t);
+    renderer.render(scene, camera);
+  }
+  if (REDUCE) { update(0); world.rotation.set(0.14, 0.4, 0); renderer.render(scene, camera); } else frame();
+}
+
 /* ---------- boot ---------- */
 function boot() {
   try {
@@ -1190,6 +1292,7 @@ function boot() {
     if (livHost) initLivHost(livHost);
     const forest = document.getElementById("forestCanvas");
     if (forest) initForest(forest);
+    document.querySelectorAll("canvas[data-holo]").forEach((c) => { try { initHoloEmblem(c); } catch (e) { console.warn("[glyiv] holo emblem failed:", c.dataset.holo, e); } });
     document.body.classList.add("webgl-on");
   } catch (e) {
     console.warn("[glyiv] WebGL scene failed, using CSS fallback:", e);
