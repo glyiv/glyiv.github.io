@@ -1289,7 +1289,7 @@ function initPlatformStack(canvas) {
   const world = new THREE.Group(); scene.add(world);
   const keep = []; const K = (x) => { keep.push(x); return x; };
   const cols = [0x1fae6b, 0x7df1a6, 0x8affc1, 0xf5c451]; // Commerce, Intelligence, Sustainability, Financial (top→bottom)
-  const ys = [1.35, 0.45, -0.45, -1.35], W = 2.6, Hh = 0.16, D = 1.7;
+  const SP = 0.62, ys = [SP * 1.5, SP * 0.5, -SP * 0.5, -SP * 1.5], W = 2.6, Hh = 0.15, D = 1.7;
   const plates = [];
   ys.forEach((y, i) => {
     const g = new THREE.Group(); g.position.y = y; world.add(g);
@@ -1299,6 +1299,10 @@ function initPlatformStack(canvas) {
     g.add(new THREE.LineSegments(K(new THREE.EdgesGeometry(new THREE.BoxGeometry(W, Hh, D))), edgeMat));
     plates.push({ g, box, mat, edgeMat, base: y });
   });
+  // fixed, gap-free invisible hit-zones so hover never depends on the animating plates
+  const hits = [];
+  const hitMat = K(new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false, colorWrite: false }));
+  ys.forEach((y, i) => { const h = new THREE.Mesh(K(new THREE.BoxGeometry(W * 1.08, SP, D * 1.12)), hitMat); h.position.y = y; h.userData.idx = i; world.add(h); hits.push(h); });
   // ambient rising particles (data flowing up)
   const M = 60, pp = new Float32Array(M * 3), spd = new Float32Array(M);
   for (let i = 0; i < M; i++) { pp[i * 3] = (Math.random() * 2 - 1) * (W / 2 - 0.2); pp[i * 3 + 1] = Math.random() * 3.4 - 1.7; pp[i * 3 + 2] = (Math.random() * 2 - 1) * (D / 2 - 0.15); spd[i] = 0.4 + Math.random() * 0.6; }
@@ -1329,13 +1333,13 @@ function initPlatformStack(canvas) {
     const rect = canvas.getBoundingClientRect();
     ndc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1; ndc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
     ray.setFromCamera(ndc, camera);
-    const hit = ray.intersectObjects(plates.map((p) => p.box), false)[0];
+    const hit = ray.intersectObjects(hits, false)[0];
     if (hit) { setActive(hit.object.userData.idx); canvas.style.cursor = "pointer"; }
     else if (!domHold) { clearActive(); canvas.style.cursor = "grab"; }
   });
   canvas.addEventListener("pointerleave", () => { if (!domHold) clearActive(); });
 
-  let camY = 0, camZ = 5.4, lookY = 0; camera.position.set(0, 0, camZ);
+  camera.position.set(0, 0.12, 5.1); camera.lookAt(0, 0, 0); // fixed camera — no hover dolly (keeps raycast stable)
   const host = canvas.parentElement;
   function resize() { const w = canvas.clientWidth || host.clientWidth, h = canvas.clientHeight || host.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); if (REDUCE) renderer.render(scene, camera); }
   const ro = new ResizeObserver(resize); ro.observe(host); resize();
@@ -1350,16 +1354,11 @@ function initPlatformStack(canvas) {
     const a = pg.attributes.position.array; for (let i = 0; i < M; i++) { a[i * 3 + 1] += spd[i] * 0.02; if (a[i * 3 + 1] > 1.7) a[i * 3 + 1] = -1.7; } pg.attributes.position.needsUpdate = true;
     plates.forEach((p, i) => {
       const on = active === i, dim = active >= 0 && !on;
-      p.mat.opacity += ((on ? 0.34 : dim ? 0.05 : 0.14) - p.mat.opacity) * 0.15;
-      p.edgeMat.opacity += ((on ? 1 : dim ? 0.16 : 0.6) - p.edgeMat.opacity) * 0.15;
-      const s = p.g.scale.x + ((on ? 1.12 : 1) - p.g.scale.x) * 0.15; p.g.scale.set(s, 1, s);
-      p.g.position.z += ((on ? 0.5 : 0) - p.g.position.z) * 0.15;
-      const gap = active >= 0 ? (p.base - ys[active]) * 0.14 : 0;
-      p.g.position.y += ((p.base + gap) - p.g.position.y) * 0.15;
+      p.mat.opacity += ((on ? 0.36 : dim ? 0.05 : 0.14) - p.mat.opacity) * 0.14;
+      p.edgeMat.opacity += ((on ? 1 : dim ? 0.16 : 0.62) - p.edgeMat.opacity) * 0.14;
+      const s = p.g.scale.x + ((on ? 1.13 : 1) - p.g.scale.x) * 0.14; p.g.scale.set(s, 1, s);
+      p.g.position.z += ((on ? 0.42 : 0) - p.g.position.z) * 0.14; // emphasis only; hit-zones stay put
     });
-    const fy = active >= 0 ? ys[active] : 0;
-    lookY += (fy - lookY) * 0.08; camY += (fy * 0.45 - camY) * 0.08; camZ += ((active >= 0 ? 4.4 : 5.4) - camZ) * 0.08;
-    camera.position.set(0, camY, camZ); camera.lookAt(0, lookY, 0);
     renderer.render(scene, camera);
   }
   if (REDUCE) { camera.lookAt(0, 0, 0); renderer.render(scene, camera); } else frame();
