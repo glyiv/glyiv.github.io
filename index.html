@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/glyiv.css?v=5" />
+<link rel="stylesheet" href="assets/css/glyiv.css?v=6" />
 <script src="assets/js/i18n.js?v=12"></script>
 <script src="assets/js/config.js?v=1"></script>
 <script type="importmap">
@@ -167,34 +167,33 @@
       <div class="gv-section__bg"></div>
       <span class="gv-sec-tag">03 / Platform</span>
       <div class="gv-inner">
-        <div class="sec-lead is-flip">
-          <div class="sec-lead__txt">
+        <div class="plat2">
+          <div class="plat2__head">
             <div class="gv-eyebrow" data-reveal>Satu platform · empat lapisan</div>
             <h2 class="gv-h2" data-reveal data-d="1">Dari titik jual sampai <span class="gv-grad">aset karbon</span> — dalam satu tumpukan.</h2>
             <p class="gv-lead" data-reveal data-d="2">Kebanyakan solusi karbon hanya menyentuh satu lapisan. Glyiv menyatukan empat: perdagangan, kecerdasan, keberlanjutan, dan finansial. Data mengalir naik dari transaksi nyata; nilai mengalir turun kembali ke merchant &amp; komunitas.</p>
           </div>
-          <div class="holoemb" data-reveal data-d="2" title="Empat lapisan platform"><canvas class="holo3d" data-holo="layers"></canvas></div>
+          <div class="plat2__stage" data-reveal data-d="2"><canvas id="platformCanvas"></canvas></div>
+          <div class="plat2__rows">
+            <div class="plat__layer" data-layer="0" tabindex="0" data-reveal>
+              <div class="plat__head"><span class="plat__ic">🛍️</span><div><b>Commerce Layer</b><small>tempat data lahir</small></div></div>
+              <div class="plat__mods"><span>POS &amp; QR Ordering</span><span>Pembayaran QRIS</span><span>Membership</span><span>Green Receipt</span></div>
+            </div>
+            <div class="plat__layer" data-layer="1" tabindex="0" data-reveal data-d="1">
+              <div class="plat__head"><span class="plat__ic">🧠</span><div><b>Intelligence Layer</b><small>Liv — AI karbon</small></div></div>
+              <div class="plat__mods"><span>AI Host (Liv)</span><span>Analitik real-time</span><span>Forecasting</span><span>Carbon Engine</span></div>
+            </div>
+            <div class="plat__layer" data-layer="2" tabindex="0" data-reveal data-d="2">
+              <div class="plat__head"><span class="plat__ic">🌿</span><div><b>Sustainability Layer</b><small>ukur → laporkan</small></div></div>
+              <div class="plat__mods"><span>Carbon Ledger</span><span>Dashboard ESG</span><span>MRV &amp; Monitoring</span><span>Laporan siap-audit</span></div>
+            </div>
+            <div class="plat__layer" data-layer="3" tabindex="0" data-reveal data-d="3">
+              <div class="plat__head"><span class="plat__ic">📈</span><div><b>Financial Layer</b><small>nilai &amp; insentif</small></div></div>
+              <div class="plat__mods"><span>Green Wallet</span><span>Tree &amp; Carbon Marketplace</span><span>ESG Scoring</span><span>Green Financing</span></div>
+            </div>
+            <p class="gv-faint gv-mono" style="font-size:10px;margin-top:4px" data-reveal>seret untuk putar · arahkan lapisan untuk sorot &amp; zoom</p>
+          </div>
         </div>
-
-        <div class="plat gv-mt-m" data-reveal>
-          <div class="plat__layer" tabindex="0" style="--pl:1">
-            <div class="plat__head"><span class="plat__ic">🛍️</span><div><b>Commerce Layer</b><small>tempat data lahir</small></div></div>
-            <div class="plat__mods"><span>POS &amp; QR Ordering</span><span>Pembayaran QRIS</span><span>Membership</span><span>Green Receipt</span></div>
-          </div>
-          <div class="plat__layer" tabindex="0" style="--pl:2">
-            <div class="plat__head"><span class="plat__ic">🧠</span><div><b>Intelligence Layer</b><small>Liv — AI karbon</small></div></div>
-            <div class="plat__mods"><span>AI Host (Liv)</span><span>Analitik real-time</span><span>Forecasting</span><span>Carbon Engine</span></div>
-          </div>
-          <div class="plat__layer" tabindex="0" style="--pl:3">
-            <div class="plat__head"><span class="plat__ic">🌿</span><div><b>Sustainability Layer</b><small>ukur → laporkan</small></div></div>
-            <div class="plat__mods"><span>Carbon Ledger</span><span>Dashboard ESG</span><span>MRV &amp; Monitoring</span><span>Laporan siap-audit</span></div>
-          </div>
-          <div class="plat__layer" tabindex="0" style="--pl:4">
-            <div class="plat__head"><span class="plat__ic">📈</span><div><b>Financial Layer</b><small>nilai &amp; insentif</small></div></div>
-            <div class="plat__mods"><span>Green Wallet</span><span>Tree &amp; Carbon Marketplace</span><span>ESG Scoring</span><span>Green Financing</span></div>
-          </div>
-        </div>
-        <p class="gv-faint gv-mono gv-mt-s" style="font-size:10px" data-reveal>arahkan / ketuk tiap lapisan untuk menyorot</p>
       </div>
     </section>
 
@@ -531,7 +530,7 @@
   </div>
 </section>
 
-<script type="module" src="assets/js/scenes.js?v=5"></script>
+<script type="module" src="assets/js/scenes.js?v=6"></script>
 <script src="assets/js/glyiv.js" defer></script>
 </body>
 </html>

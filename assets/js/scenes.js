@@ -1278,6 +1278,93 @@ function initHoloEmblem(canvas) {
   if (REDUCE) { update(0); world.rotation.set(0.14, 0.4, 0); renderer.render(scene, camera); } else frame();
 }
 
+/* ---------- PLATFORM STACK: big interactive 4-layer stack, hover-linked to the text rows ----------
+   Hovering a plate (or its text row) zooms/highlights that layer and dims the rest; the link is
+   two-way. Drag to spin. Shares the perf harness (offscreen pause, capDPR, cached size). */
+function initPlatformStack(canvas) {
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(capDPR(1.6));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+  const world = new THREE.Group(); scene.add(world);
+  const keep = []; const K = (x) => { keep.push(x); return x; };
+  const cols = [0x1fae6b, 0x7df1a6, 0x8affc1, 0xf5c451]; // Commerce, Intelligence, Sustainability, Financial (top→bottom)
+  const ys = [1.35, 0.45, -0.45, -1.35], W = 2.6, Hh = 0.16, D = 1.7;
+  const plates = [];
+  ys.forEach((y, i) => {
+    const g = new THREE.Group(); g.position.y = y; world.add(g);
+    const mat = K(new THREE.MeshBasicMaterial({ color: cols[i], transparent: true, opacity: 0.14, blending: THREE.AdditiveBlending, depthWrite: false }));
+    const box = new THREE.Mesh(K(new THREE.BoxGeometry(W, Hh, D)), mat); box.userData.idx = i; g.add(box);
+    const edgeMat = K(new THREE.LineBasicMaterial({ color: cols[i], transparent: true, opacity: 0.6 }));
+    g.add(new THREE.LineSegments(K(new THREE.EdgesGeometry(new THREE.BoxGeometry(W, Hh, D))), edgeMat));
+    plates.push({ g, box, mat, edgeMat, base: y });
+  });
+  // ambient rising particles (data flowing up)
+  const M = 60, pp = new Float32Array(M * 3), spd = new Float32Array(M);
+  for (let i = 0; i < M; i++) { pp[i * 3] = (Math.random() * 2 - 1) * (W / 2 - 0.2); pp[i * 3 + 1] = Math.random() * 3.4 - 1.7; pp[i * 3 + 2] = (Math.random() * 2 - 1) * (D / 2 - 0.15); spd[i] = 0.4 + Math.random() * 0.6; }
+  const pg = K(new THREE.BufferGeometry().setAttribute("position", new THREE.BufferAttribute(pp, 3)));
+  world.add(new THREE.Points(pg, K(new THREE.PointsMaterial({ color: 0x8affc1, size: 0.045, transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending, depthWrite: false }))));
+
+  // link to the text rows
+  const section = canvas.closest("section") || document;
+  const rows = [...section.querySelectorAll(".plat__layer[data-layer]")].sort((a, b) => (+a.dataset.layer) - (+b.dataset.layer));
+  let active = -1, domHold = false;
+  const setActive = (i) => { active = i; rows.forEach((r, k) => r.classList.toggle("is-hot", k === i)); };
+  const clearActive = () => { active = -1; rows.forEach((r) => r.classList.remove("is-hot")); };
+  rows.forEach((r, i) => {
+    r.addEventListener("pointerenter", () => { domHold = true; setActive(i); });
+    r.addEventListener("pointerleave", () => { domHold = false; clearActive(); });
+    r.addEventListener("focus", () => setActive(i));
+    r.addEventListener("blur", () => { if (active === i) clearActive(); });
+  });
+
+  // drag rotate + raycast hover
+  let rotY = 0.5, rotX = 0.16, tRotY = 0.5, tRotX = 0.16, dragging = false, lastX = 0, lastY = 0, autorot = true;
+  const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+  canvas.style.cursor = "grab";
+  canvas.addEventListener("pointerdown", (e) => { dragging = true; autorot = false; lastX = e.clientX; lastY = e.clientY; canvas.style.cursor = "grabbing"; try { canvas.setPointerCapture(e.pointerId); } catch (x) {} });
+  window.addEventListener("pointerup", () => { if (dragging) { dragging = false; autorot = true; canvas.style.cursor = "grab"; } });
+  canvas.addEventListener("pointermove", (e) => {
+    if (dragging) { tRotY += (e.clientX - lastX) * 0.008; tRotX = Math.max(-0.7, Math.min(0.7, tRotX + (e.clientY - lastY) * 0.006)); lastX = e.clientX; lastY = e.clientY; return; }
+    const rect = canvas.getBoundingClientRect();
+    ndc.x = ((e.clientX - rect.left) / rect.width) * 2 - 1; ndc.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    ray.setFromCamera(ndc, camera);
+    const hit = ray.intersectObjects(plates.map((p) => p.box), false)[0];
+    if (hit) { setActive(hit.object.userData.idx); canvas.style.cursor = "pointer"; }
+    else if (!domHold) { clearActive(); canvas.style.cursor = "grab"; }
+  });
+  canvas.addEventListener("pointerleave", () => { if (!domHold) clearActive(); });
+
+  let camY = 0, camZ = 5.4, lookY = 0; camera.position.set(0, 0, camZ);
+  const host = canvas.parentElement;
+  function resize() { const w = canvas.clientWidth || host.clientWidth, h = canvas.clientHeight || host.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); if (REDUCE) renderer.render(scene, camera); }
+  const ro = new ResizeObserver(resize); ro.observe(host); resize();
+  let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
+
+  function frame() {
+    requestAnimationFrame(frame);
+    if (!visible || document.hidden || !SHOWN(canvas)) return;
+    if (autorot && !dragging && active < 0) tRotY += 0.003;
+    rotY += (tRotY - rotY) * 0.08; rotX += (tRotX - rotX) * 0.08;
+    world.rotation.y = rotY; world.rotation.x = rotX;
+    const a = pg.attributes.position.array; for (let i = 0; i < M; i++) { a[i * 3 + 1] += spd[i] * 0.02; if (a[i * 3 + 1] > 1.7) a[i * 3 + 1] = -1.7; } pg.attributes.position.needsUpdate = true;
+    plates.forEach((p, i) => {
+      const on = active === i, dim = active >= 0 && !on;
+      p.mat.opacity += ((on ? 0.34 : dim ? 0.05 : 0.14) - p.mat.opacity) * 0.15;
+      p.edgeMat.opacity += ((on ? 1 : dim ? 0.16 : 0.6) - p.edgeMat.opacity) * 0.15;
+      const s = p.g.scale.x + ((on ? 1.12 : 1) - p.g.scale.x) * 0.15; p.g.scale.set(s, 1, s);
+      p.g.position.z += ((on ? 0.5 : 0) - p.g.position.z) * 0.15;
+      const gap = active >= 0 ? (p.base - ys[active]) * 0.14 : 0;
+      p.g.position.y += ((p.base + gap) - p.g.position.y) * 0.15;
+    });
+    const fy = active >= 0 ? ys[active] : 0;
+    lookY += (fy - lookY) * 0.08; camY += (fy * 0.45 - camY) * 0.08; camZ += ((active >= 0 ? 4.4 : 5.4) - camZ) * 0.08;
+    camera.position.set(0, camY, camZ); camera.lookAt(0, lookY, 0);
+    renderer.render(scene, camera);
+  }
+  if (REDUCE) { camera.lookAt(0, 0, 0); renderer.render(scene, camera); } else frame();
+}
+
 /* ---------- boot ---------- */
 function boot() {
   try {
@@ -1297,6 +1384,8 @@ function boot() {
     if (livHost) initLivHost(livHost);
     const forest = document.getElementById("forestCanvas");
     if (forest) initForest(forest);
+    const platform = document.getElementById("platformCanvas");
+    if (platform) initPlatformStack(platform);
     document.querySelectorAll("canvas[data-holo]").forEach((c) => { try { initHoloEmblem(c); } catch (e) { console.warn("[glyiv] holo emblem failed:", c.dataset.holo, e); } });
     document.body.classList.add("webgl-on");
   } catch (e) {
