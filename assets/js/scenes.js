@@ -1367,25 +1367,27 @@ function initPlatformStack(canvas) {
 /* ---------- boot ---------- */
 function boot() {
   try {
-    const hero = document.getElementById("heroCanvas");
-    if (hero) initHeroOrb(hero);
-    const globe = document.getElementById("globeCanvas");
-    if (globe) initGlobe(globe);
-    const cafe = document.getElementById("cafeCanvas");
-    if (cafe) initCafe(cafe);
-    const pc = document.getElementById("problemCanvas");
-    if (pc) initProblems(pc);
-    const botL = document.getElementById("botLauncherCanvas");
-    if (botL) initLivBot(botL, "bust");
-    const botP = document.getElementById("botPanelCanvas");
-    if (botP) initLivBot(botP, "full");
-    const livHost = document.getElementById("livHostCanvas");
-    if (livHost) initLivHost(livHost);
-    const forest = document.getElementById("forestCanvas");
-    if (forest) initForest(forest);
-    const platform = document.getElementById("platformCanvas");
-    if (platform) initPlatformStack(platform);
-    document.querySelectorAll("canvas[data-holo]").forEach((c) => { try { initHoloEmblem(c); } catch (e) { console.warn("[glyiv] holo emblem failed:", c.dataset.holo, e); } });
+    // LAZY-INIT: buat konteks WebGL hanya saat kanvas mendekati viewport. Halaman ini punya ~10 kanvas;
+    // membuat semua konteks sekaligus melebihi batas WebGL browser tablet/HP → konteks tertua (orb hero)
+    // "hilang" dan kanvasnya jadi PUTIH. Dengan lazy-init, saat load hanya hero yang aktif → tetap tampil.
+    const lazy = (el, fn) => {
+      if (!el) return;
+      if (!("IntersectionObserver" in window)) { try { fn(el); } catch (e) {} return; }
+      const io = new IntersectionObserver((es) => {
+        if (es[0].isIntersecting) { io.disconnect(); try { fn(el); } catch (e) { console.warn("[glyiv] scene init failed:", e); } }
+      }, { rootMargin: "300px" });
+      io.observe(el);
+    };
+    lazy(document.getElementById("heroCanvas"), initHeroOrb);
+    lazy(document.getElementById("globeCanvas"), initGlobe);
+    lazy(document.getElementById("cafeCanvas"), initCafe);
+    lazy(document.getElementById("problemCanvas"), initProblems);
+    lazy(document.getElementById("botLauncherCanvas"), (el) => initLivBot(el, "bust"));
+    lazy(document.getElementById("botPanelCanvas"), (el) => initLivBot(el, "full"));
+    lazy(document.getElementById("livHostCanvas"), initLivHost);
+    lazy(document.getElementById("forestCanvas"), initForest);
+    lazy(document.getElementById("platformCanvas"), initPlatformStack);
+    document.querySelectorAll("canvas[data-holo]").forEach((c) => lazy(c, initHoloEmblem));
     document.body.classList.add("webgl-on");
   } catch (e) {
     console.warn("[glyiv] WebGL scene failed, using CSS fallback:", e);
