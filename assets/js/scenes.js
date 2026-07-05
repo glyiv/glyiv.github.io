@@ -49,9 +49,27 @@ function dotTexture(inner = "#eafff4", outer = "rgba(51,209,136,0)") {
 
 function lerp(a, b, t) { return a + (b - a) * t; }
 
+/* ---------- context recycling (ROOT CAUSE FIX untuk Android/tablet) ----------
+   HP/tablet membatasi jumlah konteks WebGL aktif per halaman (sering ~8). Halaman ini punya 10 kanvas
+   3D; kalau semua konteks dibuat sekaligus → melebihi batas → browser membuang konteks tertua → kanvas
+   (globe hero, bot) jadi PUTIH/kosong. Perbaikan: tiap renderer disimpan di canvas.__r; scene hanya
+   hidup saat terlihat, dan konteksnya DILEPAS (forceContextLoss) saat scroll jauh — dibuat ulang saat
+   kembali terlihat. Dengan begitu hanya ~2-3 konteks aktif kapan pun, apa pun jumlah scene-nya. */
+function glyivRenderer(canvas) {
+  // Cek konteks WebGL DULU: kalau gagal dibuat (batas konteks HP/tablet terlampaui), lempar rapi —
+  // JANGAN biarkan three.js r160 crash di getMaxPrecision saat gl == null. Konteks yg sudah didapat
+  // dipakai ulang oleh WebGLRenderer (opsi context), jadi tidak membuat konteks ekstra.
+  const gl = canvas.getContext("webgl2", { alpha: true, antialias: true }) ||
+             canvas.getContext("webgl", { alpha: true, antialias: true });
+  if (!gl) throw new Error("webgl-context-unavailable");
+  const r = new THREE.WebGLRenderer({ canvas: canvas, context: gl, alpha: true, antialias: true });
+  canvas.__r = r; canvas.__dead = false;
+  return r;
+}
+
 /* ---------- HERO: living carbon orb ---------- */
 function initHeroOrb(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(DPR);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
@@ -140,7 +158,7 @@ function initHeroOrb(canvas) {
   const pos = geo.attributes.position.array;
   let fc = 0;
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || !SHOWN(canvas)) return;
     const t = clock.getElapsedTime();
     // breathe / morph — throttled to every other frame (heavy GPU buffer upload)
@@ -200,7 +218,7 @@ function worldMask() {
   return c;
 }
 function initGlobe(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(DPR);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
@@ -291,7 +309,7 @@ function initGlobe(canvas) {
 
   const clock = new THREE.Clock();
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || !SHOWN(canvas)) return;
     const t = clock.getElapsedTime();
     if (autorot && !REDUCE) tRotY += 0.0011;
@@ -305,7 +323,7 @@ function initGlobe(canvas) {
 
 /* ---------- MASALAH: 3D café diorama (2 floors, stairs, people, queue vs seated) ---------- */
 function initCafe(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(capDPR(1.25)); // small stage, opaque fill -> cap DPR for fill-rate
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
@@ -411,7 +429,7 @@ function initCafe(canvas) {
 
   const clock = new THREE.Clock();
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || !SHOWN(canvas)) return;
     const t = clock.getElapsedTime();
     mix += (target - mix) * 0.07;
@@ -442,7 +460,7 @@ function initCafe(canvas) {
 function initLivBot(canvas, framing) {
   const ACC = new THREE.Color("#33d188");
   const GOLD = new THREE.Color("#f5c451");
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(capDPR(1.75));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
@@ -535,7 +553,7 @@ function initLivBot(canvas, framing) {
   let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
 
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || REDUCE || !SHOWN(canvas)) return;
     const now = performance.now();
     cRY += (tRY - cRY) * 0.09; cRX += (tRX - cRX) * 0.09;
@@ -568,7 +586,7 @@ function initLivBot(canvas, framing) {
 
 /* ---------- (legacy barista 3D — unused) ---------- */
 function initLiv(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(capDPR(1.75));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(33, 1, 0.1, 100);
@@ -670,7 +688,7 @@ function initLiv(canvas) {
 
   const clock = new THREE.Clock();
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || !SHOWN(canvas)) return;
     const t = clock.getElapsedTime();
     head.rotation.y += (target.x * 0.55 - head.rotation.y) * 0.08;
@@ -699,7 +717,7 @@ function makeLogoTexture(glyph) {
   const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t;
 }
 function initLivHost(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(capDPR(1.75));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
@@ -859,7 +877,7 @@ function initLivHost(canvas) {
   let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
 
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || REDUCE || !SHOWN(canvas)) return;
     const now = performance.now(), t = now * 0.001;
     cRY += (tRY - cRY) * 0.09; cRX += (tRX - cRX) * 0.09;
@@ -889,7 +907,7 @@ function initLivHost(canvas) {
 /* ---------- HOLOGRAM FOREST: draggable, hover-tree carbon tooltip + satellite ---------- */
 function initForest(canvas) {
   const wrap = canvas.parentElement, tip = wrap.querySelector(".holo-tip");
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(capDPR(1.6));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
@@ -973,7 +991,7 @@ function initForest(canvas) {
   let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
 
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || REDUCE || !SHOWN(canvas)) return;
     const t = performance.now() * 0.001;
     if (autorot) tRotY += 0.0024;
@@ -988,7 +1006,7 @@ function initForest(canvas) {
 
 /* ---------- PROBLEMS: one shared scene, several low-poly groups (only the active renders) ---------- */
 function initProblems(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(capDPR(1.45));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
@@ -1158,7 +1176,7 @@ function initProblems(canvas) {
 
   const _v = new THREE.Vector3();
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || REDUCE || !SHOWN(canvas)) return;
     const t = performance.now() * 0.001;
     const g = groups[active];
@@ -1182,7 +1200,7 @@ function initProblems(canvas) {
    cap, offscreen pause (IntersectionObserver + SHOWN), cached size. */
 function initHoloEmblem(canvas) {
   const type = canvas.dataset.holo || "precision";
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(capDPR(1.5));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
@@ -1266,7 +1284,7 @@ function initHoloEmblem(canvas) {
   let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
 
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || !SHOWN(canvas)) return;
     const t = performance.now() * 0.001;
     if (autorot) tRotY += 0.004;
@@ -1282,7 +1300,7 @@ function initHoloEmblem(canvas) {
    Hovering a plate (or its text row) zooms/highlights that layer and dims the rest; the link is
    two-way. Drag to spin. Shares the perf harness (offscreen pause, capDPR, cached size). */
 function initPlatformStack(canvas) {
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(capDPR(1.6));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
@@ -1346,7 +1364,7 @@ function initPlatformStack(canvas) {
   let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
 
   function frame() {
-    requestAnimationFrame(frame);
+    if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || !SHOWN(canvas)) return;
     if (autorot && !dragging && active < 0) tRotY += 0.003;
     rotY += (tRotY - rotY) * 0.08; rotX += (tRotX - rotX) * 0.08;
@@ -1367,27 +1385,37 @@ function initPlatformStack(canvas) {
 /* ---------- boot ---------- */
 function boot() {
   try {
-    // LAZY-INIT: buat konteks WebGL hanya saat kanvas mendekati viewport. Halaman ini punya ~10 kanvas;
-    // membuat semua konteks sekaligus melebihi batas WebGL browser tablet/HP → konteks tertua (orb hero)
-    // "hilang" dan kanvasnya jadi PUTIH. Dengan lazy-init, saat load hanya hero yang aktif → tetap tampil.
-    const lazy = (el, fn) => {
+    // AKAR MASALAH 3D rusak di Android/tablet: batas konteks WebGL di perangkat mobile jauh lebih kecil
+    // (dan memori GPU lebih sempit) daripada desktop. Halaman ini punya ~10 canvas WebGL; saat konteks
+    // ke-N gagal dibuat, getContext() == null dan three.js r160 CRASH (getMaxPrecision baca .precision
+    // dari null) → SEMUA scene tampak putih/blank. Perbaikan berlapis:
+    //   1) Di perangkat sentuh, LEWATI 5 emblem holo hiasan → hemat 5 konteks, sisakan utk globe + bot.
+    //   2) Init tiap scene SEKALI saat pertama terlihat (tanpa buat-buang berulang yg rawan gagal di mobile);
+    //      globe (atas) & bot (selalu tampak) dapat konteks lebih dulu, jadi pasti tampil.
+    //   3) glyivRenderer() menolak konteks null dengan rapi (lihat atas) → tidak ada crash, degradasi mulus.
+    const coarse = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+    const once = (el, fn) => {
       if (!el) return;
-      if (!("IntersectionObserver" in window)) { try { fn(el); } catch (e) {} return; }
+      if (!("IntersectionObserver" in window)) { try { fn(el); } catch (e) { console.warn("[glyiv] scene init failed:", e); } return; }
       const io = new IntersectionObserver((es) => {
-        if (es[0].isIntersecting) { io.disconnect(); try { fn(el); } catch (e) { console.warn("[glyiv] scene init failed:", e); } }
-      }, { rootMargin: "300px" });
+        if (!es.some((e) => e.isIntersecting)) return;
+        io.disconnect(); // init sekali saja — hindari churn konteks (penyebab konteks null di mobile)
+        try { fn(el); } catch (e) { console.warn("[glyiv] scene init failed:", e); }
+      }, { rootMargin: "200px" });
       io.observe(el);
     };
-    lazy(document.getElementById("heroCanvas"), initHeroOrb);
-    lazy(document.getElementById("globeCanvas"), initGlobe);
-    lazy(document.getElementById("cafeCanvas"), initCafe);
-    lazy(document.getElementById("problemCanvas"), initProblems);
-    lazy(document.getElementById("botLauncherCanvas"), (el) => initLivBot(el, "bust"));
-    lazy(document.getElementById("botPanelCanvas"), (el) => initLivBot(el, "full"));
-    lazy(document.getElementById("livHostCanvas"), initLivHost);
-    lazy(document.getElementById("forestCanvas"), initForest);
-    lazy(document.getElementById("platformCanvas"), initPlatformStack);
-    document.querySelectorAll("canvas[data-holo]").forEach((c) => lazy(c, initHoloEmblem));
+    once(document.getElementById("heroCanvas"), initHeroOrb);
+    once(document.getElementById("globeCanvas"), initGlobe);
+    once(document.getElementById("cafeCanvas"), initCafe);
+    once(document.getElementById("problemCanvas"), initProblems);
+    once(document.getElementById("botLauncherCanvas"), (el) => initLivBot(el, "bust"));
+    once(document.getElementById("botPanelCanvas"), (el) => initLivBot(el, "full"));
+    once(document.getElementById("livHostCanvas"), initLivHost);
+    once(document.getElementById("forestCanvas"), initForest);
+    once(document.getElementById("platformCanvas"), initPlatformStack);
+    // Emblem holo = aksen 3D kecil per-seksi. Di perangkat sentuh dilewati agar globe + bot pasti dapat konteks.
+    if (!coarse) document.querySelectorAll("canvas[data-holo]").forEach((c) => once(c, initHoloEmblem));
+    else document.body.classList.add("holo-static"); // penanda utk fallback CSS emblem
     document.body.classList.add("webgl-on");
   } catch (e) {
     console.warn("[glyiv] WebGL scene failed, using CSS fallback:", e);
