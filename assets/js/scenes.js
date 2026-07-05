@@ -61,7 +61,7 @@ function sharedGL() {
   if (_sharedR) return _sharedR;
   _sharedCanvas = document.createElement("canvas");
   _sharedCanvas.width = 2; _sharedCanvas.height = 2;
-  _sharedR = new THREE.WebGLRenderer({ canvas: _sharedCanvas, alpha: true, antialias: !COARSE, premultipliedAlpha: false });
+  _sharedR = new THREE.WebGLRenderer({ canvas: _sharedCanvas, alpha: true, antialias: true, premultipliedAlpha: false });
   _sharedR.setPixelRatio(1);            // device-px dikelola manual lewat viewport (bukan pixelRatio)
   _sharedR.setClearColor(0x000000, 0);
   _sharedR.autoClear = true;
@@ -79,7 +79,7 @@ function ensureShared(wpx, hpx) {
 function glyivRenderer(canvas) {
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("2d-context-unavailable");
-  let pr = 1, wpx = 0, hpx = 0, lastDraw = 0;
+  let pr = 1, wpx = 0, hpx = 0;
   const proxy = {
     setPixelRatio(x) { pr = Math.max(1, x || 1); },
     setSize(w, h) {
@@ -88,9 +88,6 @@ function glyivRenderer(canvas) {
     },
     render(scene, camera) {
       if (!wpx || !hpx || canvas.__dead) return;
-      // Di perangkat sentuh, batasi GAMBAR ke ~35fps/scene (animasi tetap maju tiap frame; hanya
-      // frekuensi menggambar yg dikurangi). Scroll tetap 60fps, kerja GPU/main-thread turun ~40%.
-      if (COARSE) { const t = performance.now(); if (t - lastDraw < 27) return; lastDraw = t; }
       const gl = ensureShared(wpx, hpx);
       gl.setViewport(0, 0, wpx, hpx);
       gl.setScissor(0, 0, wpx, hpx);
