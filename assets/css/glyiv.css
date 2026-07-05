@@ -1158,14 +1158,6 @@ a.gv-btn.mm{display:inline-flex}
 .holoemb canvas:active,.holo-center canvas:active{cursor:grabbing}
 .holoemb::after,.holo-center::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:18px;mix-blend-mode:screen;opacity:.45;
   background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(51,209,136,.05) 3px,rgba(51,209,136,.05) 4px)}
-/* Fallback emblem di perangkat sentuh: emblem WebGL dilewati utk hemat konteks (lihat scenes.js boot),
-   jadi tampilkan orb bercahaya statis biar seksi tetap terisi rapi, bukan kotak kosong. */
-body.holo-static .holoemb::before,body.holo-static .holo-center::before,body.holo-static .holoemb-lg::before{
-  content:"";position:absolute;inset:15%;border-radius:50%;pointer-events:none;z-index:0;
-  background:radial-gradient(circle at 50% 42%,rgba(51,209,136,.5),rgba(51,209,136,.13) 46%,transparent 68%);
-  box-shadow:0 0 42px rgba(51,209,136,.26) inset;animation:holoPulse 4.6s ease-in-out infinite}
-@keyframes holoPulse{0%,100%{transform:scale(.93);opacity:.7}50%{transform:scale(1.05);opacity:1}}
-@media(prefers-reduced-motion:reduce){body.holo-static .holoemb::before,body.holo-static .holo-center::before,body.holo-static .holoemb-lg::before{animation:none}}
 @media(max-width:860px){
   .sec-lead,.sec-lead.is-flip{grid-template-columns:1fr;gap:12px}
   .holoemb{width:min(240px,66vw);margin:4px auto 0}

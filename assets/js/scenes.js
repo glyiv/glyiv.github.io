@@ -49,22 +49,60 @@ function dotTexture(inner = "#eafff4", outer = "rgba(51,209,136,0)") {
 
 function lerp(a, b, t) { return a + (b - a) * t; }
 
-/* ---------- context recycling (ROOT CAUSE FIX untuk Android/tablet) ----------
-   HP/tablet membatasi jumlah konteks WebGL aktif per halaman (sering ~8). Halaman ini punya 10 kanvas
-   3D; kalau semua konteks dibuat sekaligus → melebihi batas → browser membuang konteks tertua → kanvas
-   (globe hero, bot) jadi PUTIH/kosong. Perbaikan: tiap renderer disimpan di canvas.__r; scene hanya
-   hidup saat terlihat, dan konteksnya DILEPAS (forceContextLoss) saat scroll jauh — dibuat ulang saat
-   kembali terlihat. Dengan begitu hanya ~2-3 konteks aktif kapan pun, apa pun jumlah scene-nya. */
+/* ---------- SATU konteks WebGL bersama untuk SEMUA scene (ROOT CAUSE FIX Android/tablet) ----------
+   AKAR MASALAH: HP/tablet membatasi jumlah konteks WebGL aktif per halaman (sering ~8) dan memori GPU-nya
+   sempit. Halaman ini punya 10 kanvas 3D; kalau tiap kanvas bikin konteks WebGL sendiri → lewat batas →
+   getContext() null → three.js r160 crash / kanvas putih. Solusi BENAR (bukan menyembunyikan scene):
+   pakai SATU WebGLRenderer off-screen; tiap kanvas yang terlihat cuma kanvas 2D murah yang menerima
+   salinan (drawImage) hasil render. Jumlah kanvas 3D tak lagi dibatasi — SEMUA 3D tetap tampil di
+   perangkat apa pun, dan hanya ada 1 konteks WebGL seumur halaman. UI/tata letak tiap kanvas tak berubah. */
+let _sharedR = null, _sharedCanvas = null, _sglW = 0, _sglH = 0;
+function sharedGL() {
+  if (_sharedR) return _sharedR;
+  _sharedCanvas = document.createElement("canvas");
+  _sharedCanvas.width = 2; _sharedCanvas.height = 2;
+  _sharedR = new THREE.WebGLRenderer({ canvas: _sharedCanvas, alpha: true, antialias: !COARSE, premultipliedAlpha: false });
+  _sharedR.setPixelRatio(1);            // device-px dikelola manual lewat viewport (bukan pixelRatio)
+  _sharedR.setClearColor(0x000000, 0);
+  _sharedR.autoClear = true;
+  return _sharedR;
+}
+function ensureShared(wpx, hpx) {
+  const gl = sharedGL();
+  if (wpx > _sglW || hpx > _sglH) {     // hanya MEMBESAR (jarang) → tak ada realloc backbuffer tiap frame
+    _sglW = Math.max(_sglW, wpx); _sglH = Math.max(_sglH, hpx);
+    gl.setSize(_sglW, _sglH, false);
+  }
+  return gl;
+}
+// Renderer PROXY: cukup meniru {setPixelRatio, setSize, render} — satu-satunya API yang dipakai scene.
 function glyivRenderer(canvas) {
-  // Cek konteks WebGL DULU: kalau gagal dibuat (batas konteks HP/tablet terlampaui), lempar rapi —
-  // JANGAN biarkan three.js r160 crash di getMaxPrecision saat gl == null. Konteks yg sudah didapat
-  // dipakai ulang oleh WebGLRenderer (opsi context), jadi tidak membuat konteks ekstra.
-  const gl = canvas.getContext("webgl2", { alpha: true, antialias: true }) ||
-             canvas.getContext("webgl", { alpha: true, antialias: true });
-  if (!gl) throw new Error("webgl-context-unavailable");
-  const r = new THREE.WebGLRenderer({ canvas: canvas, context: gl, alpha: true, antialias: true });
-  canvas.__r = r; canvas.__dead = false;
-  return r;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("2d-context-unavailable");
+  let pr = 1, wpx = 0, hpx = 0, lastDraw = 0;
+  const proxy = {
+    setPixelRatio(x) { pr = Math.max(1, x || 1); },
+    setSize(w, h) {
+      wpx = Math.max(1, Math.round(w * pr)); hpx = Math.max(1, Math.round(h * pr));
+      canvas.width = wpx; canvas.height = hpx;     // backing-store kanvas 2D (device px)
+    },
+    render(scene, camera) {
+      if (!wpx || !hpx || canvas.__dead) return;
+      // Di perangkat sentuh, batasi GAMBAR ke ~35fps/scene (animasi tetap maju tiap frame; hanya
+      // frekuensi menggambar yg dikurangi). Scroll tetap 60fps, kerja GPU/main-thread turun ~40%.
+      if (COARSE) { const t = performance.now(); if (t - lastDraw < 27) return; lastDraw = t; }
+      const gl = ensureShared(wpx, hpx);
+      gl.setViewport(0, 0, wpx, hpx);
+      gl.setScissor(0, 0, wpx, hpx);
+      gl.setScissorTest(true);
+      gl.render(scene, camera);
+      // Salin region kiri-bawah framebuffer WebGL (origin bawah-kiri) ke kanvas 2D (origin atas-kiri).
+      ctx.clearRect(0, 0, wpx, hpx);
+      ctx.drawImage(_sharedCanvas, 0, _sglH - hpx, wpx, hpx, 0, 0, wpx, hpx);
+    },
+  };
+  canvas.__r = proxy; canvas.__dead = false;
+  return proxy;
 }
 
 /* ---------- HERO: living carbon orb ---------- */
@@ -1385,21 +1423,16 @@ function initPlatformStack(canvas) {
 /* ---------- boot ---------- */
 function boot() {
   try {
-    // AKAR MASALAH 3D rusak di Android/tablet: batas konteks WebGL di perangkat mobile jauh lebih kecil
-    // (dan memori GPU lebih sempit) daripada desktop. Halaman ini punya ~10 canvas WebGL; saat konteks
-    // ke-N gagal dibuat, getContext() == null dan three.js r160 CRASH (getMaxPrecision baca .precision
-    // dari null) → SEMUA scene tampak putih/blank. Perbaikan berlapis:
-    //   1) Di perangkat sentuh, LEWATI 5 emblem holo hiasan → hemat 5 konteks, sisakan utk globe + bot.
-    //   2) Init tiap scene SEKALI saat pertama terlihat (tanpa buat-buang berulang yg rawan gagal di mobile);
-    //      globe (atas) & bot (selalu tampak) dapat konteks lebih dulu, jadi pasti tampil.
-    //   3) glyivRenderer() menolak konteks null dengan rapi (lihat atas) → tidak ada crash, degradasi mulus.
-    const coarse = !!(window.matchMedia && window.matchMedia("(pointer: coarse)").matches);
+    // SEMUA scene 3D ditampilkan di perangkat apa pun (tidak ada yang disembunyikan): batas konteks
+    // WebGL HP/tablet sudah ditangani di level renderer — satu konteks bersama untuk semua kanvas
+    // (lihat glyivRenderer/sharedGL di atas). Di sini tiap scene cukup di-init SEKALI saat pertama
+    // terlihat (hemat CPU/memori di awal); loop render tiap scene sendiri sudah berhenti kalau tak terlihat.
     const once = (el, fn) => {
       if (!el) return;
       if (!("IntersectionObserver" in window)) { try { fn(el); } catch (e) { console.warn("[glyiv] scene init failed:", e); } return; }
       const io = new IntersectionObserver((es) => {
         if (!es.some((e) => e.isIntersecting)) return;
-        io.disconnect(); // init sekali saja — hindari churn konteks (penyebab konteks null di mobile)
+        io.disconnect(); // init sekali saja
         try { fn(el); } catch (e) { console.warn("[glyiv] scene init failed:", e); }
       }, { rootMargin: "200px" });
       io.observe(el);
@@ -1413,9 +1446,7 @@ function boot() {
     once(document.getElementById("livHostCanvas"), initLivHost);
     once(document.getElementById("forestCanvas"), initForest);
     once(document.getElementById("platformCanvas"), initPlatformStack);
-    // Emblem holo = aksen 3D kecil per-seksi. Di perangkat sentuh dilewati agar globe + bot pasti dapat konteks.
-    if (!coarse) document.querySelectorAll("canvas[data-holo]").forEach((c) => once(c, initHoloEmblem));
-    else document.body.classList.add("holo-static"); // penanda utk fallback CSS emblem
+    document.querySelectorAll("canvas[data-holo]").forEach((c) => once(c, initHoloEmblem)); // SEMUA emblem, semua perangkat
     document.body.classList.add("webgl-on");
   } catch (e) {
     console.warn("[glyiv] WebGL scene failed, using CSS fallback:", e);
