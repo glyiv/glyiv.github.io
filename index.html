@@ -1,536 +1,395 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Glyiv — Carbon Intelligence Platform · dari transaksi ke dampak nyata</title>
-<meta name="description" content="Glyiv mengubah setiap transaksi menjadi data karbon level-item yang bisa diaudit — lalu menumbuhkannya menjadi green wallet, dashboard ESG, dan marketplace pohon & karbon untuk retail hingga korporasi. Mulai dari kafe Makassar, untuk dunia." />
-<meta name="theme-color" content="#06190f" />
-<link rel="icon" type="image/svg+xml" href="logo.svg" />
-<meta property="og:title" content="Glyiv — Carbon Intelligence Platform" />
-<meta property="og:description" content="Setiap transaksi, dapat dipertanggungjawabkan ke Bumi. Dari kafe Makassar ke infrastruktur data karbon dunia." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://glyiv.github.io" />
-<meta property="og:image" content="glyiv-thumb.png" />
-<meta name="twitter:card" content="summary_large_image" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/glyiv.css?v=8" />
-<script src="assets/js/i18n.js?v=12"></script>
-<script src="assets/js/config.js?v=1"></script>
-<script type="importmap">
-{ "imports": { "three": "/assets/vendor/three.module.js" } }
-</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0F2E22">
+<title>Glyiv — Carbon Intelligence & Offset Platform</title>
+<meta name="description" content="Glyiv membantu bisnis & institusi mengukur, mengurangi, dan meng-offset emisi karbon — akuntansi karbon audit-grade (GHG Protocol/ISO 14064), verifikasi dMRV, hingga aset pohon terverifikasi & ter-tokenisasi (ERC-3643). Siap POJK 51, IFRS S2, IDXCarbon.">
+<link rel="icon" href="logo.svg">
+<meta property="og:title" content="Glyiv — Carbon Intelligence & Offset Platform">
+<meta property="og:description" content="Ukur, kurangi, dan offset emisi karbon perusahaan Anda — dari akuntansi karbon hingga aset pohon terverifikasi.">
+<meta property="og:image" content="glyiv-thumb.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFBF3; --paper2:#F6F4EC; --white:#fff; --pine:#0F2E22; --pine-700:#1B4A38;
+  --navy:#0B2471; --ink:#12211B; --slate:#4B554E; --muted:#6B7280; --line:#E4E7E2;
+  --brass:#B0894F; --pos:#1F7A6B;
+  --serif:"Newsreader",Georgia,serif; --sans:"Hanken Grotesk",system-ui,-apple-system,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --wrap:1160px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--brass)}
+.mono{font-family:var(--mono)}
+h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:-.02em;color:var(--pine);line-height:1.08}
+h2{font-size:clamp(28px,3.4vw,40px)}
+.sec{padding:76px 0}
+.sec-head{max-width:720px;margin-bottom:40px}
+.sec-head .eyebrow{display:block;margin-bottom:14px}
+.sec-head p{color:var(--slate);font-size:17px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding:12px 22px;border-radius:6px;transition:.15s;cursor:pointer;border:1px solid transparent}
+.btn.p{background:var(--pine);color:var(--paper)} .btn.p:hover{background:#0a2318}
+.btn.o{background:transparent;color:var(--pine);border-color:var(--line)} .btn.o:hover{border-color:var(--pine)}
+.btn.n{background:var(--navy);color:#fff}
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,251,243,.82);backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:.2s}
+.nav.scrolled{border-color:var(--line);box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.nav__in{display:flex;align-items:center;gap:28px;height:66px;max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.logo{font-family:var(--serif);font-weight:600;font-size:23px;color:var(--pine);letter-spacing:-.01em}
+.logo .dot{color:var(--pos)}
+.nav__links{display:flex;gap:22px;font-size:14.5px;font-weight:500;color:var(--slate);margin-left:6px}
+.nav__links a:hover{color:var(--pine)}
+.has-drop{position:relative;cursor:pointer}
+.has-drop>span{display:inline-flex;align-items:center;gap:4px}
+.drop{position:absolute;top:130%;left:-16px;background:var(--white);border:1px solid var(--line);border-radius:12px;box-shadow:0 24px 50px -24px rgba(15,46,34,.35),0 4px 12px rgba(0,0,0,.05);padding:18px;width:520px;display:grid;grid-template-columns:1fr 1fr;gap:6px 22px;opacity:0;visibility:hidden;transform:translateY(6px);transition:.16s}
+.has-drop:hover .drop{opacity:1;visibility:visible;transform:translateY(0)}
+.drop .grp{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:8px 0 4px;grid-column:span 2}
+.drop a{display:block;padding:7px 9px;border-radius:7px;font-size:13.5px;color:var(--ink);font-weight:500}
+.drop a:hover{background:var(--paper2)}
+.drop a small{display:block;color:var(--muted);font-weight:400;font-size:11.5px;margin-top:1px}
+.nav__cta{margin-left:auto;display:flex;gap:10px;align-items:center}
+.nav__cta .ghost{font-size:14px;font-weight:600;color:var(--pine)}
+/* HERO */
+.hero{padding:60px 0 40px}
+.hero__grid{display:grid;grid-template-columns:1.02fr .98fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(34px,4.6vw,56px);font-weight:500;line-height:1.03}
+.hero p.lead{font-size:18px;color:var(--slate);margin:22px 0 26px;max-width:500px}
+.hero .cta-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.hero .note{margin-top:20px;font-size:13px;color:var(--muted);font-family:var(--mono)}
+/* product mock */
+.mock{background:var(--white);border:1px solid var(--line);border-radius:14px;box-shadow:0 30px 60px -34px rgba(15,46,34,.3),0 3px 8px rgba(0,0,0,.04);overflow:hidden}
+.mock__bar{height:38px;background:var(--paper2);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 14px}
+.mock__bar i{width:9px;height:9px;border-radius:50%;background:#d8d5cc}
+.mock__bar span{margin-left:10px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.mock__body{padding:18px}
+.mock .kpi{display:flex;gap:12px;margin-bottom:14px}
+.mock .kpi .c{flex:1;border:1px solid var(--line);border-radius:8px;padding:11px 13px}
+.mock .kpi small{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+.mock .kpi b{display:block;font-family:var(--mono);font-weight:600;font-size:21px;color:var(--pine);margin-top:5px}
+.mock .kpi b.navy{color:var(--navy)} .mock .kpi b.brass{color:var(--brass)}
+.mock .chart{height:120px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:flex-end;gap:7px;padding:12px;background:linear-gradient(180deg,#fff,#fbfaf5)}
+.mock .chart .b{flex:1;background:var(--pine);border-radius:3px 3px 0 0;opacity:.9}
+.mock .chart .b.n{background:var(--navy)} .mock .chart .b.p{background:var(--pos)}
+.mock .cap{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:8px;text-align:right}
+/* TRUST strip */
+.trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper2)}
+.trust__in{display:flex;align-items:center;gap:22px;flex-wrap:wrap;padding:22px 24px;max-width:var(--wrap);margin:0 auto}
+.trust__lab{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.badge{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--pine-700);padding:5px 11px;border:1px solid var(--line);border-radius:6px;background:var(--white)}
+/* WHY cards */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:22px 22px 20px}
+.card .kn{font-family:var(--serif);font-weight:600;font-size:30px;color:var(--pine);letter-spacing:-.02em;line-height:1}
+.card .kn.navy{color:var(--navy)} .card .kn.brass{color:var(--brass)}
+.card h3{font-size:18px;margin:12px 0 8px;letter-spacing:-.01em}
+.card p{font-size:14.5px;color:var(--slate);line-height:1.55}
+.card .src{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:12px;padding-top:10px;border-top:1px solid var(--line);line-height:1.5}
+/* PILLARS */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pillar{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:26px 24px;position:relative;overflow:hidden}
+.pillar .num{font-family:var(--mono);font-size:11px;color:var(--brass);letter-spacing:.1em}
+.pillar h3{font-size:21px;margin:12px 0 10px}
+.pillar>p{font-size:14.5px;color:var(--slate);margin-bottom:14px}
+.pillar ul{list-style:none}
+.pillar li{font-size:13.5px;color:var(--ink);padding:6px 0 6px 22px;position:relative;border-top:1px solid var(--line)}
+.pillar li:first-child{border-top:none}
+.pillar li::before{content:"\2192";position:absolute;left:0;color:var(--pos);font-family:var(--mono);font-size:12px}
+/* VERTICALS */
+.vgroups{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.vgrp h4{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.vitem{padding:11px 0;border-top:1px solid var(--line)}
+.vitem:first-of-type{border-top:none}
+.vitem b{font-size:14.5px;color:var(--pine);font-weight:600;font-family:var(--sans)}
+.vitem p{font-size:12.5px;color:var(--slate);margin-top:3px;line-height:1.45}
+/* AI + ONCHAIN */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:26px 26px}
+.panel.dark{background:var(--pine);color:#e7f0ea;border-color:var(--pine)}
+.panel.dark h3,.panel.dark .kn{color:#fff}
+.panel h3{font-size:20px;margin-bottom:6px}
+.panel .tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);margin-bottom:12px}
+.panel ul{list-style:none;margin-top:12px}
+.panel li{font-size:14px;padding:8px 0 8px 24px;position:relative;line-height:1.5}
+.panel.dark li{color:#cfe0d6;border-top:1px solid rgba(255,255,255,.12)}
+.panel:not(.dark) li{color:var(--slate);border-top:1px solid var(--line)}
+.panel li:first-child{border-top:none!important}
+.panel li::before{content:"\2713";position:absolute;left:0;font-family:var(--mono);font-size:12px;color:var(--pos)}
+.panel.dark li::before{color:#7df1a6}
+.notbox{background:var(--paper2);border:1px dashed var(--brass);border-radius:12px;padding:16px 18px;margin-top:22px}
+.notbox b{color:var(--pine)}
+.notbox p{font-size:13.5px;color:var(--slate);margin-top:5px;line-height:1.55}
+/* PROOF band */
+.proof{background:var(--pine);color:#dfeee6}
+.proof .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.proof .m .n{font-family:var(--serif);font-weight:600;font-size:36px;color:#fff;letter-spacing:-.02em;line-height:1}
+.proof .m .n.brass{color:#e7c48a}
+.proof .m .l{font-size:13px;color:#a9c6b6;margin-top:10px;line-height:1.5}
+.proof .m .src{font-family:var(--mono);font-size:9.5px;color:#7c9c8b;margin-top:8px}
+/* TEAM */
+.team{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.tcard .ph{width:100%;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--paper2);margin-bottom:12px;border:1px solid var(--line)}
+.tcard .ph img{width:100%;height:100%;object-fit:cover}
+.tcard b{font-size:16px;color:var(--pine);font-family:var(--sans);font-weight:700}
+.tcard span{display:block;font-size:12.5px;color:var(--brass);font-family:var(--mono);margin:3px 0 6px}
+.tcard p{font-size:13px;color:var(--slate);line-height:1.5}
+.tcard .li{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--navy);margin-top:8px;font-weight:600}
+/* CTA */
+.cta-band{background:var(--paper2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.cta-band__in{text-align:center;padding:70px 24px;max-width:760px;margin:0 auto}
+.cta-band h2{margin-bottom:14px}
+.cta-band p{color:var(--slate);font-size:17px;margin-bottom:26px}
+/* FOOTER */
+.foot{background:var(--pine);color:#b7ccbf;padding:56px 0 30px}
+.foot__grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.foot h5{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7fa593;margin-bottom:14px}
+.foot a{display:block;font-size:14px;color:#cfe0d6;padding:5px 0}
+.foot a:hover{color:#fff}
+.foot .logo{color:#fff;font-size:22px}
+.foot .desc{font-size:13.5px;color:#9cbaa9;margin-top:12px;line-height:1.6;max-width:280px}
+.foot__badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.foot__badges span{font-family:var(--mono);font-size:10.5px;color:#a9c6b6;border:1px solid rgba(255,255,255,.14);border-radius:5px;padding:3px 8px}
+.foot__legal{border-top:1px solid rgba(255,255,255,.12);margin-top:38px;padding-top:20px;display:flex;justify-content:space-between;gap:16px;font-size:11.5px;color:#7fa593;font-family:var(--mono);flex-wrap:wrap}
+@media(max-width:900px){
+  .hero__grid,.split{grid-template-columns:1fr;gap:32px}
+  .grid3,.pillars,.proof .grid4,.team{grid-template-columns:1fr 1fr}
+  .vgroups{grid-template-columns:1fr 1fr}
+  .foot__grid{grid-template-columns:1fr 1fr}
+  .nav__links,.nav__cta .ghost{display:none}
+}
+@media(max-width:560px){
+  .grid3,.pillars,.proof .grid4,.team,.vgroups,.foot__grid{grid-template-columns:1fr}
+  .hero h1{font-size:33px}
+}
+</style>
 </head>
 <body>
 
-<!-- SPLASH -->
-<div class="gv-splash" aria-hidden="true">
-  <div class="gv-splash__inner">
-    <div class="gv-splash__mark">
-      <svg viewBox="0 0 100 100" width="100%" height="100%">
-        <defs><linearGradient id="spl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8affc1"/><stop offset=".55" stop-color="#1fae6b"/><stop offset="1" stop-color="#0d3526"/></linearGradient></defs>
-        <path d="M50 6C50 6 86 34 86 64C86 84 66 95 50 95C34 95 14 84 14 64C14 34 50 6 50 6Z" fill="url(#spl)"/>
-        <path d="M50 34C50 34 66 54 66 70C66 82 56 88 50 88C44 88 34 82 34 70C34 54 50 34 50 34Z" fill="#04150d" opacity=".55"/>
-        <circle cx="50" cy="66" r="6" fill="#baffe0"/>
-      </svg>
-    </div>
-    <div class="gv-splash__word">GL<b>Y</b>IV</div>
-    <div class="gv-splash__tag">Carbon Intelligence Platform</div>
-    <div class="gv-splash__bar"><i></i></div>
-  </div>
-</div>
-
-<div class="gv-bg-root"></div>
-<div class="gv-grain"></div>
-
-<!-- TOP BAR -->
-<header class="gv-topbar2">
-  <a class="gv-brand" href="index.html">
-    <svg class="gv-brand__logo" viewBox="0 0 100 100"><use href="#glyivmark"/></svg>
-    <div class="gv-brand__txt"><b>Glyiv</b><span>Carbon Intelligence Platform</span></div>
-  </a>
-  <div style="display:flex;align-items:center;gap:8px">
-    <nav class="gv-topnav" aria-label="Tautan">
-      <a class="tlink" href="pos.html">Aplikasi POS</a>
-      <a class="tlink" href="demo.html">Coba Demo</a>
-      <a class="tlink" href="#investor">Investor</a>
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a class="logo" href="#top">Glyiv<span class="dot">.</span></a>
+    <nav class="nav__links">
+      <a href="#platform">Platform</a>
+      <div class="has-drop"><span>Solusi <svg width="10" height="10" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4"/></svg></span>
+        <div class="drop">
+          <div class="grp">Keuangan</div>
+          <a href="#verticals">Bank &amp; Lembaga Keuangan<small>Financed emissions (PCAF) — ~99% jejak di portofolio</small></a>
+          <a href="#verticals">Investor &amp; Aset Manajemen<small>Portfolio carbon, disclosure IFRS S2</small></a>
+          <div class="grp">Industri Berat</div>
+          <a href="#verticals">Tambang &amp; Logam<small>Scope 1 tinggi, tekanan pasar ekspor</small></a>
+          <a href="#verticals">Konstruksi, Semen &amp; Properti<small>Embodied carbon, CBAM</small></a>
+          <a href="#verticals">Manufaktur &amp; Industri<small>Scope 3 rantai pasok, CBAM</small></a>
+          <a href="#verticals">Energi &amp; Utilitas<small>Entitas wajib NEK</small></a>
+          <div class="grp">Operasional</div>
+          <a href="#verticals">Sawit, Agri &amp; Perkebunan<small>EUDR — bebas-deforestasi</small></a>
+          <a href="#verticals">Logistik &amp; Transport<small>Emisi armada Scope 1</small></a>
+          <a href="#verticals">F&amp;B, Ritel &amp; Perhotelan<small>Jejak per-gerai (asal Glyiv)</small></a>
+          <a href="#verticals">Rumah Sakit<small>Gas anestesi + rantai pasok</small></a>
+          <div class="grp">Publik &amp; Teknologi</div>
+          <a href="#verticals">Data Center &amp; Teknologi<small>Intensif energi</small></a>
+          <a href="#verticals">Pemerintah &amp; Sektor Publik<small>NDC, Article 6, inventori kota</small></a>
+        </div>
+      </div>
+      <a href="#metodologi">Metodologi</a>
+      <a href="#tree">Tree Marketplace</a>
+      <a href="#tim">Perusahaan</a>
     </nav>
-    <button class="gv-burger" id="gvBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav__cta">
+      <a class="ghost" href="#metodologi">Lihat Metodologi</a>
+      <a class="btn p" href="#demo">Minta Demo</a>
+    </div>
   </div>
 </header>
-<div class="gv-progress"><i id="gvProgress"></i></div>
-<div class="gv-scrim" id="gvScrim"></div>
 
-<!-- reusable logo symbol -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8affc1"/><stop offset=".55" stop-color="#1fae6b"/><stop offset="1" stop-color="#0d3526"/></linearGradient>
-  <symbol id="glyivmark" viewBox="0 0 100 100">
-    <path d="M50 6C50 6 86 34 86 64C86 84 66 95 50 95C34 95 14 84 14 64C14 34 50 6 50 6Z" fill="url(#lg)"/>
-    <path d="M50 34C50 34 66 54 66 70C66 82 56 88 50 88C44 88 34 82 34 70C34 54 50 34 50 34Z" fill="#04150d" opacity=".5"/>
-    <circle cx="50" cy="66" r="5.5" fill="#baffe0"/>
-  </symbol>
-</defs></svg>
-
-<!-- RIGHT-EDGE SECTION NAV (koios style) -->
-<nav class="gv-secnav" id="gvSecnav" aria-label="Bagian">
-  <a class="gv-nav__item is-active" href="#home"><span class="num">01</span><span class="lbl">Beranda</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#kenapa"><span class="num">02</span><span class="lbl">Kenapa Sekarang</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#platform"><span class="num">03</span><span class="lbl">Platform</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#alur"><span class="num">04</span><span class="lbl">Alur Karbon</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#fokus"><span class="num">05</span><span class="lbl">Fokus</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#pasar"><span class="num">06</span><span class="lbl">Pasar</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#unggul"><span class="num">07</span><span class="lbl">Keunggulan</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#peta"><span class="num">08</span><span class="lbl">Roadmap</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#mulai"><span class="num">09</span><span class="lbl">Mulai</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#tim"><span class="num">10</span><span class="lbl">Tim</span><span class="tick"></span></a>
-  <a class="gv-nav__item" href="#investor"><span class="num">11</span><span class="lbl">Investor</span><span class="tick"></span></a>
-</nav>
-
-<div class="gv-shell">
-  <main class="gv-main">
-
-    <!-- ===== 01 · HERO ===== -->
-    <section class="gv-section gv-hero" id="home">
-      <div class="gv-section__bg"></div>
-      <div class="gv-inner">
-        <div class="gv-hero__grid">
-          <div class="gv-hero__copy">
-            <div class="gv-eyebrow" data-reveal>Carbon Intelligence Platform · Makassar → Dunia</div>
-            <h1 class="gv-h1" data-reveal data-d="1">Setiap transaksi,<br><span class="gv-grad">dapat dipertanggungjawabkan</span> ke Bumi.</h1>
-            <p class="gv-lead" data-reveal data-d="2">Glyiv mengubah tiap transaksi menjadi <b style="color:var(--mint)">data karbon level-item</b> yang bisa diaudit — lalu menumbuhkannya jadi dompet hijau, dashboard ESG, dan <b style="color:var(--mint)">marketplace pohon &amp; karbon</b> untuk retail hingga korporasi. Bukan sekadar aplikasi. Sebuah infrastruktur.</p>
-            <div class="gv-hero__cta" data-reveal data-d="3">
-              <a class="gv-btn is-primary" href="#alur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Lihat cara kerja</a>
-              <a class="gv-btn is-ghost" href="#mulai">Mulai dari mana?</a>
-            </div>
-            <div class="gv-hero__stats" data-reveal data-d="4">
-              <div class="gv-statchip"><b>Item-level</b><span>data karbon</span></div>
-              <div class="gv-statchip"><b>Green Wallet</b><span>karbon per belanja</span></div>
-              <div class="gv-statchip"><b>Tree &amp; Carbon</b><span>marketplace</span></div>
-              <div class="gv-statchip"><b>MRV</b><span>monitoring satelit</span></div>
-            </div>
-          </div>
-          <div class="gv-hero__stage" data-reveal data-d="2">
-            <canvas class="gv-hero__canvas" id="globeCanvas"></canvas>
-            <div class="gv-hero__ring r2"></div>
-            <div class="hero-badge gv-mono">VISI 2035 · Carbon Intelligence OS</div>
-            <div class="liv-name" style="position:absolute;bottom:2%;left:50%;transform:translateX(-50%);display:flex;gap:7px;align-items:center;font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;color:var(--bio);text-transform:uppercase"><span style="width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)"></span> Makassar → dunia</div>
-          </div>
-        </div>
+<a id="top"></a>
+<section class="hero" id="platform">
+  <div class="wrap hero__grid">
+    <div>
+      <div class="eyebrow">Carbon Intelligence &amp; Offset Platform</div>
+      <h1 style="margin-top:16px">Ukur, kurangi, dan offset emisi karbon perusahaan Anda.</h1>
+      <p class="lead">Dari akuntansi karbon tingkat-transaksi (GHG Protocol / ISO 14064) hingga aset pohon terverifikasi &amp; ter-tokenisasi. Data yang bisa <b style="color:var(--ink)">diaudit ke sumbernya</b> — bukan tebakan.</p>
+      <div class="cta-row">
+        <a class="btn p" href="#demo">Minta Demo</a>
+        <a class="btn o" href="#metodologi">Lihat Metodologi</a>
       </div>
-      <div class="gv-scroll-cue"><span>scroll</span><i></i></div>
-    </section>
-
-    <!-- ===== 02 · KENAPA SEKARANG ===== -->
-    <section class="gv-section is-glow-l" id="kenapa">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">02 / Kenapa Sekarang</span>
-      <div class="gv-inner">
-        <div class="sec-lead">
-          <div class="sec-lead__txt">
-            <div class="gv-eyebrow" data-reveal>Momentum · Karbon jadi kelas aset data</div>
-            <h2 class="gv-h2" data-reveal data-d="1">Karbon kini <span class="gv-grad">wajib diukur</span> — tapi datanya masih tebakan.</h2>
-            <p class="gv-lead" data-reveal data-d="2">Regulator mewajibkan pelaporan emisi, dan pasar karbon bernilai triliunan dolar. Namun sebagian besar angka emisi hari ini dihitung <i>spend-based</i> — sekadar “berapa rupiah dikali rata-rata kategori”. Kasar, mudah meleset, dan tak bisa diaudit ke sumbernya. Di situlah Glyiv masuk.</p>
-          </div>
-          <div class="holoemb" data-reveal data-d="2" title="Data acak yang mengendap jadi presisi"><canvas class="holo3d" data-holo="precision"></canvas></div>
+      <div class="note">Siap POJK 51 · IFRS S2 (ISSB) · SRN-PPI · IDXCarbon — Makassar &rarr; Indonesia &rarr; Dunia</div>
+    </div>
+    <div class="mock" aria-label="Ilustrasi dashboard Glyiv">
+      <div class="mock__bar"><i></i><i></i><i></i><span>app.glyiv — Ringkasan Karbon</span></div>
+      <div class="mock__body">
+        <div class="kpi">
+          <div class="c"><small>Terukur (Scope 1/2/3)</small><b>1.240 <span style="font-size:12px">tCO&#8322;e</span></b></div>
+          <div class="c"><small>Ter-offset</small><b class="navy">820 <span style="font-size:12px">tCO&#8322;e</span></b></div>
+          <div class="c"><small>Pohon dipantau</small><b class="brass">3.410</b></div>
         </div>
-
-        <div class="why2 gv-mt-m" data-reveal>
-          <div class="why2__card">
-            <span class="why2__tag gv-mono">Cara lama · spend-based</span>
-            <div class="why2__blur">±3,2<i>kg CO₂e</i></div>
-            <p class="why2__cap">Hanya tahu <b>berapa</b> yang dibelanjakan. Angka buram, tak bisa ditelusuri.</p>
-          </div>
-          <div class="why2__arrow" aria-hidden="true">
-            <svg viewBox="0 0 60 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h52M46 5l9 7-9 7"/></svg>
-          </div>
-          <div class="why2__card is-glyiv">
-            <span class="why2__tag gv-mono">Cara Glyiv · item-level</span>
-            <div class="why2__sharp"><b data-co="2.25">0,00</b><i>kg CO₂e</i></div>
-            <p class="why2__cap">Tahu persis <b>apa</b> yang dibeli — tiap item, dari sumbernya. Data grade-audit.</p>
-          </div>
-        </div>
-
-        <div class="gv-stats gv-mt-l">
-          <div class="gv-stat" data-reveal data-d="1"><div class="gv-stat__num">$<span data-count="100"></span><span class="u">B+</span></div><div class="gv-stat__k">Pendapatan harga karbon global 2024</div></div>
-          <div class="gv-stat" data-reveal data-d="2"><div class="gv-stat__num">$<span data-count="535"></span><span class="u">Jt</span></div><div class="gv-stat__k">Transaksi pasar karbon sukarela 2024 (USD)</div></div>
-          <div class="gv-stat" data-reveal data-d="3"><div class="gv-stat__num">2027</div><div class="gv-stat__k">Disclosure iklim (ISSB/IFRS S2) mengarah wajib</div></div>
-          <div class="gv-stat" data-reveal data-d="4"><div class="gv-stat__num">Live</div><div class="gv-stat__k">Bursa Karbon Indonesia (IDXCarbon) beroperasi</div></div>
-        </div>
-        <p class="gv-faint gv-mono gv-mt-s" style="font-size:10px" data-reveal>Sumber: World Bank (harga karbon 2024), Ecosystem Marketplace (VCM 2024), IDXCarbon. Angka pasar — bukan proyeksi Glyiv.</p>
+        <div class="chart"><div class="b" style="height:38%"></div><div class="b" style="height:55%"></div><div class="b" style="height:48%"></div><div class="b n" style="height:68%"></div><div class="b" style="height:60%"></div><div class="b p" style="height:80%"></div><div class="b" style="height:72%"></div><div class="b n" style="height:88%"></div></div>
+        <div class="cap">Ilustrasi produk &middot; angka contoh</div>
       </div>
-    </section>
-
-    <!-- ===== 03 · PLATFORM (4 LAYERS) ===== -->
-    <section class="gv-section" id="platform">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">03 / Platform</span>
-      <div class="gv-inner">
-        <div class="plat2">
-          <div class="plat2__head">
-            <div class="gv-eyebrow" data-reveal>Satu platform · empat lapisan</div>
-            <h2 class="gv-h2" data-reveal data-d="1">Dari titik jual sampai <span class="gv-grad">aset karbon</span> — dalam satu tumpukan.</h2>
-            <p class="gv-lead" data-reveal data-d="2">Kebanyakan solusi karbon hanya menyentuh satu lapisan. Glyiv menyatukan empat: perdagangan, kecerdasan, keberlanjutan, dan finansial. Data mengalir naik dari transaksi nyata; nilai mengalir turun kembali ke merchant &amp; komunitas.</p>
-            <p class="gv-faint gv-mono" style="font-size:10px" data-reveal>seret untuk putar · arahkan lapisan untuk sorot &amp; zoom</p>
-          </div>
-          <div class="plat2__stage" data-reveal data-d="2"><canvas id="platformCanvas"></canvas></div>
-          <div class="plat2__rows">
-            <div class="plat__layer" data-layer="0" tabindex="0" data-reveal>
-              <div class="plat__head"><span class="plat__ic">🛍️</span><div><b>Commerce Layer</b><small>tempat data lahir</small></div></div>
-              <div class="plat__mods"><span>POS &amp; QR Ordering</span><span>Pembayaran QRIS</span><span>Membership</span><span>Green Receipt</span></div>
-            </div>
-            <div class="plat__layer" data-layer="1" tabindex="0" data-reveal data-d="1">
-              <div class="plat__head"><span class="plat__ic">🧠</span><div><b>Intelligence Layer</b><small>Liv — AI karbon</small></div></div>
-              <div class="plat__mods"><span>AI Host (Liv)</span><span>Analitik real-time</span><span>Forecasting</span><span>Carbon Engine</span></div>
-            </div>
-            <div class="plat__layer" data-layer="2" tabindex="0" data-reveal data-d="2">
-              <div class="plat__head"><span class="plat__ic">🌿</span><div><b>Sustainability Layer</b><small>ukur → laporkan</small></div></div>
-              <div class="plat__mods"><span>Carbon Ledger</span><span>Dashboard ESG</span><span>MRV &amp; Monitoring</span><span>Laporan siap-audit</span></div>
-            </div>
-            <div class="plat__layer" data-layer="3" tabindex="0" data-reveal data-d="3">
-              <div class="plat__head"><span class="plat__ic">📈</span><div><b>Financial Layer</b><small>nilai &amp; insentif</small></div></div>
-              <div class="plat__mods"><span>Green Wallet</span><span>Tree &amp; Carbon Marketplace</span><span>ESG Scoring</span><span>Green Financing</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 04 · ALUR KARBON (signature) ===== -->
-    <section class="gv-section is-glow-c" id="alur">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">04 / Alur Karbon</span>
-      <div class="gv-inner gv-center">
-        <div class="gv-eyebrow is-center" data-reveal>Carbon Flow · thesis Glyiv</div>
-        <h2 class="gv-h2" data-reveal data-d="1">Satu cangkir kopi, <span class="gv-grad">berubah jadi dampak yang terukur.</span></h2>
-        <p class="gv-lead" data-reveal data-d="2" style="margin:0 auto">Inilah inti Glyiv: mesin yang mengubah transaksi biasa menjadi data karbon, lalu menjadi aset, lalu menjadi pohon yang benar-benar tumbuh. Ikuti perjalanannya.</p>
-
-        <div class="holo-center" data-reveal data-d="2" title="Paket data mengalir naik lewat heliks transformasi"><canvas class="holo3d" data-holo="flow"></canvas></div>
-
-        <div class="cflow gv-mt-l" data-reveal>
-          <div class="cflow__read" aria-hidden="true">
-            <span class="cflow__r r1">☕ Kopi Susu · Rp 28.000</span>
-            <span class="cflow__r r2">🧠 diklasifikasi → <b>0,52 kg CO₂e</b></span>
-            <span class="cflow__r r3">🪙 jadi aset karbon terverifikasi</span>
-            <span class="cflow__r r4">🌱 pohon didanai &amp; dipantau</span>
-          </div>
-          <div class="cflow__belt">
-            <span class="cflow__rail"></span>
-            <span class="cflow__spark"></span>
-            <div class="cflow__stage"><span class="cflow__n">1</span><span class="cflow__ic">☕</span><b>Transaksi</b><small>pesanan di kafe</small></div>
-            <div class="cflow__stage"><span class="cflow__n">2</span><span class="cflow__ic">🧾</span><b>Data</b><small>green receipt level-item</small></div>
-            <div class="cflow__stage"><span class="cflow__n">3</span><span class="cflow__ic">🧠</span><b>AI Liv</b><small>klasifikasi &amp; faktor emisi</small></div>
-            <div class="cflow__stage"><span class="cflow__n">4</span><span class="cflow__ic">💨</span><b>Karbon</b><small>kg CO₂e per item</small></div>
-            <div class="cflow__stage"><span class="cflow__n">5</span><span class="cflow__ic">🪙</span><b>Aset</b><small>kredit / token absorpsi</small></div>
-            <div class="cflow__stage"><span class="cflow__n">6</span><span class="cflow__ic">🌱</span><b>Dampak</b><small>pohon &amp; komunitas</small></div>
-          </div>
-        </div>
-        <div class="gv-note is-green gv-mt-m" data-reveal style="max-width:70ch;margin-left:auto;margin-right:auto;text-align:left">🛡️ <div>Integritas dulu: perhitungan selaras GHG Protocol (spend-based→item-based), aset karbon mengikuti disiplin MRV &amp; registri. Tokenisasi hanya lapisan utilitas/loyalitas — bukan mengaku sebagai unit karbon teregulasi.</div></div>
-      </div>
-    </section>
-
-    <!-- ===== 05 · FOKUS ===== -->
-    <section class="gv-section" id="fokus">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">05 / Fokus</span>
-      <div class="gv-inner">
-        <div class="gv-eyebrow" data-reveal>Yang Glyiv bangun</div>
-        <h2 class="gv-h2" data-reveal data-d="1">Enam fokus, <span class="gv-grad">satu infrastruktur karbon.</span></h2>
-        <p class="gv-lead" data-reveal data-d="2">Tiap fokus berdiri di atas data yang sama: transaksi nyata dari ribuan merchant.</p>
-
-        <!-- Fokus 1: Carbon Data -->
-        <div class="gv-feature gv-mt-m">
-          <div data-reveal>
-            <div class="foc-kick gv-mono">01 · Data Karbon</div>
-            <h3 class="gv-h3">Data karbon level-item — komoditas yang dicari dunia.</h3>
-            <p class="gv-muted">Bank &amp; korporasi butuh data Scope 3 yang granular untuk IFRS S2 &amp; disclosure. Glyiv menghasilkannya langsung dari sumber: tiap item, tiap transaksi — bukan estimasi kategori.</p>
-            <div class="gv-pillrow"><span class="gv-pill">🏢 Lisensi data institusi</span><span class="gv-pill">🛒 Masuk ke grocery</span><span class="gv-pill">🌐 Standar internasional</span></div>
-          </div>
-          <div class="gv-feature__media" data-reveal data-d="2" style="background:none;border:none;min-height:auto;aspect-ratio:auto">
-            <div class="vi-compare">
-              <div class="vi-col vi-spend"><span class="vi-tag gv-mono">Bank · spend-based</span><div class="vi-est">±3,2<i>kg</i></div><p class="vi-cap">Estimasi kasar dari nominal belanja.</p></div>
-              <div class="vi-vs"><span>vs</span></div>
-              <div class="vi-col vi-item"><span class="vi-tag gv-mono">Glyiv · item-based</span>
-                <div class="vi-receipt">
-                  <div class="vi-row"><span>☕ Kopi Susu</span><b data-co="0.52">0,00</b></div>
-                  <div class="vi-row"><span>🥗 Salad Buah</span><b data-co="0.18">0,00</b></div>
-                  <div class="vi-row"><span>🍞 Roti Bakar</span><b data-co="0.61">0,00</b></div>
-                  <div class="vi-row vi-trow"><span>Total presisi</span><b data-co="1.31">0,00</b></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Fokus 2: Green Wallet + Green Receipt -->
-        <div class="gv-feature flip">
-          <div class="gv-feature__media" data-reveal style="display:grid;place-items:center;background:var(--glass-2)">
-            <div class="wal">
-              <div class="wal__top"><span class="gv-mono gv-faint" style="font-size:10px">GLYIV WALLET</span><span>🌿</span></div>
-              <div class="gv-mono" style="color:var(--text-faint);font-size:10px">Saldo</div>
-              <div class="wal__bal">Rp 318.500</div>
-              <div class="wal__co gv-mono">Jejak bulan ini · <b>12,4 kg CO₂e</b></div>
-              <div class="wal__list">
-                <div class="wal__row"><span>☕ Kopi Susu</span><em>0,52 kg</em></div>
-                <div class="wal__row is-green"><span>🥗 Salad Buah 🌿</span><em>0,18 kg</em></div>
-                <div class="wal__row"><span>🍞 Roti Bakar</span><em>0,61 kg</em></div>
-              </div>
-            </div>
-          </div>
-          <div data-reveal data-d="2">
-            <div class="foc-kick gv-mono">02 · Green Wallet &amp; Green Receipt</div>
-            <h3 class="gv-h3">Dompet pertama yang menampilkan karbon tiap belanja.</h3>
-            <p class="gv-muted">E-wallet hari ini tahu <i>berapa</i>, bukan <i>apa</i>. Glyiv menyatukan green receipt + wallet: tiap transaksi punya rincian item dan jejak karbonnya. Dibangun via mitra berlisensi (rezim PJP Bank Indonesia); token $GLYIV hanya utilitas.</p>
-            <div class="gv-pillrow"><span class="gv-pill">🧾 Green receipt built-in</span><span class="gv-pill">💚 Karbon per transaksi</span><span class="gv-pill">🏦 Mitra berlisensi (PJP)</span></div>
-          </div>
-        </div>
-
-        <!-- Fokus 3: Tree & Carbon Marketplace -->
-        <div class="gv-feature">
-          <div data-reveal>
-            <div class="foc-kick gv-mono">03 · Tree &amp; Carbon Marketplace</div>
-            <h3 class="gv-h3">Marketplace pohon &amp; karbon — untuk retail sampai korporasi.</h3>
-            <p class="gv-muted">Pemilik lahan mendaftarkan lahan yang ditanami → kapasitas serapan dihitung lewat NDVI/Google Earth Engine → di-tokenisasi lewat rel <b style="color:var(--mint)">ERC-3643 (T-REX)</b> berizin dengan KYC/AML. Retail dapat menebus sebagian; korporasi mendanai &amp; menebus — kami mendaftarkan hanya kredit dari standar diakui (Verra, Gold Standard) &amp; prioritas ICVCM CCP, selaras registri (SRN-PPI/SRUK/SPE-GRK). Glyiv adalah lapisan data &amp; procurement, <b>bukan</b> bursa.</p>
-            <div class="gv-pillrow"><span class="gv-pill">🌳 Pemilik lahan onboarding</span><span class="gv-pill">🤝 Retail &amp; korporasi</span><span class="gv-pill">🧾 Bukti tebus (retire)</span></div>
-          </div>
-          <div class="gv-feature__media" data-reveal data-d="2" style="background:none;border:none;min-height:auto;aspect-ratio:auto;padding:0">
-            <div class="vi-pipe">
-              <div class="vi-pipe-rail"><span class="vi-packet"></span></div>
-              <div class="vi-stage"><span class="vi-snum">1</span><div class="vi-sem">📜</div><b>Lahan onboard</b><small>Sertifikat + KYC</small></div>
-              <div class="vi-stage"><span class="vi-snum">2</span><div class="vi-sem">🛰️</div><b>NDVI / GEE</b><small>Serapan / hektar</small></div>
-              <div class="vi-stage"><span class="vi-snum">3</span><div class="vi-sem">🔗</div><b>Tokenisasi</b><small>ERC-721 → 3643</small></div>
-              <div class="vi-stage"><span class="vi-snum">4</span><div class="vi-sem">🤝</div><b>Tebus &amp; danai</b><small>retail &amp; korporasi</small></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Fokus 4: Dashboard ESG + Monitoring -->
-        <div class="gv-feature flip">
-          <div class="gv-feature__media" data-reveal style="padding:0">
-            <div class="holo" id="holoWrap">
-              <canvas id="forestCanvas"></canvas>
-              <div class="holo-tip" id="holoTip"></div>
-              <div class="holo-hint gv-mono">⟲ seret untuk putar · arahkan ke pohon</div>
-            </div>
-          </div>
-          <div data-reveal data-d="2">
-            <div class="foc-kick gv-mono">04 · Dashboard ESG &amp; Monitoring</div>
-            <h3 class="gv-h3">Pantau tiap pohon. Laporkan tiap gram.</h3>
-            <p class="gv-muted">Carbon ledger otomatis jadi dashboard ESG siap-audit untuk bisnis. NDVI + citra Sentinel memantau kondisi pohon &amp; mendeteksi anomali (alert deforestasi). Catatan jujur: NDVI bukan “meteran karbon” — akurasi grade-kredit butuh kalibrasi lapangan (selaras IPCC).</p>
-            <div class="esgbar">
-              <div class="esgbar__row"><span>Scope 1</span><i style="--w:32%"></i></div>
-              <div class="esgbar__row"><span>Scope 2</span><i style="--w:54%"></i></div>
-              <div class="esgbar__row"><span>Scope 3</span><i style="--w:88%"></i></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 06 · PASAR ===== -->
-    <section class="gv-section is-glow-l" id="pasar">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">06 / Pasar</span>
-      <div class="gv-inner">
-        <div class="gv-eyebrow" data-reveal>Peluang Pasar</div>
-        <h2 class="gv-h2" data-reveal data-d="1">Gelombang yang <span class="gv-grad">baru saja dimulai.</span></h2>
-        <p class="gv-lead" data-reveal data-d="2">Ekonomi hijau dan pasar karbon tumbuh bersamaan dengan tekanan disclosure. Glyiv duduk tepat di persimpangannya — di lapisan data.</p>
-        <div class="market-split gv-mt-m">
-          <div class="holoemb-lg" data-reveal title="Pertumbuhan pasar"><canvas class="holo3d" data-holo="market"></canvas></div>
-          <div class="market-boxes">
-            <div class="gv-stat" data-reveal data-d="1"><div class="gv-stat__num">$<span data-count="50"></span><span class="u">T+</span></div><div class="gv-stat__k">Peluang ekonomi hijau 2030</div></div>
-            <div class="gv-stat" data-reveal data-d="2"><div class="gv-stat__num">$<span data-count="2.4" data-dec="1"></span><span class="u">T+</span></div><div class="gv-stat__k">Nilai pasar karbon 2030</div></div>
-            <div class="gv-stat" data-reveal data-d="3"><div class="gv-stat__num"><span data-count="70"></span><span class="u">%+</span></div><div class="gv-stat__k">Perusahaan dunia menuju wajib ESG</div></div>
-            <div class="gv-stat" data-reveal data-d="4"><div class="gv-stat__num"><span data-count="10"></span><span class="u">B+</span></div><div class="gv-stat__k">Transaksi digital harian (2025+)</div></div>
-          </div>
-        </div>
-        <p class="gv-faint gv-mono gv-mt-s" style="font-size:10px" data-reveal>Estimasi industri (green economy &amp; carbon market outlook). Ditampilkan sebagai skala peluang, bukan proyeksi Glyiv.</p>
-      </div>
-    </section>
-
-    <!-- ===== 07 · KEUNGGULAN ===== -->
-    <section class="gv-section" id="unggul">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">07 / Keunggulan</span>
-      <div class="gv-inner">
-        <div class="sec-lead">
-          <div class="sec-lead__txt">
-            <div class="gv-eyebrow" data-reveal>Kenapa Glyiv menang</div>
-            <h2 class="gv-h2" data-reveal data-d="1">Bukan penjual offset. <span class="gv-grad">Lapisan data karbonnya.</span></h2>
-            <p class="gv-lead" data-reveal data-d="2">Pemain karbon lain menjual offset atau donasi pohon, atau membangun software akuntansi yang haus data estimasi. Glyiv membalik masalahnya: kami <b style="color:var(--mint)">menghasilkan</b> data karbon primer di sumber — lewat merchant — data yang tak bisa dijangkau pesaing, lalu memonetisasinya berlapis.</p>
-          </div>
-          <div class="holoemb" data-reveal data-d="2" title="Inti data Glyiv, pesaing mengorbit"><canvas class="holo3d" data-holo="edge"></canvas></div>
-        </div>
-
-        <div class="cmp gv-mt-m" data-reveal>
-          <div class="cmp__head">
-            <div class="cmp__dim">Dimensi</div>
-            <div class="cmp__c is-glyiv">Glyiv</div>
-            <div class="cmp__c">Offset tokenized<small>mis. Coorest</small></div>
-            <div class="cmp__c">Kontribusi/enabler<small>mis. Jejakin</small></div>
-            <div class="cmp__c">Carbon SaaS global</div>
-          </div>
-          <div class="cmp__row"><div class="cmp__dim">Sumber data</div><div class="cmp__c is-glyiv">Level-item, dari transaksi nyata</div><div class="cmp__c">Proyek/pohon (offset)</div><div class="cmp__c">Kalkulator + kontribusi</div><div class="cmp__c">Tagihan/utility &amp; supplier</div></div>
-          <div class="cmp__row"><div class="cmp__dim">Distribusi</div><div class="cmp__c is-glyiv">Via merchant (B2B2C, green receipt)</div><div class="cmp__c">Marketplace token</div><div class="cmp__c">Enterprise / kampanye</div><div class="cmp__c">Penjualan enterprise</div></div>
-          <div class="cmp__row"><div class="cmp__dim">Integritas &amp; token</div><div class="cmp__c is-glyiv">ERC-3643 berizin (KYC/AML) · hanya kredit Verra/Gold Standard</div><div class="cmp__c">Standar sendiri · token permissionless</div><div class="cmp__c">Offset dilaporkan sendiri</div><div class="cmp__c">Kuat, tapi tanpa data sumber</div></div>
-          <div class="cmp__row"><div class="cmp__dim">Monetisasi</div><div class="cmp__c is-glyiv">SaaS + data + fee marketplace + procurement</div><div class="cmp__c">Jual token/offset</div><div class="cmp__c">Fee enterprise</div><div class="cmp__c">Langganan</div></div>
-          <div class="cmp__row"><div class="cmp__dim">Moat</div><div class="cmp__c is-glyiv">Aliran data berkelanjutan + jaringan merchant + kepatuhan</div><div class="cmp__c">Likuiditas token</div><div class="cmp__c">Relasi korporat</div><div class="cmp__c">Kedalaman fitur</div></div>
-        </div>
-
-        <div class="gv-grid c3 gv-mt-m">
-          <div class="gv-card" data-reveal data-d="1"><div class="gv-card__ic">🔁</div><h3>Data yang memperbarui dirinya</h3><p>Tiap transaksi baru = data karbon baru. Bukan proyek sekali jalan — mesin yang terus berdetak.</p></div>
-          <div class="gv-card" data-reveal data-d="2"><div class="gv-card__ic">🏪</div><h3>Distribusi lewat merchant</h3><p>Tak bergantung pada konsumen sadar-iklim satu per satu. Merchant membawa jutaan transaksi.</p></div>
-          <div class="gv-card" data-reveal data-d="3"><div class="gv-card__ic">⚖️</div><h3>Kepatuhan sebagai moat</h3><p>Di Indonesia unit karbon = efek. Arsitektur patuh yang dibangun sejak awal jadi keunggulan sulit ditiru.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 08 · ROADMAP ===== -->
-    <section class="gv-section is-glow-c" id="peta">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">08 / Roadmap</span>
-      <div class="gv-inner">
-        <div class="gv-eyebrow" data-reveal>Roadmap · menuju dunia</div>
-        <h2 class="gv-h2" data-reveal data-d="1">Wedge hari ini. <span class="gv-grad">Infrastruktur esok.</span></h2>
-        <p class="gv-lead" data-reveal data-d="2">Dibangun bertahap, integritas dulu — agar kredibel di mata pasar dan regulator. Rincian model bisnis &amp; fase tersedia untuk investor.</p>
-        <div class="holo-center" data-reveal data-d="2" title="Dari Makassar ke dunia"><canvas class="holo3d" data-holo="journey"></canvas></div>
-
-        <div class="rmap gv-mt-m" data-reveal>
-          <div class="rmap__line"></div>
-          <div class="rmap__stop"><span class="rmap__dot">☕</span><b>Fondasi</b><small>POS + green receipt · kafe Makassar</small></div>
-          <div class="rmap__stop"><span class="rmap__dot">🇮🇩</span><b>Indonesia</b><small>ribuan merchant · dashboard karbon</small></div>
-          <div class="rmap__stop"><span class="rmap__dot">🌏</span><b>ASEAN</b><small>ekspansi regional · data lintas negara</small></div>
-          <div class="rmap__stop"><span class="rmap__dot">💱</span><b>Marketplace Karbon</b><small>Tree RWA · procurement korporasi</small></div>
-          <div class="rmap__stop is-far"><span class="rmap__dot">🪐</span><b>Carbon Intelligence OS</b><small>infrastruktur data karbon global</small></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 09 · MULAI DARI MANA (bridge → POS) ===== -->
-    <section class="gv-section is-tight" id="mulai">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">09 / Mulai</span>
-      <div class="gv-inner">
-        <div class="mulai" data-reveal>
-          <div class="mulai__copy">
-            <div class="gv-eyebrow">Mulai dari mana?</div>
-            <h2 class="gv-h2">Visi sebesar planet <span class="gv-grad">dimulai dari satu cangkir kopi.</span></h2>
-            <p class="gv-muted">Infrastruktur karbon tak dibangun dari atas. Ia tumbuh dari transaksi nyata. Jadi kami mulai dari yang paling sederhana &amp; paling sering terjadi: memesan kopi. Dari sanalah data pertama lahir, komunitas terbentuk, dan mesin karbon mulai berputar.</p>
-            <div class="mulai__steps">
-              <span class="mulai__step"><b>☕ Kafe</b>POS &amp; green receipt</span>
-              <svg class="mulai__ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              <span class="mulai__step"><b>👥 Komunitas</b>merchant tumbuh</span>
-              <svg class="mulai__ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              <span class="mulai__step"><b>📊 Data</b>karbon level-item</span>
-              <svg class="mulai__ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              <span class="mulai__step"><b>🌍 Dampak</b>terukur &amp; global</span>
-            </div>
-            <div class="gv-hero__cta" style="margin-top:26px">
-              <a class="gv-btn is-primary" href="pos.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg> Lihat aplikasi kami</a>
-              <a class="gv-btn is-ghost" href="demo.html">Coba demo langsung →</a>
-            </div>
-          </div>
-          <div class="mulai__cup" aria-hidden="true">
-            <div class="mulai__cupwrap">
-              <div class="mulai__seed">🌱</div>
-              <div class="mulai__mug">☕</div>
-              <span class="mulai__ring"></span><span class="mulai__ring r2"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 10 · TIM ===== -->
-    <section class="gv-section" id="tim">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">10 / Tim</span>
-      <div class="gv-inner gv-center">
-        <div class="gv-eyebrow is-center" data-reveal>Tim</div>
-        <h2 class="gv-h2" data-reveal data-d="1">Dibangun di <span class="gv-grad">Makassar.</span></h2>
-        <div class="gv-teamrow gv-mt-m" data-reveal>
-          <div class="gv-teamgrp">
-            <div class="gv-eyebrow is-center">Tim Dasar</div>
-            <div class="gv-grp-cards">
-              <div class="gv-tcard"><div class="gv-tcard__ph"><img src="founder.png" alt="Laode Muhamad Fitrah Ramadhan" loading="lazy"></div><div class="gv-tcard__b"><b>Laode Muhamad Fitrah Ramadhan</b><span>Founder &amp; CEO</span><p>Memimpin produk, strategi, dan eksekusi Glyiv.</p><a class="gv-tcard__li" href="https://www.linkedin.com/in/laodefitrah/" target="_blank" rel="noopener" aria-label="LinkedIn Laode"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3 0-2.95-1.8-2.95s-2.08 1.4-2.08 2.85V21h-4z"/></svg> LinkedIn</a></div></div>
-              <div class="gv-tcard"><div class="gv-tcard__ph"><img src="syun.png" alt="Khairul Miftah Sumardin" loading="lazy"></div><div class="gv-tcard__b"><b>Khairul Miftah Sumardin</b><span>Co-Founder</span><p>Mempertajam strategi, inovasi, dan daya saing Glyiv.</p><a class="gv-tcard__li" href="https://www.linkedin.com/in/khairulms/" target="_blank" rel="noopener" aria-label="LinkedIn Khairul"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3 0-2.95-1.8-2.95s-2.08 1.4-2.08 2.85V21h-4z"/></svg> LinkedIn</a></div></div>
-            </div>
-          </div>
-          <div class="gv-teamdiv"></div>
-          <div class="gv-teamgrp">
-            <div class="gv-eyebrow is-center">Tim Internasional</div>
-            <div class="gv-grp-cards">
-              <div class="gv-tcard"><div class="gv-tcard__ph"><img src="julius1.png" alt="Julius Voigt" loading="lazy"></div><div class="gv-tcard__b"><b>Julius Voigt</b><span>International Relations</span><p>Menjembatani Glyiv ke jaringan &amp; peluang internasional.</p><a class="gv-tcard__li" href="https://www.linkedin.com/in/julius-voigt-9a9389327/" target="_blank" rel="noopener" aria-label="LinkedIn Julius"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3 0-2.95-1.8-2.95s-2.08 1.4-2.08 2.85V21h-4z"/></svg> LinkedIn</a></div></div>
-              <div class="gv-tcard"><div class="gv-tcard__ph"><img src="tobi.png" alt="Tobias Burkert" loading="lazy"></div><div class="gv-tcard__b"><b>Tobias Burkert</b><span>International Relations</span><p>Menjembatani Glyiv ke jaringan &amp; peluang internasional.</p><a class="gv-tcard__li" href="https://www.linkedin.com/in/tobias-burkert-559393327/" target="_blank" rel="noopener" aria-label="LinkedIn Tobias"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3 0-2.95-1.8-2.95s-2.08 1.4-2.08 2.85V21h-4z"/></svg> LinkedIn</a></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== 11 · INVESTOR ===== -->
-    <section class="gv-section is-tight" id="investor">
-      <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">11 / Investor</span>
-      <div class="gv-inner">
-        <div class="gv-cta-band" data-reveal>
-          <div class="gv-eyebrow is-center">Bangun bersama kami</div>
-          <h2 class="gv-h2">Bukan sekadar aplikasi. <span class="gv-grad">Sebuah gerakan.</span></h2>
-          <p class="gv-lead" style="margin:0 auto;max-width:60ch">Roadmap &amp; business model bertahap (Fase 0–4) tersedia lengkap untuk investor — termasuk model pendapatan, unit economics, dan struktur kepatuhan tiap fase.</p>
-          <div class="gv-btns">
-            <a class="gv-btn is-primary" href="mailto:glyiv.archourium@gmail.com?subject=Permintaan%20Dokumen%20Investor%20Glyiv">Minta Dokumen Investor</a>
-            <a class="gv-btn is-gold" href="mailto:glyiv.archourium@gmail.com?subject=Glyiv%20Investasi">Hubungi Kami</a>
-            <a class="gv-btn is-ghost" href="pos.html">Lihat Aplikasi POS →</a>
-          </div>
-          <div class="vals gv-mt-l">
-            <div class="vals__i"><b>💡 Inovasi</b><span>teknologi terdepan</span></div>
-            <div class="vals__i"><b>🛡️ Integritas</b><span>transparan &amp; jujur</span></div>
-            <div class="vals__i"><b>🤝 Kolaborasi</b><span>ekosistem berkelanjutan</span></div>
-            <div class="vals__i"><b>🌱 Dampak Nyata</b><span>terukur di tiap langkah</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="gv-footer">
-      <div class="gv-footer__grid">
-        <div>
-          <div class="gv-brand" style="padding:0 0 12px"><svg class="gv-brand__logo" viewBox="0 0 100 100"><use href="#glyivmark"/></svg><div class="gv-brand__txt"><b>Glyiv</b><span>Carbon Intelligence Platform</span></div></div>
-          <p class="gv-muted" style="font-size:.88rem;max-width:34ch">Setiap transaksi menghasilkan dampak. Dari kafe Makassar ke infrastruktur data karbon dunia.</p>
-        </div>
-        <div><h5>Platform</h5><a href="#platform">Empat Lapisan</a><a href="#alur">Alur Karbon</a><a href="#fokus">Fokus</a><a href="#unggul">Keunggulan</a></div>
-        <div><h5>Produk</h5><a href="pos.html">Aplikasi POS</a><a href="demo.html">Coba Demo</a><a href="#fokus">Green Wallet</a><a href="#fokus">Marketplace</a></div>
-        <div><h5>Investor</h5><a href="mailto:glyiv.archourium@gmail.com?subject=Permintaan%20Dokumen%20Investor%20Glyiv">Minta Dokumen</a><a href="mailto:glyiv.archourium@gmail.com?subject=Glyiv%20Investasi">Hubungi Kami</a><a href="https://github.com/glyiv" target="_blank" rel="noopener">GitHub</a></div>
-      </div>
-      <div class="gv-footer__bottom"><span>© <span data-year>2026</span> Glyiv · Archourium 🌿</span><span class="gv-mono">Carbon Intelligence · Horizon 2035</span></div>
-    </footer>
-
-  </main>
-</div>
-
-<!-- LIV CHAT -->
-<button class="liv-launcher" id="livLauncher" aria-label="Ngobrol dengan Liv"><canvas id="botLauncherCanvas"></canvas></button>
-<div class="liv-caption" id="livCaption"><b>LIV</b><span>asisten AI · gulir untuk jelajah</span></div>
-<section class="gv-chatwrap" id="gvChat" aria-label="Obrolan dengan Liv">
-  <div class="gv-chat__head">
-    <div class="gv-chat__title"><b>Liv</b><span><span class="on"></span> asisten AI · online</span></div>
-    <button class="gv-chat__x" id="gvChatClose" aria-label="Tutup">✕</button>
-  </div>
-  <div class="gv-chat__bot"><canvas id="botPanelCanvas"></canvas></div>
-  <div class="gv-chat__msgs" id="gvChatMsgs"></div>
-  <div class="gv-chat__quick">
-    <button class="gv-qchip" data-q="Apa itu Carbon Intelligence Platform?">Apa itu Glyiv?</button>
-    <button class="gv-qchip" data-q="Gimana data karbon level-item bekerja?">Data karbon</button>
-    <button class="gv-qchip" data-q="Apa itu Tree & Carbon Marketplace?">Marketplace</button>
-  </div>
-  <div class="gv-chat__dock">
-    <input id="gvChatInput" type="text" placeholder="Tanya apa saja ke Liv…" aria-label="Pesan untuk Liv" autocomplete="off" />
-    <button class="gv-chat__send" id="gvChatSend" aria-label="Kirim">➤</button>
+    </div>
   </div>
 </section>
 
-<script type="module" src="assets/js/scenes.js?v=11"></script>
-<script src="assets/js/glyiv.js" defer></script>
+<div class="trust">
+  <div class="trust__in">
+    <span class="trust__lab">Selaras standar &amp; regulasi</span>
+    <span class="badge">GHG Protocol</span><span class="badge">ISO 14064</span><span class="badge">PCAF</span><span class="badge">IFRS S2 &middot; ISSB</span><span class="badge">POJK 51</span><span class="badge">SRN-PPI</span><span class="badge">IDXCarbon</span><span class="badge">ERC-3643</span>
+  </div>
+</div>
+
+<section class="sec" id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Kenapa ini penting</span>
+      <h2>Karbon kini biaya nyata di neraca — bukan lagi urusan CSR.</h2>
+      <p>Bukan klaim kami — ini temuan riset keuangan &amp; akuntansi terkemuka, plus regulasi yang sudah berlaku. Tiap poin menyertakan sumbernya.</p>
+    </div>
+    <div class="grid3">
+      <div class="card"><div class="kn">&minus;US$212rb</div><h3>Emisi menggerus nilai perusahaan</h3><p>Tiap tambahan 1.000 ton CO&#8322; menurunkan nilai perusahaan ~US$212.000. Perusahaan yang mengungkap emisinya bernilai median ~US$2,3 miliar lebih tinggi.</p><div class="src">Matsumura, Prakash &amp; Vera-Mu&ntilde;oz — The Accounting Review, 2014</div></div>
+      <div class="card"><div class="kn navy">&uarr; WACC</div><h3>Emisi menaikkan biaya modal</h3><p>Kinerja lingkungan buruk = biaya ekuitas lebih tinggi <b>dan</b> bunga pinjaman bank lebih tinggi. Mengungkap emisi justru menurunkan loan spread.</p><div class="src">Chava — Management Science, 2014; Kleimeier &amp; Viehs, 2018</div></div>
+      <div class="card"><div class="kn brass">~US$234jt</div><h3>Akses ekspor EU bergantung data karbon</h3><p>EU <b>CBAM</b> sudah fase bayar sejak 1 Jan 2026. Ekspor besi &amp; baja Indonesia menghadapi estimasi ~US$234 juta/tahun. Tanpa data terverifikasi: biaya naik / pasar hilang.</p><div class="src">European Commission DG TAXUD; World Bank; NewClimate Institute</div></div>
+      <div class="card"><div class="kn">21+</div><h3>Mandat pelaporan sudah tiba</h3><p><b>IFRS S2 (ISSB)</b> kini baseline global pasca-TCFD — wajib di 21+ yurisdiksi (~60% PDB dunia). Di Indonesia, <b>OJK POJK 51</b> mewajibkan Laporan Keberlanjutan, menuju PSPK 1 &amp; 2.</p><div class="src">IFRS Foundation; S&amp;P Global Sustainable1, 2026; OJK</div></div>
+      <div class="card"><div class="kn">~90%</div><h3>Bukti bisnisnya kuat</h3><p>Sintesis ~2.200 studi empiris: ~90% menemukan hubungan non-negatif ESG&ndash;kinerja finansial (mayoritas positif). Pengukuran granular sendiri menghemat 10&ndash;20% biaya (McKinsey).</p><div class="src">Friede, Busch &amp; Bassen, 2015; McKinsey Operations</div></div>
+      <div class="card"><div class="kn navy">US$2,8&ndash;8,6M</div><h3>Pasar karbon Indonesia sudah hidup</h3><p><b>IDXCarbon</b> beroperasi sejak Sep 2023 (dibuka internasional 2025). <b>Perpres 110/2025</b> membangun registry SRUK &amp; mengizinkan perdagangan. Ini peluang, bukan sekadar beban.</p><div class="src">Perpres 110/2025; IDX Carbon; CIFOR (potensi US$/tahun)</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="produk" style="background:var(--paper2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Satu platform &middot; tiga lapisan</span>
+      <h2>Ukur. Verifikasi. Offset.</h2>
+      <p>Dari data emisi audit-grade, ke verifikasi lapangan berbasis satelit, hingga offset lewat aset pohon nyata yang ter-tokenisasi.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><div class="num">01</div><h3>Carbon Accounting &amp; Intelligence</h3><p>Ukur emisi Scope 1/2/3 dari data aktivitas nyata — bukan estimasi kasar. Ditopang AI untuk mempercepat &amp; merapikan.</p><ul><li>GHG Protocol &amp; ISO 14064; laporan siap POJK 51 / IFRS S2</li><li>AI: ekstraksi data invoice, pemetaan faktor emisi, deteksi anomali</li><li>Financed emissions (PCAF) untuk lembaga keuangan</li></ul></div>
+      <div class="pillar"><div class="num">02</div><h3>dMRV &amp; Verifikasi</h3><p>Pemantauan, pelaporan, verifikasi digital (dMRV) — pemantauan pohon &amp; lahan berbasis satelit/geospasial, dapat diaudit pihak ketiga.</p><ul><li>Monitoring satelit + verifikasi lapangan</li><li>Metodologi publik &amp; transparan</li><li>Selaras Verra / Gold Standard &amp; SRN-PPI</li></ul></div>
+      <div class="pillar"><div class="num">03</div><h3>Tree Marketplace &amp; Offset Ter-tokenisasi</h3><p>Offset lewat aset pohon nyata. Tiap pohon &amp; serapan karbonnya jadi aset dunia-nyata (RWA) yang dapat ditelusuri &amp; diaudit.</p><ul><li>Token RWA ter-izin (ERC-3643 / T-REX): identitas on-chain, KYC/AML</li><li>Kompatibel IDXCarbon; retirement dapat diprogram</li><li>Bukti auditable — bukan spekulasi kripto</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="verticals">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Solusi per industri</span>
+      <h2>Satu metodologi, banyak industri.</h2>
+      <p>Setiap sektor menghadapi tekanan karbon berbeda — regulasi, pasar ekspor, atau pembiayaan. Glyiv menyesuaikan sumber data &amp; faktor emisinya.</p>
+    </div>
+    <div class="vgroups">
+      <div class="vgrp"><h4>Keuangan</h4>
+        <div class="vitem"><b>Bank &amp; Lembaga Keuangan</b><p>Hingga ~99% jejak ada di portofolio, bukan kantor. Ukur financed emissions (PCAF).</p></div>
+        <div class="vitem"><b>Investor &amp; Aset Manajemen</b><p>Portfolio carbon &amp; disclosure IFRS S2.</p></div>
+      </div>
+      <div class="vgrp"><h4>Industri Berat</h4>
+        <div class="vitem"><b>Tambang &amp; Logam</b><p>Scope 1 tinggi + scrutiny pasar ekspor.</p></div>
+        <div class="vitem"><b>Konstruksi, Semen &amp; Properti</b><p>Embodied carbon, CBAM, green building.</p></div>
+        <div class="vitem"><b>Manufaktur</b><p>Scope 3 rantai pasok; paparan CBAM.</p></div>
+        <div class="vitem"><b>Energi &amp; Utilitas</b><p>Entitas wajib NEK.</p></div>
+      </div>
+      <div class="vgrp"><h4>Operasional</h4>
+        <div class="vitem"><b>Sawit, Agri &amp; Perkebunan</b><p>EUDR — bukti bebas-deforestasi untuk ekspor.</p></div>
+        <div class="vitem"><b>Logistik &amp; Transport</b><p>Emisi armada Scope 1.</p></div>
+        <div class="vitem"><b>F&amp;B, Ritel &amp; Perhotelan</b><p>Jejak per-gerai — on-ramp asal Glyiv.</p></div>
+        <div class="vitem"><b>Rumah Sakit</b><p>Gas anestesi + rantai pasok farmasi.</p></div>
+      </div>
+      <div class="vgrp"><h4>Publik &amp; Teknologi</h4>
+        <div class="vitem"><b>Data Center &amp; Teknologi</b><p>Beban energi tinggi; pelaporan hyperscaler-grade.</p></div>
+        <div class="vitem"><b>Pemerintah &amp; Sektor Publik</b><p>NDC, Article 6, inventori kota.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="metodologi" style="background:var(--paper2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Metodologi &amp; teknologi</span>
+      <h2>Ditopang AI &amp; verifikasi on-chain — transparan, dapat diaudit.</h2>
+      <p>Rumus kami terbuka: <span class="mono" style="font-size:14px;color:var(--pine)">Emisi = &Sigma; (Data Aktivitas &times; Faktor Emisi &times; GWP)</span>. Yang membedakan bukan rumusnya — tapi resolusi datanya (level-item) &amp; buktinya.</p>
+    </div>
+    <div class="split">
+      <div class="panel">
+        <div class="tag">AI-powered — bukan hype</div>
+        <h3>AI mempercepat pekerjaan yang membosankan &amp; rawan salah.</h3>
+        <ul><li>Ekstraksi data (OCR/NLP) dari invoice &amp; catatan tak terstruktur</li><li>Pemetaan faktor emisi otomatis ke tiap baris aktivitas</li><li>Deteksi anomali pada data Scope 1&ndash;3</li><li>Prakiraan &amp; dMRV berbasis satelit/ML untuk pohon</li></ul>
+      </div>
+      <div class="panel dark">
+        <div class="tag" style="color:#e7c48a">On-chain — infrastruktur kepercayaan</div>
+        <h3>Bukti yang tak bisa diam-diam diubah.</h3>
+        <ul><li>Token RWA ter-izin (ERC-3643 / T-REX): identitas on-chain (ONCHAINID), KYC/AML di level kontrak</li><li>Hanya hash/atestasi on-chain — data mentah tetap privat</li><li>Retirement satu-arah &amp; dapat diprogram; anti double-counting</li><li>Rekonsiliasi ke registri resmi (SRN-PPI/SRUK, IDXCarbon)</li></ul>
+      </div>
+    </div>
+    <div class="notbox">
+      <b>Yang kami BUKAN.</b>
+      <p>Kami bukan "kredit zombie" ala Toucan/KlimaDAO (CarbonPlan 2022: 84,8% kredit dari proyek pra-2013, 99,9% tak layak CORSIA; Verra melarang tokenisasi kredit retired sejak 25 Mei 2022). Kami <b>originate, bukan bridge</b>: aset pohon nyata + dMRV terverifikasi + token ter-izin. Klaim kami adalah <b>"kontribusi terukur"</b>, bukan "netral karbon".</p>
+    </div>
+    <div style="margin-top:22px"><a class="btn o" href="#demo">Minta whitepaper metodologi (di bawah NDA)</a></div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="wrap sec">
+    <div class="sec-head" style="margin-bottom:34px"><span class="eyebrow" style="color:#e7c48a">Konteks pasar</span><h2 style="color:#fff">Tekanannya nyata &amp; sudah berlaku.</h2></div>
+    <div class="grid4">
+      <div class="m"><div class="n brass">1 Jan 2026</div><div class="l">EU CBAM masuk fase bayar (besi, baja, aluminium, semen, pupuk).</div><div class="src">Eur. Commission DG TAXUD</div></div>
+      <div class="m"><div class="n">~60%</div><div class="l">PDB dunia sudah di bawah mandat pelaporan iklim (IFRS S2, 21+ yurisdiksi).</div><div class="src">S&amp;P Global Sustainable1, 2026</div></div>
+      <div class="m"><div class="n">US$5,5T</div><div class="l">Nilai pembelian 200+ korporasi yang meminta pemasoknya mengungkap emisi.</div><div class="src">CDP Supply Chain</div></div>
+      <div class="m"><div class="n brass">~US$190</div><div class="l">Social cost per ton CO&#8322; (EPA 2023) — harga karbon terus naik.</div><div class="src">US EPA, 2023</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="tim">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Perusahaan</span><h2>Dibangun di Makassar.</h2><p>Tim nyata, pilot nyata di lapangan — bukan sekadar deck. Keunggulan biaya &amp; kedekatan dengan pasar Indonesia.</p></div>
+    <div class="team">
+      <div class="tcard"><div class="ph"><img src="founder.png" alt="Laode Muhamad Fitrah Ramadhan" loading="lazy"></div><b>Laode M. Fitrah R.</b><span>Founder &amp; CEO</span><p>Memimpin produk, strategi, dan eksekusi Glyiv.</p><a class="li" href="https://www.linkedin.com/in/laodefitrah/" target="_blank" rel="noopener">&#8599; LinkedIn</a></div>
+      <div class="tcard"><div class="ph"><img src="syun.png" alt="Khairul Miftah Sumardin" loading="lazy"></div><b>Khairul Miftah S.</b><span>Co-Founder</span><p>Mempertajam strategi, inovasi, dan daya saing.</p><a class="li" href="https://www.linkedin.com/in/khairulms/" target="_blank" rel="noopener">&#8599; LinkedIn</a></div>
+      <div class="tcard"><div class="ph"><img src="julius1.png" alt="Julius Voigt" loading="lazy"></div><b>Julius Voigt</b><span>International Relations</span><p>Membuka akses ke jaringan &amp; mitra strategis di Eropa.</p><a class="li" href="https://www.linkedin.com/in/julius-voigt-9a9389327/" target="_blank" rel="noopener">&#8599; LinkedIn</a></div>
+      <div class="tcard"><div class="ph"><img src="tobi.png" alt="Tobias Burkert" loading="lazy"></div><b>Tobias Burkert</b><span>International Relations</span><p>Membangun kemitraan institusi &amp; peluang lintas-negara.</p><a class="li" href="https://www.linkedin.com/in/tobias-burkert-559393327/" target="_blank" rel="noopener">&#8599; LinkedIn</a></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band" id="demo">
+  <div class="cta-band__in">
+    <span class="eyebrow">Mulai</span>
+    <h2 style="margin-top:12px">Siap mengukur &amp; meng-offset karbon Anda?</h2>
+    <p>Jadwalkan demo, atau minta whitepaper &amp; metodologi lengkap. Kami senang menunjukkan datanya.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap"><a class="btn p" href="mailto:hello@glyiv.com">Minta Demo</a><a class="btn o" href="#metodologi">Lihat Metodologi</a></div>
+  </div>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div>
+        <div class="logo">Glyiv<span class="dot" style="color:#7df1a6">.</span></div>
+        <p class="desc">Carbon Intelligence &amp; Offset Platform. Ukur, kurangi, dan offset emisi karbon perusahaan &amp; institusi — dari akuntansi audit-grade hingga aset pohon terverifikasi.</p>
+        <div class="foot__badges"><span>GHG Protocol</span><span>ISO 14064</span><span>PCAF</span><span>IFRS S2</span><span>IDXCarbon</span><span>ERC-3643</span></div>
+      </div>
+      <div><h5>Platform</h5><a href="#produk">Carbon Accounting</a><a href="#produk">dMRV &amp; Verifikasi</a><a href="#tree">Tree Marketplace</a><a href="#metodologi">Metodologi</a></div>
+      <div><h5>Solusi</h5><a href="#verticals">Keuangan</a><a href="#verticals">Industri Berat</a><a href="#verticals">Operasional</a><a href="#verticals">Sektor Publik</a></div>
+      <div><h5>Perusahaan</h5><a href="#tim">Tim</a><a href="#why">Kenapa Karbon</a><a href="#demo">Minta Demo</a><a href="mailto:hello@glyiv.com">Kontak</a></div>
+    </div>
+    <div class="foot__legal">
+      <span>&copy; 2026 Glyiv &middot; Makassar, Indonesia</span>
+      <span>Standards-aligned &middot; metodologi transparan &middot; sertifikasi dalam roadmap</span>
+    </div>
+  </div>
+</footer>
+
+<a id="tree"></a>
+<script>
+  var nav=document.getElementById('nav');
+  addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>8)},{passive:true});
+</script>
 </body>
 </html>
