@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PT WOSU Innovation Technology — Membangun teknologi bernilai tinggi dari Indonesia</title>
+<meta name="description" content="PT WOSU Innovation Technology — perusahaan teknologi yang membangun produk bernilai tinggi untuk Indonesia dan dunia. Induk dari Glyiv, platform intelijen karbon.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0A2540; --navy-900:#071B33; --navy-700:#0f2f57; --navy-600:#1a3a6b;
+  --gold:#C6A15B; --gold-600:#a8863f; --gold-tint:#F5EFE2;
+  --white:#FFFFFF; --paper:#F7F5F0; --paper-2:#F2EFE7; --ink:#14181C; --slate:#49525C; --muted:#6B7480; --hair:#E7E3D9; --hair-2:#EFEBE1;
+  --navy-tint:#EEF2F8;
+  --serif:"Newsreader",Georgia,serif; --sans:"Hanken Grotesk",system-ui,-apple-system,Segoe UI,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --sh1:0 1px 2px rgba(10,37,64,.05),0 4px 14px rgba(10,37,64,.06);
+  --sh2:0 2px 8px rgba(10,37,64,.06),0 16px 36px -12px rgba(10,37,64,.16);
+  --sh3:0 10px 28px -8px rgba(10,37,64,.16),0 40px 80px -30px rgba(7,27,51,.3);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--white);line-height:1.62;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+::selection{background:rgba(198,161,91,.25)}
+.wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+.sec{position:relative;padding:clamp(60px,9vh,116px) 0}
+.sec.tight{padding:clamp(44px,6vh,80px) 0}
+.sec.paper{background:var(--paper)}
+.kick{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-600);font-weight:600}
+h1,h2,h3{font-family:var(--serif);font-weight:600;color:var(--navy);letter-spacing:-.014em;line-height:1.08;margin:0}
+h1{font-size:clamp(36px,5.6vw,68px)}
+h2{font-size:clamp(28px,3.8vw,46px)}
+h3{font-size:20px}
+.lead{font-size:clamp(16px,1.5vw,19px);color:var(--slate);line-height:1.62}
+.lead b{color:var(--ink)}
+em.g{font-style:normal;color:var(--gold-600)}
+.head{max-width:62ch;margin-bottom:36px}.head .kick{display:block;margin-bottom:14px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,60px);align-items:center}
+.split-64{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,4vw,60px);align-items:center}
+[data-r]{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+[data-r].in{opacity:1;transform:none}
+[data-d="1"]{transition-delay:.08s}[data-d="2"]{transition-delay:.16s}[data-d="3"]{transition-delay:.24s}[data-d="4"]{transition-delay:.32s}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;padding:13px 23px;border-radius:11px;border:1px solid transparent;transition:transform .2s var(--ease),box-shadow .25s,background .25s,border-color .25s}
+.btn svg{width:16px;height:16px}
+.btn.primary{background:var(--navy);color:#fff;box-shadow:var(--sh1)}.btn.primary:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.btn.gold{background:var(--gold);color:var(--navy-900);box-shadow:0 12px 30px -12px rgba(198,161,91,.6)}.btn.gold:hover{transform:translateY(-2px)}
+.btn.ghost{background:#fff;color:var(--navy);border-color:var(--hair)}.btn.ghost:hover{border-color:var(--navy)}
+.on-navy .btn.ghost{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.3)}.on-navy .btn.ghost:hover{border-color:#fff;background:rgba(255,255,255,.16)}
+
+/* nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;transition:background .3s,backdrop-filter .3s,border-color .3s,box-shadow .3s;border-bottom:1px solid transparent}
+.nav.scr{background:rgba(255,255,255,.85);backdrop-filter:saturate(1.4) blur(16px);border-bottom-color:var(--hair);box-shadow:0 6px 24px -18px rgba(10,37,64,.3)}
+.nav__in{display:flex;align-items:center;gap:16px;max-width:1200px;margin:0 auto;height:68px;padding:0 clamp(20px,5vw,48px)}
+.brand{display:flex;align-items:center;gap:11px;color:var(--navy)}
+.brand__mk{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--navy),var(--navy-600));display:grid;place-items:center;color:var(--gold);font-family:var(--serif);font-weight:600;font-size:19px;flex:0 0 auto}
+.brand b{font-family:var(--serif);font-weight:600;font-size:18px;line-height:1}
+.brand small{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;display:block}
+.nav:not(.scr) .brand{color:#fff}.nav:not(.scr) .brand small{color:rgba(255,255,255,.6)}.nav:not(.scr) .brand__mk{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25)}
+.nav__lnk{display:flex;gap:4px;margin-left:14px}
+.nav__lnk a{font-size:14px;font-weight:600;color:var(--slate);padding:9px 12px;border-radius:9px;transition:.18s}
+.nav__lnk a:hover{color:var(--navy);background:var(--navy-tint)}
+.nav:not(.scr) .nav__lnk a{color:rgba(255,255,255,.85)}.nav:not(.scr) .nav__lnk a:hover{color:#fff;background:rgba(255,255,255,.12)}
+.nav__sp{margin-left:auto}
+.nav__cta{font-weight:700;font-size:14px;color:#fff;background:var(--navy);padding:10px 18px;border-radius:999px;box-shadow:var(--sh1);transition:transform .18s}
+.nav:not(.scr) .nav__cta{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4)}
+.nav__cta:hover{transform:translateY(-1px)}
+
+/* hero */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;color:#fff;background:radial-gradient(120% 90% at 80% -10%,#0f2f57,#0A2540 55%,#071B33)}
+.hero::before{content:"";position:absolute;inset:0;opacity:.5;background:radial-gradient(50% 50% at 82% 30%,rgba(198,161,91,.14),transparent 60%),radial-gradient(40% 60% at 10% 90%,rgba(26,58,107,.5),transparent 60%)}
+.hero__grid{position:absolute;inset:0;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(70% 70% at 70% 40%,#000,transparent)}
+.hero__in{position:relative;width:100%;max-width:1200px;margin:0 auto;padding:110px clamp(20px,5vw,48px) 0}
+.hero__eye{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+.hero__eye .ln{width:32px;height:1px;background:var(--gold)}
+.hero h1{color:#fff;max-width:17ch;margin-bottom:22px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero__lead{max-width:52ch;color:rgba(255,255,255,.86);margin-bottom:30px}
+.hero__cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero__stats{display:flex;gap:38px;flex-wrap:wrap;margin-top:48px;border-top:1px solid rgba(255,255,255,.14);padding-top:26px}
+.hero__stat b{font-family:var(--serif);font-weight:600;font-size:30px;color:#fff;display:block;line-height:1}
+.hero__stat span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.55);text-transform:uppercase}
+.hero__stat b i{font-style:normal;color:var(--gold)}
+
+/* pillars */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:#fff;border:1px solid var(--hair);border-radius:16px;padding:26px 24px;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s}
+.card:hover{transform:translateY(-5px);box-shadow:var(--sh3)}
+.card__ic{width:44px;height:44px;border-radius:12px;background:var(--navy-tint);display:grid;place-items:center;color:var(--navy);margin-bottom:16px}
+.card__ic svg{width:22px;height:22px}
+.card h3{margin-bottom:9px}.card p{font-size:14.5px;color:var(--slate);margin:0}
+
+/* flagship product (Glyiv) */
+.flag{background:linear-gradient(135deg,var(--navy),var(--navy-900));border-radius:24px;padding:clamp(30px,4vw,52px);color:#fff;position:relative;overflow:hidden}
+.flag::after{content:"";position:absolute;right:-10%;top:-30%;width:50%;height:160%;background:radial-gradient(circle,rgba(198,161,91,.16),transparent 65%)}
+.flag__badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gold);border:1px solid rgba(198,161,91,.4);border-radius:999px;padding:6px 13px;margin-bottom:18px}
+.flag h2{color:#fff;max-width:20ch;margin-bottom:14px}
+.flag p{color:rgba(255,255,255,.82);max-width:60ch;margin:0 0 24px}
+.flag__row{display:flex;gap:10px;flex-wrap:wrap}
+.flag .chip{font-family:var(--mono);font-size:11px;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:7px 11px}
+
+/* leadership */
+.people{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:start}
+.person{min-width:0}
+.person__pf{aspect-ratio:4/5;border-radius:16px;overflow:hidden;border:1px solid var(--hair);box-shadow:var(--sh2);background:var(--paper-2);position:relative}
+.person__pf img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.02)}
+.person__pf::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,37,64,.12),transparent 55%);mix-blend-mode:multiply}
+.person b{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--navy);display:block;margin-top:14px}
+.person .role{font-family:var(--mono);font-size:11px;color:var(--gold-600);letter-spacing:.05em;text-transform:uppercase;margin-top:3px}
+.person .ph{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:6px}
+
+/* values */
+.vals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.val{border-left:2px solid var(--gold);padding:6px 0 6px 20px}
+.val b{font-family:var(--serif);font-weight:600;font-size:19px;color:var(--navy);display:block;margin-bottom:6px}
+.val p{font-size:14px;color:var(--slate);margin:0}
+
+/* footer */
+.foot{background:var(--navy-900);color:#fff;padding:clamp(48px,7vh,72px) 0 28px}
+.foot__grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:28px}
+.foot__about{color:rgba(255,255,255,.62);font-size:13.5px;max-width:36ch;line-height:1.55;margin:14px 0}
+.foot h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
+.foot a{display:block;color:rgba(255,255,255,.7);font-size:14px;padding:6px 0;transition:.18s}.foot a:hover{color:#fff;padding-left:3px}
+.foot__legal{border-top:1px solid rgba(255,255,255,.12);margin-top:30px;padding-top:20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.45)}
+
+@media(max-width:980px){.split,.split-64{grid-template-columns:1fr;gap:28px}.grid3,.vals{grid-template-columns:1fr}.people{grid-template-columns:repeat(2,1fr)}.foot__grid{grid-template-columns:1fr 1fr}.nav__lnk{display:none}}
+@media(max-width:560px){.people{grid-template-columns:1fr}.hero__stats{gap:24px}}
+@media(prefers-reduced-motion:reduce){[data-r]{opacity:1!important;transform:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<!-- NAV -->
+<header class="nav">
+  <div class="nav__in">
+    <a class="brand" href="/wosu/index.html"><span class="brand__mk">W</span><span><b>WOSU</b><small>Innovation Technology</small></span></a>
+    <nav class="nav__lnk"><a href="#tentang">Tentang</a><a href="#produk">Produk</a><a href="#dewan">Dewan</a><a href="#nilai">Nilai</a></nav>
+    <span class="nav__sp"></span>
+    <a class="nav__cta" href="#kontak">Hubungi Kami</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero on-navy"><div class="hero__grid"></div>
+  <div class="hero__in">
+    <div class="hero__eye" data-r><span class="ln"></span> PT WOSU Innovation Technology</div>
+    <h1 data-r data-d="1">Membangun teknologi <em>bernilai tinggi</em> dari Indonesia.</h1>
+    <p class="hero__lead" data-r data-d="2">Kami perusahaan teknologi yang membangun produk kelas dunia untuk masalah nyata — dimulai dari <b style="color:#fff">Glyiv</b>, platform intelijen karbon untuk enterprise.</p>
+    <div class="hero__cta" data-r data-d="3"><a class="btn gold" href="#produk">Lihat Produk Kami</a><a class="btn ghost" href="#dewan">Kenali Tim</a></div>
+    <div class="hero__stats" data-r data-d="4">
+      <div class="hero__stat"><b>2026</b><span>Didirikan</span></div>
+      <div class="hero__stat"><b>Makassar<i>.</i></b><span>Indonesia</span></div>
+      <div class="hero__stat"><b>Glyiv</b><span>Produk unggulan</span></div>
+      <div class="hero__stat"><b>Deep-tech</b><span>Karbon &amp; AI</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TENTANG -->
+<section class="sec" id="tentang"><div class="wrap"><div class="split-64">
+  <div>
+    <span class="kick" data-r>Tentang kami</span>
+    <h2 data-r data-d="1" style="margin:14px 0 18px">Sebuah rumah bagi produk yang <em class="g">bermakna.</em></h2>
+    <p class="lead" data-r data-d="2">PT WOSU Innovation Technology adalah perusahaan induk teknologi asal Indonesia. Kami tidak membangun aplikasi biasa — kami membangun <b>infrastruktur dan intelijen</b> untuk masalah yang penting: iklim, keberlanjutan, dan ekonomi digital.</p>
+    <p class="lead" data-r data-d="3" style="margin-top:14px">Setiap produk kami dirancang dengan standar global, tata kelola yang serius, dan komitmen jangka panjang — bukan sekadar mengejar tren.</p>
+  </div>
+  <div class="grid3" data-r data-d="2" style="grid-template-columns:1fr;gap:14px">
+    <div class="card"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><h3>Standar global</h3><p>Metodologi &amp; tata kelola yang selaras standar internasional sejak hari pertama.</p></div>
+    <div class="card"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div><h3>Indonesia-first, global-ready</h3><p>Dibangun untuk pasar Indonesia, dirancang untuk skala dunia.</p></div>
+  </div>
+</div></div></section>
+
+<!-- PRODUK (Glyiv flagship) -->
+<section class="sec paper" id="produk"><div class="wrap">
+  <div class="head" data-r><span class="kick">Portofolio produk</span><h2 style="margin-top:12px">Produk unggulan kami.</h2></div>
+  <div class="flag" data-r data-d="1">
+    <div class="flag__badge">PRODUK UNGGULAN &middot; LIVE</div>
+    <h2>Glyiv — Carbon Intelligence Platform</h2>
+    <p>Platform intelijen karbon kelas enterprise: sebuah agen AI yang membaca data karbon perusahaan, menganalisis emisi terhadap biaya, lalu mengubahnya menjadi keputusan. Ukur &rarr; Verifikasi &rarr; Offset. Selaras GHG Protocol &amp; ISO 14064.</p>
+    <div class="flag__row" style="margin-bottom:24px"><span class="chip">Carbon Accounting</span><span class="chip">AI Agent</span><span class="chip">dMRV Satelit</span><span class="chip">Tree Marketplace &middot; ERC-3643</span><span class="chip">11 Industri</span></div>
+    <a class="btn gold" href="/lab/index.html">Kunjungi Glyiv &rarr;</a>
+  </div>
+</div></section>
+
+<!-- DEWAN / LEADERSHIP -->
+<section class="sec" id="dewan"><div class="wrap">
+  <div class="head" data-r><span class="kick">Dewan &amp; kepemimpinan</span><h2 style="margin-top:12px">Dipimpin oleh orang <em class="g">yang tepat.</em></h2></div>
+  <div class="people">
+    <div class="person" data-r data-d="1"><div class="person__pf"><img src="/founder.png" alt="Laode Muhamad Fitrah Ramadhan"></div><b>Laode M. Fitrah R.</b><div class="role">Direktur Utama</div><div class="ph">Memimpin arah &amp; eksekusi perusahaan</div></div>
+    <div class="person" data-r data-d="2"><div class="person__pf"><img src="/wosu/img/placeholder-syahril.jpg" alt="Syahril Syam"></div><b>Syahril Syam</b><div class="role">Direktur</div><div class="ph">Operasi &amp; pengembangan bisnis</div></div>
+    <div class="person" data-r data-d="3"><div class="person__pf"><img src="/syun.png" alt="Khairul Miftah Sumardin"></div><b>Khairul Miftah S.</b><div class="role">Sekretaris</div><div class="ph">Tata kelola &amp; korporasi</div></div>
+    <div class="person" data-r data-d="4"><div class="person__pf"><img src="/wosu/img/placeholder-suwanto.jpg" alt="dr. Suwanto"></div><b>dr. Suwanto</b><div class="role">Komisaris</div><div class="ph">Pengawasan &amp; penasihat</div></div>
+  </div>
+  <p class="lead" data-r style="margin-top:26px;font-size:13.5px;color:var(--muted)">Foto Direktur &amp; Komisaris bersifat sementara (placeholder) hingga foto resmi tersedia.</p>
+</div></section>
+
+<!-- NILAI -->
+<section class="sec paper" id="nilai"><div class="wrap">
+  <div class="head" data-r><span class="kick">Nilai kami</span><h2 style="margin-top:12px">Prinsip yang tak bisa ditawar.</h2></div>
+  <div class="vals">
+    <div class="val" data-r data-d="1"><b>Integritas data</b><p>Kami membangun di atas bukti yang bisa diaudit — bukan klaim kosong.</p></div>
+    <div class="val" data-r data-d="2"><b>Kualitas kelas dunia</b><p>Standar global, desain elegan, dan eksekusi yang serius di tiap produk.</p></div>
+    <div class="val" data-r data-d="3"><b>Dampak jangka panjang</b><p>Kami menyelesaikan masalah yang penting, bukan mengejar tren sesaat.</p></div>
+  </div>
+</div></section>
+
+<!-- KONTAK / CTA -->
+<section class="sec tight" id="kontak" style="text-align:center"><div class="wrap">
+  <span class="kick" data-r>Hubungi kami</span>
+  <h2 data-r data-d="1" style="max-width:20ch;margin:14px auto 16px">Mari bangun sesuatu yang bernilai.</h2>
+  <p class="lead" data-r data-d="2" style="max-width:50ch;margin:0 auto 26px">Untuk kemitraan, investasi, atau pertanyaan pers — kami senang mendengar dari Anda.</p>
+  <div data-r data-d="3"><a class="btn primary" href="mailto:wosu.archourium@gmail.com?subject=PT%20WOSU%20Innovation%20Technology">Hubungi PT WOSU</a></div>
+</div></section>
+
+<!-- FOOTER -->
+<footer class="foot"><div class="wrap">
+  <div class="foot__grid">
+    <div>
+      <a class="brand" href="/wosu/index.html" style="color:#fff"><span class="brand__mk" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25)">W</span><span><b style="color:#fff">WOSU</b><small style="color:rgba(255,255,255,.55)">Innovation Technology</small></span></a>
+      <p class="foot__about">Perusahaan teknologi asal Indonesia yang membangun produk bernilai tinggi untuk dunia. Induk dari Glyiv.</p>
+    </div>
+    <div><h4>Perusahaan</h4><a href="#tentang">Tentang</a><a href="#dewan">Dewan</a><a href="#nilai">Nilai</a></div>
+    <div><h4>Produk</h4><a href="/lab/index.html">Glyiv</a><a href="#kontak">Kemitraan</a></div>
+  </div>
+  <div class="foot__legal"><span>© <span id="yr">2026</span> PT WOSU Innovation Technology · Makassar, Indonesia</span><span>Membangun dari Indonesia, untuk dunia.</span></div>
+</div></footer>
+
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.14,rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll("[data-r]").forEach(function(e){io.observe(e);});
+  var nav=document.querySelector(".nav");var t=false;
+  addEventListener("scroll",function(){if(t)return;t=true;requestAnimationFrame(function(){nav.classList.toggle("scr",scrollY>10);t=false;});},{passive:true});
+  document.getElementById("yr").textContent=new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

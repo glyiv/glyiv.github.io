@@ -291,9 +291,9 @@ em.brassed{font-style:normal;color:var(--brass-600)}
 .map .lbl.home{fill:var(--brass-600);font-weight:600}
 
 /* founders grid fallback (below the story) */
-.founders{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+.founders{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px;align-items:start}
 .fcard{text-align:left;min-width:0}
-.fcard .pf{aspect-ratio:3/4;border-radius:var(--r-lg)}
+.fcard .pf{aspect-ratio:3/4;height:auto;border-radius:var(--r-lg)}
 .fcard b{font-family:var(--f-serif);font-weight:600;font-size:18px;color:var(--pine);display:block;margin-top:14px}
 .fcard .role{font-family:var(--f-mono);font-size:11px;color:var(--brass);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
 .fcard p{font-size:13.5px;color:var(--slate);margin:9px 0 8px;line-height:1.5}

@@ -255,6 +255,21 @@ function worldMask() {
 function initGlobe(canvas) {
   const renderer = glyivRenderer(canvas);
   renderer.setPixelRatio(DPR);
+  const LIGHT = canvas.dataset.theme === "light";
+  const BLEND = LIGHT ? THREE.NormalBlending : THREE.AdditiveBlending;
+  const C = LIGHT ? {
+    ocean:0x2a8f79, oceanMap:["#4fbfa3","rgba(31,122,107,0)"], oceanOp:0.42,
+    land:0x0f5c43, landMap:["#1f8f6b","rgba(15,92,67,0)"], landOp:1,
+    shell:0xeef4f0, shellOp:0.35, edge:0x1f7a6b, edgeOp:0.14,
+    makassar:0xb0894f, node:0x1f7a6b, nodeTex:["#d8b06a","rgba(176,137,79,0)"],
+    arcDom:0x1f7a6b, arcGlob:0x2a8f79, pulseDom:0xb0894f, pulseGlob:0x1f7a6b
+  } : {
+    ocean:0x1c7a52, oceanMap:["#7df1a6","rgba(31,174,107,0)"], oceanOp:0.26,
+    land:0x33d188, landMap:["#aaffd0","rgba(51,209,136,0)"], landOp:0.95,
+    shell:0x062016, shellOp:0.55, edge:0x33d188, edgeOp:0.06,
+    makassar:0xf5c451, node:0x8affc1, nodeTex:["#fff7e0","rgba(245,196,81,0)"],
+    arcDom:0x8affc1, arcGlob:0x33d188, pulseDom:0xf5c451, pulseGlob:0x8affc1
+  };
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
   camera.position.set(0, 0.4, 3.5);
@@ -278,13 +293,13 @@ function initGlobe(canvas) {
     else if (i % 7 === 0) ocean.push(x * R, y * R, z * R);
   }
   const mkPoints = (arr, opt) => { const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(arr), 3)); return new THREE.Points(g, new THREE.PointsMaterial(opt)); };
-  group.add(mkPoints(ocean, { size: 0.012, color: 0x1c7a52, transparent: true, opacity: 0.26, map: dotTexture("#7df1a6", "rgba(31,174,107,0)"), depthWrite: false }));
-  const planet = mkPoints(land, { size: 0.021, color: 0x33d188, transparent: true, opacity: 0.95, map: dotTexture("#aaffd0", "rgba(51,209,136,0)"), depthWrite: false });
+  group.add(mkPoints(ocean, { size: 0.012, color: C.ocean, transparent: true, opacity: C.oceanOp, map: dotTexture(C.oceanMap[0], C.oceanMap[1]), depthWrite: false }));
+  const planet = mkPoints(land, { size: 0.021, color: C.land, transparent: true, opacity: C.landOp, map: dotTexture(C.landMap[0], C.landMap[1]), depthWrite: false });
   group.add(planet);
 
   // faint shell
-  group.add(new THREE.Mesh(new THREE.SphereGeometry(R * 0.985, 32, 32), new THREE.MeshBasicMaterial({ color: 0x062016, transparent: true, opacity: 0.55 })));
-  group.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.SphereGeometry(R * 1.003, 18, 14)), new THREE.LineBasicMaterial({ color: 0x33d188, transparent: true, opacity: 0.06 })));
+  group.add(new THREE.Mesh(new THREE.SphereGeometry(R * 0.985, 32, 32), new THREE.MeshBasicMaterial({ color: C.shell, transparent: true, opacity: C.shellOp })));
+  group.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.SphereGeometry(R * 1.003, 18, 14)), new THREE.LineBasicMaterial({ color: C.edge, transparent: true, opacity: C.edgeOp })));
 
   const cities = {
     makassar: [-5.15, 119.43], jakarta: [-6.2, 106.85], surabaya: [-7.25, 112.75],
@@ -293,10 +308,10 @@ function initGlobe(canvas) {
     sf: [37.77, -122.42], sydney: [-33.87, 151.21],
   };
   // node markers
-  const nodeTex = dotTexture("#fff7e0", "rgba(245,196,81,0)");
+  const nodeTex = dotTexture(C.nodeTex[0], C.nodeTex[1]);
   Object.entries(cities).forEach(([k, c]) => {
     const v = latLon(c[0], c[1], R * 1.02);
-    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: k === "makassar" ? nodeTex : dotTexture(), color: k === "makassar" ? 0xf5c451 : 0x8affc1, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: k === "makassar" ? nodeTex : dotTexture(), color: k === "makassar" ? C.makassar : C.node, transparent: true, blending: BLEND, depthWrite: false }));
     sp.position.copy(v); sp.scale.set(k === "makassar" ? 0.16 : 0.1, k === "makassar" ? 0.16 : 0.1, 1);
     group.add(sp);
   });
@@ -317,10 +332,10 @@ function initGlobe(canvas) {
     const domestic = a === "makassar";
     const tube = new THREE.Mesh(
       new THREE.TubeGeometry(curve, 44, 0.0035, 6, false),
-      new THREE.MeshBasicMaterial({ color: domestic ? 0x8affc1 : 0x33d188, transparent: true, opacity: domestic ? 0.5 : 0.3, blending: THREE.AdditiveBlending, depthWrite: false })
+      new THREE.MeshBasicMaterial({ color: domestic ? C.arcDom : C.arcGlob, transparent: true, opacity: domestic ? (LIGHT?0.7:0.5) : (LIGHT?0.5:0.3), blending: BLEND, depthWrite: false })
     );
     group.add(tube);
-    const pulse = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTexture(), color: domestic ? 0xf5c451 : 0x8affc1, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+    const pulse = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTexture(), color: domestic ? C.pulseDom : C.pulseGlob, transparent: true, blending: BLEND, depthWrite: false }));
     pulse.scale.set(0.085, 0.085, 1); group.add(pulse);
     arcs.push({ curve, pulse, speed: 0.16 + (idx % 4) * 0.04, off: Math.random() });
   });

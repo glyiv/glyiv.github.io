@@ -1,0 +1,433 @@
+{
+ "industries": [
+  {
+   "key": "rumah-sakit",
+   "name": "Rumah Sakit & Fasilitas Kesehatan",
+   "hook": "Menyembuhkan pasien tanpa membebani bumi — dan tanpa membakar anggaran diam-diam.",
+   "why": "Sektor kesehatan menyumbang 4,4-5,2% emisi gas rumah kaca global; jika ia sebuah negara, ia akan menjadi emitter terbesar kelima di dunia. Rumah sakit beroperasi 24/7 dengan beban energi tinggi (HVAC, sterilisasi, cold-chain vaksin) dan sumber emisi yang jarang disadari: gas anestesi volatil. Bagi industri kesehatan, mengukur karbon bukan sekadar kepatuhan lingkungan — ia adalah pintu masuk untuk efisiensi biaya operasional, reputasi akreditasi, dan kesiapan menghadapi standar pengadaan hijau yang mulai disyaratkan mitra asuransi dan lembaga donor internasional.",
+   "costAngle": "Karbon adalah lensa untuk melihat kebocoran biaya yang selama ini tersembunyi di balik 'biaya operasional normal'. Satu vaporizer desflurane yang menyala rutin bukan hanya berdampak iklim setara ribuan kilometer berkendara per kasus — ia juga jauh lebih mahal per jam dibanding sevoflurane untuk efek klinis setara. Mengukur karbon menyorot titik-titik ini: gas anestesi boros, HVAC yang berjalan penuh di ruang kosong, sterilisasi berlebih, dan tagihan listrik yang tak pernah dibedah per-departemen. Setiap ton CO2e yang terukur biasanya adalah rupiah yang bisa dihemat.",
+   "hiddenDrains": [
+    "Gas anestesi desflurane: potensi pemanasan global (GWP100) 2.540 dan biaya per efek klinis 40-50x lebih tinggi dari sevoflurane — pemborosan ganda (iklim + anggaran farmasi)",
+    "HVAC dan sistem tekanan udara ruang operasi/isolasi yang berjalan 100% sepanjang waktu, termasuk di ruangan yang tidak terpakai",
+    "Tagihan listrik yang tidak pernah dipilah per-unit (ICU, laundry, cold-chain, pencitraan) sehingga pemborosan tak terdeteksi dan tak ada yang bertanggung jawab",
+    "Sterilisasi dan alat sekali-pakai berlebih yang menambah biaya pengadaan sekaligus jejak emisi Scope 3"
+   ],
+   "regulatory": "Global: gerakan 'Race to Zero for Healthcare' dan komitmen banyak sistem kesehatan nasional menuju net-zero; standar pengadaan hijau dari donor & asuransi internasional. Indonesia: sektor kesehatan masuk dalam cakupan pengurangan emisi NDC nasional (31,89% tanpa syarat / 43,20% dengan dukungan internasional pada 2030), pajak karbon dalam UU HPP, dan agenda 'green hospital' Kementerian Kesehatan. Kepatuhan pada PDPA/UU PDP untuk data pasien tetap terjaga karena Glyiv hanya memerlukan data operasional, bukan data klinis pasien.",
+   "howApply": [
+    "Onboarding 30 menit: hubungkan data operasional dasar — tagihan listrik, konsumsi gas anestesi, dan volume limbah — tanpa menyentuh satu pun rekam medis pasien",
+    "Glyiv memetakan baseline emisi Scope 1-2-3 rumah sakit Anda selaras GHG Protocol & ISO 14064 (metodologi terverifikasi di whitepaper rahasia kami)",
+    "Dashboard menyorot 3-5 'quick win' penghematan terbesar — biasanya substitusi gas anestesi dan optimasi HVAC — lengkap dengan estimasi rupiah yang bisa dihemat",
+    "Terbitkan laporan keberlanjutan siap-akreditasi dan, bila diinginkan, offset sisa emisi lewat kredit pohon tertokenisasi Glyiv (ERC-3643)"
+   ],
+   "demoIdea": "Dashboard 'Green Hospital Command Center': peta panas emisi per departemen (OK, ICU, laundry, cold-chain), meteran gas anestesi real-time yang menampilkan 'setara km berkendara' dan 'setara rupiah' untuk desflurane vs sevoflurane, kartu 'quick win' dengan penghematan biaya tahunan, dan indikator kesiapan akreditasi green hospital.",
+   "stats": [
+    {
+     "n": "4,4-5,2%",
+     "label": "kontribusi sektor kesehatan terhadap emisi gas rumah kaca global — emitter terbesar ke-5 dunia bila menjadi negara",
+     "source": "Health Care Without Harm — Health Care's Climate Footprint"
+    },
+    {
+     "n": "2.540",
+     "label": "nilai GWP100 desflurane, dengan dampak klinis 40-50x lebih tinggi dari sevoflurane",
+     "source": "The Lancet Planetary Health (2023-2025), tinjauan sistematis agen anestesi"
+    },
+    {
+     "n": "31,89% / 43,20%",
+     "label": "target pengurangan emisi Indonesia 2030 (tanpa syarat / dengan dukungan internasional), mencakup sektor kesehatan",
+     "source": "Enhanced NDC Indonesia, UNFCCC (2022)"
+    }
+   ],
+   "_cluster": "Publik & Teknologi"
+  },
+  {
+   "key": "data-center",
+   "name": "Data Center & Hyperscaler",
+   "hook": "Setiap kueri AI punya jejak karbon. Ubah beban energi terbesar Anda menjadi keunggulan kompetitif.",
+   "why": "Konsumsi listrik data center global diproyeksikan berlipat ganda menjadi sekitar 945 TWh pada 2030 — setara total permintaan listrik Jepang, atau hampir 3% listrik dunia — didorong ledakan AI. Di Asia Tenggara termasuk Indonesia, batu bara masih menjadi tulang punggung pasokan listrik data center, sehingga intensitas karbon per kWh di sini termasuk tinggi. Bagi operator data center, akuntansi karbon adalah bahasa yang kini diminta pelanggan enterprise global: mereka membeli 'cloud rendah karbon' dan menuntut data emisi terverifikasi sebelum menandatangani kontrak. Tanpa angka karbon yang kredibel, Anda kehilangan tender.",
+   "costAngle": "Untuk data center, energi adalah 40-60% biaya operasional — dan karbon adalah cermin langsung dari energi. Mengukur karbon secara granular mengungkap PUE yang membengkak, server 'zombie' yang menyala tanpa beban, pendinginan berlebih, dan jam-jam ketika grid paling kotor sekaligus paling mahal. Lebih jauh: pelanggan hyperscaler dan enterprise Eropa mulai menuntut data Scope 2/3 sebagai syarat kontrak; ketiadaan angka ini adalah pendapatan yang hilang, bukan sekadar risiko reputasi. Karbon yang tak terukur adalah margin yang bocor.",
+   "hiddenDrains": [
+    "PUE (Power Usage Effectiveness) yang membengkak akibat pendinginan berlebih — setiap 0,1 poin PUE adalah tagihan listrik dan emisi yang terbuang percuma",
+    "Server 'zombie' / idle yang menyala tanpa beban komputasi bermakna namun tetap menyedot daya dan biaya penuh",
+    "Kehilangan kontrak enterprise & hyperscaler global yang kini mensyaratkan laporan emisi Scope 2/3 terverifikasi sebelum penandatanganan",
+    "Ketiadaan strategi 'carbon-aware computing' — menjadwalkan beban saat grid paling kotor sekaligus tarif listrik puncak paling mahal"
+   ],
+   "regulatory": "Global: CSRD Uni Eropa dan tuntutan rantai pasok pelanggan hyperscaler atas data Scope 2/3; standar efisiensi data center (a.l. inisiatif PUE & pelaporan energi UE). Indonesia: pajak karbon UU HPP, agenda transisi energi PLN & bauran EBT, serta target NDC nasional 2030 (31,89%/43,20%). Data center yang melayani klien ekspor digital menghadapi tekanan de-facto dari regulasi karbon negara pelanggannya.",
+   "howApply": [
+    "Integrasi API ke sistem DCIM/BMS dan tagihan PLN Anda — Glyiv menarik data konsumsi energi secara otomatis tanpa mengganggu operasi",
+    "Kami hitung intensitas karbon per kWh memakai faktor emisi grid Indonesia yang akurat, selaras GHG Protocol Scope 1-2-3 (metodologi terverifikasi di whitepaper rahasia)",
+    "Dashboard menampilkan PUE, emisi per rack/pelanggan, dan rekomendasi 'carbon-aware scheduling' untuk menekan biaya sekaligus emisi",
+    "Hasilkan sertifikat emisi per-pelanggan yang bisa Anda tawarkan sebagai 'low-carbon cloud' dalam tender — plus opsi offset tertokenisasi untuk sisa emisi"
+   ],
+   "demoIdea": "Dashboard 'Carbon-Aware Data Center': grafik PUE real-time berdampingan dengan intensitas karbon grid per jam, peta emisi per rack dan per pelanggan (siap dijadikan sertifikat B2B), simulator 'geser beban ke jam hijau' yang menampilkan penghematan rupiah + ton CO2e, dan tracker kesiapan kontrak enterprise (Scope 2/3 ready).",
+   "stats": [
+    {
+     "n": "~945 TWh",
+     "label": "proyeksi konsumsi listrik data center global pada 2030 — setara total permintaan listrik Jepang (~3% listrik dunia)",
+     "source": "IEA — Energy and AI (2025)"
+    },
+    {
+     "n": "~1%",
+     "label": "porsi emisi CO2 global dari data center pada 2030 (skenario sentral), puncak ~320 Mt CO2",
+     "source": "IEA / Carbon Brief (2025)"
+    },
+    {
+     "n": "Batu bara",
+     "label": "masih menjadi tulang punggung pasokan listrik data center di Asia Tenggara & India hingga sebelum 2035 — intensitas karbon per kWh tinggi",
+     "source": "IEA — Energy and AI (2025)"
+    }
+   ],
+   "_cluster": "Publik & Teknologi"
+  },
+  {
+   "key": "pemerintah",
+   "name": "Pemerintah & Sektor Publik",
+   "hook": "Dari komitmen NDC ke bukti terukur — jadikan target iklim daerah sebagai aset ekonomi, bukan beban.",
+   "why": "Indonesia berkomitmen menurunkan emisi 31,89% (tanpa syarat) hingga 43,20% (dengan dukungan internasional) pada 2030, dan telah menyerahkan NDC Kedua menjelang COP30. Sektor energi dan tata guna lahan menyumbang lebih dari 60% target pengurangan. Namun komitmen nasional hanya bermakna bila diterjemahkan menjadi inventarisasi emisi kota/kabupaten yang akurat dan dapat diaudit. Bagi pemerintah daerah, akuntansi karbon adalah fondasi untuk mengakses pembiayaan iklim internasional, mekanisme Article 6 Perjanjian Paris, dan hasil-based payment — mengubah target iklim menjadi arus pendapatan dan investasi pembangunan.",
+   "costAngle": "Bagi sektor publik, 'kebocoran biaya' terbesar bukan tagihan listrik — melainkan peluang pembiayaan yang hangus karena data tidak siap. Tanpa inventarisasi emisi yang kredibel dan dapat diaudit, sebuah kota tidak bisa menjual kredit karbon di bawah Article 6, tidak lolos verifikasi hasil-based payment, dan kehilangan akses dana iklim global. Di sisi belanja, konsumsi energi gedung pemerintah, penerangan jalan, dan armada kendaraan dinas kerap tak pernah dibedah — pemborosan yang dibiayai APBD tahun demi tahun. Karbon yang terukur membuka dua keran sekaligus: menghemat belanja dan membuka pendapatan iklim baru.",
+   "hiddenDrains": [
+    "Pembiayaan iklim internasional & hasil-based payment yang hangus karena inventarisasi emisi tidak dapat diaudit / tidak memenuhi standar MRV",
+    "Potensi pendapatan kredit karbon di bawah Article 6 yang tak terealisasi tanpa dMRV kredibel",
+    "Konsumsi energi aset publik (gedung pemda, penerangan jalan umum, armada dinas) yang tak pernah dipilah — pemborosan APBD berulang",
+    "Biaya konsultan & audit manual yang mahal dan lambat untuk menyusun inventarisasi emisi kota secara berkala"
+   ],
+   "regulatory": "Global: Perjanjian Paris Pasal 6 (mekanisme pasar karbon antarnegara), standar MRV UNFCCC, dan skema pembiayaan iklim multilateral. Indonesia: NDC Kedua (diserahkan menjelang COP30), Perpres tata kelola Nilai Ekonomi Karbon (NEK), pajak karbon UU HPP, Bursa Karbon Indonesia (IDX Carbon), dan target inventarisasi GRK daerah. Pemerintah daerah kini didorong menyusun inventarisasi emisi berbasis standar nasional.",
+   "howApply": [
+    "Workshop pemetaan lingkup: bersama tim Glyiv, tetapkan batas inventarisasi kota/kabupaten (energi, transportasi, limbah, tata guna lahan)",
+    "Kumpulkan data lintas OPD lewat platform terpadu Glyiv — menggantikan spreadsheet manual dengan alur data yang dapat diaudit selaras IPCC & GHG Protocol",
+    "Dashboard inventarisasi kota menyajikan emisi per sektor, progres terhadap target NDC daerah, dan proyeksi skenario kebijakan",
+    "Aktifkan modul dMRV Glyiv untuk memverifikasi proyek pengurangan/penyerapan emisi — siap didaftarkan ke Article 6 atau Bursa Karbon Indonesia sebagai kredit tertokenisasi (ERC-3643)"
+   ],
+   "demoIdea": "Dashboard 'City Carbon Inventory & Article 6 Readiness': inventarisasi emisi kota per sektor (energi, transportasi, limbah, AFOLU), pengukur progres terhadap target NDC daerah, simulator kebijakan ('jika 30% PJU beralih LED + solar'), dan panel dMRV yang menampilkan proyek offset lokal siap-verifikasi beserta estimasi nilai kredit karbon.",
+   "stats": [
+    {
+     "n": "31,89% / 43,20%",
+     "label": "target pengurangan emisi Indonesia 2030 (tanpa syarat / dengan dukungan internasional)",
+     "source": "Enhanced NDC Indonesia, UNFCCC (2022); NDC Kedua diserahkan 2025"
+    },
+    {
+     "n": ">60%",
+     "label": "porsi target pengurangan emisi Indonesia yang berasal dari sektor energi & tata guna lahan",
+     "source": "Enhanced NDC Indonesia, UNFCCC"
+    },
+    {
+     "n": "Pasal 6",
+     "label": "mekanisme pasar karbon Perjanjian Paris yang membuka pembiayaan iklim internasional bagi pemda dengan MRV kredibel",
+     "source": "UNFCCC — Paris Agreement Article 6"
+    }
+   ],
+   "_cluster": "Publik & Teknologi"
+  },
+  {
+   "key": "bank-lembaga-keuangan",
+   "name": "Bank & Lembaga Keuangan",
+   "hook": "Jejak karbon terbesar bank Anda tidak ada di gedung kantor — tapi di setiap kredit yang Anda salurkan.",
+   "why": "Bank adalah tulang punggung ekonomi Indonesia: setiap pinjaman ke pabrik, sawit, tambang, atau properti membiayai emisi yang kini menjadi tanggung jawab bank untuk diukur (financed emissions). Emisi yang dibiayai portofolio kredit rata-rata ratusan kali lebih besar daripada emisi operasional bank itu sendiri — sehingga profil iklim sesungguhnya sebuah bank ditentukan oleh ke mana uangnya mengalir, bukan oleh lampu di kantornya. Regulator, investor global, dan mitra pembiayaan internasional kini menilai bank berdasarkan kualitas data emisi portofolio ini. Bank yang tidak bisa mengukurnya kehilangan akses ke green financing berbiaya rendah dan menghadapi risiko kredit iklim yang tak terlihat di neraca.",
+   "costAngle": "Tanpa pengukuran karbon, bank menanggung biaya tersembunyi yang tidak pernah muncul sebagai baris anggaran: nasabah korporasi dengan intensitas karbon tinggi diam-diam menjadi risiko gagal bayar saat CBAM Uni Eropa dan pajak karbon domestik menekan margin mereka — namun bank tetap memberi harga kredit seolah risikonya nol. Aset yang dibiayai (pembangkit fosil, industri boros energi) berisiko menjadi stranded asset yang harus dicadangkan (CKPN) di kemudian hari. Sementara itu, bank kehilangan akses ke pendanaan hijau internasional yang bunganya lebih murah karena tidak punya data emisi portofolio yang dapat diaudit. Glyiv mengubah 'risiko iklim yang tak terlihat' menjadi angka yang bisa dihargai — sehingga bank memberi bunga sesuai risiko sebenarnya dan membuka pintu ke modal hijau.",
+   "hiddenDrains": [
+    "Salah harga kredit (mispricing): nasabah karbon-intensif diberi bunga seolah bebas risiko, padahal terekspos CBAM & pajak karbon yang menekan kemampuan bayar mereka",
+    "Biaya modal lebih mahal: tanpa data emisi portofolio yang dapat diaudit, bank tak memenuhi syarat green bond/sustainability-linked loan berbunga rendah dari lender internasional",
+    "Cadangan kerugian tak terduga (CKPN) atas aset fosil & industri boros energi yang berisiko menjadi stranded asset",
+    "Biaya kepatuhan yang membengkak saat pelaporan iklim disusun manual dan reaktif menjelang tenggat OJK, bukan otomatis"
+   ],
+   "regulatory": "Indonesia: POJK No. 51/POJK.03/2017 mewajibkan Lembaga Jasa Keuangan menerapkan Keuangan Berkelanjutan dan menerbitkan Laporan Keberlanjutan (publikasi paling lambat 30 April); Taksonomi untuk Keuangan Berkelanjutan Indonesia (TKBI) menjadi acuan klasifikasi aktivitas hijau; OJK sedang menyelaraskan POJK 51 dengan standar internasional ISSB IFRS S1 & S2. Global: standar PCAF (Partnership for Carbon Accounting Financials) menjadi metodologi de-facto untuk mengukur financed emissions, dan IFRS S2 mewajibkan pengungkapan emisi Scope 3 Kategori 15 (financed emissions). Glyiv menyelaraskan metodologinya dengan standar global (GHG Protocol/ISO 14064) — detail teknis diverifikasi dalam whitepaper rahasia kami.",
+   "howApply": [
+    "Hubungkan data portofolio secara aman: unggah atau integrasikan data eksposur kredit & investasi Anda ke platform Glyiv yang tersertifikasi keamanannya — tanpa mengganggu core banking",
+    "Glyiv memetakan financed emissions per sektor, per nasabah, dan per aset dengan metodologi selaras PCAF & GHG Protocol",
+    "Terima dashboard risiko iklim & laporan siap-audit yang otomatis memenuhi format POJK 51 dan selaras IFRS S2",
+    "Dampingi transisi: identifikasi nasabah prioritas dekarbonisasi dan buka akses ke produk pembiayaan hijau serta offset pohon tokenized (ERC-3643) Glyiv"
+   ],
+   "demoIdea": "Dashboard 'Peta Karbon Portofolio': heatmap eksposur kredit berdasarkan intensitas emisi per sektor (sawit, energi, properti, manufaktur), skor kualitas data PCAF (1-5) per aset, simulasi 'what-if' dampak pajak karbon & CBAM terhadap kemampuan bayar nasabah, tren financed emissions vs target Net Zero, dan daftar Top-10 nasabah dengan risiko transisi tertinggi — semua dapat diekspor sebagai laporan siap-OJK.",
+   "stats": [
+    {
+     "n": "±700x",
+     "label": "Emisi yang dibiayai sektor keuangan rata-rata lebih dari 700 kali lebih besar daripada emisi operasionalnya sendiri",
+     "source": "CDP (Carbon Disclosure Project), 2021"
+    },
+    {
+     "n": ">99%",
+     "label": "Financed emissions umumnya mencakup lebih dari 99% total inventarisasi gas rumah kaca sebuah lembaga keuangan",
+     "source": "PCAF / analisis industri"
+    },
+    {
+     "n": "600+",
+     "label": "Lembaga keuangan global telah mengadopsi standar PCAF untuk mengukur & melaporkan financed emissions",
+     "source": "Partnership for Carbon Accounting Financials (PCAF)"
+    }
+   ],
+   "_cluster": "Keuangan"
+  },
+  {
+   "key": "investor-aset-manajemen",
+   "name": "Investor & Aset Manajemen",
+   "hook": "Portofolio Anda punya jejak karbon yang belum pernah Anda lihat — dan investor global sudah menanyakannya.",
+   "why": "Manajer investasi mengelola triliunan rupiah dana publik dan institusi; setiap saham dan obligasi dalam portofolio membawa emisi perusahaan yang menjadi tanggung jawab pengungkapan manajer aset (portfolio emissions / financed emissions). Investor institusi global, dana pensiun, dan mandat ESG kini menyaring manajer aset berdasarkan kemampuan mereka mengungkap emisi portofolio secara kredibel di bawah IFRS S2. Emisi portofolio bukan sekadar isu reputasi — ia adalah sinyal risiko: perusahaan karbon-intensif menghadapi tekanan regulasi, pajak karbon, dan risiko transisi yang menggerus valuasi. Manajer aset yang mengukur ini lebih dulu melindungi imbal hasil dan memenangkan mandat baru.",
+   "costAngle": "Karbon yang tidak diukur adalah risiko valuasi yang tidak dihargai. Aset karbon-intensif dalam portofolio berisiko menjadi stranded — nilainya anjlok saat pajak karbon, CBAM, dan pergeseran permintaan menghantam emiten — namun tanpa data emisi, manajer aset tidak melihat konsentrasi risiko ini sampai terlambat. Bersamaan, dana kehilangan mandat dari investor institusi dan asing yang kini mensyaratkan pelaporan selaras IFRS S2 sebagai syarat masuk. Biaya greenwashing juga nyata: klaim 'hijau' tanpa data yang dapat diaudit mengundang sanksi regulator dan penarikan dana. Glyiv mengubah emisi portofolio menjadi lensa risiko-imbal hasil yang jelas — membantu manajer aset melakukan rebalancing berbasis data, menghindari aset terdampar, dan membuka akses ke modal ESG bernilai besar.",
+   "hiddenDrains": [
+    "Risiko stranded asset yang tak terdeteksi: saham/obligasi karbon-intensif yang valuasinya rentan anjlok akibat pajak karbon, CBAM, dan risiko transisi",
+    "Mandat yang hilang: investor institusi & asing menolak dana yang tidak dapat melaporkan emisi portofolio selaras IFRS S2",
+    "Risiko greenwashing: klaim keberlanjutan tanpa data teraudit memicu sanksi regulator dan reputasi rusak",
+    "Biaya pengumpulan data manual yang mahal & tidak konsisten setiap kali klien atau regulator meminta pengungkapan emisi"
+   ],
+   "regulatory": "Global: IFRS S2 (ISSB) berlaku untuk periode pelaporan mulai 1 Januari 2024 dan mewajibkan pengungkapan emisi Scope 3 Kategori 15 (financed emissions) — untuk manajer aset ini mencakup emisi yang diatribusikan ke aset yang dikelola (AUM); sekitar 40 yurisdiksi telah memulai langkah adopsi/penyelarasan. Metodologi PCAF menjadi acuan pengukuran portfolio emissions. Indonesia: OJK melalui POJK No. 51/POJK.03/2017 mewajibkan pelaku jasa keuangan menerapkan Keuangan Berkelanjutan & Laporan Keberlanjutan, dengan penyelarasan berjalan menuju standar ISSB IFRS S1/S2; TKBI menjadi acuan taksonomi hijau. Glyiv menyelaraskan metodologi dengan standar global (GHG Protocol/ISO 14064) — diverifikasi dalam whitepaper rahasia kami.",
+   "howApply": [
+    "Integrasikan holdings portofolio Anda ke Glyiv secara aman — daftar saham, obligasi, dan aset alternatif — tanpa mengekspos strategi investasi rahasia",
+    "Glyiv menghitung emisi portofolio (weighted average carbon intensity & financed emissions) per emiten, sektor, dan dana, selaras PCAF & IFRS S2",
+    "Dapatkan laporan pengungkapan siap-IFRS S2 dan siap-OJK, plus skor risiko transisi untuk setiap posisi",
+    "Optimalkan: gunakan insight untuk rebalancing berbasis karbon, tawarkan produk investasi hijau, dan kompensasi lewat offset pohon tokenized (ERC-3643) Glyiv"
+   ],
+   "demoIdea": "Dashboard 'Lensa Karbon Portofolio': intensitas karbon tertimbang (WACI) portofolio vs benchmark, kontribusi emisi per emiten & sektor (treemap), skor kualitas data PCAF, simulasi dampak skenario pajak karbon terhadap valuasi & imbal hasil, daftar posisi berisiko stranded, serta pengungkapan otomatis dalam format IFRS S2 Kategori 15 yang dapat langsung dilampirkan ke laporan dana.",
+   "stats": [
+    {
+     "n": "1 Jan 2024",
+     "label": "IFRS S2 mulai berlaku, mewajibkan pengungkapan emisi Scope 3 Kategori 15 (financed/portfolio emissions) termasuk emisi atas aset yang dikelola",
+     "source": "IFRS Foundation / ISSB"
+    },
+    {
+     "n": "±40",
+     "label": "yurisdiksi di dunia telah memulai langkah formal mengadopsi atau menyelaraskan standar ISSB (IFRS S1/S2)",
+     "source": "IFRS Foundation, 2025"
+    },
+    {
+     "n": "908.000+ ton",
+     "label": "CO2e diperdagangkan di Bursa Karbon Indonesia (IDXCarbon) dengan nilai kumulatif Rp50,64 miliar hingga akhir 2024 — pasar offset domestik yang mulai terbentuk",
+     "source": "IDXCarbon / OJK, 2024"
+    }
+   ],
+   "_cluster": "Keuangan"
+  },
+  {
+   "key": "tambang-dan-logam",
+   "name": "Tambang & Logam",
+   "hook": "Setiap ton yang Anda ekspor kini membawa label karbon. Kami yang menuliskannya untuk Anda.",
+   "why": "Pertambangan dan pengolahan logam adalah tulang punggung ekspor Indonesia sekaligus penyumbang emisi Scope 1 terbesar di sektor riil, karena bergantung pada tungku dan captive power berbahan batu bara. Pembeli global, bank, dan regulator kini menilai setiap kargo bukan hanya dari kadar logamnya, tetapi dari intensitas karbon per ton. Tanpa angka karbon yang kredibel dan terverifikasi, komoditas Indonesia berisiko didiskon harga, kehilangan akses ke pasar premium (baterai EV, otomotif Eropa), dan dianggap 'aset berisiko' oleh pemodal. Mengukur karbon bukan beban kepatuhan, ini kunci mempertahankan nilai ekspor.",
+   "costAngle": "Intensitas karbon tinggi menyembunyikan uang yang bocor tiap hari. Tungku RKEF berbahan batu bara rata-rata melepas sekitar 45 ton CO2 per ton nikel, hampir tiga kali lipat jalur bertenaga bersih, dan setiap ton CO2 berlebih itu adalah bahan bakar yang terbeli namun terbuang, bukan logam yang terjual. Ketika karbon dipetakan per lini, per tungku, dan per shift, terlihat di mana energi hangus percuma, di mana idle-load menyala tanpa produksi, dan di mana pembeli mulai menahan premium. Selisih intensitas inilah yang menentukan apakah Anda dibeli dengan harga penuh atau didiskon sebagai 'high-carbon supply'.",
+   "hiddenDrains": [
+    "Batu bara captive yang terbakar untuk beban idle dan tungku yang tidak dioptimalkan — energi terbeli, logam tidak terproduksi",
+    "Diskon harga 'high-carbon' dari pembeli baterai/otomotif yang mensyaratkan jejak karbon rendah, memangkas premium per ton",
+    "Kenaikan biaya modal dan premi asuransi karena pemodal melabeli operasi intensif-batu bara sebagai aset berisiko (transition risk)",
+    "Risiko stranded asset: smelter dan tambang yang tidak terukur & tidak berencana dekarbonisasi kehilangan akses off-take jangka panjang"
+   ],
+   "regulatory": "Global: EU CBAM mulai fase bayar penuh 2026 (faktor 97,5%) mencakup besi, baja, dan aluminium; harga sertifikat kuartal pertama ditetapkan EUR 75,36/ton CO2e. Uni Eropa dan Amerika juga memperketat uji tuntas rantai pasok mineral kritis. Indonesia: Peraturan Presiden 98/2021 tentang Nilai Ekonomi Karbon, Bursa Karbon Indonesia (IDXCarbon), rencana pajak karbon, serta target NDC dan komitmen net zero 2060 yang menekan sektor energi dan industri intensif.",
+   "howApply": [
+    "Hubungkan data operasi Anda — konsumsi bahan bakar, listrik captive, throughput per tungku — lewat onboarding terpandu Glyiv, tanpa perlu tim data internal",
+    "Glyiv memetakan Scope 1 & 2 per lini dan per ton logam, selaras GHG Protocol & ISO 14064, dengan jejak audit yang siap diperiksa pembeli dan pemodal",
+    "Terima 'kartu karbon per ton' yang bisa Anda lampirkan ke setiap kargo ekspor sebagai bukti kredibel di meja negosiasi",
+    "Kunci penghematan: dashboard menandai titik boros energi terlebih dahulu, lalu buka jalur offset pohon tertokenisasi untuk sisa emisi yang belum bisa dipangkas"
+   ],
+   "demoIdea": "Dashboard 'Intensitas Karbon per Ton' untuk satu smelter: peta panas tungku menampilkan tCO2/ton nikel real-time per lini, dibandingkan dengan benchmark pasar dan jalur bertenaga bersih; panel 'Kebocoran Energi' menyorot tiga titik boros terbesar dalam Rupiah; dan simulator 'Harga Ekspor' yang menunjukkan berapa premium per ton yang bisa dipulihkan bila intensitas turun ke ambang pembeli baterai EV.",
+   "stats": [
+    {
+     "n": "±45 tCO2",
+     "label": "emisi rata-rata per ton nikel dari tungku RKEF berbahan batu bara di Indonesia (vs 13,4 tCO2 jalur MHP/HPAL)",
+     "source": "IEEFA, 2024"
+    },
+    {
+     "n": "97,9%",
+     "label": "kontribusi proses smelting terhadap total emisi industri nikel Indonesia (±170,2 juta ton CO2e)",
+     "source": "IEEFA, 2024"
+    },
+    {
+     "n": "EUR 75,36",
+     "label": "harga sertifikat CBAM per ton CO2e (kuartal pertama, ditetapkan 7 April 2026), berlaku untuk besi, baja & aluminium",
+     "source": "Fastmarkets / Komisi Eropa, 2026"
+    }
+   ],
+   "_cluster": "Industri Berat"
+  },
+  {
+   "key": "konstruksi-dan-semen",
+   "name": "Konstruksi & Semen",
+   "hook": "Karbon di dalam beton Anda kini punya harga. Ukur dulu, sebelum tender atau CBAM menagihnya.",
+   "why": "Semen dan konstruksi adalah motor pembangunan Indonesia sekaligus salah satu sumber emisi industri terbesar — produksi semen menyumbang 7–8% emisi CO2 global, sebagian besar dari proses kalsinasi klinker yang tak bisa dihindari secara kimiawi. Karbon di sini bersifat 'embodied', tertanam di setiap sak semen dan setiap kubik beton. Kontraktor internasional, proyek berpendanaan hijau, dan tender pemerintah mulai mensyaratkan Environmental Product Declaration (EPD) dan data karbon terembodi. Yang tidak bisa membuktikan jejak karbon material akan tersingkir dari daftar pemasok, bukan karena kualitas, tetapi karena tidak punya angkanya.",
+   "costAngle": "Karbon terembodi adalah cermin efisiensi bahan bakar dan bahan baku. Setiap ton semen melepas sekitar 900 kg CO2 dan menyumbang 88% emisi campuran beton rata-rata — artinya panas kiln, rasio klinker, dan bahan bakar adalah pos biaya terbesar sekaligus sumber emisi terbesar secara bersamaan. Ketika karbon dipetakan per batch dan per proyek, terlihat kiln yang boros bahan bakar, rasio klinker yang bisa diturunkan dengan material substitusi, serta panas buang yang tak dimanfaatkan. Di sisi hilir, kontrak konstruksi yang tak punya data karbon kehilangan tender bernilai ratusan miliar dan menghadapi tagihan CBAM saat mengekspor produk semen.",
+   "hiddenDrains": [
+    "Bahan bakar kiln yang terbakar berlebih karena rasio klinker tinggi dan panas buang yang tidak dimanfaatkan kembali",
+    "Kekalahan tender pada proyek internasional & berpendanaan hijau yang mewajibkan EPD dan data karbon terembodi",
+    "Tarif CBAM atas ekspor semen ke Uni Eropa — biaya per ton yang tergerus langsung dari margin",
+    "Pengerjaan ulang & pemborosan material di lapangan yang tidak pernah terukur sebagai biaya karbon maupun biaya Rupiah"
+   ],
+   "regulatory": "Global: EU CBAM 2026 secara eksplisit mencakup semen sebagai produk terdampak; permintaan EPD dan pengungkapan embodied carbon meningkat di rantai pasok konstruksi internasional dan pendanaan proyek hijau. Indonesia: Peraturan Presiden 98/2021 (Nilai Ekonomi Karbon), Bursa Karbon Indonesia, SNI green cement, kriteria Bangunan Gedung Hijau (Permen PUPR), serta arah green procurement pemerintah.",
+   "howApply": [
+    "Unggah data produksi — konsumsi bahan bakar kiln, rasio klinker, listrik, dan bill of material proyek — melalui onboarding Glyiv yang dipandu langkah demi langkah",
+    "Glyiv menghitung karbon terembodi per ton semen dan per proyek, selaras GHG Protocol & ISO 14064, dalam format yang siap menjadi dasar EPD",
+    "Dapatkan 'lembar karbon material' yang bisa dilampirkan ke dokumen tender dan negosiasi dengan kontraktor internasional",
+    "Kunci penghematan: dashboard menandai kiln & batch paling boros terlebih dahulu, lalu sisa emisi yang sulit dipangkas ditutup dengan offset pohon tertokenisasi"
+   ],
+   "demoIdea": "Dashboard 'Embodied Carbon per Proyek': untuk sebuah pabrik semen dan satu proyek konstruksi, tampilkan kgCO2 per ton semen dan per m3 beton, dipecah antara kalsinasi vs energi; simulator CBAM menghitung estimasi tagihan per kargo ekspor pada harga sertifikat berjalan; dan panel 'Menang Tender' yang menunjukkan seberapa jauh jejak karbon material Anda memenuhi ambang proyek hijau vs pesaing.",
+   "stats": [
+    {
+     "n": "7–8%",
+     "label": "kontribusi produksi semen terhadap total emisi CO2 antropogenik global",
+     "source": "Nature Scientific Data / Statista, 2024"
+    },
+    {
+     "n": "±900 kg",
+     "label": "emisi CO2 per ton semen yang diproduksi — setara 88% emisi campuran beton rata-rata",
+     "source": "Environmental impact of concrete (tinjauan literatur), 2024"
+    },
+    {
+     "n": "EUR 75,36",
+     "label": "harga sertifikat CBAM per ton CO2e (Q1 2026); semen termasuk produk yang terkena",
+     "source": "Fastmarkets / Komisi Eropa, 2026"
+    }
+   ],
+   "_cluster": "Industri Berat"
+  },
+  {
+   "key": "manufaktur",
+   "name": "Manufaktur",
+   "hook": "80% jejak karbon Anda bukan di pabrik Anda — ada di rantai pasok. Kami membantu Anda melihatnya.",
+   "why": "Manufaktur menghubungkan ratusan pemasok menjadi satu produk, dan di situlah letak beban karbon terbesarnya. Bagi kebanyakan perusahaan manufaktur, emisi Scope 3 (rantai pasok) mencakup 70–90% dari total jejak karbon — jauh melampaui emisi pabrik sendiri. Merek global yang menjadi pembeli Anda kini menagih data karbon produk kepada seluruh pemasoknya. Pemasok Indonesia yang bisa menyerahkan angka karbon per produk yang kredibel akan menjadi 'preferred supplier'; yang tidak bisa, digantikan. Mengelola karbon rantai pasok kini adalah syarat untuk tetap berada di dalam rantai pasok global itu sendiri.",
+   "costAngle": "Scope 3 yang tak terukur adalah risiko dan biaya yang tak terlihat. Analisis CDP 2024 menemukan emisi rantai pasok rata-rata 11,4 kali lipat gabungan emisi Scope 1 & 2 sebuah perusahaan — artinya sebagian besar eksposur biaya karbon Anda tersembunyi di pembelian bahan, logistik, dan energi pemasok. Ketika rantai pasok dipetakan, terlihat pemasok berintensitas tinggi yang menaikkan jejak produk akhir, bahan baku boros energi yang bisa disubstitusi, dan lini yang tidak efisien. Tanpa peta ini, Anda menanggung tarif CBAM atas komponen ekspor, kehilangan kontrak dari merek yang mewajibkan Product Carbon Footprint, dan membayar energi yang terbuang tanpa pernah tahu di mana.",
+   "hiddenDrains": [
+    "Pemasok tier-2/tier-3 berintensitas karbon tinggi yang diam-diam menaikkan jejak — dan harga risiko — produk akhir Anda",
+    "Kehilangan kontrak dari merek global yang mewajibkan Product Carbon Footprint per SKU sebagai syarat pembelian",
+    "Tarif CBAM atas komponen besi, baja, aluminium & produk turunan yang diekspor ke Uni Eropa",
+    "Energi & bahan baku terbuang di lini produksi yang tidak pernah dihitung sebagai biaya karbon per unit"
+   ],
+   "regulatory": "Global: EU CBAM 2026 menjangkau komponen dan produk turunan besi/baja/aluminium; standar pengungkapan seperti IFRS S2/ISSB dan CSRD Uni Eropa mendorong pelaporan Scope 3 sepanjang rantai nilai; merek global menuntut Product Carbon Footprint dari pemasok. Indonesia: Peraturan Presiden 98/2021 (Nilai Ekonomi Karbon), Bursa Karbon Indonesia, dan meningkatnya persyaratan ESG dari pembeli dan pemodal untuk industri berorientasi ekspor.",
+   "howApply": [
+    "Petakan pemasok dan bill of material Anda ke dalam Glyiv lewat onboarding terpandu — mulai dari data primer yang Anda punya, tanpa menunggu semua pemasok siap",
+    "Glyiv menghitung Scope 1, 2 & 3 per produk/SKU selaras GHG Protocol & ISO 14064, lengkap dengan jejak audit yang bisa diserahkan ke merek pembeli",
+    "Terima 'Product Carbon Footprint' siap-pakai yang memenuhi syarat pengadaan pelanggan global dan memperkuat posisi Anda sebagai preferred supplier",
+    "Kunci penghematan: dashboard menyorot hotspot pemasok & lini paling boros lebih dulu, lalu sisa emisi ditutup dengan offset pohon tertokenisasi yang transparan"
+   ],
+   "demoIdea": "Dashboard 'Peta Karbon Rantai Pasok': satu produk manufaktur ekspor dipecah menjadi kontribusi karbon per pemasok dan per komponen (treemap), dengan tiga hotspot terbesar disorot; panel 'Product Carbon Footprint per SKU' yang bisa diekspor sebagai lembar bukti untuk pembeli; dan simulator yang menunjukkan berapa jejak & tagihan CBAM turun bila satu pemasok berintensitas tinggi diganti atau didekarbonisasi.",
+   "stats": [
+    {
+     "n": "70–90%",
+     "label": "porsi emisi Scope 3 (rantai pasok) dari total jejak karbon perusahaan manufaktur pada umumnya",
+     "source": "Normative / Etifor, 2024"
+    },
+    {
+     "n": "11,4x",
+     "label": "rata-rata emisi rantai pasok dibanding gabungan Scope 1 & 2 (analisis 23.000+ pengungkapan korporat)",
+     "source": "CDP, 2024"
+    },
+    {
+     "n": "97,5%",
+     "label": "faktor CBAM 2026 yang harus ditanggung importir atas emisi terembodi di atas benchmark — menekan komponen ekspor manufaktur",
+     "source": "Fastmarkets / Komisi Eropa, 2026"
+    }
+   ],
+   "_cluster": "Industri Berat"
+  },
+  {
+   "key": "sawit-agri",
+   "name": "Sawit & Agribisnis",
+   "hook": "Kebun Anda sudah menghijaukan dunia. Sekarang buktikan lewat data — sebelum pasar memintanya.",
+   "why": "Sawit adalah tulang punggung ekspor Indonesia, menyumbang lebih dari USD 22 miliar per tahun dan menopang jutaan penghidupan petani. Tapi pasar tujuan terbesar kini tidak lagi hanya membeli minyak — mereka membeli bukti bebas deforestasi. Tanpa jejak karbon dan lacak-balak (traceability) yang terverifikasi, komoditas terbaik pun bisa tertahan di pelabuhan, kehilangan premium harga, atau tersingkir dari rantai pasok global. Akuntansi karbon bukan beban kepatuhan; ia adalah paspor akses pasar dan alat untuk mengubah keunggulan agronomi Indonesia menjadi keunggulan komersial yang tak terbantahkan.",
+   "costAngle": "Mengukur karbon menyoroti kebocoran uang yang selama ini dianggap 'biaya operasional wajar'. Di sawit, sumber terbesar sering tersembunyi di tiga tempat: emisi metana dari kolam limbah pabrik (POME) yang sebenarnya bisa ditangkap dan diubah jadi energi/biogas berbiaya nol bahan bakar; boros solar pada genset dan angkutan TBS karena rute serta beban mesin tak terpantau; dan yang paling mahal — kehilangan premium ekspor serta akses pembiayaan hijau karena tidak bisa membuktikan status bebas deforestasi. Ketika semua terukur dalam satu dashboard, angka-angka ini berubah dari 'biaya tak terlihat' menjadi peluang penghematan dan pendapatan baru yang konkret.",
+   "hiddenDrains": [
+    "Metana dari kolam limbah pabrik (POME) yang terbuang begitu saja, padahal bisa ditangkap jadi biogas dan menekan biaya energi",
+    "Konsumsi solar berlebih pada genset pabrik dan armada angkut TBS akibat rute serta efisiensi mesin yang tidak terukur",
+    "Hilangnya premium harga dan risiko penolakan muatan ekspor karena tidak ada bukti lacak-balak & bebas deforestasi",
+    "Biaya pembiayaan lebih mahal (bunga & syarat) karena bank/investor menuntut data ESG yang belum bisa disajikan"
+   ],
+   "regulatory": "Global: EU Deforestation Regulation (EUDR) mewajibkan bukti bebas deforestasi dengan geolokasi plot untuk produk sawit — pemberlakuan penuh bagi perusahaan besar akhir 2025 dan pelaku kecil pertengahan 2026; pasar lain menyiapkan aturan serupa. Indonesia: ISPO (Sertifikasi Perkebunan Kelapa Sawit Berkelanjutan) kini wajib, ditambah komitmen NDC dan skema Nilai Ekonomi Karbon (NEK) yang membuka bursa karbon domestik. Arahnya satu: tanpa data karbon & lacak-balak yang rapi, akses pasar dan insentif menyusut.",
+   "howApply": [
+    "Petakan aset & kebun: unggah data plot, pabrik, dan armada — Glyiv membangun garis dasar (baseline) karbon Anda tanpa perlu tim ahli internal",
+    "Hubungkan sumber data operasional (produksi TBS, konsumsi solar, POME) agar jejak karbon terhitung otomatis, selaras standar global GHG Protocol/ISO 14064",
+    "Dapatkan laporan siap-audit dan lacak-balak berbasis geolokasi untuk memenuhi permintaan pembeli & regulator ekspor",
+    "Ubah pengurangan emisi jadi nilai: akses pembiayaan hijau dan offset pohon tertokenisasi untuk memperkuat posisi tawar Anda"
+   ],
+   "demoIdea": "Dashboard 'Peta Kebun Bebas Deforestasi': peta interaktif berisi titik-titik plot ber-geolokasi berwarna hijau/kuning/merah sesuai status kepatuhan EUDR, dengan panel intensitas karbon per ton CPO, meteran potensi tangkapan metana POME (dan estimasi penghematan energi dari biogas), tren konsumsi solar armada, serta tombol 'Ekspor Laporan Siap-Audit' untuk pembeli EU.",
+   "stats": [
+    {
+     "n": "USD 22,67 miliar",
+     "label": "nilai ekspor minyak sawit Indonesia 2023 — aset ekspor yang harus dilindungi dengan bukti keberlanjutan",
+     "source": "Statista, 2024"
+    },
+    {
+     "n": "85%",
+     "label": "pangsa Indonesia + Malaysia atas produksi minyak sawit dunia — sekaligus sorotan utama regulasi deforestasi global",
+     "source": "CSIS, 2024"
+    },
+    {
+     "n": "41%",
+     "label": "porsi pasokan sawit dari petani swadaya yang paling rentan tersingkir tanpa sistem lacak-balak digital",
+     "source": "IICA / Analisis EUDR, 2024"
+    }
+   ],
+   "_cluster": "Operasional"
+  },
+  {
+   "key": "logistik-transport",
+   "name": "Logistik & Transportasi",
+   "hook": "Setiap liter solar yang terbakar sia-sia adalah rupiah yang menguap. Kami buat penguapan itu terlihat.",
+   "why": "Logistik adalah urat nadi ekonomi Indonesia — tapi juga salah satu penyumbang emisi terbesar. Sektor transportasi menyumbang sekitar 25% emisi energi nasional, dan angkutan jalan mendominasi hampir seluruhnya. Bagi operator armada, emisi Scope 1 (pembakaran solar) berbanding lurus dengan biaya bahan bakar — komponen ongkos terbesar yang paling sulit dikendalikan. Akuntansi karbon di sini bukan sekadar pelaporan; ia adalah sistem deteksi pemborosan bahan bakar secara real-time. Yang Anda ukur untuk iklim, Anda hemat untuk laba.",
+   "costAngle": "Di logistik, karbon dan biaya adalah dua sisi mata uang yang sama: hampir setiap kilogram CO2 berasal dari solar yang Anda beli. Mengukur emisi per kendaraan, per rute, dan per pengiriman langsung menelanjangi pemborosan yang selama ini tenggelam dalam tagihan bahan bakar gabungan — mesin idle berjam-jam, rute memutar, muatan kosong pada perjalanan balik, dan ban/perawatan buruk yang menambah konsumsi. Selain itu, pelanggan korporat besar kini menuntut data emisi Scope 3 dari vendor logistiknya; yang tak bisa menyediakannya kehilangan kontrak. Karbon yang terukur = solar yang dihemat + kontrak yang dipertahankan.",
+   "hiddenDrains": [
+    "Waktu idle mesin (menunggu bongkar-muat) yang membakar solar tanpa memindahkan satu barang pun",
+    "Rute tidak optimal dan perjalanan balik bermuatan kosong — kilometer yang dibayar penuh tapi menghasilkan setengah",
+    "Konsumsi bahan bakar membengkak akibat perawatan armada & tekanan ban yang tak terpantau",
+    "Kehilangan kontrak korporat karena tidak mampu menyediakan laporan emisi Scope 3 yang diminta klien"
+   ],
+   "regulatory": "Global: standar pelaporan emisi rantai pasok (GHG Protocol Scope 3, ISO 14083 untuk emisi rantai transportasi) makin jadi syarat tender dari klien multinasional; CBAM EU menekan industri ekspor untuk merapikan jejak karbon logistiknya. Indonesia: target NDC sektor transportasi, program transisi energi & efisiensi bahan bakar, serta skema Nilai Ekonomi Karbon (NEK) yang membuka peluang insentif bagi armada rendah emisi. Klien besar makin menjadikan data emisi vendor sebagai syarat kontrak.",
+   "howApply": [
+    "Daftarkan armada Anda: masukkan data kendaraan & konsumsi bahan bakar — Glyiv menghitung emisi Scope 1 per kendaraan dan per rute secara otomatis",
+    "Integrasikan data operasional (telematika/GPS, jarak tempuh, muatan) untuk memetakan di mana solar terbakar sia-sia",
+    "Terima laporan emisi siap-serah untuk klien korporat, selaras GHG Protocol — jadikan alat menang tender, bukan beban",
+    "Kompensasi emisi sisa lewat offset pohon tertokenisasi dan tampilkan komitmen hijau yang bisa diverifikasi ke pelanggan"
+   ],
+   "demoIdea": "Dashboard 'Kendali Armada & Bahan Bakar': peta rute langsung dengan sorotan segmen boros bahan bakar (idle & memutar) berwarna merah, peringkat kendaraan dari paling boros ke paling efisien, konversi otomatis liter solar → biaya Rupiah → kg CO2, tren emisi per pengiriman, dan kartu 'Estimasi Penghematan Bulan Ini' bila rekomendasi rute diterapkan.",
+   "stats": [
+    {
+     "n": "±25%",
+     "label": "kontribusi sektor transportasi terhadap total emisi energi nasional Indonesia",
+     "source": "IESR, 2024/2025"
+    },
+    {
+     "n": "202 juta ton CO2e",
+     "label": "emisi tahunan sektor transportasi Indonesia — mayoritas dari pembakaran solar & bensin yang juga jadi biaya operator",
+     "source": "IESR, 2024/2025"
+    },
+    {
+     "n": "~90%",
+     "label": "porsi emisi transportasi yang berasal dari angkutan jalan — arena utama penghematan bahan bakar armada",
+     "source": "WRI Indonesia / IESR"
+    }
+   ],
+   "_cluster": "Operasional"
+  },
+  {
+   "key": "fnb-ritel",
+   "name": "F&B & Ritel",
+   "hook": "Setiap outlet punya jejak karbon — dan biaya tersembunyi di baliknya. Kini Anda bisa mengukurnya, per outlet.",
+   "why": "F&B dan ritel adalah wajah ekonomi keseharian Indonesia — ribuan gerai, jutaan transaksi, margin yang tipis dan berharga. Justru karena marginnya ketat, setiap kebocoran kecil di listrik, gas, dan bahan baku yang terbuang berdampak besar pada laba. Di sinilah Glyiv memulai: menjadikan sistem operasi outlet bukan sekadar alat transaksi, tapi juga alat ukur jejak karbon per outlet. Mengukur karbon per outlet membuka mata pemilik pada biaya yang selama ini 'tak terlihat' dalam laporan bulanan gabungan — dan sekaligus menyiapkan brand untuk tuntutan konsumen serta korporat yang makin peduli keberlanjutan.",
+   "costAngle": "Di ritel & F&B, jejak karbon per gerai adalah cermin efisiensi biaya yang jujur. Mengukurnya menyoroti pemborosan yang tenggelam dalam tagihan gabungan: pendingin & AC yang menyala boros di jam sepi, freezer yang bocor dinginnya, dan — yang paling menyakitkan margin — bahan baku yang basi dan terbuang. Indonesia termasuk penghasil sampah makanan terbesar; setiap kilogram bahan yang dibuang adalah uang yang sudah dibeli lalu dibayar dua kali (biaya beli + biaya buang). Dengan membandingkan intensitas karbon antar gerai, pemilik langsung melihat outlet mana yang 'bocor' dan bisa menutupnya sebelum menggerus laba.",
+   "hiddenDrains": [
+    "Listrik pendingin, AC, dan pencahayaan yang menyala boros di luar jam ramai — beban tetap yang tak sebanding omzet",
+    "Bahan baku basi & susut (food waste): stok yang dibeli lalu dibuang, membebani margin dua kali",
+    "Perbedaan efisiensi antar gerai yang tak terdeteksi karena laporan biaya hanya dilihat secara gabungan",
+    "Kehilangan peluang kontrak & kemitraan dengan brand/korporat yang kini mensyaratkan data keberlanjutan pemasok"
+   ],
+   "regulatory": "Global: brand ritel & FMCG multinasional makin menuntut data emisi dari pemasok dan mitra gerai (Scope 3), sejalan GHG Protocol dan standar pelaporan keberlanjutan. Indonesia: target NDC, program efisiensi energi bangunan komersial, agenda pengurangan sampah makanan (Bappenas/KLHK), serta skema Nilai Ekonomi Karbon (NEK). Konsumen muda Indonesia pun makin memilih brand yang bisa membuktikan komitmen hijaunya — bukan sekadar mengklaim.",
+   "howApply": [
+    "Aktifkan di outlet: outlet yang memakai sistem Glyiv otomatis mulai membangun jejak karbon per outlet tanpa pekerjaan tambahan",
+    "Hubungkan tagihan listrik/gas & data stok agar konsumsi energi dan susut bahan baku terukur dan terbandingkan antar gerai",
+    "Pantau papan peringkat efisiensi gerai dan terima rekomendasi penghematan energi & pengurangan food waste yang konkret",
+    "Tampilkan komitmen hijau terverifikasi (offset pohon tertokenisasi) di gerai & kemasan untuk menarik pelanggan dan mitra korporat"
+   ],
+   "demoIdea": "Dashboard 'Peta Gerai & Jejak Outlet': papan peringkat outlet dari paling efisien ke paling boros berdasarkan kgCO2 per transaksi, kartu biaya energi & food waste per gerai dalam Rupiah, meteran 'jejak per menu', pembanding gerai-vs-gerai untuk menemukan yang bocor, serta badge 'Gerai Terverifikasi Hijau' yang siap ditampilkan ke pelanggan.",
+   "stats": [
+    {
+     "n": "23–48 juta ton/tahun",
+     "label": "sampah makanan Indonesia (2000–2019) — sebagian besar bahan baku terbeli yang lalu terbuang, langsung menggerus margin F&B & ritel",
+     "source": "Bappenas, 2021"
+    },
+    {
+     "n": "~4–5% PDB",
+     "label": "estimasi kerugian ekonomi tahunan akibat food loss & waste nasional — cerminan biaya yang bisa ditekan di tingkat gerai",
+     "source": "Bappenas, 2021"
+    },
+    {
+     "n": "Per gerai",
+     "label": "granularitas ukur karbon yang dibuka Glyiv lewat POS — mengubah laporan biaya gabungan yang buram menjadi sorotan pemborosan per outlet",
+     "source": "Glyiv"
+    }
+   ],
+   "_cluster": "Operasional"
+  }
+ ]
+}
