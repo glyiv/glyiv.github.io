@@ -280,7 +280,7 @@
       <h2>Pesan dari mejamu</h2>
       <p>Pindai QR di meja pakai kamera HP — tanpa unduh aplikasi.</p>
       <button class="cta green" onclick="show('v-login')">📷 Simulasikan Pindai QR</button>
-      <button class="cta ghost" onclick="openBooking()" style="margin-top:10px">📅 Belum di kafe? Booking meja + pesan dulu</button>
+      <button class="cta ghost" onclick="openBooking()" style="margin-top:10px">📅 Belum di lokasi? Booking meja + pesan dulu</button>
     </div>
   </section>
 
@@ -288,7 +288,7 @@
   <section class="view" id="v-book">
     <div class="topnav"><button class="back" onclick="show('v-scan')">‹</button><h2>Booking meja</h2></div>
     <div class="scroll pad" style="flex:1">
-      <p style="color:var(--dim);font-size:13px;margin:2px 0 16px;line-height:1.55">Belum di kafe? Amankan mejamu dulu — bisa di Lantai 2 — lalu pra-pesan menunya. Saat masakan siap & kamu sampai, tinggal tekan <b style="color:var(--mint)">"Saya sudah datang"</b> dan pramusaji antar ke meja.</p>
+      <p style="color:var(--dim);font-size:13px;margin:2px 0 16px;line-height:1.55">Belum di lokasi? Amankan mejamu dulu — bisa di Lantai 2 — lalu pra-pesan menunya. Saat masakan siap & kamu sampai, tinggal tekan <b style="color:var(--mint)">"Saya sudah datang"</b> dan pramusaji antar ke meja.</p>
       <div class="flrtab" id="flrTab">
         <button class="flrbtn on" data-fl="1" onclick="pickFloor(1)">Lantai 1</button>
         <button class="flrbtn" data-fl="2" onclick="pickFloor(2)">Lantai 2</button>
@@ -313,13 +313,13 @@
   <!-- HOME / CHAT -->
   <section class="view" id="v-home">
     <div class="appbar">
-      <div class="tbl"><b>Kafe Sayidan</b><span id="homeTbl">MEJA 07 · LANTAI 2</span></div>
+      <div class="tbl"><b>Outlet Sayidan</b><span id="homeTbl">MEJA 07 · LANTAI 2</span></div>
       <button class="pts" onclick="openMember()">🌿 <span id="ptsTop">0</span> poin</button>
     </div>
     <div class="liv-zone">
       <div class="liv-aura"></div>
       <div class="liv3d" id="liv" onclick="livPoke()"><canvas id="livHostCanvas"></canvas></div>
-      <div class="liv-name"><span class="on"></span> Gli · host kafemu</div>
+      <div class="liv-name"><span class="on"></span> Gli · host outletmu</div>
     </div>
     <div class="chat"><div class="msgs" id="msgs"></div></div>
     <div class="dock">
@@ -340,7 +340,7 @@
     <div class="backdrop" id="backdrop" onclick="closeSheet()"></div>
     <section class="sheet" id="sheet">
       <div class="grab"><div class="bar"></div></div>
-      <div class="shead"><h3>Menu Kafe Sayidan</h3></div>
+      <div class="shead"><h3>Menu Outlet Sayidan</h3></div>
       <div class="search">🔍<input id="searchInput" placeholder="Cari menu…" aria-label="Cari menu" oninput="renderMenu()"></div>
       <div class="cats" id="cats"></div>
       <div class="grid" id="grid"></div>
@@ -434,7 +434,7 @@
       <div class="celebrate">
         <div class="ptspop"><div class="n" id="earnPts">+0</div><div class="l">GREEN POINTS</div></div>
         <div class="donttl">Selamat menikmati! ☕</div>
-        <div style="font-size:13px;color:var(--dim);max-width:280px;margin:0 auto;line-height:1.5">Kamu baru aja dapat <b id="earnPts2" style="color:var(--gold)">0</b> Green Points. Yuk salurkan jadi aksi nyata buat Makassar 🌱</div>
+        <div style="font-size:13px;color:var(--dim);max-width:280px;margin:0 auto;line-height:1.5">Kamu baru aja dapat <b id="earnPts2" style="color:var(--gold)">0</b> Green Points. Yuk salurkan jadi aksi nyata 🌱</div>
       </div>
       <div class="pad"><div class="carbonline">🌍 <div>Pesanan ini ± <b id="doneCo2">0</b> kg CO₂e. Salurkan poin ke komunitas hijau untuk menebusnya secara nyata.</div></div></div>
     </div>
@@ -447,7 +447,7 @@
   <!-- GREEN ALLOC -->
   <section class="view" id="v-green">
     <div class="topnav"><button class="back" onclick="show('v-done')">‹</button><h2>Salurkan Green Points</h2></div>
-    <div class="sub">Pilih komunitas hijau lokal Makassar 🌏</div>
+    <div class="sub">Pilih komunitas hijau mitra kami 🌏</div>
     <div class="scroll pad" style="flex:1">
       <div style="display:flex;align-items:center;gap:8px;background:var(--surf);border:1px solid var(--line);border-radius:13px;padding:11px 13px;margin-bottom:13px">
         <span style="font-size:19px">🌿</span><div style="flex:1;font-size:12.5px;font-weight:600">Poin tersedia</div>
@@ -508,30 +508,30 @@
 
 <script>
 const MENU=[
- {id:'teh',nm:'Teh Dingin Markisa',pr:18000,cat:'Minuman',co2:0.2,low:true,em:'🧊',desc:'Segar khas Sulawesi',kcal:90,sugar:16,custom:[['Gula','sugar'],['Es','ice']]},
+ {id:'teh',nm:'Teh Dingin Markisa',pr:18000,cat:'Minuman',co2:0.2,low:true,em:'🧊',desc:'Segar khas nusantara',kcal:90,sugar:16,custom:[['Gula','sugar'],['Es','ice']]},
  {id:'kopsu',nm:'Kopi Susu Gula Aren',pr:28000,cat:'Minuman',co2:0.5,low:false,em:'☕',desc:'Manis legit, bikin melek',kcal:180,sugar:22,custom:[['Gula','sugar'],['Susu','milk'],['Es','ice']]},
  {id:'matcha',nm:'Matcha Cream Shake',pr:32000,cat:'Minuman',co2:0.7,low:false,em:'🍵',desc:'Creamy & menenangkan',kcal:250,sugar:28,custom:[['Gula','sugar'],['Susu','milk']],stock:false},
  {id:'escok',nm:'Es Coklat Spesial',pr:25000,cat:'Minuman',co2:0.6,low:false,em:'🥤',desc:'Coklat dingin pekat',kcal:220,sugar:30,custom:[['Gula','sugar'],['Susu','milk'],['Es','ice']]},
  {id:'air',nm:'Air Mineral',pr:8000,cat:'Minuman',co2:0.1,low:true,em:'💧',desc:'Paling hemat & ramah bumi',kcal:0,sugar:0},
  {id:'mie',nm:'Mie Goreng Spesial',pr:27000,cat:'Makanan',co2:0.9,low:false,em:'🍜',desc:'Pedas gurih + telur',kcal:520,sugar:5,custom:[['Pedas','spice'],['Garam','salt'],['MSG','msg']]},
- {id:'nasgor',nm:'Nasi Goreng Merah',pr:30000,cat:'Makanan',co2:1.3,low:false,em:'🍚',desc:'Khas Makassar, mantap!',kcal:600,sugar:6,custom:[['Pedas','spice'],['Garam','salt'],['MSG','msg']]},
+ {id:'nasgor',nm:'Nasi Goreng Merah',pr:30000,cat:'Makanan',co2:1.3,low:false,em:'🍚',desc:'Resep khas, mantap!',kcal:600,sugar:6,custom:[['Pedas','spice'],['Garam','salt'],['MSG','msg']]},
  {id:'salad',nm:'Salad Buah Segar',pr:24000,cat:'Makanan',co2:0.3,low:true,em:'🥗',desc:'Buah lokal segar',kcal:160,sugar:18},
- {id:'epe',nm:'Pisang Epe Keju',pr:22000,cat:'Dessert',co2:0.4,low:true,em:'🍌',desc:'Street food ikonik Makassar',kcal:300,sugar:24,custom:[['Keju','cheese'],['Gula','sugar']]},
+ {id:'epe',nm:'Pisang Epe Keju',pr:22000,cat:'Dessert',co2:0.4,low:true,em:'🍌',desc:'Street food ikonik',kcal:300,sugar:24,custom:[['Keju','cheese'],['Gula','sugar']]},
  {id:'roti',nm:'Roti Bakar Srikaya',pr:20000,cat:'Dessert',co2:0.6,low:false,em:'🍞',desc:'Hangat, manis srikaya',kcal:280,sugar:20}
 ];
 let custOpts={}; // id -> {summary, kcal, sugar}
 const CATS=['Semua','Minuman','Makanan','Dessert'];
 const COMMS=[
- {id:'mangrove',em:'🌱',nm:'Mangrove Lantebung',desc:'Reforestasi mangrove pesisir Makassar',per:100,unit:'bibit mangrove'},
- {id:'losari',em:'🏖️',nm:'Bersih Pantai Losari',desc:'Aksi pembersihan & edukasi pesisir',per:50,unit:'kg sampah terangkat'},
- {id:'hutan',em:'🌳',nm:'Hutan Kota Makassar',desc:'Penghijauan ruang terbuka kota',per:120,unit:'pohon kota'},
+ {id:'mangrove',em:'🌱',nm:'Restorasi Mangrove Pesisir',desc:'Reforestasi mangrove pesisir',per:100,unit:'bibit mangrove'},
+ {id:'pesisir',em:'🏖️',nm:'Bersih Pantai & Pesisir',desc:'Aksi pembersihan & edukasi pesisir',per:50,unit:'kg sampah terangkat'},
+ {id:'hutan',em:'🌳',nm:'Hutan Kota',desc:'Penghijauan ruang terbuka kota',per:120,unit:'pohon kota'},
  {id:'gorong',em:'🧹',nm:'Bersih Gorong-Gorong Warga',desc:'Pembersihan saluran lokal cegah banjir',per:60,unit:'meter saluran bersih'},
- {id:'sampah',em:'♻️',nm:'Bank Sampah Makassar',desc:'Daur ulang & ekonomi sirkular warga',per:80,unit:'kg didaur ulang'}
+ {id:'sampah',em:'♻️',nm:'Bank Sampah',desc:'Daur ulang & ekonomi sirkular warga',per:80,unit:'kg didaur ulang'}
 ];
 // Chat is proxied server-side (key NOT in client). Set the Worker URL in assets/js/config.js.
 const GROQ_PROXY=(window.GLYIV_CHAT_PROXY||"").trim();
 const GROQ_MODEL="llama-3.3-70b-versatile";
-const SYS=`Kamu adalah "Gli", AI host ramah di Kafe Sayidan Makassar (ditenagai Glyiv).
+const SYS=`Kamu adalah "Gli", AI host ramah di Outlet Sayidan (ditenagai Glyiv).
 Gaya: Bahasa Indonesia santai/akrab, hangat, ringkas (maks 2-3 kalimat). Boleh 1 emoji. Hari ini cuaca terik/panas. Pelanggan: Fauzan, pengunjung tetap yang suka kerja di lantai 2.
 Tugas: bantu pilih menu sesuai mood/cuaca, sesekali ingatkan opsi rendah karbon (ditandai 🌿) yang menambah Green Points.
 ATURAN: Balas SINGKAT. JANGAN mengarang menu di luar daftar. Kalau Fauzan tertarik memesan, sebut nama menunya dengan JELAS (persis seperti di daftar) biar tombol Tambah muncul. Jangan sebut harga kecuali ditanya.
@@ -539,7 +539,7 @@ Menu (nama | kategori | rendah-karbon?):
 ${MENU.map(m=>`- ${m.nm} | ${m.cat}${m.low?' | rendah karbon 🌿':''}`).join('\n')}`;
 
 let cart={},activeCat='Semua',chatHistory=[],apiUp=true,selComm=null,cameFromHome=false;
-let member={points:240,allocated:180,co2:3.6,orders:4,hist:[{em:'🌱',nm:'Mangrove Lantebung',sub:'20 Mei 2026',amt:'-120'},{em:'🏖️',nm:'Bersih Pantai Losari',sub:'8 Mei 2026',amt:'-60'}]};
+let member={points:240,allocated:180,co2:3.6,orders:4,hist:[{em:'🌱',nm:'Restorasi Mangrove Pesisir',sub:'20 Mei 2026',amt:'-120'},{em:'🏖️',nm:'Bersih Pantai & Pesisir',sub:'8 Mei 2026',amt:'-60'}]};
 
 function show(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');const s=document.querySelector('#'+id+' .scroll');if(s)s.scrollTop=0;}
 function enterApp(){updateTableLabels();show('v-home');if(chatHistory.length===0)setTimeout(()=>livSay("Halooo Fauzan! 👋 Seneng kamu mampir lagi. Di luar lagi terik banget nih — mau aku rekomendasiin yang seger?",['teh','escok']),450);}
@@ -567,14 +567,14 @@ async function sendChat(){
 function fallback(text){const t=text.toLowerCase();const has=(...k)=>k.some(w=>t.includes(w));
  if(has('halo','hai','hi ','pagi','siang','sore','malam'))return{text:"Haii Fauzan! 👋 Mau yang seger, yang ngenyangin, atau yang manis?",ids:['teh','nasgor','epe']};
  if(has('seger','segar','dingin','haus','terik','panas','adem'))return{text:"Pas banget lagi terik! Teh Dingin Markisa 🌿 paling seger sekaligus rendah karbon. Es Coklat juga mantap.",ids:['teh','escok']};
- if(has('laris','best','rekomen','enak','bingung','favorit'))return{text:"Yang paling laris Kopi Susu Gula Aren & Nasi Goreng Merah khas Makassar 🔥. Mau coba?",ids:['kopsu','nasgor']};
+ if(has('laris','best','rekomen','enak','bingung','favorit'))return{text:"Yang paling laris Kopi Susu Gula Aren & Nasi Goreng Merah spesial 🔥. Mau coba?",ids:['kopsu','nasgor']};
  if(has('capek','lelah','ngantuk','pusing','mood','penat','lemes'))return{text:"Butuh recharge ya 😮‍💨 Kopi Susu Gula Aren bikin melek, atau Matcha biar rileks.",ids:['kopsu','matcha']};
  if(has('makan','lapar','laper','nasi','mie','kenyang'))return{text:"Laper nih 🍴 Nasi Goreng Merah juara, atau Mie Goreng Spesial yang pedas gurih.",ids:['nasgor','mie']};
- if(has('manis','dessert','cemilan','ngemil'))return{text:"Yang manis: Pisang Epe Keju 🌿 ikonik Makassar, atau Roti Bakar Srikaya yang hangat.",ids:['epe','roti']};
+ if(has('manis','dessert','cemilan','ngemil'))return{text:"Yang manis: Pisang Epe Keju 🌿 yang ikonik, atau Roti Bakar Srikaya yang hangat.",ids:['epe','roti']};
  if(has('murah','hemat','irit'))return{text:"Hemat tapi oke: Air Mineral 🌿 atau Teh Dingin Markisa. Mau aku tambahin?",ids:['air','teh']};
- if(has('karbon','hijau','lingkungan','green','rendah','emisi'))return{text:"Mantap peduli! 🌿 Opsi rendah karbon: Teh Markisa, Pisang Epe, Salad Buah, Air Mineral. Green Points-nya bisa kamu salurkan ke komunitas Makassar.",ids:['teh','salad','epe']};
+ if(has('karbon','hijau','lingkungan','green','rendah','emisi'))return{text:"Mantap peduli! 🌿 Opsi rendah karbon: Teh Markisa, Pisang Epe, Salad Buah, Air Mineral. Green Points-nya bisa kamu salurkan ke komunitas mitra.",ids:['teh','salad','epe']};
  if(has('kopi','kafein','ngopi'))return{text:"Kopi Susu Gula Aren andalan kita — manisnya pas dari gula aren asli ☕",ids:['kopsu']};
- if(has('teh','tea'))return{text:"Teh Dingin Markisa 🌿 khas Sulawesi, seger pas cuaca terik. Tambah ya?",ids:['teh']};
+ if(has('teh','tea'))return{text:"Teh Dingin Markisa 🌿 yang segar, pas cuaca terik. Tambah ya?",ids:['teh']};
  if(has('makasih','terima kasih','thanks'))return{text:"Sama-sama Fauzan! 🤗 Tinggal buka Menu atau tekan Tambah ya.",ids:[]};
  if(has('pesan','order','beli','mau'))return{text:"Siap! Tap menu yang aku saranin, atau buka panel Menu di bawah 📋",ids:['nasgor','teh']};
  return{text:"Aku catat ya 🌱 Kamu lagi pengen yang seger, yang ngenyangin, atau yang manis?",ids:['teh','nasgor','epe']};}
@@ -716,7 +716,7 @@ function goDone(){const t=totals();member.points+=t.pts;member.co2=Math.round((m
 
 function openGreen(){selComm=null;document.getElementById('greenAvail').textContent=member.points;document.getElementById('impactNote').style.display='none';document.getElementById('greenCta').classList.add('disabled');const list=document.getElementById('commList');list.innerHTML='';COMMS.forEach(c=>{const el=document.createElement('div');el.className='commcard';el.dataset.id=c.id;el.innerHTML=`<div class="em2">${c.em}</div><div class="ct"><b>${c.nm}</b><small>${c.desc}</small></div><div class="pick">✓</div>`;el.onclick=()=>selectComm(c.id);list.appendChild(el);});show('v-green');}
 function selectComm(id){selComm=id;document.querySelectorAll('.commcard').forEach(e=>e.classList.toggle('sel',e.dataset.id===id));const c=COMMS.find(x=>x.id===id);const u=Math.max(1,Math.round(member.points/c.per));const n=document.getElementById('impactNote');n.style.display='block';n.innerHTML=`🌍 ${member.points} poin kamu → <b>${u} ${c.unit}</b> untuk <b>${c.nm}</b>. Akuntansi transparan & dapat diaudit.`;document.getElementById('greenCta').classList.remove('disabled');}
-function allocate(){if(!selComm)return;const c=COMMS.find(x=>x.id===selComm);const u=Math.max(1,Math.round(member.points/c.per));member.allocated+=member.points;member.hist.unshift({em:c.em,nm:c.nm,sub:'Baru saja',amt:'-'+member.points});document.getElementById('greenResult').innerHTML=`Kamu menyalurkan <b>${member.points} Green Points</b> ke <b>${c.nm}</b> ${c.em}<br>→ <b>${u} ${c.unit}</b> untuk Makassar yang lebih hijau.`;member.points=0;document.getElementById('ptsTop').textContent=member.points;show('v-greendone');confetti('confetti2');}
+function allocate(){if(!selComm)return;const c=COMMS.find(x=>x.id===selComm);const u=Math.max(1,Math.round(member.points/c.per));member.allocated+=member.points;member.hist.unshift({em:c.em,nm:c.nm,sub:'Baru saja',amt:'-'+member.points});document.getElementById('greenResult').innerHTML=`Kamu menyalurkan <b>${member.points} Green Points</b> ke <b>${c.nm}</b> ${c.em}<br>→ <b>${u} ${c.unit}</b> untuk bumi yang lebih hijau.`;member.points=0;document.getElementById('ptsTop').textContent=member.points;show('v-greendone');confetti('confetti2');}
 
 function openMember(){cameFromHome=document.getElementById('v-home').classList.contains('active');document.getElementById('memBal').innerHTML=member.points+' <small>Green Points</small>';document.getElementById('memAlloc').textContent=member.allocated;document.getElementById('memCo2').textContent=member.co2;document.getElementById('memOrders').textContent=member.orders;if(member.orders>=5)document.getElementById('bdgLoyal').style.opacity='1';const h=document.getElementById('memHist');h.innerHTML='';member.hist.forEach(x=>{const r=document.createElement('div');r.className='histrow';r.innerHTML=`<div class="hi">${x.em}</div><div class="ht"><b>${x.nm}</b><small>${x.sub}</small></div><div class="amt">${x.amt}</div>`;h.appendChild(r);});show('v-member');}
 function backFromMember(){show('v-home');}

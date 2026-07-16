@@ -45,7 +45,7 @@ window.KABAR = [
       { t: "p", x: "Studi independen menemukan mayoritas kredit hutan tertentu bermasalah — dari proyek lama yang di-recycle hingga klaim yang tak layak standar internasional. Akibatnya, pembeli serius jadi skeptis, dan istilah <em>'kredit zombie'</em> melekat pada seluruh kategori <a data-cite=\"cp\">1</a>." },
       { t: "pull", x: "Kami originate, bukan bridge. Aset pohon nyata + dMRV terverifikasi + token ter-izin — bukan spekulasi." },
       { t: "p", x: "Pendekatan Glyiv membalik urutannya. Setiap pohon dipantau lewat <strong>dMRV berbasis satelit</strong> (indeks kehijauan NDVI, tingkat kelangsungan), lalu serapan karbonnya ter-tokenisasi sebagai aset dunia-nyata (RWA) dengan standar <strong>ERC-3643</strong> — identitas on-chain, KYC/AML di level kontrak. Retirement bersifat satu-arah, mencegah double-counting, dan terekonsiliasi ke registri resmi." },
-      { t: "stat", n: "NDVI 0.82", l: "Rata-rata kesehatan tegakan Mangrove Lantebung — dipantau, bukan diklaim", s: "Ilustrasi pilot · dMRV Glyiv" },
+      { t: "stat", n: "NDVI 0.82", l: "Rata-rata kesehatan tegakan Restorasi Mangrove Pesisir — dipantau, bukan diklaim", s: "Ilustrasi pilot · dMRV Glyiv" },
       { t: "h2", x: "Dari klaim ke bukti" },
       { t: "p", x: "Perbedaannya bukan pemasaran, tapi <strong>data lineage</strong>: siapa pun bisa menelusuri sebuah kredit hingga ke petak lahan, tanggal pemantauan, dan tanda tangan on-chain-nya. Itulah yang memisahkan offset yang bermakna dari yang sekadar menenangkan hati." },
     ],

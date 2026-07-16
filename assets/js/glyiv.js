@@ -140,15 +140,15 @@
   // the API key is NOT in this client code. Set the Worker URL in assets/js/config.js.
   const GROQ_PROXY = (window.GLYIV_CHAT_PROXY || "").trim();
   const GROQ_MODEL = "llama-3.3-70b-versatile";
-  const SYSTEM_PROMPT = `Kamu adalah "Liv", AI host & pemandu dari Glyiv — sistem operasi kafe yang cerdas-karbon, buatan tim Makassar.
+  const SYSTEM_PROMPT = `Kamu adalah "Liv", AI host & pemandu dari Glyiv — sistem operasi kafe yang cerdas-karbon, buatan tim Indonesia.
 Gaya: Bahasa Indonesia santai, hangat, ringkas (maks 2-4 kalimat), ramah ke calon pengunjung kafe MAUPUN investor. Boleh 1 emoji sesekali. Jangan kaku/formal, jangan bertele-tele.
 Tentang Glyiv yang HARUS kamu tahu:
 - Produk inti (skala awal): Glyiv POS untuk kafe — pesan lewat QR di meja tanpa antri ke kasir, ada AI host (kamu, Liv) yang rekomendasi menu sesuai mood/cuaca/preferensi, kustomisasi menu (gula/es/ukuran), info nutrisi, tracking pesanan (Diproses → Dimasak → Diantar → Selesai), booking meja, pre-order, cek stok.
-- Green Membership: tiap pembelian menyumbang ke komunitas hijau lokal Makassar (mangrove Lantebung, bersih Pantai Losari, hutan kota, bank sampah) secara transparan; pengguna dapat Green Points dan bisa lihat dampak nyatanya.
+- Green Membership: tiap pembelian menyumbang ke komunitas hijau mitra (restorasi mangrove, bersih pantai, hutan kota, bank sampah) secara transparan; pengguna dapat Green Points dan bisa lihat dampak nyatanya.
 - Green Receipt + Glyiv Carbon Engine: tiap struk digital menampilkan estimasi karbon per item (metode bertingkat Tier A/B/C, jujur soal ketidakpastian — bukan klaim "pasti/karbon netral").
 - Keunggulan: data karbon LEVEL-ITEM langsung dari sumber (POS kafe) — bank & tools lain cuma dapat data level-kategori. Itu data moat Glyiv.
 - Visi jangka panjang: jadi infrastruktur data karbon, e-wallet yang menampilkan karbon per item, marketplace Tree RWA + monitoring pohon (NDVI), sampai jadi Digital Public Infrastructure.
-- Traksi: prototipe pendahulu "Gryn" juara 3 Indibiz, akses pilot Pemkot Makassar, jaringan Walhi Makassar; survei UX memvalidasi orang malas antri & tertarik kontribusi hijau.
+- Traksi: prototipe pendahulu "Gryn" juara 3 Indibiz, akses pilot pemerintah kota, jaringan Walhi; survei UX memvalidasi orang malas antri & tertarik kontribusi hijau.
 ATURAN: Jangan mengarang fakta/angka di luar ini. Kalau ditanya hal teknis/bisnis, jawab to-the-point. Kalau cocok, ajak orang "coba demo" atau lihat halaman visi. Jangan menyebut kamu LLM/Groq.`;
 
   let chatHistory = [];
@@ -232,15 +232,15 @@ ATURAN: Jangan mengarang fakta/angka di luar ini. Kalau ditanya hal teknis/bisni
     if (has("antri", "kasir", "pesan", "order", "qr", "meja"))
       return "Di Glyiv kamu scan QR di meja, ngobrol sama aku buat pilih menu, lalu bayar via QRIS — tanpa turun ke kasir, bahkan di lantai 2. Mau coba? Klik 'Coba Demo' ya.";
     if (has("karbon", "carbon", "emisi", "hijau", "green", "lingkungan"))
-      return "Tiap pesanan dapat estimasi karbon per item (metode bertingkat, jujur soal ketidakpastian) dan sebagian dana mengalir transparan ke komunitas hijau Makassar. Itu inti Glyiv 🌿.";
+      return "Tiap pesanan dapat estimasi karbon per item (metode bertingkat, jujur soal ketidakpastian) dan sebagian dana mengalir transparan ke komunitas hijau mitra. Itu inti Glyiv 🌿.";
     if (has("membership", "poin", "point", "reward", "loyalty"))
       return "Green Membership: login, kumpulkan Green Points tiap pesan, dan salurkan ke proyek hijau lokal — kamu bisa lacak dampaknya secara nyata.";
     if (has("investor", "bisnis", "revenue", "model", "untung", "monet", "pendapatan"))
       return "Wedge-nya SaaS kafe (langganan per outlet ~Rp199k–799k) + modul green receipt, lalu jadi data karbon level-item, e-wallet, sampai Tree RWA. Detail lengkap ada di dokumen investor — cek tombol 'Untuk Investor'.";
     if (has("rwa", "pohon", "tree", "e-wallet", "ewallet", "wallet", "visi", "masa depan", "jangka panjang"))
       return "Jangka panjang Glyiv jadi infrastruktur: e-wallet ber-karbon, marketplace Tree RWA + monitoring pohon, hingga Digital Public Infrastructure. Lihat halaman Visi buat ceritanya 🌍.";
-    if (has("makassar", "tim", "team", "siapa"))
-      return "Glyiv dibangun tim Makassar (pendahulunya 'Gryn' juara 3 Indibiz), didukung akses pilot Pemkot Makassar & jaringan Walhi. Mulai dari kafe lokal, lalu seluruh Indonesia.";
+    if (has("tim", "team", "siapa", "pendiri"))
+      return "Glyiv dibangun tim Indonesia (pendahulunya 'Gryn' juara 3 Indibiz), didukung akses pilot pemerintah kota & jaringan Walhi. Dibangun untuk standar global.";
     if (has("demo", "coba", "cobain"))
       return "Mantap! Klik 'Coba Demo' untuk merasakan alur pesan dari meja — scan, ngobrol sama aku, pesan, bayar, lacak. Seru kok ✨";
     if (has("terima kasih", "makasih", "thanks", "mksh"))
@@ -380,7 +380,7 @@ ATURAN: Jangan mengarang fakta/angka di luar ini. Kalau ditanya hal teknis/bisni
       { em: "☕", nm: "Kopi Susu Gula Aren", cat: "Minuman", pr: 28000, kcal: 180, sugar: 22, co2: 0.5, params: [["Gula", "sugar"], ["Susu", "milk"], ["Es", "ice"]] },
       { em: "🍵", nm: "Matcha Cream Shake", cat: "Minuman", pr: 32000, kcal: 250, sugar: 28, co2: 0.7, params: [["Gula", "sugar"], ["Susu", "milk"]] },
       { em: "🥤", nm: "Es Coklat Spesial", cat: "Minuman", pr: 25000, kcal: 220, sugar: 30, co2: 0.6, params: [["Gula", "sugar"], ["Susu", "milk"], ["Es", "ice"]] },
-      { em: "🍚", nm: "Nasi Goreng Merah", cat: "Makanan · khas Makassar", pr: 30000, kcal: 600, sugar: 6, co2: 1.3, params: [["MSG", "msg"], ["Pedas", "spice"]] },
+      { em: "🍚", nm: "Nasi Goreng Merah", cat: "Makanan · khas nusantara", pr: 30000, kcal: 600, sugar: 6, co2: 1.3, params: [["MSG", "msg"], ["Pedas", "spice"]] },
       { em: "🍜", nm: "Mie Goreng Spesial", cat: "Makanan", pr: 27000, kcal: 520, sugar: 5, co2: 0.9, params: [["MSG", "msg"], ["Pedas", "spice"]] },
       { em: "🍌", nm: "Pisang Epe Keju", cat: "Dessert · rendah karbon 🌿", pr: 22000, kcal: 300, sugar: 24, co2: 0.4, params: [["Keju", "cheese"], ["Gula", "sugar"]] },
     ];
@@ -485,7 +485,7 @@ ATURAN: Jangan mengarang fakta/angka di luar ini. Kalau ditanya hal teknis/bisni
     const cards = $$(".gl-card", gl), dots = $$(".gl-rdot", gl);
     const regions = $$(".gl-reg", gl), routes = $$(".gl-route", gl), gnodes = $$(".gl-node", gl), gdots = $$(".gl-dot", gl);
     const regUnlock = { sulawesi: 1, jawa: 2, sumatra: 3, kalimantan: 3, papua: 3, nusa: 3, maluku: 3 };
-    const nodeUnlock = { makassar: 0, surabaya: 2, jakarta: 3, world: 4 };
+    const nodeUnlock = { seed: 0, surabaya: 2, jakarta: 3, world: 4 };
     const cover = [10, 20, 48, 80, 100];
     function setPhase(p) {
       gi = ((p % N) + N) % N;

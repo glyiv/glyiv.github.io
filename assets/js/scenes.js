@@ -258,16 +258,17 @@ function initGlobe(canvas) {
   const LIGHT = canvas.dataset.theme === "light";
   const BLEND = LIGHT ? THREE.NormalBlending : THREE.AdditiveBlending;
   const C = LIGHT ? {
-    ocean:0x2a8f79, oceanMap:["#4fbfa3","rgba(31,122,107,0)"], oceanOp:0.42,
-    land:0x0f5c43, landMap:["#1f8f6b","rgba(15,92,67,0)"], landOp:1,
-    shell:0xeef4f0, shellOp:0.35, edge:0x1f7a6b, edgeOp:0.14,
-    makassar:0xb0894f, node:0x1f7a6b, nodeTex:["#d8b06a","rgba(176,137,79,0)"],
-    arcDom:0x1f7a6b, arcGlob:0x2a8f79, pulseDom:0xb0894f, pulseGlob:0x1f7a6b
+    // deep-green sphere floating on white — no grey anywhere; surface stays bright green
+    ocean:0x2f9e7e, oceanMap:["#63d9b4","rgba(31,122,107,0)"], oceanOp:0.5,
+    land:0x9dffcd, landMap:["#c9ffe4","rgba(51,209,136,0)"], landOp:1,
+    shell:0x0d3b2b, shellOp:0.94, edge:0x2fbe86, edgeOp:0.22,
+    hub:0xc6a15b, node:0x8affc1, nodeTex:["#ffe9b8","rgba(198,161,91,0)"],
+    arcDom:0xc6a15b, arcGlob:0x1f7a6b, pulseDom:0xc6a15b, pulseGlob:0x33d188
   } : {
     ocean:0x1c7a52, oceanMap:["#7df1a6","rgba(31,174,107,0)"], oceanOp:0.26,
     land:0x33d188, landMap:["#aaffd0","rgba(51,209,136,0)"], landOp:0.95,
     shell:0x062016, shellOp:0.55, edge:0x33d188, edgeOp:0.06,
-    makassar:0xf5c451, node:0x8affc1, nodeTex:["#fff7e0","rgba(245,196,81,0)"],
+    hub:0xf5c451, node:0x8affc1, nodeTex:["#fff7e0","rgba(245,196,81,0)"],
     arcDom:0x8affc1, arcGlob:0x33d188, pulseDom:0xf5c451, pulseGlob:0x8affc1
   };
   const scene = new THREE.Scene();
@@ -297,29 +298,36 @@ function initGlobe(canvas) {
   const planet = mkPoints(land, { size: 0.021, color: C.land, transparent: true, opacity: C.landOp, map: dotTexture(C.landMap[0], C.landMap[1]), depthWrite: false });
   group.add(planet);
 
-  // faint shell
-  group.add(new THREE.Mesh(new THREE.SphereGeometry(R * 0.985, 32, 32), new THREE.MeshBasicMaterial({ color: C.shell, transparent: true, opacity: C.shellOp })));
-  group.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.SphereGeometry(R * 1.003, 18, 14)), new THREE.LineBasicMaterial({ color: C.edge, transparent: true, opacity: C.edgeOp })));
+  // shell — must draw BEFORE the dots, otherwise (dots have depthWrite:false) the
+  // transparent sort puts it on top and it repaints over the continents.
+  const shell = new THREE.Mesh(new THREE.SphereGeometry(R * 0.985, 32, 32), new THREE.MeshBasicMaterial({ color: C.shell, transparent: true, opacity: C.shellOp }));
+  shell.renderOrder = -1;
+  group.add(shell);
+  const grat = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.SphereGeometry(R * 1.003, 18, 14)), new THREE.LineBasicMaterial({ color: C.edge, transparent: true, opacity: C.edgeOp }));
+  grat.renderOrder = 1;
+  group.add(grat);
 
+  // "hub" = the operating hub the carbon network radiates from (regional -> global registries)
   const cities = {
-    makassar: [-5.15, 119.43], jakarta: [-6.2, 106.85], surabaya: [-7.25, 112.75],
+    hub: [-6.2, 106.85], surabaya: [-7.25, 112.75],
     medan: [3.6, 98.67], bandung: [-6.9, 107.6], bali: [-8.65, 115.22],
     singapore: [1.35, 103.82], tokyo: [35.68, 139.69], frankfurt: [50.11, 8.68],
-    sf: [37.77, -122.42], sydney: [-33.87, 151.21],
+    sf: [37.77, -122.42], sydney: [-33.87, 151.21], london: [51.5, -0.13],
   };
   // node markers
   const nodeTex = dotTexture(C.nodeTex[0], C.nodeTex[1]);
   Object.entries(cities).forEach(([k, c]) => {
     const v = latLon(c[0], c[1], R * 1.02);
-    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: k === "makassar" ? nodeTex : dotTexture(), color: k === "makassar" ? C.makassar : C.node, transparent: true, blending: BLEND, depthWrite: false }));
-    sp.position.copy(v); sp.scale.set(k === "makassar" ? 0.16 : 0.1, k === "makassar" ? 0.16 : 0.1, 1);
+    const hub = k === "hub";
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: hub ? nodeTex : dotTexture(), color: hub ? C.hub : C.node, transparent: true, blending: BLEND, depthWrite: false }));
+    sp.position.copy(v); sp.scale.set(hub ? 0.16 : 0.1, hub ? 0.16 : 0.1, 1);
     group.add(sp);
   });
 
-  // arcs (domestic -> global), each with a traveling pulse
+  // arcs (hub -> region -> global registries), each with a traveling pulse
   const pairs = [
-    ["makassar", "jakarta"], ["makassar", "surabaya"], ["makassar", "bali"], ["makassar", "medan"], ["makassar", "bandung"],
-    ["jakarta", "singapore"], ["singapore", "tokyo"], ["singapore", "frankfurt"], ["frankfurt", "sf"], ["jakarta", "sydney"], ["tokyo", "sf"],
+    ["hub", "surabaya"], ["hub", "bali"], ["hub", "medan"], ["hub", "bandung"], ["hub", "singapore"],
+    ["singapore", "tokyo"], ["singapore", "frankfurt"], ["frankfurt", "london"], ["frankfurt", "sf"], ["hub", "sydney"], ["tokyo", "sf"],
   ];
   const arcs = [];
   pairs.forEach(([a, b], idx) => {
@@ -329,7 +337,7 @@ function initGlobe(canvas) {
     const lift = 1 + va.distanceTo(vb) * 0.35;
     mid.normalize().multiplyScalar(R * lift);
     const curve = new THREE.QuadraticBezierCurve3(va, mid, vb);
-    const domestic = a === "makassar";
+    const domestic = a === "hub";
     const tube = new THREE.Mesh(
       new THREE.TubeGeometry(curve, 44, 0.0035, 6, false),
       new THREE.MeshBasicMaterial({ color: domestic ? C.arcDom : C.arcGlob, transparent: true, opacity: domestic ? (LIGHT?0.7:0.5) : (LIGHT?0.5:0.3), blending: BLEND, depthWrite: false })
@@ -1309,7 +1317,7 @@ function initHoloEmblem(canvas) {
     const glow = new THREE.Mesh(K(new THREE.SphereGeometry(0.34, 16, 16)), K(new THREE.MeshBasicMaterial({ color: GREEN, transparent: true, opacity: 0.75, blending: THREE.AdditiveBlending }))); world.add(glow);
     const sats = []; for (let i = 0; i < 3; i++) { const s = new THREE.Mesh(K(new THREE.SphereGeometry(0.14, 10, 10)), K(new THREE.MeshBasicMaterial({ color: 0x6f9580, transparent: true, opacity: 0.55 }))); world.add(s); sats.push({ m: s, r: 2.05, sp: 0.5 + i * 0.22, ph: i * 2.1, tl: i * 0.5 }); }
     update = (t) => { coreW.rotation.y = t * 0.3; coreW.rotation.x = t * 0.15; glow.scale.setScalar(1 + Math.sin(t * 2) * 0.08); sats.forEach((s) => { const a = t * s.sp + s.ph; s.m.position.set(Math.cos(a) * s.r, Math.sin(a * 0.7 + s.tl) * 0.6, Math.sin(a) * s.r); }); };
-  } else { // "journey" — wireframe globe with an arc + a marker traveling Makassar -> world
+  } else { // "journey" — wireframe globe with an arc + a marker traveling from the operating hub -> world
     const globe = new THREE.LineSegments(K(new THREE.WireframeGeometry(new THREE.SphereGeometry(1.3, 16, 12))), K(new THREE.LineBasicMaterial({ color: EMER, transparent: true, opacity: 0.28 }))); world.add(globe);
     const A = new THREE.Vector3(-0.9, -0.5, 0.7).normalize().multiplyScalar(1.3);
     const B = new THREE.Vector3(1.0, 0.85, -0.2).normalize().multiplyScalar(1.3);

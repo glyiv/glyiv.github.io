@@ -3,32 +3,47 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tim — Glyiv · Dibangun di Makassar, untuk dunia</title>
-<meta name="description" content="Tim Glyiv: hand-picked founding team yang membangun Carbon Intelligence & Offset Platform dari Makassar, Indonesia — untuk dunia.">
+<title>Tim — Glyiv · Carbon Intelligence Platform</title>
+<meta name="description" content="Tim Glyiv: hand-picked founding team yang membangun Carbon Intelligence & Offset Platform dari Indonesia — untuk dunia.">
 <link rel="icon" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/glyiv-v2.css">
+  <link rel="stylesheet" href="/assets/css/glyiv-nav.css">
 </head>
 <body>
 <div class="glow-root" aria-hidden="true"></div>
 
-<!-- ===== NAV ===== -->
-<header class="nav">
-  <div class="nav__in">
-    <a class="brand" href="index.html">Glyiv<i>.</i></a>
-    <nav class="nav__links">
-      <a href="index.html#produk">Platform</a>
-      <a href="index.html#verticals">Solusi</a>
-      <a href="index.html#metodologi">Metodologi</a>
-      <a href="index.html#produk">Tree Marketplace</a>
-      <a href="team.html" style="color:var(--pine)">Perusahaan</a>
+<!-- NAV (shared component - /assets/css/glyiv-nav.css + /assets/js/glyiv-nav.js) -->
+<header class="lnav" data-solid>
+  <div class="lnav__in">
+    <a class="lbrand" href="/"><svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#0a2a1d" stroke-width="1.5" stroke-linecap="round"/></svg><b>Gl<i>yiv</i></b></a>
+    <nav class="lnav__links">
+      <a href="/#platform">Platform</a>
+      <div class="ldrop">
+        <button class="ldrop__btn">Solusi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Keuangan</h4><a href="/lab/industri/bank-lembaga-keuangan.html">Bank &amp; Lembaga Keuangan</a><a href="/lab/industri/investor-aset-manajemen.html">Investor &amp; Aset Manajemen</a></div>
+          <div class="ldrop__grp"><h4>Industri Berat</h4><a href="/lab/industri/tambang-dan-logam.html">Tambang &amp; Logam</a><a href="/lab/industri/konstruksi-dan-semen.html">Konstruksi &amp; Semen</a><a href="/lab/industri/manufaktur.html">Manufaktur</a></div>
+          <div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a></div>
+          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a><a href="/lab/outlet.html">Glyiv Outlet<small>Infrastruktur jaringan outlet</small></a></div>
+        </div>
+      </div>
+      <a href="/#tour">Cara Kerja</a>
+      <a href="/lab/tree.html">Tree Marketplace</a>
+      <a href="/lab/kabar/index.html">Kabar</a>
+      <div class="ldrop ldrop--r">
+        <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Glyiv</h4><a href="/team.html">Tim &amp; Manifesto</a></div>
+          <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
+        </div>
+      </div>
     </nav>
-    <div class="nav__spacer"></div>
-    <a class="nav__ghost" href="index.html#metodologi">Lihat Metodologi</a>
-    <a class="nav__cta" href="index.html#demo">Minta Demo</a>
-    <button class="nav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    <span class="lnav__sp"></span>
+    <a class="lnav__cta" href="/#demo">Jadwalkan Demo</a>
+    <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
 </header>
 
@@ -36,9 +51,9 @@
 <!-- ===== MASTHEAD ===== -->
 <section class="tp-mast"><div class="wrap">
   <div class="folio" data-reveal>No. 01 / 04 — Perusahaan</div>
-  <div class="dateline" data-reveal data-d="1">MAKASSAR, ID · −5.14, 119.42 &nbsp;→&nbsp; DUNIA</div>
-  <h1 data-reveal data-d="2">Dibangun di Makassar. <em class="grad">Untuk dunia.</em></h1>
-  <p class="lead" data-reveal data-d="3">Tim kecil yang dipilih dengan sengaja — bukan bagan organisasi yang tipis. Empat orang, satu keyakinan: <b>data karbon paling jujur lahir di titik transaksi</b>, dan itu bisa dibangun dari Sulawesi untuk pasar global.</p>
+  <div class="dateline" data-reveal data-d="1">INDONESIA &nbsp;→&nbsp; PASAR GLOBAL</div>
+  <h1 data-reveal data-d="2">Dibangun untuk dunia. <em class="grad">Sejak baris pertama.</em></h1>
+  <p class="lead" data-reveal data-d="3">Tim kecil yang dipilih dengan sengaja — bukan bagan organisasi yang tipis. Empat orang, satu keyakinan: <b>data karbon paling jujur lahir di titik transaksi</b>, dan itu bisa dibangun dari Indonesia untuk pasar global.</p>
 </div></section>
 <div class="wrap"><div class="tp-rule brass"></div></div>
 
@@ -46,9 +61,9 @@
 <section class="section"><div class="wrap"><div class="spine">
   <div class="spine__text">
     <div class="chapter" data-chapter>
-      <div class="cnum">Bab 01 · Makassar</div>
+      <div class="cnum">Bab 01 · Keyakinan</div>
       <h2>Dimulai dari sebuah keyakinan.</h2>
-      <p>Laode memulai Glyiv dari Makassar — memimpin produk, strategi, dan eksekusi. Keyakinannya sederhana: pasar karbon penuh angka tebakan, dan cara memperbaikinya adalah menghasilkan data di sumbernya, bukan menebak dari rata-rata pengeluaran.</p>
+      <p>Laode memulai Glyiv — memimpin produk, strategi, dan eksekusi. Keyakinannya sederhana: pasar karbon penuh angka tebakan, dan cara memperbaikinya adalah menghasilkan data di sumbernya, bukan menebak dari rata-rata pengeluaran.</p>
       <div class="who">LAODE M. FITRAH R. — FOUNDER &amp; CEO</div>
     </div>
     <div class="chapter" data-chapter>
@@ -59,8 +74,8 @@
     </div>
     <div class="chapter" data-chapter>
       <div class="cnum">Bab 03 · Jembatan</div>
-      <h2>Dari Sulawesi, menjangkau dunia.</h2>
-      <p>Menjangkau pasar global butuh jembatan yang sengaja dibangun. Julius dan Tobias memegang International Relations — membuka jaringan, mitra strategis, dan akses ke standar &amp; pasar Eropa. Makassar membangunnya; mereka menghubungkannya ke dunia.</p>
+      <h2>Dibangun di sini, dipakai di mana saja.</h2>
+      <p>Menjangkau pasar global butuh jembatan yang sengaja dibangun. Julius dan Tobias memegang International Relations — membuka jaringan, mitra strategis, dan akses ke standar &amp; pasar Eropa. Tim produk membangunnya; mereka menghubungkannya ke dunia.</p>
       <div class="who">JULIUS VOIGT &amp; TOBIAS BURKERT — INTERNATIONAL RELATIONS</div>
     </div>
   </div>
@@ -68,11 +83,11 @@
   <div class="spine__scenes">
     <div class="scene" data-scene>
       <div class="pf"><img src="founder.png" alt="Laode Muhamad Fitrah Ramadhan"><span class="duo" style="background-image:url(founder.png)"></span>
-        <div class="pf__cap"><b>Laode M. Fitrah R.</b><span>Founder &amp; CEO · Makassar</span></div></div>
+        <div class="pf__cap"><b>Laode M. Fitrah R.</b><span>Founder &amp; CEO</span></div></div>
     </div>
     <div class="scene" data-scene>
       <div class="pf"><img src="syun.png" alt="Khairul Miftah Sumardin"><span class="duo" style="background-image:url(syun.png)"></span>
-        <div class="pf__cap"><b>Khairul Miftah S.</b><span>Co-Founder · Makassar</span></div></div>
+        <div class="pf__cap"><b>Khairul Miftah S.</b><span>Co-Founder</span></div></div>
     </div>
     <div class="scene" data-scene>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;height:100%">
@@ -85,11 +100,11 @@
   </div>
 </div></div></section>
 
-<!-- ===== MAP MOMENT: Makassar → Dunia ===== -->
+<!-- ===== MAP MOMENT: hub → world ===== -->
 <section class="section tight" style="background:var(--paper-2);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)"><div class="wrap mapwrap">
   <span class="eyebrow" data-reveal>Jangkauan</span>
   <h2 data-reveal data-d="1" style="max-width:20ch;margin:12px auto 0">Satu titik asal. <em class="brassed">Ambisi global.</em></h2>
-  <svg class="map" viewBox="0 0 960 420" data-reveal aria-label="Peta jangkauan Glyiv dari Makassar ke Eropa dan dunia">
+  <svg class="map" viewBox="0 0 960 420" data-reveal aria-label="Peta jangkauan Glyiv ke Eropa dan dunia">
     <!-- stylized globe grid -->
     <g opacity="0.5">
       <ellipse class="land" cx="480" cy="210" rx="430" ry="180" fill="none"></ellipse>
@@ -99,20 +114,20 @@
       <path class="land" d="M480,30 C300,110 300,310 480,390" fill="none"></path>
       <path class="land" d="M480,30 C660,110 660,310 480,390" fill="none"></path>
     </g>
-    <!-- arcs: Makassar (right) -> Europe (left) + global node -->
+    <!-- arcs: hub (right) -> Europe (left) + global node -->
     <path class="arc" data-draw d="M760,268 C560,120 380,120 210,150"></path>
     <path class="arc t" data-draw d="M760,268 C580,150 420,140 250,120"></path>
     <path class="arc t" data-draw d="M760,268 C620,320 380,340 190,270"></path>
     <!-- pins -->
     <circle class="pin home" cx="760" cy="268" r="7"></circle>
-    <text class="lbl home" x="748" y="296" text-anchor="middle">MAKASSAR · −5.14, 119.42</text>
+    <text class="lbl home" x="748" y="296" text-anchor="middle">INDONESIA</text>
     <circle class="pin" cx="210" cy="150" r="5.5"></circle>
     <text class="lbl" x="210" y="138" text-anchor="middle">EROPA</text>
     <circle class="pin" cx="250" cy="120" r="4.5"></circle>
     <circle class="pin" cx="190" cy="270" r="5"></circle>
     <text class="lbl" x="190" y="290" text-anchor="middle">GLOBAL</text>
   </svg>
-  <p class="lead" data-reveal data-d="2" style="max-width:56ch;margin:22px auto 0;text-align:center">Glyiv dibangun Indonesia-first — lalu dijembatani ke standar &amp; pasar internasional. Struktur tim 2+2 adalah strategi, bukan kebetulan: Makassar membangun produknya, tim Eropa menghubungkannya ke dunia.</p>
+  <p class="lead" data-reveal data-d="2" style="max-width:56ch;margin:22px auto 0;text-align:center">Glyiv dibangun Indonesia-first — lalu dijembatani ke standar &amp; pasar internasional. Struktur tim 2+2 adalah strategi, bukan kebetulan: tim produk membangunnya, tim Eropa menghubungkannya ke dunia.</p>
 </div></section>
 
 <!-- ===== FOUNDERS RECAP ===== -->
@@ -123,7 +138,7 @@
     <div class="fcard" data-reveal data-d="1">
       <div class="pf"><img src="founder.png" alt="Laode Muhamad Fitrah Ramadhan"><span class="duo" style="background-image:url(founder.png)"></span></div>
       <b>Laode M. Fitrah R.</b><div class="role">Founder &amp; CEO</div>
-      <p>Memimpin produk, strategi, dan eksekusi Glyiv dari Makassar — dengan keyakinan bahwa data karbon paling jujur lahir di titik transaksi.</p>
+      <p>Memimpin produk, strategi, dan eksekusi Glyiv — dengan keyakinan bahwa data karbon paling jujur lahir di titik transaksi.</p>
       <a href="https://www.linkedin.com/in/laodefitrah/" target="_blank" rel="noopener">↗ LinkedIn</a>
     </div>
     <div class="fcard" data-reveal data-d="2">
@@ -151,7 +166,7 @@
 <section class="section" style="background:var(--paper-2);border-top:1px solid var(--hairline)"><div class="wrap" style="text-align:center">
   <span class="eyebrow" data-reveal style="color:var(--brass-600)">Keyakinan kami</span>
   <svg data-reveal data-d="1" width="34" height="34" viewBox="0 0 24 24" fill="none" style="margin:18px auto 0;display:block"><path d="M10 11H6a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2v6c0 2.2-1.8 4-4 4M20 11h-4a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2v6c0 2.2-1.8 4-4 4" stroke="#B0894F" stroke-width="1.4"/></svg>
-  <blockquote data-reveal data-d="2" style="font-family:var(--f-serif);font-weight:500;font-size:clamp(24px,3.4vw,40px);line-height:1.26;color:var(--pine);max-width:24ch;margin:14px auto 0;font-style:italic">"Karbon yang bisa diaudit ke sumbernya adalah fondasi ekonomi rendah-karbon yang jujur — dan bisa dibangun dari Makassar, untuk dunia."</blockquote>
+  <blockquote data-reveal data-d="2" style="font-family:var(--f-serif);font-weight:500;font-size:clamp(24px,3.4vw,40px);line-height:1.26;color:var(--pine);max-width:24ch;margin:14px auto 0;font-style:italic">"Karbon yang bisa diaudit ke sumbernya adalah fondasi ekonomi rendah-karbon yang jujur — dan kami membangunnya untuk dunia."</blockquote>
   <div data-reveal data-d="3" style="font-family:var(--f-mono);font-size:12px;color:var(--brass-600);letter-spacing:.1em;margin-top:24px">— TIM GLYIV</div>
   <div class="row" data-reveal data-d="3" style="display:flex;gap:12px;justify-content:center;margin-top:30px">
     <a class="btn primary" href="index.html#demo">Minta Demo</a>
@@ -165,7 +180,7 @@
   <div class="foot__grid">
     <div>
       <a class="brand" href="index.html">Glyiv<i>.</i></a>
-      <p class="foot__about">Carbon Intelligence &amp; Offset Platform. Dibangun di Makassar, untuk dunia.</p>
+      <p class="foot__about">Carbon Intelligence &amp; Offset Platform. Dibangun untuk dunia.</p>
       <div class="foot__badges"><span>GHG Protocol</span><span>ISO 14064</span><span>IFRS S2</span><span>IDXCarbon</span><span>ERC-3643</span></div>
     </div>
     <div class="foot__col"><h5>Platform</h5><a href="index.html#produk">Carbon Accounting</a><a href="index.html#metodologi">dMRV &amp; Verifikasi</a><a href="index.html#produk">Tree Marketplace</a></div>
@@ -173,11 +188,12 @@
     <div class="foot__col"><h5>Perusahaan</h5><a href="team.html">Tim</a><a href="index.html#why">Kenapa Karbon</a><a href="mailto:glyiv.archourium@gmail.com">Kontak</a></div>
   </div>
   <div class="foot__legal">
-    <span>© <span data-year>2026</span> Glyiv · Makassar, Indonesia</span>
+    <span>© <span data-year>2026</span> Glyiv</span>
     <span>Standards-aligned · metodologi transparan · sertifikasi dalam roadmap</span>
   </div>
 </div></footer>
 
 <script src="assets/js/glyiv-v2.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
 </body>
 </html>

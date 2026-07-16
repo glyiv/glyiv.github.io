@@ -49,18 +49,7 @@
     window.addEventListener("touchstart", tryPlay, { once: true, passive: true });
   });
 
-  /* nav: scroll shadow + mobile toggle */
-  var lnav = $(".lnav");
-  if (lnav) {
-    var tick = false;
-    var onScroll = function () {
-      if (tick) return; tick = true;
-      requestAnimationFrame(function () { lnav.classList.toggle("scrolled", window.scrollY > 10); tick = false; });
-    };
-    addEventListener("scroll", onScroll, { passive: true }); onScroll();
-    var bg = $(".lnav__burger");
-    if (bg) bg.addEventListener("click", function () { document.body.classList.toggle("lnav-open"); });
-  }
+  /* nav behaviour (scroll state · burger · active page) lives in /assets/js/glyiv-nav.js */
 
   /* 3D tablet: auto-cycle its stacked screens (gated to visible) */
   $$(".tablet .dstack").forEach(function (stack) {
@@ -115,7 +104,15 @@
     var fab = $("#glyBot"), chat = $("#glyChat"), msgs = $("#glyMsgs"), input = $("#glyInput");
     if (!fab || !chat) return;
     var opened = false;
-    function bub(text, who) { var b = document.createElement("div"); b.className = "liv-bub " + (who || "bot"); b.textContent = text; msgs.appendChild(b); msgs.scrollTop = msgs.scrollHeight; }
+    function bub(text, who) {
+      var b = document.createElement("div"); b.className = "liv-bub " + (who || "bot"); b.textContent = text;
+      msgs.appendChild(b); msgs.scrollTop = msgs.scrollHeight;
+      // drive the 3D bot's mouth/eye while it "talks"
+      if ((who || "bot") === "bot" && window.glyivBot && window.glyivBot.speak) {
+        window.glyivBot.speak(true);
+        setTimeout(function () { window.glyivBot.speak(false); }, Math.min(4200, 700 + text.length * 26));
+      }
+    }
     function open() { document.body.classList.add("livchat-open"); if (!opened) { opened = true; setTimeout(function () { bub("Hai! Saya Gly, asisten karbon Glyiv. 🌿 Mau tahu apa itu Glyiv, kenapa karbon penting, atau bagaimana platform kami bekerja?"); }, 250); } setTimeout(function () { input && input.focus(); }, 300); }
     function close() { document.body.classList.remove("livchat-open"); }
     function reply(t) {
@@ -137,6 +134,80 @@
     input && input.addEventListener("keydown", function (e) { if (e.key === "Enter") send(); });
     $$(".liv-chip", $("#glyChips")).forEach(function (c) { c.addEventListener("click", function () { send(c.textContent); }); });
   })();
+
+  /* COST-LEAK SCANNER — "what you see" vs "what Glyiv sees" */
+  $$("[data-leak]").forEach(function (root) {
+    var sum = $("[data-leaksum]", root);
+    var bars = $$(".leak__bar", root);
+    var btns = $$(".leak__sw button", root);
+    var played = false;
+
+    function setMode(m, animate) {
+      root.setAttribute("data-mode", String(m));
+      btns.forEach(function (b) { b.classList.toggle("on", b.getAttribute("data-leakmode") === String(m)); });
+      if (!sum) return;
+      if (m === "0" || m === 0) { sum.textContent = "—"; return; }
+      countTo(bars.length, animate);
+    }
+    function countTo(n, animate) {
+      if (reduce || !animate) { sum.textContent = n + " titik"; return; }
+      var t0 = performance.now(), dur = 900;
+      (function step(now) {
+        var p = Math.min(1, (now - t0) / dur);
+        sum.textContent = Math.round(n * (1 - Math.pow(1 - p, 3))) + " titik";
+        if (p < 1) requestAnimationFrame(step);
+      })(t0);
+    }
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () { setMode(b.getAttribute("data-leakmode"), true); });
+    });
+
+    // grow the bars, then auto-reveal the leaks once — the reveal IS the argument
+    var lio = new IntersectionObserver(function (es) {
+      es.forEach(function (en) {
+        if (!en.isIntersecting || played) return;
+        played = true; lio.disconnect();
+        root.classList.add("in");
+        if (reduce) { setMode("1", false); return; }
+        setTimeout(function () { setMode("1", true); }, 1250);
+      });
+    }, { threshold: .35 });
+    lio.observe(root);
+  });
+
+  /* TREE MARKETPLACE teaser — pick a project, panel + sparkline respond */
+  $$("[data-tmapp]").forEach(function (root) {
+    var rows = $$(".tmrow", root);
+    var name = $("[data-tmname]", root), img = $("[data-tmimg]", root);
+    var spark = $(".tmspark", root);
+    var fields = { trees: $("[data-tmtrees]", root), co2: $("[data-tmco2]", root), ndvi: $("[data-tmndvi]", root), area: $("[data-tmarea]", root), cert: $("[data-tmcert]", root) };
+    if (!rows.length) return;
+    var timer = null;
+
+    function pick(i, user) {
+      rows.forEach(function (r, k) { r.classList.toggle("on", k === i); });
+      var d = rows[i].dataset;
+      if (name) name.textContent = d.tmName || "";
+      if (img) img.src = d.tmImg || img.src;
+      if (fields.trees) fields.trees.textContent = d.tmTrees || "";
+      if (fields.co2) fields.co2.textContent = d.tmCo2 || "";
+      if (fields.ndvi) fields.ndvi.textContent = d.tmNdvi || "";
+      if (fields.area) fields.area.textContent = d.tmArea || "";
+      if (fields.cert) fields.cert.textContent = d.tmCert || "";
+      if (spark) {
+        var hs = (d.tmSpark || "").split(",");
+        $$("i", spark).forEach(function (bar, k) { bar.style.setProperty("--h", hs[k] ? hs[k].trim() : ".4"); });
+      }
+      if (user) { stop(); start(); }
+    }
+    rows.forEach(function (r, k) { r.addEventListener("click", function () { pick(k, true); }); });
+    var i = 0;
+    function start() { if (timer || reduce) return; timer = setInterval(function () { i = (i + 1) % rows.length; pick(i); }, 4200); }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    pick(0);
+    var tio2 = new IntersectionObserver(function (es) { es.forEach(function (en) { en.isIntersecting ? start() : stop(); }); }, { threshold: .3 });
+    tio2.observe(root);
+  });
 
   /* year */
   $$("[data-yr]").forEach(function (e) { e.textContent = new Date().getFullYear(); });

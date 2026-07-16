@@ -104,7 +104,7 @@ em.g{font-style:normal;color:var(--gold-600)}
 .flag .chip{font-family:var(--mono);font-size:11px;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:7px 11px}
 
 /* leadership */
-.people{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:start}
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start;max-width:900px;margin:0 auto}
 .person{min-width:0}
 .person__pf{aspect-ratio:4/5;border-radius:16px;overflow:hidden;border:1px solid var(--hair);box-shadow:var(--sh2);background:var(--paper-2);position:relative}
 .person__pf img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.02)}
@@ -131,15 +131,38 @@ em.g{font-style:normal;color:var(--gold-600)}
 @media(max-width:560px){.people{grid-template-columns:1fr}.hero__stats{gap:24px}}
 @media(prefers-reduced-motion:reduce){[data-r]{opacity:1!important;transform:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
+  <link rel="stylesheet" href="/assets/css/glyiv-nav.css">
 </head>
 <body>
-<!-- NAV -->
-<header class="nav">
-  <div class="nav__in">
-    <a class="brand" href="/wosu/index.html"><span class="brand__mk">W</span><span><b>WOSU</b><small>Innovation Technology</small></span></a>
-    <nav class="nav__lnk"><a href="#tentang">Tentang</a><a href="#produk">Produk</a><a href="#dewan">Dewan</a><a href="#nilai">Nilai</a></nav>
-    <span class="nav__sp"></span>
-    <a class="nav__cta" href="#kontak">Hubungi Kami</a>
+<!-- NAV (shared component - /assets/css/glyiv-nav.css + /assets/js/glyiv-nav.js) -->
+<header class="lnav">
+  <div class="lnav__in">
+    <a class="lbrand" href="/"><svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#0a2a1d" stroke-width="1.5" stroke-linecap="round"/></svg><b>Gl<i>yiv</i></b></a>
+    <nav class="lnav__links">
+      <a href="/#platform">Platform</a>
+      <div class="ldrop">
+        <button class="ldrop__btn">Solusi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Keuangan</h4><a href="/lab/industri/bank-lembaga-keuangan.html">Bank &amp; Lembaga Keuangan</a><a href="/lab/industri/investor-aset-manajemen.html">Investor &amp; Aset Manajemen</a></div>
+          <div class="ldrop__grp"><h4>Industri Berat</h4><a href="/lab/industri/tambang-dan-logam.html">Tambang &amp; Logam</a><a href="/lab/industri/konstruksi-dan-semen.html">Konstruksi &amp; Semen</a><a href="/lab/industri/manufaktur.html">Manufaktur</a></div>
+          <div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a></div>
+          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a><a href="/lab/outlet.html">Glyiv Outlet<small>Infrastruktur jaringan outlet</small></a></div>
+        </div>
+      </div>
+      <a href="/#tour">Cara Kerja</a>
+      <a href="/lab/tree.html">Tree Marketplace</a>
+      <a href="/lab/kabar/index.html">Kabar</a>
+      <div class="ldrop ldrop--r">
+        <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Glyiv</h4><a href="/team.html">Tim &amp; Manifesto</a></div>
+          <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
+        </div>
+      </div>
+    </nav>
+    <span class="lnav__sp"></span>
+    <a class="lnav__cta" href="/#demo">Jadwalkan Demo</a>
+    <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
 </header>
 
@@ -152,7 +175,7 @@ em.g{font-style:normal;color:var(--gold-600)}
     <div class="hero__cta" data-r data-d="3"><a class="btn gold" href="#produk">Lihat Produk Kami</a><a class="btn ghost" href="#dewan">Kenali Tim</a></div>
     <div class="hero__stats" data-r data-d="4">
       <div class="hero__stat"><b>2026</b><span>Didirikan</span></div>
-      <div class="hero__stat"><b>Makassar<i>.</i></b><span>Indonesia</span></div>
+      <div class="hero__stat"><b>Indonesia<i>.</i></b><span>Berkedudukan</span></div>
       <div class="hero__stat"><b>Glyiv</b><span>Produk unggulan</span></div>
       <div class="hero__stat"><b>Deep-tech</b><span>Karbon &amp; AI</span></div>
     </div>
@@ -190,11 +213,10 @@ em.g{font-style:normal;color:var(--gold-600)}
   <div class="head" data-r><span class="kick">Dewan &amp; kepemimpinan</span><h2 style="margin-top:12px">Dipimpin oleh orang <em class="g">yang tepat.</em></h2></div>
   <div class="people">
     <div class="person" data-r data-d="1"><div class="person__pf"><img src="/founder.png" alt="Laode Muhamad Fitrah Ramadhan"></div><b>Laode M. Fitrah R.</b><div class="role">Direktur Utama</div><div class="ph">Memimpin arah &amp; eksekusi perusahaan</div></div>
-    <div class="person" data-r data-d="2"><div class="person__pf"><img src="/wosu/img/placeholder-syahril.jpg" alt="Syahril Syam"></div><b>Syahril Syam</b><div class="role">Direktur</div><div class="ph">Operasi &amp; pengembangan bisnis</div></div>
-    <div class="person" data-r data-d="3"><div class="person__pf"><img src="/syun.png" alt="Khairul Miftah Sumardin"></div><b>Khairul Miftah S.</b><div class="role">Sekretaris</div><div class="ph">Tata kelola &amp; korporasi</div></div>
-    <div class="person" data-r data-d="4"><div class="person__pf"><img src="/wosu/img/placeholder-suwanto.jpg" alt="dr. Suwanto"></div><b>dr. Suwanto</b><div class="role">Komisaris</div><div class="ph">Pengawasan &amp; penasihat</div></div>
+    <div class="person" data-r data-d="2"><div class="person__pf"><img src="/syun.png" alt="Khairul Miftah Sumardin"></div><b>Khairul Miftah S.</b><div class="role">Direktur</div><div class="ph">Tata kelola, korporasi &amp; operasi</div></div>
+    <div class="person" data-r data-d="3"><div class="person__pf"><img src="/wosu/img/placeholder-syahril.jpg" alt="Syahril Syam"></div><b>Syahril Syam</b><div class="role">Komisaris</div><div class="ph">Pengawasan &amp; penasihat</div></div>
   </div>
-  <p class="lead" data-r style="margin-top:26px;font-size:13.5px;color:var(--muted)">Foto Direktur &amp; Komisaris bersifat sementara (placeholder) hingga foto resmi tersedia.</p>
+  <p class="lead" data-r style="margin-top:26px;font-size:13.5px;color:var(--muted)">Foto Komisaris bersifat sementara (placeholder) hingga foto resmi tersedia.</p>
 </div></section>
 
 <!-- NILAI -->
@@ -213,6 +235,20 @@ em.g{font-style:normal;color:var(--gold-600)}
   <h2 data-r data-d="1" style="max-width:20ch;margin:14px auto 16px">Mari bangun sesuatu yang bernilai.</h2>
   <p class="lead" data-r data-d="2" style="max-width:50ch;margin:0 auto 26px">Untuk kemitraan, investasi, atau pertanyaan pers — kami senang mendengar dari Anda.</p>
   <div data-r data-d="3"><a class="btn primary" href="mailto:wosu.archourium@gmail.com?subject=PT%20WOSU%20Innovation%20Technology">Hubungi PT WOSU</a></div>
+  <div data-r data-d="3" style="margin-top:34px;display:inline-flex;flex-wrap:wrap;gap:0;border:1px solid var(--hair);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--sh1);text-align:left">
+    <div style="padding:16px 22px;border-right:1px solid var(--hair)">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Badan hukum</div>
+      <div style="font-weight:700;color:var(--navy);margin-top:4px">PT WOSU Innovation Technology</div>
+    </div>
+    <div style="padding:16px 22px;border-right:1px solid var(--hair)">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Kedudukan</div>
+      <div style="font-weight:700;color:var(--navy);margin-top:4px">Indonesia &middot; beroperasi global</div>
+    </div>
+    <div style="padding:16px 22px">
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Surel</div>
+      <div style="font-weight:700;color:var(--navy);margin-top:4px"><a href="mailto:wosu.archourium@gmail.com" style="color:var(--gold-600)">wosu.archourium@gmail.com</a></div>
+    </div>
+  </div>
 </div></section>
 
 <!-- FOOTER -->
@@ -225,7 +261,7 @@ em.g{font-style:normal;color:var(--gold-600)}
     <div><h4>Perusahaan</h4><a href="#tentang">Tentang</a><a href="#dewan">Dewan</a><a href="#nilai">Nilai</a></div>
     <div><h4>Produk</h4><a href="/lab/index.html">Glyiv</a><a href="#kontak">Kemitraan</a></div>
   </div>
-  <div class="foot__legal"><span>© <span id="yr">2026</span> PT WOSU Innovation Technology · Makassar, Indonesia</span><span>Membangun dari Indonesia, untuk dunia.</span></div>
+  <div class="foot__legal"><span>© <span id="yr">2026</span> PT WOSU Innovation Technology · Indonesia</span><span>Membangun dari Indonesia, untuk dunia.</span></div>
 </div></footer>
 
 <script>
@@ -237,5 +273,6 @@ em.g{font-style:normal;color:var(--gold-600)}
   document.getElementById("yr").textContent=new Date().getFullYear();
 })();
 </script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
 </body>
 </html>

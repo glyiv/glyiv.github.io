@@ -1,0 +1,78 @@
+/* =============================================================
+   GLYIV — SHARED NAVBAR (one component, every page)
+   Self-contained: declares its own tokens so it renders identically
+   whether the page uses lab.css, glyiv-v2.css, or its own system.
+   Markup contract: header.lnav > .lnav__in > .lbrand + nav.lnav__links + .lnav__sp + .lnav__cta + .lnav__burger
+   Behaviour: /assets/js/glyiv-nav.js (scroll state, burger, active page)
+   ============================================================= */
+/* --n-* prefixed so they can never collide with a page's own token names */
+:root{
+  --n-pine:#0F2E22; --n-teal:#1F7A6B; --n-brass:#B0894F; --n-slate:#46524B; --n-muted:#6B7772;
+  --n-hair:#E6EAE6; --n-paper:#F5F7F5;
+  --n-serif:"Newsreader",Georgia,serif;
+  --n-sans:"Hanken Grotesk","Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --n-mono:"IBM Plex Mono",ui-monospace,monospace;
+  --n-sh1:0 1px 2px rgba(15,26,20,.04),0 4px 14px rgba(15,26,20,.05);
+  --n-sh2:0 2px 8px rgba(15,26,20,.05),0 16px 36px -12px rgba(15,26,20,.13);
+  --n-sh3:0 10px 28px -8px rgba(15,26,20,.14),0 40px 80px -30px rgba(15,46,34,.28);
+}
+.lnav{position:fixed;top:0;left:0;right:0;z-index:80;border-bottom:1px solid transparent;
+  transition:background .3s,backdrop-filter .3s,border-color .3s,box-shadow .3s}
+.lnav *{box-sizing:border-box}
+.lnav.scrolled{background:rgba(255,255,255,.82);backdrop-filter:saturate(1.4) blur(16px);-webkit-backdrop-filter:saturate(1.4) blur(16px);border-bottom-color:var(--n-hair);box-shadow:0 6px 24px -18px rgba(15,26,20,.3)}
+.lnav__in{display:flex;align-items:center;gap:18px;max-width:1240px;margin:0 auto;height:68px;padding:0 clamp(20px,5vw,48px)}
+.lnav a{text-decoration:none}
+.lbrand{display:flex;align-items:center;gap:9px;color:var(--n-pine)}
+.lbrand svg{width:28px;height:28px;display:block}
+.lbrand b{font-family:var(--n-serif);font-weight:600;font-size:22px;line-height:1}
+.lbrand b i{color:var(--n-teal);font-style:normal}
+.lnav__links{display:flex;align-items:center;gap:3px;margin-left:14px}
+.lnav__links a,.ldrop__btn{font-family:var(--n-sans);font-size:14px;font-weight:600;color:var(--n-slate);padding:9px 12px;border-radius:9px;background:none;border:none;display:inline-flex;align-items:center;gap:5px;cursor:pointer;transition:color .18s,background .18s}
+.lnav__links a:hover,.ldrop__btn:hover{color:var(--n-pine);background:var(--n-paper)}
+/* transparent over a hero: white text until scrolled */
+.lnav:not(.scrolled) .lbrand{color:#fff}
+.lnav:not(.scrolled) .lnav__links>a,.lnav:not(.scrolled) .ldrop__btn{color:rgba(255,255,255,.86)}
+.lnav:not(.scrolled) .lnav__links>a:hover,.lnav:not(.scrolled) .ldrop__btn:hover{color:#fff;background:rgba(255,255,255,.12)}
+/* dropdown links sit on a white panel — always dark regardless of nav state */
+.ldrop__menu a{color:var(--n-slate)!important}
+.ldrop__menu a:hover{color:var(--n-teal)!important}
+.lnav__sp{margin-left:auto}
+.lnav__cta{font-family:var(--n-sans);font-weight:700;font-size:14px;color:#fff;background:var(--n-pine);padding:10px 18px;border-radius:999px;box-shadow:var(--n-sh1);transition:transform .18s,box-shadow .2s}
+.lnav:not(.scrolled) .lnav__cta{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(6px)}
+.lnav__cta:hover{transform:translateY(-1px);box-shadow:var(--n-sh2)}
+.ldrop{position:relative}
+.ldrop__btn svg{width:12px;height:12px;transition:transform .2s}
+.ldrop:hover .ldrop__btn svg,.ldrop:focus-within .ldrop__btn svg{transform:rotate(180deg)}
+.ldrop__menu{position:absolute;top:calc(100% + 8px);left:0;transform:translateY(6px);width:min(720px,86vw);max-width:calc(100vw - 28px);
+  background:#fff;border:1px solid var(--n-hair);border-radius:18px;box-shadow:var(--n-sh3);padding:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px 20px;opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility .2s;z-index:90}
+.ldrop:hover .ldrop__menu,.ldrop:focus-within .ldrop__menu{opacity:1;visibility:visible;transform:translateY(0)}
+.ldrop__grp{min-width:0}
+.ldrop__grp h4{font-family:var(--n-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--n-brass);margin:2px 0 8px}
+.ldrop__grp a{display:block;font-family:var(--n-sans);font-size:13px;color:var(--n-slate);padding:5px 0;overflow-wrap:break-word;transition:padding .15s,color .15s}
+.ldrop__grp a:hover{color:var(--n-teal);padding-left:3px}
+.ldrop__menu a small{display:block;font-family:var(--n-mono);font-size:9px;color:var(--n-muted);margin-top:1px;letter-spacing:.02em}
+/* right-anchored dropdown (last nav item) — must not overflow the viewport */
+.ldrop--r .ldrop__menu{left:auto;right:0;width:min(360px,86vw);grid-template-columns:1fr 1fr;gap:8px 16px}
+/* current page */
+.lnav__links>a,.ldrop__btn{position:relative}
+.lnav__links a.is-active,.ldrop__btn.is-active{color:var(--n-pine);background:var(--n-paper)}
+.lnav__links>a.is-active::after,.ldrop__btn.is-active::after{content:"";position:absolute;left:12px;right:12px;bottom:3px;height:2px;border-radius:2px;background:var(--n-brass)}
+.lnav:not(.scrolled) .lnav__links>a.is-active,.lnav:not(.scrolled) .ldrop__btn.is-active{color:#fff;background:rgba(255,255,255,.14)}
+.ldrop__grp a.is-active{color:var(--n-teal)!important;font-weight:700}
+.ldrop__grp a.is-active::before{content:"› ";color:var(--n-brass)}
+.lnav__burger{display:none;margin-left:auto;background:none;border:1px solid rgba(255,255,255,.4);border-radius:9px;padding:8px 10px;color:#fff;font-family:inherit;cursor:pointer}
+.lnav.scrolled .lnav__burger{border-color:var(--n-hair);color:var(--n-pine)}
+@media (max-width:900px){
+  .lnav__links{position:fixed;top:68px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;margin:0;background:#fff;border-bottom:1px solid var(--n-hair);box-shadow:var(--n-sh2);padding:10px 20px 18px;transform:translateY(-8px);opacity:0;visibility:hidden;transition:.22s;max-height:82vh;overflow:auto}
+  body.lnav-open .lnav__links{transform:none;opacity:1;visibility:visible}
+  .lnav__links>a,.ldrop__btn{width:100%!important;justify-content:space-between;padding:12px 4px;border-bottom:1px solid var(--n-hair);color:var(--n-slate)!important;background:none!important}
+  .lnav__links>a.is-active::after,.ldrop__btn.is-active::after{display:none}
+  .lnav__links>a.is-active,.ldrop__btn.is-active{color:var(--n-teal)!important}
+  .ldrop{width:100%}
+  .ldrop__menu,.ldrop--r .ldrop__menu{position:static;transform:none;opacity:1;visibility:visible;width:auto;max-width:none;box-shadow:none;border:none;grid-template-columns:1fr 1fr;padding:6px 0 6px 8px}
+  .lnav__burger{display:inline-flex}
+  .lnav__cta{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .lnav,.lnav *{transition:none!important}
+}

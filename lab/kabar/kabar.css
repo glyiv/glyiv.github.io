@@ -40,10 +40,11 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .knav__cta{font-weight:700;font-size:13.5px;color:#fff;background:var(--pine);padding:9px 16px;border-radius:999px}
 
 /* reading progress bar */
-.kprog{position:fixed;top:0;left:0;height:3px;background:var(--mood);width:0;z-index:70;transition:width .1s linear}
+.kprog{position:fixed;top:0;left:0;height:3px;background:var(--mood);width:0;z-index:90;transition:width .1s linear}
 
 /* home hero */
-.khero{position:relative;padding:clamp(50px,8vh,96px) 0 clamp(30px,5vh,54px)}
+/* the shared navbar is fixed (68px) — the light hero has to clear it */
+.khero{position:relative;padding:calc(68px + clamp(50px,8vh,96px)) 0 clamp(30px,5vh,54px)}
 .kkick{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);font-weight:600}
 .khero h1{font-family:var(--serif);font-weight:600;font-size:clamp(36px,5.4vw,66px);line-height:1.04;letter-spacing:-.02em;color:var(--pine);margin:16px 0 16px;max-width:16ch}
 .khero h1 em{font-style:italic;color:var(--teal)}
@@ -101,7 +102,7 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kstat .s{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px}
 /* inline bar chart */
 .kbars{display:flex;align-items:flex-end;gap:8px;height:120px;margin:8px 0}
-.kbars i{flex:1;border-radius:4px 4px 2px 2px;background:var(--mood);transform:scaleY(0);transform-origin:bottom;transition:transform .8s var(--ease)}
+.kbars i{flex:1;height:100%;border-radius:4px 4px 2px 2px;background:var(--mood);transform:scaleY(0);transform-origin:bottom;transition:transform .8s var(--ease)}
 .kbars.in i{transform:scaleY(var(--h,.7))}
 .kbars i:nth-child(2){transition-delay:.06s}.kbars i:nth-child(3){transition-delay:.12s}.kbars i:nth-child(4){transition-delay:.18s}.kbars i:nth-child(5){transition-delay:.24s}.kbars i:nth-child(6){transition-delay:.3s}
 
