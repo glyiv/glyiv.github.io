@@ -15,34 +15,55 @@
 <body>
 <div class="glow-root" aria-hidden="true"></div>
 
-<!-- NAV (shared component - /assets/css/glyiv-nav.css + /assets/js/glyiv-nav.js) -->
+<!-- NAV (shared component) -->
 <header class="lnav" data-solid>
   <div class="lnav__in">
     <a class="lbrand" href="/"><svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#0a2a1d" stroke-width="1.5" stroke-linecap="round"/></svg><b>Gl<i>yiv</i></b></a>
     <nav class="lnav__links">
-      <a href="/#platform">Platform</a>
+      <div class="ldrop ldrop--mega">
+        <button class="ldrop__btn">Ekosistem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Inti platform</h4>
+            <a href="/lab/carbon-intelligence.html"><b>Carbon Intelligence</b><small>Ukur · verifikasi · offset</small></a>
+            <a href="/lab/tree.html"><b>Glyiv Aset</b><small>Pohon &amp; lahan (RWA)</small></a>
+            <a href="/lab/outlet.html"><b>Glyiv Outlet</b><small>POS berdata karbon</small></a></div>
+          <div class="ldrop__grp"><h4>Ekonomi hijau</h4>
+            <a href="/lab/ekosistem/pasar.html"><b>Glyiv Pasar</b><small>Marketplace</small></a><a href="/lab/ekosistem/pangan.html"><b>Glyiv Pangan</b><small>Hub pangan berdata karbon</small></a>
+            <a href="/lab/ekosistem/dompet.html"><b>Glyiv Dompet</b><small>Carbon wallet</small></a>
+            <a href="/lab/ekosistem/dana.html"><b>Glyiv Dana</b><small>Investasi hijau</small></a>
+            <a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Sampah jadi imbalan</small></a></div>
+          <div class="ldrop__grp"><h4>Gaya hidup</h4>
+            <a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a>
+            <a href="/lab/ekosistem/sehat.html"><b>Glyiv Sehat</b><small>Habit sehat &amp; hijau</small></a>
+            <a href="/lab/ekosistem/belajar.html"><b>Glyiv Belajar</b><small>Literasi &amp; game</small></a></div>
+          <div class="ldrop__grp"><h4>Riset &amp; alat</h4>
+            <a href="/lab/ekosistem/lab-rnd.html"><b>Glyiv Lab</b><small>Material rendah-karbon</small></a>
+            <a href="/lab/apps/scanner/"><b>Scan Karbon</b><small>Foto item → estimasi</small></a>
+            <a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a></div>
+          <div class="ldrop__mega-foot"><span>Business tree tumbuh bertahap · Live &amp; Roadmap</span><a href="/lab/apps/">Lihat semua aplikasi &rarr;</a></div>
+        </div>
+      </div>
       <div class="ldrop">
         <button class="ldrop__btn">Solusi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
           <div class="ldrop__grp"><h4>Keuangan</h4><a href="/lab/industri/bank-lembaga-keuangan.html">Bank &amp; Lembaga Keuangan</a><a href="/lab/industri/investor-aset-manajemen.html">Investor &amp; Aset Manajemen</a></div>
           <div class="ldrop__grp"><h4>Industri Berat</h4><a href="/lab/industri/tambang-dan-logam.html">Tambang &amp; Logam</a><a href="/lab/industri/konstruksi-dan-semen.html">Konstruksi &amp; Semen</a><a href="/lab/industri/manufaktur.html">Manufaktur</a></div>
-          <div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a></div>
-          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a><a href="/lab/outlet.html">Glyiv Outlet<small>Infrastruktur jaringan outlet</small></a></div>
+          <div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a><a href="/lab/industri/retailer.html">Retailer (Toko/UMKM)</a></div>
+          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a></div>
         </div>
       </div>
-      <a href="/#tour">Cara Kerja</a>
-      <a href="/lab/tree.html">Tree Marketplace</a>
       <a href="/lab/kabar/index.html">Kabar</a>
+      <a href="/lab/landing/index.html">Landing</a>
       <div class="ldrop ldrop--r">
         <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
-          <div class="ldrop__grp"><h4>Glyiv</h4><a href="/team.html">Tim &amp; Manifesto</a></div>
+          <div class="ldrop__grp"><h4>Glyiv</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim &amp; Manifesto</a><a href="/lab/kabar/index.html">Kabar</a></div>
           <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
         </div>
       </div>
     </nav>
     <span class="lnav__sp"></span>
-    <a class="lnav__cta" href="/#demo">Jadwalkan Demo</a>
+    <a class="lnav__cta" href="/#gabung">Gabung</a>
     <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
 </header>

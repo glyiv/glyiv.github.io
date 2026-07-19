@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv Bank Sampah — Setor Sampah, Dapat Imbalan</title>
+<meta name="description" content="Glyiv Bank Sampah: setor sampah terpilah dan dapatkan kredit hijau — dimulai dari komunitas kampus. Berat terverifikasi AI, kredit tercatat on-chain.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<style>
+.bs-type{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.bs-type button{background:#fff;border:1px solid var(--hair);border-radius:12px;padding:11px 6px;cursor:pointer;transition:.18s;text-align:center}
+.bs-type button.on{border-color:var(--teal);background:rgba(31,122,107,.06)}
+.bs-type .em{font-size:22px}
+.bs-type .nm{font-family:var(--l-mono);font-size:8.5px;color:var(--muted);margin-top:4px}
+.bs-type .rt{font-family:var(--l-serif);font-size:12px;color:var(--pine);margin-top:2px}
+.bs-lead{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--hair)}
+.bs-lead:last-child{border-bottom:0}
+.bs-lead .rank{font-family:var(--l-serif);font-weight:600;font-size:16px;color:var(--brass);width:24px;flex:0 0 auto}
+.bs-lead .nm{font-size:13.5px;color:var(--pine)}
+.bs-lead .nm small{display:block;font-family:var(--l-mono);font-size:9px;color:var(--muted)}
+.bs-lead .kg{margin-left:auto;font-family:var(--l-serif);font-weight:600;font-size:15px;color:var(--teal)}
+.bs-drop{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--hair);border-radius:12px;padding:11px}
+.bs-drop img{width:52px;height:52px;border-radius:10px;object-fit:cover;flex:0 0 auto}
+@media (max-width:560px){.bs-type{grid-template-columns:1fr 1fr 1fr}}
+</style>
+</head>
+<body>
+<div id="ga-nav"></div>
+
+<section class="ga-hero">
+  <img class="bg" src="/lab/img/pemerintah.jpg" alt="Bank Sampah">
+  <div class="ga-hero__in">
+    <div>
+      <div class="ga-crumb"><a href="/">Glyiv</a> / <a href="/#ekosistem">Ekosistem</a> / Glyiv Bank Sampah</div>
+      <span class="ga-badge"><i></i> Roadmap &middot; pilot kampus</span>
+      <h1>Setor sampah, <em>dapat imbalan.</em></h1>
+      <p>Pilah sampahmu, setorkan di titik Glyiv, dan dapatkan kredit hijau yang bisa ditukar. Kami mulai dari komunitas kampus — berat terverifikasi, kredit tercatat rapi, dampak karbonnya terlacak.</p>
+    </div>
+    <div class="ga-hero__aside"><div><div class="k">Kredit kamu</div><div class="v g" data-hcr>◈ 240</div></div><div><div class="k">Karbon dihindari</div><div class="v" data-hco2>3,1 kg</div></div></div>
+  </div>
+</section>
+
+<div class="ga-wrap">
+  <div class="ga-ribbon">
+    <div class="ga-stat"><div class="k">Kredit kamu</div><div class="v g" data-r1>◈ 240</div><div class="s">bisa ditukar</div></div>
+    <div class="ga-stat"><div class="k">Total disetor</div><div class="v" data-r2>0,0 kg</div><div class="s">sesi ini</div></div>
+    <div class="ga-stat"><div class="k">Karbon dihindari</div><div class="v g" data-r3>3,1 kg</div><div class="s">CO₂e (est.)</div></div>
+    <div class="ga-stat"><div class="k">Kampus mitra</div><div class="v" data-r4>6</div><div class="s">komunitas awal</div></div>
+  </div>
+  <p class="ga-note">Pratinjau produk (teaser) — nilai kredit &amp; faktor karbon-dihindari bersifat ilustrasi. Berat setoran diverifikasi timbangan + citra di titik setor.</p>
+
+  <div class="ga-grid" style="margin-top:14px">
+    <!-- deposit -->
+    <div class="ga-card">
+      <div class="ga-card__hd"><h3>Setor Sampah</h3><span class="tag">terverifikasi AI</span></div>
+      <div class="ga-card__b">
+        <div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Jenis sampah (◈ / kg)</div>
+        <div class="bs-type" data-types></div>
+        <div class="ga-fld" style="margin:14px 0 8px"><label>Berat (kg)</label><input data-w type="number" value="1.5" step="0.1"></div>
+        <div class="ga-meta" style="margin-bottom:12px">
+          <div><div class="k">Kredit didapat</div><div class="v g" data-earn>—</div></div>
+          <div><div class="k">Karbon dihindari</div><div class="v" data-avoid>—</div></div>
+          <div><div class="k">Titik setor</div><div class="v" style="font-size:13px">Kampus A</div></div>
+        </div>
+        <button class="ga-btn teal" data-deposit style="width:100%">Setor &amp; terbitkan kredit</button>
+      </div>
+    </div>
+    <!-- leaderboard + redeem -->
+    <div class="ga-card">
+      <div class="ga-tabs">
+        <button class="ga-tab on" data-tab="board">Papan Kampus</button>
+        <button class="ga-tab" data-tab="redeem">Tukar Kredit</button>
+      </div>
+      <div class="ga-pane on" data-pane="board">
+        <div data-board></div>
+      </div>
+      <div class="ga-pane" data-pane="redeem">
+        <div style="font-size:13px;color:var(--slate);margin-bottom:12px">Tukar ◈ <b data-rbal>240</b> kredit kamu:</div>
+        <div class="ga-list">
+          <button class="ga-row" data-redeem="Saldo Glyiv Dompet Rp10.000" data-cost="100"><div class="ic">💳</div><div class="ga-row__t"><b>Saldo Glyiv Dompet</b><small>Rp10.000</small></div><div class="ga-row__v"><b>◈ 100</b></div></button>
+          <button class="ga-row" data-redeem="Offset 5 kgCO₂e (Tree Marketplace)" data-cost="120"><div class="ic">🌿</div><div class="ga-row__t"><b>Offset 5 kgCO₂e</b><small>via Tree Marketplace</small></div><div class="ga-row__v"><b>◈ 120</b></div></button>
+          <button class="ga-row" data-redeem="Voucher kantin kampus" data-cost="80"><div class="ic">🍽️</div><div class="ga-row__t"><b>Voucher kantin</b><small>mitra kampus</small></div><div class="ga-row__v"><b>◈ 80</b></div></button>
+          <button class="ga-row" data-redeem="Bibit pohon + sertifikat" data-cost="200"><div class="ic">🌱</div><div class="ga-row__t"><b>Bibit pohon</b><small>+ sertifikat digital</small></div><div class="ga-row__v"><b>◈ 200</b></div></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- drop points (images) -->
+    <div class="ga-card pad" style="grid-column:1/-1">
+      <span class="ga-kick">Strategi komunitas · mulai dari kampus</span>
+      <h2 class="ga-h2" style="margin-bottom:16px">Kebiasaan baru, <span class="ga-em">dibangun bareng-bareng.</span></h2>
+      <div class="ga-grid-3">
+        <div class="bs-drop"><img src="/lab/img/pemerintah.jpg" alt=""><div><b style="color:var(--pine)">Titik Setor Kampus A</b><div style="font-family:var(--l-mono);font-size:9px;color:var(--muted)">Buka 08:00–17:00 · 1.240 kg/bln</div></div></div>
+        <div class="bs-drop"><img src="/lab/img/data-center.jpg" alt=""><div><b style="color:var(--pine)">Titik Setor Kampus B</b><div style="font-family:var(--l-mono);font-size:9px;color:var(--muted)">Buka 09:00–16:00 · 880 kg/bln</div></div></div>
+        <div class="bs-drop"><img src="/lab/img/fnb-ritel.jpg" alt=""><div><b style="color:var(--pine)">Pojok Kantin Hijau</b><div style="font-family:var(--l-mono);font-size:9px;color:var(--muted)">Organik &amp; kemasan · harian</div></div></div>
+      </div>
+      <div class="ga-steps" style="margin-top:18px">
+        <div class="ga-step"><b>Gandeng kampus</b><p>Mulai dari komunitas mahasiswa yang antusias — titik setor &amp; kompetisi antar-fakultas.</p></div>
+        <div class="ga-step"><b>Setor terverifikasi</b><p>Timbangan + citra memverifikasi jenis &amp; berat, mencegah kecurangan.</p></div>
+        <div class="ga-step"><b>Kredit on-chain</b><p>Kredit hijau diterbitkan &amp; tercatat — bisa ditukar di seluruh ekosistem Glyiv.</p></div>
+        <div class="ga-step"><b>Skala ke kota</b><p>Dari kampus, meluas ke RW, sekolah, dan mitra ritel.</p></div>
+      </div>
+      <div class="ga-tech" style="margin-top:18px">
+        <span class="ga-chip ai">⛭ Verifikasi berat &amp; jenis</span>
+        <span class="ga-chip chain">🔗 Kredit hijau on-chain</span>
+        <span class="ga-chip">🎓 Pilot komunitas kampus</span>
+      </div>
+    </div>
+
+    <div class="ga-card" style="grid-column:1/-1">
+      <div class="ga-card__hd"><h3>Aktivitas &amp; On-chain</h3><span class="tag">real-time feed</span></div>
+      <div class="ga-feed" data-feed></div>
+    </div>
+  </div>
+
+  <div class="ga-cta"><a class="ga-btn solid" href="/#demo">Jadwalkan demo lengkap</a><a class="ga-btn glass" href="/#ekosistem" style="margin-left:8px">← Ekosistem Glyiv</a></div>
+</div>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script>
+(function(){
+  var $=GA.$,$$=GA.$$;
+  var TYPES=[{k:"Plastik",em:"🧴",cr:60,co:1.9},{k:"Kertas",em:"📄",cr:30,co:0.9},{k:"Logam",em:"🥫",cr:120,co:4.0},{k:"Kaca",em:"🍾",cr:25,co:0.6},{k:"Organik",em:"🍎",cr:15,co:0.4}];
+  var sel=TYPES[0], credit=240, avoided=3.1, deposited=0;
+  var BOARD=[["Univ. Hijau Nusantara","Teknik Lingkungan",1420],["Kampus B","BEM Peduli",1180],["Univ. Bahari","Himpunan Kelautan",960],["Politeknik C","UKM Pecinta Alam",740],["Kampus A","Fakultas MIPA",610]];
+  var feed=GA.makeFeed("[data-feed]",[
+    ["ai","Setoran diverifikasi","2,3 kg Plastik · citra + timbangan cocok · disetujui."],
+    ["chain","Kredit diterbitkan","+138 ◈ ke dompet mahasiswa · tx "+GA.short()],
+    ["ai","Kompetisi kampus","Teknik Lingkungan memimpin minggu ini (1.420 kg)."]
+  ]);
+  function renderTypes(){
+    $("[data-types]").innerHTML=TYPES.map(function(t){return '<button class="'+(t===sel?"on":"")+'" data-t="'+t.k+'"><div class="em">'+t.em+'</div><div class="nm">'+t.k+'</div><div class="rt">◈'+t.cr+'</div></button>';}).join("");
+    $$("[data-t]").forEach(function(b){b.addEventListener("click",function(){sel=TYPES.filter(function(x){return x.k==b.dataset.t})[0];renderTypes();calc();});});
+  }
+  function calc(){var w=parseFloat(($("[data-w]").value||"0").replace(",","."))||0;$("[data-earn]").textContent="◈ "+Math.round(sel.cr*w);$("[data-avoid]").textContent=(sel.co*w).toFixed(1)+" kg";}
+  function renderBoard(){$("[data-board]").innerHTML=BOARD.map(function(r,i){return '<div class="bs-lead"><span class="rank">'+(i+1)+'</span><div class="nm">'+r[0]+'<small>'+r[1]+'</small></div><span class="kg">'+r[2].toLocaleString("id-ID")+' kg</span></div>';}).join("");}
+  function sync(){$("[data-r1]").textContent="◈ "+credit;$("[data-hcr]").textContent="◈ "+credit;$("[data-rbal]").textContent=credit;$("[data-r2]").textContent=deposited.toFixed(1)+" kg";$("[data-r3]").textContent=avoided.toFixed(1)+" kg";$("[data-hco2]").textContent=avoided.toFixed(1).replace(".",",")+" kg";}
+  function setTab(n){$$(".ga-tab").forEach(function(t){t.classList.toggle("on",t.dataset.tab===n);});$$(".ga-pane").forEach(function(p){p.classList.toggle("on",p.dataset.pane===n);});}
+  $$(".ga-tab").forEach(function(t){t.addEventListener("click",function(){setTab(t.dataset.tab);});});
+  $("[data-w]").addEventListener("input",calc);
+  $("[data-deposit]").addEventListener("click",function(){
+    var w=parseFloat(($("[data-w]").value||"0").replace(",","."))||0;if(w<=0){GA.toast("Isi berat dulu");return;}
+    var cr=Math.round(sel.cr*w),co=sel.co*w;credit+=cr;avoided+=co;deposited+=w;sync();
+    feed.push("ai","Setoran diverifikasi",w.toFixed(1)+" kg "+sel.k+" · citra+timbangan cocok");
+    feed.push("chain","Kredit diterbitkan","+"+cr+" ◈ · "+co.toFixed(1)+" kgCO₂e dihindari · tx "+GA.short());
+    GA.toast("Setor "+w.toFixed(1)+" kg "+sel.k+" — +"+cr+" ◈");
+  });
+  $$("[data-redeem]").forEach(function(b){b.addEventListener("click",function(){
+    var cost=+b.dataset.cost;if(credit<cost){GA.toast("Kredit belum cukup");return;}
+    credit-=cost;sync();feed.push("chain","Kredit ditukar",b.dataset.redeem+" · −"+cost+" ◈ · tx "+GA.short());GA.toast("Ditukar: "+b.dataset.redeem);
+  });});
+  renderTypes();calc();renderBoard();sync();
+  setInterval(function(){var s=GA.pick([["chain","Setoran komunitas","Mahasiswa lain menyetor 1,8 kg Kertas · +54 ◈"],["ai","Deteksi kontaminasi","Batch plastik tercampur organik — diminta pilah ulang."],["ai","Dampak mingguan","Komunitas hindari 214 kgCO₂e minggu ini."]]);feed.push(s[0],s[1],s[2]);},6000);
+})();
+</script>
+</body>
+</html>

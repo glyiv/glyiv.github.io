@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kebun Virtual — Glyiv · pantau & rawat pohonmu, panen imbalan</title>
+<meta name="description" content="Kebun Karbon Virtual Glyiv: temukan lahanmu lewat koordinat, lihat tiap pohon tumbuh (kecil→besar sesuai umur), klik untuk metadata, rawat & panen imbalan. Terlacak, jujur, menyenangkan.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<style>
+/* ===== Kebun Virtual — Glyiv (kbn- scoped), playful but on-brand ===== */
+body{background:var(--paper)}
+.kbn-app{max-width:1220px;margin:0 auto;padding:96px clamp(14px,3.5vw,34px) 70px}
+.kbn-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+.kbn-head .l .k{font-family:var(--l-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.kbn-head h1{font-family:var(--l-serif);font-weight:600;font-size:clamp(28px,4vw,44px);line-height:1.05;color:var(--pine);margin:8px 0 6px;letter-spacing:-.02em}
+.kbn-head h1 em{font-style:italic;color:var(--teal)}
+.kbn-head p{color:var(--slate);max-width:56ch;font-size:15px;line-height:1.55;margin:0}
+.kbn-coord{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--hair);border-radius:14px;padding:8px 8px 8px 14px;box-shadow:var(--sh1)}
+.kbn-coord svg{width:16px;height:16px;color:var(--teal);flex:0 0 auto}
+.kbn-coord input{width:96px;border:0;outline:0;font-family:var(--l-mono);font-size:12.5px;color:var(--pine);background:none}
+.kbn-coord .sep{color:var(--muted)}
+.kbn-coord button{background:var(--pine);color:#fff;border:0;border-radius:9px;padding:9px 14px;font-family:var(--l-sans);font-weight:700;font-size:12.5px;cursor:pointer;white-space:nowrap;transition:.18s}
+.kbn-coord button:hover{background:var(--teal)}
+
+/* HUD */
+.kbn-hud{display:grid;grid-template-columns:1.4fr repeat(4,1fr);gap:12px;margin-bottom:16px}
+.kbn-lvl,.kbn-stat{background:#fff;border:1px solid var(--hair);border-radius:16px;box-shadow:var(--sh1);padding:14px 16px}
+.kbn-lvl{display:flex;flex-direction:column;justify-content:center}
+.kbn-lvl .top{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.kbn-lvl .lv{font-family:var(--l-serif);font-weight:600;font-size:22px;color:var(--pine);line-height:1}
+.kbn-lvl .lv b{color:var(--teal)}
+.kbn-lvl .xp{margin-left:auto;font-family:var(--l-mono);font-size:9.5px;color:var(--muted)}
+.kbn-bar{height:9px;border-radius:999px;background:var(--paper2);overflow:hidden;border:1px solid var(--hair)}
+.kbn-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),#43c98f);border-radius:999px;transition:width .5s var(--ease)}
+.kbn-stat .k{font-family:var(--l-mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kbn-stat .v{font-family:var(--l-serif);font-weight:600;font-size:23px;color:var(--pine);line-height:1.1;margin-top:5px;display:flex;align-items:center;gap:5px}
+.kbn-stat .v.g{color:var(--teal)}.kbn-stat .v.gold{color:var(--brass)}
+.kbn-stat .v svg{width:16px;height:16px}
+.kbn-stat .s{font-family:var(--l-mono);font-size:8.5px;color:var(--muted);margin-top:2px}
+
+/* stage */
+.kbn-stage{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;align-items:start}
+.kbn-field{position:relative;height:clamp(380px,56vh,560px);border-radius:22px;overflow:hidden;border:1px solid var(--hair);box-shadow:var(--sh2);isolation:isolate;cursor:default}
+.kbn-sky{position:absolute;inset:0;z-index:0}
+.kbn-ground{position:absolute;left:-2%;right:-2%;bottom:0;height:66%;z-index:1;
+  background:radial-gradient(120% 80% at 50% 120%,#5aa06e,#3c7f56 60%,#2f6a48);
+  box-shadow:inset 0 20px 40px -20px rgba(255,255,255,.25)}
+.kbn-ground::before{content:"";position:absolute;inset:0;opacity:.5;
+  background:repeating-linear-gradient(93deg,rgba(255,255,255,.05) 0 2px,transparent 2px 46px)}
+.kbn-ground::after{content:"";position:absolute;left:0;right:0;top:-1px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent)}
+.kbn-sun{position:absolute;top:26px;right:34px;width:56px;height:56px;border-radius:50%;z-index:1;
+  background:radial-gradient(circle,#fff3c4,#ffd873 62%,rgba(255,216,115,0));box-shadow:0 0 46px 12px rgba(255,216,115,.5)}
+.kbn-cloud{position:absolute;z-index:1;background:rgba(255,255,255,.82);border-radius:999px;filter:blur(3px);opacity:.8;animation:kbnDrift linear infinite}
+@keyframes kbnDrift{from{transform:translateX(-40px)}to{transform:translateX(calc(100% + 60vw))}}
+.kbn-leaf{position:absolute;top:-16px;z-index:6;width:11px;height:11px;pointer-events:none;color:#cdeccf;animation:kbnFall linear infinite}
+@keyframes kbnFall{0%{transform:translateY(-10px) rotate(0);opacity:0}12%{opacity:.9}100%{transform:translateY(560px) rotate(320deg);opacity:0}}
+
+/* trees */
+.kbn-tree{position:absolute;z-index:5;transform:translate(-50%,-100%) scale(var(--sc,1));transform-origin:bottom center;
+  border:0;background:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent;width:78px;height:104px;
+  animation:kbnPop .5s var(--ease) both;filter:drop-shadow(0 8px 8px rgba(12,40,26,.28))}
+@keyframes kbnPop{0%{opacity:0;transform:translate(-50%,-100%) scale(.2)}70%{transform:translate(-50%,-100%) scale(calc(var(--sc,1)*1.08))}100%{opacity:1;transform:translate(-50%,-100%) scale(var(--sc,1))}}
+.kbn-sway{display:block;transform-origin:bottom center;animation:kbnSway ease-in-out infinite alternate}
+@keyframes kbnSway{from{transform:rotate(-1.6deg)}to{transform:rotate(1.6deg)}}
+.kbn-svg{width:78px;height:104px;display:block;overflow:visible}
+.kbn-tree:hover{z-index:20}
+.kbn-tree:hover .kbn-sway{animation-play-state:paused;transform:scale(1.05)}
+.kbn-tree.sel{z-index:22}
+.kbn-tree.sel::after{content:"";position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);width:52px;height:14px;border-radius:50%;
+  border:2.5px solid var(--teal);box-shadow:0 0 0 5px rgba(31,122,107,.14)}
+.kbn-tree.sel .kbn-sway{animation:kbnBob .9s var(--ease) infinite alternate}
+@keyframes kbnBob{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+.kbn-tag{position:absolute;left:50%;top:-30px;transform:translateX(-50%);white-space:nowrap;font-family:var(--l-mono);font-size:9px;
+  color:#08301f;background:rgba(255,255,255,.92);border-radius:6px;padding:2px 6px;opacity:0;transition:.18s;pointer-events:none;box-shadow:var(--sh1)}
+.kbn-tree:hover .kbn-tag,.kbn-tree.sel .kbn-tag{opacity:1}
+.kbn-pin{position:absolute;left:50%;top:-2px;transform:translate(-50%,-100%);z-index:7;pointer-events:none}
+.kbn-pin i{display:block;width:8px;height:8px;border-radius:50%}
+.kbn-pin i.baik{background:#7dffb0;box-shadow:0 0 0 4px rgba(125,255,176,.25)}
+.kbn-pin i.pantau{background:#ffcf6b;box-shadow:0 0 0 4px rgba(255,207,107,.28)}
+.kbn-float{position:absolute;z-index:30;font-family:var(--l-mono);font-weight:600;font-size:13px;color:#fff;pointer-events:none;
+  text-shadow:0 1px 3px rgba(0,0,0,.4);animation:kbnFloat 1s var(--ease) forwards}
+@keyframes kbnFloat{0%{opacity:0;transform:translateY(0) scale(.8)}20%{opacity:1}100%{opacity:0;transform:translateY(-46px) scale(1.1)}}
+
+/* field HUD chips + legend + locate overlay */
+.kbn-fhud{position:absolute;left:14px;top:14px;z-index:12;display:flex;gap:7px;flex-wrap:wrap;max-width:70%}
+.kbn-chip{font-family:var(--l-mono);font-size:9.5px;color:#eafff4;background:rgba(8,34,22,.62);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:5px 10px;backdrop-filter:blur(6px)}
+.kbn-chip b{color:#8affc1}
+.kbn-legend{position:absolute;right:14px;bottom:14px;z-index:12;display:flex;gap:10px;background:rgba(8,34,22,.5);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:8px 11px;backdrop-filter:blur(6px)}
+.kbn-legend span{display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--l-mono);font-size:8px;color:rgba(255,255,255,.85)}
+.kbn-legend i{background:#57b97e;border-radius:50% 50% 45% 45%;display:block}
+.kbn-locate{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:linear-gradient(180deg,rgba(6,26,18,.72),rgba(6,26,18,.9));backdrop-filter:blur(3px);text-align:center;transition:opacity .5s var(--ease)}
+.kbn-locate.hide{opacity:0;pointer-events:none}
+.kbn-locate__c{max-width:400px}
+.kbn-locate h3{font-family:var(--l-serif);font-weight:600;font-size:23px;color:#fff;margin:0 0 8px}
+.kbn-locate p{color:rgba(255,255,255,.82);font-size:13.5px;line-height:1.5;margin:0 0 16px}
+.kbn-presets{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.kbn-preset{display:flex;align-items:center;gap:11px;text-align:left;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:11px 13px;cursor:pointer;transition:.18s;color:#fff}
+.kbn-preset:hover{background:rgba(255,255,255,.16);transform:translateX(2px)}
+.kbn-preset .em{width:34px;height:34px;border-radius:9px;flex:0 0 auto;display:grid;place-items:center;background:rgba(255,255,255,.12)}
+.kbn-preset .em i{display:block;width:16px;height:20px;background:#7dffb0;border-radius:50% 50% 42% 42%}
+.kbn-preset b{display:block;font-size:13.5px}
+.kbn-preset small{font-family:var(--l-mono);font-size:9px;color:rgba(255,255,255,.7)}
+.kbn-scan{position:absolute;inset:0;z-index:38;display:none;align-items:center;justify-content:center;background:rgba(6,26,18,.8)}
+.kbn-scan.on{display:flex}
+.kbn-scan .ring{width:78px;height:78px;border-radius:50%;border:3px solid rgba(138,255,193,.25);border-top-color:#8affc1;animation:kbnSpin .9s linear infinite}
+.kbn-scan .txt{position:absolute;bottom:38%;font-family:var(--l-mono);font-size:11px;color:#8affc1;letter-spacing:.1em}
+@keyframes kbnSpin{to{transform:rotate(360deg)}}
+
+/* side panel */
+.kbn-side{position:sticky;top:88px;display:flex;flex-direction:column;gap:14px}
+.kbn-card{background:#fff;border:1px solid var(--hair);border-radius:18px;box-shadow:var(--sh1);overflow:hidden}
+.kbn-card__hd{display:flex;align-items:center;gap:8px;padding:14px 16px;border-bottom:1px solid var(--hair)}
+.kbn-card__hd h3{font-family:var(--l-serif);font-weight:600;font-size:16px;color:var(--pine);margin:0}
+.kbn-card__hd .tag{margin-left:auto;font-family:var(--l-mono);font-size:8.5px;letter-spacing:.05em;color:var(--muted);border:1px solid var(--hair);border-radius:6px;padding:3px 7px}
+.kbn-card__b{padding:16px}
+
+/* welcome (no selection) */
+.kbn-welcome{text-align:center;padding:26px 18px}
+.kbn-welcome .big{width:56px;height:56px;margin:0 auto 12px;border-radius:16px;background:var(--paper2);display:grid;place-items:center}
+.kbn-welcome .big i{display:block;width:24px;height:30px;background:#57b97e;border-radius:50% 50% 42% 42%}
+.kbn-welcome h4{font-family:var(--l-serif);font-weight:600;font-size:18px;color:var(--pine);margin:0 0 6px}
+.kbn-welcome p{font-size:13px;color:var(--slate);line-height:1.5;margin:0}
+
+/* tree detail */
+.kbn-thead{display:flex;gap:13px;align-items:center;margin-bottom:14px}
+.kbn-tpic{width:84px;height:84px;flex:0 0 auto;border-radius:15px;background:linear-gradient(180deg,#d3edd5,#aadcb6);display:grid;place-items:end center;overflow:hidden;box-shadow:var(--sh1)}
+.kbn-tpic svg{width:64px;height:78px}
+.kbn-thead h2{font-family:var(--l-serif);font-weight:600;font-size:20px;color:var(--pine);margin:0 0 3px;line-height:1.08}
+.kbn-thead .sub{font-family:var(--l-mono);font-size:9.5px;color:var(--muted)}
+.kbn-badges2{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.kbn-pill{font-family:var(--l-mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:4px 9px}
+.kbn-pill.stage{color:var(--teal);background:rgba(31,122,107,.1);border:1px solid rgba(31,122,107,.22)}
+.kbn-pill.baik{color:#1c8a5a;background:rgba(28,138,90,.1);border:1px solid rgba(28,138,90,.24)}
+.kbn-pill.pantau{color:var(--brass);background:rgba(176,137,79,.12);border:1px solid rgba(176,137,79,.3)}
+.kbn-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.kbn-meta div{background:var(--paper2);border:1px solid var(--hair);border-radius:11px;padding:10px 11px}
+.kbn-meta .k{font-family:var(--l-mono);font-size:7.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.kbn-meta .v{font-family:var(--l-serif);font-weight:600;font-size:17px;color:var(--pine);line-height:1.1;margin-top:3px}
+.kbn-meta .v small{font-family:var(--l-mono);font-size:8px;color:var(--muted);font-weight:400}
+.kbn-meta .v.g{color:var(--teal)}.kbn-meta .v.gold{color:var(--brass)}
+.kbn-growth{margin-top:13px;background:var(--paper2);border:1px solid var(--hair);border-radius:12px;padding:12px}
+.kbn-growth .gt{font-family:var(--l-mono);font-size:8.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.kbn-gbars{display:flex;align-items:flex-end;gap:4px;height:56px}
+.kbn-gbars i{flex:1;height:100%;background:linear-gradient(180deg,var(--teal),#8fd9bf);border-radius:3px 3px 1px 1px;transform:scaleY(var(--h));transform-origin:bottom;min-width:0}
+.kbn-onchain{margin-top:13px;display:flex;align-items:center;gap:10px;background:linear-gradient(120deg,rgba(31,122,107,.08),rgba(31,122,107,.02));border:1px solid rgba(31,122,107,.18);border-radius:11px;padding:10px 12px}
+.kbn-onchain .ic{width:28px;height:28px;border-radius:8px;background:rgba(31,122,107,.14);display:grid;place-items:center;flex:0 0 auto;font-size:13px}
+.kbn-onchain b{font-size:11.5px;color:var(--pine);display:block}
+.kbn-onchain small{font-family:var(--l-mono);font-size:8.5px;color:var(--muted);word-break:break-all}
+
+/* care actions */
+.kbn-care{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.kbn-act{border:1px solid var(--hair);background:#fff;border-radius:12px;padding:11px 6px;cursor:pointer;transition:.16s;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
+.kbn-act:hover:not(:disabled){border-color:var(--teal);background:var(--paper2);transform:translateY(-2px)}
+.kbn-act:disabled{opacity:.42;cursor:not-allowed}
+.kbn-act .ai{width:26px;height:26px;color:var(--teal)}
+.kbn-act b{font-size:11.5px;color:var(--pine);font-weight:700}
+.kbn-act small{font-family:var(--l-mono);font-size:8px;color:var(--muted)}
+.kbn-cta{display:flex;gap:8px;margin-top:12px}
+.kbn-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:var(--l-sans);font-weight:700;font-size:12.5px;padding:11px;border-radius:11px;border:1px solid transparent;cursor:pointer;transition:.18s;text-decoration:none}
+.kbn-btn.solid{background:var(--pine);color:#fff}.kbn-btn.solid:hover{background:var(--teal)}
+.kbn-btn.ghost{background:#fff;border-color:var(--hair);color:var(--pine)}.kbn-btn.ghost:hover{border-color:var(--teal);color:var(--teal)}
+
+/* badges */
+.kbn-ach{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.kbn-badge{display:flex;align-items:center;gap:9px;background:var(--paper2);border:1px solid var(--hair);border-radius:12px;padding:9px 10px;transition:.2s}
+.kbn-badge.on{background:linear-gradient(120deg,rgba(176,137,79,.1),rgba(176,137,79,.02));border-color:rgba(176,137,79,.3)}
+.kbn-badge .bi{width:30px;height:30px;border-radius:9px;flex:0 0 auto;display:grid;place-items:center;background:#fff;border:1px solid var(--hair);color:var(--muted)}
+.kbn-badge.on .bi{color:var(--brass);border-color:rgba(176,137,79,.4)}
+.kbn-badge .bi svg{width:16px;height:16px}
+.kbn-badge b{font-size:11px;color:var(--pine);display:block;line-height:1.15}
+.kbn-badge small{font-family:var(--l-mono);font-size:8px;color:var(--muted)}
+.kbn-badge:not(.on) b{color:var(--muted)}
+
+.kbn-note{font-family:var(--l-mono);font-size:10px;color:var(--muted);text-align:center;margin:26px auto 0;max-width:80ch;line-height:1.6}
+.kbn-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--pine);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;font-weight:600;opacity:0;transition:.25s var(--ease);z-index:120;box-shadow:var(--sh3);display:flex;align-items:center;gap:9px}
+.kbn-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.kbn-toast .lvup{font-family:var(--l-mono);font-size:9px;background:var(--brass);color:#fff;border-radius:6px;padding:2px 6px}
+
+@media (max-width:920px){
+  .kbn-hud{grid-template-columns:1fr 1fr}
+  .kbn-lvl{grid-column:1/-1}
+  .kbn-stage{grid-template-columns:1fr}
+  .kbn-side{position:static}
+}
+@media (prefers-reduced-motion:reduce){
+  .kbn-sway,.kbn-cloud,.kbn-leaf,.kbn-tree.sel .kbn-sway,.kbn-scan .ring{animation:none!important}
+}
+</style>
+</head>
+<body>
+<div class="gv-bg-root" aria-hidden="true"></div>
+<div id="ga-nav"></div>
+
+<main class="kbn-app">
+  <div class="kbn-head">
+    <div class="l">
+      <div class="k">Glyiv Aset · Kebun Karbon Virtual</div>
+      <h1>Kebunmu, <em>hidup.</em></h1>
+      <p>Temukan lahanmu lewat koordinat, lihat tiap pohon tumbuh sesuai umurnya, klik untuk metadata lengkap — lalu rawat dan panen imbalan. Menyenangkan, tapi tetap terlacak &amp; jujur.</p>
+    </div>
+    <div class="kbn-coord">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+      <input data-lat name="lat" value="-6.1057" aria-label="Lintang"><span class="sep">,</span><input data-lon name="lon" value="106.8890" aria-label="Bujur">
+      <button data-find>Temukan lahan</button>
+    </div>
+  </div>
+
+  <!-- HUD -->
+  <div class="kbn-hud">
+    <div class="kbn-lvl">
+      <div class="top"><span class="lv">Level <b data-level>4</b></span><span class="xp"><span data-xp>0</span>/<span data-xpmax>480</span> XP</span></div>
+      <div class="kbn-bar"><i data-xpbar style="width:0%"></i></div>
+    </div>
+    <div class="kbn-stat"><div class="k">Daun (imbalan)</div><div class="v gold"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C7 3 3 7 3 12c0 3 1.5 5.5 3.8 7C7 14 11 10 17 8c-4 3.5-6.5 8-7 11.5C15.5 20 21 16 21 9c0-3.3-4-6-9-6z"/></svg><span data-leaves>240</span></div><div class="s">bisa ditukar imbalan</div></div>
+    <div class="kbn-stat"><div class="k">Streak harian</div><div class="v"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--brass)"><path d="M12 3c1.5 3 4 4.5 4 8a4 4 0 0 1-8 0c0-1.2.4-2 1-3 .3 2 1.5 2.5 1.5 2.5S11 9 12 3z"/></svg><span data-streak>6</span> hari</div><div class="s">rawat tiap hari</div></div>
+    <div class="kbn-stat"><div class="k">Serapan / thn</div><div class="v g"><span data-totco2>—</span></div><div class="s" data-src="Metodologi dMRV Glyiv (activity-based)|/lab/carbon-intelligence.html#tour ;; ecoinvent|https://ecoinvent.org ;; IPCC 2019 Refinement (AFOLU)|https://www.ipcc-nggip.iges.or.jp/public/2019rf/" data-src-title="Cara serapan diestimasi" data-src-inside>kg CO₂e ⚠︎ ilustrasi</div></div>
+    <div class="kbn-stat"><div class="k">Pohon di kebun</div><div class="v"><span data-trees>—</span></div><div class="s">klik untuk metadata</div></div>
+  </div>
+
+  <!-- STAGE -->
+  <div class="kbn-stage">
+    <div class="kbn-field" data-field>
+      <div class="kbn-sky" data-sky></div>
+      <div class="kbn-sun"></div>
+      <div class="kbn-ground"></div>
+      <div class="kbn-fhud">
+        <span class="kbn-chip" data-plotname>—</span>
+        <span class="kbn-chip">Lahan: <b data-plotha>—</b></span>
+        <span class="kbn-chip">Satelit: <b data-plotsat>—</b></span>
+      </div>
+      <div class="kbn-legend">
+        <span><i style="width:8px;height:11px"></i>Bibit</span>
+        <span><i style="width:12px;height:16px"></i>Muda</span>
+        <span><i style="width:16px;height:22px"></i>Dewasa</span>
+        <span><i style="width:20px;height:28px"></i>Rimbun</span>
+      </div>
+      <div data-trees-layer></div>
+      <!-- scanning -->
+      <div class="kbn-scan" data-scan><div class="ring"></div><div class="txt" data-scantxt>MEMINDAI LAHAN…</div></div>
+      <!-- locate overlay -->
+      <div class="kbn-locate" data-locate>
+        <div class="kbn-locate__c">
+          <h3>Temukan lahanmu</h3>
+          <p>Masukkan koordinat di atas &amp; tekan <b>Temukan lahan</b>, atau pilih kebun contoh untuk mulai menjelajah.</p>
+          <div class="kbn-presets" data-presets></div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="kbn-side">
+      <div class="kbn-card">
+        <div class="kbn-card__hd"><h3 data-sidetitle>Pohon terpilih</h3><span class="tag" data-sidetag>—</span></div>
+        <div class="kbn-card__b" data-detail>
+          <div class="kbn-welcome"><div class="big"><i></i></div><h4>Pilih sebuah pohon</h4><p>Klik pohon mana pun di kebun untuk melihat umur, serapan karbon, kesehatan, dan status on-chain-nya.</p></div>
+        </div>
+      </div>
+      <div class="kbn-card">
+        <div class="kbn-card__hd"><h3>Lencana</h3><span class="tag" data-achcount>0/6</span></div>
+        <div class="kbn-card__b"><div class="kbn-ach" data-ach></div>
+          <button class="kbn-btn ghost" data-plant style="width:100%;margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px"><path d="M12 22V12M12 12C12 8 9 5 5 5c0 4 3 7 7 7zM12 12c0-3.5 3-6 7-6 0 3.5-3 6-7 6z"/></svg> Tanam pohon baru <small style="font-family:var(--l-mono);color:var(--muted);font-weight:400">· 80 daun</small></button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <p class="kbn-note">Pratinjau produk (teaser). Pohon, koordinat, serapan karbon, dan mekanik permainan bersifat <b>ilustrasi</b> — mekanisme (dMRV, metadata per-pohon, kepemilikan ter-tokenisasi) mengikuti desain sistem Glyiv yang sebenarnya. Serapan = <b>estimasi terlacak</b>, bukan pengukuran presisi; kontribusi iklim, bukan klaim netral. Umur pohon menentukan ukuran sprite (bibit → rimbun).</p>
+</main>
+
+<div class="kbn-toast" data-toast></div>
+<div id="ga-foot"></div>
+
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script src="/assets/js/glyiv-sources.js" defer></script>
+<script>
+(function(){
+"use strict";
+var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+var rnd=function(a,b){return a+Math.random()*(b-a)},ri=function(a,b){return Math.floor(rnd(a,b+1))},pick=function(a){return a[Math.floor(Math.random()*a.length)]};
+var fmt=function(n){return Math.round(n).toLocaleString("id-ID")},clamp=function(v,a,b){return Math.max(a,Math.min(b,v))};
+var hex=function(){var h="0123456789abcdef",s="0x";for(var i=0;i<6;i++)s+=h[Math.floor(Math.random()*16)];return s+"…"+h[ri(0,15)]+h[ri(0,15)]+h[ri(0,15)]+h[ri(0,15)]};
+
+/* ---- species & biomes ---- */
+var SPECIES={
+  mangrove:[{n:"Mangrove Rhizophora",c:"mangrove",b:26},{n:"Api-api (Avicennia)",c:"mangrove",b:22},{n:"Bakau Minyak",c:"mangrove",b:24}],
+  highland:[{n:"Pinus Merkusii",c:"cone",b:19},{n:"Sengon (Albizia)",c:"cone",b:30},{n:"Mahoni",c:"round",b:28},{n:"Kaliandra",c:"round",b:16}],
+  urban:[{n:"Trembesi (Samanea)",c:"round",b:41},{n:"Tabebuya",c:"round",b:20},{n:"Ketapang Kencana",c:"round",b:24},{n:"Beringin",c:"round",b:38}]
+};
+var PLOTS=[
+  {id:"PL-01",name:"Kebun Pesisir Mangrove",region:"Pesisir Jakarta Utara",lat:-6.1057,lon:106.8890,biome:"mangrove",ha:24,n:11,
+   sky:"linear-gradient(180deg,#bfe6f5,#e7f6ef)"},
+  {id:"PL-02",name:"Kebun Dataran Tinggi",region:"Lereng Merbabu, Jateng",lat:-7.4550,lon:110.4300,biome:"highland",ha:63,n:12,
+   sky:"linear-gradient(180deg,#cfe9f7,#eaf6ea)"},
+  {id:"PL-03",name:"Hutan Kota & RTH",region:"Taman kota",lat:-6.2210,lon:106.8120,biome:"urban",ha:7,n:9,
+   sky:"linear-gradient(180deg,#d6ecfa,#eef7ec)"}
+];
+var GROUND={mangrove:"radial-gradient(120% 80% at 50% 120%,#5c9a7e,#3d7d68 58%,#2c5f52)",
+  highland:"radial-gradient(120% 80% at 50% 120%,#63a86e,#3c8154 60%,#2d6a45)",
+  urban:"radial-gradient(120% 80% at 50% 120%,#63ab6a,#3f8a53 60%,#2f7245)"};
+
+function stageOf(a){return a<3?"bibit":a<8?"muda":a<16?"dewasa":"rimbun";}
+var STG={bibit:{l:"Bibit",sc:.5},muda:{l:"Muda",sc:.78},dewasa:{l:"Dewasa",sc:1.06},rimbun:{l:"Rimbun",sc:1.32}};
+
+function makeTree(plot,i,age){
+  var sp=pick(SPECIES[plot.biome]);
+  age=age!=null?age:ri(1,22);
+  var f=Math.min(1,age/18),health=Math.random()<.82?"baik":"pantau";
+  var co2y=+(sp.b*(0.15+0.85*f)*(health==="baik"?1:.82)*rnd(.92,1.12)).toFixed(1);
+  var dia=+(2+age*rnd(1.9,2.9)).toFixed(1),hgt=+(1+age*rnd(.7,1.25)).toFixed(1);
+  var ndvi=+(clamp((health==="baik"?.7:.58)+f*.18+rnd(-.03,.03),.4,.95)).toFixed(2);
+  var series=[];var v=dia*.35;for(var k=0;k<12;k++){v+=dia*.06*rnd(.5,1);series.push(v);}
+  var mx=Math.max.apply(null,series);series=series.map(function(x){return +(x/mx).toFixed(2);});
+  return {id:"GLYV-"+plot.id+"-"+String(100+i).slice(-3),sp:sp,species:sp.n,canopy:sp.c,age:age,stage:stageOf(age),
+    health:health,co2y:co2y,co2total:+(co2y*age*rnd(.6,.85)).toFixed(0),dia:dia,height:hgt,ndvi:ndvi,
+    lat:(plot.lat+rnd(-.008,.008)).toFixed(5),lon:(plot.lon+rnd(-.008,.008)).toFixed(5),tx:hex(),series:series,
+    planted:Math.random()<.35};
+}
+
+/* ---- tree sprite ---- */
+function tones(t){return t.health==="pantau"?["#a7c17e","#c3d79f","#8bad63"]:["#2f8f5f","#57b97e","#1f6f4a"];}
+function treeSVG(t,small){
+  var c=tones(t),tr="#8a5a34",trd="#623f22",W=small?"64":"78",H=small?"78":"104";
+  var s='<svg class="kbn-svg" viewBox="0 0 120 150" width="'+W+'" height="'+H+'" aria-hidden="true">';
+  s+='<ellipse cx="60" cy="146" rx="30" ry="6" fill="rgba(10,36,24,.18)"/>';
+  if(t.stage==="bibit"){
+    s+='<path d="M60 146 L60 108" stroke="'+trd+'" stroke-width="4" stroke-linecap="round"/>';
+    s+='<path d="M60 120 Q38 110 32 90 Q56 98 60 118 Z" fill="'+c[1]+'"/>';
+    s+='<path d="M60 116 Q82 104 90 84 Q64 92 60 112 Z" fill="'+c[0]+'"/>';
+    return s+'</svg>';
+  }
+  s+='<path d="M53 146 Q55 104 57 84 L63 84 Q65 106 67 146 Z" fill="'+tr+'"/>';
+  s+='<path d="M57 146 Q58 108 59 88 L62 88 Q63 110 64 146 Z" fill="'+trd+'" opacity=".4"/>';
+  if(t.canopy==="cone"){
+    s+='<polygon points="60,10 96,66 24,66" fill="'+c[0]+'"/>';
+    s+='<polygon points="60,34 104,100 16,100" fill="'+c[2]+'"/>';
+    s+='<polygon points="60,22 90,78 30,78" fill="'+c[1]+'"/>';
+    s+='<polygon points="60,54 108,112 12,112" fill="'+c[0]+'" opacity=".95"/>';
+  }else if(t.canopy==="mangrove"){
+    s+='<path d="M44 146 Q49 118 57 96 M76 146 Q71 118 63 96 M60 146 L60 92" stroke="'+tr+'" stroke-width="5" fill="none" stroke-linecap="round"/>';
+    s+='<ellipse cx="60" cy="70" rx="52" ry="30" fill="'+c[0]+'"/>';
+    s+='<ellipse cx="36" cy="64" rx="27" ry="20" fill="'+c[1]+'"/>';
+    s+='<ellipse cx="84" cy="66" rx="27" ry="19" fill="'+c[2]+'" opacity=".92"/>';
+    s+='<ellipse cx="60" cy="54" rx="28" ry="19" fill="'+c[1]+'"/>';
+  }else{
+    s+='<ellipse cx="60" cy="66" rx="46" ry="42" fill="'+c[0]+'"/>';
+    s+='<ellipse cx="40" cy="58" rx="27" ry="25" fill="'+c[1]+'"/>';
+    s+='<ellipse cx="82" cy="60" rx="26" ry="23" fill="'+c[2]+'" opacity=".92"/>';
+    s+='<ellipse cx="60" cy="44" rx="25" ry="22" fill="'+c[1]+'"/>';
+    s+='<circle cx="50" cy="52" r="7" fill="#fff" opacity=".12"/>';
+  }
+  return s+'</svg>';
+}
+
+/* ---- layout slots ---- */
+function slots(n){
+  var out=[],cols=4,rows=Math.max(2,Math.ceil(n/cols)),i;
+  for(var r=0;r<rows;r++)for(var col=0;col<cols;col++){
+    var topP=52+(rows>1?r/(rows-1):0)*38;
+    var xP=13+(col+.5)/cols*74;
+    out.push({x:clamp(xP+rnd(-4.5,4.5),8,92),top:clamp(topP+rnd(-3,3),48,92)});
+  }
+  return out.sort(function(){return Math.random()-.5;});
+}
+
+/* ---- state ---- */
+var S={plot:null,trees:[],slots:[],empty:[],sel:null,level:4,xp:0,leaves:240,streak:6,
+  planted:false,cared:false,acted:0,lastCare:{}};
+function xpMax(){return S.level*120;}
+
+/* ---- rendering ---- */
+var field=$("[data-field]"),layer=$("[data-trees-layer]"),sky=$("[data-sky]");
+function paintField(){
+  sky.style.background=S.plot.sky;
+  $(".kbn-ground").style.background=GROUND[S.plot.biome];
+  $("[data-plotname]").textContent=S.plot.name;
+  $("[data-plotha]").textContent=S.plot.ha+" ha";
+  $("[data-plotsat]").textContent=pick(["3 jam lalu","hari ini 04:12","6 jam lalu","kemarin 21:40"]);
+}
+function renderTrees(){
+  layer.innerHTML=S.trees.map(function(t,i){
+    var sl=t.slot,z=Math.round(sl.top*10),depth=.72+sl.top/100*.42,sc=clamp(STG[t.stage].sc*depth,.4,1.6);
+    return '<button class="kbn-tree'+(t===S.sel?" sel":"")+'" data-t="'+i+'" style="left:'+sl.x+'%;top:'+sl.top+'%;--sc:'+sc.toFixed(3)+';z-index:'+z+';animation-delay:'+(i*55)+'ms">'+
+      '<span class="kbn-pin"><i class="'+t.health+'"></i></span>'+
+      '<span class="kbn-tag">'+t.species.split(" ")[0]+' · '+t.age+'th</span>'+
+      '<span class="kbn-sway" style="animation-duration:'+(3.4+i%5*.4).toFixed(1)+'s">'+treeSVG(t)+'</span>'+
+    '</button>';
+  }).join("");
+  $$("[data-t]",layer).forEach(function(b){b.addEventListener("click",function(){selectTree(S.trees[+b.dataset.t]);});});
+  var tot=S.trees.reduce(function(s,t){return s+t.co2y;},0);
+  $("[data-totco2]").textContent=fmt(tot);$("[data-trees]").textContent=S.trees.length;
+}
+function selectTree(t){S.sel=t;renderTrees();renderDetail();renderAch();}
+
+function bars(t){return t.series.map(function(h){return '<i style="--h:'+Math.max(.06,h)+'"></i>';}).join("");}
+function renderDetail(){
+  var t=S.sel;if(!t){return;}
+  $("[data-sidetitle]").textContent="Detail pohon";$("[data-sidetag]").textContent=t.id;
+  var cool=Object.assign({},S.lastCare),now=Date.now();
+  function dis(k,ms){return (now-(cool[t.id+"_"+k]||0))<ms?"disabled":"";}
+  $("[data-detail]").innerHTML=
+    '<div class="kbn-thead"><div class="kbn-tpic">'+treeSVG(t,true)+'</div><div>'+
+      '<h2>'+t.species+'</h2><div class="sub">'+t.id+' · '+t.lat+', '+t.lon+'</div>'+
+      '<div class="kbn-badges2"><span class="kbn-pill stage">'+STG[t.stage].l+' · '+t.age+' thn</span><span class="kbn-pill '+t.health+'">'+(t.health==="baik"?"● Sehat":"● Perlu pantau")+'</span></div>'+
+    '</div></div>'+
+    '<div class="kbn-meta">'+
+      '<div><div class="k">Tinggi</div><div class="v">'+t.height+'<small> m</small></div></div>'+
+      '<div><div class="k">Diameter</div><div class="v">'+t.dia+'<small> cm</small></div></div>'+
+      '<div><div class="k">NDVI</div><div class="v gold">'+t.ndvi+'</div></div>'+
+      '<div><div class="k">Serapan/thn</div><div class="v g" data-src="Estimasi allometrik (IPCC 2019 AFOLU) + faktor spesies|https://www.ipcc-nggip.iges.or.jp/public/2019rf/ ;; ecoinvent|https://ecoinvent.org" data-src-title="Serapan ⚠︎ ilustrasi">'+t.co2y+'<small> kg</small></div></div>'+
+      '<div><div class="k">Total terserap</div><div class="v g">'+fmt(t.co2total)+'<small> kg</small></div></div>'+
+      '<div><div class="k">Umur</div><div class="v">'+t.age+'<small> thn</small></div></div>'+
+    '</div>'+
+    '<div class="kbn-growth"><div class="gt">Pertumbuhan diameter · 12 periode</div><div class="kbn-gbars">'+bars(t)+'</div></div>'+
+    '<div class="kbn-onchain"><span class="ic">🔗</span><div><b>Terverifikasi on-chain (testnet)</b><small>Aset ter-tokenisasi ERC-3643 · bukti dMRV '+t.tx+' · Glyiv Chain</small></div></div>'+
+    '<div class="kbn-care">'+
+      '<button class="kbn-act" data-care="siram" '+dis("siram",4000)+'><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg><b>Siram</b><small>+10 XP</small></button>'+
+      '<button class="kbn-act" data-care="pupuk" '+dis("pupuk",6000)+'><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20v-8M12 12c-3 0-5-2-5-5 3 0 5 2 5 5zM12 12c0-3 2-5 5-5 0 3-2 5-5 5z"/></svg><b>Pupuk</b><small>−30 daun · tumbuh</small></button>'+
+      '<button class="kbn-act" data-care="verif" '+dis("verif",5000)+'><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><b>Verifikasi</b><small>+14 XP · +daun</small></button>'+
+    '</div>'+
+    '<div class="kbn-cta"><a class="kbn-btn solid" href="/lab/apps/tree-marketplace/">Miliki / sewa fraksi →</a><a class="kbn-btn ghost" href="/lab/tree.html">Tentang</a></div>';
+  $$("[data-care]",$("[data-detail]")).forEach(function(b){b.addEventListener("click",function(){care(b.dataset.care,b);});});
+  if(window.GlyivSources)window.GlyivSources.scan($("[data-detail]"));
+}
+
+/* ---- care / gamification ---- */
+function floatXP(txt,color){
+  var f=document.createElement("div");f.className="kbn-float";f.textContent=txt;if(color)f.style.color=color;
+  var sel=$(".kbn-tree.sel");var r=field.getBoundingClientRect();
+  if(sel){var s=sel.getBoundingClientRect();f.style.left=(s.left-r.left+s.width/2)+"px";f.style.top=(s.top-r.top-6)+"px";}
+  else{f.style.left="50%";f.style.top="30%";}
+  field.appendChild(f);setTimeout(function(){f.remove();},1000);
+}
+function addXP(n){S.xp+=n;var up=false;while(S.xp>=xpMax()){S.xp-=xpMax();S.level++;up=true;}
+  renderHUD();if(up){S.leaves+=40;renderHUD();levelToast();}}
+function care(kind,btn){
+  var t=S.sel;if(!t)return;var now=Date.now();
+  if(kind==="siram"){S.lastCare[t.id+"_siram"]=now;t.ndvi=+clamp(t.ndvi+.01,.4,.95).toFixed(2);addXP(10);S.acted++;S.cared=true;floatXP("+10 XP");toast("Disiram — NDVI naik ✓");}
+  else if(kind==="pupuk"){if(S.leaves<30){toast("Daun kurang — panen dulu lewat Verifikasi");return;}S.lastCare[t.id+"_pupuk"]=now;S.leaves-=30;t.age=Math.min(60,t.age+1);t.stage=stageOf(t.age);
+    var f=Math.min(1,t.age/18);t.co2y=+(t.sp.b*(0.15+0.85*f)*rnd(.95,1.1)).toFixed(1);t.dia=+(t.dia+rnd(1.5,2.6)).toFixed(1);t.height=+(t.height+rnd(.5,1.1)).toFixed(1);t.co2total=+(t.co2total+t.co2y).toFixed(0);
+    addXP(22);S.acted++;S.cared=true;floatXP("↑ tumbuh!","#8affc1");toast("Dipupuk — pohon tumbuh & menyerap lebih banyak");renderTrees();}
+  else if(kind==="verif"){S.lastCare[t.id+"_verif"]=now;var gain=ri(8,16);S.leaves+=gain;addXP(14);S.acted++;S.cared=true;floatXP("+"+gain+" 🍃","#c9e8a0");toast(gain+" daun dipanen dari verifikasi dMRV (simulasi)");}
+  renderHUD();renderDetail();renderAch();
+  if(btn){btn.disabled=true;}
+}
+function plant(){
+  if(S.leaves<80){toast("Daun kurang untuk menanam (butuh 80)");return;}
+  if(!S.empty.length){toast("Kebun penuh — semua petak terisi");return;}
+  S.leaves-=80;var t=makeTree(S.plot,S.trees.length,1);t.slot=S.empty.shift();S.trees.push(t);S.planted=true;
+  addXP(30);renderTrees();floatXP("🌱 ditanam!","#8affc1");toast("Bibit baru ditanam (+30 XP)");selectTree(t);renderHUD();renderAch();
+}
+
+/* ---- HUD + badges ---- */
+function renderHUD(){
+  $("[data-level]").textContent=S.level;$("[data-xp]").textContent=fmt(S.xp);$("[data-xpmax]").textContent=fmt(xpMax());
+  $("[data-xpbar]").style.width=clamp(S.xp/xpMax()*100,0,100)+"%";
+  $("[data-leaves]").textContent=fmt(S.leaves);$("[data-streak]").textContent=S.streak;
+}
+var ACH=[
+  {k:"gardener",b:"Tukang Kebun",d:"rawat 1 pohon",ic:'<path d="M12 3l8 4-8 4-8-4 8-4z"/>',on:function(){return S.cared;}},
+  {k:"grower",b:"Penumbuh",d:"pupuk 1 pohon",ic:'<path d="M12 20v-9M7 7c3 0 5 2 5 5M17 7c-3 0-5 2-5 5"/>',on:function(){return S.acted>0&&S.trees.some(function(t){return t.stage!=="bibit";});}},
+  {k:"planter",b:"Penanam",d:"tanam bibit baru",ic:'<path d="M12 22V10M12 10C12 6 9 4 5 4c0 4 3 6 7 6z"/>',on:function(){return S.planted;}},
+  {k:"collector",b:"Kolektor",d:"3+ spesies",ic:'<path d="M4 7h16M4 12h16M4 17h10"/>',on:function(){var s={};S.trees.forEach(function(t){s[t.species]=1;});return Object.keys(s).length>=3;}},
+  {k:"ton",b:"Penyerap ½ Ton",d:"≥500 kg/thn",ic:'<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>',on:function(){return S.trees.reduce(function(s,t){return s+t.co2y;},0)>=500;}},
+  {k:"level",b:"Level 5+",d:"naik ke level 5",ic:'<path d="M12 3l3 6 6 1-4.5 4 1 6-5.5-3-5.5 3 1-6L3 10l6-1z"/>',on:function(){return S.level>=5;}}
+];
+function renderAch(){
+  var n=0;$("[data-ach]").innerHTML=ACH.map(function(a){var on=a.on();if(on)n++;
+    return '<div class="kbn-badge'+(on?" on":"")+'"><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">'+a.ic+'</svg></span><div><b>'+a.b+'</b><small>'+(on?"terbuka":a.d)+'</small></div></div>';
+  }).join("");
+  $("[data-achcount]").textContent=n+"/6";
+}
+
+var toastT;
+function toast(m){var t=$("[data-toast]");t.innerHTML=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("show");},2600);}
+function levelToast(){var t=$("[data-toast]");t.innerHTML='<span class="lvup">LEVEL UP</span> Naik ke Level '+S.level+' · +40 daun 🍃';t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("show");},3000);}
+
+/* ---- weather ambient ---- */
+function ambient(){
+  for(var i=0;i<2;i++){var c=document.createElement("div");c.className="kbn-cloud";var w=ri(60,110),h=w*.34;
+    c.style.width=w+"px";c.style.height=h+"px";c.style.top=ri(14,60)+"px";c.style.left=(-20-i*30)+"%";
+    c.style.animationDuration=ri(38,60)+"s";c.style.animationDelay=(-i*14)+"s";field.appendChild(c);
+  }
+  setInterval(function(){if(document.hidden||!S.plot)return;if(Math.random()<.6){var l=document.createElement("div");l.className="kbn-leaf";
+    l.style.left=ri(6,92)+"%";l.style.animationDuration=rnd(5,9).toFixed(1)+"s";
+    l.innerHTML='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 20C4 12 12 4 20 4c0 8-8 16-16 16z"/></svg>';
+    field.appendChild(l);setTimeout(function(){l.remove();},9000);}},1400);
+}
+
+/* ---- locate flow ---- */
+function renderPresets(){
+  $("[data-presets]").innerHTML=PLOTS.map(function(p,i){
+    return '<button class="kbn-preset" data-preset="'+i+'"><span class="em"><i></i></span><div><b>'+p.name+'</b><small>'+p.region+' · '+p.lat+', '+p.lon+'</small></div></button>';
+  }).join("");
+  $$("[data-preset]").forEach(function(b){b.addEventListener("click",function(){locate(PLOTS[+b.dataset.preset]);});});
+}
+function nearestPlot(lat,lon){
+  var best=PLOTS[0],bd=1e9;PLOTS.forEach(function(p){var d=Math.pow(p.lat-lat,2)+Math.pow(p.lon-lon,2);if(d<bd){bd=d;best=p;}});return best;
+}
+function locate(plot,userCoords){
+  $("[data-locate]").classList.add("hide");
+  var sc=$("[data-scan]");sc.classList.add("on");
+  $("[data-scantxt]").textContent=userCoords?("MEMINDAI "+userCoords+" …"):"MEMINDAI LAHAN…";
+  setTimeout(function(){
+    S.plot=plot;S.sel=null;
+    var sl=slots(plot.n+5);
+    S.trees=[];for(var i=0;i<plot.n;i++){var t=makeTree(plot,i,ri(1,22));t.slot=sl[i];S.trees.push(t);}
+    S.empty=sl.slice(plot.n);
+    paintField();renderTrees();renderHUD();renderAch();
+    $("[data-detail]").innerHTML='<div class="kbn-welcome"><div class="big"><i></i></div><h4>'+plot.name+'</h4><p>Klik pohon mana pun untuk melihat metadata &amp; merawatnya. '+plot.n+' pohon terpantau di lahan ini.</p></div>';
+    $("[data-sidetitle]").textContent="Pohon terpilih";$("[data-sidetag]").textContent=plot.id;
+    sc.classList.remove("on");
+    toast("Lahan ditemukan: "+plot.name+(userCoords?" (terdekat dari koordinatmu)":""));
+  },1400);
+}
+$("[data-find]").addEventListener("click",function(){
+  var lat=parseFloat($("[data-lat]").value),lon=parseFloat($("[data-lon]").value);
+  if(isNaN(lat)||isNaN(lon)){toast("Masukkan koordinat yang valid");return;}
+  var p=nearestPlot(lat,lon);locate(p,lat.toFixed(3)+", "+lon.toFixed(3));
+});
+$("[data-plant]").addEventListener("click",plant);
+
+/* ---- init ---- */
+renderPresets();renderHUD();renderAch();ambient();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+/* =============================================================
+   GLYIV APPS — shared design system for business-tree demo apps.
+   Light / editorial / image-rich, built on lab.css tokens.
+   Newsreader (display + numbers) · Hanken (body) · IBM Plex Mono (labels only).
+   Prefix: ga-  (glyiv app). Load AFTER lab.css + glyiv-nav.css.
+   ============================================================= */
+body{background:var(--white)}
+.ga-wrap{max-width:1300px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+/* hero (image-backed, compact) */
+.ga-hero{position:relative;min-height:46vh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff;padding-top:88px}
+.ga-hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transform:scale(1.05);animation:heroKen 26s ease-in-out infinite alternate}
+.ga-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,20,13,.34),rgba(6,20,13,.2) 40%,rgba(6,20,13,.86))}
+.ga-hero__in{width:100%;max-width:1300px;margin:0 auto;padding:0 clamp(16px,4vw,40px) clamp(28px,5vh,52px);display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.ga-crumb{font-family:var(--l-mono);font-size:11px;color:rgba(255,255,255,.72);margin-bottom:14px}
+.ga-crumb a{color:#8affc1}
+.ga-hero h1{font-family:var(--l-serif);font-weight:600;font-size:clamp(30px,4.4vw,52px);line-height:1.04;letter-spacing:-.02em;color:#fff;margin:0 0 12px;max-width:17ch}
+.ga-hero h1 em{font-style:italic;color:#8affc1}
+.ga-hero p{color:rgba(255,255,255,.9);max-width:54ch;font-size:clamp(15px,1.4vw,17px);line-height:1.55;margin:0}
+.ga-badge{display:inline-flex;align-items:center;gap:7px;font-family:var(--l-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#bff0d5;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px;margin-bottom:14px}
+.ga-badge i{width:7px;height:7px;border-radius:50%;background:var(--emer-br);box-shadow:0 0 8px var(--emer-br);animation:gaBlink 2.2s var(--ease) infinite}
+@keyframes gaBlink{0%,100%{opacity:1}50%{opacity:.35}}
+.ga-hero__aside{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ga-hero__aside .k{font-family:var(--l-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.ga-hero__aside .v{font-family:var(--l-serif);font-size:20px;color:#fff;line-height:1}
+.ga-hero__aside .v.g{color:#8affc1}
+
+/* stat ribbon */
+.ga-ribbon{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:-38px auto 0;position:relative;z-index:3}
+.ga-ribbon>*{min-width:0}
+.ga-stat{background:#fff;border:1px solid var(--hair);border-radius:16px;box-shadow:var(--sh2);padding:18px 20px}
+.ga-stat .k{font-family:var(--l-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.ga-stat .v{font-family:var(--l-serif);font-weight:600;font-size:clamp(23px,2.5vw,31px);color:var(--pine);line-height:1.05;margin-top:6px}
+.ga-stat .v.g{color:var(--teal)}
+.ga-stat .s{font-size:12px;color:var(--muted);margin-top:4px}
+
+.ga-note{font-family:var(--l-mono);font-size:10px;color:var(--muted);margin:22px 0 8px}
+
+/* section heads */
+.ga-sec{padding:clamp(26px,4vh,44px) 0}
+.ga-kick{font-family:var(--l-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.ga-h2{font-family:var(--l-serif);font-weight:600;font-size:clamp(24px,3.2vw,38px);line-height:1.08;letter-spacing:-.015em;color:var(--pine);margin:10px 0 0}
+.ga-lead{font-size:clamp(15px,1.4vw,17px);color:var(--slate);line-height:1.6}
+.ga-em{font-style:italic;color:var(--teal)}
+
+/* grid + cards */
+.ga-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:18px;align-items:start}
+.ga-grid>*{min-width:0}
+.ga-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.ga-grid-2>*{min-width:0}
+.ga-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.ga-grid-3>*{min-width:0}
+.ga-card{background:#fff;border:1px solid var(--hair);border-radius:20px;box-shadow:var(--sh1);overflow:hidden}
+.ga-card.pad{padding:18px}
+.ga-card__hd{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--hair)}
+.ga-card__hd h3{font-family:var(--l-serif);font-weight:600;font-size:17px;color:var(--pine);margin:0}
+.ga-card__hd .tag{margin-left:auto;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;color:var(--muted);border:1px solid var(--hair);border-radius:7px;padding:4px 8px}
+.ga-card__b{padding:18px}
+
+/* image tile with caption */
+.ga-tile{position:relative;border-radius:16px;overflow:hidden;box-shadow:var(--sh2);border:1px solid var(--hair)}
+.ga-tile img{width:100%;height:100%;object-fit:cover;display:block}
+.ga-tile__cap{position:absolute;left:0;right:0;bottom:0;padding:14px 16px;color:#fff;font-family:var(--l-mono);font-size:11px;letter-spacing:.04em;background:linear-gradient(transparent,rgba(6,20,13,.85))}
+.ga-tile__pill{position:absolute;left:12px;top:12px;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#04160e;background:rgba(138,255,193,.92);border-radius:999px;padding:5px 10px}
+
+/* tabs */
+.ga-tabs{display:flex;gap:4px;padding:14px 18px 0}
+.ga-tab{flex:1;background:none;border:0;border-bottom:2px solid transparent;padding:10px 6px;font-family:var(--l-sans);font-weight:700;font-size:13.5px;color:var(--muted);cursor:pointer;transition:.18s}
+.ga-tab.on{color:var(--pine);border-bottom-color:var(--teal)}
+.ga-pane{display:none;padding:18px}
+.ga-pane.on{display:block;animation:gaFade .3s var(--ease)}
+@keyframes gaFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* metadata grid */
+.ga-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.ga-meta>div{background:var(--paper2);border:1px solid var(--hair);border-radius:12px;padding:11px 12px}
+.ga-meta .k{font-family:var(--l-mono);font-size:8px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.ga-meta .v{font-family:var(--l-serif);font-weight:600;font-size:19px;color:var(--pine);line-height:1.1;margin-top:3px}
+.ga-meta .v small{font-family:var(--l-mono);font-size:9px;color:var(--muted);font-weight:400}
+.ga-meta .v.g{color:var(--teal)}.ga-meta .v.gold{color:var(--brass)}
+
+/* chart canvas box */
+.ga-chartbox{background:var(--paper2);border:1px solid var(--hair);border-radius:14px;padding:14px}
+.ga-chartbox .gt{display:flex;align-items:center;gap:8px;font-family:var(--l-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.ga-chart{width:100%;height:120px;display:block}
+.ga-seg{margin-left:auto;display:flex;gap:4px}
+.ga-seg button{font-family:var(--l-mono);font-size:9px;color:var(--muted);background:#fff;border:1px solid var(--hair);border-radius:6px;padding:4px 8px;cursor:pointer}
+.ga-seg button.on{color:#fff;background:var(--teal);border-color:transparent}
+
+/* list rows (products, transactions, devices...) */
+.ga-row{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:13px;padding:11px 13px;cursor:pointer;transition:border-color .2s,transform .2s var(--ease),background .2s;width:100%;text-align:left;font-family:inherit}
+.ga-row:hover{border-color:var(--teal);transform:translateX(3px)}
+.ga-row.on{border-color:var(--teal);background:rgba(31,122,107,.05)}
+.ga-row img{width:46px;height:46px;border-radius:10px;object-fit:cover;flex:0 0 auto}
+.ga-row .ic{width:44px;height:44px;border-radius:11px;background:var(--paper2);display:grid;place-items:center;font-size:22px;flex:0 0 auto}
+.ga-row__t b{display:block;font-size:13.5px;color:var(--pine);line-height:1.2}
+.ga-row__t small{font-family:var(--l-mono);font-size:9px;color:var(--muted)}
+.ga-row__v{margin-left:auto;text-align:right;flex:0 0 auto}
+.ga-row__v b{display:block;font-family:var(--l-serif);font-weight:600;font-size:15px;color:var(--pine);line-height:1}
+.ga-row__v small{font-family:var(--l-mono);font-size:8.5px;color:var(--muted)}
+.ga-co2{font-family:var(--l-mono);font-size:9px;color:var(--teal);background:rgba(31,122,107,.08);border-radius:6px;padding:3px 7px;display:inline-block}
+.ga-list{display:grid;gap:9px}
+
+/* progress / meter */
+.ga-meter{height:12px;border-radius:999px;background:var(--hair);overflow:hidden;display:flex}
+.ga-meter i{height:100%;background:linear-gradient(90deg,var(--teal),var(--emer-br))}
+.ga-meter i.gold{background:linear-gradient(90deg,var(--brass),var(--brass2))}
+
+/* donut ring */
+.ga-donut{--p:60;width:118px;height:118px;border-radius:50%;background:conic-gradient(var(--teal) calc(var(--p)*1%),var(--hair) 0);display:grid;place-items:center;flex:0 0 auto}
+.ga-donut::after{content:"";width:82px;height:82px;border-radius:50%;background:#fff}
+.ga-donut b{position:absolute;font-family:var(--l-serif);font-weight:600;font-size:22px;color:var(--pine)}
+
+/* buttons + fields (light) */
+.ga-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--l-sans);font-weight:700;font-size:13.5px;padding:11px 18px;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:.18s var(--ease)}
+.ga-btn.solid{background:var(--pine);color:#fff}.ga-btn.solid:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.ga-btn.teal{background:linear-gradient(120deg,var(--teal),var(--emer-br));color:#fff}
+.ga-btn.gold{background:linear-gradient(120deg,var(--brass),var(--brass2));color:#fff}
+.ga-btn.glass{background:#fff;color:var(--pine);border-color:var(--hair)}.ga-btn.glass:hover{border-color:var(--pine)}
+.ga-fld label{font-family:var(--l-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.ga-fld input,.ga-fld select{width:100%;background:#fff;border:1px solid var(--hair);border-radius:10px;padding:12px;color:var(--pine);font-family:var(--l-serif);font-size:16px;outline:none}
+.ga-fld input:focus,.ga-fld select:focus{border-color:var(--teal)}
+
+/* on-chain / agentic feed */
+.ga-feed{padding:6px 18px 18px}
+.ga-line{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--hair)}
+.ga-line:last-child{border-bottom:0}
+.ga-tagx{font-family:var(--l-mono);font-size:8px;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 7px;flex:0 0 auto;margin-top:1px;font-weight:600}
+.ga-tagx.ai{background:rgba(31,122,107,.12);color:var(--teal)}
+.ga-tagx.chain{background:rgba(176,137,79,.14);color:var(--brass)}
+.ga-tagx.sat{background:rgba(31,110,160,.12);color:#2f6ea0}
+.ga-tagx.iot{background:rgba(122,93,176,.14);color:#7a5db0}
+.ga-tx{font-size:13px;color:var(--ink)}.ga-tx b{color:var(--pine)}
+.ga-tx small{font-family:var(--l-mono);font-size:9px;color:var(--muted);display:block;margin-top:2px}
+
+/* how-it-works steps */
+.ga-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:s}
+.ga-step{background:#fff;border:1px solid var(--hair);border-radius:16px;padding:20px 18px;box-shadow:var(--sh1)}
+.ga-step::before{counter-increment:s;content:"0" counter(s);font-family:var(--l-serif);font-weight:600;font-size:30px;color:var(--teal);line-height:1;display:block;margin-bottom:10px}
+.ga-step b{display:block;color:var(--pine);font-weight:700;font-size:14.5px;margin-bottom:6px}
+.ga-step p{font-size:13px;color:var(--slate);margin:0;line-height:1.5}
+
+/* tech chips (agentic / blockchain callout) */
+.ga-tech{display:flex;flex-wrap:wrap;gap:9px}
+.ga-chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--l-mono);font-size:11px;color:var(--pine);border:1px solid var(--hair);border-radius:9px;padding:8px 12px;background:#fff}
+.ga-chip.ai{border-color:rgba(31,122,107,.3)}
+.ga-chip.chain{border-color:rgba(176,137,79,.34)}
+
+.ga-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--pine);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;opacity:0;transition:.25s var(--ease);z-index:90;box-shadow:var(--sh3)}
+.ga-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.ga-cta{text-align:center;padding:34px 0 60px}
+
+@media (max-width:940px){
+  .ga-ribbon{grid-template-columns:1fr 1fr}
+  .ga-grid,.ga-grid-2,.ga-grid-3,.ga-steps{grid-template-columns:1fr}
+  .ga-steps{grid-template-columns:1fr 1fr}
+}

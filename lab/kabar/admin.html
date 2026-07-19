@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kabar Studio — Glyiv (admin)</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/kabar/kabar.css">
+<style>
+body{background:var(--paper)}
+.astage{max-width:1180px;margin:0 auto;padding:36px clamp(16px,4vw,40px) 80px}
+.acenter{min-height:80vh;display:grid;place-items:center;text-align:center}
+.acard{background:#fff;border:1px solid var(--hair);border-radius:22px;box-shadow:var(--sh2);padding:40px;max-width:440px}
+.acard .logo{font-family:var(--serif);font-weight:600;font-size:30px;color:var(--pine);margin-bottom:6px}
+.acard .logo i{color:var(--teal);font-style:normal}
+.acard h1{font-family:var(--serif);font-weight:600;font-size:23px;color:var(--pine);margin:14px 0 8px}
+.acard p{color:var(--muted);font-size:14px;line-height:1.55;margin:0 0 22px}
+.gbtn{display:inline-flex;align-items:center;gap:11px;background:var(--pine);color:#fff;border:0;border-radius:12px;padding:13px 22px;font-weight:700;font-size:15px;cursor:pointer;transition:.18s}
+.gbtn:hover{background:var(--teal)}
+.gbtn svg{width:20px;height:20px}
+.ahdr{display:flex;align-items:center;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.ahdr .logo{font-family:var(--serif);font-weight:600;font-size:24px;color:var(--pine)}.ahdr .logo i{color:var(--teal);font-style:normal}
+.ahdr .badge{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);border:1px solid var(--hair);border-radius:7px;padding:5px 9px}
+.ahdr .sp{margin-left:auto}
+.ahdr .who{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.ahdr .out{background:none;border:1px solid var(--hair);border-radius:10px;padding:9px 14px;font-weight:600;font-size:13px;color:var(--slate);cursor:pointer}
+.astats{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-bottom:22px}
+.stat{background:#fff;border:1px solid var(--hair);border-radius:14px;padding:16px;box-shadow:var(--sh1);text-align:center}
+.stat b{font-family:var(--serif);font-weight:600;font-size:26px;color:var(--pine);display:block;line-height:1}
+.stat span{font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:6px;display:block}
+.atool{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.atool input{flex:1;min-width:180px;border:1px solid var(--hair);border-radius:11px;padding:11px 14px;font-family:var(--sans);font-size:14px;color:var(--pine);outline:0;background:#fff}
+.atool input:focus{border-color:var(--teal)}
+.atool button{border:1px solid var(--hair);background:#fff;border-radius:11px;padding:11px 16px;font-weight:700;font-size:13px;color:var(--pine);cursor:pointer;transition:.15s}
+.atool button:hover{border-color:var(--teal)}
+.atool .imp{background:var(--pine);color:#fff;border-color:transparent}.atool .imp:hover{background:var(--teal)}
+.atool .imp:disabled{opacity:.5}
+.impwrap{height:4px;background:var(--hair);border-radius:999px;overflow:hidden;margin-bottom:18px}
+.impwrap i{display:block;height:100%;width:0;background:var(--teal);transition:width .2s}
+.atable{background:#fff;border:1px solid var(--hair);border-radius:18px;box-shadow:var(--sh1);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+thead th{text-align:left;font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:14px 16px;border-bottom:1px solid var(--hair);background:var(--paper2)}
+tbody td{padding:13px 16px;border-bottom:1px solid var(--hair2);font-size:13.5px;color:var(--slate);vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+.tt{display:flex;align-items:center;gap:11px}
+.tt .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.tt b{color:var(--pine);font-weight:600;display:block;font-size:13.5px;line-height:1.25}
+.tt small{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.mono{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.pill{font-family:var(--mono);font-size:10px;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.pill.live{color:#1c8a5a;background:rgba(28,138,90,.1)}
+.pill.scheduled{color:#2f6ea0;background:rgba(47,110,160,.1)}
+.pill.draft{color:var(--muted);background:var(--paper2)}
+.act{display:flex;gap:5px;align-items:center;justify-content:flex-end}
+.act a,.act button{border:1px solid var(--hair);background:#fff;border-radius:8px;width:30px;height:30px;display:grid;place-items:center;cursor:pointer;font-size:13px;color:var(--slate);text-decoration:none}
+.act a:hover,.act button:hover{border-color:var(--teal);color:var(--teal)}
+.act button.del:hover{border-color:#c0392b;color:#c0392b}
+.anote{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:16px;line-height:1.6}
+.anote a{color:var(--teal)}
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--pine);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;z-index:99;box-shadow:var(--sh3);opacity:0;transition:.25s}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:820px){.astats{grid-template-columns:repeat(3,1fr)}thead th:nth-child(3),tbody td:nth-child(3){display:none}}
+@media(max-width:560px){.astats{grid-template-columns:repeat(2,1fr)}thead th:nth-child(4),tbody td:nth-child(4){display:none}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="state-login" class="acenter" style="display:none"><div class="acard">
+  <div class="logo">Gl<i>yiv</i></div>
+  <div style="font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass)">Kabar Studio</div>
+  <h1>Masuk sebagai admin</h1>
+  <p>Studio konten Kabar Glyiv — kelola antrean, jadwal, dan pantau engagement real-time. Khusus akun admin Glyiv.</p>
+  <button class="gbtn" id="signin"><svg viewBox="0 0 24 24"><path fill="#fff" d="M12 11v2.8h4a4 4 0 0 1-4 3 4.5 4.5 0 0 1 0-9 4 4 0 0 1 2.8 1.1l2-2A7 7 0 0 0 12 5a7 7 0 1 0 7 7c0-.5 0-.7-.1-1z"/></svg> Masuk dengan Google</button>
+</div></div>
+
+<!-- DENIED -->
+<div id="state-denied" class="acenter" style="display:none"><div class="acard">
+  <div class="logo">Gl<i>yiv</i></div>
+  <h1>Akses ditolak</h1>
+  <p>Akun <b id="deniedEmail"></b> bukan admin Kabar. Masuk dengan akun admin Glyiv yang berwenang.</p>
+  <button class="gbtn" id="signout" style="background:var(--slate)">Keluar</button>
+</div></div>
+
+<!-- ERROR -->
+<div id="state-err" class="acenter" style="display:none"><div class="acard">
+  <div class="logo">Gl<i>yiv</i></div><h1>Firebase belum siap</h1><p id="errMsg"></p>
+</div></div>
+
+<!-- APP -->
+<div id="state-app" class="astage" style="display:none">
+  <div class="ahdr">
+    <span class="logo">Gl<i>yiv</i></span><span class="badge">Kabar Studio</span>
+    <span class="sp"></span>
+    <span class="who" id="who"></span>
+    <button class="out" id="signout2" onclick="document.getElementById('signout').click&&0">Keluar</button>
+  </div>
+  <div class="astats" id="stats"></div>
+  <div class="atool">
+    <input id="search" placeholder="Cari judul / topik…">
+    <button id="refresh">↻ Muat ulang</button>
+    <button class="imp" id="import">⬇ Import Content Pack (<span id="packcount">0</span>)</button>
+  </div>
+  <div class="impwrap"><i id="impbar"></i></div>
+  <div class="atable"><table>
+    <thead><tr><th>Artikel</th><th>Status</th><th>Terbit</th><th>Engagement</th><th style="text-align:right">Aksi</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+  <p class="anote">Import menulis artikel baru ke Firestore <b>kabar_articles</b> dengan penjadwalan otomatis: 10 tayang sekarang, sisanya menetes 1/hari. Counter mulai <b>0 (real-time, bukan dummy)</b>; artikel yang sudah ada dilewati agar engagement tak ter-reset. Perlu <a href="/lab/kabar/firestore.rules" target="_blank">firestore.rules</a> ter-deploy + domain diizinkan. Butuh bantuan setup? Lihat <a href="/lab/kabar/SETUP.md" target="_blank">SETUP.md</a>.</p>
+</div>
+
+<div id="toast"></div>
+
+<script src="/lab/kabar/kabar-data.js"></script>
+<script src="/lab/kabar/content-pack.js"></script>
+<script type="module" src="/lab/kabar/kabar-admin.js"></script>
+<script>document.getElementById('signout2').addEventListener('click',function(){document.getElementById('signout').click();});</script>
+</body>
+</html>

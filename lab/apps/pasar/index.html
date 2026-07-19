@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv Pasar — Marketplace Berdata Karbon</title>
+<meta name="description" content="Glyiv Pasar: marketplace tempat setiap produk membawa jejak karbonnya, agen AI menyarankan alternatif lebih hijau, dan struk karbon tercatat on-chain.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<style>
+.pz-prod{border:1px solid var(--hair);border-radius:14px;overflow:hidden;background:#fff;cursor:pointer;transition:.2s var(--ease);box-shadow:var(--sh1)}
+.pz-prod:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.pz-prod.on{border-color:var(--teal);box-shadow:var(--sh2)}
+.pz-prod__img{height:96px;display:grid;place-items:center;font-size:40px;position:relative}
+.pz-prod__leaf{position:absolute;top:8px;right:8px;font-family:var(--l-mono);font-size:8px;letter-spacing:.05em;text-transform:uppercase;color:#04160e;background:rgba(138,255,193,.92);border-radius:999px;padding:3px 7px}
+.pz-prod__b{padding:11px 12px}
+.pz-prod__b b{display:block;font-size:13px;color:var(--pine);line-height:1.25}
+.pz-prod__b .pr{font-family:var(--l-serif);font-weight:600;font-size:15px;color:var(--pine);margin-top:4px}
+.pz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pz-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.pz-chip{font-family:var(--l-sans);font-weight:600;font-size:12.5px;color:var(--muted);background:#fff;border:1px solid var(--hair);border-radius:999px;padding:8px 13px;cursor:pointer;transition:.18s}
+.pz-chip.on{color:#fff;background:var(--pine);border-color:transparent}
+.pz-break{display:grid;gap:8px}
+.pz-break .r{display:flex;align-items:center;gap:10px}
+.pz-break .lb{font-size:12px;color:var(--slate);width:120px;flex:0 0 auto}
+.pz-break .track{flex:1;height:9px;background:var(--hair);border-radius:999px;overflow:hidden}
+.pz-break .track i{display:block;height:100%;border-radius:999px}
+.pz-break .val{font-family:var(--l-mono);font-size:10px;color:var(--muted);width:56px;text-align:right;flex:0 0 auto}
+@media (max-width:640px){.pz-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div id="ga-nav"></div>
+
+<section class="ga-hero">
+  <img class="bg" src="/lab/img/logistik-transport.jpg" alt="Marketplace">
+  <div class="ga-hero__in">
+    <div>
+      <div class="ga-crumb"><a href="/">Glyiv</a> / <a href="/#ekosistem">Ekosistem</a> / Glyiv Pasar</div>
+      <span class="ga-badge"><i></i> Roadmap &middot; pratinjau</span>
+      <h1>Belanja apa pun — dengan <em>jejak karbonnya.</em></h1>
+      <p>Marketplace tempat tiap produk membawa jejak karbonnya sejak awal. Agen AI menyarankan alternatif lebih hijau, dan struk karbon Anda tercatat rapi — otomatis, tanpa Anda menghitung apa pun.</p>
+    </div>
+    <div class="ga-hero__aside"><div><div class="k">Keranjang</div><div class="v g" data-cartn>0 item</div></div><div><div class="k">Karbon</div><div class="v" data-cartco2>0,0 kg</div></div></div>
+  </div>
+</section>
+
+<div class="ga-wrap">
+  <div class="ga-ribbon">
+    <div class="ga-stat"><div class="k">Produk terdaftar</div><div class="v" data-r1>—</div><div class="s">lintas kategori</div></div>
+    <div class="ga-stat"><div class="k">Rata-rata jejak</div><div class="v g" data-r2>—</div><div class="s">kgCO₂e / produk (est.)</div></div>
+    <div class="ga-stat"><div class="k">Produk rendah-karbon</div><div class="v" data-r3>—</div><div class="s">bertanda daun</div></div>
+    <div class="ga-stat"><div class="k">Offset di checkout</div><div class="v g" data-r4>opsional</div><div class="s">dari Tree Marketplace</div></div>
+  </div>
+  <p class="ga-note">Pratinjau produk (teaser) — produk, harga, &amp; jejak karbon bersifat ilustrasi. Metode pendataan mengikuti sistem Glyiv (aktivitas × faktor emisi).</p>
+
+  <div class="ga-grid" style="margin-top:14px">
+    <!-- catalog -->
+    <div class="ga-card">
+      <div class="ga-card__hd"><h3>Etalase</h3><span class="tag">jejak karbon per item</span></div>
+      <div class="ga-card__b">
+        <div class="pz-chips" data-chips></div>
+        <div class="pz-grid" data-grid></div>
+      </div>
+    </div>
+    <!-- detail + cart -->
+    <div class="ga-card">
+      <div class="ga-tabs">
+        <button class="ga-tab on" data-tab="detail">Detail Produk</button>
+        <button class="ga-tab" data-tab="cart">Keranjang</button>
+      </div>
+      <div class="ga-pane on" data-pane="detail" data-detail></div>
+      <div class="ga-pane" data-pane="cart" data-cart></div>
+    </div>
+
+    <!-- how carbon per item works -->
+    <div class="ga-card pad" style="grid-column:1/-1">
+      <span class="ga-kick">Bagaimana jejak karbon per produk dihitung</span>
+      <h2 class="ga-h2" style="margin-bottom:16px">Penjual tak perlu tahu angka karbon. <span class="ga-em">Itu tugas kami.</span></h2>
+      <div class="ga-steps">
+        <div class="ga-step"><b>Penjual isi produk</b><p>Kategori, bahan, berat, dan asal — data yang memang mereka punya.</p></div>
+        <div class="ga-step"><b>Kami petakan faktor emisi</b><p>Setiap bahan/kategori dipetakan ke library faktor emisi yang Glyiv kelola (activity-based LCA; EXIOBASE untuk yang tak terperinci).</p></div>
+        <div class="ga-step"><b>Agen AI hitung &amp; nilai</b><p>Jejak = Σ(bahan × faktor) + produksi + pengiriman. Agen menandai pemborosan &amp; alternatif lebih hijau.</p></div>
+        <div class="ga-step"><b>Struk karbon on-chain</b><p>Pembelian Anda meninggalkan struk karbon yang bisa ditelusuri — masuk ke Glyiv Dompet.</p></div>
+      </div>
+      <div class="ga-tech" style="margin-top:18px">
+        <span class="ga-chip ai">⛭ Agen AI · rekomendasi hijau</span>
+        <span class="ga-chip chain">🔗 Struk karbon on-chain</span>
+        <span class="ga-chip">📊 Faktor emisi: activity-based LCA + EXIOBASE</span>
+      </div>
+    </div>
+
+    <div class="ga-card" style="grid-column:1/-1">
+      <div class="ga-card__hd"><h3>Aktivitas Agen &amp; On-chain</h3><span class="tag">real-time feed</span></div>
+      <div class="ga-feed" data-feed></div>
+    </div>
+  </div>
+
+  <div class="ga-cta">
+    <a class="ga-btn solid" href="/#demo">Jadwalkan demo lengkap</a>
+    <a class="ga-btn glass" href="/#ekosistem" style="margin-left:8px">← Ekosistem Glyiv</a>
+  </div>
+</div>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script>
+(function(){
+  var $=GA.$,$$=GA.$$;
+  var CATS=["Semua","Rendah karbon","Makanan","Fashion","Elektronik","Rumah"];
+  var P=[
+    {id:1,nm:"Kopi Arabika 200g",cat:"Makanan",em:"☕",pr:65000,co2:0.9,b:[["Bahan (biji)",55],["Roasting",25],["Kemasan",8],["Pengiriman",12]]},
+    {id:2,nm:"Tumbler Baja 500ml",cat:"Rumah",em:"🥤",pr:120000,co2:3.4,b:[["Bahan (baja)",62],["Produksi",22],["Kemasan",6],["Pengiriman",10]]},
+    {id:3,nm:"Kaos Katun Organik",cat:"Fashion",em:"👕",pr:95000,co2:2.1,b:[["Kapas organik",48],["Produksi",30],["Pewarna",12],["Pengiriman",10]]},
+    {id:4,nm:"Panel Surya Mini",cat:"Elektronik",em:"🔆",pr:480000,co2:14.0,b:[["Sel silikon",58],["Rakitan",24],["Kemasan",6],["Pengiriman",12]]},
+    {id:5,nm:"Beras Organik 5kg",cat:"Makanan",em:"🌾",pr:78000,co2:4.6,b:[["Budidaya (metana)",70],["Penggilingan",12],["Kemasan",6],["Pengiriman",12]]},
+    {id:6,nm:"Tas Kanvas Daur Ulang",cat:"Fashion",em:"👜",pr:55000,co2:0.6,b:[["Kanvas daur ulang",40],["Produksi",34],["Jahit",14],["Pengiriman",12]]},
+    {id:7,nm:"Sabun Batang Alami",cat:"Rumah",em:"🧼",pr:28000,co2:0.3,b:[["Minyak nabati",50],["Produksi",26],["Kemasan",10],["Pengiriman",14]]},
+    {id:8,nm:"Powerbank 10.000mAh",cat:"Elektronik",em:"🔋",pr:210000,co2:8.2,b:[["Sel litium",64],["Rakitan",20],["Kemasan",6],["Pengiriman",10]]},
+    {id:9,nm:"Madu Hutan 350ml",cat:"Makanan",em:"🍯",pr:88000,co2:0.7,b:[["Panen lestari",44],["Pengemasan",30],["Botol kaca",14],["Pengiriman",12]]},
+  ];
+  P.forEach(function(p){p.low=p.co2<=1.0;});
+  var filter="Semua", sel=P[0], cart=[];
+  var CO=["#1F7A6B","#B0894F","#2f6ea0","#7a5db0"];
+
+  var feed=GA.makeFeed("[data-feed]",[
+    ["ai","Agen menyarankan alternatif","Tumbler Baja → 'Tumbler Bambu' turun 2,1 kgCO₂e (−62%)."],
+    ["chain","Struk karbon dicatat","Pembelian #GP-"+Math.floor(GA.rnd(2000,9000))+" · 1,2 kgCO₂e · tx "+GA.short()],
+    ["ai","Peringatan jejak tinggi","Powerbank 10.000mAh di atas rata-rata kategori — tawarkan opsi refurbished."]
+  ]);
+
+  function renderRibbon(){
+    $("[data-r1]").textContent=P.length+" produk";
+    var avg=P.reduce(function(s,p){return s+p.co2},0)/P.length;
+    $("[data-r2]").textContent=avg.toFixed(1);
+    $("[data-r3]").textContent=P.filter(function(p){return p.low}).length+" produk";
+  }
+  function renderChips(){
+    $("[data-chips]").innerHTML=CATS.map(function(c){return '<button class="pz-chip'+(c===filter?' on':'')+'" data-c="'+c+'">'+c+'</button>';}).join("");
+    $$("[data-c]").forEach(function(b){b.addEventListener("click",function(){filter=b.dataset.c;renderChips();renderGrid();});});
+  }
+  function list(){return P.filter(function(p){return filter==="Semua"||(filter==="Rendah karbon"?p.low:p.cat===filter);});}
+  function renderGrid(){
+    $("[data-grid]").innerHTML=list().map(function(p){
+      return '<button class="pz-prod'+(p===sel?' on':'')+'" data-p="'+p.id+'"><div class="pz-prod__img" style="background:linear-gradient(160deg,#eef7f2,#f6faf7)">'+p.em+(p.low?'<span class="pz-prod__leaf">🌿 rendah</span>':'')+'</div><div class="pz-prod__b"><b>'+p.nm+'</b><div class="pr">'+GA.money(p.pr)+'</div><span class="ga-co2" style="margin-top:6px">'+p.co2.toFixed(1)+' kgCO₂e</span></div></button>';
+    }).join("");
+    $$("[data-p]").forEach(function(b){b.addEventListener("click",function(){sel=P.filter(function(x){return x.id==b.dataset.p})[0];renderGrid();renderDetail();setTab("detail");});});
+  }
+  function greener(p){ // agent suggestion
+    var alt=P.filter(function(x){return x.cat===p.cat&&x.co2<p.co2;}).sort(function(a,b){return a.co2-b.co2})[0];
+    return alt;
+  }
+  function renderDetail(){
+    var p=sel, alt=greener(p);
+    $("[data-detail]").innerHTML=
+      '<div style="display:flex;gap:14px;align-items:center;margin-bottom:14px"><div style="width:84px;height:84px;border-radius:16px;display:grid;place-items:center;font-size:40px;background:linear-gradient(160deg,#eef7f2,#f6faf7);flex:0 0 auto">'+p.em+'</div>'+
+        '<div><h2 style="font-family:var(--l-serif);font-weight:600;font-size:21px;color:var(--pine);margin:0 0 3px">'+p.nm+'</h2><div style="font-family:var(--l-mono);font-size:10px;color:var(--muted)">'+p.cat+' · GP-SKU-'+(1000+p.id)+'</div>'+
+        '<div style="font-family:var(--l-serif);font-weight:600;font-size:20px;color:var(--pine);margin-top:6px">'+GA.money(p.pr)+'</div></div></div>'+
+      '<div style="display:flex;align-items:center;gap:10px;margin:4px 0 12px"><span class="ga-co2" style="font-size:11px">Jejak karbon: '+p.co2.toFixed(1)+' kgCO₂e</span>'+(p.low?'<span style="font-family:var(--l-mono);font-size:10px;color:var(--teal)">🌿 di bawah rata-rata kategori</span>':'')+'</div>'+
+      '<div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Rincian jejak (activity-based)</div>'+
+      '<div class="pz-break">'+p.b.map(function(x,i){return '<div class="r"><span class="lb">'+x[0]+'</span><span class="track"><i style="width:'+x[1]+'%;background:'+CO[i%CO.length]+'"></i></span><span class="val">'+x[1]+'%</span></div>';}).join("")+'</div>'+
+      (alt?'<div style="margin-top:14px;display:flex;gap:11px;align-items:center;background:linear-gradient(120deg,rgba(31,122,107,.08),rgba(31,122,107,.02));border:1px solid rgba(31,122,107,.2);border-radius:12px;padding:11px 13px"><span style="font-size:18px">⛭</span><div style="font-size:12.5px;color:var(--pine)"><b>Agen Glyiv menyarankan</b><br><span style="color:var(--slate)">Coba <b>'+alt.nm+'</b> — turun '+(p.co2-alt.co2).toFixed(1)+' kgCO₂e ('+Math.round((1-alt.co2/p.co2)*100)+'% lebih rendah).</span></div></div>':'')+
+      '<button class="ga-btn teal" data-add style="width:100%;margin-top:14px">Tambah ke keranjang · '+GA.money(p.pr)+'</button>';
+    $("[data-add]").addEventListener("click",function(){cart.push(p);feed.push("chain","Ditambahkan ke keranjang",p.nm+" · "+p.co2.toFixed(1)+" kgCO₂e");renderCart();syncCart();GA.toast("Ditambahkan: "+p.nm);});
+  }
+  function renderCart(){
+    if(!cart.length){$("[data-cart]").innerHTML='<div style="text-align:center;color:var(--muted);padding:30px 0;font-size:14px">Keranjang masih kosong.<br>Pilih produk di etalase.</div>';return;}
+    var tot=cart.reduce(function(s,p){return s+p.pr},0), co2=cart.reduce(function(s,p){return s+p.co2},0);
+    $("[data-cart]").innerHTML=
+      '<div class="ga-list">'+cart.map(function(p,i){return '<div class="ga-row"><div class="ic">'+p.em+'</div><div class="ga-row__t"><b>'+p.nm+'</b><small>'+p.co2.toFixed(1)+' kgCO₂e</small></div><div class="ga-row__v"><b>'+GA.money(p.pr)+'</b><small>'+p.cat+'</small></div></div>';}).join("")+'</div>'+
+      '<div style="border-top:1px solid var(--hair);margin-top:12px;padding-top:12px;display:grid;gap:8px">'+
+        '<div style="display:flex;justify-content:space-between"><span style="color:var(--slate);font-size:14px">Total belanja</span><b style="font-family:var(--l-serif);font-size:18px;color:var(--pine)">'+GA.money(tot)+'</b></div>'+
+        '<div style="display:flex;justify-content:space-between"><span style="color:var(--slate);font-size:14px">Total jejak karbon</span><b style="font-family:var(--l-serif);font-size:18px;color:var(--brass)">'+co2.toFixed(1)+' kgCO₂e</b></div>'+
+      '</div>'+
+      '<label style="display:flex;align-items:center;gap:9px;margin:12px 0;font-size:13px;color:var(--slate);cursor:pointer"><input type="checkbox" data-offset checked> Offset '+co2.toFixed(1)+' kgCO₂e lewat Tree Marketplace (+'+GA.money(co2*2500)+')</label>'+
+      '<button class="ga-btn solid" data-checkout style="width:100%">Bayar &amp; terbitkan struk karbon</button>';
+    $("[data-checkout]").addEventListener("click",function(){
+      var off=$("[data-offset]").checked;
+      feed.push("chain","Checkout & struk karbon",cart.length+" item · "+co2.toFixed(1)+" kgCO₂e"+(off?" · di-offset":"")+" · tx "+GA.short());
+      if(off)feed.push("ai","Offset diteruskan","Ke petak Restorasi Mangrove (Tree Marketplace) · "+co2.toFixed(1)+" kgCO₂e");
+      GA.toast("Pembayaran berhasil (simulasi) — struk karbon diterbitkan");
+      cart=[];renderCart();syncCart();
+    });
+  }
+  function syncCart(){var co2=cart.reduce(function(s,p){return s+p.co2},0);$("[data-cartn]").textContent=cart.length+" item";$("[data-cartco2]").textContent=co2.toFixed(1).replace(".",",")+" kg";}
+  function setTab(n){$$(".ga-tab").forEach(function(t){t.classList.toggle("on",t.dataset.tab===n);});$$(".ga-pane").forEach(function(p){p.classList.toggle("on",p.dataset.pane===n);});}
+  $$(".ga-tab").forEach(function(t){t.addEventListener("click",function(){setTab(t.dataset.tab);});});
+
+  renderRibbon();renderChips();renderGrid();renderDetail();renderCart();syncCart();
+  setInterval(function(){var s=GA.pick([["sat","Data pengiriman diperbarui","Rute hijau dipilih otomatis — emisi logistik −8%."],["ai","Agen kurasi etalase","2 produk baru lolos ambang jejak karbon rendah."],["chain","Oracle harga karbon","Harga offset diperbarui · Rp2.500/kg · blok #"+Math.floor(GA.rnd(84000,99000))]]);feed.push(s[0],s[1],s[2]);},6000);
+})();
+</script>
+</body>
+</html>

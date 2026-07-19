@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv Dompet — Carbon Wallet &amp; Kustodi Aset Hijau</title>
+<meta name="description" content="Glyiv Dompet: dompet yang mencatat jejak karbon tiap transaksi otomatis, memberi anggaran karbon, dan menyimpan aset hijau Anda (fraksi pohon ERC-3643).">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<style>
+.dp-card{background:linear-gradient(135deg,#0f2e22,#123c2c 60%,#0c261c);border-radius:20px;padding:22px;color:#fff;position:relative;overflow:hidden}
+.dp-card::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 85% 10%,rgba(51,209,136,.25),transparent 60%)}
+.dp-card .lbl{font-family:var(--l-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#8affc1}
+.dp-card .bal{font-family:var(--l-serif);font-weight:600;font-size:34px;margin:6px 0 2px}
+.dp-card .sub{font-family:var(--l-mono);font-size:11px;color:rgba(255,255,255,.7)}
+.dp-card .actions{display:flex;gap:8px;margin-top:16px;position:relative}
+.dp-card .actions button{flex:1;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:11px;padding:10px;font-weight:700;font-size:12.5px;cursor:pointer;transition:.18s}
+.dp-card .actions button:hover{background:rgba(255,255,255,.2)}
+.dp-txn{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--hair)}
+.dp-txn:last-child{border-bottom:0}
+.dp-txn .ic{width:40px;height:40px;border-radius:11px;background:var(--paper2);display:grid;place-items:center;font-size:19px;flex:0 0 auto}
+.dp-txn__t b{display:block;font-size:13.5px;color:var(--pine)}
+.dp-txn__t small{font-family:var(--l-mono);font-size:9px;color:var(--muted)}
+.dp-txn__v{margin-left:auto;text-align:right}
+.dp-txn__v b{display:block;font-family:var(--l-serif);font-size:15px;color:var(--pine)}
+.dp-ring{display:flex;gap:18px;align-items:center}
+.dp-donut{position:relative;width:126px;height:126px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto}
+.dp-donut::after{content:"";position:absolute;width:88px;height:88px;border-radius:50%;background:#fff}
+.dp-donut b{position:relative;font-family:var(--l-serif);font-weight:600;font-size:22px;color:var(--pine);text-align:center;line-height:1}
+.dp-donut b small{display:block;font-family:var(--l-mono);font-size:8px;color:var(--muted);margin-top:2px}
+.dp-catbar{display:grid;gap:9px}
+.dp-catbar .r{display:flex;align-items:center;gap:10px}
+.dp-catbar .lb{width:90px;flex:0 0 auto;font-size:12px;color:var(--slate)}
+.dp-catbar .tr{flex:1;height:9px;background:var(--hair);border-radius:999px;overflow:hidden}
+.dp-catbar .tr i{display:block;height:100%;border-radius:999px}
+.dp-catbar .vl{width:66px;text-align:right;font-family:var(--l-mono);font-size:10px;color:var(--muted);flex:0 0 auto}
+.dp-asset{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:13px;padding:12px}
+.dp-asset img{width:48px;height:48px;border-radius:11px;object-fit:cover;flex:0 0 auto}
+</style>
+</head>
+<body>
+<div id="ga-nav"></div>
+
+<section class="ga-hero">
+  <img class="bg" src="/lab/img/finance.jpg" alt="Wallet">
+  <div class="ga-hero__in">
+    <div>
+      <div class="ga-crumb"><a href="/">Glyiv</a> / <a href="/#ekosistem">Ekosistem</a> / Glyiv Dompet</div>
+      <span class="ga-badge"><i></i> Roadmap &middot; pratinjau</span>
+      <h1>Dompet yang tahu <em>jejak karbon</em> tiap belanja.</h1>
+      <p>Bayar seperti biasa — Glyiv Dompet mencatat jejak karbon tiap transaksi otomatis, memberi anggaran karbon bulanan, dan menyimpan aset hijau Anda. Low-friction: Anda tak menghitung apa pun.</p>
+    </div>
+    <div class="ga-hero__aside"><div><div class="k">Saldo</div><div class="v g" data-hbal>Rp1.240.000</div></div><div><div class="k">Jejak bln ini</div><div class="v" data-hco2>68 kg</div></div></div>
+  </div>
+</section>
+
+<div class="ga-wrap">
+  <div class="ga-ribbon">
+    <div class="ga-stat"><div class="k">Saldo dompet</div><div class="v" data-r1>Rp1.240.000</div><div class="s">GlyivPay</div></div>
+    <div class="ga-stat"><div class="k">Jejak bulan ini</div><div class="v g" data-r2>68 kg</div><div class="s">CO₂e dari transaksi</div></div>
+    <div class="ga-stat"><div class="k">Anggaran karbon</div><div class="v gold" data-r3>68 / 90 kg</div><div class="s">76% terpakai</div></div>
+    <div class="ga-stat"><div class="k">Aset hijau</div><div class="v g" data-r4>512 fraksi</div><div class="s">tersimpan (ERC-3643)</div></div>
+  </div>
+  <p class="ga-note">Pratinjau produk (teaser) — saldo, transaksi &amp; jejak bersifat ilustrasi. Jejak karbon dihitung dari kategori transaksi × faktor emisi Glyiv.</p>
+
+  <div class="ga-grid" style="margin-top:14px">
+    <!-- wallet card + txns -->
+    <div class="ga-card pad">
+      <div class="dp-card">
+        <div class="lbl">GlyivPay · Carbon Wallet</div>
+        <div class="bal" data-bal>Rp1.240.000</div>
+        <div class="sub">•••• 8821 · anggaran karbon <span data-budget>68/90 kg</span></div>
+        <div class="actions"><button data-pay>Bayar (QR)</button><button data-topup>Isi saldo</button><button data-send>Kirim</button></div>
+      </div>
+      <div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px">Transaksi terbaru</div>
+      <div data-txns></div>
+    </div>
+
+    <!-- tabs: budget / assets -->
+    <div class="ga-card">
+      <div class="ga-tabs">
+        <button class="ga-tab on" data-tab="budget">Anggaran Karbon</button>
+        <button class="ga-tab" data-tab="assets">Aset Hijau</button>
+      </div>
+      <div class="ga-pane on" data-pane="budget">
+        <div class="dp-ring" style="margin-bottom:16px">
+          <div class="dp-donut" data-donut><b>76%<small>terpakai</small></b></div>
+          <div><div style="font-family:var(--l-serif);font-weight:600;font-size:20px;color:var(--pine)">68 / 90 kgCO₂e</div>
+            <div style="font-size:13px;color:var(--slate);margin-top:4px">Sisa anggaran bulan ini <b style="color:var(--teal)">22 kg</b>. Agen menjaga Anda tetap di jalur.</div></div>
+        </div>
+        <div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Jejak per kategori</div>
+        <div class="dp-catbar">
+          <div class="r"><span class="lb">Transport</span><span class="tr"><i style="width:82%;background:#B0894F"></i></span><span class="vl">26 kg</span></div>
+          <div class="r"><span class="lb">Makan</span><span class="tr"><i style="width:60%;background:#1F7A6B"></i></span><span class="vl">19 kg</span></div>
+          <div class="r"><span class="lb">Belanja</span><span class="tr"><i style="width:45%;background:#2f6ea0"></i></span><span class="vl">14 kg</span></div>
+          <div class="r"><span class="lb">Listrik</span><span class="tr"><i style="width:30%;background:#7a5db0"></i></span><span class="vl">9 kg</span></div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:11px;align-items:center;background:linear-gradient(120deg,rgba(31,122,107,.08),rgba(31,122,107,.02));border:1px solid rgba(31,122,107,.2);border-radius:12px;padding:11px 13px">
+          <span style="font-size:18px">⛭</span><div style="font-size:12.5px;color:var(--pine)"><b>Agen Glyiv</b><br><span style="color:var(--slate)">Transport dominan. Beralih 2 perjalanan ke transit umum bisa hemat ~7 kgCO₂e — dan Rp40rb.</span></div>
+        </div>
+      </div>
+      <div class="ga-pane" data-pane="assets">
+        <div style="font-size:13px;color:var(--slate);margin-bottom:12px">Kustodi aset hijau Anda — fraksi pohon &amp; kredit yang ter-tokenisasi (ERC-3643), tersimpan aman di dompet.</div>
+        <div class="ga-list">
+          <div class="dp-asset"><img src="/lab/img/reforestation.jpg" alt=""><div><b style="color:var(--pine)">Restorasi Mangrove — GLYV-T1042</b><div style="font-family:var(--l-mono);font-size:9px;color:var(--muted)">320 fraksi · ERC-3643</div></div><div style="margin-left:auto;text-align:right"><b style="font-family:var(--l-serif);font-size:15px;color:var(--teal)">◈ 41,2rb</b><div style="font-family:var(--l-mono);font-size:8px;color:var(--muted)">nilai est.</div></div></div>
+          <div class="dp-asset"><img src="/lab/img/forest.jpg" alt=""><div><b style="color:var(--pine)">Rehabilitasi Hutan — GLYV-T1104</b><div style="font-family:var(--l-mono);font-size:9px;color:var(--muted)">142 fraksi · ERC-3643</div></div><div style="margin-left:auto;text-align:right"><b style="font-family:var(--l-serif);font-size:15px;color:var(--teal)">◈ 18,4rb</b><div style="font-family:var(--l-mono);font-size:8px;color:var(--muted)">nilai est.</div></div></div>
+          <div class="dp-asset"><img src="/lab/img/tree-planting.jpg" alt=""><div><b style="color:var(--pine)">Kredit Karbon Terverifikasi</b><div style="font-family:var(--l-mono);font-size:9px;color:var(--muted)">3,4 tCO₂e · siap retire</div></div><div style="margin-left:auto;text-align:right"><b style="font-family:var(--l-serif);font-size:15px;color:var(--brass)">3,4 t</b><div style="font-family:var(--l-mono);font-size:8px;color:var(--muted)">CO₂e</div></div></div>
+        </div>
+        <a class="ga-btn glass" href="/lab/apps/tree-marketplace/" style="width:100%;margin-top:12px">Kelola di Tree Marketplace →</a>
+      </div>
+    </div>
+
+    <!-- how it works -->
+    <div class="ga-card pad" style="grid-column:1/-1">
+      <span class="ga-kick">Low-friction · tanpa effort</span>
+      <h2 class="ga-h2" style="margin-bottom:16px">Anda cukup bayar. <span class="ga-em">Karbonnya kami yang catat.</span></h2>
+      <div class="ga-steps">
+        <div class="ga-step"><b>Bayar seperti biasa</b><p>QR, transfer, atau tautan Glyiv Pasar. Tak ada langkah tambahan.</p></div>
+        <div class="ga-step"><b>Kategori → faktor emisi</b><p>Tiap transaksi dipetakan ke kategori &amp; faktor emisi Glyiv (spend-based EEIO / activity-based bila detail tersedia).</p></div>
+        <div class="ga-step"><b>Anggaran &amp; nudge</b><p>Anda dapat anggaran karbon bulanan; agen memberi nudge hemat saat mendekati batas.</p></div>
+        <div class="ga-step"><b>Offset &amp; simpan aset</b><p>Sisa jejak bisa di-offset sekali klik; aset hijau tersimpan aman di kustodi dompet.</p></div>
+      </div>
+      <div class="ga-tech" style="margin-top:18px">
+        <span class="ga-chip ai">⛭ Agen anggaran karbon</span>
+        <span class="ga-chip chain">🔗 Kustodi ERC-3643</span>
+        <span class="ga-chip">📊 Klasifikasi transaksi otomatis</span>
+      </div>
+    </div>
+
+    <div class="ga-card" style="grid-column:1/-1">
+      <div class="ga-card__hd"><h3>Aktivitas Agen &amp; On-chain</h3><span class="tag">real-time feed</span></div>
+      <div class="ga-feed" data-feed></div>
+    </div>
+  </div>
+
+  <div class="ga-cta"><a class="ga-btn solid" href="/#demo">Jadwalkan demo lengkap</a><a class="ga-btn glass" href="/#ekosistem" style="margin-left:8px">← Ekosistem Glyiv</a></div>
+</div>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script>
+(function(){
+  var $=GA.$,$$=GA.$$;
+  var bal=1240000, co2=68, budget=90, assets=512;
+  var TX=[
+    {ic:"🛵",nm:"Transport · ojek online",sub:"Hari ini 08:14",amt:-24000,c:1.4},
+    {ic:"☕",nm:"Glyiv Pasar · Kopi Arabika",sub:"Hari ini 10:02",amt:-65000,c:0.9},
+    {ic:"⚡",nm:"Token listrik PLN",sub:"Kemarin",amt:-100000,c:5.2},
+    {ic:"🌿",nm:"Offset · Tree Marketplace",sub:"Kemarin",amt:-18000,c:-7.2},
+    {ic:"🍚",nm:"Makan siang · warung",sub:"2 hari lalu",amt:-32000,c:1.1}
+  ];
+  var feed=GA.makeFeed("[data-feed]",[
+    ["ai","Anggaran karbon 76% terpakai","Sisa 22 kg · agen menyarankan 2 perjalanan transit umum."],
+    ["chain","Aset masuk kustodi","+142 fraksi GLYV-T1104 (ERC-3643) · tx "+GA.short()],
+    ["ai","Transaksi diklasifikasi","'Token listrik PLN' → kategori Listrik · 5,2 kgCO₂e"]
+  ]);
+  function drawDonut(){var p=Math.round(co2/budget*100);$("[data-donut]").style.background="conic-gradient("+(p>85?"#B0894F":"#1F7A6B")+" "+p+"%, var(--hair) 0)";$("[data-donut]").querySelector("b").innerHTML=p+'%<small>terpakai</small>';}
+  function renderTx(){
+    $("[data-txns]").innerHTML=TX.map(function(t){
+      var amt=(t.amt<0?"−":"+")+GA.money(Math.abs(t.amt)).replace("Rp","Rp");
+      var cc=t.c<0?'<span class="ga-co2" style="background:rgba(31,122,107,.12)">−'+Math.abs(t.c).toFixed(1)+' kg</span>':'<span class="ga-co2" style="background:rgba(176,137,79,.14);color:var(--brass)">+'+t.c.toFixed(1)+' kg</span>';
+      return '<div class="dp-txn"><div class="ic">'+t.ic+'</div><div class="dp-txn__t"><b>'+t.nm+'</b><small>'+t.sub+'</small></div><div class="dp-txn__v"><b>'+amt+'</b>'+cc+'</div></div>';
+    }).join("");
+  }
+  function sync(){
+    $("[data-bal]").textContent=GA.money(bal);$("[data-hbal]").textContent=GA.money(bal);$("[data-r1]").textContent=GA.money(bal);
+    $("[data-r2]").textContent=co2+" kg";$("[data-hco2]").textContent=co2+" kg";
+    $("[data-r3]").textContent=co2+" / "+budget+" kg";$("[data-budget]").textContent=co2+"/"+budget+" kg";
+    drawDonut();
+  }
+  function setTab(n){$$(".ga-tab").forEach(function(t){t.classList.toggle("on",t.dataset.tab===n);});$$(".ga-pane").forEach(function(p){p.classList.toggle("on",p.dataset.pane===n);});}
+  $$(".ga-tab").forEach(function(t){t.addEventListener("click",function(){setTab(t.dataset.tab);});});
+  $("[data-pay]").addEventListener("click",function(){var amt=Math.round(GA.rnd(15,80))*1000,c=+GA.rnd(.4,3).toFixed(1);bal-=amt;co2+=c;TX.unshift({ic:"🧾",nm:"Pembayaran QR · merchant",sub:"Baru saja",amt:-amt,c:c});renderTx();sync();feed.push("chain","Pembayaran QR",GA.money(amt)+" · +"+c+" kgCO₂e · tx "+GA.short());GA.toast("Bayar "+GA.money(amt)+" (simulasi) — jejak "+c+" kg dicatat");});
+  $("[data-topup]").addEventListener("click",function(){bal+=100000;sync();GA.toast("Saldo +Rp100.000 (simulasi)");});
+  $("[data-send]").addEventListener("click",function(){GA.toast("Kirim uang (simulasi)");});
+  renderTx();sync();
+  setInterval(function(){var s=GA.pick([["ai","Nudge hemat","Jam sibuk — tunda 1 pengiriman bisa hemat 0,8 kg."],["chain","Oracle harga karbon","Rp2.500/kg diperbarui · blok #"+Math.floor(GA.rnd(84000,99000))],["ai","Ringkasan mingguan siap","Jejak turun 6% vs minggu lalu — kerja bagus."]]);feed.push(s[0],s[1],s[2]);},6500);
+})();
+</script>
+</body>
+</html>

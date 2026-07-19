@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalkulator IMT → Jejak Karbon — Glyiv</title>
+<meta name="description" content="Estimasi jejak karbon diet per individu dari IMT/BMI — lewat BMR (Mifflin-St Jeor) → kalori → intensitas emisi pangan (Poore & Nemecek 2018). Estimasi terlacak, bukan pengukuran; semua angka bersumber.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<style>
+.im-seg{display:flex;gap:6px;flex-wrap:wrap}
+.im-seg button{flex:1;min-width:64px;border:1px solid var(--hair);background:#fff;border-radius:9px;padding:9px 6px;font-family:var(--l-sans);font-weight:600;font-size:12.5px;color:var(--muted);cursor:pointer;transition:.16s}
+.im-seg button.on{border-color:var(--teal);background:rgba(31,122,107,.07);color:var(--pine)}
+.im-big{font-family:var(--l-serif);font-weight:600;font-size:clamp(40px,6vw,58px);color:var(--teal);line-height:1;letter-spacing:-.02em}
+.im-big .u{font-family:var(--l-mono);font-size:14px;color:var(--muted);letter-spacing:0}
+.im-range{height:8px;border-radius:999px;background:linear-gradient(90deg,#8fd9bf,#B0894F);position:relative;margin:12px 0 6px}
+.im-range .mk{position:absolute;top:-4px;width:3px;height:16px;background:var(--pine);border-radius:2px;transform:translateX(-50%)}
+.im-cmp{display:grid;gap:9px}
+.im-cmp .r{display:flex;align-items:center;gap:10px}
+.im-cmp .lb{width:110px;flex:0 0 auto;font-size:12px;color:var(--slate)}
+.im-cmp .tr{flex:1;height:10px;background:var(--hair);border-radius:999px;overflow:hidden}
+.im-cmp .tr i{display:block;height:100%;border-radius:999px}
+.im-cmp .vl{width:64px;text-align:right;font-family:var(--l-mono);font-size:10px;color:var(--muted);flex:0 0 auto}
+.im-meth summary{cursor:pointer;font-family:var(--l-sans);font-weight:700;color:var(--pine);padding:12px 0}
+.im-meth pre{background:#0c261c;color:#dff3e6;border-radius:12px;padding:14px;overflow:auto;font-family:var(--l-mono);font-size:10px;line-height:1.55}
+.im-src{display:grid;gap:8px;margin-top:10px}
+.im-src a{font-size:12.5px;color:var(--teal);text-decoration:none;padding:8px 0;border-bottom:1px solid var(--hair);display:block}
+.im-src a:hover{text-decoration:underline}
+.im-src small{display:block;font-family:var(--l-mono);font-size:10px;color:var(--muted);margin-top:2px}
+</style>
+</head>
+<body>
+<div id="ga-nav"></div>
+
+<section class="ga-hero" style="min-height:42vh">
+  <img class="bg" src="/lab/img/rumah-sakit.jpg" alt="Kalkulator IMT karbon">
+  <div class="ga-hero__in">
+    <div>
+      <div class="ga-crumb"><a href="/">Glyiv</a> / <a href="/lab/ekosistem/sehat.html">Glyiv Sehat</a> / Kalkulator IMT</div>
+      <span class="ga-badge"><i></i> Contoh produk Glyiv Sehat &middot; estimasi terlacak</span>
+      <h1>Dari tubuhmu, ke <em>jejak karbonmu.</em></h1>
+      <p>Perkirakan jejak karbon <b style="color:#fff">diet</b>-mu dari data tubuh sederhana. Metodologinya kredibel &amp; bersumber — lewat kebutuhan energi (BMR) dan intensitas emisi pangan. Ini <b style="color:#fff">estimasi terlacak</b>, bukan pengukuran presisi.</p>
+    </div>
+  </div>
+</section>
+
+<div class="ga-wrap">
+  <p class="ga-note" style="margin-top:18px"><b>Penting &amp; jujur:</b> IMT tidak menentukan jejak karbon secara langsung — keduanya terhubung tidak langsung lewat kebutuhan energi. Dua orang ber-IMT sama bisa berbeda jejaknya hingga 3× tergantung pola makan. Hasil di sini adalah estimasi (rentang ±40%), bukan angka mutlak.</p>
+
+  <div class="ga-grid" style="margin-top:14px">
+    <!-- INPUT -->
+    <div class="ga-card">
+      <div class="ga-card__hd"><h3>Data kamu</h3><span class="tag">privat · tak disimpan</span></div>
+      <div class="ga-card__b">
+        <div class="ga-grid-2" style="gap:12px">
+          <div class="ga-fld"><label>Berat (kg)</label><input type="number" data-w value="65" step="1"></div>
+          <div class="ga-fld"><label>Tinggi (cm)</label><input type="number" data-h value="168" step="1"></div>
+          <div class="ga-fld"><label>Usia (tahun)</label><input type="number" data-age value="28" step="1"></div>
+          <div class="ga-fld"><label>Jenis kelamin</label>
+            <div class="im-seg" data-sex><button class="on" data-v="m">Pria</button><button data-v="f">Wanita</button></div></div>
+        </div>
+        <div class="ga-fld" style="margin-top:12px"><label>Tingkat aktivitas (PAL)</label>
+          <div class="im-seg" data-pal>
+            <button data-v="1.2">Sedentari</button><button class="on" data-v="1.375">Ringan</button><button data-v="1.55">Sedang</button><button data-v="1.725">Aktif</button><button data-v="1.9">Berat</button>
+          </div></div>
+        <div class="ga-fld" style="margin-top:12px"><label>Pola makan (intensitas emisi pangan)</label>
+          <div class="im-seg" data-diet>
+            <button data-v="0.69">Vegan</button><button data-v="1.16">Vegetarian</button><button data-v="1.9">Pescatarian</button><button class="on" data-v="2.23">Omnivora</button><button data-v="2.5">Tinggi daging</button>
+          </div></div>
+        <button class="ga-btn teal" data-calc style="width:100%;margin-top:16px">Hitung estimasi</button>
+        <p style="font-family:var(--l-mono);font-size:9.5px;color:var(--muted);text-align:center;margin-top:10px">Rumus &amp; sumber ada di bawah. Data tidak dikirim ke mana pun.</p>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="ga-card">
+      <div class="ga-card__hd"><h3>Estimasi jejak karbon diet</h3><span class="tag">terlacak · ±40%</span></div>
+      <div class="ga-card__b" data-result>
+        <div style="text-align:center;color:var(--muted);padding:30px 0;font-size:14px">Isi data lalu tekan <b>Hitung estimasi</b>.</div>
+      </div>
+    </div>
+
+    <!-- METHODOLOGY -->
+    <div class="ga-card pad" style="grid-column:1/-1">
+      <span class="ga-kick">Metodologi &middot; bisa dipertanggungjawabkan</span>
+      <h2 class="ga-h2" style="margin-bottom:14px">Bagaimana angkanya <span class="ga-em">didapat.</span></h2>
+      <div class="ga-steps">
+        <div class="ga-step"><b>IMT (segmentasi)</b><p>IMT = berat / tinggi². Dipakai untuk klasifikasi &amp; uji kewajaran — <b>bukan</b> penentu karbon.</p></div>
+        <div class="ga-step"><b>BMR (kebutuhan energi)</b><p>Rumus Mifflin-St Jeor (1990) — paling akurat untuk populasi umum.</p></div>
+        <div class="ga-step"><b>TDEE = BMR × PAL</b><p>Faktor aktivitas 1,2–1,9 dari FAO/WHO/UNU mengubah BMR jadi kebutuhan kalori harian.</p></div>
+        <div class="ga-step"><b>Kalori → karbon</b><p>(TDEE/1000) × faktor emisi pangan (Poore &amp; Nemecek 2018) × 365 = jejak diet tahunan.</p></div>
+      </div>
+      <details class="im-meth" style="margin-top:16px">
+        <summary>Lihat rumus lengkap &amp; sumber ↓</summary>
+        <pre>IMT = berat / tinggi(m)²        (WHO: &lt;18,5 / 18,5–24,9 / 25–29,9 / ≥30 · ⚠︎ Asia-Pasifik ≥23)
+BMR (Mifflin-St Jeor 1990):
+  pria   = 10·W + 6,25·H − 5·A + 5
+  wanita = 10·W + 6,25·H − 5·A − 161
+TDEE = BMR × PAL   (PAL 1,2 / 1,375 / 1,55 / 1,725 / 1,9 — FAO/WHO/UNU)
+Jejak diet/tahun = (TDEE/1000) × EF_diet × 365
+  EF_diet (kg CO₂e/1000 kkal): vegan 0,69 · vegetarian 1,16 · pescatarian 1,9 · omnivora 2,23 · tinggi daging 2,5
+  (Poore &amp; Nemecek 2018; Rose et al. 2023)</pre>
+        <div class="im-src">
+          <a href="https://pubmed.ncbi.nlm.nih.gov/2305711/" target="_blank" rel="noopener">Mifflin, St Jeor, dkk. (1990) — A new predictive equation for resting energy expenditure. Am J Clin Nutr ↗<small>Rumus BMR (kalorimetri indirek, 498 subjek).</small></a>
+          <a href="https://www.science.org/doi/10.1126/science.aaq0216" target="_blank" rel="noopener">Poore &amp; Nemecek (2018) — Reducing food's environmental impacts. Science ↗<small>Meta-analisis ~38.700 farm; dasar intensitas emisi pangan.</small></a>
+          <a href="https://www.sciencedirect.com/science/article/pii/S0002916523005117" target="_blank" rel="noopener">Rose, Willits-Smith, Heller, dkk. (2023) — Carbon footprints and diet quality. Am J Clin Nutr ↗<small>EF per 1000 kkal: vegan ~0,69 · omnivora ~2,23.</small></a>
+          <a href="https://www.fao.org/4/y5686e/y5686e00.htm" target="_blank" rel="noopener">FAO/WHO/UNU (2001/2004) — Human energy requirements ↗<small>Faktor aktivitas (PAL) 1,2–1,9.</small></a>
+          <a href="https://www.who.int/health-topics/obesity" target="_blank" rel="noopener">WHO — Klasifikasi IMT (+ ambang Asia-Pasifik ⚠︎) ↗<small>Ambang kategori berat badan.</small></a>
+        </div>
+      </details>
+      <div class="ga-tech" style="margin-top:16px">
+        <span class="ga-chip">📚 Estimasi terlacak, bukan pengukuran</span>
+        <span class="ga-chip ai">⛭ Kalibrasi ke aktivitas nyata bila tersedia</span>
+        <span class="ga-chip chain">🔗 Hasil bisa disimpan ke Glyiv Dompet</span>
+      </div>
+      <p style="font-family:var(--l-mono);font-size:10px;color:var(--muted);margin-top:12px;line-height:1.6">Batasan jujur: hanya jejak <b>diet</b> (belum termasuk transport/barang/penerbangan); mengabaikan food waste, asal &amp; musim bahan, metode masak. ⚠︎ EF pangan default dari studi global/AS — faktor Indonesia (nasi sebagai staple, lahan gambut) bisa berbeda. Tidak valid untuk anak/hamil/kondisi metabolik khusus. Bukan nasihat medis.</p>
+    </div>
+
+    <div class="ga-card" style="grid-column:1/-1">
+      <div class="ga-card__hd"><h3>Analisis Agen</h3><span class="tag">saran, bukan vonis</span></div>
+      <div class="ga-feed" data-feed></div>
+    </div>
+  </div>
+
+  <div class="ga-cta"><a class="ga-btn solid" href="/lab/apps/scanner/">Coba juga: Scan Karbon →</a><a class="ga-btn glass" href="/#ekosistem" style="margin-left:8px">← Ekosistem Glyiv</a></div>
+</div>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script src="/assets/js/glyiv-sources.js" defer></script>
+<script>
+(function(){
+  var $=GA.$,$$=GA.$$;
+  var sex="m", pal=1.375, ef=2.23;
+  var feed=GA.makeFeed("[data-feed]",[
+    ["ai","Siap menganalisis","Isi data lalu tekan Hitung — agen akan memberi saran hijau yang realistis."]
+  ]);
+  function seg(name,cb){$$('[data-'+name+'] button').forEach(function(b){b.addEventListener("click",function(){$$('[data-'+name+'] button').forEach(function(x){x.classList.remove("on")});b.classList.add("on");cb(b.dataset.v);});});}
+  seg("sex",function(v){sex=v;});
+  seg("pal",function(v){pal=parseFloat(v);});
+  seg("diet",function(v){ef=parseFloat(v);});
+
+  function classify(bmi){
+    if(bmi<18.5)return["Kurus","#B0894F"];
+    if(bmi<25)return["Normal","#1F7A6B"];
+    if(bmi<30)return["Berlebih","#B0894F"];
+    return["Obesitas","#c98b6b"];
+  }
+  (function(){ if(document.getElementById("im-anim"))return; var s=document.createElement("style"); s.id="im-anim"; s.textContent=".im-res{animation:imRes .45s cubic-bezier(.2,.7,.2,1) both}@keyframes imRes{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}.im-cmp .r i{transition:width .6s cubic-bezier(.2,.7,.2,1)}.im-range .mk{transition:left .6s cubic-bezier(.2,.7,.2,1)}"; document.head.appendChild(s); })();
+  function countUp(el,to,dur,dec){ if(!el)return; var t0=null,from=0; function step(t){ if(t0===null)t0=t; var p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=(from+(to-from)*e).toFixed(dec); if(p<1)requestAnimationFrame(step); } requestAnimationFrame(step); }
+  $("[data-calc]").addEventListener("click",function(){
+    var W=parseFloat($("[data-w]").value)||0, H=parseFloat($("[data-h]").value)||0, A=parseFloat($("[data-age]").value)||0;
+    if(W<=0||H<=0){GA.toast("Isi berat & tinggi dulu");return;}
+    var bmi=W/Math.pow(H/100,2);
+    var bmr=sex==="m"?(10*W+6.25*H-5*A+5):(10*W+6.25*H-5*A-161);
+    var tdee=bmr*pal;
+    var dietDay=(tdee/1000)*ef, dietYr=dietDay*365;
+    var lo=dietYr*0.6, hi=dietYr*1.4;
+    var cls=classify(bmi);
+    // reference: national avg diet ~ omnivore average; trees to offset (~22 kg/tree/yr)
+    var trees=Math.round(dietYr/22);
+    $("[data-result]").innerHTML='<div class="im-res">'+
+      '<div style="display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap">'+
+        '<div><div class="im-big"><span data-cubig>'+(dietYr/1000).toFixed(2)+'</span><span class="u"> tCO₂e/thn</span></div>'+
+        '<div style="font-family:var(--l-mono);font-size:11px;color:var(--muted);margin-top:6px" data-src="Poore &amp; Nemecek 2018, Science|https://www.science.org/doi/10.1126/science.aaq0216 ;; Rose et al. 2023, Am J Clin Nutr|https://www.sciencedirect.com/science/article/pii/S0002916523005117" data-src-title="Sumber faktor emisi pangan">≈ '+Math.round(dietDay)+' kgCO₂e/hari · rentang '+(lo/1000).toFixed(2)+'–'+(hi/1000).toFixed(2)+' t</div></div>'+
+      '</div>'+
+      '<div class="im-range"><span class="mk" style="left:'+Math.min(100,Math.max(0,(dietYr-lo)/(hi-lo)*100))+'%"></span></div>'+
+      '<div style="font-family:var(--l-mono);font-size:9px;color:var(--muted);display:flex;justify-content:space-between"><span>estimasi bawah</span><span>estimasi atas</span></div>'+
+      '<div class="ga-meta" style="margin-top:16px">'+
+        '<div><div class="k">IMT</div><div class="v" style="color:'+cls[1]+'" data-src="WHO — klasifikasi IMT|https://www.who.int/health-topics/obesity" data-src-title="Klasifikasi IMT">'+bmi.toFixed(1)+'<small> '+cls[0]+'</small></div></div>'+
+        '<div><div class="k">BMR</div><div class="v" data-src="Mifflin-St Jeor 1990, Am J Clin Nutr|https://pubmed.ncbi.nlm.nih.gov/2305711/" data-src-title="Rumus BMR">'+Math.round(bmr)+'<small> kkal</small></div></div>'+
+        '<div><div class="k">TDEE</div><div class="v" data-src="FAO/WHO/UNU 2001 — PAL|https://www.fao.org/4/y5686e/y5686e00.htm" data-src-title="Faktor aktivitas (PAL)">'+Math.round(tdee)+'<small> kkal</small></div></div>'+
+      '</div>'+
+      '<div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Jejak diet menurut pola makan (kalori sama)</div>'+
+      '<div class="im-cmp">'+
+        [["Vegan",0.69,"#1F7A6B"],["Vegetarian",1.16,"#1F7A6B"],["Pescatarian",1.9,"#B0894F"],["Omnivora",2.23,"#B0894F"],["Tinggi daging",2.5,"#c98b6b"]].map(function(d){
+          var yr=(tdee/1000)*d[1]*365/1000; var w=Math.min(100,yr/((tdee/1000)*2.5*365/1000)*100);
+          return '<div class="r"><span class="lb">'+d[0]+'</span><span class="tr"><i style="width:'+w+'%;background:'+d[2]+'"></i></span><span class="vl">'+yr.toFixed(2)+' t</span></div>';
+        }).join("")+'</div>'+
+      '<div style="margin-top:16px;display:flex;gap:11px;align-items:center;background:linear-gradient(120deg,rgba(31,122,107,.08),rgba(31,122,107,.02));border:1px solid rgba(31,122,107,.2);border-radius:12px;padding:12px 14px">'+
+        '<span style="font-size:20px">🌳</span><div style="font-size:12.5px;color:var(--pine)"><b>Setara ~<span data-cutrees>'+trees+'</span> pohon/tahun</b><br><span style="color:var(--slate)">untuk mengimbangi jejak diet ini — bisa di-offset lewat Tree Marketplace.</span></div></div>'+
+      '<button class="ga-btn teal" data-save style="width:100%;margin-top:12px">Simpan ke Glyiv Dompet &amp; dapat kredit</button>'+
+      '</div>';
+    if(window.GlyivSources)window.GlyivSources.scan($("[data-result]"));
+    countUp($("[data-cubig]"),dietYr/1000,650,2); countUp($("[data-cutrees]"),trees,650,0);
+    $("[data-result]").querySelectorAll(".im-cmp .r i").forEach(function(b){var w=b.style.width;b.style.width="0";requestAnimationFrame(function(){requestAnimationFrame(function(){b.style.width=w;});});});
+    // agent
+    var tip = ef>=2.2 ? "Pola makanmu dominan hewani. Mengganti 2 porsi daging/minggu dengan nabati bisa memangkas ~"+Math.round(dietYr*0.12)+" kgCO₂e/tahun." : ef<=1.2 ? "Pola makanmu sudah rendah karbon — kerja bagus. Fokus berikutnya: transport & energi rumah." : "Pola makanmu menengah. Menambah 1 hari nabati/minggu memangkas ~"+Math.round(dietYr*0.06)+" kgCO₂e/tahun.";
+    feed.push("ai","Saran agen (realistis)",tip);
+    feed.push("ai","Catatan kejujuran","Ini estimasi diet ±40% — bukan jejak total. Kalibrasi lebih akurat bila kamu catat menu harian di Glyiv.");
+    GA.toast("Estimasi dihitung — lihat hasil & sumbernya");
+  });
+  $("[data-result]").addEventListener("click",function(e){ if(e.target.closest("[data-save]")){ feed.push("chain","Estimasi disimpan","Masuk profil karbon Glyiv Dompet · +5 ◈ kredit literasi · tx "+GA.short()); GA.toast("Tersimpan ke Dompet (simulasi) — +5 ◈"); } });
+})();
+</script>
+</body>
+</html>

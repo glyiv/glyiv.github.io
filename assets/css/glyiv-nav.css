@@ -53,6 +53,17 @@
 .ldrop__menu a small{display:block;font-family:var(--n-mono);font-size:9px;color:var(--n-muted);margin-top:1px;letter-spacing:.02em}
 /* right-anchored dropdown (last nav item) — must not overflow the viewport */
 .ldrop--r .ldrop__menu{left:auto;right:0;width:min(360px,86vw);grid-template-columns:1fr 1fr;gap:8px 16px}
+/* ECOSYSTEM MEGA-MENU — wider, richer, with a bottom CTA row */
+.ldrop--mega .ldrop__menu{left:0;transform:translateX(-24px) translateY(6px);width:min(920px,94vw);grid-template-columns:repeat(4,1fr);gap:14px 22px;padding:22px 24px 18px}
+.ldrop--mega:hover .ldrop__menu,.ldrop--mega:focus-within .ldrop__menu{transform:translateX(-24px) translateY(0)}
+.ldrop--mega .ldrop__grp a{padding:6px 0}
+.ldrop--mega .ldrop__grp a b{display:block;font-family:var(--n-sans);font-size:13px;font-weight:600;color:var(--n-slate)}
+.ldrop--mega .ldrop__grp a:hover b{color:var(--n-teal)}
+.ldrop--mega .ldrop__grp a small{display:block;font-family:var(--n-mono);font-size:9px;color:var(--n-muted);margin-top:1px;letter-spacing:.01em}
+.ldrop__mega-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px;padding-top:14px;border-top:1px solid var(--n-hair)}
+.ldrop__mega-foot span{font-family:var(--n-mono);font-size:10px;color:var(--n-muted)}
+.ldrop__mega-foot a{font-family:var(--n-sans);font-weight:700;font-size:12.5px;color:#fff!important;background:var(--n-pine);border-radius:999px;padding:8px 15px}
+.ldrop__mega-foot a:hover{background:var(--n-teal);color:#fff!important}
 /* current page */
 .lnav__links>a,.ldrop__btn{position:relative}
 .lnav__links a.is-active,.ldrop__btn.is-active{color:var(--n-pine);background:var(--n-paper)}
@@ -69,7 +80,9 @@
   .lnav__links>a.is-active::after,.ldrop__btn.is-active::after{display:none}
   .lnav__links>a.is-active,.ldrop__btn.is-active{color:var(--n-teal)!important}
   .ldrop{width:100%}
-  .ldrop__menu,.ldrop--r .ldrop__menu{position:static;transform:none;opacity:1;visibility:visible;width:auto;max-width:none;box-shadow:none;border:none;grid-template-columns:1fr 1fr;padding:6px 0 6px 8px}
+  .ldrop__menu,.ldrop--r .ldrop__menu,.ldrop--mega .ldrop__menu{position:static;transform:none!important;opacity:1;visibility:visible;width:auto;max-width:none;box-shadow:none;border:none;grid-template-columns:1fr 1fr;padding:6px 0 6px 8px;gap:2px 12px}
+  .ldrop--mega .ldrop__grp a b{font-size:13px}.ldrop--mega .ldrop__grp a small{display:none}
+  .ldrop__mega-foot{display:none}
   .lnav__burger{display:inline-flex}
   .lnav__cta{display:none}
 }

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landing Pages — Glyiv · direktori kampanye</title>
+<meta name="description" content="Direktori landing page kampanye Glyiv: kalkulator karbon individu (foto item → jejak + pohon untuk menebus), komunitas, tantangan hijau, UMKM, enterprise, dan aset hijau.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<style>
+.lp-hero{padding:calc(68px + clamp(40px,7vh,80px)) 0 clamp(20px,4vh,40px)}
+.lp-cats{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 26px}
+.lp-cat{font-family:var(--l-mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--slate);background:var(--paper2);border:1px solid var(--hair);border-radius:999px;padding:8px 14px;cursor:pointer;transition:.15s}
+.lp-cat:hover{color:var(--pine)}.lp-cat.on{background:var(--pine);color:#fff;border-color:transparent}
+.lp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;padding-bottom:70px}
+.lp-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--hair);border-radius:20px;overflow:hidden;box-shadow:var(--sh1);text-decoration:none;transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.lp-card:hover{transform:translateY(-5px);box-shadow:var(--sh2)}
+.lp-card__img{height:168px;position:relative;overflow:hidden;background:var(--paper2)}
+.lp-card__img img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.lp-card:hover .lp-card__img img{transform:scale(1.06)}
+.lp-card__img .aud{position:absolute;top:14px;left:14px;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#08301f;background:rgba(255,255,255,.92);border-radius:7px;padding:5px 9px;font-weight:600}
+.lp-card__img .star{position:absolute;top:14px;right:14px;font-family:var(--l-mono);font-size:9px;color:#fff;background:var(--brass);border-radius:7px;padding:5px 9px;letter-spacing:.05em}
+.lp-card__b{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.lp-card__b h3{font-family:var(--l-serif);font-weight:600;font-size:20px;color:var(--pine);margin:0 0 7px;line-height:1.15}
+.lp-card__b p{font-size:13.5px;color:var(--slate);line-height:1.55;margin:0 0 14px;flex:1}
+.lp-card__go{display:inline-flex;align-items:center;gap:7px;font-weight:700;font-size:13px;color:var(--teal)}
+.lp-card:hover .lp-card__go{color:var(--pine)}
+.lp-card__go svg{width:15px;height:15px;transition:transform .2s}
+.lp-card:hover .lp-card__go svg{transform:translateX(3px)}
+.lp-note{font-family:var(--l-mono);font-size:11px;color:var(--muted);line-height:1.6;max-width:80ch;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="gv-bg-root" aria-hidden="true"></div>
+<div id="ga-nav"></div>
+
+<section class="lsec lp-hero"><div class="lwrap">
+  <span class="lkick" data-reveal>Direktori kampanye</span>
+  <h1 class="lh1" data-reveal data-d="1" style="color:var(--pine);max-width:20ch;margin:14px 0 14px">Landing page Glyiv, <span class="lserif-accent">untuk setiap kampanye.</span></h1>
+  <p class="llead" data-reveal data-d="2" style="max-width:64ch">Kumpulan halaman pendaratan untuk berbagai tujuan pemasaran &mdash; dari alat konsumen hingga penawaran enterprise. Kunjungi, pratinjau, dan pilih yang paling pas untuk kampanyemu.</p>
+  <div class="lp-cats" data-reveal data-d="3" id="lpcats"></div>
+  <div class="lp-grid" id="lpgrid"></div>
+  <p class="lp-note">Semua halaman memakai sistem desain &amp; postur jujur Glyiv yang sama (estimasi terlacak, kontribusi bukan klaim netral). Angka bersifat ilustrasi/pratinjau. Butuh varian baru untuk kampanye tertentu? Bilang saja.</p>
+</div></section>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script>
+(function(){
+  var U="https://images.unsplash.com/photo-", S="?auto=format&fit=crop&w=900&q=70";
+  var L=[
+    {t:"Kalkulator Karbon Individu",aud:"Konsumen",cat:"Konsumen",star:"Unggulan",img:U+"1512621776951-a57141f2eefd"+S,fb:"/lab/img/fnb-ritel.jpg",href:"/lab/kalkulator.html",d:"Foto atau ketik item belanja → total jejak karbon + berapa pohon untuk menebusnya. Metodologi bersumber (Poore & Nemecek, ecoinvent)."},
+    {t:"Tantangan Hidup Hijau",aud:"Konsumen · Komunitas",cat:"Komunitas",img:U+"1466692476868-aef1dfb1e735"+S,fb:"/lab/img/tree-planting.jpg",href:"/lab/landing/tantangan.html",d:"Kampanye akuisisi 30 hari: aksi hijau harian, poin, dan leaderboard — mengubah niat baik jadi kebiasaan (dan pengguna baru)."},
+    {t:"Gabung Komunitas",aud:"Konsumen",cat:"Komunitas",img:U+"1441974231531-c6227db76b6e"+S,fb:"/lab/img/forest.jpg",href:"/lab/gabung/",d:"Landing iklan sosial (mobile-first) → daftar tunggu. Hook singkat, bukti sosial bersumber, satu CTA jelas."},
+    {t:"Kebun Virtual",aud:"Konsumen · Game",cat:"Konsumen",img:U+"1425913397330-cf8af2ff40a1"+S,fb:"/lab/img/reforestation.jpg",href:"/lab/apps/kebun/",d:"Pengalaman gamified: temukan lahanmu lewat koordinat, rawat pohon (sprite per-umur), panen imbalan. Retensi tinggi."},
+    {t:"Scan Karbon (aplikasi)",aud:"Konsumen",cat:"Konsumen",img:U+"1542838132-92c53300491e"+S,fb:"/lab/img/fnb-ritel.jpg",href:"/lab/apps/scanner/",d:"Aplikasi penuh: kamera → deteksi item → estimasi CO₂e, login Google, kredit ke Dompet, gamified + APK."},
+    {t:"Tree Marketplace",aud:"Aset · Investasi",cat:"Aset",img:U+"1511497584788-876760111969"+S,fb:"/lab/img/reforestation.jpg",href:"/lab/tree.html",d:"Punya (atau sewa) fraksi pohon nyata dari HP — dipantau satelit, ter-tokenisasi (ERC-3643). Aset hijau dunia-nyata."},
+    {t:"Glyiv Outlet (POS)",aud:"Bisnis · jaringan",cat:"Bisnis",img:U+"1556740738-b6a63e27c4df"+S,fb:"/lab/img/fnb-ritel.jpg",href:"/lab/landing/outlet-pos.html",d:"Sistem operasi titik bayar (POS) berdata karbon untuk jaringan outlet — karbon per outlet, sorot kebocoran biaya, loyalitas hijau. Tanpa perangkat tambahan."},
+    {t:"Glyiv Pangan (Hub)",aud:"Bisnis · pangan",cat:"Bisnis",star:"Baru",img:U+"1488459716781-31db52582fe9"+S,fb:"/lab/img/sawit-agri.jpg",href:"/lab/ekosistem/pangan.html",d:"Hub pangan berdata karbon: dari kulakan atau panen sampai siap jual, tiap produk berlabel kalori, emisi, dan nilai untuk menebusnya. Contoh langsung 'show, don't tell' dari misi Glyiv."},
+    {t:"Retailer & UMKM",aud:"Bisnis kecil",cat:"Bisnis",img:U+"1509391366360-2e959784a276"+S,fb:"/lab/img/fnb-ritel.jpg",href:"/lab/industri/retailer.html",d:"Karbon terjangkau untuk toko: kalkulator operasi + item, insight hemat energi, offset UMKM yang realistis."},
+    {t:"Carbon Intelligence",aud:"Enterprise",cat:"Bisnis",img:U+"1460925895917-afdab827c52f"+S,fb:"/lab/img/data-center.jpg",href:"/lab/carbon-intelligence.html",d:"Halaman enterprise: ukur · verifikasi · offset, demo per-industri (kalkulator + Agen AI + offset), selaras GHG Protocol/ISO 14064."}
+  ];
+  var cats=["Semua"]; L.forEach(function(x){if(cats.indexOf(x.cat)<0)cats.push(x.cat);});
+  var cur="Semua";
+  function icon(){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';}
+  function render(){
+    document.getElementById("lpgrid").innerHTML = L.filter(function(x){return cur==="Semua"||x.cat===cur;}).map(function(x){
+      return '<a class="lp-card" href="'+x.href+'"><div class="lp-card__img"><img src="'+x.img+'" alt="" loading="lazy" onerror="this.onerror=null;this.src=\''+x.fb+'\'"><span class="aud">'+x.aud+'</span>'+(x.star?'<span class="star">★ '+x.star+'</span>':'')+'</div><div class="lp-card__b"><h3>'+x.t+'</h3><p>'+x.d+'</p><span class="lp-card__go">Kunjungi '+icon()+'</span></div></a>';
+    }).join("");
+  }
+  function cats_render(){
+    document.getElementById("lpcats").innerHTML = cats.map(function(c){return '<button class="lp-cat'+(c===cur?" on":"")+'" data-c="'+c+'">'+c+'</button>';}).join("");
+    Array.prototype.slice.call(document.querySelectorAll("[data-c]")).forEach(function(b){b.addEventListener("click",function(){cur=b.dataset.c;cats_render();render();});});
+  }
+  cats_render(); render();
+})();
+</script>
+</body>
+</html>

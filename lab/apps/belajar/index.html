@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv Belajar — Literasi Hijau yang Menyenangkan</title>
+<meta name="description" content="Glyiv Belajar: kursus, media, dan game tentang lingkungan &amp; karbon — dikemas ringan untuk orang awam. Selesaikan pelajaran, dapat lencana & kredit hijau.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<style>
+.bl-course{border:1px solid var(--hair);border-radius:15px;overflow:hidden;background:#fff;box-shadow:var(--sh1);transition:.2s var(--ease)}
+.bl-course:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.bl-course__img{height:110px;position:relative}
+.bl-course__img img{width:100%;height:100%;object-fit:cover}
+.bl-course__img .lv{position:absolute;left:10px;top:10px;font-family:var(--l-mono);font-size:8px;letter-spacing:.05em;text-transform:uppercase;color:#04160e;background:rgba(138,255,193,.92);border-radius:999px;padding:4px 9px}
+.bl-course__img .pl{position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center;color:var(--pine)}
+.bl-course__b{padding:13px 14px}
+.bl-course__b b{display:block;font-family:var(--l-serif);font-weight:600;font-size:16px;color:var(--pine);line-height:1.2}
+.bl-course__b small{font-family:var(--l-mono);font-size:9px;color:var(--muted)}
+.bl-prog{height:6px;background:var(--hair);border-radius:999px;overflow:hidden;margin-top:10px}
+.bl-prog i{display:block;height:100%;background:var(--teal);border-radius:999px}
+.bl-opt{width:100%;text-align:left;background:#fff;border:1px solid var(--hair);border-radius:12px;padding:13px 15px;font-family:inherit;font-size:14px;color:var(--pine);cursor:pointer;transition:.16s;margin-bottom:9px}
+.bl-opt:hover{border-color:var(--teal)}
+.bl-opt.correct{border-color:var(--teal);background:rgba(31,122,107,.08);color:var(--teal);font-weight:600}
+.bl-opt.wrong{border-color:#c98b6b;background:rgba(201,139,107,.08)}
+.bl-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(120deg,rgba(245,196,81,.16),rgba(245,196,81,.04));border:1px solid rgba(176,137,79,.3);border-radius:999px;padding:7px 13px;font-family:var(--l-mono);font-size:10px;color:var(--brass)}
+</style>
+</head>
+<body>
+<div id="ga-nav"></div>
+
+<section class="ga-hero">
+  <img class="bg" src="/lab/img/tree-planting.jpg" alt="Belajar">
+  <div class="ga-hero__in">
+    <div>
+      <div class="ga-crumb"><a href="/">Glyiv</a> / <a href="/#ekosistem">Ekosistem</a> / Glyiv Belajar</div>
+      <span class="ga-badge"><i></i> Roadmap &middot; pratinjau</span>
+      <h1>Paham karbon <em>tanpa pusing.</em></h1>
+      <p>Karbon terdengar rumit — Glyiv Belajar membuatnya ringan: kursus singkat, video, dan game. Selesaikan pelajaran, dapatkan lencana dan kredit hijau. Belajar sambil ikut menggerakkan ekosistem.</p>
+    </div>
+    <div class="ga-hero__aside"><div><div class="k">Lencana</div><div class="v g" data-hbadge>3</div></div><div><div class="k">Poin belajar</div><div class="v" data-hpts>0</div></div></div>
+  </div>
+</section>
+
+<div class="ga-wrap">
+  <div class="ga-ribbon">
+    <div class="ga-stat"><div class="k">Kursus</div><div class="v" data-r1>6</div><div class="s">tema lingkungan</div></div>
+    <div class="ga-stat"><div class="k">Poin belajar</div><div class="v g" data-r2>0</div><div class="s">sesi ini</div></div>
+    <div class="ga-stat"><div class="k">Lencana</div><div class="v" data-r3>3</div><div class="s">diraih</div></div>
+    <div class="ga-stat"><div class="k">Kredit hijau</div><div class="v g" data-r4>◈ 0</div><div class="s">dari belajar</div></div>
+  </div>
+  <p class="ga-note">Pratinjau produk (teaser) — kursus &amp; poin bersifat ilustrasi. Konten literasi disusun mengikuti prinsip jujur Glyiv (kontribusi, bukan klaim netral).</p>
+
+  <div class="ga-grid" style="margin-top:14px">
+    <!-- courses -->
+    <div class="ga-card">
+      <div class="ga-card__hd"><h3>Kursus &amp; Media</h3><span class="tag">ringan &amp; visual</span></div>
+      <div class="ga-card__b">
+        <div class="ga-grid-2" data-courses></div>
+      </div>
+    </div>
+    <!-- interactive lesson (quiz) -->
+    <div class="ga-card">
+      <div class="ga-card__hd"><h3>Kuis Literasi Karbon</h3><span class="tag" data-qprog>Soal 1/4</span></div>
+      <div class="ga-card__b" data-quiz></div>
+    </div>
+
+    <div class="ga-card pad" style="grid-column:1/-1">
+      <span class="ga-kick">Belajar yang mengikat</span>
+      <h2 class="ga-h2" style="margin-bottom:16px">Dari paham, ke <span class="ga-em">aksi &amp; imbalan.</span></h2>
+      <div class="ga-steps">
+        <div class="ga-step"><b>Konten ringan</b><p>Kursus 5 menit, video, dan game — bukan jargon berat.</p></div>
+        <div class="ga-step"><b>Uji &amp; lencana</b><p>Kuis interaktif; lencana &amp; sertifikat untuk yang lulus.</p></div>
+        <div class="ga-step"><b>Terhubung aksi</b><p>Pelajaran menautkan ke fitur nyata — offset, bank sampah, kebiasaan sehat.</p></div>
+        <div class="ga-step"><b>Imbalan hijau</b><p>Poin belajar jadi kredit yang bisa ditukar di ekosistem.</p></div>
+      </div>
+      <div class="ga-tech" style="margin-top:18px">
+        <span class="ga-chip ai">⛭ Rekomendasi belajar adaptif</span>
+        <span class="ga-chip chain">🔗 Sertifikat &amp; lencana on-chain</span>
+        <span class="ga-chip">🎮 Game &amp; kuis interaktif</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="ga-cta"><a class="ga-btn solid" href="/#demo">Jadwalkan demo lengkap</a><a class="ga-btn glass" href="/#ekosistem" style="margin-left:8px">← Ekosistem Glyiv</a></div>
+</div>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script>
+(function(){
+  var $=GA.$,$$=GA.$$;
+  var C=[
+    {nm:"Karbon 101",img:"/lab/img/forest.jpg",lv:"Pemula",min:5,pr:100,ic:"▶"},
+    {nm:"Baca Struk Karbonmu",img:"/lab/img/fnb-ritel.jpg",lv:"Pemula",min:6,pr:60,ic:"▶"},
+    {nm:"Apa itu Aset Hijau (RWA)",img:"/lab/img/reforestation.jpg",lv:"Menengah",min:8,pr:30,ic:"▶"},
+    {nm:"Pilah Sampah yang Benar",img:"/lab/img/tree-planting.jpg",lv:"Pemula",min:4,pr:80,ic:"▶"},
+    {nm:"Hidup Rendah Karbon",img:"/lab/img/solar.jpg",lv:"Pemula",min:7,pr:0,ic:"▶"},
+    {nm:"Game: Kota Hijau",img:"/lab/img/pemerintah.jpg",lv:"Game",min:10,pr:0,ic:"🎮"}
+  ];
+  var pts=0,credit=0,badges=3;
+  var Q=[
+    {q:"Apa arti 'jejak karbon' sebuah produk?",o:["Berat produknya","Total emisi gas rumah kaca dari siklus hidupnya","Harga produk","Warna kemasannya"],a:1},
+    {q:"Manakah yang biasanya PALING rendah karbon?",o:["Daging sapi","Nasi + sayur (nabati)","Keju","Udang impor"],a:1},
+    {q:"'Kontribusi terukur' vs 'netral karbon' — sikap Glyiv?",o:["Klaim netral karbon","Klaim kontribusi yang terlacak, jujur","Tidak peduli","Klaim nol emisi"],a:1},
+    {q:"Kenapa memilah sampah penting?",o:["Biar rapi saja","Agar bisa didaur ulang &amp; hindari emisi TPA","Tak ada gunanya","Hanya untuk lomba"],a:1}
+  ];
+  var qi=0, answered=false;
+  function renderCourses(){
+    $("[data-courses]").innerHTML=C.map(function(c){var p=Math.floor(GA.rnd(0,80));return '<div class="bl-course" data-c="'+c.nm+'"><div class="bl-course__img"><img src="'+c.img+'" alt=""><span class="lv">'+c.lv+'</span><span class="pl">'+c.ic+'</span></div><div class="bl-course__b"><b>'+c.nm+'</b><small>'+c.min+' menit'+(c.pr?' · +'+c.pr+' poin':'')+'</small><div class="bl-prog"><i style="width:'+p+'%"></i></div></div></div>';}).join("");
+    $$("[data-c]").forEach(function(el){el.addEventListener("click",function(){var c=C.filter(function(x){return x.nm==el.dataset.c})[0];pts+=Math.round(c.pr/3);credit+=Math.round(c.pr/6);sync();GA.toast("Membuka: "+c.nm+" (simulasi)");});});
+  }
+  function renderQuiz(){
+    if(qi>=Q.length){
+      $("[data-quiz]").innerHTML='<div style="text-align:center;padding:20px 0"><div style="font-size:44px">🏅</div><h3 style="font-family:var(--l-serif);font-weight:600;font-size:22px;color:var(--pine);margin:10px 0 6px">Lencana diraih!</h3><p style="color:var(--slate);font-size:14px;margin:0 0 14px">Kamu lulus kuis Literasi Karbon. +40 poin &amp; lencana baru.</p><div class="bl-badge">🔗 Sertifikat on-chain · '+GA.short()+'</div><br><br><button class="ga-btn teal" data-again>Ulangi kuis</button></div>';
+      $("[data-qprog]").textContent="Selesai";badges=4;pts+=40;credit+=20;sync();
+      $("[data-again]").addEventListener("click",function(){qi=0;answered=false;renderQuiz();});
+      GA.toast("Lencana Literasi Karbon diraih! 🏅");return;
+    }
+    var it=Q[qi];answered=false;
+    $("[data-qprog]").textContent="Soal "+(qi+1)+"/"+Q.length;
+    $("[data-quiz]").innerHTML='<div style="font-family:var(--l-serif);font-weight:600;font-size:19px;color:var(--pine);margin-bottom:14px">'+it.q+'</div>'+it.o.map(function(o,i){return '<button class="bl-opt" data-o="'+i+'">'+o+'</button>';}).join("");
+    $$("[data-o]").forEach(function(b){b.addEventListener("click",function(){
+      if(answered)return;answered=true;var pick=+b.dataset.o;
+      $$("[data-o]").forEach(function(x,i){if(i===it.a)x.classList.add("correct");else if(i===pick)x.classList.add("wrong");});
+      if(pick===it.a){pts+=10;credit+=4;GA.toast("Benar! +10 poin");}else GA.toast("Belum tepat — lihat jawaban benar");
+      sync();
+      setTimeout(function(){qi++;renderQuiz();},1100);
+    });});
+  }
+  function sync(){$("[data-r2]").textContent=pts;$("[data-hpts]").textContent=pts;$("[data-r3]").textContent=badges;$("[data-hbadge]").textContent=badges;$("[data-r4]").textContent="◈ "+credit;}
+  renderCourses();renderQuiz();sync();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+rules_version = '2';
+/* =====================================================================
+   GLYIV KABAR — Firestore security rules for the newsletter collection.
+   Project: glyiv-28711.
+
+   HOW TO DEPLOY (one of):
+   A) Firebase Console → Firestore Database → Rules → paste the
+      `match /kabar_articles/...` block below INTO your existing rules
+      (keep any other collections you already have), then Publish.
+   B) Firebase CLI:  firebase deploy --only firestore:rules
+      (point firestore.rules at this file, or merge the block in).
+
+   ALSO REQUIRED (one-time):
+   - Firebase Console → Authentication → Sign-in method → enable Google.
+   - Authentication → Settings → Authorized domains → add:
+       glyiv.github.io   and   localhost   (and 127.0.0.1 for local dev).
+   ===================================================================== */
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isKabarAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'glyiv.archourium@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    match /kabar_articles/{slug} {
+      // Anyone may read PUBLISHED articles; the admin may read everything (drafts/queue).
+      allow read: if resource.data.status == 'published' || isKabarAdmin();
+
+      // The public may update ONLY the engagement counters (nothing else).
+      // The admin may write full content.
+      allow update: if isKabarAdmin()
+        || request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['views', 'likes', 'shares', 'storyViews']);
+
+      // Only the admin can create or delete articles.
+      allow create, delete: if isKabarAdmin();
+    }
+  }
+}

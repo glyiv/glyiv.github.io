@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv Dana — Manajer Investasi Aset Hijau</title>
+<meta name="description" content="Glyiv Dana: kelola investasi aset hijau Anda — reksa dana pohon (RWA), kredit karbon, dan energi terbarukan. Agen AI merebalancing; kustodi on-chain.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<style>
+.dn-fund{cursor:pointer}
+.dn-alloc{display:grid;gap:9px}
+.dn-alloc .r{display:flex;align-items:center;gap:10px}
+.dn-alloc .dot{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+.dn-alloc .lb{font-size:12.5px;color:var(--slate);flex:1}
+.dn-alloc .vl{font-family:var(--l-serif);font-weight:600;font-size:14px;color:var(--pine)}
+.dn-pill{font-family:var(--l-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:3px 8px}
+.dn-pill.low{color:var(--teal);background:rgba(31,122,107,.1)}
+.dn-pill.mid{color:var(--brass);background:rgba(176,137,79,.12)}
+</style>
+</head>
+<body>
+<div id="ga-nav"></div>
+
+<section class="ga-hero">
+  <img class="bg" src="/lab/img/investor-aset-manajemen.jpg" alt="Fund">
+  <div class="ga-hero__in">
+    <div>
+      <div class="ga-crumb"><a href="/">Glyiv</a> / <a href="/#ekosistem">Ekosistem</a> / Glyiv Dana</div>
+      <span class="ga-badge"><i></i> Roadmap &middot; pratinjau</span>
+      <h1>Investasi hijau, <em>dikelola untuk Anda.</em></h1>
+      <p>Glyiv Dana mengelola portofolio aset hijau — reksa dana pohon (RWA), kredit karbon, dan energi terbarukan. Agen AI menyeimbangkan otomatis, kustodi tercatat on-chain, dan dampak karbonnya ikut terlacak.</p>
+    </div>
+    <div class="ga-hero__aside"><div><div class="k">Nilai portofolio</div><div class="v g" data-hval>Rp24,6jt</div></div><div><div class="k">Imbal hasil</div><div class="v" data-hret>+8,4%</div></div></div>
+  </div>
+</section>
+
+<div class="ga-wrap">
+  <div class="ga-ribbon">
+    <div class="ga-stat"><div class="k">Nilai portofolio</div><div class="v" data-r1>Rp24,6jt</div><div class="s">total dikelola</div></div>
+    <div class="ga-stat"><div class="k">Imbal hasil (YTD) ⚠︎</div><div class="v g" data-r2>+8,4%</div><div class="s">ilustrasi, bukan jaminan</div></div>
+    <div class="ga-stat"><div class="k">Dampak karbon</div><div class="v g" data-r3>18,2 t</div><div class="s">CO₂e terkait portofolio</div></div>
+    <div class="ga-stat"><div class="k">Produk dana</div><div class="v" data-r4>4</div><div class="s">tema hijau</div></div>
+  </div>
+  <p class="ga-note">Pratinjau produk (teaser) — nilai &amp; imbal hasil ILUSTRASI, bukan penawaran/jaminan investasi. Produk investasi tunduk regulasi ⚠︎ (OJK) — dalam kajian.</p>
+
+  <div class="ga-grid" style="margin-top:14px">
+    <!-- fund list -->
+    <div class="ga-card">
+      <div class="ga-card__hd"><h3>Produk Dana Hijau</h3><span class="tag">pilih untuk detail</span></div>
+      <div class="ga-card__b"><div class="ga-list" data-funds></div></div>
+    </div>
+    <!-- fund detail -->
+    <div class="ga-card">
+      <div class="ga-card__hd"><h3 data-fname>—</h3><span class="tag" data-frisk>—</span></div>
+      <div class="ga-card__b" data-fdetail></div>
+    </div>
+
+    <div class="ga-card pad" style="grid-column:1/-1">
+      <span class="ga-kick">Bagaimana dana ini bekerja</span>
+      <h2 class="ga-h2" style="margin-bottom:16px">Modal Anda menumbuhkan aset <span class="ga-em">yang bisa ditunjuk.</span></h2>
+      <div class="ga-steps">
+        <div class="ga-step"><b>Investasi terhimpun</b><p>Dana dikelola dalam produk bertema aset hijau (pohon RWA, kredit karbon, energi terbarukan).</p></div>
+        <div class="ga-step"><b>Alokasi ke aset nyata</b><p>Sebagian besar mengalir ke petak pohon &amp; proyek yang dipantau di Tree Marketplace.</p></div>
+        <div class="ga-step"><b>Agen menyeimbangkan</b><p>Agen Glyiv memantau kinerja &amp; risiko, merekomendasikan rebalancing.</p></div>
+        <div class="ga-step"><b>Imbalan &amp; dampak</b><p>Anda melihat imbal hasil ⚠︎ dan dampak karbon nyata dari portofolio — keduanya terlacak.</p></div>
+      </div>
+      <div class="ga-tech" style="margin-top:18px">
+        <span class="ga-chip ai">⛭ Agen rebalancing</span>
+        <span class="ga-chip chain">🔗 Kustodi aset on-chain</span>
+        <span class="ga-chip">📊 Dampak karbon terlacak</span>
+      </div>
+    </div>
+
+    <div class="ga-card" style="grid-column:1/-1">
+      <div class="ga-card__hd"><h3>Aktivitas Agen &amp; On-chain</h3><span class="tag">real-time feed</span></div>
+      <div class="ga-feed" data-feed></div>
+    </div>
+  </div>
+
+  <div class="ga-cta"><a class="ga-btn solid" href="/#demo">Jadwalkan demo lengkap</a><a class="ga-btn glass" href="/#ekosistem" style="margin-left:8px">← Ekosistem Glyiv</a></div>
+</div>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script>
+(function(){
+  var $=GA.$,$$=GA.$$;
+  var FUNDS=[
+    {id:1,nm:"Glyiv Tree RWA Index",em:"🌳",ret:9.2,risk:"low",aum:"Rp62 M",desc:"Indeks fraksi pohon terpantau (ERC-3643) lintas proyek.",alloc:[["Fraksi pohon RWA",64,"#1F7A6B"],["Kredit karbon",22,"#B0894F"],["Kas",14,"#2f6ea0"]],co:"11,4 t"},
+    {id:2,nm:"Green Growth",em:"📈",ret:12.6,risk:"mid",aum:"Rp48 M",desc:"Pertumbuhan: energi terbarukan + startup hijau + RWA.",alloc:[["Energi terbarukan",42,"#1F7A6B"],["Startup hijau",30,"#7a5db0"],["Fraksi pohon",20,"#B0894F"],["Kas",8,"#2f6ea0"]],co:"6,1 t"},
+    {id:3,nm:"Aset Hijau Income",em:"💧",ret:7.1,risk:"low",aum:"Rp71 M",desc:"Pendapatan stabil dari sewa lahan &amp; hasil kredit karbon.",alloc:[["Sewa lahan/pohon",56,"#1F7A6B"],["Kredit karbon",30,"#B0894F"],["Kas",14,"#2f6ea0"]],co:"14,8 t"},
+    {id:4,nm:"Karbon Opportunity",em:"⚡",ret:15.3,risk:"mid",aum:"Rp29 M",desc:"Agresif: perdagangan kredit karbon &amp; komoditas hijau.",alloc:[["Kredit karbon",50,"#B0894F"],["Komoditas hijau",34,"#7a5db0"],["Kas",16,"#2f6ea0"]],co:"4,3 t"}
+  ];
+  var sel=FUNDS[0];
+  var feed=GA.makeFeed("[data-feed]",[
+    ["ai","Agen menyeimbangkan","Green Growth: kas 8%→6%, tambah energi terbarukan +2% (momentum)."],
+    ["chain","Kustodi diperbarui","+142 fraksi RWA masuk Tree RWA Index · tx "+GA.short()],
+    ["ai","Laporan dampak siap","Portofolio Anda: 18,2 tCO₂e terkait aset hijau nyata."]
+  ]);
+  function renderFunds(){
+    $("[data-funds]").innerHTML=FUNDS.map(function(f){
+      return '<button class="ga-row dn-fund'+(f===sel?" on":"")+'" data-f="'+f.id+'"><div class="ic">'+f.em+'</div><div class="ga-row__t"><b>'+f.nm+'</b><small>AUM '+f.aum+' · '+f.desc.replace(/&amp;/g,"&").slice(0,34)+'…</small></div><div class="ga-row__v"><b style="color:var(--teal)">+'+f.ret+'%</b><small>YTD ⚠︎</small></div></button>';
+    }).join("");
+    $$("[data-f]").forEach(function(b){b.addEventListener("click",function(){sel=FUNDS.filter(function(x){return x.id==b.dataset.f})[0];renderFunds();renderDetail();});});
+  }
+  function renderDetail(){
+    var f=sel;
+    $("[data-fname]").textContent=f.nm;
+    $("[data-frisk]").innerHTML='<span class="dn-pill '+f.risk+'">'+(f.risk==="low"?"Risiko rendah":"Risiko menengah")+'</span>';
+    var perf=[];var v=100;for(var i=0;i<24;i++){v+=v*GA.rnd(-0.015,0.02);perf.push(+v.toFixed(1));}
+    $("[data-fdetail]").innerHTML=
+      '<div class="ga-meta" style="margin-bottom:14px"><div><div class="k">Imbal hasil YTD ⚠︎</div><div class="v g">+'+f.ret+'%</div></div><div><div class="k">AUM</div><div class="v">'+f.aum+'</div></div><div><div class="k">Dampak</div><div class="v g">'+f.co+'<small> CO₂e</small></div></div></div>'+
+      '<div class="ga-chartbox" style="margin-bottom:14px"><div class="gt">Kinerja · 24 bln (ilustrasi ⚠︎)</div><canvas class="ga-chart" data-pchart></canvas></div>'+
+      '<div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Alokasi aset</div>'+
+      '<div class="dn-alloc">'+f.alloc.map(function(a){return '<div class="r"><span class="dot" style="background:'+a[2]+'"></span><span class="lb">'+a[0]+'</span><span class="vl">'+a[1]+'%</span></div>';}).join("")+'</div>'+
+      '<div class="ga-meter" style="margin:12px 0;height:14px">'+f.alloc.map(function(a){return '<i style="width:'+a[1]+'%;background:'+a[2]+'"></i>';}).join("")+'</div>'+
+      '<div class="ga-fld" style="margin:8px 0 10px"><label>Simulasi investasi (Rp)</label><input data-amt value="1.000.000"></div>'+
+      '<button class="ga-btn teal" data-invest style="width:100%">Investasikan (simulasi)</button>';
+    GA.lineChart($("[data-pchart]"),perf,{color:f.risk==="low"?"#1F7A6B":"#B0894F",fillCol:f.risk==="low"?"rgba(31,122,107,.16)":"rgba(176,137,79,.16)"});
+    $("[data-invest]").addEventListener("click",function(){
+      feed.push("chain","Investasi masuk",f.nm+" · "+($("[data-amt]").value||"—")+" · unit diterbitkan · tx "+GA.short());
+      feed.push("ai","Alokasi otomatis","Modal dialokasikan ke aset sesuai bobot dana.");
+      GA.toast("Investasi ke "+f.nm+" berhasil (simulasi)");
+    });
+  }
+  renderFunds();renderDetail();
+  setInterval(function(){var s=GA.pick([["ai","Sinyal rebalancing","Karbon Opportunity: ambil profit kredit karbon +3%."],["chain","NAV diperbarui","Oracle harga aset hijau · blok #"+Math.floor(GA.rnd(84000,99000))],["ai","Dampak bulanan","Total dampak portofolio dana +0,4 tCO₂e."]]);feed.push(s[0],s[1],s[2]);},6500);
+})();
+</script>
+</body>
+</html>

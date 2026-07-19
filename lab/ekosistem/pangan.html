@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv Pangan — Hub pangan berdata karbon | Glyiv Ekosistem</title>
+<meta name="description" content="Glyiv Pangan: hub pangan yang melacak seluruh rantai — dari kulakan/panen hingga siap jual — dan mencetak label jujur pada tiap produk: kalori, emisi karbon, dan nilai untuk menebusnya. Contoh nyata dari apa yang bisa Glyiv lakukan.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<style>
+/* ===== Glyiv Pangan — interactive food label demo (scoped .pg-) ===== */
+.pg-demo{display:grid;grid-template-columns:.82fr 1.18fr;gap:26px;align-items:start}
+.pg-menu{display:flex;flex-direction:column;gap:10px}
+.pg-menu__h{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.pg-item{display:flex;align-items:center;gap:14px;text-align:left;width:100%;border:1px solid var(--hair);background:#fff;border-radius:16px;padding:13px 15px;cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s var(--ease)}
+.pg-item:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:var(--sh1)}
+.pg-item.on{border-color:var(--pine);box-shadow:0 0 0 2px rgba(15,46,34,.08),var(--sh1)}
+.pg-item__ic{width:42px;height:42px;border-radius:12px;flex:0 0 auto;display:grid;place-items:center;font-size:21px;background:var(--paper2)}
+.pg-item__tx b{display:block;font-family:var(--sans);font-weight:700;font-size:15px;color:var(--pine);line-height:1.2}
+.pg-item__tx small{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.pg-item__co2{margin-left:auto;text-align:right;font-family:var(--mono);font-size:11px}
+.pg-item__co2 b{color:var(--pine);font-size:14px}
+.pg-item.hi .pg-item__co2 b{color:var(--brass2)}
+
+/* label card */
+.pg-card{border:1px solid var(--hair);border-radius:22px;background:#fff;box-shadow:var(--sh2);overflow:hidden}
+.pg-card__top{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--hair);background:linear-gradient(180deg,var(--paper2),#fff)}
+.pg-card__badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--pine);border-radius:999px;padding:5px 11px}
+.pg-card__ttl{font-family:var(--serif);font-weight:600;font-size:19px;color:var(--pine);margin:0;line-height:1.1}
+.pg-card__leaf{margin-left:auto;width:26px;height:26px;opacity:.9}
+.pg-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.pg-met{padding:20px 18px;border-right:1px solid var(--hair)}
+.pg-met:last-child{border-right:0}
+.pg-met__l{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+.pg-met__n{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3.4vw,34px);color:var(--pine);line-height:1}
+.pg-met__n .u{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--slate);margin-left:3px}
+.pg-met.co2 .pg-met__n{color:var(--brass2)}
+.pg-met.off .pg-met__n{color:var(--teal)}
+
+/* emission breakdown */
+.pg-brk{padding:6px 22px 20px}
+.pg-brk__h{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 10px}
+.pg-brk__h b{font-family:var(--sans);font-size:13px;font-weight:700;color:var(--pine)}
+.pg-brk__h span{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.pg-bar{height:16px;border-radius:8px;overflow:hidden;display:flex;background:var(--paper2)}
+.pg-bar i{height:100%;width:0;transition:width .7s var(--ease)}
+.pg-bar i.s0{background:linear-gradient(90deg,#1cae6b,#159a5f)}
+.pg-bar i.s1{background:var(--teal)}
+.pg-bar i.s2{background:var(--brass)}
+.pg-bar i.s3{background:#5b6b63}
+.pg-leg{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:12px}
+.pg-leg span{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;color:var(--slate)}
+.pg-leg i{width:9px;height:9px;border-radius:3px}
+.pg-leg .s0{background:#159a5f}.pg-leg .s1{background:var(--teal)}.pg-leg .s2{background:var(--brass)}.pg-leg .s3{background:#5b6b63}
+
+/* supply-chain trace */
+.pg-trace{border-top:1px solid var(--hair);padding:16px 22px 8px}
+.pg-trace__h{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.pg-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.pg-step{text-align:center;position:relative}
+.pg-step::after{content:"";position:absolute;top:15px;right:-4px;width:8px;height:2px;background:var(--hair)}
+.pg-step:last-child::after{display:none}
+.pg-step__d{width:30px;height:30px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;background:var(--paper2);border:1px solid var(--hair);color:var(--pine)}
+.pg-step__d svg{width:15px;height:15px}
+.pg-step b{display:block;font-family:var(--sans);font-size:11px;font-weight:700;color:var(--pine);line-height:1.15}
+.pg-step small{font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+.pg-step.data .pg-step__d{background:var(--pine);border-color:var(--pine);color:#8affc1}
+
+/* offset footer */
+.pg-off{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 22px 20px;border-top:1px solid var(--hair);background:var(--paper2)}
+.pg-off__tx{font-size:13px;color:var(--slate);line-height:1.4;flex:1;min-width:180px}
+.pg-off__tx b{color:var(--pine)}
+.pg-off__btn{display:inline-flex;align-items:center;gap:8px;background:var(--pine);color:#fff;border:0;border-radius:999px;padding:11px 18px;font-family:var(--sans);font-weight:700;font-size:13.5px;cursor:pointer;transition:transform .2s var(--ease),box-shadow .2s}
+.pg-off__btn:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.pg-off__btn svg{width:15px;height:15px}
+.pg-note{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin:14px 0 0;line-height:1.5}
+
+@media(max-width:820px){.pg-demo{grid-template-columns:1fr}.pg-menu{flex-direction:row;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}.pg-menu::-webkit-scrollbar{display:none}.pg-menu__h{display:none}.pg-item{flex:0 0 auto;min-width:210px}}
+@media(max-width:520px){.pg-metrics{grid-template-columns:1fr;}.pg-met{border-right:0;border-bottom:1px solid var(--hair);padding:14px 20px}.pg-met:last-child{border-bottom:0}.pg-steps{grid-template-columns:repeat(5,1fr);gap:4px}.pg-step b{font-size:9.5px}.pg-step small{font-size:8.5px}.pg-step::after{display:none}}
+</style>
+</head>
+<body>
+<div class="gv-bg-root" aria-hidden="true"></div>
+<div id="ga-nav"></div>
+
+<section class="vhero"><div class="vhero__media" style="background:var(--pine)">
+<img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=1920&q=75" alt="" onerror="this.onerror=null;this.src='/lab/img/fnb-ritel.jpg'"></div><div class="vhero__scrim"></div>
+<div class="vhero__in"><div class="vhero__eyebrow" data-reveal><span class="ln"></span> GLYIV PANGAN — HUB PANGAN BERDATA KARBON</div>
+<h1 class="lh1" data-reveal data-d="1">Dari panen ke rak — tiap produk membawa <span class="lserif-accent">kalori, emisi, dan cara menebusnya.</span></h1>
+<p class="vhero__lead llead" data-reveal data-d="2">Glyiv Pangan adalah hub pangan yang melacak seluruh rantai — dari kulakan atau panen, diproses, dikemas, hingga siap jual — lalu mencetak satu label jujur pada tiap produk: berapa kalorinya, berapa emisi karbonnya, dan berapa nilai untuk menebusnya. Contoh langsung dari apa yang bisa Glyiv lakukan.</p>
+<div class="vhero__cta" data-reveal data-d="3"><a class="lbtn lbtn--solid" href="#coba" data-magnetic>Coba label pangannya <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="lbtn lbtn--glass" href="#cerita">Pelajari lebih lanjut</a></div>
+</div><div class="vhero__scroll">scroll <i></i></div></section>
+<a id="cerita"></a>
+
+<section class="lsec"><div class="lwrap"><div class="split-6040"><div><span class="lkick" data-reveal>01 — TITIK BUTA</span><h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 16px">Kita tahu harga dan kalori. Jarang tahu emisinya.</h2><p class="llead" data-reveal data-d="2">Kemasan makanan hari ini rapi mencantumkan harga dan kalori, tapi hampir tak pernah dampak iklimnya. Padahal sistem pangan menyumbang sekitar seperempat emisi gas rumah kaca global, dan pilihan di piring — nabati atau daging, lokal atau impor — bisa berbeda berkali-kali lipat. Sinyal itu hilang tepat saat keputusan dibuat.</p></div><div class="storyfig img-reveal" data-reveal data-d="1"><img class="img-kb" src="/lab/img/sawit-agri.jpg" alt=""><span class="tagpill">01 — TITIK BUTA</span></div></div></div></section>
+
+<section class="lsec paper"><div class="lwrap"><div class="split-6040"><div class="storyfig img-reveal" data-reveal data-d="1"><img class="img-kb" src="/lab/img/fnb-ritel.jpg" alt=""><span class="tagpill">02 — LABEL YANG JUJUR</span></div><div><span class="lkick" data-reveal>02 — LABEL YANG JUJUR</span><h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 16px">Kalori, emisi, dan cara menebus — dalam satu label.</h2><p class="llead" data-reveal data-d="2">Setiap produk pangan Glyiv membawa label berisi kalori, estimasi emisi terlacak, dan nilai kecil untuk menebusnya — dibeli sebagai kredit karbon atau diimbangi lewat pohon. Kami sengaja memilih kata terlacak, bukan terukur: estimasi jujur yang bisa diaudit ke sumbernya lebih berguna daripada klaim netral yang tak terverifikasi.</p></div></div></div></section>
+
+<section class="lsec"><div class="lwrap"><div class="split-6040"><div><span class="lkick" data-reveal>03 — RANTAI YANG TERLACAK</span><h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 16px">Dari kulakan sampai siap jual, tiap langkah tercatat.</h2><p class="llead" data-reveal data-d="2">Hub mencatat karbon di tiap simpul rantai: bahan saat kulakan atau panen, energi saat diproses, material saat dikemas, dan jarak saat didistribusikan. Karena datanya lahir di sumber — bukan tebakan kategori — angka di label bisa dipertanggungjawabkan, dan penjual bisa melihat persis di mana jejaknya bisa dipangkas.</p></div><div class="storyfig img-reveal" data-reveal data-d="1"><img class="img-kb" src="/lab/img/logistik-transport.jpg" alt=""><span class="tagpill">03 — RANTAI TERLACAK</span></div></div></div></section>
+
+<section class="lsec paper"><div class="lwrap"><div class="split-6040"><div class="storyfig img-reveal" data-reveal data-d="1"><img class="img-kb" src="/lab/img/reforestation.jpg" alt=""><span class="tagpill">04 — IMBALAN NYATA</span></div><div><span class="lkick" data-reveal>04 — IMBALAN NYATA</span><h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 16px">Tebus yang kecil, atau imbangi lewat pohon.</h2><p class="llead" data-reveal data-d="2">Di kasir, pembeli bisa menambahkan tebusan kecil yang mengalir ke proyek terverifikasi, atau mengaitkannya ke pohon di Glyiv Aset. Setiap kontribusi tercatat transparan dan berbalas imbalan yang bisa ditukar di ekosistem Glyiv — hidup hijau, imbalan nyata. Sertifikasi pihak ketiga masih dalam roadmap, dan kami menyatakannya terbuka.</p></div></div></div></section>
+
+<!-- ============ INTERACTIVE DEMO ============ -->
+<a id="coba"></a>
+<section class="lsec tight paper" id="demo-sec"><div class="lwrap">
+  <div class="lhead" data-reveal style="margin-bottom:26px"><span class="lkick">Coba langsung</span><h2 class="lh2" style="margin-top:12px">Label Pangan Glyiv — <span class="lemph">pilih menunya.</span></h2><p class="llead" style="margin-top:12px;max-width:60ch">Ketuk sebuah menu. Label memperlihatkan kalori, emisi karbon beserta rinciannya per simpul rantai, dan nilai untuk menebusnya. Angka ilustrasi &#9888;&#65038; — faktor emisi bersumber Poore &amp; Nemecek (2018) &amp; ADEME Agribalyse.</p></div>
+
+  <div class="pg-demo" data-reveal data-d="1">
+    <div class="pg-menu" id="pgMenu"><p class="pg-menu__h">Menu hari ini</p></div>
+
+    <div class="pg-card">
+      <div class="pg-card__top"><span class="pg-card__badge">Label Glyiv</span><h3 class="pg-card__ttl" data-pg-name>—</h3>
+        <svg class="pg-card__leaf" viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#1cae6b"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#0a2a1d" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+
+      <div class="pg-metrics">
+        <div class="pg-met"><p class="pg-met__l">Kalori</p><div class="pg-met__n"><span data-pg-kcal>0</span><span class="u">kkal</span></div></div>
+        <div class="pg-met co2"><p class="pg-met__l">Emisi</p><div class="pg-met__n"><span data-pg-co2>0</span><span class="u">kg CO&#8322;e</span></div></div>
+        <div class="pg-met off"><p class="pg-met__l">Nilai tebus</p><div class="pg-met__n"><span class="u" style="margin:0 1px 0 0">Rp</span><span data-pg-rp>0</span></div></div>
+      </div>
+
+      <div class="pg-brk">
+        <div class="pg-brk__h"><b>Rincian emisi</b><span>per simpul rantai · kg CO&#8322;e</span></div>
+        <div class="pg-bar"><i class="s0" data-pg-seg="0"></i><i class="s1" data-pg-seg="1"></i><i class="s2" data-pg-seg="2"></i><i class="s3" data-pg-seg="3"></i></div>
+        <div class="pg-leg"><span><i class="s0"></i>Bahan (tani/panen) <b style="margin-left:3px;color:var(--pine)" data-pg-l0>—</b></span><span><i class="s1"></i>Proses <b style="margin-left:3px;color:var(--pine)" data-pg-l1>—</b></span><span><i class="s2"></i>Kemas <b style="margin-left:3px;color:var(--pine)" data-pg-l2>—</b></span><span><i class="s3"></i>Distribusi <b style="margin-left:3px;color:var(--pine)" data-pg-l3>—</b></span></div>
+      </div>
+
+      <div class="pg-trace">
+        <p class="pg-trace__h">Rantai terlacak</p>
+        <div class="pg-steps">
+          <div class="pg-step"><div class="pg-step__d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v6M8 6l4-4 4 4M5 22c0-6 3-9 7-9s7 3 7 9"/></svg></div><b>Kulakan / Panen</b><small data-pg-t0>—</small></div>
+          <div class="pg-step"><div class="pg-step__d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10h16M6 10v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-9M9 6c0-1.5 1-2 1.5-3M13 6c0-1.5 1-2 1.5-3"/></svg></div><b>Proses</b><small data-pg-t1>—</small></div>
+          <div class="pg-step"><div class="pg-step__d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8l9-5 9 5v8l-9 5-9-5z M3 8l9 5 9-5M12 13v8"/></svg></div><b>Kemas</b><small data-pg-t2>—</small></div>
+          <div class="pg-step"><div class="pg-step__d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 6h13v9H1zM14 9h4l3 3v3h-7z M5.5 18a1.5 1.5 0 1 0 0-.01M17.5 18a1.5 1.5 0 1 0 0-.01"/></svg></div><b>Distribusi</b><small data-pg-t3>—</small></div>
+          <div class="pg-step data"><div class="pg-step__d"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v6H4zM4 14h10v6H4M18 17h3M18 20h3"/></svg></div><b>Label &amp; Jual</b><small>data terbit</small></div>
+        </div>
+      </div>
+
+      <div class="pg-off">
+        <p class="pg-off__tx">Emisi setara serapan <b data-pg-days>—</b> oleh satu pohon dewasa. Tebus sekarang, atau kaitkan ke pohonmu di <b>Glyiv Aset</b>.</p>
+        <button class="pg-off__btn" id="pgTebus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z"/></svg>Tebus <span data-pg-rp2>Rp—</span></button>
+      </div>
+    </div>
+  </div>
+  <p class="pg-note">Metodologi: emisi dihitung activity-LCA (resep &times; faktor emisi bahan) dengan fallback spend-based EXIOBASE saat data bahan belum lengkap. Faktor bahan &asymp; Poore &amp; Nemecek, <em>Science</em> (2018) &amp; ADEME Agribalyse. Harga karbon ilustratif &#9888;&#65038; (&asymp;Rp70.000/tCO&#8322;e); 1 pohon dewasa &asymp; 22 kg CO&#8322; per tahun. Semua angka pratinjau — bukan klaim netral karbon, melainkan kontribusi yang bisa dipertanggungjawabkan.</p>
+</div></section>
+
+<!-- evidence -->
+<section class="lsec tight"><div class="lwrap"><div class="lhead" data-reveal style="margin-bottom:26px"><span class="lkick">Angka &amp; bukti</span><p class="llead" style="margin-top:8px;font-size:14px;color:var(--muted)">Klik "sumber" pada tiap angka untuk melihat rujukannya. Sebagian angka ilustrasi; item &#9888;&#65038; perlu diverifikasi.</p></div><div class="ev-grid">
+  <div class="ev" data-reveal data-d="0"><div class="ev__n">≈26%</div><div class="ev__l" data-src="Poore &amp; Nemecek, &quot;Reducing food's environmental impacts through producers and consumers&quot;, Science (2018)|https://www.science.org/doi/10.1126/science.aaq0216" data-src-title="Sumber angka ini">emisi gas rumah kaca global bersumber dari sistem pangan — dampak besar yang absen dari label produk</div><div class="ev__s">Poore &amp; Nemecek, Science (2018)</div></div>
+  <div class="ev" data-reveal data-d="1"><div class="ev__n gold">≈10&times;</div><div class="ev__l" data-src="Poore &amp; Nemecek, Science (2018) — median emisi 100 g protein: daging sapi vs kacang-kacangan|https://ourworldindata.org/food-choice-vs-eating-local" data-src-title="Sumber angka ini">selisih emisi antara sumber protein tinggi (daging sapi) dan nabati per gram protein — pilihan yang tak terlihat tanpa label</div><div class="ev__s">Our World in Data, dari Poore &amp; Nemecek (2018)</div></div>
+  <div class="ev" data-reveal data-d="2"><div class="ev__n white">≈1/3</div><div class="ev__l" data-src="FAO, &quot;Global food losses and food waste&quot; (2011); UNEP Food Waste Index (2021)|https://www.unep.org/resources/report/unep-food-waste-index-report-2021" data-src-title="Sumber angka ini">pangan dunia hilang atau terbuang di sepanjang rantai — jejak karbon yang bisa dipangkas bila rantainya terlacak</div><div class="ev__s">FAO (2011); UNEP Food Waste Index (2021)</div></div>
+</div></div></section>
+
+<!-- how it works -->
+<section class="lsec"><div class="lwrap"><div class="lhead" data-reveal><span class="lkick">Cara kerja</span><h2 class="lh2" style="margin-top:12px">Ukur &rarr; lacak rantai &rarr; label &rarr; <span class="lemph">tebus.</span></h2><p class="llead" style="margin-top:12px;max-width:60ch">Metodologi selaras standar &amp; riset internasional (GHG Protocol, ecoinvent, Poore &amp; Nemecek 2018, Agribalyse, EXIOBASE).</p></div><div class="vcards">
+  <article class="vcard" data-reveal data-d="0"><div class="vcard__img"><img src="/lab/img/sawit-agri.jpg" alt=""><span class="vcard__n">01 &middot; UKUR</span></div><div class="vcard__b"><h3 class="lh3">Hitung jejak per produk</h3><p>Tiap resep dipetakan ke faktor emisi bahan lewat activity-LCA (ecoinvent, Poore &amp; Nemecek 2018, Agribalyse), dengan fallback spend-based EXIOBASE saat data bahan belum lengkap.</p></div></article>
+  <article class="vcard" data-reveal data-d="1"><div class="vcard__img"><img src="/lab/img/logistik-transport.jpg" alt=""><span class="vcard__n">02 &middot; LACAK RANTAI</span></div><div class="vcard__b"><h3 class="lh3">Catat karbon di tiap simpul</h3><p>Kulakan/panen, proses, kemas, dan distribusi masing-masing menyumbang jejak. Karena datanya lahir di sumber, angka bisa diaudit dan titik pemangkasan jadi jelas.</p></div></article>
+  <article class="vcard" data-reveal data-d="2"><div class="vcard__img"><img src="/lab/img/fnb-ritel.jpg" alt=""><span class="vcard__n">03 &middot; LABEL</span></div><div class="vcard__b"><h3 class="lh3">Cetak label yang jujur</h3><p>Kalori, emisi terlacak, dan nilai tebus tampil di kemasan dan struk — sinyal iklim tepat di titik keputusan, tanpa klaim netral yang berlebihan.</p></div></article>
+  <article class="vcard" data-reveal data-d="3"><div class="vcard__img"><img src="/lab/img/reforestation.jpg" alt=""><span class="vcard__n">04 &middot; TEBUS</span></div><div class="vcard__b"><h3 class="lh3">Imbangi lewat pohon</h3><p>Pembeli menebus lewat kredit terverifikasi atau mengaitkan ke pohon di Glyiv Aset; kontribusi tercatat transparan dan berbalas imbalan di ekosistem Glyiv.</p></div></article>
+</div></div></section>
+
+<section class="imgband"><div class="imgband__media"><img src="/lab/img/forest.jpg" alt=""></div><div class="imgband__scrim"></div><div class="imgband__in"><span class="lkick" data-reveal>Mulai</span><h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 16px">Glyiv Pangan</h2><p class="llead" data-reveal data-d="2" style="margin:0 auto">Contoh langsung dari misi besar Glyiv: menjadikan tiap produk pangan membawa kalori, emisi, dan cara menebusnya — dari panen hingga rak.</p><div style="margin-top:24px" data-reveal data-d="3"><a class="lbtn lbtn--solid" href="#coba">Coba labelnya &rarr;</a><a class="lbtn lbtn--glass" href="/#ekosistem" style="margin-left:10px">&larr; Semua business tree</a></div></div></section>
+
+<div id="ga-foot"></div>
+
+<script>
+/* Glyiv Pangan — interactive food label (self-contained, smooth count-up) */
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var PRICE = 70;            // Rp per kg CO2e (illustrative)
+  var TREE_DAYS = 365 / 22;  // days one mature tree needs per kg CO2e (~16.6)
+  var idr = function (n) { return Math.round(n).toLocaleString("id-ID"); };
+
+  // segments: [bahan(tani/panen), proses, kemas, distribusi]
+  var MENU = [
+    { name: "Rendang Sapi + Nasi", ic: "🥩", kcal: 820, seg: [6.20, 0.35, 0.10, 0.25], hi: true, note: "protein sapi" },
+    { name: "Ayam Bakar + Nasi",   ic: "🍗", kcal: 640, seg: [1.30, 0.30, 0.10, 0.15], note: "ayam & nasi" },
+    { name: "Gado-gado Sayur",     ic: "🥗", kcal: 380, seg: [0.42, 0.15, 0.08, 0.07], note: "nabati lokal" },
+    { name: "Kopi Susu Gula Aren", ic: "☕", kcal: 180, seg: [0.40, 0.10, 0.05, 0.03], note: "susu & kopi" }
+  ];
+  MENU.forEach(function (m) { m.co2 = m.seg.reduce(function (a, b) { return a + b; }, 0); });
+
+  function tween(el, to, dec, dur) {
+    if (!el) return; dur = dur || 620;
+    var from = parseFloat(String(el.textContent).replace(/[^\d.-]/g, "")) || 0, t0 = null;
+    function step(ts) {
+      if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      var v = from + (to - from) * e;
+      el.textContent = dec ? v.toFixed(dec) : idr(v);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var menuEl = $("#pgMenu"), current = -1;
+  MENU.forEach(function (m, i) {
+    var b = document.createElement("button");
+    b.className = "pg-item" + (m.hi ? " hi" : ""); b.type = "button";
+    b.innerHTML = '<span class="pg-item__ic">' + m.ic + '</span><span class="pg-item__tx"><b>' + m.name + '</b><small>' + m.kcal + ' kkal · ' + m.note + '</small></span><span class="pg-item__co2"><b>' + m.co2.toFixed(2) + '</b><br>kg CO₂e</span>';
+    b.addEventListener("click", function () { select(i); });
+    menuEl.appendChild(b);
+  });
+
+  function select(i) {
+    if (i === current) return; current = i;
+    var m = MENU[i], items = $$(".pg-item", menuEl);
+    items.forEach(function (el, k) { el.classList.toggle("on", k === i); });
+    $("[data-pg-name]").textContent = m.name;
+    tween($("[data-pg-kcal]"), m.kcal, 0);
+    tween($("[data-pg-co2]"), m.co2, 2);
+    tween($("[data-pg-rp]"), m.co2 * PRICE, 0);
+    var days = Math.round(m.co2 * TREE_DAYS);
+    $("[data-pg-days]").textContent = days + " hari";
+    $("[data-pg-rp2]").textContent = "Rp" + idr(m.co2 * PRICE);
+    // breakdown bar + legend
+    var seg = m.seg, total = m.co2;
+    seg.forEach(function (v, k) {
+      var w = (v / total * 100);
+      $('[data-pg-seg="' + k + '"]').style.width = w + "%";
+      $("[data-pg-l" + k + "]").textContent = v.toFixed(2);
+      $("[data-pg-t" + k + "]").textContent = v.toFixed(2) + " kg";
+    });
+  }
+
+  // reveal + animate on first view
+  var seen = false, sec = $("#demo-sec");
+  function fire() { if (seen) return; seen = true; select(1); }
+  if ("IntersectionObserver" in window && sec) {
+    new IntersectionObserver(function (es, o) { es.forEach(function (e) { if (e.isIntersecting) { fire(); o.disconnect(); } }); }, { threshold: 0.25 }).observe(sec);
+  } else { fire(); }
+
+  var tb = $("#pgTebus");
+  if (tb) tb.addEventListener("click", function () {
+    var m = MENU[current] || MENU[1];
+    var msg = "Kontribusi Rp" + idr(m.co2 * PRICE) + " untuk menebus " + m.co2.toFixed(2) + " kg CO₂e (simulasi).";
+    if (window.GA && GA.toast) GA.toast(msg); else alert(msg);
+  });
+})();
+</script>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script src="/assets/js/glyiv-sources.js" defer></script>
+</body>
+</html>

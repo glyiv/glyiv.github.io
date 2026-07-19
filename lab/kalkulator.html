@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalkulator Karbon — Glyiv · scan item &amp; jejak pribadi</title>
+<meta name="description" content="Kalkulator Karbon Glyiv untuk individu: foto atau ketik nama produk untuk estimasi jejak karbonnya, dan hitung jejak karbon harianmu dari gaya hidup. Estimasi terlacak, bersumber, menyenangkan.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<style>
+/* kalkulator landing (kl- scoped) */
+.kl-tools{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+.kl-tool{border:1px solid var(--hair);border-radius:22px;overflow:hidden;background:#fff;box-shadow:var(--sh1);display:flex;flex-direction:column;transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.kl-tool:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.kl-tool__img{height:180px;position:relative;overflow:hidden}
+.kl-tool__img img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
+.kl-tool:hover .kl-tool__img img{transform:scale(1.06)}
+.kl-tool__img .badge{position:absolute;top:14px;left:14px;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#08301f;background:rgba(255,255,255,.92);border-radius:7px;padding:5px 9px;font-weight:600}
+.kl-tool__b{padding:24px;display:flex;flex-direction:column;flex:1}
+.kl-tool__b h3{font-family:var(--l-serif);font-weight:600;font-size:23px;color:var(--pine);margin:0 0 8px}
+.kl-tool__b p{font-size:14px;line-height:1.6;color:var(--slate);margin:0 0 16px}
+.kl-tool__feat{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+.kl-tool__feat span{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--pine)}
+.kl-tool__feat svg{width:15px;height:15px;color:var(--teal);flex:0 0 auto}
+.kl-tool__b .lbtn{margin-top:auto;align-self:flex-start}
+/* mini scan demo */
+.kl-demo{background:#fff;border:1px solid var(--hair);border-radius:22px;box-shadow:var(--sh2);overflow:hidden;max-width:1000px;margin:0 auto}
+.kl-demo__hd{padding:22px 24px 16px;border-bottom:1px solid var(--hair)}
+.kl-demo__hd .k{font-family:var(--l-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.kl-demo__hd h3{font-family:var(--l-serif);font-weight:600;font-size:clamp(19px,2.4vw,25px);color:var(--pine);margin:8px 0 5px}
+.kl-demo__hd p{font-size:13px;color:var(--muted);margin:0;max-width:60ch;line-height:1.5}
+.kl-grid{display:grid;grid-template-columns:1fr 1fr}
+.kl-pick{padding:20px 24px;border-right:1px solid var(--hair)}
+.kl-ct{font-family:var(--l-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--teal);font-weight:600;margin-bottom:12px}
+.kl-scan{position:relative;height:150px;border-radius:14px;overflow:hidden;background:#0f2a1e;margin-bottom:14px;display:grid;place-items:center}
+.kl-scan img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.5}
+.kl-scan .fr{position:relative;width:110px;height:110px;border-radius:12px;border:2px solid rgba(138,255,193,.6);box-shadow:0 0 0 999px rgba(6,20,13,.35)}
+.kl-scan .ln{position:absolute;left:6px;right:6px;top:6px;height:2px;background:#8affc1;box-shadow:0 0 8px #8affc1;animation:klScan 2.4s ease-in-out infinite}
+@keyframes klScan{0%,100%{top:6px}50%{top:100px}}
+.kl-scan .cap{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-family:var(--l-mono);font-size:9px;color:#bff0d5}
+.kl-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.kl-chip{font-size:12px;font-weight:600;color:var(--pine);background:var(--paper2);border:1px solid var(--hair);border-radius:999px;padding:7px 12px;cursor:pointer;transition:.16s}
+.kl-chip:hover,.kl-chip.on{background:var(--teal);color:#fff;border-color:transparent}
+.kl-search{display:flex;gap:8px}
+.kl-search input{flex:1;min-width:0;border:1px solid var(--hair);border-radius:10px;padding:11px 12px;font-family:var(--l-sans);font-size:13.5px;color:var(--pine);outline:0}
+.kl-search input:focus{border-color:var(--teal)}
+.kl-search button{background:var(--pine);color:#fff;border:0;border-radius:10px;padding:0 16px;font-weight:700;font-size:12.5px;cursor:pointer;transition:.18s}
+.kl-search button:hover{background:var(--teal)}
+.kl-out{padding:20px 24px;display:flex;flex-direction:column}
+.kl-empty{margin:auto;text-align:center;color:var(--muted);font-size:13px;max-width:34ch;line-height:1.5}
+.kl-empty .em{width:46px;height:46px;margin:0 auto 12px;border-radius:12px;background:var(--paper2);display:grid;place-items:center;color:var(--teal)}
+.kl-res{animation:klFade .3s ease}
+@keyframes klFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.kl-name{font-family:var(--l-serif);font-weight:600;font-size:19px;color:var(--pine);margin:0 0 3px}
+.kl-cat{font-family:var(--l-mono);font-size:9.5px;color:var(--muted);margin-bottom:14px}
+.kl-big{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+.kl-big b{font-family:var(--l-serif);font-weight:600;font-size:38px;color:var(--teal);line-height:1}
+.kl-big span{font-size:14px;color:var(--muted)}
+.kl-range{font-family:var(--l-mono);font-size:10px;color:var(--muted);margin-bottom:14px}
+.kl-badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.kl-b{font-family:var(--l-mono);font-size:8.5px;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:4px 9px}
+.kl-b.tier{color:var(--teal);background:rgba(31,122,107,.1);border:1px solid rgba(31,122,107,.22)}
+.kl-b.warn{color:var(--brass);background:rgba(176,137,79,.12);border:1px solid rgba(176,137,79,.3)}
+.kl-more{display:inline-flex;align-items:center;gap:7px;font-family:var(--l-sans);font-weight:700;font-size:12.5px;color:#fff;background:var(--pine);border-radius:999px;padding:10px 16px;text-decoration:none;transition:background .18s;margin-top:4px}
+.kl-more:hover{background:var(--teal)}
+.kl-foot{padding:12px 24px;background:var(--paper2);border-top:1px solid var(--hair);font-family:var(--l-mono);font-size:9px;color:var(--muted);line-height:1.5}
+/* cart + trees-to-offset */
+.kl-cartwrap{display:flex;flex-direction:column;height:100%;animation:klFade .3s ease}
+.kl-cart{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;max-height:230px;overflow-y:auto}
+.kl-item{display:flex;align-items:center;gap:12px;background:var(--paper2);border:1px solid var(--hair);border-radius:11px;padding:10px 12px;animation:klFade .3s ease}
+.kl-item__n{flex:1;font-size:13px;color:var(--pine);font-weight:600;line-height:1.2;min-width:0}
+.kl-item__n small{display:block;font-family:var(--l-mono);font-size:8.5px;color:var(--muted);font-weight:400}
+.kl-item__kg{font-family:var(--l-serif);font-weight:600;font-size:15px;color:var(--teal);white-space:nowrap}
+.kl-item__x{width:24px;height:24px;flex:0 0 auto;border-radius:7px;border:1px solid var(--hair);background:#fff;color:var(--muted);cursor:pointer;font-size:14px;line-height:1}
+.kl-item__x:hover{border-color:#c0392b;color:#c0392b}
+.kl-tot{margin-top:auto;border-top:2px solid var(--pine);padding-top:14px}
+.kl-tot__row{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.kl-tot__row span{font-family:var(--l-mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.kl-tot__row b{font-family:var(--l-serif);font-weight:600;font-size:26px;color:var(--pine)}
+.kl-tot__row b small{font-size:13px;color:var(--muted);font-weight:400}
+.kl-trees{background:linear-gradient(135deg,rgba(31,122,107,.09),rgba(31,122,107,.02));border:1px solid rgba(31,122,107,.22);border-radius:14px;padding:16px;margin-bottom:12px}
+.kl-trees__hd{display:flex;align-items:center;gap:12px;margin-bottom:11px}
+.kl-trees__n{font-family:var(--l-serif);font-weight:600;font-size:40px;color:var(--teal);line-height:1}
+.kl-trees__l{font-size:12.5px;color:var(--pine);font-weight:600;line-height:1.25}
+.kl-treeic{display:flex;flex-wrap:wrap;gap:4px}
+.kl-treeic svg{width:19px;height:23px;color:var(--teal);animation:klFade .4s ease both}
+.kl-treenote{font-family:var(--l-mono);font-size:9px;color:var(--muted);line-height:1.5;margin:0}
+.kl-tot__cta{display:flex;gap:8px;margin-top:12px;align-items:center}
+.kl-tot__cta button{background:none;border:1px solid var(--hair);border-radius:999px;padding:9px 14px;font-weight:600;font-size:12px;color:var(--slate);cursor:pointer}
+.kl-tot__cta a{flex:1;text-align:center;margin-top:0}
+.kl-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.kl-step{background:#fff;border:1px solid var(--hair);border-radius:16px;padding:22px;box-shadow:var(--sh1)}
+.kl-step .n{font-family:var(--l-mono);font-size:11px;letter-spacing:.1em;color:var(--brass);font-weight:600}
+.kl-step h3{font-family:var(--l-serif);font-weight:600;font-size:18px;color:var(--pine);margin:8px 0 6px}
+.kl-step p{font-size:13px;color:var(--slate);line-height:1.55;margin:0}
+@media(max-width:820px){.kl-tools,.kl-grid,.kl-steps{grid-template-columns:1fr}.kl-pick{border-right:0;border-bottom:1px solid var(--hair)}}
+</style>
+</head>
+<body>
+<div class="gv-bg-root" aria-hidden="true"></div>
+
+<!-- NAV (shared) -->
+<header class="lnav">
+  <div class="lnav__in">
+    <a class="lbrand" href="/"><svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#0a2a1d" stroke-width="1.5" stroke-linecap="round"/></svg><b>Gl<i>yiv</i></b></a>
+    <nav class="lnav__links">
+      <div class="ldrop ldrop--mega">
+        <button class="ldrop__btn">Ekosistem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Inti platform</h4>
+            <a href="/lab/carbon-intelligence.html"><b>Carbon Intelligence</b><small>Ukur · verifikasi · offset</small></a>
+            <a href="/lab/tree.html"><b>Glyiv Aset</b><small>Pohon &amp; lahan (RWA)</small></a>
+            <a href="/lab/apps/kebun/"><b>Kebun Virtual</b><small>Rawat pohonmu, panen imbalan</small></a>
+            <a href="/lab/outlet.html"><b>Glyiv Outlet</b><small>POS berdata karbon</small></a></div>
+          <div class="ldrop__grp"><h4>Ekonomi hijau</h4>
+            <a href="/lab/ekosistem/pasar.html"><b>Glyiv Pasar</b><small>Marketplace</small></a><a href="/lab/ekosistem/pangan.html"><b>Glyiv Pangan</b><small>Hub pangan berdata karbon</small></a>
+            <a href="/lab/ekosistem/dompet.html"><b>Glyiv Dompet</b><small>Carbon wallet</small></a>
+            <a href="/lab/ekosistem/dana.html"><b>Glyiv Dana</b><small>Investasi hijau</small></a>
+            <a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Sampah jadi imbalan</small></a></div>
+          <div class="ldrop__grp"><h4>Gaya hidup</h4>
+            <a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a>
+            <a href="/lab/ekosistem/sehat.html"><b>Glyiv Sehat</b><small>Habit sehat &amp; hijau</small></a>
+            <a href="/lab/ekosistem/belajar.html"><b>Glyiv Belajar</b><small>Literasi &amp; game</small></a></div>
+          <div class="ldrop__grp"><h4>Riset &amp; alat</h4>
+            <a href="/lab/ekosistem/lab-rnd.html"><b>Glyiv Lab</b><small>Material rendah-karbon</small></a>
+            <a href="/lab/apps/scanner/"><b>Scan Karbon</b><small>Foto item → estimasi</small></a>
+            <a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a></div>
+          <div class="ldrop__mega-foot"><span>Business tree tumbuh bertahap · Live &amp; Roadmap</span><a href="/lab/apps/">Lihat semua aplikasi &rarr;</a></div>
+        </div>
+      </div>
+      <div class="ldrop">
+        <button class="ldrop__btn">Solusi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Keuangan</h4><a href="/lab/industri/bank-lembaga-keuangan.html">Bank &amp; Lembaga Keuangan</a><a href="/lab/industri/investor-aset-manajemen.html">Investor &amp; Aset Manajemen</a></div>
+          <div class="ldrop__grp"><h4>Industri Berat</h4><a href="/lab/industri/tambang-dan-logam.html">Tambang &amp; Logam</a><a href="/lab/industri/konstruksi-dan-semen.html">Konstruksi &amp; Semen</a><a href="/lab/industri/manufaktur.html">Manufaktur</a></div>
+          <div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a><a href="/lab/industri/retailer.html">Retailer (Toko/UMKM)</a></div>
+          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a></div>
+        </div>
+      </div>
+      <a href="/lab/kabar/index.html">Kabar</a>
+      <a href="/lab/landing/index.html">Landing</a>
+      <div class="ldrop ldrop--r">
+        <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Glyiv</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim &amp; Manifesto</a><a href="/lab/kabar/index.html">Kabar</a></div>
+          <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
+        </div>
+      </div>
+    </nav>
+    <span class="lnav__sp"></span>
+    <a class="lnav__cta" href="/#gabung">Gabung</a>
+    <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="vhero" style="min-height:82vh">
+  <div class="vhero__media">
+    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&amp;fit=crop&amp;w=1920&amp;q=75" alt="Belanja &amp; makanan sehari-hari" onerror="this.onerror=null;this.src='/lab/img/fnb-ritel.jpg'">
+  </div>
+  <div class="vhero__scrim"></div>
+  <div class="vhero__in">
+    <div class="vhero__eyebrow" data-reveal><span class="ln"></span> Kalkulator Karbon · untuk individu</div>
+    <h1 class="lh1" data-reveal data-d="1">Jejak karbonmu, <span class="lserif-accent">ketahuan dalam detik.</span></h1>
+    <p class="vhero__lead llead" data-reveal data-d="2">Foto atau ketik nama sebuah produk &mdash; Glyiv memperkirakan jejak karbonnya seketika. Atau hitung jejak harianmu dari gaya hidup. <b>Estimasi terlacak &amp; bersumber</b>, dikemas menyenangkan.</p>
+    <div class="vhero__cta" data-reveal data-d="3">
+      <a class="lbtn lbtn--solid" href="#coba" data-magnetic>Coba sekarang <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="lbtn lbtn--glass" href="/lab/apps/scanner/">Buka Scan Karbon</a>
+    </div>
+  </div>
+  <div class="vhero__scroll">scroll <i></i></div>
+</section>
+
+<!-- TWO TOOLS -->
+<section class="lsec"><div class="lwrap">
+  <div class="lhead" data-reveal><span class="lkick">Dua alat, satu tujuan</span>
+    <h2 class="lh2" style="margin-top:12px">Pahami jejakmu, <span class="lserif-accent">lalu kurangi.</span></h2>
+    <p class="llead" style="margin-top:12px;max-width:64ch">Bukan menakut-nakuti dengan angka. Kedua alat ini membantumu melihat mana yang berdampak besar &mdash; agar perubahan kecil terasa bermakna.</p>
+  </div>
+  <div class="kl-tools">
+    <div class="kl-tool" data-reveal>
+      <div class="kl-tool__img"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&amp;fit=crop&amp;w=1000&amp;q=70" alt="Scan produk" onerror="this.onerror=null;this.src='/lab/img/fnb-ritel.jpg'"><span class="badge">Scan per item</span></div>
+      <div class="kl-tool__b">
+        <h3>Scan Karbon</h3>
+        <p>Foto item belanjaan (atau ketik namanya) &mdash; Glyiv memperkirakan jejak karbonnya berbasis kategori (process-LCA), lengkap dengan rentang ketidakpastian &amp; sumbernya.</p>
+        <div class="kl-tool__feat">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Foto / nama produk → estimasi CO₂e</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Login Google, kumpulkan kredit ke Dompet</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Gamified &amp; ada versi APK</span>
+        </div>
+        <a class="lbtn lbtn--solid" href="/lab/apps/scanner/">Buka Scan Karbon &rarr;</a>
+      </div>
+    </div>
+    <div class="kl-tool" data-reveal data-d="1">
+      <div class="kl-tool__img"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&amp;fit=crop&amp;w=1000&amp;q=70" alt="Makanan sehat" onerror="this.onerror=null;this.src='/lab/img/rumah-sakit.jpg'"><span class="badge">Jejak pribadi</span></div>
+      <div class="kl-tool__b">
+        <h3>Kalkulator IMT &amp; Diet</h3>
+        <p>Dari berat, tinggi, dan pola makanmu, hitung IMT sekaligus perkiraan jejak karbon dietmu per tahun &mdash; dengan metodologi yang bisa dipertanggungjawabkan (Mifflin-St Jeor + Poore &amp; Nemecek).</p>
+        <div class="kl-tool__feat">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>IMT (WHO) + BMR + TDEE</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Jejak karbon diet per tahun</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Bagian dari Glyiv Sehat</span>
+        </div>
+        <a class="lbtn lbtn--solid" href="/lab/apps/imt/">Buka Kalkulator IMT &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- LIVE MINI DEMO -->
+<a id="coba"></a>
+<section class="lsec paper"><div class="lwrap">
+  <div class="lhead" data-reveal><span class="lkick">Coba langsung</span><h2 class="lh2" style="margin-top:12px">Foto atau ketik item &rarr; <span class="lserif-accent">karbon &amp; pohon untuk menebus.</span></h2><p class="llead" style="margin-top:12px;max-width:62ch">Tambahkan produk apa pun ke keranjang. Glyiv menjumlahkan jejak karbonnya dan menghitung <b>berapa pohon yang menyerapnya</b>. Pratinjau ringkas &mdash; versi lengkap (kamera, login, dompet) ada di aplikasi Scan Karbon.</p></div>
+  <div class="kl-demo" data-reveal data-d="1" style="margin-top:26px">
+    <div class="kl-demo__hd"><span class="k">Item → CO₂e → pohon</span><h3>Kalkulator jejak &amp; penebusan</h3><p>Estimasi berbasis kategori (process-LCA / spend-based). Angka = <b>estimasi terlacak</b>, bukan label resmi; "pohon untuk menebus" adalah kontribusi, bukan klaim netral.</p></div>
+    <div class="kl-grid">
+      <div class="kl-pick">
+        <div class="kl-ct">Pindai / pilih produk (bisa lebih dari satu)</div>
+        <div class="kl-scan"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&amp;fit=crop&amp;w=800&amp;q=60" alt="" onerror="this.onerror=null;this.src='/lab/img/fnb-ritel.jpg'"><div class="fr"><div class="ln"></div></div><div class="cap">arahkan kamera · atau ketuk contoh di bawah untuk menambah</div></div>
+        <div class="kl-chips" data-kl-chips></div>
+        <div class="kl-ct" style="margin-top:4px">Atau ketik nama produk</div>
+        <div class="kl-search"><input data-kl-input name="produk" type="text" placeholder="mis. air mineral, mie instan, beras…" aria-label="Nama produk"><button data-kl-go>Tambah</button></div>
+      </div>
+      <div class="kl-out" data-kl-out>
+        <div class="kl-empty" data-kl-empty><div class="em"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18M9 21V9"/></svg></div>Tambahkan satu atau beberapa produk untuk melihat total jejak karbon dan berapa pohon yang perlu menebusnya.</div>
+        <div class="kl-cartwrap" data-kl-cartwrap style="display:none">
+          <div class="kl-ct">Keranjangmu</div>
+          <div class="kl-cart" data-kl-cart></div>
+          <div class="kl-tot">
+            <div class="kl-tot__row"><span>Total jejak karbon</span><b><span data-kl-total>0</span> <small>kgCO₂e</small></b></div>
+            <div class="kl-trees">
+              <div class="kl-trees__hd"><div class="kl-trees__n" data-kl-trees>0</div><div class="kl-trees__l">pohon untuk<br>menebus</div></div>
+              <div class="kl-treeic" data-kl-treeic></div>
+            </div>
+            <p class="kl-treenote">≈ jumlah pohon yang menyerap total ini dalam ~1 tahun (asumsi ~22 kgCO₂e/pohon/tahun ⚠︎). Kontribusi terlacak, bukan klaim netral karbon.</p>
+            <div class="kl-tot__cta"><button data-kl-clear>Kosongkan</button><a class="kl-more" href="/lab/apps/tree-marketplace/">Tebus lewat Tree Marketplace &rarr;</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="kl-foot">Sumber faktor: Poore &amp; Nemecek 2018 (Science), Agribalyse (ADEME), ecoinvent, EXIOBASE (spend-based). Serapan pohon ~22 kgCO₂e/pohon/tahun bervariasi menurut spesies, umur &amp; iklim ⚠︎. Estimasi kategori — bukan Environmental Product Declaration resmi.</div>
+  </div>
+  <div style="text-align:center;margin-top:22px" data-reveal><a class="lbtn lbtn--glass" href="/lab/apps/scanner/">Buka Scan Karbon lengkap (foto, login, dompet) &rarr;</a></div>
+</div></section>
+
+<!-- HOW -->
+<section class="lsec"><div class="lwrap">
+  <div class="lhead" data-reveal><span class="lkick">Cara kerja</span><h2 class="lh2" style="margin-top:12px">Ukur &rarr; pahami &rarr; <span class="lemph">kurangi.</span></h2></div>
+  <div class="kl-steps">
+    <div class="kl-step" data-reveal><div class="n">01 · UKUR</div><h3>Foto atau ketik</h3><p>Scan item atau isi profil singkat. Glyiv memetakan ke faktor emisi dari basis data LCA tepercaya.</p></div>
+    <div class="kl-step" data-reveal data-d="1"><div class="n">02 · PAHAMI</div><h3>Lihat yang berdampak</h3><p>Angka datang dengan rentang &amp; sumber, plus konteks: mana yang menyumbang paling besar ke jejakmu.</p></div>
+    <div class="kl-step" data-reveal data-d="2"><div class="n">03 · KURANGI</div><h3>Aksi &amp; imbalan</h3><p>Pilihan lebih hijau terlacak, mengumpulkan kredit ke Dompet, dan menautkanmu ke ekosistem Glyiv (Pasar, Kebun, Bank Sampah).</p></div>
+  </div>
+  <p class="lnote" style="text-align:center;font-family:var(--l-mono);font-size:10px;color:var(--muted);margin-top:24px">Semua estimasi bersifat <b>terlacak, bukan pengukuran presisi</b>; kontribusi iklim, bukan klaim netral. Pratinjau produk.</p>
+</div></section>
+
+<!-- FOOTER -->
+<footer class="lfoot"><div class="lwrap">
+  <div class="lfoot__grid">
+    <div><a class="lbrand" href="/"><b>Gl<i>yiv</i></b></a>
+      <p class="lfoot__about">Alat karbon konsumen Glyiv — bagian dari platform ekonomi hijau. Estimasi terlacak, bersumber, menyenangkan.</p></div>
+    <div><h4>Alat</h4><a href="/lab/apps/scanner/">Scan Karbon</a><a href="/lab/apps/imt/">Kalkulator IMT</a><a href="/lab/apps/kebun/">Kebun Virtual</a></div>
+    <div><h4>Ekosistem</h4><a href="/lab/carbon-intelligence.html">Carbon Intelligence</a><a href="/lab/tree.html">Glyiv Aset</a><a href="/lab/apps/">Semua aplikasi</a></div>
+    <div><h4>Perusahaan</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim</a><a href="/#gabung">Gabung</a></div>
+  </div>
+  <div class="lfoot__legal"><span>© <span data-yr>2026</span> Glyiv</span><span>Produk dari <a href="/wosu/index.html" style="color:#8affc1">PT WOSU Innovation Technology</a> · pratinjau · estimasi terlacak</span></div>
+</div></footer>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,r){return (r||document).querySelector(s)};
+  var ITEMS=[
+    {n:"Air mineral 600ml",cat:"Minuman kemasan (botol PET)",kg:0.16,lo:0.10,hi:0.24,tier:"T3",src:"ecoinvent (PET + air kemasan)"},
+    {n:"Mie instan (1 bungkus)",cat:"Makanan olahan gandum",kg:0.62,lo:0.4,hi:0.9,tier:"T3",src:"Poore & Nemecek 2018; Agribalyse"},
+    {n:"Beras (per kg)",cat:"Serealia — padi",kg:2.7,lo:1.6,hi:4.0,tier:"T2",src:"Poore & Nemecek 2018 (beras 2,7 kgCO₂e/kg)"},
+    {n:"Telur (per kg)",cat:"Protein hewani — telur",kg:4.5,lo:3.0,hi:6.0,tier:"T2",src:"Poore & Nemecek 2018"},
+    {n:"Daging ayam (per kg)",cat:"Protein hewani — unggas",kg:9.9,lo:6.0,hi:14,tier:"T2",src:"Poore & Nemecek 2018 (ayam ~9,9)"},
+    {n:"Daging sapi (per kg)",cat:"Protein hewani — sapi",kg:60,lo:40,hi:100,tier:"T2",src:"Poore & Nemecek 2018 (sapi ~60)"},
+    {n:"Minyak goreng 1L",cat:"Minyak sawit",kg:7.3,lo:4.5,hi:11,tier:"T2",src:"Poore & Nemecek 2018 (minyak sawit)"},
+    {n:"Kopi sachet (1)",cat:"Kopi instan",kg:0.21,lo:0.12,hi:0.35,tier:"T3",src:"Agribalyse; ecoinvent"},
+    {n:"Kaos katun (1)",cat:"Tekstil — katun",kg:5.5,lo:3,hi:8,tier:"T3",src:"ecoinvent; studi LCA tekstil ⚠︎"},
+    {n:"Kantong plastik (1)",cat:"Kemasan HDPE sekali pakai",kg:0.033,lo:0.02,hi:0.05,tier:"T3",src:"ecoinvent (film HDPE) ⚠︎ berat bervariasi"}
+  ];
+  var KW=[
+    {k:["air","mineral","botol","minum"],i:0},{k:["mie","mi ","indomie","instan"],i:1},
+    {k:["beras","nasi","padi"],i:2},{k:["telur","telor"],i:3},
+    {k:["ayam","unggas"],i:4},{k:["sapi","beef","rendang"],i:5},{k:["minyak","goreng","sawit"],i:6},
+    {k:["kopi","teh","sachet"],i:7},{k:["kaos","baju","katun","kemeja","tekstil"],i:8},{k:["plastik","kantong","kresek","kemasan"],i:9}
+  ];
+  var CART=[];
+  var TREE='<svg viewBox="0 0 24 28" fill="currentColor"><path d="M12 3l6 9h-3.4l4.2 6H13v4h-2v-4H5.2l4.2-6H6z"/></svg>';
+  function fmtKg(k){ return k<10?(k<1?k.toFixed(2):k.toFixed(1)):Math.round(k); }
+  function add(it){ CART.push(it); renderCart(); }
+  function renderCart(){
+    var empty=$("[data-kl-empty]"), wrap=$("[data-kl-cartwrap]");
+    if(!CART.length){ empty.style.display=""; wrap.style.display="none"; return; }
+    empty.style.display="none"; wrap.style.display="";
+    $("[data-kl-cart]").innerHTML = CART.map(function(it,i){
+      var w=/⚠/.test(it.src||"")||it.tier==="T4";
+      return '<div class="kl-item"><div class="kl-item__n">'+it.n+'<small>'+it.cat+(w?' ⚠︎':'')+'</small></div><div class="kl-item__kg">'+fmtKg(it.kg)+' kg</div><button class="kl-item__x" data-rm="'+i+'" aria-label="Hapus">×</button></div>';
+    }).join("");
+    var total=CART.reduce(function(s,it){return s+it.kg;},0), trees=total/22;
+    $("[data-kl-total]").textContent = total<10?total.toFixed(2):(total<100?total.toFixed(1):Math.round(total).toLocaleString("id-ID"));
+    $("[data-kl-trees]").textContent = trees<1?trees.toFixed(2):(trees<10?trees.toFixed(1):Math.round(trees).toLocaleString("id-ID"));
+    var nIc=Math.max(1,Math.min(14,Math.ceil(trees))), ic="";
+    for(var k=0;k<nIc;k++){ ic+='<span style="display:inline-flex;animation-delay:'+(k*45)+'ms" class="klt">'+TREE+'</span>'; }
+    $("[data-kl-treeic]").innerHTML=ic;
+    Array.prototype.slice.call(document.querySelectorAll("[data-rm]")).forEach(function(b){ b.addEventListener("click",function(){ CART.splice(+b.dataset.rm,1); renderCart(); }); });
+  }
+  $("[data-kl-chips]").innerHTML = ITEMS.map(function(it,i){return '<button class="kl-chip" data-kl="'+i+'">'+it.n+' +</button>';}).join("");
+  Array.prototype.slice.call(document.querySelectorAll("[data-kl]")).forEach(function(b){
+    b.addEventListener("click",function(){ b.classList.add("on"); setTimeout(function(){b.classList.remove("on");},280); add(ITEMS[+b.dataset.kl]); });
+  });
+  function lookup(){
+    var q=($("[data-kl-input]").value||"").toLowerCase().trim(); if(!q) return;
+    var found=null;
+    for(var j=0;j<KW.length;j++){ for(var m=0;m<KW[j].k.length;m++){ if(q.indexOf(KW[j].k[m].trim())>=0){found=ITEMS[KW[j].i];break;} } if(found)break; }
+    add(found || {n:q.charAt(0).toUpperCase()+q.slice(1),cat:"Kategori umum (spend-based fallback)",kg:0.9,lo:0.4,hi:1.8,tier:"T4",src:"EXIOBASE 3 (spend-based) ⚠︎ estimasi kasar tanpa data produk"});
+    $("[data-kl-input]").value="";
+  }
+  $("[data-kl-go]").addEventListener("click",lookup);
+  $("[data-kl-input]").addEventListener("keydown",function(e){if(e.key==="Enter")lookup();});
+  $("[data-kl-clear]").addEventListener("click",function(){ CART=[]; renderCart(); });
+  var y=document.querySelector("[data-yr]");if(y)y.textContent=new Date().getFullYear();
+})();
+</script>
+<script src="/assets/js/glyiv.js"></script>
+<script src="/lab/js/lab.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+</body>
+</html>

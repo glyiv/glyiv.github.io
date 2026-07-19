@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv IoT — Rumah Pintar &amp; AI Trash-Bin</title>
+<meta name="description" content="Glyiv IoT: perangkat pintar yang mendata karbon rumah tangga otomatis — AC pintar, smart metering, dan AI trash-bin (ESP32 image recognition + servo penyortir sampah), terhubung DePIN.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<style>
+.io-dev{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:13px;padding:12px 13px}
+.io-dev .ic{width:44px;height:44px;border-radius:11px;background:var(--paper2);display:grid;place-items:center;font-size:21px;flex:0 0 auto}
+.io-dev__t b{display:block;font-size:13.5px;color:var(--pine)}
+.io-dev__t small{font-family:var(--l-mono);font-size:9px;color:var(--muted)}
+.io-dev__v{margin-left:auto;text-align:right}
+.io-dev__v b{display:block;font-family:var(--l-serif);font-size:15px;color:var(--pine)}
+.io-sw{position:relative;width:42px;height:24px;border-radius:999px;background:var(--hair);cursor:pointer;transition:.2s;flex:0 0 auto}
+.io-sw.on{background:var(--teal)}
+.io-sw::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s var(--ease)}
+.io-sw.on::after{left:21px}
+/* trash bin */
+.io-bin{background:linear-gradient(160deg,#0c261c,#081a12);border-radius:18px;padding:20px;color:#fff;text-align:center;position:relative;overflow:hidden}
+.io-bin__cam{width:150px;height:110px;margin:6px auto 14px;border-radius:14px;background:#06140d;border:1px solid rgba(255,255,255,.1);display:grid;place-items:center;font-size:52px;position:relative;overflow:hidden}
+.io-bin__scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#33d188,transparent);top:0;box-shadow:0 0 10px #33d188;opacity:0}
+.io-bin.scan .io-bin__scan{animation:ioScan .9s ease-in-out}
+@keyframes ioScan{0%{top:0;opacity:1}100%{top:100%;opacity:0}}
+.io-bin__label{font-family:var(--l-mono);font-size:10px;letter-spacing:.08em;color:#8affc1;min-height:16px}
+.io-comps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
+.io-comp{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 5px;transition:.2s}
+.io-comp.hit{border-color:#33d188;background:rgba(51,209,136,.16)}
+.io-comp .em{font-size:19px}
+.io-comp .nm{font-family:var(--l-mono);font-size:8px;color:rgba(255,255,255,.7);margin-top:3px}
+.io-comp .ct{font-family:var(--l-serif);font-size:16px;color:#fff;margin-top:2px}
+.io-esp{display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.io-esp span{font-family:var(--l-mono);font-size:8.5px;color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.14);border-radius:7px;padding:5px 8px}
+</style>
+</head>
+<body>
+<div id="ga-nav"></div>
+
+<section class="ga-hero">
+  <img class="bg" src="/lab/img/data-center.jpg" alt="IoT">
+  <div class="ga-hero__in">
+    <div>
+      <div class="ga-crumb"><a href="/">Glyiv</a> / <a href="/#ekosistem">Ekosistem</a> / Glyiv IoT</div>
+      <span class="ga-badge"><i></i> Roadmap &middot; pratinjau</span>
+      <h1>Rumah yang mendata karbonnya <em>sendiri.</em></h1>
+      <p>Perangkat pintar Glyiv mengubah aktivitas rumah tangga jadi data — AC hemat, smart metering, dan AI trash-bin yang menyortir sampah otomatis pakai ESP32 &amp; servo. Terhubung jaringan (DePIN); Anda cukup hidup seperti biasa.</p>
+    </div>
+    <div class="ga-hero__aside"><div><div class="k">Perangkat aktif</div><div class="v g" data-hdev>4</div></div><div><div class="k">Karbon hari ini</div><div class="v" data-hco2>6,2 kg</div></div></div>
+  </div>
+</section>
+
+<div class="ga-wrap">
+  <div class="ga-ribbon">
+    <div class="ga-stat"><div class="k">Perangkat terhubung</div><div class="v" data-r1>4</div><div class="s">rumah tangga</div></div>
+    <div class="ga-stat"><div class="k">Energi hari ini</div><div class="v g" data-r2>8,4 kWh</div><div class="s">−12% vs kemarin</div></div>
+    <div class="ga-stat"><div class="k">Sampah tersortir</div><div class="v" data-r3>0 item</div><div class="s">oleh AI trash-bin</div></div>
+    <div class="ga-stat"><div class="k">Kredit hijau</div><div class="v g" data-r4>◈ 0</div><div class="s">dari daur ulang</div></div>
+  </div>
+  <p class="ga-note">Pratinjau produk (teaser) — perangkat &amp; angka bersifat ilustrasi. AI trash-bin: ESP32-CAM (klasifikasi citra) + motor servo (routing sekat).</p>
+
+  <div class="ga-grid" style="margin-top:14px">
+    <!-- AI trash bin (interactive centerpiece) -->
+    <div class="ga-card">
+      <div class="ga-card__hd"><h3>AI Trash-Bin</h3><span class="tag">ESP32-CAM · servo</span></div>
+      <div class="ga-card__b">
+        <div class="io-bin" data-bin>
+          <div class="io-bin__cam" data-cam><span data-item>🗑️</span><div class="io-bin__scan"></div></div>
+          <div class="io-bin__label" data-binlabel>Masukkan sampah — kamera akan mengenalinya</div>
+          <div class="io-comps">
+            <div class="io-comp" data-comp="Organik"><div class="em">🍎</div><div class="nm">Organik</div><div class="ct" data-c-Organik>0</div></div>
+            <div class="io-comp" data-comp="Plastik"><div class="em">🧴</div><div class="nm">Plastik</div><div class="ct" data-c-Plastik>0</div></div>
+            <div class="io-comp" data-comp="Kertas"><div class="em">📄</div><div class="nm">Kertas</div><div class="ct" data-c-Kertas>0</div></div>
+            <div class="io-comp" data-comp="Logam"><div class="em">🥫</div><div class="nm">Logam</div><div class="ct" data-c-Logam>0</div></div>
+          </div>
+          <div class="io-esp"><span>ESP32-CAM · 0.8MP</span><span>Model: EfficientNet-lite</span><span>Servo SG90 ×2</span></div>
+        </div>
+        <button class="ga-btn teal" data-throw style="width:100%;margin-top:14px">Buang sampah (simulasi)</button>
+        <div style="font-family:var(--l-mono);font-size:9.5px;color:var(--muted);text-align:center;margin-top:8px">Tiap item tersortir → kredit hijau masuk ke Glyiv Bank Sampah.</div>
+      </div>
+    </div>
+
+    <!-- devices + home carbon -->
+    <div class="ga-card">
+      <div class="ga-tabs">
+        <button class="ga-tab on" data-tab="dev">Perangkat</button>
+        <button class="ga-tab" data-tab="energy">Energi &amp; Karbon</button>
+      </div>
+      <div class="ga-pane on" data-pane="dev" style="display:block">
+        <div class="ga-list" data-devs></div>
+        <div style="margin-top:14px;display:flex;gap:11px;align-items:center;background:linear-gradient(120deg,rgba(31,122,107,.08),rgba(31,122,107,.02));border:1px solid rgba(31,122,107,.2);border-radius:12px;padding:11px 13px">
+          <span style="font-size:18px">⛭</span><div style="font-size:12.5px;color:var(--pine)"><b>Agen Glyiv menjadwalkan</b><br><span style="color:var(--slate)">AC dinaikkan 1°C saat jam sepi &amp; mati otomatis saat ruangan kosong — hemat ~1,3 kgCO₂e/hari.</span></div>
+        </div>
+      </div>
+      <div class="ga-pane" data-pane="energy">
+        <div class="ga-chartbox"><div class="gt">Konsumsi energi · 12 jam terakhir (kWh)</div><canvas class="ga-chart" data-echart></canvas></div>
+        <div class="ga-meta" style="margin-top:12px">
+          <div><div class="k">Energi hari ini</div><div class="v g">8,4<small> kWh</small></div></div>
+          <div><div class="k">Karbon (grid)</div><div class="v">6,2<small> kg</small></div></div>
+          <div><div class="k">Faktor grid ⚠︎</div><div class="v gold">0,74<small> kg/kWh</small></div></div>
+        </div>
+        <div style="font-family:var(--l-mono);font-size:9px;color:var(--muted);margin-top:10px">⚠︎ Faktor emisi grid PLN bersifat ilustrasi — di produksi diambil dari data jaringan terkini.</div>
+      </div>
+    </div>
+
+    <!-- how it works -->
+    <div class="ga-card pad" style="grid-column:1/-1">
+      <span class="ga-kick">DePIN · perangkat jadi jaringan</span>
+      <h2 class="ga-h2" style="margin-bottom:16px">Perangkat yang <span class="ga-em">bekerja &amp; melapor sendiri.</span></h2>
+      <div class="ga-steps">
+        <div class="ga-step"><b>Sensor menangkap</b><p>Kamera ESP32 &amp; smart meter membaca aktivitas — sampah, energi, suhu.</p></div>
+        <div class="ga-step"><b>AI mengklasifikasi</b><p>Model di perangkat mengenali jenis sampah &amp; pola pemakaian; servo menyortir ke sekat yang tepat.</p></div>
+        <div class="ga-step"><b>Agen mengoptimasi</b><p>Agen Glyiv menjadwalkan perangkat untuk hemat energi &amp; karbon otomatis.</p></div>
+        <div class="ga-step"><b>DePIN &amp; imbalan</b><p>Data terverifikasi dikirim ke jaringan; kontribusi Anda jadi kredit hijau on-chain.</p></div>
+      </div>
+      <div class="ga-tech" style="margin-top:18px">
+        <span class="ga-chip ai">⛭ Klasifikasi citra on-device</span>
+        <span class="ga-chip chain">🔗 DePIN · bukti kontribusi</span>
+        <span class="ga-chip">🔌 ESP32-CAM + servo SG90</span>
+      </div>
+    </div>
+
+    <div class="ga-card" style="grid-column:1/-1">
+      <div class="ga-card__hd"><h3>Aktivitas Perangkat &amp; On-chain</h3><span class="tag">real-time feed</span></div>
+      <div class="ga-feed" data-feed></div>
+    </div>
+  </div>
+
+  <div class="ga-cta"><a class="ga-btn solid" href="/#demo">Jadwalkan demo lengkap</a><a class="ga-btn glass" href="/#ekosistem" style="margin-left:8px">← Ekosistem Glyiv</a></div>
+</div>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script>
+(function(){
+  var $=GA.$,$$=GA.$$;
+  var comps={Organik:0,Plastik:0,Kertas:0,Logam:0}, sorted=0, credit=0;
+  var ITEMS=[["🍌","Organik",99],["🧴","Plastik",97],["📄","Kertas",96],["🥫","Logam",98],["🍎","Organik",95],["📦","Kertas",94],["🥤","Plastik",93],["🍾","Logam",92]];
+  var DEV=[
+    {ic:"❄️",nm:"AC Ruang Tamu",sub:"Glyiv Smart AC",v:"24°C · eco",on:true},
+    {ic:"🔌",nm:"Smart Plug · TV",sub:"auto-off idle",v:"38 W",on:true},
+    {ic:"📟",nm:"Smart Meter",sub:"PLN · real-time",v:"8,4 kWh",on:true},
+    {ic:"🗑️",nm:"AI Trash-Bin",sub:"ESP32-CAM",v:"aktif",on:true}
+  ];
+  var feed=GA.makeFeed("[data-feed]",[
+    ["iot","Trash-bin online","ESP32-CAM terhubung · model dimuat (EfficientNet-lite)."],
+    ["ai","Jadwal AC dioptimasi","Setpoint +1°C 13:00–15:00 · estimasi hemat 1,3 kgCO₂e/hari."],
+    ["chain","Bukti kontribusi","Ringkasan harian dikirim ke DePIN · tx "+GA.short()]
+  ]);
+  var eData=[]; for(var i=0;i<12;i++)eData.push(+GA.rnd(.3,1.1).toFixed(2));
+
+  function renderDev(){
+    $("[data-devs]").innerHTML=DEV.map(function(d,i){
+      return '<div class="io-dev"><div class="ic">'+d.ic+'</div><div class="io-dev__t"><b>'+d.nm+'</b><small>'+d.sub+'</small></div><div class="io-dev__v"><b>'+d.v+'</b></div><div class="io-sw '+(d.on?"on":"")+'" data-sw="'+i+'"></div></div>';
+    }).join("");
+    $$("[data-sw]").forEach(function(s){s.addEventListener("click",function(){DEV[s.dataset.sw].on=!DEV[s.dataset.sw].on;s.classList.toggle("on");GA.toast(DEV[s.dataset.sw].nm+(DEV[s.dataset.sw].on?" dinyalakan":" dimatikan"));});});
+  }
+  function sync(){$("[data-r3]").textContent=sorted+" item";$("[data-r4]").textContent="◈ "+credit;}
+  function drawE(){GA.lineChart($("[data-echart]"),eData,{color:"#1F7A6B"});}
+  function setTab(n){$$(".ga-tab").forEach(function(t){t.classList.toggle("on",t.dataset.tab===n);});$$(".ga-pane").forEach(function(p){p.classList.toggle("on",p.dataset.pane===n);});if(n==="energy")drawE();}
+  $$(".ga-tab").forEach(function(t){t.addEventListener("click",function(){setTab(t.dataset.tab);});});
+
+  var busy=false;
+  $("[data-throw]").addEventListener("click",function(){
+    if(busy)return;busy=true;
+    var it=GA.pick(ITEMS);
+    $("[data-item]").textContent=it[0];
+    var bin=$("[data-bin]");bin.classList.remove("scan");void bin.offsetWidth;bin.classList.add("scan");
+    $("[data-binlabel]").textContent="Menganalisis citra…";
+    setTimeout(function(){
+      $("[data-binlabel]").innerHTML="Terdeteksi: <b style=\"color:#fff\">"+it[1]+"</b> · keyakinan "+it[2]+"%";
+      var comp=$('[data-comp="'+it[1]+'"]');comp.classList.add("hit");setTimeout(function(){comp.classList.remove("hit");},700);
+      comps[it[1]]++;sorted++;credit+=2;
+      $("[data-c-"+it[1]+"]").textContent=comps[it[1]];
+      sync();
+      feed.push("iot","Sampah tersortir",it[1]+" ("+it[2]+"%) → sekat "+it[1]+" · servo diarahkan");
+      feed.push("chain","Kredit hijau",+2+" ◈ ke Glyiv Bank Sampah · tx "+GA.short());
+      GA.toast(it[1]+" tersortir — +2 ◈ kredit");
+      $("[data-item]").textContent="🗑️";busy=false;
+    },950);
+  });
+  renderDev();sync();
+  setInterval(function(){eData.push(+GA.rnd(.3,1.1).toFixed(2));if(eData.length>12)eData.shift();if($(".ga-pane[data-pane=energy]").classList.contains("on"))drawE();},4000);
+  setInterval(function(){var s=GA.pick([["ai","Deteksi ruangan kosong","AC Ruang Tamu dimatikan otomatis — hemat 0,4 kg."],["iot","Smart meter","Lonjakan beban terdeteksi 19:10 · agen ratakan ke jam murah."],["chain","Oracle grid","Faktor emisi grid diperbarui ⚠︎ · blok #"+Math.floor(GA.rnd(84000,99000))]]);feed.push(s[0],s[1],s[2]);},7000);
+})();
+</script>
+</body>
+</html>

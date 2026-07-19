@@ -209,6 +209,10 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .indcard:hover img{transform:scale(1.09)}
 .indcard__body{padding:20px;position:relative;color:#fff}
 .indcard__grp{font-family:var(--l-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8affc1;margin-bottom:6px}
+/* honest status badge on ecosystem cards */
+.indcard__st{position:absolute;top:14px;left:14px;z-index:2;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;border-radius:999px;padding:5px 10px;backdrop-filter:blur(6px)}
+.indcard__st.live{color:#04160e;background:rgba(138,255,193,.92)}
+.indcard__st.soon{color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34)}
 .indcard__t{font-family:var(--l-serif);font-weight:600;font-size:19px;color:#fff;line-height:1.12}
 .indcard__go{margin-top:12px;display:inline-flex;align-items:center;gap:7px;font-family:var(--l-mono);font-size:11px;color:#bff0d5;opacity:0;transform:translateX(-6px);transition:.3s}
 .indcard:hover .indcard__go{opacity:1;transform:none}
@@ -352,6 +356,45 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .lfoot__about{color:rgba(255,255,255,.66);font-size:13.5px;max-width:34ch;line-height:1.55;margin:14px 0}
 .lfoot__legal{border-top:1px solid rgba(255,255,255,.14);margin-top:30px;padding-top:20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--l-mono);font-size:10.5px;color:rgba(255,255,255,.5)}
 
+/* ============================ KOMUNITAS (join social) ============================ */
+.comm{position:relative;overflow:hidden;background:linear-gradient(135deg,#0f2e22,#123c2c 55%,#0c261c);color:#fff;border-radius:26px;padding:clamp(34px,5vw,60px);isolation:isolate}
+.comm::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(50% 70% at 88% 10%,rgba(51,209,136,.22),transparent 60%),radial-gradient(45% 60% at 6% 96%,rgba(176,137,79,.16),transparent 62%)}
+.comm__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,4vw,52px);align-items:center}
+.comm .lkick{color:#8affc1}
+.comm h2{color:#fff;margin:12px 0 12px}
+.comm p{color:rgba(255,255,255,.82);max-width:46ch;font-size:clamp(15px,1.4vw,17px);line-height:1.6}
+.comm__socials{display:flex;flex-wrap:wrap;gap:10px}
+.soc{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:11px 15px;font-weight:600;font-size:14px;color:#fff;transition:transform .18s var(--ease),background .2s,border-color .2s}
+.soc:hover{transform:translateY(-2px);background:rgba(255,255,255,.14);border-color:rgba(138,255,193,.5)}
+.soc svg{width:18px;height:18px;flex:0 0 auto}
+.soc small{font-family:var(--l-mono);font-size:9px;color:#8fbfa8;font-weight:500}
+.comm__note{margin-top:16px;font-family:var(--l-sans);font-size:12.5px;letter-spacing:0;color:rgba(255,255,255,.58);line-height:1.5}
+.comm__card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:22px}
+.comm__card h4{font-family:var(--l-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8affc1;margin:0 0 14px}
+.comm__stat{display:flex;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.comm__stat:last-child{border-bottom:0}
+.comm__stat b{font-family:var(--l-serif);font-weight:600;font-size:26px;color:#fff;line-height:1}
+.comm__stat span{font-size:13px;color:rgba(255,255,255,.7)}
+/* community movement (shared: light role-cards + dark-card faces/pills) */
+.mvmt{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:8px 0 30px}
+.mvcard{background:#fff;border:1px solid var(--hair);border-radius:18px;padding:22px 20px;box-shadow:var(--sh1);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.mvcard:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
+.mvcard__ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--paper2);color:var(--teal);margin-bottom:14px}
+.mvcard__ic svg{width:22px;height:22px}
+.mvcard h3{font-family:var(--l-serif);font-weight:600;font-size:19px;color:var(--pine);margin:0 0 6px;line-height:1.15}
+.mvcard p{font-size:13.5px;color:var(--slate);line-height:1.55;margin:0 0 13px}
+.mvcard__get{display:inline-flex;align-items:center;gap:6px;font-family:var(--l-mono);font-size:10px;letter-spacing:.03em;color:var(--brass);background:rgba(176,137,79,.09);border-radius:999px;padding:6px 11px}
+.mvcard__get svg{width:13px;height:13px}
+.mvfaces{display:flex;align-items:center;flex-wrap:wrap;gap:0 14px;margin-top:14px}
+.mvfaces .stk{display:flex}
+.mvfaces .stk i{width:36px;height:36px;border-radius:50%;border:2.5px solid #fff;margin-left:-11px;box-shadow:0 2px 8px rgba(0,0,0,.24);display:grid;place-items:center;font-family:var(--l-mono);font-size:11px;font-weight:600;color:#fff}
+.mvfaces .stk i:first-child{margin-left:0}
+.mvfaces b{font-size:13.5px;color:rgba(255,255,255,.85)}
+.mvfaces b em{color:#8affc1;font-style:normal;font-weight:700}
+.mvpills{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.mvpills span{font-size:12px;font-weight:600;color:var(--pine);background:var(--paper2);border:1px solid var(--hair);border-radius:999px;padding:6px 13px}
+@media(max-width:760px){.mvmt{grid-template-columns:1fr}}
+
 /* ============================ COMPARISON TABLE (Outlet vs others) ============================ */
 .cmp{border:1px solid var(--hair);border-radius:18px;overflow:hidden;background:#fff;box-shadow:var(--sh1)}
 .cmp__row{display:grid;grid-template-columns:1.5fr 1fr 1fr;align-items:center}
@@ -375,15 +418,15 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 
 /* ============================ GLY BOT (3D idle) + CHAT ============================ */
 /* Gly launcher — the bot itself sits on the page, NO circle/chip around it */
-.liv-fab{position:fixed;right:6px;bottom:2px;z-index:70;width:clamp(140px,15vw,188px);height:clamp(140px,15vw,188px);
+.liv-fab{position:fixed;right:10px;bottom:8px;z-index:70;width:clamp(88px,9vw,116px);height:clamp(88px,9vw,116px);
   padding:0;border:0;background:none;box-shadow:none;border-radius:0;overflow:visible;cursor:pointer;
   transition:transform .3s var(--ease),opacity .25s var(--ease);transform-origin:bottom right;-webkit-tap-highlight-color:transparent}
-.liv-fab canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 20px 34px rgba(15,46,34,.26))}
+.liv-fab canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 14px 24px rgba(15,46,34,.24))}
 .liv-fab:hover{transform:scale(1.06) translateY(-2px)}
 .liv-fab:focus-visible{outline:2px solid var(--teal);outline-offset:8px;border-radius:20px}
 /* brand caption rides under the bot instead of a ring */
-.liv-fab__ping{position:absolute;right:14px;bottom:14px;pointer-events:none;font-family:var(--l-mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);
-  display:flex;align-items:center;gap:6px;white-space:nowrap;opacity:.9}
+.liv-fab__ping{position:absolute;right:8px;bottom:8px;pointer-events:none;font-family:var(--l-mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);
+  display:flex;align-items:center;gap:5px;white-space:nowrap;opacity:.9}
 .liv-fab__ping::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--emer-br);box-shadow:0 0 0 0 rgba(28,174,107,.5);animation:livPing 2.6s var(--ease) infinite}
 .liv-fab__ping::after{content:"Tanya Gly"}
 @keyframes livPing{0%{box-shadow:0 0 0 0 rgba(28,174,107,.5)}70%,100%{box-shadow:0 0 0 7px rgba(28,174,107,0)}}
@@ -420,7 +463,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 .liv-chat__in button{background:var(--pine);color:#fff;border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;flex:0 0 auto;font-size:15px}
 
 /* ============================ COST-LEAK SCANNER (why-carbon) ============================ */
-.leak{position:relative;background:#fff;border:1px solid var(--hair);border-radius:20px;padding:20px 20px 18px;box-shadow:var(--sh2);overflow:hidden}
+.leak{position:relative;background:#fff;border:1px solid var(--hair);border-radius:20px;padding:20px 20px 18px;box-shadow:var(--sh2);overflow:visible}
 .leak::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(80% 60% at 80% 0%,rgba(176,137,79,.06),transparent 62%)}
 .leak__hd{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;position:relative}
 .leak__hd b{font-family:var(--l-serif);font-weight:600;font-size:17px;color:var(--pine);display:block;line-height:1.2}
@@ -428,7 +471,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 .leak__sw{margin-left:auto;display:flex;background:var(--paper2);border:1px solid var(--hair);border-radius:999px;padding:3px;flex:0 0 auto}
 .leak__sw button{border:0;background:none;border-radius:999px;padding:6px 11px;font-family:var(--l-sans);font-size:11px;font-weight:700;color:var(--muted);transition:color .2s,background .2s;white-space:nowrap}
 .leak__sw button.on{background:var(--pine);color:#fff}
-.leak__chart{position:relative;height:186px;border-radius:12px;background:linear-gradient(180deg,var(--paper2),#fff);border:1px solid var(--hair2);padding:14px 12px 10px;overflow:hidden}
+.leak__chart{position:relative;height:186px;border-radius:12px;background:linear-gradient(180deg,var(--paper2),#fff);border:1px solid var(--hair2);padding:14px 12px 10px;overflow:visible}
 /* horizon grid lines — read as a ledger, not decoration */
 .leak__grid{position:absolute;inset:14px 12px 26px;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between}
 .leak__grid i{height:1px;background:var(--hair2);display:block}
@@ -453,7 +496,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 /* tooltip on each bar */
 .leak__tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);width:max-content;max-width:170px;
   background:var(--pine);color:#fff;font-family:var(--l-sans);font-size:11px;line-height:1.35;padding:7px 10px;border-radius:8px;
-  opacity:0;visibility:hidden;transition:.18s var(--ease);pointer-events:none;z-index:5;box-shadow:var(--sh2)}
+  opacity:0;visibility:hidden;transition:.18s var(--ease);pointer-events:none;z-index:40;box-shadow:var(--sh2)}
 .leak__tip b{color:#8affc1;font-family:var(--l-mono);font-size:10px;display:block;margin-bottom:2px}
 .leak[data-mode="1"] .leak__bar:hover .leak__tip{opacity:1;visibility:visible;transform:translateX(-50%)}
 .leak__foot{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap;position:relative}
@@ -525,7 +568,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 
 /* ============================ RESPONSIVE ============================ */
 @media (max-width:980px){
-  .prow,.prow--flip,.tm{grid-template-columns:1fr;gap:30px}
+  .prow,.prow--flip,.tm,.comm__grid{grid-template-columns:1fr;gap:30px}
   .prow .phonewrap{justify-content:center}
   .ev-grid{grid-template-columns:repeat(2,1fr)}
   .indgrid{grid-template-columns:repeat(2,1fr)}
@@ -548,7 +591,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .applyrow{grid-template-columns:1fr}
   .lfoot__grid{grid-template-columns:1fr}
   .vhero{min-height:92vh}
-  .liv-fab{width:112px;height:112px;right:0;bottom:0}
+  .liv-fab{width:84px;height:84px;right:4px;bottom:4px}
   .liv-fab__ping{display:none}
   .leak__hd{flex-wrap:wrap}.leak__sw{margin-left:0;width:100%}.leak__sw button{flex:1}
   .leak__chart{height:158px}

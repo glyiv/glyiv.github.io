@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv Tree Marketplace — Konsol Pemantauan &amp; Kepemilikan Aset Hijau</title>
+<meta name="description" content="Konsol Glyiv Tree Marketplace: pantau tiap pohon & lahan real-time (metadata, satelit, dMRV), miliki atau sewa fraksi kepemilikan (ERC-3643), dan perdagangkan di bursa aset hijau.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<script type="importmap">{"imports":{"three":"/assets/vendor/three.module.js"}}</script>
+<style>
+/* ===== Tree Marketplace console — Glyiv light/editorial, image-rich (tmx- scoped) ===== */
+body{background:var(--white)}
+.tmx-wrap{max-width:1300px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.tmx-hero{position:relative;min-height:48vh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff;padding-top:88px}
+.tmx-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transform:scale(1.05);animation:heroKen 26s ease-in-out infinite alternate}
+.tmx-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,20,13,.34),rgba(6,20,13,.2) 40%,rgba(6,20,13,.86))}
+.tmx-hero__in{width:100%;max-width:1300px;margin:0 auto;padding:0 clamp(16px,4vw,40px) clamp(30px,5vh,54px);display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.tmx-crumb{font-family:var(--l-mono);font-size:11px;color:rgba(255,255,255,.72);margin-bottom:14px}
+.tmx-crumb a{color:#8affc1}
+.tmx-hero h1{font-family:var(--l-serif);font-weight:600;font-size:clamp(30px,4.4vw,52px);line-height:1.04;letter-spacing:-.02em;color:#fff;margin:0 0 12px;max-width:16ch}
+.tmx-hero p{font-family:var(--l-sans);color:rgba(255,255,255,.9);max-width:52ch;font-size:clamp(15px,1.4vw,17px);line-height:1.55;margin:0}
+.tmx-live{display:inline-flex;align-items:center;gap:7px;font-family:var(--l-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#bff0d5;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px;margin-bottom:14px}
+.tmx-live i{width:7px;height:7px;border-radius:50%;background:var(--emer-br);box-shadow:0 0 8px var(--emer-br);animation:tmxBlink 2.2s var(--ease) infinite}
+@keyframes tmxBlink{0%,100%{opacity:1}50%{opacity:.35}}
+.tmx-wallet{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:16px}
+.tmx-wallet .k{font-family:var(--l-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+.tmx-wallet .v{font-family:var(--l-serif);font-size:20px;color:#fff;line-height:1}
+.tmx-wallet .v.g{color:#8affc1}
+
+/* portfolio ribbon */
+.tmx-ribbon{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:-38px auto 0;position:relative;z-index:3}
+.tmx-stat{background:#fff;border:1px solid var(--hair);border-radius:16px;box-shadow:var(--sh2);padding:18px 20px}
+.tmx-stat .k{font-family:var(--l-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--brass);font-weight:600}
+.tmx-stat .v{font-family:var(--l-serif);font-weight:600;font-size:clamp(24px,2.6vw,32px);color:var(--pine);line-height:1.05;margin-top:6px}
+.tmx-stat .v.g{color:var(--teal)}
+.tmx-stat .s{font-family:var(--l-sans);font-size:12px;color:var(--muted);margin-top:4px}
+
+.tmx-note{font-family:var(--l-mono);font-size:10px;color:var(--muted);margin:22px 0 8px}
+
+.tmx-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:18px;align-items:start;margin-top:14px}
+.tmx-card{background:#fff;border:1px solid var(--hair);border-radius:20px;box-shadow:var(--sh1);overflow:hidden}
+.tmx-card__hd{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--hair)}
+.tmx-card__hd h3{font-family:var(--l-serif);font-weight:600;font-size:17px;color:var(--pine);margin:0}
+.tmx-card__hd .tag{margin-left:auto;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;color:var(--muted);border:1px solid var(--hair);border-radius:7px;padding:4px 8px}
+
+/* MAP = real aerial image with markers */
+.tmx-map{position:relative;height:clamp(280px,42vh,440px);overflow:hidden}
+.tmx-map__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tmx-map__grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:44px 44px;mix-blend-mode:overlay}
+.tmx-map__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,26,18,.28),rgba(8,26,18,.5))}
+.tmx-map__scan{position:absolute;top:0;bottom:0;width:80px;background:linear-gradient(90deg,transparent,rgba(51,209,136,.25));border-right:1.5px solid rgba(138,255,193,.7);animation:tmxScan 4.6s linear infinite}
+@keyframes tmxScan{0%{left:-10%}100%{left:100%}}
+.tmx-pin{position:absolute;width:16px;height:16px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid #fff;cursor:pointer;transition:transform .2s var(--ease);box-shadow:0 2px 8px rgba(0,0,0,.4);z-index:2}
+.tmx-pin:hover{transform:translate(-50%,-50%) scale(1.25)}
+.tmx-pin.baik{background:var(--emer-br)}
+.tmx-pin.pantau{background:var(--brass)}
+.tmx-pin.on{background:#8affc1;box-shadow:0 0 0 6px rgba(138,255,193,.28),0 2px 8px rgba(0,0,0,.4);animation:tmxPulse 1.8s var(--ease) infinite}
+@keyframes tmxPulse{0%,100%{box-shadow:0 0 0 6px rgba(138,255,193,.28),0 2px 8px rgba(0,0,0,.4)}50%{box-shadow:0 0 0 12px rgba(138,255,193,0),0 2px 8px rgba(0,0,0,.4)}}
+.tmx-maphud{position:absolute;left:16px;bottom:14px;display:flex;gap:8px;flex-wrap:wrap;z-index:3}
+.tmx-chip{font-family:var(--l-mono);font-size:9.5px;color:#eafff4;background:rgba(6,20,13,.6);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 11px;backdrop-filter:blur(6px)}
+.tmx-chip b{color:#8affc1}
+.tmx-mapleg{position:absolute;right:16px;top:14px;display:flex;flex-direction:column;gap:5px;z-index:3}
+.tmx-mapleg span{font-family:var(--l-mono);font-size:9px;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:6px}
+.tmx-mapleg i{width:9px;height:9px;border-radius:50%}
+/* plot selector = image thumbnails */
+.tmx-plots{display:flex;gap:10px;padding:14px 18px;overflow-x:auto;scrollbar-width:none}
+.tmx-plots::-webkit-scrollbar{height:0}
+.tmx-plot{flex:0 0 auto;width:150px;border:1px solid var(--hair);border-radius:12px;overflow:hidden;background:#fff;cursor:pointer;transition:.2s var(--ease);text-align:left}
+.tmx-plot.on{border-color:var(--teal);box-shadow:var(--sh2)}
+.tmx-plot img{width:100%;height:66px;object-fit:cover;display:block}
+.tmx-plot__b{padding:8px 10px}
+.tmx-plot__b b{display:block;font-size:12px;color:var(--pine);line-height:1.2}
+.tmx-plot__b small{font-family:var(--l-mono);font-size:8.5px;color:var(--muted)}
+
+/* tabs */
+.tmx-tabs{display:flex;gap:4px;padding:14px 18px 0}
+.tmx-tab{flex:1;background:none;border:0;border-bottom:2px solid transparent;padding:10px 6px;font-family:var(--l-sans);font-weight:700;font-size:13.5px;color:var(--muted);cursor:pointer;transition:.18s}
+.tmx-tab.on{color:var(--pine);border-bottom-color:var(--teal)}
+.tmx-pane{display:none;padding:18px}
+.tmx-pane.on{display:block;animation:tmxFade .3s var(--ease)}
+@keyframes tmxFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* tree detail */
+.tmx-tdhead{display:flex;gap:15px;align-items:center;margin-bottom:15px}
+.tmx-tdphoto{width:104px;height:104px;border-radius:16px;object-fit:cover;flex:0 0 auto;box-shadow:var(--sh2)}
+.tmx-tdhead h2{font-family:var(--l-serif);font-weight:600;font-size:23px;color:var(--pine);margin:0 0 4px;line-height:1.1}
+.tmx-tdhead .sub{font-family:var(--l-mono);font-size:10px;color:var(--muted)}
+.tmx-health{display:inline-flex;align-items:center;gap:6px;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:4px 10px;margin-top:9px}
+.tmx-health.baik{color:var(--teal);background:rgba(31,122,107,.1);border:1px solid rgba(31,122,107,.24)}
+.tmx-health.pantau{color:var(--brass);background:rgba(176,137,79,.12);border:1px solid rgba(176,137,79,.3)}
+.tmx-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.tmx-meta div{background:var(--paper2);border:1px solid var(--hair);border-radius:12px;padding:11px 12px}
+.tmx-meta .k{font-family:var(--l-mono);font-size:8px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.tmx-meta .v{font-family:var(--l-serif);font-weight:600;font-size:19px;color:var(--pine);line-height:1.1;margin-top:3px}
+.tmx-meta .v small{font-family:var(--l-mono);font-size:9px;color:var(--muted);font-weight:400}
+.tmx-meta .v.g{color:var(--teal)}.tmx-meta .v.gold{color:var(--brass)}
+.tmx-growth{margin-top:15px;background:var(--paper2);border:1px solid var(--hair);border-radius:14px;padding:14px}
+.tmx-growth .gt{display:flex;align-items:center;gap:8px;font-family:var(--l-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.tmx-seg{margin-left:auto;display:flex;gap:4px}
+.tmx-seg button{font-family:var(--l-mono);font-size:9px;color:var(--muted);background:#fff;border:1px solid var(--hair);border-radius:6px;padding:4px 8px;cursor:pointer}
+.tmx-seg button.on{color:#fff;background:var(--teal);border-color:transparent}
+.tmx-gchart{width:100%;height:118px;display:block}
+/* satellite captures strip = more imagery */
+.tmx-caps{margin-top:15px}
+.tmx-caps h4{font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.tmx-capsrow{display:flex;gap:9px;overflow-x:auto;scrollbar-width:none}
+.tmx-capsrow::-webkit-scrollbar{height:0}
+.tmx-cap{flex:0 0 auto;width:120px;border-radius:11px;overflow:hidden;position:relative;border:1px solid var(--hair)}
+.tmx-cap img{width:100%;height:74px;object-fit:cover;display:block;filter:saturate(1.05)}
+.tmx-cap span{position:absolute;left:0;right:0;bottom:0;padding:5px 8px;font-family:var(--l-mono);font-size:8px;color:#fff;background:linear-gradient(transparent,rgba(6,20,13,.85))}
+.tmx-onchain{margin-top:15px;display:flex;align-items:center;gap:11px;background:linear-gradient(120deg,rgba(31,122,107,.08),rgba(31,122,107,.02));border:1px solid rgba(31,122,107,.2);border-radius:12px;padding:12px 14px}
+.tmx-onchain .ic{width:32px;height:32px;border-radius:9px;background:rgba(31,122,107,.14);display:grid;place-items:center;flex:0 0 auto;font-size:15px}
+.tmx-onchain b{font-size:12.5px;color:var(--pine);display:block}
+.tmx-onchain small{font-family:var(--l-mono);font-size:9px;color:var(--muted);word-break:break-all}
+
+/* ownership */
+.tmx-ownhero{background:var(--paper2);border:1px solid var(--hair);border-radius:14px;padding:16px;margin-bottom:15px}
+.tmx-ownhero .toprow{display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap}
+.tmx-token{font-family:var(--l-mono);font-size:10px;color:var(--brass);border:1px solid rgba(176,137,79,.3);border-radius:7px;padding:4px 9px}
+.tmx-supply{height:13px;border-radius:999px;background:var(--hair);overflow:hidden;display:flex}
+.tmx-supply i{height:100%}
+.tmx-supply .mine{background:linear-gradient(90deg,var(--teal),var(--emer-br))}
+.tmx-supply .sold{background:rgba(176,137,79,.55)}
+.tmx-supply .open{background:#dfe6e1}
+.tmx-supplyleg{display:flex;gap:18px;margin-top:10px;flex-wrap:wrap;font-family:var(--l-mono);font-size:9.5px;color:var(--muted)}
+.tmx-supplyleg b{color:var(--pine);font-family:var(--l-serif);font-size:14px}
+.tmx-mode{display:flex;background:var(--paper2);border:1px solid var(--hair);border-radius:11px;padding:3px;margin-bottom:13px}
+.tmx-mode button{flex:1;border:0;background:none;border-radius:8px;padding:10px;font-family:var(--l-sans);font-weight:700;font-size:12.5px;color:var(--muted);cursor:pointer}
+.tmx-mode button.on{background:#fff;color:var(--pine);box-shadow:var(--sh1)}
+.tmx-buyrow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-bottom:11px}
+.tmx-fld label{font-family:var(--l-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.tmx-fld input{width:100%;background:#fff;border:1px solid var(--hair);border-radius:10px;padding:12px;color:var(--pine);font-family:var(--l-serif);font-size:16px;outline:none}
+.tmx-fld input:focus{border-color:var(--teal)}
+.tmx-est{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:13px 0}
+.tmx-est div{background:var(--paper2);border:1px solid var(--hair);border-radius:11px;padding:10px 12px}
+.tmx-est .k{font-family:var(--l-mono);font-size:8px;text-transform:uppercase;color:var(--muted)}
+.tmx-est .v{font-family:var(--l-serif);font-weight:600;font-size:17px;color:var(--pine);margin-top:3px}
+.tmx-est .v.g{color:var(--teal)}
+.tmx-caphd{font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:4px 0 6px}
+.tmx-cr{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid var(--hair)}
+.tmx-cr:last-child{border-bottom:0}
+.tmx-cr .av{width:28px;height:28px;border-radius:8px;flex:0 0 auto;display:grid;place-items:center;font-family:var(--l-mono);font-size:12px;color:#fff;font-weight:600}
+.tmx-cr .nm{font-size:13px;color:var(--pine)}
+.tmx-cr .nm small{font-family:var(--l-mono);font-size:8.5px;color:var(--muted);display:block}
+.tmx-cr .pct{margin-left:auto;font-family:var(--l-serif);font-weight:600;font-size:15px;color:var(--teal)}
+
+/* exchange */
+.tmx-pxhead{display:flex;align-items:baseline;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.tmx-pxhead .px{font-family:var(--l-serif);font-weight:600;font-size:28px;color:var(--pine)}
+.tmx-pxhead .chg{font-family:var(--l-mono);font-size:12px}
+.tmx-chg.up{color:var(--teal)}.tmx-chg.down{color:#c98b6b}
+.tmx-pxchart{width:100%;height:120px;display:block}
+.tmx-exgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:13px}
+.tmx-book{font-family:var(--l-mono);font-size:11px}
+.tmx-book .h{font-size:9px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;letter-spacing:.05em}
+.tmx-brow{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:3px 8px;position:relative;border-radius:5px}
+.tmx-brow .bar{position:absolute;top:0;bottom:0;right:0;opacity:.12;border-radius:5px}
+.tmx-brow.ask .bar{background:#c98b6b}.tmx-brow.bid .bar{background:var(--teal)}
+.tmx-brow span{position:relative;z-index:1}
+.tmx-brow.ask .p{color:#c98b6b}.tmx-brow.bid .p{color:var(--teal)}
+.tmx-brow .a{text-align:right;color:var(--muted)}
+.tmx-spread{text-align:center;color:var(--muted);padding:6px 0;font-size:10px}
+.tmx-ticket{background:var(--paper2);border:1px solid var(--hair);border-radius:12px;padding:13px}
+.tmx-side{display:flex;gap:6px;margin-bottom:11px}
+.tmx-side button{flex:1;border:1px solid var(--hair);background:#fff;border-radius:8px;padding:9px;font-family:var(--l-sans);font-weight:700;font-size:12.5px;color:var(--muted);cursor:pointer}
+.tmx-side button.buy.on{background:rgba(31,122,107,.1);border-color:var(--teal);color:var(--teal)}
+.tmx-side button.sell.on{background:rgba(201,139,107,.12);border-color:#c98b6b;color:#c98b6b}
+
+/* feed */
+.tmx-feed{padding:6px 18px 18px}
+.tmx-line{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--hair)}
+.tmx-line:last-child{border-bottom:0}
+.tmx-badge{font-family:var(--l-mono);font-size:8px;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 7px;flex:0 0 auto;margin-top:1px;font-weight:600}
+.tmx-badge.ai{background:rgba(31,122,107,.12);color:var(--teal)}
+.tmx-badge.chain{background:rgba(176,137,79,.14);color:var(--brass)}
+.tmx-badge.sat{background:rgba(31,110,160,.12);color:#2f6ea0}
+.tmx-tx{font-size:13px;color:var(--ink)}
+.tmx-tx b{color:var(--pine)}
+.tmx-tx small{font-family:var(--l-mono);font-size:9px;color:var(--muted);display:block;margin-top:2px}
+.tmx-btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--l-sans);font-weight:700;font-size:13px;padding:11px 18px;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:.18s var(--ease)}
+.tmx-btn.solid{background:var(--pine);color:#fff}
+.tmx-btn.solid:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.tmx-btn.gold{background:linear-gradient(120deg,var(--brass),var(--brass2));color:#fff}
+.tmx-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--pine);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;opacity:0;transition:.25s var(--ease);z-index:90;box-shadow:var(--sh3)}
+.tmx-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* 3D tree */
+.t3-grid{display:grid;grid-template-columns:1.25fr 1fr}
+.t3-stage{position:relative;background:radial-gradient(120% 100% at 50% -10%,#154834,#0b241a 70%);border-right:1px solid var(--hair);min-height:400px;display:flex;overflow:hidden}
+#tree3d{width:100%;height:100%;min-height:400px;display:block;cursor:grab;touch-action:none}
+#tree3d:active{cursor:grabbing}
+.t3-stagebtns{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:5px;background:rgba(6,20,13,.55);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:4px;backdrop-filter:blur(6px);z-index:2}
+.t3-stagebtns button{border:0;background:none;color:rgba(255,255,255,.72);font-family:var(--l-sans);font-weight:700;font-size:12px;border-radius:999px;padding:7px 14px;cursor:pointer;transition:.15s}
+.t3-stagebtns button.on{background:#8affc1;color:#08301f}
+.t3-hint{position:absolute;top:14px;left:14px;font-family:var(--l-mono);font-size:9px;color:rgba(255,255,255,.6);z-index:2;display:flex;align-items:center;gap:6px}
+.t3-hint svg{width:12px;height:12px}
+.t3-coord{position:absolute;top:14px;right:14px;font-family:var(--l-mono);font-size:9px;color:#8affc1;background:rgba(6,20,13,.5);border:1px solid rgba(255,255,255,.14);border-radius:7px;padding:4px 8px;z-index:2}
+.t3-info{padding:22px;display:flex;flex-direction:column}
+.t3-info h3{font-family:var(--l-serif);font-weight:600;font-size:22px;color:var(--pine);margin:0 0 3px}
+.t3-info .sub{font-family:var(--l-mono);font-size:10px;color:var(--muted);margin-bottom:14px}
+.t3-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+.t3-meta div{background:var(--paper2);border:1px solid var(--hair);border-radius:11px;padding:11px 12px}
+.t3-meta .k{font-family:var(--l-mono);font-size:8px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.t3-meta .v{font-family:var(--l-serif);font-weight:600;font-size:18px;color:var(--pine);line-height:1.1;margin-top:3px}
+.t3-meta .v.g{color:var(--teal)}
+.t3-frac{background:var(--paper2);border:1px solid var(--hair);border-radius:12px;padding:14px;margin-bottom:14px}
+.t3-frac .ft{font-family:var(--l-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;display:flex;justify-content:space-between}
+.t3-frac .ft b{color:var(--brass)}
+.t3-fracbar{height:12px;border-radius:999px;overflow:hidden;display:flex;background:#e3e9e4}
+.t3-fracbar i{height:100%}.t3-fracbar .mine{background:linear-gradient(90deg,var(--teal),var(--emer-br))}.t3-fracbar .sold{background:rgba(176,137,79,.55)}
+.t3-fracleg{display:flex;gap:16px;margin-top:9px;font-family:var(--l-mono);font-size:9px;color:var(--muted);flex-wrap:wrap}
+.t3-fracleg b{font-family:var(--l-serif);font-size:13px;color:var(--pine)}
+.t3-onchain{display:flex;align-items:center;gap:9px;font-family:var(--l-mono);font-size:9px;color:var(--muted);margin-bottom:14px}
+.t3-onchain .d{width:7px;height:7px;border-radius:50%;background:var(--emer-br);box-shadow:0 0 6px var(--emer-br)}
+.t3-info .tmx-btn{margin-top:auto}
+/* vision cards */
+.tmx-vis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.tmx-vc{background:#fff;border:1px solid var(--hair);border-radius:16px;padding:22px;box-shadow:var(--sh1)}
+.tmx-vc .ic{width:42px;height:42px;border-radius:11px;background:var(--paper2);display:grid;place-items:center;color:var(--teal);margin-bottom:13px}
+.tmx-vc .ic svg{width:22px;height:22px}
+.tmx-vc h4{font-family:var(--l-serif);font-weight:600;font-size:18px;color:var(--pine);margin:0 0 7px}
+.tmx-vc p{font-size:13px;color:var(--slate);line-height:1.55;margin:0}
+.tmx-vc .src{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tmx-vc .src span{font-family:var(--l-mono);font-size:8.5px;color:var(--muted);background:var(--paper2);border:1px solid var(--hair);border-radius:6px;padding:3px 7px}
+@media (max-width:940px){.tmx-ribbon{grid-template-columns:1fr 1fr}.tmx-grid,.tmx-exgrid{grid-template-columns:1fr}.t3-grid{grid-template-columns:1fr}.t3-stage{border-right:0;border-bottom:1px solid var(--hair)}.tmx-vis{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- NAV (shared component) -->
+<header class="lnav" data-solid>
+  <div class="lnav__in">
+    <a class="lbrand" href="/"><svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#0a2a1d" stroke-width="1.5" stroke-linecap="round"/></svg><b>Gl<i>yiv</i></b></a>
+    <nav class="lnav__links">
+      <a href="/#platform">Platform</a>
+      <div class="ldrop">
+        <button class="ldrop__btn">Solusi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Keuangan</h4><a href="/lab/industri/bank-lembaga-keuangan.html">Bank &amp; Lembaga Keuangan</a><a href="/lab/industri/investor-aset-manajemen.html">Investor &amp; Aset Manajemen</a></div>
+          <div class="ldrop__grp"><h4>Industri Berat</h4><a href="/lab/industri/tambang-dan-logam.html">Tambang &amp; Logam</a><a href="/lab/industri/konstruksi-dan-semen.html">Konstruksi &amp; Semen</a><a href="/lab/industri/manufaktur.html">Manufaktur</a></div>
+          <div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a><a href="/lab/industri/retailer.html">Retailer (Toko/UMKM)</a></div>
+          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a><a href="/lab/outlet.html">Glyiv Outlet<small>Infrastruktur jaringan outlet</small></a></div>
+        </div>
+      </div>
+      <a href="/#tour">Cara Kerja</a>
+      <a href="/lab/tree.html">Tree Marketplace</a>
+      <a href="/lab/kabar/index.html">Kabar</a>
+      <a href="/lab/landing/index.html">Landing</a>
+      <div class="ldrop ldrop--r">
+        <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Glyiv</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim &amp; Manifesto</a></div>
+          <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
+        </div>
+      </div>
+    </nav>
+    <span class="lnav__sp"></span>
+    <a class="lnav__cta" href="/#demo">Jadwalkan Demo</a>
+    <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="tmx-hero">
+  <img src="/lab/img/forest.jpg" alt="Hutan terpantau">
+  <div class="tmx-hero__in">
+    <div>
+      <div class="tmx-crumb"><a href="/">Glyiv</a> / <a href="/lab/tree.html">Tree Marketplace</a> / Konsol</div>
+      <span class="tmx-live"><i></i> dMRV &middot; pemantauan langsung</span>
+      <h1>Setiap pohon, sebuah <em style="font-style:italic;color:#8affc1">aset yang hidup.</em></h1>
+      <p>Pantau tiap pohon &amp; lahan beserta metadatanya, miliki atau sewa fraksi kepemilikannya, lalu perdagangkan di bursa aset hijau — semua dalam satu konsol.</p>
+    </div>
+    <div class="tmx-wallet"><div><div class="k">Saldo</div><div class="v g" data-wbal>◈ 0</div></div><button class="tmx-btn gold" data-connect>Hubungkan Wallet</button></div>
+  </div>
+</section>
+
+<div class="tmx-wrap">
+  <!-- PORTFOLIO RIBBON -->
+  <div class="tmx-ribbon">
+    <div class="tmx-stat"><div class="k">Pohon terpantau</div><div class="v" data-rtrees>—</div><div class="s">di 4 blok lahan</div></div>
+    <div class="tmx-stat"><div class="k">Serapan tahunan</div><div class="v g" data-rco2>—</div><div class="s">tCO₂e diverifikasi dMRV</div></div>
+    <div class="tmx-stat"><div class="k">Nilai aset (est.)</div><div class="v" data-rval>—</div><div class="s">fraksi ter-tokenisasi</div></div>
+    <div class="tmx-stat"><div class="k">Fraksi Anda</div><div class="v g" data-rmine>—</div><div class="s">ERC-3643 · dompet Anda</div></div>
+  </div>
+
+  <p class="tmx-note">Pratinjau produk (teaser) — angka &amp; harga bersifat ilustrasi; alur, metadata, dan mekanisme kepemilikan mengikuti desain sistem Glyiv yang sebenarnya.</p>
+
+  <div class="tmx-grid">
+    <!-- LEFT: map -->
+    <div class="tmx-card">
+      <div class="tmx-card__hd"><h3>Peta Pemantauan</h3><span class="tag" data-plotname>—</span></div>
+      <div class="tmx-map">
+        <img class="tmx-map__img" data-mapimg src="/lab/img/sawit-agri.jpg" alt="Citra aerial lahan">
+        <div class="tmx-map__grid"></div><div class="tmx-map__scrim"></div><div class="tmx-map__scan"></div>
+        <div class="tmx-mapleg">
+          <span><i style="background:#1cae6b"></i> sehat</span>
+          <span><i style="background:#B0894F"></i> perlu pantau</span>
+          <span><i style="background:#8affc1"></i> dipilih</span>
+        </div>
+        <div class="tmx-pins" data-pins></div>
+        <div class="tmx-maphud">
+          <span class="tmx-chip">Pohon: <b data-plottrees>—</b></span>
+          <span class="tmx-chip">Serapan: <b data-plotco2>—</b>/thn</span>
+          <span class="tmx-chip">Satelit: <b data-plotsat>—</b></span>
+        </div>
+      </div>
+      <div class="tmx-plots" data-plotbar></div>
+    </div>
+
+    <!-- RIGHT: tabs -->
+    <div class="tmx-card">
+      <div class="tmx-tabs">
+        <button class="tmx-tab on" data-tab="pantau">Pemantauan</button>
+        <button class="tmx-tab" data-tab="milik">Kepemilikan</button>
+        <button class="tmx-tab" data-tab="bursa">Bursa</button>
+      </div>
+      <div class="tmx-pane on" data-pane="pantau" data-detail></div>
+      <div class="tmx-pane" data-pane="milik" data-own></div>
+      <div class="tmx-pane" data-pane="bursa" data-ex></div>
+    </div>
+
+    <!-- FULL WIDTH: feed -->
+    <div class="tmx-card" style="grid-column:1/-1">
+      <div class="tmx-card__hd"><h3>Aktivitas Agen &amp; On-chain</h3><span class="tag">real-time feed</span></div>
+      <div class="tmx-feed" data-feed></div>
+    </div>
+  </div>
+
+  <!-- 3D TREE + per-tree fractionalization -->
+  <div class="tmx-card" style="margin-top:20px">
+    <div class="tmx-card__hd"><h3>Pohon virtual 3D</h3><span class="tag">seret untuk memutar · miliki per-fraksi</span></div>
+    <div class="t3-grid">
+      <div class="t3-stage">
+        <canvas id="tree3d"></canvas>
+        <div class="t3-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/><circle cx="12" cy="12" r="2.5"/></svg> seret untuk memutar</div>
+        <div class="t3-coord" data-t3coord>-6.12217, 106.89259</div>
+        <div class="t3-stagebtns">
+          <button data-stage="bibit">Bibit</button>
+          <button data-stage="muda" class="on">Muda</button>
+          <button data-stage="dewasa">Dewasa</button>
+        </div>
+      </div>
+      <div class="t3-info">
+        <h3 data-t3sp>Trembesi (Samanea saman)</h3>
+        <div class="sub" data-t3id>GLYV-T1000 · dipantau satelit + IoT + petani</div>
+        <div class="t3-meta">
+          <div><div class="k">Umur</div><div class="v" data-t3age>8<small style="font-family:var(--l-mono);font-size:9px;color:var(--muted)"> thn</small></div></div>
+          <div><div class="k">Serapan/thn</div><div class="v g" data-t3co2>34<small style="font-family:var(--l-mono);font-size:9px;color:var(--muted)"> kg</small></div></div>
+          <div><div class="k">NDVI</div><div class="v" style="color:var(--brass)">0.74</div></div>
+        </div>
+        <div class="t3-frac">
+          <div class="ft">Kepemilikan per-fraksi (ERC-3643) <b data-t3frac>1.000 fraksi</b></div>
+          <div class="t3-fracbar"><i class="mine" style="width:22%"></i><i class="sold" style="width:41%"></i></div>
+          <div class="t3-fracleg"><span><b>220</b> fraksi Anda</span><span><b>410</b> pemilik lain</span><span><b>370</b> tersedia</span></div>
+        </div>
+        <div class="t3-onchain"><span class="d"></span> Terverifikasi on-chain · setiap pohon &amp; fraksinya punya jejak dMRV</div>
+        <a class="tmx-btn solid" href="#" data-t3buy style="justify-content:center">Miliki fraksi pohon ini</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VISI: fractionalization + land registration + data trust -->
+  <div style="margin-top:32px">
+    <div class="tmx-card__hd" style="border:0;padding:0 0 4px"><h3 style="font-size:19px">Bukan hanya membeli kredit — memiliki pohonnya.</h3></div>
+    <p class="tmx-note" style="margin:0 0 6px;max-width:80ch">Visi Tree Marketplace: kepemilikan aset hijau dunia-nyata yang bisa dibagi hingga <b>per pohon</b>, ditopang jaringan data yang sulit dimanipulasi. Pratinjau — mekanisme mengikuti desain sistem Glyiv.</p>
+    <div class="tmx-vis">
+      <div class="tmx-vc">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l3 6 6 1-4.5 4 1 6-5.5-3-5.5 3 1-6L3 9l6-1z"/></svg></div>
+        <h4>Fraksi per pohon &amp; per lahan</h4>
+        <p>Sewa <b>atau</b> miliki — bukan hanya per blok lahan, tapi hingga fraksi <b>satu pohon</b> lewat token ter-izin (ERC-3643). Kepemilikan kecil, likuid, dan bisa diperdagangkan di bursa internal.</p>
+        <div class="src"><span>ERC-3643</span><span>T-REX</span><span>fraksional</span></div>
+      </div>
+      <div class="tmx-vc">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg></div>
+        <h4>Pemilik lahan &amp; masyarakat</h4>
+        <p>Pemilik lahan <b>mendaftarkan lahannya</b> ke marketplace dan berbagi hasil dengan Glyiv. Masyarakat sekitar diberdayakan untuk <b>merawat pohon &amp; lahan</b> — pendapatan nyata, bukan hanya satelit dari jauh.</p>
+        <div class="src"><span>bagi hasil</span><span>pemberdayaan lokal</span><span>pendaftaran lahan</span></div>
+      </div>
+      <div class="tmx-vc">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg></div>
+        <h4>Data anti-manipulasi</h4>
+        <p>Semua tercatat <b>on-chain</b> (minim kecurangan). Sistem <b>oracle</b> menjembatani tiga sumber: <b>citra satelit</b>, <b>sensor IoT</b> lapangan, dan <b>pendataan manual petani</b> — saling menyilang untuk klaim serapan yang terpercaya.</p>
+        <div class="src"><span>blockchain</span><span>oracle</span><span>satelit</span><span>IoT</span><span>data petani</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:34px 0 60px">
+    <a class="lbtn lbtn--solid" href="/lab/apps/kebun/">🌱 Coba Kebun Virtual</a>
+    <a class="lbtn lbtn--glass" href="/#demo" style="margin-left:10px">Jadwalkan demo lengkap</a>
+    <a class="lbtn lbtn--glass" href="/lab/tree.html" style="margin-left:10px">← Tentang</a>
+  </div>
+</div>
+
+<div class="tmx-toast" data-toast></div>
+
+<script>
+(function(){
+"use strict";
+/* any aerial/satellite image that fails to load falls back to a local aerial photo */
+document.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG"&&/unsplash\.com/.test(t.src||"")&&!t.dataset.fb){t.dataset.fb="1";t.src="/lab/img/sawit-agri.jpg";}},true);
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var rnd=function(a,b){return a+Math.random()*(b-a)};
+var pick=function(a){return a[Math.floor(Math.random()*a.length)]};
+var fmt=function(n){return Math.round(n).toLocaleString("id-ID")};
+var short=function(){var h="0123456789abcdef",s="0x";for(var i=0;i<8;i++)s+=h[Math.floor(Math.random()*16)];return s+"…"+h[Math.floor(Math.random()*16)]+h[Math.floor(Math.random()*16)]+h[Math.floor(Math.random()*16)]+h[Math.floor(Math.random()*16)]};
+
+var SPECIES=["Mangrove Rhizophora","Trembesi (Samanea saman)","Mahoni","Sengon","Jati","Bakau","Meranti","Beringin"];
+var UA=function(id,w){return "https://images.unsplash.com/photo-"+id+"?auto=format&fit=crop&w="+(w||1000)+"&q=70";};
+/* aerial / satellite top-down imagery only */
+var PHOTOS=[UA("1511497584788-876760111969"),UA("1425913397330-cf8af2ff40a1"),UA("1523712999610-f77fbcfc3843"),UA("1625246333195-78d9c38ad449")];
+var CAPS=[UA("1451187580459-43490279c0fa"),UA("1425913397330-cf8af2ff40a1"),UA("1511497584788-876760111969"),UA("1497436072909-60f360e1d4b1"),UA("1523712999610-f77fbcfc3843")];
+function series(base,g,n){var a=[],v=base;for(var i=0;i<n;i++){v+=g*(0.6+Math.random()*0.8);a.push(+v.toFixed(2));}return a;}
+function makeTree(i,plot){
+  var age=Math.floor(rnd(2,14)),dia=+rnd(8,44).toFixed(1),co2y=+rnd(12,68).toFixed(1);
+  var health=Math.random()<0.82?"baik":"pantau";
+  return {id:"GLYV-T"+String(1000+plot.idx*100+i).slice(-4),species:pick(SPECIES),age:age,dia:dia,height:+rnd(4,22).toFixed(1),
+    co2y:co2y,co2total:+(co2y*age*rnd(.7,1)).toFixed(0),lat:(plot.lat+rnd(-.01,.01)).toFixed(5),lon:(plot.lon+rnd(-.01,.01)).toFixed(5),
+    ndvi:+rnd(.55,.9).toFixed(2),health:health,photo:pick(PHOTOS),x:rnd(8,92),y:rnd(16,88),
+    diaSeries:series(dia*.5,dia*.06,12),co2Series:series(co2y*.4,co2y*.09,12),tx:short(),supplyMine:Math.random()<.4?Math.floor(rnd(20,320)):0};
+}
+var PLOTS=[
+  {idx:0,name:"Hutan Pesisir — Blok A",kind:"Mangrove",lat:-6.12,lon:106.9,ha:24,img:UA("1559825481-12a05cc00344",1400)},
+  {idx:1,name:"Rehabilitasi Dataran Tinggi",kind:"Hutan",lat:-7.3,lon:110.4,ha:63,img:UA("1497436072909-60f360e1d4b1",1400)},
+  {idx:2,name:"Agroforestri Petani — Blok C",kind:"Agroforestri",lat:-8.1,lon:112.6,ha:19,img:UA("1625246333195-78d9c38ad449",1400)},
+  {idx:3,name:"Hutan Kota & RTH",kind:"Urban",lat:-6.2,lon:106.82,ha:7,img:UA("1500534623283-312aade485b7",1400)},
+];
+PLOTS.forEach(function(p){var n=[9,14,8,6][p.idx];p.trees=[];for(var i=0;i<n;i++)p.trees.push(makeTree(i,p));
+  p.co2=+p.trees.reduce(function(s,t){return s+t.co2y},0).toFixed(0);p.sat=pick(["3 jam lalu","6 jam lalu","hari ini 04:12","kemarin 22:40"]);});
+function tokenOf(t){var supply=1000,sold=Math.floor(rnd(400,850));return {supply:supply,sold:sold,mine:t.supplyMine,price:+rnd(42,180).toFixed(1)};}
+function makeBook(mid){var asks=[],bids=[];for(var i=1;i<=6;i++)asks.push({p:+(mid+i*rnd(.2,.9)).toFixed(1),a:Math.floor(rnd(10,240))});
+  for(var j=1;j<=6;j++)bids.push({p:+(mid-j*rnd(.2,.9)).toFixed(1),a:Math.floor(rnd(10,240))});return {asks:asks.reverse(),bids:bids};}
+function makeHist(mid){var a=[],v=mid*rnd(.7,.85);for(var i=0;i<40;i++){v+=v*rnd(-.03,.045);a.push(+v.toFixed(2));}a.push(mid);return a;}
+
+var state={plot:PLOTS[0],tree:PLOTS[0].trees[0],connected:false,bal:0,side:"buy"};
+state.token=tokenOf(state.tree);state.book=makeBook(state.token.price);state.hist=makeHist(state.token.price);
+var ownMode="own";
+
+var toastT;function toast(m){var t=$("[data-toast]");t.textContent=m;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(function(){t.classList.remove("show")},2400);}
+
+function renderRibbon(){
+  var trees=0,co2=0,val=0,mine=0;
+  PLOTS.forEach(function(p){trees+=p.trees.length;co2+=p.co2;p.trees.forEach(function(t){val+=rnd(80,180)*t.supplyMine;mine+=t.supplyMine;});});
+  $("[data-rtrees]").textContent=fmt(trees);$("[data-rco2]").textContent=(co2/1000).toFixed(1);
+  $("[data-rval]").textContent="◈ "+fmt(val/1000)+"rb";$("[data-rmine]").textContent=fmt(mine);
+}
+function renderPlots(){
+  $("[data-plotbar]").innerHTML=PLOTS.map(function(p){return '<button class="tmx-plot'+(p===state.plot?' on':'')+'" data-plot="'+p.idx+'"><img src="'+p.img+'" alt=""><div class="tmx-plot__b"><b>'+p.name+'</b><small>'+p.kind+' · '+p.ha+' ha · '+p.trees.length+' pohon</small></div></button>';}).join("");
+  $$("[data-plot]").forEach(function(b){b.addEventListener("click",function(){selectPlot(PLOTS[+b.dataset.plot]);});});
+  $("[data-plotname]").textContent=state.plot.kind;
+  $("[data-mapimg]").src=state.plot.img;
+  $("[data-plottrees]").textContent=state.plot.trees.length;
+  $("[data-plotco2]").textContent=state.plot.co2+" tCO₂e";
+  $("[data-plotsat]").textContent=state.plot.sat;
+  renderPins();
+}
+function renderPins(){
+  $("[data-pins]").innerHTML=state.plot.trees.map(function(t,i){var cls=t===state.tree?"on":t.health;return '<button class="tmx-pin '+cls+'" data-pin="'+i+'" style="left:'+t.x+'%;top:'+t.y+'%" aria-label="'+t.id+'"></button>';}).join("");
+  $$("[data-pin]").forEach(function(b){b.addEventListener("click",function(){selectTree(state.plot.trees[+b.dataset.pin]);});});
+}
+function selectPlot(p){state.plot=p;state.tree=p.trees[0];refreshTree();renderPlots();}
+function selectTree(t){state.tree=t;refreshTree();renderPins();setTab("pantau");}
+function refreshTree(){state.token=tokenOf(state.tree);state.book=makeBook(state.token.price);state.hist=makeHist(state.token.price);renderDetail();renderOwn();renderEx();}
+
+function renderDetail(){
+  var t=state.tree;
+  var caps=CAPS.map(function(im,i){return '<div class="tmx-cap"><img src="'+im+'" alt=""><span>'+["Hari ini","−3 hari","−7 hari","−14 hari","−30 hari"][i]+'</span></div>';}).join("");
+  $("[data-detail]").innerHTML=
+   '<div class="tmx-tdhead"><img class="tmx-tdphoto" src="'+t.photo+'" alt=""><div>'+
+     '<h2>'+t.species+'</h2><div class="sub">'+t.id+' · '+t.lat+', '+t.lon+'</div>'+
+     '<span class="tmx-health '+t.health+'">'+(t.health==="baik"?"● Sehat":"● Perlu pantau")+'</span></div></div>'+
+   '<div class="tmx-meta">'+
+     '<div><div class="k">Umur</div><div class="v">'+t.age+'<small> thn</small></div></div>'+
+     '<div><div class="k">Diameter</div><div class="v">'+t.dia+'<small> cm</small></div></div>'+
+     '<div><div class="k">Tinggi</div><div class="v">'+t.height+'<small> m</small></div></div>'+
+     '<div><div class="k">Serapan / thn</div><div class="v g">'+t.co2y+'<small> kg</small></div></div>'+
+     '<div><div class="k">Total terserap</div><div class="v g">'+fmt(t.co2total)+'<small> kg</small></div></div>'+
+     '<div><div class="k">Indeks NDVI</div><div class="v gold">'+t.ndvi+'</div></div>'+
+   '</div>'+
+   '<div class="tmx-growth"><div class="gt">Pertumbuhan · 12 bln<span class="tmx-seg"><button data-g="dia" class="on">Diameter</button><button data-g="co2">CO₂</button></span></div><canvas class="tmx-gchart" data-gchart></canvas></div>'+
+   '<div class="tmx-caps"><h4>Citra satelit terbaru</h4><div class="tmx-capsrow">'+caps+'</div></div>'+
+   '<div class="tmx-onchain"><span class="ic">🔗</span><div><b>Terverifikasi on-chain</b><small>Aset ter-tokenisasi ERC-3643 · bukti dMRV '+t.tx+' · Glyiv Chain (testnet)</small></div></div>';
+  $$("[data-g]").forEach(function(b){b.addEventListener("click",function(){$$("[data-g]").forEach(function(x){x.classList.remove("on")});b.classList.add("on");drawGrowth(b.dataset.g);});});
+  drawGrowth("dia");
+}
+function drawGrowth(which){
+  var cv=$("[data-gchart]");if(!cv)return;var ctx=cv.getContext("2d"),dpr=Math.min(devicePixelRatio||1,2);
+  var w=cv.clientWidth,h=cv.clientHeight;cv.width=w*dpr;cv.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+  var data=which==="dia"?state.tree.diaSeries:state.tree.co2Series,max=Math.max.apply(null,data),min=Math.min.apply(null,data),pad=10;
+  var col=which==="dia"?"#1F7A6B":"#B0894F";
+  ctx.strokeStyle="rgba(15,46,34,.08)";ctx.lineWidth=1;for(var gy=1;gy<4;gy++){var yy=pad+(h-2*pad)*gy/4;ctx.beginPath();ctx.moveTo(pad,yy);ctx.lineTo(w-pad,yy);ctx.stroke();}
+  ctx.beginPath();data.forEach(function(v,i){var x=pad+(w-2*pad)*i/(data.length-1),y=h-pad-(h-2*pad)*(v-min)/(max-min||1);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+  ctx.strokeStyle=col;ctx.lineWidth=2.2;ctx.stroke();
+  ctx.lineTo(w-pad,h-pad);ctx.lineTo(pad,h-pad);ctx.closePath();
+  var fg=ctx.createLinearGradient(0,0,0,h);fg.addColorStop(0,which==="dia"?"rgba(31,122,107,.16)":"rgba(176,137,79,.16)");fg.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=fg;ctx.fill();
+  var lx=w-pad,ly=h-pad-(h-2*pad)*(data[data.length-1]-min)/(max-min||1);ctx.beginPath();ctx.arc(lx,ly,3.5,0,7);ctx.fillStyle=col;ctx.fill();ctx.strokeStyle="#fff";ctx.lineWidth=2;ctx.stroke();
+}
+
+function renderOwn(){
+  var t=state.tree,tk=state.token;
+  var minePct=tk.mine/tk.supply*100,soldPct=(tk.sold-tk.mine)/tk.supply*100,openPct=100-minePct-soldPct;
+  var holders=[{n:"Anda",s:"dompet Anda",p:minePct,c:"#1F7A6B"},{n:"PT Hijau Nusantara",s:"korporat",p:+rnd(14,26).toFixed(1),c:"#B0894F"},{n:"Yayasan Bumi Lestari",s:"institusi",p:+rnd(8,16).toFixed(1),c:"#2f6ea0"},{n:"142 pemilik ritel",s:"komunitas",p:+rnd(10,22).toFixed(1),c:"#7a5db0"}];
+  $("[data-own]").innerHTML=
+   '<div class="tmx-ownhero"><div class="toprow"><span class="tmx-token">◈ '+t.id+'-FRAC</span><span style="font-family:var(--l-mono);font-size:10px;color:var(--muted)">ERC-3643 · '+fmt(tk.supply)+' fraksi</span><span style="margin-left:auto;font-family:var(--l-serif);font-weight:600;color:var(--pine)">◈ '+tk.price.toFixed(1)+'<span style="font-family:var(--l-mono);font-size:9px;color:var(--muted);font-weight:400"> /fraksi</span></span></div>'+
+     '<div class="tmx-supply"><i class="mine" style="width:'+minePct+'%"></i><i class="sold" style="width:'+soldPct+'%"></i><i class="open" style="width:'+openPct+'%"></i></div>'+
+     '<div class="tmx-supplyleg"><span><b>'+tk.mine+'</b> fraksi Anda</span><span><b>'+(tk.sold-tk.mine)+'</b> dimiliki lain</span><span><b>'+(tk.supply-tk.sold)+'</b> tersedia</span></div></div>'+
+   '<div class="tmx-mode"><button class="'+(ownMode==="own"?"on":"")+'" data-mode="own">Beli Kepemilikan</button><button class="'+(ownMode==="lease"?"on":"")+'" data-mode="lease">Sewa 1 Tahun</button></div>'+
+   '<div class="tmx-buyrow"><div class="tmx-fld"><label>Jumlah fraksi</label><input type="number" data-qty min="1" value="25"></div><button class="tmx-btn solid" data-buy style="height:46px">'+(ownMode==="own"?"Beli Fraksi":"Sewa Fraksi")+'</button></div>'+
+   '<div class="tmx-est"><div><div class="k">'+(ownMode==="own"?"Total bayar":"Sewa / tahun")+'</div><div class="v" data-cost>—</div></div><div><div class="k">Estimasi hasil karbon</div><div class="v g" data-yield>—</div></div></div>'+
+   '<div style="font-family:var(--l-mono);font-size:9.5px;color:var(--muted);margin:-4px 0 14px">'+(ownMode==="own"?"Kepemilikan fraksional permanen atas pohon nyata; bisa diperdagangkan di Bursa.":"Hak guna 1 tahun atas serapan karbon pohon; bisa diperpanjang otomatis.")+'</div>'+
+   '<div class="tmx-caphd">Tabel kepemilikan (cap table)</div>'+holders.map(function(hd){return '<div class="tmx-cr"><div class="av" style="background:'+hd.c+'">'+hd.n[0]+'</div><div class="nm">'+hd.n+'<small>'+hd.s+'</small></div><div class="pct">'+hd.p.toFixed(1)+'%</div></div>';}).join("");
+  $$("[data-mode]").forEach(function(b){b.addEventListener("click",function(){ownMode=b.dataset.mode;renderOwn();});});
+  var qty=$("[data-qty]");function calc(){var q=Math.max(0,parseInt(qty.value,10)||0),unit=tk.price*(ownMode==="own"?1:0.18);$("[data-cost]").textContent="◈ "+fmt(unit*q);$("[data-yield]").textContent="+"+(state.tree.co2y*q/tk.supply).toFixed(2)+" kg/thn";}
+  qty.addEventListener("input",calc);calc();
+  $("[data-buy]").addEventListener("click",function(){if(!state.connected){toast("Hubungkan wallet dulu untuk transaksi");return;}var q=Math.max(1,parseInt(qty.value,10)||1);if(ownMode==="own"){tk.mine+=q;tk.sold=Math.min(tk.supply,tk.sold+q);}pushFeed("chain","Kepemilikan "+(ownMode==="own"?"dibeli":"disewa"),q+" fraksi "+state.tree.id+" · tx "+short());renderOwn();renderRibbon();toast((ownMode==="own"?"Beli":"Sewa")+" "+q+" fraksi berhasil (simulasi)");});
+}
+
+function renderEx(){
+  var last=state.hist[state.hist.length-1],prev=state.hist[state.hist.length-2],chg=(last-prev)/prev*100;
+  $("[data-ex]").innerHTML=
+   '<div class="tmx-pxhead"><span class="px">◈ '+last.toFixed(1)+'</span><span class="tmx-chg '+(chg>=0?"up":"down")+'">'+(chg>=0?"▲ ":"▼ ")+Math.abs(chg).toFixed(2)+'%</span><span style="margin-left:auto;font-family:var(--l-mono);font-size:10px;color:var(--muted)">'+state.tree.id+'-FRAC / ◈</span></div>'+
+   '<canvas class="tmx-pxchart" data-pxchart></canvas>'+
+   '<div class="tmx-exgrid"><div><div class="tmx-book"><div class="h">Order book</div>'+
+     state.book.asks.map(function(o){return '<div class="tmx-brow ask"><span class="p">'+o.p.toFixed(1)+'</span><span class="a">'+o.a+'</span><span class="bar" style="width:'+Math.min(100,o.a/2.4)+'%"></span></div>';}).join("")+
+     '<div class="tmx-spread">— spread '+(state.book.asks[state.book.asks.length-1].p-state.book.bids[0].p).toFixed(1)+' —</div>'+
+     state.book.bids.map(function(o){return '<div class="tmx-brow bid"><span class="p">'+o.p.toFixed(1)+'</span><span class="a">'+o.a+'</span><span class="bar" style="width:'+Math.min(100,o.a/2.4)+'%"></span></div>';}).join("")+'</div></div>'+
+     '<div class="tmx-ticket"><div class="tmx-side"><button class="buy '+(state.side==="buy"?"on":"")+'" data-side="buy">Beli</button><button class="sell '+(state.side==="sell"?"on":"")+'" data-side="sell">Jual</button></div>'+
+       '<div class="tmx-fld" style="margin-bottom:9px"><label>Harga (◈)</label><input data-exprice value="'+last.toFixed(1)+'"></div>'+
+       '<div class="tmx-fld" style="margin-bottom:11px"><label>Jumlah fraksi</label><input data-examt type="number" value="20"></div>'+
+       '<button class="tmx-btn '+(state.side==="buy"?"solid":"gold")+'" data-trade style="width:100%;justify-content:center">'+(state.side==="buy"?"Beli":"Jual")+' fraksi</button>'+
+       '<div style="font-family:var(--l-mono);font-size:9.5px;color:var(--muted);margin-top:9px" data-extotal></div></div></div>';
+  $$("[data-side]").forEach(function(b){b.addEventListener("click",function(){state.side=b.dataset.side;renderEx();});});
+  function exCalc(){var p=parseFloat($("[data-exprice]").value)||0,a=parseInt($("[data-examt]").value,10)||0;$("[data-extotal]").textContent="Total ≈ ◈ "+fmt(p*a);}
+  $("[data-exprice]").addEventListener("input",exCalc);$("[data-examt]").addEventListener("input",exCalc);exCalc();
+  $("[data-trade]").addEventListener("click",function(){if(!state.connected){toast("Hubungkan wallet dulu untuk transaksi");return;}var a=parseInt($("[data-examt]").value,10)||0;pushFeed("chain",(state.side==="buy"?"Order beli":"Order jual")+" tereksekusi",a+" fraksi "+state.tree.id+" @ ◈"+$("[data-exprice]").value+" · tx "+short());toast("Order "+(state.side==="buy"?"beli":"jual")+" "+a+" fraksi terkirim (simulasi)");});
+  drawPx();
+}
+function drawPx(){
+  var cv=$("[data-pxchart]");if(!cv)return;var ctx=cv.getContext("2d"),dpr=Math.min(devicePixelRatio||1,2);
+  var w=cv.clientWidth,h=cv.clientHeight;cv.width=w*dpr;cv.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+  var d=state.hist,max=Math.max.apply(null,d),min=Math.min.apply(null,d),pad=8,up=d[d.length-1]>=d[0],col=up?"#1F7A6B":"#c98b6b";
+  ctx.strokeStyle="rgba(15,46,34,.07)";ctx.lineWidth=1;for(var gy=1;gy<4;gy++){var yy=pad+(h-2*pad)*gy/4;ctx.beginPath();ctx.moveTo(pad,yy);ctx.lineTo(w-pad,yy);ctx.stroke();}
+  ctx.beginPath();d.forEach(function(v,i){var x=pad+(w-2*pad)*i/(d.length-1),y=h-pad-(h-2*pad)*(v-min)/(max-min||1);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+  ctx.strokeStyle=col;ctx.lineWidth=2.2;ctx.stroke();
+  ctx.lineTo(w-pad,h-pad);ctx.lineTo(pad,h-pad);ctx.closePath();var fg=ctx.createLinearGradient(0,0,0,h);fg.addColorStop(0,up?"rgba(31,122,107,.16)":"rgba(201,139,107,.16)");fg.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=fg;ctx.fill();
+}
+
+function setTab(name){$$(".tmx-tab").forEach(function(t){t.classList.toggle("on",t.dataset.tab===name);});$$(".tmx-pane").forEach(function(p){p.classList.toggle("on",p.dataset.pane===name);});if(name==="pantau"){var g=$(".tmx-seg .on");drawGrowth(g?g.dataset.g:"dia");}if(name==="bursa")drawPx();}
+$$(".tmx-tab").forEach(function(t){t.addEventListener("click",function(){setTab(t.dataset.tab);});});
+
+$("[data-connect]").addEventListener("click",function(){
+  state.connected=!state.connected;
+  if(state.connected){state.bal=+rnd(4000,12000).toFixed(0);this.textContent="0x7a…Gl9 ✓";pushFeed("chain","Wallet terhubung","Glyiv Wallet · saldo ◈ "+fmt(state.bal));toast("Wallet terhubung (simulasi)");}
+  else{state.bal=0;this.textContent="Hubungkan Wallet";}
+  $("[data-wbal]").textContent="◈ "+fmt(state.bal);
+});
+
+var feed=[];
+function pushFeed(kind,title,sub){feed.unshift({kind:kind,title:title,sub:sub});if(feed.length>7)feed.pop();renderFeed();}
+function renderFeed(){$("[data-feed]").innerHTML=feed.map(function(f){var b=f.kind==="ai"?'<span class="tmx-badge ai">Agen AI</span>':f.kind==="sat"?'<span class="tmx-badge sat">Satelit</span>':'<span class="tmx-badge chain">On-chain</span>';return '<div class="tmx-line">'+b+'<div class="tmx-tx"><b>'+f.title+'</b><small>'+f.sub+'</small></div></div>';}).join("");}
+var AI=[["ai","Agen Glyiv menandai anomali","Laju pertumbuhan Blok A −6% vs baseline — kemungkinan stres air; tim lapangan dinotifikasi."],
+  ["sat","Citra satelit baru masuk","Sentinel-2 · tutupan kanopi +1,2% · NDVI rata-rata 0,79."],
+  ["ai","Rekomendasi agen","Fraksi GLYV-T1042 undervalued 8% vs serapan aktual — peluang akuisisi."],
+  ["chain","Oracle memperbarui data","Serapan kumulatif dikirim ke Glyiv Chain · blok #"+Math.floor(rnd(84000,99000))],
+  ["ai","Agen menghitung ulang kredit","3 pohon lulus verifikasi dMRV → 1,8 tCO₂e siap diterbitkan."],
+  ["sat","Pemindaian terjadwal","Pass berikutnya ~4 jam · resolusi 10 m · seluruh 4 blok."]];
+var ai=0;function tickAI(){var x=AI[ai%AI.length];ai++;pushFeed(x[0],x[1],x[2]);}
+
+renderRibbon();renderPlots();refreshTree();tickAI();tickAI();
+setInterval(tickAI,5200);
+setInterval(function(){var last=state.hist[state.hist.length-1];state.hist.push(+(last+last*rnd(-.02,.025)).toFixed(2));if(state.hist.length>60)state.hist.shift();if($(".tmx-pane[data-pane=bursa]").classList.contains("on"))renderEx();},3600);
+window.addEventListener("resize",function(){var on=$(".tmx-pane.on");if(!on)return;if(on.dataset.pane==="pantau")drawGrowth("dia");if(on.dataset.pane==="bursa")drawPx();});
+})();
+</script>
+<script type="module" src="/lab/apps/tree-marketplace/tree3d.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+</body>
+</html>

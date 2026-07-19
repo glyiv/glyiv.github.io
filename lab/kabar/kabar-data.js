@@ -11,7 +11,7 @@ window.KABAR = [
     author: "Redaksi Glyiv",
     role: "Ditinjau terhadap dokumen EU DG TAXUD",
     read: 6,
-    views: 4820, likes: 312,
+    views: 0, likes: 0,
     orb: "Tanya soal CBAM",
     blocks: [
       { t: "lead", x: "Selama bertahun-tahun, keunggulan biaya manufaktur Indonesia sebagian bertumpu pada energi murah berbasis batu bara. Mulai 2026, Uni Eropa mulai menagih selisih karbon itu di perbatasan lewat CBAM — dan aturan mainnya berubah untuk siapa pun yang mengekspor ke sana." },
@@ -38,7 +38,7 @@ window.KABAR = [
     author: "Redaksi Glyiv",
     role: "Ditinjau terhadap standar VCMI/ICVCM & ERC-3643",
     read: 7,
-    views: 6140, likes: 587,
+    views: 0, likes: 0,
     orb: "Tanya soal Tree Marketplace",
     blocks: [
       { t: "lead", x: "Masalah pasar offset bukan pada idenya — menanam dan menjaga pohon memang menyerap karbon. Masalahnya pada bukti. Terlalu banyak kredit dijual tanpa jaminan bahwa pohonnya nyata, hidup, dan tak dihitung dua kali." },
@@ -64,7 +64,7 @@ window.KABAR = [
     author: "Redaksi Glyiv",
     role: "Ditinjau terhadap praktik industri 2026",
     read: 5,
-    views: 3910, likes: 274,
+    views: 0, likes: 0,
     orb: "Tanya soal agen AI Glyiv",
     blocks: [
       { t: "lead", x: "Menghitung karbon itu perlu, tapi tidak cukup. Sebuah laporan emisi yang rapi tidak dengan sendirinya menghemat satu rupiah pun. Yang mengubah keadaan adalah ketika data karbon dibaca berdampingan dengan data biaya — dan sistem memberi tahu Anda persis di mana uang bocor." },
