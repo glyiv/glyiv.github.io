@@ -45,8 +45,11 @@
   css.textContent =
     "#gly-fab{position:fixed;right:20px;bottom:20px;z-index:120;width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(145deg,#1f7a6b,#0f2e22);box-shadow:0 12px 30px -8px rgba(15,46,34,.5);display:grid;place-items:center;transition:transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}" +
     "#gly-fab:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 18px 40px -10px rgba(15,46,34,.6)}" +
-    "#gly-fab svg{width:30px;height:30px}" +
-    "#gly-fab .pg{position:absolute;inset:-4px;border-radius:50%;border:2px solid #33d188;opacity:.5;animation:glyping 2.8s cubic-bezier(.22,1,.36,1) infinite}" +
+    "#gly-fab canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;z-index:1}" +
+    "#gly-fab .gly-fallback{position:relative;z-index:1;display:grid;place-items:center}" +
+    "#gly-fab .gly-fallback svg{width:30px;height:30px}" +
+    "body.webgl-on #gly-fab .gly-fallback{display:none}" +
+    "#gly-fab .pg{position:absolute;inset:-4px;border-radius:50%;border:2px solid #33d188;opacity:.5;animation:glyping 2.8s cubic-bezier(.22,1,.36,1) infinite;z-index:2}" +
     "@keyframes glyping{0%{transform:scale(.85);opacity:.5}70%,100%{transform:scale(1.45);opacity:0}}" +
     "#gly-fab .tip{position:absolute;right:70px;bottom:12px;white-space:nowrap;background:#0F2E22;color:#fff;font:600 12px 'Hanken Grotesk',system-ui,sans-serif;padding:7px 12px;border-radius:10px;opacity:0;transform:translateX(6px);transition:.2s;pointer-events:none}" +
     "#gly-fab:hover .tip{opacity:1;transform:none}" +
@@ -76,12 +79,31 @@
 
   var LEAF = '<svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#eafff4" stroke-width="1.5" stroke-linecap="round"/></svg>';
 
+  // Load the shared-context 3D bot (scenes.js auto-inits it on #botLauncherCanvas via boot()).
+  // scenes.js draws ALL 3D through ONE WebGL context, so this adds no extra GPU context.
+  function loadBot3D() {
+    try {
+      if (!document.querySelector('script[type="importmap"]')) {
+        var im = document.createElement("script"); im.type = "importmap";
+        im.textContent = '{"imports":{"three":"/assets/vendor/three.module.js"}}';
+        document.head.appendChild(im);
+      }
+      if (!document.getElementById("glyiv-scenes-js")) {
+        var s = document.createElement("script"); s.type = "module"; s.src = "/assets/js/scenes.js"; s.id = "glyiv-scenes-js";
+        document.head.appendChild(s);
+      }
+    } catch (e) {}
+  }
+
   function mount() {
     if (!document.body) return setTimeout(mount, 30);
     var fab = document.createElement("button");
     fab.id = "gly-fab"; fab.setAttribute("aria-label", "Tanya Gly");
-    fab.innerHTML = '<span class="pg"></span>' + LEAF + '<span class="tip">Tanya Gly</span>';
+    // 3D bot canvas (same model as the homepage, via scenes.js shared-context renderer);
+    // the leaf is a CSS fallback shown only when WebGL is unavailable (no body.webgl-on).
+    fab.innerHTML = '<span class="pg"></span><canvas id="botLauncherCanvas"></canvas><span class="gly-fallback">' + LEAF + '</span><span class="tip">Tanya Gly</span>';
     document.body.appendChild(fab);
+    loadBot3D();
 
     var panel = document.createElement("div");
     panel.id = "gly-panel"; panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "Chat dengan Gly");

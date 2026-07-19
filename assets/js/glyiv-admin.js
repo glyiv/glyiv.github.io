@@ -18,6 +18,8 @@
     appId: "1:429607082737:web:4890b9fab47f6b242aa750",
   };
   var isLanding = /\/lab\/landing\//.test(location.pathname);
+  // universal admin login trigger: add #admin (or ?admin) to ANY url to open the sign-in.
+  var forceLogin = /[?#&]admin\b/i.test(location.href);
   var authRef = null, providerRef = null, signInFn = null, signOutFn = null, resolved = false;
 
   function setAdmin(on) { var r = document.documentElement; if (on) r.setAttribute("data-admin", "1"); else r.removeAttribute("data-admin"); }
@@ -44,24 +46,30 @@
 
   var gate = null;
   function ensureGate() { if (!gate && document.body) { gate = document.createElement("div"); gate.id = "glyiv-adgate"; document.body.appendChild(gate); } return gate; }
-  function showGate(state) { // 'checking' | 'login' | 'denied'
-    if (!ensureGate()) { return setTimeout(function () { showGate(state); }, 30); }
-    document.documentElement.style.overflow = "hidden";
+  function showGate(state, dismissible) { // 'checking' | 'login' | 'denied'
+    if (!ensureGate()) { return setTimeout(function () { showGate(state, dismissible); }, 30); }
+    if (!dismissible) document.documentElement.style.overflow = "hidden";
     if (state === "checking") {
       gate.innerHTML = '<div class="ag-card"><div class="ag-badge">GLYIV · ADMIN</div><h2>Memeriksa akses…</h2><div class="ag-spin"></div></div>';
       return;
     }
     var msg = state === "denied"
-      ? "<h2>Akses khusus admin</h2><p>Akun ini bukan admin Glyiv. Masuk dengan akun admin untuk membuka direktori Landing.</p>"
-      : "<h2>Direktori Landing</h2><p>Halaman ini khusus admin Glyiv. Masuk dengan Google untuk melanjutkan.</p>";
+      ? "<h2>Akses khusus admin</h2><p>Akun ini bukan admin Glyiv. Masuk dengan akun admin untuk membuka direktori Landing &amp; panel admin.</p>"
+      : (dismissible
+        ? "<h2>Masuk sebagai admin</h2><p>Masuk dengan Google (akun admin Glyiv) untuk membuka direktori Landing di navbar.</p>"
+        : "<h2>Direktori Landing</h2><p>Halaman ini khusus admin Glyiv. Masuk dengan Google untuk melanjutkan.</p>");
     gate.innerHTML = '<div class="ag-card"><div class="ag-badge">GLYIV · ADMIN</div>' + msg +
       '<button class="ag-google" id="agLogin">' + GBTN + 'Lanjutkan dengan Google</button>' +
       (state === "denied" ? '<button class="ag-alt" id="agLogout">Keluar &amp; ganti akun</button>' : "") +
-      '<a class="ag-alt" href="/" style="display:block">&larr; Kembali ke beranda</a></div>';
+      (dismissible ? '<button class="ag-alt" id="agClose" style="display:block">Nanti saja</button>'
+                   : '<a class="ag-alt" href="/" style="display:block">&larr; Kembali ke beranda</a>') + '</div>';
     document.getElementById("agLogin").onclick = doLogin;
     var lo = document.getElementById("agLogout"); if (lo) lo.onclick = doLogout;
+    var cl = document.getElementById("agClose"); if (cl) cl.onclick = closeGate;
+    if (dismissible) gate.onclick = function (e) { if (e.target === gate) closeGate(); };
   }
   function hideGate() { if (gate) { gate.remove(); gate = null; } document.documentElement.style.overflow = ""; }
+  function closeGate() { hideGate(); if (/^#admin/i.test(location.hash)) { try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {} } }
 
   function doLogin() { if (signInFn && authRef && providerRef) { signInFn(authRef, providerRef).catch(function (e) { console.warn("admin login:", e && e.message); }); } }
   function doLogout() { if (signOutFn && authRef) { signOutFn(authRef); } }
@@ -82,7 +90,9 @@
         resolved = true;
         var admin = !!(user && user.email === ADMIN);
         setAdmin(admin);
-        if (isLanding) { if (admin) hideGate(); else showGate(user ? "denied" : "login"); }
+        if (admin) hideGate();
+        else if (isLanding) showGate(user ? "denied" : "login", false);
+        else if (forceLogin) showGate(user ? "denied" : "login", true);
       });
     } catch (e) {
       if (isLanding) showGate("login"); // CDN blocked: still offer login (will retry when online)
