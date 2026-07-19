@@ -41,4 +41,17 @@
     var drop = a.closest && a.closest(".ldrop");
     if (drop) { var btn = drop.querySelector(".ldrop__btn"); if (btn) btn.classList.add("is-active"); }
   });
+
+  /* load the admin gate site-wide (reveals .lnav__admin items + gates /lab/landing/) */
+  if (!document.getElementById("glyiv-admin-js")) {
+    var as = document.createElement("script");
+    as.id = "glyiv-admin-js"; as.src = "/assets/js/glyiv-admin.js"; as.defer = true;
+    document.head.appendChild(as);
+  }
+  /* load the context-aware Gly assistant (self-skips pages that already have one) */
+  if (!document.getElementById("glyiv-gly-js")) {
+    var gs = document.createElement("script");
+    gs.id = "glyiv-gly-js"; gs.src = "/assets/js/glyiv-gly.js"; gs.defer = true;
+    document.head.appendChild(gs);
+  }
 })();

@@ -58,6 +58,10 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .llead b{color:var(--ink);font-weight:600}
 .lserif-accent{font-style:italic;color:var(--teal)}
 .lemph{color:var(--teal);font-style:normal}
+/* On dark image heroes the teal accent is nearly invisible against foliage/photos.
+   Brighten it to mint over the dark hero scrim (keeps teal on light sections). */
+.vhero .lserif-accent,.ind-hero .lserif-accent,.imgband .lserif-accent,
+.vhero .lemph,.ind-hero .lemph,.imgband .lemph{color:#8affc1}
 
 .lsec{position:relative;z-index:1;padding:clamp(60px,9vh,116px) 0;background:var(--white)}
 .lsec.tight{padding:clamp(44px,6vh,80px) 0}

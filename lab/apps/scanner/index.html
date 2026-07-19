@@ -15,7 +15,11 @@
 .sc-cam{background:linear-gradient(160deg,#0c261c,#081a12);border-radius:18px;padding:18px;position:relative;overflow:hidden}
 .sc-view{height:210px;border-radius:14px;background:#06140d;border:1px solid rgba(255,255,255,.08);display:grid;place-items:center;position:relative;overflow:hidden}
 .sc-view .item{font-size:88px;transition:.3s var(--ease)}
-.sc-view .scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#33d188,transparent);box-shadow:0 0 12px #33d188;top:0;opacity:0}
+.sc-view video,.sc-view canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+.sc-view.live video{display:block}.sc-view.live .item{display:none}
+.sc-view.shot canvas{display:block}.sc-view.shot video,.sc-view.shot .item{display:none}
+.sc-camctl{display:flex;gap:8px;margin-top:12px}.sc-camctl .ga-btn{flex:1;margin-top:0}
+.sc-view .scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#33d188,transparent);box-shadow:0 0 12px #33d188;top:0;opacity:0;z-index:3}
 .sc-cam.scan .scanline{animation:scScan 1.1s ease-in-out}
 @keyframes scScan{0%{top:6%;opacity:1}100%{top:94%;opacity:0}}
 .sc-corner{position:absolute;width:26px;height:26px;border:2px solid rgba(138,255,193,.6)}
@@ -65,7 +69,7 @@
   <div class="ga-card pad" style="margin-top:18px">
     <div class="sc-login">
       <button class="sc-gbtn" data-login><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-1.9 3.2-4.8 3.2-7.8z"/><path fill="#34A853" d="M12 23c2.9 0 5.4-1 7.2-2.6l-3.6-2.7c-1 .7-2.3 1.1-3.6 1.1-2.8 0-5.1-1.9-6-4.4H2.3v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M6 14.4a6.6 6.6 0 0 1 0-4.2V7.4H2.3a11 11 0 0 0 0 9.8L6 14.4z"/><path fill="#EA4335" d="M12 5.5c1.6 0 3 .5 4.1 1.6l3.1-3.1A11 11 0 0 0 2.3 7.4L6 10.2C6.9 7.7 9.2 5.5 12 5.5z"/></svg>Masuk dengan Google</button>
-      <a class="sc-gbtn" href="#" data-apk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg>Unduh APK</a>
+      <a class="sc-gbtn" href="#" data-apk><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 18h.01M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/></svg>APK Android &middot; segera</a>
       <span style="font-family:var(--l-mono);font-size:10px;color:var(--muted)" data-userinfo>Masuk untuk menyimpan kredit &amp; riwayat scan.</span>
     </div>
   </div>
@@ -77,12 +81,16 @@
       <div class="ga-card__hd"><h3>Scan / Cari Item</h3><span class="tag">CV + agen AI</span></div>
       <div class="ga-card__b">
         <div class="sc-cam" data-cam>
-          <div class="sc-view"><span class="sc-corner tl"></span><span class="sc-corner tr"></span><span class="sc-corner bl"></span><span class="sc-corner br"></span><span class="item" data-camitem>📷</span><div class="scanline"></div></div>
-          <div class="sc-status" data-status>Pilih contoh item lalu tekan Scan — atau ketik nama/harga.</div>
+          <div class="sc-view"><span class="sc-corner tl"></span><span class="sc-corner tr"></span><span class="sc-corner bl"></span><span class="sc-corner br"></span><span class="item" data-camitem>📷</span><video data-camvid autoplay playsinline muted></video><canvas data-camcanvas></canvas><div class="scanline"></div></div>
+          <div class="sc-status" data-status>Aktifkan kamera untuk scan langsung — atau pilih contoh item, atau ketik nama/harga.</div>
         </div>
-        <div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px">Contoh item (simulasi kamera)</div>
+        <div class="sc-camctl">
+          <button class="ga-btn teal" data-camstart>📷 Aktifkan kamera</button>
+          <button class="ga-btn teal" data-scan>📸 Scan item</button>
+        </div>
+        <p style="font-family:var(--l-mono);font-size:9.5px;color:var(--muted);line-height:1.5;margin:10px 0 4px">Kamera nyata di browser — foto tak diunggah, diproses di perangkat. Pengenalan objek otomatis (CV) ada di roadmap; untuk pratinjau, konfirmasi item dari contoh di bawah.</p>
+        <div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:8px 0 6px">Pilih / konfirmasi item</div>
         <div class="sc-samples" data-samples></div>
-        <button class="ga-btn teal" data-scan style="width:100%;margin-top:12px">📸 Scan item</button>
         <div style="display:flex;gap:8px;align-items:flex-end;margin-top:14px">
           <div class="ga-fld" style="flex:1"><label>…atau ketik nama produk</label><input data-name placeholder="mis. botol air, kopi, kaos"></div>
           <div class="ga-fld" style="width:120px"><label>harga (opsional)</label><input data-price type="number" placeholder="Rp"></div>
@@ -183,16 +191,31 @@ Rentang (pola ecoinvent pedigree): [EF/GSD^1.645 , EF×GSD^1.645]</pre>
     if(it.cat==="Fashion")return "Rawat & pakai lebih lama; serat daur ulang memangkas jejak produksi.";
     return "Pilih kemasan minim & produk lokal untuk memangkas transport.";
   }
-  var busy=false;
+  var busy=false, stream=null, camLive=false;
+  var vid=$("[data-camvid]"), canvas=$("[data-camcanvas]"), view=$(".sc-view");
+  function stopCam(){ if(stream){stream.getTracks().forEach(function(t){t.stop();});stream=null;} camLive=false; view.classList.remove("live","shot"); $("[data-camstart]").textContent="📷 Aktifkan kamera"; }
+  $("[data-camstart]").addEventListener("click",function(){
+    var btn=this;
+    if(camLive){stopCam();$("[data-status]").textContent="Kamera dimatikan.";return;}
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){GA.toast("Browser ini tak mendukung kamera — pakai contoh item di bawah.");return;}
+    navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false}).then(function(s){
+      stream=s;vid.srcObject=s;camLive=true;view.classList.add("live");view.classList.remove("shot");
+      btn.textContent="⏹ Matikan kamera";$("[data-status]").textContent="Kamera aktif — arahkan ke item, lalu tekan Scan.";
+    }).catch(function(){GA.toast("Izin kamera ditolak / tak tersedia — pakai contoh item di bawah.");});
+  });
+  window.addEventListener("pagehide",stopCam);
   $("[data-scan]").addEventListener("click",function(){
     if(busy)return;busy=true;
+    if(camLive){ var w=vid.videoWidth||640,h=vid.videoHeight||480; canvas.width=w;canvas.height=h; try{canvas.getContext("2d").drawImage(vid,0,0,w,h);}catch(e){} view.classList.add("shot"); }
     var cam=$("[data-cam]");cam.classList.remove("scan");void cam.offsetWidth;cam.classList.add("scan");
     $("[data-camitem]").textContent=sel.em;
-    $("[data-status]").textContent="Menganalisis citra… mengklasifikasi produk";
-    setTimeout(function(){$("[data-status]").innerHTML="Terdeteksi: <b style=\"color:#fff\">"+sel.nm.replace(/&amp;/g,"&")+"</b> · keyakinan "+Math.round(GA.rnd(88,97))+"%";
+    $("[data-status]").textContent=camLive?"Foto diambil di perangkat… menyiapkan estimasi":"Menganalisis citra… mengklasifikasi produk";
+    setTimeout(function(){
+      $("[data-status]").innerHTML=(camLive?"Foto tersimpan · estimasi untuk ":"Terdeteksi: ")+"<b style=\"color:#fff\">"+sel.nm.replace(/&amp;/g,"&")+"</b>"+(camLive?" — ganti pilihan bila item berbeda":" · keyakinan "+Math.round(GA.rnd(88,97))+"%");
       scanned++;streak++;sync();
-      feed.push("ai","Item dikenali (CV)",sel.nm.replace(/&amp;/g,"&")+" → mengurai komponen & mencocokkan faktor emisi ("+sel.tier.toUpperCase()+")");
+      feed.push("ai",camLive?"Foto diambil (kamera web)":"Item dikenali (CV)",sel.nm.replace(/&amp;/g,"&")+" → mengurai komponen & mencocokkan faktor emisi ("+sel.tier.toUpperCase()+")");
       showResult(sel,false,0);busy=false;
+      if(camLive){setTimeout(function(){view.classList.remove("shot");},1600);}
     },1150);
   });
   $("[data-lookup]").addEventListener("click",function(){
@@ -217,7 +240,7 @@ Rentang (pola ecoinvent pedigree): [EF/GSD^1.645 , EF×GSD^1.645]</pre>
     if(loggedIn){this.innerHTML='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#33d188"/><path d="M7 12l3 3 7-7" stroke="#04160e" stroke-width="2" fill="none"/></svg>Masuk sebagai Kamu';$("[data-userinfo]").textContent="Masuk (simulasi) — kredit & scan akan tersimpan.";feed.push("chain","Akun terhubung","Google sign-in (simulasi) · profil karbon dibuat");GA.toast("Masuk berhasil (simulasi)");}
     else{this.innerHTML='<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-1.9 3.2-4.8 3.2-7.8z"/><path fill="#34A853" d="M12 23c2.9 0 5.4-1 7.2-2.6l-3.6-2.7c-1 .7-2.3 1.1-3.6 1.1-2.8 0-5.1-1.9-6-4.4H2.3v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M6 14.4a6.6 6.6 0 0 1 0-4.2V7.4H2.3a11 11 0 0 0 0 9.8L6 14.4z"/><path fill="#EA4335" d="M12 5.5c1.6 0 3 .5 4.1 1.6l3.1-3.1A11 11 0 0 0 2.3 7.4L6 10.2C6.9 7.7 9.2 5.5 12 5.5z"/></svg>Masuk dengan Google';$("[data-userinfo]").textContent="Masuk untuk menyimpan kredit & riwayat scan.";}
   });
-  $("[data-apk]").addEventListener("click",function(e){e.preventDefault();GA.toast("APK Glyiv Scan akan tersedia — daftar waitlist di beranda.");});
+  $("[data-apk]").addEventListener("click",function(e){e.preventDefault();GA.toast("APK Android sedang disiapkan (roadmap). Sekarang kamu bisa scan langsung dari browser — tekan 'Aktifkan kamera'.");});
   renderSamples();sync();
 })();
 </script>
