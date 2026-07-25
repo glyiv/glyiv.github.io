@@ -516,6 +516,12 @@ function initCafe(canvas) {
 
 /* ---------- LIV-BOT: TITAN-style 3D website assistant (crystal core + eye + rings + vocoder) ---------- */
 function initLivBot(canvas, framing) {
+  // Idempoten + bisa di-teardown. Mencegah (1) dobel-mount saat boot() IntersectionObserver
+  // dan glyivMountBot menyentuh kanvas yang sama, dan (2) kebocoran listener/RAF/konteks
+  // WebGL saat kanvas dilepas-pasang berulang di SPA (React Router). Kanvas segar =
+  // tanpa flag → init; kanvas yang sama = no-op sampai __teardown() meresetnya.
+  if (canvas.__livBot) return;
+  canvas.__livBot = true; canvas.__dead = false;
   const ACC = new THREE.Color("#33d188");
   const GOLD = new THREE.Color("#f5c451");
   const renderer = glyivRenderer(canvas);
@@ -608,7 +614,23 @@ function initLivBot(canvas, framing) {
 
   function resize() { const w = canvas.clientWidth || canvas.parentElement.clientWidth, h = canvas.clientHeight || canvas.parentElement.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); rect = canvas.getBoundingClientRect(); if (REDUCE) renderer.render(scene, camera); }
   const ro = new ResizeObserver(resize); ro.observe(canvas.parentElement); resize();
-  let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
+  let visible = true; const visIO = new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }); visIO.observe(canvas);
+
+  // Teardown lengkap — dipanggil host (mis. React cleanup) saat kanvas dilepas.
+  // Menghentikan loop frame, melepas listener window, timer, observer, dan konteks
+  // WebGL, lalu mereset flag agar remount berikutnya bisa init ulang dengan bersih.
+  canvas.__teardown = () => {
+    canvas.__dead = true;
+    try { window.removeEventListener("mousemove", onMove); } catch (e) {}
+    try { window.removeEventListener("scroll", invalidate); } catch (e) {}
+    try { window.removeEventListener("resize", invalidate); } catch (e) {}
+    timers.forEach((t) => clearTimeout(t)); timers.length = 0;
+    if (rectRaf) { try { cancelAnimationFrame(rectRaf); } catch (e) {} rectRaf = 0; }
+    try { ro.disconnect(); } catch (e) {}
+    try { visIO.disconnect(); } catch (e) {}
+    try { renderer.dispose(); if (renderer.forceContextLoss) renderer.forceContextLoss(); } catch (e) {}
+    canvas.__glyivBotMounted = false; canvas.__livBot = false;
+  };
 
   function frame() {
     if (canvas.__dead) return; requestAnimationFrame(frame);
@@ -1461,8 +1483,8 @@ function boot() {
     once(document.getElementById("globeCanvas"), initGlobe);
     once(document.getElementById("cafeCanvas"), initCafe);
     once(document.getElementById("problemCanvas"), initProblems);
-    once(document.getElementById("botLauncherCanvas"), (el) => initLivBot(el, "bust"));
-    once(document.getElementById("botPanelCanvas"), (el) => initLivBot(el, "full"));
+    once(document.getElementById("botLauncherCanvas"), (el) => { el.__glyivBotMounted = true; initLivBot(el, "bust"); });
+    once(document.getElementById("botPanelCanvas"), (el) => { el.__glyivBotMounted = true; initLivBot(el, "full"); });
     once(document.getElementById("livHostCanvas"), initLivHost);
     once(document.getElementById("forestCanvas"), initForest);
     once(document.getElementById("platformCanvas"), initPlatformStack);
@@ -1473,3 +1495,23 @@ function boot() {
   }
 }
 boot();
+
+/* Hook idempoten supaya widget Gly global (glyiv-gly.js) bisa memasang bot 3D
+   pada #botLauncherCanvas yang dibuatnya SETELAH boot() berjalan — ini yang
+   membuat bot 3D konsisten muncul di SETIAP halaman, termasuk halaman yang
+   memuat scenes.js langsung (homepage dsb.) di mana boot() sudah selesai sebelum
+   kanvas widget ada. Aman dipanggil berkali-kali (dijaga flag per-kanvas). */
+window.glyivMountBot = function (el, mode) {
+  el = el || document.getElementById("botLauncherCanvas");
+  if (!el || el.__glyivBotMounted) return;
+  el.__glyivBotMounted = true;
+  try { initLivBot(el, mode || "bust"); document.body.classList.add("webgl-on"); }
+  catch (e) { console.warn("[glyiv] bot mount failed:", e); }
+};
+/* Pasang KEDUA kanvas bot chatbox homepage: bot besar di FAB (bust) + bot 3D di
+   dalam panel chat (full). Dipanggil widget Gly setelah menyuntik markup .liv-fab
+   + .liv-chat, supaya tampil kaya seperti homepage di SETIAP halaman. */
+window.glyivMountChatBots = function () {
+  window.glyivMountBot(document.getElementById("botLauncherCanvas"), "bust");
+  window.glyivMountBot(document.getElementById("botPanelCanvas"), "full");
+};

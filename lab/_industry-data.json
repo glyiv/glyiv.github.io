@@ -5,7 +5,7 @@
    "name": "Rumah Sakit & Fasilitas Kesehatan",
    "hook": "Menyembuhkan pasien tanpa membebani bumi — dan tanpa membakar anggaran diam-diam.",
    "why": "Sektor kesehatan menyumbang 4,4-5,2% emisi gas rumah kaca global; jika ia sebuah negara, ia akan menjadi emitter terbesar kelima di dunia. Rumah sakit beroperasi 24/7 dengan beban energi tinggi (HVAC, sterilisasi, cold-chain vaksin) dan sumber emisi yang jarang disadari: gas anestesi volatil. Bagi industri kesehatan, mengukur karbon bukan sekadar kepatuhan lingkungan — ia adalah pintu masuk untuk efisiensi biaya operasional, reputasi akreditasi, dan kesiapan menghadapi standar pengadaan hijau yang mulai disyaratkan mitra asuransi dan lembaga donor internasional.",
-   "costAngle": "Karbon adalah lensa untuk melihat kebocoran biaya yang selama ini tersembunyi di balik 'biaya operasional normal'. Satu vaporizer desflurane yang menyala rutin bukan hanya berdampak iklim setara ribuan kilometer berkendara per kasus — ia juga jauh lebih mahal per jam dibanding sevoflurane untuk efek klinis setara. Mengukur karbon menyorot titik-titik ini: gas anestesi boros, HVAC yang berjalan penuh di ruang kosong, sterilisasi berlebih, dan tagihan listrik yang tak pernah dibedah per-departemen. Setiap ton CO2e yang terukur biasanya adalah rupiah yang bisa dihemat.",
+   "costAngle": "Karbon adalah lensa untuk melihat kebocoran biaya yang selama ini tersembunyi di balik 'biaya operasional normal'. Satu vaporizer desflurane yang menyala rutin bukan hanya berdampak iklim setara ribuan kilometer berkendara per kasus — ia juga jauh lebih mahal per jam dibanding sevoflurane untuk efek klinis setara. Mengukur karbon menyorot titik-titik ini: gas anestesi boros, HVAC yang berjalan penuh di ruang kosong, sterilisasi berlebih, dan tagihan listrik yang tak pernah dibedah per-departemen. Setiap ton CO2e yang terlacak biasanya adalah rupiah yang bisa dihemat.",
    "hiddenDrains": [
     "Gas anestesi desflurane: potensi pemanasan global (GWP100) 2.540 dan biaya per efek klinis 40-50x lebih tinggi dari sevoflurane — pemborosan ganda (iklim + anggaran farmasi)",
     "HVAC dan sistem tekanan udara ruang operasi/isolasi yang berjalan 100% sepanjang waktu, termasuk di ruangan yang tidak terpakai",
@@ -15,7 +15,7 @@
    "regulatory": "Global: gerakan 'Race to Zero for Healthcare' dan komitmen banyak sistem kesehatan nasional menuju net-zero; standar pengadaan hijau dari donor & asuransi internasional. Indonesia: sektor kesehatan masuk dalam cakupan pengurangan emisi NDC nasional (31,89% tanpa syarat / 43,20% dengan dukungan internasional pada 2030), pajak karbon dalam UU HPP, dan agenda 'green hospital' Kementerian Kesehatan. Kepatuhan pada PDPA/UU PDP untuk data pasien tetap terjaga karena Glyiv hanya memerlukan data operasional, bukan data klinis pasien.",
    "howApply": [
     "Onboarding 30 menit: hubungkan data operasional dasar — tagihan listrik, konsumsi gas anestesi, dan volume limbah — tanpa menyentuh satu pun rekam medis pasien",
-    "Glyiv memetakan baseline emisi Scope 1-2-3 rumah sakit Anda selaras GHG Protocol & ISO 14064 (metodologi terverifikasi di whitepaper rahasia kami)",
+    "Glyiv memetakan baseline emisi Scope 1-2-3 rumah sakit Anda selaras GHG Protocol & ISO 14064 (metodologi dirinci di whitepaper rahasia kami)",
     "Dashboard menyorot 3-5 'quick win' penghematan terbesar — biasanya substitusi gas anestesi dan optimasi HVAC — lengkap dengan estimasi rupiah yang bisa dihemat",
     "Terbitkan laporan keberlanjutan siap-akreditasi dan, bila diinginkan, offset sisa emisi lewat kredit pohon tertokenisasi Glyiv (ERC-3643)"
    ],
@@ -54,7 +54,7 @@
    "regulatory": "Global: CSRD Uni Eropa dan tuntutan rantai pasok pelanggan hyperscaler atas data Scope 2/3; standar efisiensi data center (a.l. inisiatif PUE & pelaporan energi UE). Indonesia: pajak karbon UU HPP, agenda transisi energi PLN & bauran EBT, serta target NDC nasional 2030 (31,89%/43,20%). Data center yang melayani klien ekspor digital menghadapi tekanan de-facto dari regulasi karbon negara pelanggannya.",
    "howApply": [
     "Integrasi API ke sistem DCIM/BMS dan tagihan PLN Anda — Glyiv menarik data konsumsi energi secara otomatis tanpa mengganggu operasi",
-    "Kami hitung intensitas karbon per kWh memakai faktor emisi grid Indonesia yang akurat, selaras GHG Protocol Scope 1-2-3 (metodologi terverifikasi di whitepaper rahasia)",
+    "Kami hitung intensitas karbon per kWh memakai faktor emisi grid Indonesia terkini yang bersumber jelas, selaras GHG Protocol Scope 1-2-3 (metodologi dirinci di whitepaper rahasia)",
     "Dashboard menampilkan PUE, emisi per rack/pelanggan, dan rekomendasi 'carbon-aware scheduling' untuk menekan biaya sekaligus emisi",
     "Hasilkan sertifikat emisi per-pelanggan yang bisa Anda tawarkan sebagai 'low-carbon cloud' dalam tender — plus opsi offset tertokenisasi untuk sisa emisi"
    ],
@@ -81,9 +81,9 @@
   {
    "key": "pemerintah",
    "name": "Pemerintah & Sektor Publik",
-   "hook": "Dari komitmen NDC ke bukti terukur — jadikan target iklim daerah sebagai aset ekonomi, bukan beban.",
-   "why": "Indonesia berkomitmen menurunkan emisi 31,89% (tanpa syarat) hingga 43,20% (dengan dukungan internasional) pada 2030, dan telah menyerahkan NDC Kedua menjelang COP30. Sektor energi dan tata guna lahan menyumbang lebih dari 60% target pengurangan. Namun komitmen nasional hanya bermakna bila diterjemahkan menjadi inventarisasi emisi kota/kabupaten yang akurat dan dapat diaudit. Bagi pemerintah daerah, akuntansi karbon adalah fondasi untuk mengakses pembiayaan iklim internasional, mekanisme Article 6 Perjanjian Paris, dan hasil-based payment — mengubah target iklim menjadi arus pendapatan dan investasi pembangunan.",
-   "costAngle": "Bagi sektor publik, 'kebocoran biaya' terbesar bukan tagihan listrik — melainkan peluang pembiayaan yang hangus karena data tidak siap. Tanpa inventarisasi emisi yang kredibel dan dapat diaudit, sebuah kota tidak bisa menjual kredit karbon di bawah Article 6, tidak lolos verifikasi hasil-based payment, dan kehilangan akses dana iklim global. Di sisi belanja, konsumsi energi gedung pemerintah, penerangan jalan, dan armada kendaraan dinas kerap tak pernah dibedah — pemborosan yang dibiayai APBD tahun demi tahun. Karbon yang terukur membuka dua keran sekaligus: menghemat belanja dan membuka pendapatan iklim baru.",
+   "hook": "Dari komitmen NDC ke bukti yang terlacak — jadikan target iklim daerah sebagai aset ekonomi, bukan beban.",
+   "why": "Indonesia berkomitmen menurunkan emisi 31,89% (tanpa syarat) hingga 43,20% (dengan dukungan internasional) pada 2030, dan telah menyerahkan NDC Kedua menjelang COP30. Sektor energi dan tata guna lahan menyumbang lebih dari 60% target pengurangan. Namun komitmen nasional hanya bermakna bila diterjemahkan menjadi inventarisasi emisi kota/kabupaten yang terlacak dan dapat diaudit. Bagi pemerintah daerah, akuntansi karbon adalah fondasi untuk mengakses pembiayaan iklim internasional, mekanisme Article 6 Perjanjian Paris, dan hasil-based payment — mengubah target iklim menjadi arus pendapatan dan investasi pembangunan.",
+   "costAngle": "Bagi sektor publik, 'kebocoran biaya' terbesar bukan tagihan listrik — melainkan peluang pembiayaan yang hangus karena data tidak siap. Tanpa inventarisasi emisi yang kredibel dan dapat diaudit, sebuah kota tidak bisa menjual kredit karbon di bawah Article 6, tidak lolos verifikasi hasil-based payment, dan kehilangan akses dana iklim global. Di sisi belanja, konsumsi energi gedung pemerintah, penerangan jalan, dan armada kendaraan dinas kerap tak pernah dibedah — pemborosan yang dibiayai APBD tahun demi tahun. Karbon yang terlacak membuka dua keran sekaligus: menghemat belanja dan membuka pendapatan iklim baru.",
    "hiddenDrains": [
     "Pembiayaan iklim internasional & hasil-based payment yang hangus karena inventarisasi emisi tidak dapat diaudit / tidak memenuhi standar MRV",
     "Potensi pendapatan kredit karbon di bawah Article 6 yang tak terealisasi tanpa dMRV kredibel",
@@ -95,7 +95,7 @@
     "Workshop pemetaan lingkup: bersama tim Glyiv, tetapkan batas inventarisasi kota/kabupaten (energi, transportasi, limbah, tata guna lahan)",
     "Kumpulkan data lintas OPD lewat platform terpadu Glyiv — menggantikan spreadsheet manual dengan alur data yang dapat diaudit selaras IPCC & GHG Protocol",
     "Dashboard inventarisasi kota menyajikan emisi per sektor, progres terhadap target NDC daerah, dan proyeksi skenario kebijakan",
-    "Aktifkan modul dMRV Glyiv untuk memverifikasi proyek pengurangan/penyerapan emisi — siap didaftarkan ke Article 6 atau Bursa Karbon Indonesia sebagai kredit tertokenisasi (ERC-3643)"
+    "Aktifkan modul dMRV Glyiv untuk melacak & mendokumentasikan proyek pengurangan/penyerapan emisi — agar datanya siap diajukan ke Article 6 atau Bursa Karbon Indonesia sebagai kredit tertokenisasi (ERC-3643); verifikasi tetap oleh lembaga independen"
    ],
    "demoIdea": "Dashboard 'City Carbon Inventory & Article 6 Readiness': inventarisasi emisi kota per sektor (energi, transportasi, limbah, AFOLU), pengukur progres terhadap target NDC daerah, simulator kebijakan ('jika 30% PJU beralih LED + solar'), dan panel dMRV yang menampilkan proyek offset lokal siap-verifikasi beserta estimasi nilai kredit karbon.",
    "stats": [
@@ -129,9 +129,9 @@
     "Cadangan kerugian tak terduga (CKPN) atas aset fosil & industri boros energi yang berisiko menjadi stranded asset",
     "Biaya kepatuhan yang membengkak saat pelaporan iklim disusun manual dan reaktif menjelang tenggat OJK, bukan otomatis"
    ],
-   "regulatory": "Indonesia: POJK No. 51/POJK.03/2017 mewajibkan Lembaga Jasa Keuangan menerapkan Keuangan Berkelanjutan dan menerbitkan Laporan Keberlanjutan (publikasi paling lambat 30 April); Taksonomi untuk Keuangan Berkelanjutan Indonesia (TKBI) menjadi acuan klasifikasi aktivitas hijau; OJK sedang menyelaraskan POJK 51 dengan standar internasional ISSB IFRS S1 & S2. Global: standar PCAF (Partnership for Carbon Accounting Financials) menjadi metodologi de-facto untuk mengukur financed emissions, dan IFRS S2 mewajibkan pengungkapan emisi Scope 3 Kategori 15 (financed emissions). Glyiv menyelaraskan metodologinya dengan standar global (GHG Protocol/ISO 14064) — detail teknis diverifikasi dalam whitepaper rahasia kami.",
+   "regulatory": "Indonesia: POJK No. 51/POJK.03/2017 mewajibkan Lembaga Jasa Keuangan menerapkan Keuangan Berkelanjutan dan menerbitkan Laporan Keberlanjutan (publikasi paling lambat 30 April); Taksonomi untuk Keuangan Berkelanjutan Indonesia (TKBI) menjadi acuan klasifikasi aktivitas hijau; OJK sedang menyelaraskan POJK 51 dengan standar internasional ISSB IFRS S1 & S2. Global: standar PCAF (Partnership for Carbon Accounting Financials) menjadi metodologi de-facto untuk mengukur financed emissions, dan IFRS S2 mewajibkan pengungkapan emisi Scope 3 Kategori 15 (financed emissions). Glyiv menyelaraskan metodologinya dengan standar global (GHG Protocol/ISO 14064) — detail teknis dirinci dalam whitepaper rahasia kami.",
    "howApply": [
-    "Hubungkan data portofolio secara aman: unggah atau integrasikan data eksposur kredit & investasi Anda ke platform Glyiv yang tersertifikasi keamanannya — tanpa mengganggu core banking",
+    "Hubungkan data portofolio secara aman: unggah atau integrasikan data eksposur kredit & investasi Anda ke platform Glyiv dengan kontrol keamanan yang ketat — tanpa mengganggu core banking",
     "Glyiv memetakan financed emissions per sektor, per nasabah, dan per aset dengan metodologi selaras PCAF & GHG Protocol",
     "Terima dashboard risiko iklim & laporan siap-audit yang otomatis memenuhi format POJK 51 dan selaras IFRS S2",
     "Dampingi transisi: identifikasi nasabah prioritas dekarbonisasi dan buka akses ke produk pembiayaan hijau serta offset pohon tokenized (ERC-3643) Glyiv"
@@ -168,7 +168,7 @@
     "Risiko greenwashing: klaim keberlanjutan tanpa data teraudit memicu sanksi regulator dan reputasi rusak",
     "Biaya pengumpulan data manual yang mahal & tidak konsisten setiap kali klien atau regulator meminta pengungkapan emisi"
    ],
-   "regulatory": "Global: IFRS S2 (ISSB) berlaku untuk periode pelaporan mulai 1 Januari 2024 dan mewajibkan pengungkapan emisi Scope 3 Kategori 15 (financed emissions) — untuk manajer aset ini mencakup emisi yang diatribusikan ke aset yang dikelola (AUM); sekitar 40 yurisdiksi telah memulai langkah adopsi/penyelarasan. Metodologi PCAF menjadi acuan pengukuran portfolio emissions. Indonesia: OJK melalui POJK No. 51/POJK.03/2017 mewajibkan pelaku jasa keuangan menerapkan Keuangan Berkelanjutan & Laporan Keberlanjutan, dengan penyelarasan berjalan menuju standar ISSB IFRS S1/S2; TKBI menjadi acuan taksonomi hijau. Glyiv menyelaraskan metodologi dengan standar global (GHG Protocol/ISO 14064) — diverifikasi dalam whitepaper rahasia kami.",
+   "regulatory": "Global: IFRS S2 (ISSB) berlaku untuk periode pelaporan mulai 1 Januari 2024 dan mewajibkan pengungkapan emisi Scope 3 Kategori 15 (financed emissions) — untuk manajer aset ini mencakup emisi yang diatribusikan ke aset yang dikelola (AUM); sekitar 40 yurisdiksi telah memulai langkah adopsi/penyelarasan. Metodologi PCAF menjadi acuan pengukuran portfolio emissions. Indonesia: OJK melalui POJK No. 51/POJK.03/2017 mewajibkan pelaku jasa keuangan menerapkan Keuangan Berkelanjutan & Laporan Keberlanjutan, dengan penyelarasan berjalan menuju standar ISSB IFRS S1/S2; TKBI menjadi acuan taksonomi hijau. Glyiv menyelaraskan metodologi dengan standar global (GHG Protocol/ISO 14064) — dirinci dalam whitepaper rahasia kami.",
    "howApply": [
     "Integrasikan holdings portofolio Anda ke Glyiv secara aman — daftar saham, obligasi, dan aset alternatif — tanpa mengekspos strategi investasi rahasia",
     "Glyiv menghitung emisi portofolio (weighted average carbon intensity & financed emissions) per emiten, sektor, dan dana, selaras PCAF & IFRS S2",
@@ -317,7 +317,7 @@
    "name": "Sawit & Agribisnis",
    "hook": "Kebun Anda sudah menghijaukan dunia. Sekarang buktikan lewat data — sebelum pasar memintanya.",
    "why": "Sawit adalah tulang punggung ekspor Indonesia, menyumbang lebih dari USD 22 miliar per tahun dan menopang jutaan penghidupan petani. Tapi pasar tujuan terbesar kini tidak lagi hanya membeli minyak — mereka membeli bukti bebas deforestasi. Tanpa jejak karbon dan lacak-balak (traceability) yang terverifikasi, komoditas terbaik pun bisa tertahan di pelabuhan, kehilangan premium harga, atau tersingkir dari rantai pasok global. Akuntansi karbon bukan beban kepatuhan; ia adalah paspor akses pasar dan alat untuk mengubah keunggulan agronomi Indonesia menjadi keunggulan komersial yang tak terbantahkan.",
-   "costAngle": "Mengukur karbon menyoroti kebocoran uang yang selama ini dianggap 'biaya operasional wajar'. Di sawit, sumber terbesar sering tersembunyi di tiga tempat: emisi metana dari kolam limbah pabrik (POME) yang sebenarnya bisa ditangkap dan diubah jadi energi/biogas berbiaya nol bahan bakar; boros solar pada genset dan angkutan TBS karena rute serta beban mesin tak terpantau; dan yang paling mahal — kehilangan premium ekspor serta akses pembiayaan hijau karena tidak bisa membuktikan status bebas deforestasi. Ketika semua terukur dalam satu dashboard, angka-angka ini berubah dari 'biaya tak terlihat' menjadi peluang penghematan dan pendapatan baru yang konkret.",
+   "costAngle": "Mengukur karbon menyoroti kebocoran uang yang selama ini dianggap 'biaya operasional wajar'. Di sawit, sumber terbesar sering tersembunyi di tiga tempat: emisi metana dari kolam limbah pabrik (POME) yang sebenarnya bisa ditangkap dan diubah jadi energi/biogas berbiaya nol bahan bakar; boros solar pada genset dan angkutan TBS karena rute serta beban mesin tak terpantau; dan yang paling mahal — kehilangan premium ekspor serta akses pembiayaan hijau karena tidak bisa membuktikan status bebas deforestasi. Ketika semua terlacak dalam satu dashboard, angka-angka ini berubah dari 'biaya tak terlihat' menjadi peluang penghematan dan pendapatan baru yang konkret.",
    "hiddenDrains": [
     "Metana dari kolam limbah pabrik (POME) yang terbuang begitu saja, padahal bisa ditangkap jadi biogas dan menekan biaya energi",
     "Konsumsi solar berlebih pada genset pabrik dan armada angkut TBS akibat rute serta efisiensi mesin yang tidak terukur",
@@ -356,7 +356,7 @@
    "name": "Logistik & Transportasi",
    "hook": "Setiap liter solar yang terbakar sia-sia adalah rupiah yang menguap. Kami buat penguapan itu terlihat.",
    "why": "Logistik adalah urat nadi ekonomi Indonesia — tapi juga salah satu penyumbang emisi terbesar. Sektor transportasi menyumbang sekitar 25% emisi energi nasional, dan angkutan jalan mendominasi hampir seluruhnya. Bagi operator armada, emisi Scope 1 (pembakaran solar) berbanding lurus dengan biaya bahan bakar — komponen ongkos terbesar yang paling sulit dikendalikan. Akuntansi karbon di sini bukan sekadar pelaporan; ia adalah sistem deteksi pemborosan bahan bakar secara real-time. Yang Anda ukur untuk iklim, Anda hemat untuk laba.",
-   "costAngle": "Di logistik, karbon dan biaya adalah dua sisi mata uang yang sama: hampir setiap kilogram CO2 berasal dari solar yang Anda beli. Mengukur emisi per kendaraan, per rute, dan per pengiriman langsung menelanjangi pemborosan yang selama ini tenggelam dalam tagihan bahan bakar gabungan — mesin idle berjam-jam, rute memutar, muatan kosong pada perjalanan balik, dan ban/perawatan buruk yang menambah konsumsi. Selain itu, pelanggan korporat besar kini menuntut data emisi Scope 3 dari vendor logistiknya; yang tak bisa menyediakannya kehilangan kontrak. Karbon yang terukur = solar yang dihemat + kontrak yang dipertahankan.",
+   "costAngle": "Di logistik, karbon dan biaya adalah dua sisi mata uang yang sama: hampir setiap kilogram CO2 berasal dari solar yang Anda beli. Mengukur emisi per kendaraan, per rute, dan per pengiriman langsung menelanjangi pemborosan yang selama ini tenggelam dalam tagihan bahan bakar gabungan — mesin idle berjam-jam, rute memutar, muatan kosong pada perjalanan balik, dan ban/perawatan buruk yang menambah konsumsi. Selain itu, pelanggan korporat besar kini menuntut data emisi Scope 3 dari vendor logistiknya; yang tak bisa menyediakannya kehilangan kontrak. Karbon yang terlacak = solar yang dihemat + kontrak yang dipertahankan.",
    "hiddenDrains": [
     "Waktu idle mesin (menunggu bongkar-muat) yang membakar solar tanpa memindahkan satu barang pun",
     "Rute tidak optimal dan perjalanan balik bermuatan kosong — kilometer yang dibayar penuh tapi menghasilkan setengah",
@@ -368,7 +368,7 @@
     "Daftarkan armada Anda: masukkan data kendaraan & konsumsi bahan bakar — Glyiv menghitung emisi Scope 1 per kendaraan dan per rute secara otomatis",
     "Integrasikan data operasional (telematika/GPS, jarak tempuh, muatan) untuk memetakan di mana solar terbakar sia-sia",
     "Terima laporan emisi siap-serah untuk klien korporat, selaras GHG Protocol — jadikan alat menang tender, bukan beban",
-    "Kompensasi emisi sisa lewat offset pohon tertokenisasi dan tampilkan komitmen hijau yang bisa diverifikasi ke pelanggan"
+    "Kompensasi emisi sisa lewat offset pohon tertokenisasi dan tampilkan komitmen hijau yang bisa ditelusuri ke pelanggan"
    ],
    "demoIdea": "Dashboard 'Kendali Armada & Bahan Bakar': peta rute langsung dengan sorotan segmen boros bahan bakar (idle & memutar) berwarna merah, peringkat kendaraan dari paling boros ke paling efisien, konversi otomatis liter solar → biaya Rupiah → kg CO2, tren emisi per pengiriman, dan kartu 'Estimasi Penghematan Bulan Ini' bila rekomendasi rute diterapkan.",
    "stats": [
@@ -405,11 +405,11 @@
    "regulatory": "Global: brand ritel & FMCG multinasional makin menuntut data emisi dari pemasok dan mitra gerai (Scope 3), sejalan GHG Protocol dan standar pelaporan keberlanjutan. Indonesia: target NDC, program efisiensi energi bangunan komersial, agenda pengurangan sampah makanan (Bappenas/KLHK), serta skema Nilai Ekonomi Karbon (NEK). Konsumen muda Indonesia pun makin memilih brand yang bisa membuktikan komitmen hijaunya — bukan sekadar mengklaim.",
    "howApply": [
     "Aktifkan di outlet: outlet yang memakai sistem Glyiv otomatis mulai membangun jejak karbon per outlet tanpa pekerjaan tambahan",
-    "Hubungkan tagihan listrik/gas & data stok agar konsumsi energi dan susut bahan baku terukur dan terbandingkan antar gerai",
+    "Hubungkan tagihan listrik/gas & data stok agar konsumsi energi dan susut bahan baku terlacak dan terbandingkan antar gerai",
     "Pantau papan peringkat efisiensi gerai dan terima rekomendasi penghematan energi & pengurangan food waste yang konkret",
-    "Tampilkan komitmen hijau terverifikasi (offset pohon tertokenisasi) di gerai & kemasan untuk menarik pelanggan dan mitra korporat"
+    "Tampilkan komitmen hijau yang bisa ditelusuri (offset pohon tertokenisasi) di gerai & kemasan untuk menarik pelanggan dan mitra korporat"
    ],
-   "demoIdea": "Dashboard 'Peta Gerai & Jejak Outlet': papan peringkat outlet dari paling efisien ke paling boros berdasarkan kgCO2 per transaksi, kartu biaya energi & food waste per gerai dalam Rupiah, meteran 'jejak per menu', pembanding gerai-vs-gerai untuk menemukan yang bocor, serta badge 'Gerai Terverifikasi Hijau' yang siap ditampilkan ke pelanggan.",
+   "demoIdea": "Dashboard 'Peta Gerai & Jejak Outlet': papan peringkat outlet dari paling efisien ke paling boros berdasarkan kgCO2 per transaksi, kartu biaya energi & food waste per gerai dalam Rupiah, meteran 'jejak per menu', pembanding gerai-vs-gerai untuk menemukan yang bocor, serta badge 'Gerai Hijau Terlacak' yang siap ditampilkan ke pelanggan.",
    "stats": [
     {
      "n": "23–48 juta ton/tahun",

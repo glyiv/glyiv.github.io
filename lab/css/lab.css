@@ -614,3 +614,187 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .leak__bar{transform:scaleY(1)!important;transition:none!important}
   .liv-fab__ping::before,.liv-chat__hd .av{animation:none!important}
 }
+
+
+/* ============================================================================
+   KARTU 3D + KILAU, dan CAROUSEL
+   Ditambahkan supaya bagian yang tadinya hanya teks+emoji punya bobot visual
+   dan terasa hidup saat disentuh — setara atau lebih baik dari pembanding.
+   Semua efek dimatikan pada perangkat sentuh dan saat prefers-reduced-motion.
+   ============================================================================ */
+
+/* Kartu bergambar dengan kemiringan 3D mengikuti kursor. Sudut kemiringan
+   dihitung di JS dan dikirim lewat --rx/--ry; CSS hanya memakainya, sehingga
+   tidak ada pembacaan layout per frame (penting agar mulus di tablet). */
+.tcard{
+  position:relative; display:flex; flex-direction:column; overflow:hidden;
+  background:#fff; border:1px solid var(--hair); border-radius:18px;
+  box-shadow:var(--sh1); text-decoration:none; color:inherit;
+  transform-style:preserve-3d; will-change:transform;
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease), border-color .3s var(--ease);
+}
+.tcard:hover{ border-color:rgba(31,122,107,.35); box-shadow:var(--sh2) }
+/* Reveal fade untuk .tcard. Tanpa aturan ini, `.tcard{transition:transform...}`
+   menimpa `[data-reveal]{transition:opacity,transform}`, sehingga opacity MELONCAT
+   tanpa fade sementara section lain memudar mulus. Selektor (0,2,0) menang, dan
+   transisinya menyertakan opacity lagi. Saat hover, .is-tilting tetap boleh
+   mengambil alih transform (sudah ter-reveal). */
+.tcard[data-reveal]{ opacity:0; transform:translateY(26px);
+  transition:opacity .7s var(--ease), transform .7s var(--ease); }
+.tcard[data-reveal].is-in{ opacity:1; transform:none; }
+@media (hover:hover) and (pointer:fine){
+  .tcard.is-tilting{
+    transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);
+    transition:box-shadow .45s var(--ease), border-color .3s var(--ease);
+  }
+}
+/* Lapisan kilau: sorotan lembut mengikuti kursor + sapuan diagonal saat hover. */
+.tcard__gloss{
+  position:absolute; inset:0; pointer-events:none; opacity:0; z-index:3;
+  transition:opacity .35s var(--ease);
+  background:
+    radial-gradient(38% 55% at var(--mx,50%) var(--my,0%), rgba(255,255,255,.55), transparent 70%);
+  mix-blend-mode:soft-light;
+}
+.tcard:hover .tcard__gloss{ opacity:1 }
+.tcard__gloss::after{
+  content:""; position:absolute; top:-60%; left:-70%; width:45%; height:220%;
+  transform:rotate(18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+  transition:left .75s var(--ease);
+}
+.tcard:hover .tcard__gloss::after{ left:130% }
+
+.tcard__img{ position:relative; aspect-ratio:16/10; overflow:hidden; background:var(--paper2) }
+.tcard__img img{ width:100%; height:100%; object-fit:cover; display:block;
+  transform:scale(1.02); transition:transform .7s var(--ease) }
+.tcard:hover .tcard__img img{ transform:scale(1.09) }
+.tcard__img::after{ content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg,rgba(15,46,34,0) 45%,rgba(15,46,34,.55)) }
+.tcard__step{ position:absolute; left:14px; bottom:12px; z-index:2;
+  font-family:var(--l-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:#fff; background:rgba(15,46,34,.55); backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.28); border-radius:999px; padding:5px 11px }
+.tcard__body{ padding:18px 20px 22px }
+.tcard__body h3{ font-family:var(--l-serif); font-weight:600; font-size:19px;
+  color:var(--pine); margin:0 0 7px; line-height:1.25 }
+.tcard__body p{ font-size:14px; color:var(--slate); line-height:1.6; margin:0 }
+
+/* Varian gelap untuk bagian teknologi */
+.tcard--dark{ background:#0c261c; border-color:rgba(255,255,255,.1) }
+.tcard--dark .tcard__body h3{ color:#fff }
+.tcard--dark .tcard__body p{ color:#9ec9b3 }
+.tcard--dark:hover{ border-color:rgba(138,255,193,.4) }
+
+/* Rel penghubung antar langkah (hanya desktop) */
+.flowrail{ position:relative }
+@media(min-width:900px){
+  .flowrail::before{ content:""; position:absolute; top:78px; left:12%; right:12%; height:2px;
+    background:linear-gradient(90deg,transparent,var(--hair) 12%,var(--hair) 88%,transparent); z-index:0 }
+}
+
+/* ── CAROUSEL ────────────────────────────────────────────────────────────── */
+.gcar{ position:relative }
+.gcar__track{
+  display:grid; grid-auto-flow:column; grid-auto-columns:minmax(268px,1fr);
+  gap:16px; overflow-x:auto; scroll-snap-type:x mandatory;
+  padding:4px 2px 14px; scrollbar-width:thin;
+  overscroll-behavior-x:contain;
+  /* Scrollbar disembunyikan: navigasi sudah lewat tombol + titik indikator,
+     dan bilah abu-abu bawaan sistem merusak kerapian kartu. Tetap bisa digeser
+     dengan sentuh/trackpad, dan tetap bisa diakses lewat keyboard. */
+  scrollbar-width:none;
+}
+.gcar__track::-webkit-scrollbar{ display:none }
+.gcar__track > *{ scroll-snap-align:start }
+@media(min-width:900px){ .gcar__track{ grid-auto-columns:minmax(300px,1fr) } }
+.gcar__nav{ display:flex; gap:8px; justify-content:flex-end; margin-top:2px }
+.gcar__btn{
+  width:38px; height:38px; border-radius:50%; display:grid; place-items:center;
+  background:#fff; border:1px solid var(--hair); color:var(--pine); cursor:pointer;
+  transition:border-color .2s var(--ease), transform .2s var(--ease), opacity .2s
+}
+.gcar__btn:hover:not(:disabled){ border-color:var(--pine); transform:translateY(-1px) }
+.gcar__btn:disabled{ opacity:.35; cursor:default }
+.gcar__btn:focus-visible{ outline:2px solid var(--teal); outline-offset:2px }
+.gcar__dots{ display:flex; gap:6px; align-items:center; margin-right:auto }
+.gcar__dot{ width:7px; height:7px; border-radius:50%; background:var(--hair2);
+  border:1px solid var(--hair); padding:0; cursor:pointer; transition:background .2s, width .2s }
+.gcar__dot[aria-current="true"]{ background:var(--teal); width:20px; border-radius:999px }
+
+@media (prefers-reduced-motion: reduce){
+  .tcard,.tcard__img img,.tcard__gloss,.tcard__gloss::after{ transition:none !important }
+  .tcard.is-tilting{ transform:none !important }
+  .gcar__track{ scroll-behavior:auto }
+}
+
+/* ============================================================================
+   DEMO STRUK -> KARBON (#kenapa)
+   Menggantikan grafik batang menanjak yang dulu ada di sini. Grafik itu punya
+   masalah makna: batang naik di sebelah kata "jejak karbon" terbaca sebagai
+   "emisi kami naik" — kebalikan dari pesan kami. Diganti demo konkret yang
+   sekaligus memamerkan pembeda utama: RENTANG ketidakpastian dan TIER data,
+   dua hal yang pesaing sembunyikan di balik satu angka telanjang.
+   ============================================================================ */
+.rcp{background:var(--paper2);border:1px solid var(--hair);border-radius:16px;padding:16px 16px 14px}
+.rcp__top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding-bottom:11px;border-bottom:1px dashed var(--hair)}
+.rcp__ttl{font-family:var(--l-serif);font-weight:600;font-size:16.5px;color:var(--pine)}
+.rcp__price{font-family:var(--l-mono);font-size:13px;color:var(--slate)}
+.rcp__rows{display:flex;flex-direction:column;gap:7px;margin:12px 0 14px}
+.rcp__row{display:grid;grid-template-columns:1fr 84px 42px;align-items:center;gap:10px;
+  font-size:12.5px;color:var(--slate)}
+.rcp__row i{height:6px;border-radius:999px;background:var(--hair2);position:relative;overflow:hidden}
+.rcp__row i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w,0%);
+  background:linear-gradient(90deg,var(--teal),#3fa38f);border-radius:999px;
+  transform-origin:left;transform:scaleX(0);transition:transform .9s var(--ease)}
+[data-reveal].is-in .rcp__row i::after{transform:scaleX(1)}
+.rcp__row b{font-family:var(--l-mono);font-size:12px;color:var(--pine);text-align:right}
+.rcp__total{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
+  padding-top:12px;border-top:1px solid var(--hair)}
+.rcp__tl{font-family:var(--l-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.rcp__tv{display:flex;align-items:baseline;gap:6px}
+.rcp__tv b{font-family:var(--l-serif);font-weight:600;font-size:30px;color:var(--pine);line-height:1}
+.rcp__tv span{font-family:var(--l-mono);font-size:11px;color:var(--slate)}
+
+/* Pita rentang — elemen tanda tangan Glyiv. */
+.rcp__band{margin-top:12px}
+.rcp__bar{position:relative;height:8px;border-radius:999px;background:var(--hair2);overflow:hidden}
+.rcp__fill{position:absolute;top:0;bottom:0;left:18%;right:22%;border-radius:999px;
+  background:linear-gradient(90deg,rgba(31,122,107,.25),rgba(31,122,107,.55),rgba(31,122,107,.25));
+  transform:scaleX(0);transform-origin:center;transition:transform .9s var(--ease) .25s}
+[data-reveal].is-in .rcp__fill{transform:scaleX(1)}
+.rcp__dot{position:absolute;top:50%;left:47%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;
+  border-radius:50%;background:var(--pine);border:2px solid #fff;box-shadow:0 1px 4px rgba(15,46,34,.35);
+  opacity:0;transition:opacity .5s var(--ease) .8s}
+[data-reveal].is-in .rcp__dot{opacity:1}
+.rcp__bl{display:flex;justify-content:space-between;align-items:center;margin-top:6px;
+  font-family:var(--l-mono);font-size:10.5px;color:var(--muted)}
+.rcp__bl em{font-style:normal;letter-spacing:.1em;text-transform:uppercase;font-size:9.5px}
+.rcp__foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
+.rcp__tier{font-family:var(--l-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--brass);border:1px solid rgba(176,137,79,.4);border-radius:999px;padding:3px 9px}
+.rcp__src{font-family:var(--l-mono);font-size:10.5px;color:var(--teal);cursor:pointer}
+.rcp__note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:12px 0 0}
+
+/* ============================================================================
+   AJAKAN IKUT (#gabung) — menggantikan blok "ikuti kanal kami" yang memaksa
+   dan menautkan 4 akun sosial yang belum ada (href="#").
+   ============================================================================ */
+.joinx{margin-top:34px;background:var(--paper2);border:1px solid var(--hair);
+  border-radius:22px;padding:clamp(22px,3.4vw,38px)}
+.joinx__head{max-width:62ch}
+.joinx__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0 22px}
+@media(max-width:860px){.joinx__grid{grid-template-columns:1fr}}
+.joinx__c{position:relative;display:flex;flex-direction:column;gap:7px;background:#fff;
+  border:1px solid var(--hair);border-radius:16px;padding:20px;text-decoration:none;color:inherit;
+  transition:border-color .25s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease)}
+.joinx__c:hover{border-color:var(--pine);transform:translateY(-3px);box-shadow:var(--sh2)}
+.joinx__c:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.joinx__n{font-family:var(--l-mono);font-size:11px;letter-spacing:.14em;color:var(--brass)}
+.joinx__c h3{font-family:var(--l-serif);font-weight:600;font-size:18px;color:var(--pine);margin:2px 0 0}
+.joinx__c p{font-size:13.5px;color:var(--slate);line-height:1.6;margin:0}
+.joinx__go{margin-top:auto;padding-top:10px;font-family:var(--l-mono);font-size:11.5px;color:var(--teal)}
+.joinx__foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding-top:18px;border-top:1px solid var(--hair)}
+.joinx__note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0;flex:1 1 320px}

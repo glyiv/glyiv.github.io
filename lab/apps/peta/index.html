@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv Green Asset Maps — Peta Aset Hijau Terpantau di Indonesia</title>
+<meta name="description" content="Glyiv Green Asset Maps: peta interaktif petak lahan hijau yang terlacak Glyiv di Indonesia — batas petak, tutupan tajuk, NDVI, dan estimasi serapan CO₂e, di atas peta jalan atau citra satelit.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="/lab/apps/peta/style.css">
+</head>
+<body>
+<div id="ga-nav"></div>
+
+<section class="ga-hero" style="min-height:40vh">
+  <img class="bg" src="/lab/img/satellite.jpg" alt="Citra satelit lahan hijau">
+  <div class="ga-hero__in">
+    <div>
+      <div class="ga-crumb"><a href="/">Glyiv</a> / <a href="/lab/tree.html">Glyiv Aset</a> / Green Asset Maps</div>
+      <span class="ga-badge"><i></i> Satu peta &middot; pantau · kebun virtual · bursa &middot; data contoh</span>
+      <h1>Satu peta untuk <em>seluruh aset hijau Anda.</em></h1>
+      <p>Glyiv Green Asset Maps menyatukan tiga hal dalam satu peta: <b>memantau</b> petak lahan hijau (tutupan tajuk, NDVI, serapan CO₂e), <b>mengadopsi pohon virtual</b> dari petak hutan, dan <b>bursa komoditas</b> pada lahan produktif — memiliki bagian panen langsung dari petani, tanpa tengkulak. Klik petak mana pun untuk semuanya. Empat belas petak di peta ini adalah <b>data contoh untuk prototipe &#9888;</b>, bukan portofolio klien.</p>
+    </div>
+    <div class="ga-hero__aside">
+      <div><div class="k">Petak di peta &middot; contoh &#9888;</div><div class="v g" data-hero-plots>14</div></div>
+      <div><div class="k">Total luas &middot; contoh &#9888;</div><div class="v" data-hero-ha>799 ha</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="ga-wrap">
+  <div class="ga-ribbon">
+    <div class="ga-stat">
+      <div class="k">Petak di peta</div>
+      <div class="v" data-sum-plots>0</div>
+      <div class="s" data-src-inside="1" data-src-title="Status data petak" data-src="Petak di halaman ini adalah data contoh untuk prototipe, bukan portofolio klien Glyiv| ;; Koordinat dicek berada di provinsi yang disebut; batas, luas, dan angka dibuat untuk peragaan|">titik lahan hijau &middot; data contoh &#9888;</div>
+    </div>
+    <div class="ga-stat">
+      <div class="k">Total luas terpantau</div>
+      <div class="v g" data-sum-ha>0</div>
+      <div class="s" data-src-inside="1" data-src-title="Sumber luas petak" data-src="Batas petak digambar dari citra satelit; luas belum dicocokkan dengan dokumen legal lahan| ;; Copernicus Sentinel-2 (ESA)|https://sentinels.copernicus.eu/copernicus/sentinel-2">hektare &middot; estimasi &#9888;</div>
+    </div>
+    <div class="ga-stat">
+      <div class="k">Estimasi pohon</div>
+      <div class="v" data-sum-trees>0</div>
+      <div class="s" data-src-inside="1" data-src-title="Sumber estimasi pohon" data-src="FAO Global Forest Resources Assessment|https://www.fao.org/forest-resources-assessment/en/ ;; Angka pohon adalah estimasi kerapatan tanam, bukan sensus batang|">batang &middot; estimasi &#9888;</div>
+    </div>
+    <div class="ga-stat">
+      <div class="k">Estimasi serapan</div>
+      <div class="v g" data-sum-co2>0</div>
+      <div class="s" data-src-inside="1" data-src-title="Sumber estimasi serapan" data-src="IPCC 2006 Guidelines Vol.4 (AFOLU)|https://www.ipcc-nggip.iges.or.jp/public/2006gl/vol4.html ;; IPCC 2019 Refinement|https://www.ipcc-nggip.iges.or.jp/public/2019rf/index.html ;; Estimasi dengan rentang ketidakpastian, belum diverifikasi pihak ketiga|">ribu tCO₂e/thn &middot; estimasi &#9888;</div>
+    </div>
+  </div>
+
+  <p class="ga-note">
+    Seluruh petak di halaman ini adalah <b>data contoh ilustratif untuk prototipe</b> — bukan portofolio klien. Koordinat berada di provinsi yang disebut, tetapi batas, luas, dan angka petak dibuat untuk peragaan.
+    Angka bertanda &#9888; adalah <b>estimasi</b>; serapan disebut <b>kontribusi terlacak</b>, bukan hasil pengukuran atau verifikasi.
+    Sertifikasi, MRV pihak ketiga, dan registri kredit <b>masih dalam roadmap</b>.
+    Rantai perhitungan lengkapnya — komposit citra, NDVI, tutupan tajuk, sampai estimasi serapan beserta batas kejujurannya — diuraikan dalam <b>whitepaper Glyiv</b>; halaman ini menampilkan hasilnya saja.
+  </p>
+
+  <div class="pt-shell">
+    <div class="pt-app">
+
+      <aside class="pt-side">
+        <div class="pt-side__hd">
+          <div class="pt-side__t">
+            <h2>Petak terpantau</h2>
+            <span data-count>12 / 12 petak</span>
+          </div>
+          <div class="pt-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+            <input type="search" data-q placeholder="Cari petak, provinsi, spesies…" aria-label="Cari petak, provinsi, atau spesies">
+          </div>
+          <div class="pt-chips">
+            <button type="button" class="pt-chip on" data-kind="all" aria-pressed="true">Semua</button>
+            <button type="button" class="pt-chip" data-kind="mangrove" aria-pressed="false">Mangrove</button>
+            <button type="button" class="pt-chip" data-kind="hutan" aria-pressed="false">Hutan</button>
+            <button type="button" class="pt-chip" data-kind="agro" aria-pressed="false">Agroforestri</button>
+            <button type="button" class="pt-chip" data-kind="pulih" aria-pressed="false">Pemulihan lahan</button>
+            <button type="button" class="pt-chip" data-kind="komoditas" aria-pressed="false">Lahan produktif</button>
+          </div>
+        </div>
+        <div class="pt-list" data-list></div>
+      </aside>
+
+      <div class="pt-mapwrap" data-mapwrap>
+        <div id="pt-map" class="pt-map"></div>
+
+        <div class="pt-fallback" data-fallback>
+          <p>Peta tidak dapat dimuat — pustaka peta (Leaflet) gagal diambil dari jaringan.<br>Periksa koneksi lalu muat ulang halaman.</p>
+        </div>
+
+        <div class="pt-hint" data-hint>Klik badge untuk detail petak &middot; klik peta lalu gulir (atau cubit dua jari) untuk memperbesar</div>
+
+        <section class="pt-panel out" data-panel role="region" aria-label="Detail petak terpilih">
+          <div class="pt-panel__grab" data-grab aria-hidden="true"><i></i></div>
+          <div class="pt-panel__hd" data-panel-hd></div>
+          <div class="pt-panel__b" data-panel-b></div>
+        </section>
+      </div>
+
+    </div>
+
+    <div class="pt-foot">
+      <div class="pt-leg">
+        <span><i class="badge"></i> Badge Glyiv = petak terpantau</span>
+        <span><i style="background:#1F7A6B"></i> Tutupan stabil</span>
+        <span><i style="background:#1cae6b"></i> Pemulihan berjalan</span>
+        <span><i style="background:#B0894F"></i> Perlu tinjau lapangan</span>
+        <span><i class="box"></i> Batas petak &middot; perbesar untuk melihat</span>
+      </div>
+      <div class="pt-credit">
+        Peta jalan: &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL)<br>
+        Citra satelit: Tiles &copy; <a href="https://www.esri.com" target="_blank" rel="noopener">Esri</a> — Esri, Maxar, Earthstar Geographics &amp; komunitas pengguna GIS &middot; pustaka peta <a href="https://leafletjs.com" target="_blank" rel="noopener">Leaflet</a>
+      </div>
+    </div>
+  </div>
+  <!-- Panel segmentasi NDVI + kalkulator. Diisi oleh ndvi-layer.js. -->
+  <section data-ndvi-panel aria-label="Segmentasi tutupan dan kalkulator serapan"></section>
+
+  <div class="ga-cta">
+    <a class="ga-btn solid" href="/akun/aset">Daftarkan lahan Anda &rarr;</a>
+    <a class="ga-btn glass" href="/lab/tree.html" style="margin-left:8px">&larr; Glyiv Aset</a>
+  </div>
+</div>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script src="/assets/js/glyiv-sources.js" defer></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+<script src="/lab/apps/peta/app.js" defer></script>
+<script src="/lab/apps/peta/ndvi-layer.js" defer></script>
+</body>
+</html>

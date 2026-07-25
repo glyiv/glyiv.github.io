@@ -85,16 +85,25 @@
   }
 
   const revealObs = new IntersectionObserver(
-    (entries, obs) => {
+    (entries) => {
       entries.forEach((en) => {
-        if (!en.isIntersecting) return;
         const el = en.target;
-        el.classList.add("is-in");
-        $$("[data-count]", el).forEach(animateCount);
-        if (el.hasAttribute("data-count")) animateCount(el);
-        $$("[data-val]", el).forEach((m) => { m.style.width = m.dataset.val + "%"; });
-        if (el.hasAttribute("data-val")) el.style.width = el.dataset.val + "%";
-        obs.unobserve(el);
+
+        // DUA ARAH: kelas di-toggle mengikuti keterlihatan dan elemen TIDAK
+        // di-unobserve, sehingga konten yang sudah dilewati memudar masuk lagi
+        // saat pengguna menggulir balik ke atas — bukan sekali seumur hidup.
+        el.classList.toggle("is-in", en.isIntersecting);
+        if (!en.isIntersecting) return;
+
+        // Angka & bar hanya dianimasikan SEKALI; mengulanginya tiap kali elemen
+        // masuk layar terasa gelisah dan mengalihkan perhatian dari isinya.
+        if (!el.dataset.glyivCounted) {
+          el.dataset.glyivCounted = "1";
+          $$("[data-count]", el).forEach(animateCount);
+          if (el.hasAttribute("data-count")) animateCount(el);
+          $$("[data-val]", el).forEach((m) => { m.style.width = m.dataset.val + "%"; });
+          if (el.hasAttribute("data-val")) el.style.width = el.dataset.val + "%";
+        }
       });
     },
     { threshold: 0.18, rootMargin: "0px 0px -8% 0px" }

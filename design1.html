@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Glyiv — Carbon Intelligence Platform · dari transaksi ke dampak nyata</title>
+<title>Glyiv — Carbon Intelligence Platform (arsip desain awal)</title>
 <meta name="description" content="Glyiv mengubah setiap transaksi menjadi data karbon level-item yang bisa diaudit — lalu menumbuhkannya menjadi green wallet, dashboard ESG, dan marketplace pohon & karbon untuk retail hingga korporasi. Dibangun untuk standar global." />
-<meta name="theme-color" content="#06190f" />
+<meta name="theme-color" content="#FFFFFF" />
 <link rel="icon" type="image/svg+xml" href="logo.svg" />
 <meta property="og:title" content="Glyiv — Carbon Intelligence Platform" />
 <meta property="og:description" content="Setiap transaksi, dapat dipertanggungjawabkan ke Bumi. Dari lini operasi, ke infrastruktur data karbon dunia." />
@@ -15,8 +15,10 @@
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/glyiv.css?v=8" />
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/assets/css/glyiv-legacy-light.css">
 <script src="assets/js/i18n.js?v=12"></script>
 <script src="assets/js/config.js?v=1"></script>
 <script type="importmap">
@@ -24,6 +26,10 @@
 </script>
 </head>
 <body>
+<div class="gv-archivebar">
+  <a class="back" href="/lab/industri/fnb-ritel.html">&larr; Kembali ke Glyiv Outlet</a>
+  <span class="tag">Arsip &middot; halaman Carbon Intelligence generasi awal</span>
+</div>
 
 <!-- SPLASH -->
 <div class="gv-splash" aria-hidden="true">
@@ -108,7 +114,7 @@
               <div class="gv-statchip"><b>Item-level</b><span>data karbon</span></div>
               <div class="gv-statchip"><b>Green Wallet</b><span>karbon per belanja</span></div>
               <div class="gv-statchip"><b>Tree &amp; Carbon</b><span>marketplace</span></div>
-              <div class="gv-statchip"><b>MRV</b><span>monitoring satelit</span></div>
+              <div class="gv-statchip"><b>NDVI</b><span>monitoring satelit</span></div>
             </div>
           </div>
           <div class="gv-hero__stage" data-reveal data-d="2">
@@ -133,7 +139,7 @@
             <h2 class="gv-h2" data-reveal data-d="1">Karbon kini <span class="gv-grad">wajib diukur</span> — tapi datanya masih tebakan.</h2>
             <p class="gv-lead" data-reveal data-d="2">Regulator mewajibkan pelaporan emisi, dan pasar karbon bernilai triliunan dolar. Namun sebagian besar angka emisi hari ini dihitung <i>spend-based</i> — sekadar “berapa rupiah dikali rata-rata kategori”. Kasar, mudah meleset, dan tak bisa diaudit ke sumbernya. Di situlah Glyiv masuk.</p>
           </div>
-          <div class="holoemb" data-reveal data-d="2" title="Data acak yang mengendap jadi presisi"><canvas class="holo3d" data-holo="precision"></canvas></div>
+          <div class="holoemb" data-reveal data-d="2" title="Data acak yang mengendap jadi angka yang terlacak"><canvas class="holo3d" data-holo="precision"></canvas></div>
         </div>
 
         <div class="why2 gv-mt-m" data-reveal>
@@ -148,7 +154,7 @@
           <div class="why2__card is-glyiv">
             <span class="why2__tag gv-mono">Cara Glyiv · item-level</span>
             <div class="why2__sharp"><b data-co="2.25">0,00</b><i>kg CO₂e</i></div>
-            <p class="why2__cap">Tahu persis <b>apa</b> yang dibeli — tiap item, dari sumbernya. Data grade-audit.</p>
+            <p class="why2__cap">Tahu persis <b>apa</b> yang dibeli — tiap item, dari sumbernya. Estimasi yang bisa ditelusuri.</p>
           </div>
         </div>
 
@@ -186,7 +192,7 @@
             </div>
             <div class="plat__layer" data-layer="2" tabindex="0" data-reveal data-d="2">
               <div class="plat__head"><span class="plat__ic">🌿</span><div><b>Sustainability Layer</b><small>ukur → laporkan</small></div></div>
-              <div class="plat__mods"><span>Carbon Ledger</span><span>Dashboard ESG</span><span>MRV &amp; Monitoring</span><span>Laporan siap-audit</span></div>
+              <div class="plat__mods"><span>Carbon Ledger</span><span>Dashboard ESG</span><span>Monitoring &amp; dMRV (roadmap)</span><span>Laporan siap-audit (roadmap)</span></div>
             </div>
             <div class="plat__layer" data-layer="3" tabindex="0" data-reveal data-d="3">
               <div class="plat__head"><span class="plat__ic">📈</span><div><b>Financial Layer</b><small>nilai &amp; insentif</small></div></div>
@@ -203,7 +209,7 @@
       <span class="gv-sec-tag">04 / Alur Karbon</span>
       <div class="gv-inner gv-center">
         <div class="gv-eyebrow is-center" data-reveal>Carbon Flow · thesis Glyiv</div>
-        <h2 class="gv-h2" data-reveal data-d="1">Satu cangkir kopi, <span class="gv-grad">berubah jadi dampak yang terukur.</span></h2>
+        <h2 class="gv-h2" data-reveal data-d="1">Satu cangkir kopi, <span class="gv-grad">berubah jadi dampak yang terlacak.</span></h2>
         <p class="gv-lead" data-reveal data-d="2" style="margin:0 auto">Inilah inti Glyiv: mesin yang mengubah transaksi biasa menjadi data karbon, lalu menjadi aset, lalu menjadi pohon yang benar-benar tumbuh. Ikuti perjalanannya.</p>
 
         <div class="holo-center" data-reveal data-d="2" title="Paket data mengalir naik lewat heliks transformasi"><canvas class="holo3d" data-holo="flow"></canvas></div>
@@ -212,7 +218,7 @@
           <div class="cflow__read" aria-hidden="true">
             <span class="cflow__r r1">☕ Kopi Susu · Rp 28.000</span>
             <span class="cflow__r r2">🧠 diklasifikasi → <b>0,52 kg CO₂e</b></span>
-            <span class="cflow__r r3">🪙 jadi aset karbon terverifikasi</span>
+            <span class="cflow__r r3">🪙 jadi aset karbon yang terlacak</span>
             <span class="cflow__r r4">🌱 pohon didanai &amp; dipantau</span>
           </div>
           <div class="cflow__belt">
@@ -237,7 +243,7 @@
       <div class="gv-inner">
         <div class="gv-eyebrow" data-reveal>Yang Glyiv bangun</div>
         <h2 class="gv-h2" data-reveal data-d="1">Enam fokus, <span class="gv-grad">satu infrastruktur karbon.</span></h2>
-        <p class="gv-lead" data-reveal data-d="2">Tiap fokus berdiri di atas data yang sama: transaksi nyata dari ribuan merchant.</p>
+        <p class="gv-lead" data-reveal data-d="2">Tiap fokus berdiri di atas data yang sama: transaksi nyata dari outlet pilot — dirancang untuk skala ribuan merchant.</p>
 
         <!-- Fokus 1: Carbon Data -->
         <div class="gv-feature gv-mt-m">
@@ -256,7 +262,7 @@
                   <div class="vi-row"><span>☕ Kopi Susu</span><b data-co="0.52">0,00</b></div>
                   <div class="vi-row"><span>🥗 Salad Buah</span><b data-co="0.18">0,00</b></div>
                   <div class="vi-row"><span>🍞 Roti Bakar</span><b data-co="0.61">0,00</b></div>
-                  <div class="vi-row vi-trow"><span>Total presisi</span><b data-co="1.31">0,00</b></div>
+                  <div class="vi-row vi-trow"><span>Total per item ⚠︎</span><b data-co="1.31">0,00</b></div>
                 </div>
               </div>
             </div>
@@ -280,9 +286,9 @@
           </div>
           <div data-reveal data-d="2">
             <div class="foc-kick gv-mono">02 · Green Wallet &amp; Green Receipt</div>
-            <h3 class="gv-h3">Dompet pertama yang menampilkan karbon tiap belanja.</h3>
-            <p class="gv-muted">E-wallet hari ini tahu <i>berapa</i>, bukan <i>apa</i>. Glyiv menyatukan green receipt + wallet: tiap transaksi punya rincian item dan jejak karbonnya. Dibangun via mitra berlisensi (rezim PJP Bank Indonesia); token $GLYIV hanya utilitas.</p>
-            <div class="gv-pillrow"><span class="gv-pill">🧾 Green receipt built-in</span><span class="gv-pill">💚 Karbon per transaksi</span><span class="gv-pill">🏦 Mitra berlisensi (PJP)</span></div>
+            <h3 class="gv-h3">Dompet yang menampilkan karbon di tiap belanja.</h3>
+            <p class="gv-muted">E-wallet hari ini tahu <i>berapa</i>, bukan <i>apa</i>. Glyiv menyatukan green receipt + wallet: tiap transaksi punya rincian item dan jejak karbonnya. Rencananya dibangun bersama mitra berlisensi di rezim PJP Bank Indonesia; token $GLYIV hanya utilitas.</p>
+            <div class="gv-pillrow"><span class="gv-pill">🧾 Green receipt built-in</span><span class="gv-pill">💚 Karbon per transaksi</span><span class="gv-pill">🏦 Mitra berlisensi (roadmap)</span></div>
           </div>
         </div>
 
@@ -291,7 +297,7 @@
           <div data-reveal>
             <div class="foc-kick gv-mono">03 · Tree &amp; Carbon Marketplace</div>
             <h3 class="gv-h3">Marketplace pohon &amp; karbon — untuk retail sampai korporasi.</h3>
-            <p class="gv-muted">Pemilik lahan mendaftarkan lahan yang ditanami → kapasitas serapan dihitung lewat NDVI/Google Earth Engine → di-tokenisasi lewat rel <b style="color:var(--mint)">ERC-3643 (T-REX)</b> berizin dengan KYC/AML. Retail dapat menebus sebagian; korporasi mendanai &amp; menebus — kami mendaftarkan hanya kredit dari standar diakui (Verra, Gold Standard) &amp; prioritas ICVCM CCP, selaras registri (SRN-PPI/SRUK/SPE-GRK). Glyiv adalah lapisan data &amp; procurement, <b>bukan</b> bursa.</p>
+            <p class="gv-muted">Pemilik lahan mendaftarkan lahan yang ditanami → kapasitas serapan dihitung lewat NDVI/Google Earth Engine → di-tokenisasi lewat rel <b style="color:var(--mint)">ERC-3643 (T-REX)</b> berizin dengan KYC/AML. Retail dapat menebus sebagian; korporasi mendanai &amp; menebus — kebijakan kami: hanya mencantumkan kredit dari standar diakui (Verra, Gold Standard) &amp; prioritas ICVCM CCP, selaras registri (SRN-PPI/SRUK/SPE-GRK); semuanya masih peta jalan. Glyiv adalah lapisan data &amp; procurement, <b>bukan</b> bursa.</p>
             <div class="gv-pillrow"><span class="gv-pill">🌳 Pemilik lahan onboarding</span><span class="gv-pill">🤝 Retail &amp; korporasi</span><span class="gv-pill">🧾 Bukti tebus (retire)</span></div>
           </div>
           <div class="gv-feature__media" data-reveal data-d="2" style="background:none;border:none;min-height:auto;aspect-ratio:auto;padding:0">
@@ -316,7 +322,7 @@
           </div>
           <div data-reveal data-d="2">
             <div class="foc-kick gv-mono">04 · Dashboard ESG &amp; Monitoring</div>
-            <h3 class="gv-h3">Pantau tiap pohon. Laporkan tiap gram.</h3>
+            <h3 class="gv-h3">Pantau tiap pohon. Laporkan angkanya apa adanya.</h3>
             <p class="gv-muted">Carbon ledger otomatis jadi dashboard ESG siap-audit untuk bisnis. NDVI + citra Sentinel memantau kondisi pohon &amp; mendeteksi anomali (alert deforestasi). Catatan jujur: NDVI bukan “meteran karbon” — akurasi grade-kredit butuh kalibrasi lapangan (selaras IPCC).</p>
             <div class="esgbar">
               <div class="esgbar__row"><span>Scope 1</span><i style="--w:32%"></i></div>
@@ -345,7 +351,7 @@
             <div class="gv-stat" data-reveal data-d="4"><div class="gv-stat__num"><span data-count="10"></span><span class="u">B+</span></div><div class="gv-stat__k">Transaksi digital harian (2025+)</div></div>
           </div>
         </div>
-        <p class="gv-faint gv-mono gv-mt-s" style="font-size:10px" data-reveal>Estimasi industri (green economy &amp; carbon market outlook). Ditampilkan sebagai skala peluang, bukan proyeksi Glyiv.</p>
+        <p class="gv-faint gv-mono gv-mt-s" style="font-size:10px" data-reveal>⚠︎ Estimasi industri (green economy &amp; carbon market outlook). Ditampilkan sebagai skala peluang, bukan proyeksi Glyiv.</p>
       </div>
     </section>
 
@@ -424,7 +430,7 @@
               <svg class="mulai__ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               <span class="mulai__step"><b>📊 Data</b>karbon level-item</span>
               <svg class="mulai__ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              <span class="mulai__step"><b>🌍 Dampak</b>terukur &amp; global</span>
+              <span class="mulai__step"><b>🌍 Dampak</b>terlacak &amp; global</span>
             </div>
             <div class="gv-hero__cta" style="margin-top:26px">
               <a class="gv-btn is-primary" href="pos.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg> Lihat aplikasi kami</a>
@@ -487,7 +493,7 @@
             <div class="vals__i"><b>💡 Inovasi</b><span>teknologi terdepan</span></div>
             <div class="vals__i"><b>🛡️ Integritas</b><span>transparan &amp; jujur</span></div>
             <div class="vals__i"><b>🤝 Kolaborasi</b><span>ekosistem berkelanjutan</span></div>
-            <div class="vals__i"><b>🌱 Dampak Nyata</b><span>terukur di tiap langkah</span></div>
+            <div class="vals__i"><b>🌱 Dampak Nyata</b><span>terlacak di tiap langkah</span></div>
           </div>
         </div>
       </div>
@@ -532,5 +538,6 @@
 
 <script type="module" src="assets/js/scenes.js?v=11"></script>
 <script src="assets/js/glyiv.js" defer></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
 </body>
 </html>

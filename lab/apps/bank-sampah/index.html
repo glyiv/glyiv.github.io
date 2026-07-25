@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glyiv Bank Sampah — Setor Sampah, Dapat Imbalan</title>
-<meta name="description" content="Glyiv Bank Sampah: setor sampah terpilah dan dapatkan kredit hijau — dimulai dari komunitas kampus. Berat terverifikasi AI, kredit tercatat on-chain.">
+<meta name="description" content="Glyiv Bank Sampah: setor sampah terpilah dan dapatkan kredit hijau — dimulai dari komunitas kampus. Berat terbaca timbangan + AI, kredit tercatat on-chain.">
 <link rel="icon" href="/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
       <div class="ga-crumb"><a href="/">Glyiv</a> / <a href="/#ekosistem">Ekosistem</a> / Glyiv Bank Sampah</div>
       <span class="ga-badge"><i></i> Roadmap &middot; pilot kampus</span>
       <h1>Setor sampah, <em>dapat imbalan.</em></h1>
-      <p>Pilah sampahmu, setorkan di titik Glyiv, dan dapatkan kredit hijau yang bisa ditukar. Kami mulai dari komunitas kampus — berat terverifikasi, kredit tercatat rapi, dampak karbonnya terlacak.</p>
+      <p>Pilah sampahmu, setorkan di titik Glyiv, dan dapatkan kredit hijau yang bisa ditukar. Kami mulai dari komunitas kampus — berat terbaca otomatis, kredit tercatat rapi, dampak karbonnya terlacak.</p>
     </div>
     <div class="ga-hero__aside"><div><div class="k">Kredit kamu</div><div class="v g" data-hcr>◈ 240</div></div><div><div class="k">Karbon dihindari</div><div class="v" data-hco2>3,1 kg</div></div></div>
   </div>
@@ -52,12 +52,12 @@
     <div class="ga-stat"><div class="k">Karbon dihindari</div><div class="v g" data-r3>3,1 kg</div><div class="s">CO₂e (est.)</div></div>
     <div class="ga-stat"><div class="k">Kampus mitra</div><div class="v" data-r4>6</div><div class="s">komunitas awal</div></div>
   </div>
-  <p class="ga-note">Pratinjau produk (teaser) — nilai kredit &amp; faktor karbon-dihindari bersifat ilustrasi. Berat setoran diverifikasi timbangan + citra di titik setor.</p>
+  <p class="ga-note">Pratinjau produk (teaser) — nilai kredit &amp; faktor karbon-dihindari bersifat ilustrasi. Berat setoran dicatat timbangan + citra di titik setor.</p>
 
   <div class="ga-grid" style="margin-top:14px">
     <!-- deposit -->
     <div class="ga-card">
-      <div class="ga-card__hd"><h3>Setor Sampah</h3><span class="tag">terverifikasi AI</span></div>
+      <div class="ga-card__hd"><h3>Setor Sampah</h3><span class="tag">terbantu AI</span></div>
       <div class="ga-card__b">
         <div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Jenis sampah (◈ / kg)</div>
         <div class="bs-type" data-types></div>
@@ -101,12 +101,12 @@
       </div>
       <div class="ga-steps" style="margin-top:18px">
         <div class="ga-step"><b>Gandeng kampus</b><p>Mulai dari komunitas mahasiswa yang antusias — titik setor &amp; kompetisi antar-fakultas.</p></div>
-        <div class="ga-step"><b>Setor terverifikasi</b><p>Timbangan + citra memverifikasi jenis &amp; berat, mencegah kecurangan.</p></div>
+        <div class="ga-step"><b>Setor tercatat</b><p>Timbangan + citra mencatat jenis &amp; berat, mencegah kecurangan.</p></div>
         <div class="ga-step"><b>Kredit on-chain</b><p>Kredit hijau diterbitkan &amp; tercatat — bisa ditukar di seluruh ekosistem Glyiv.</p></div>
         <div class="ga-step"><b>Skala ke kota</b><p>Dari kampus, meluas ke RW, sekolah, dan mitra ritel.</p></div>
       </div>
       <div class="ga-tech" style="margin-top:18px">
-        <span class="ga-chip ai">⛭ Verifikasi berat &amp; jenis</span>
+        <span class="ga-chip ai">⛭ Pencatatan berat &amp; jenis</span>
         <span class="ga-chip chain">🔗 Kredit hijau on-chain</span>
         <span class="ga-chip">🎓 Pilot komunitas kampus</span>
       </div>
@@ -131,7 +131,7 @@
   var sel=TYPES[0], credit=240, avoided=3.1, deposited=0;
   var BOARD=[["Univ. Hijau Nusantara","Teknik Lingkungan",1420],["Kampus B","BEM Peduli",1180],["Univ. Bahari","Himpunan Kelautan",960],["Politeknik C","UKM Pecinta Alam",740],["Kampus A","Fakultas MIPA",610]];
   var feed=GA.makeFeed("[data-feed]",[
-    ["ai","Setoran diverifikasi","2,3 kg Plastik · citra + timbangan cocok · disetujui."],
+    ["ai","Setoran tercatat","2,3 kg Plastik · citra + timbangan cocok · disetujui."],
     ["chain","Kredit diterbitkan","+138 ◈ ke dompet mahasiswa · tx "+GA.short()],
     ["ai","Kompetisi kampus","Teknik Lingkungan memimpin minggu ini (1.420 kg)."]
   ]);
@@ -148,7 +148,7 @@
   $("[data-deposit]").addEventListener("click",function(){
     var w=parseFloat(($("[data-w]").value||"0").replace(",","."))||0;if(w<=0){GA.toast("Isi berat dulu");return;}
     var cr=Math.round(sel.cr*w),co=sel.co*w;credit+=cr;avoided+=co;deposited+=w;sync();
-    feed.push("ai","Setoran diverifikasi",w.toFixed(1)+" kg "+sel.k+" · citra+timbangan cocok");
+    feed.push("ai","Setoran tercatat",w.toFixed(1)+" kg "+sel.k+" · citra+timbangan cocok");
     feed.push("chain","Kredit diterbitkan","+"+cr+" ◈ · "+co.toFixed(1)+" kgCO₂e dihindari · tx "+GA.short());
     GA.toast("Setor "+w.toFixed(1)+" kg "+sel.k+" — +"+cr+" ◈");
   });

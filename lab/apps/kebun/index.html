@@ -416,11 +416,11 @@ function renderDetail(){
       '<div><div class="k">Umur</div><div class="v">'+t.age+'<small> thn</small></div></div>'+
     '</div>'+
     '<div class="kbn-growth"><div class="gt">Pertumbuhan diameter · 12 periode</div><div class="kbn-gbars">'+bars(t)+'</div></div>'+
-    '<div class="kbn-onchain"><span class="ic">🔗</span><div><b>Terverifikasi on-chain (testnet)</b><small>Aset ter-tokenisasi ERC-3643 · bukti dMRV '+t.tx+' · Glyiv Chain</small></div></div>'+
+    '<div class="kbn-onchain"><span class="ic">🔗</span><div><b>Tercatat on-chain (testnet)</b><small>Aset ter-tokenisasi ERC-3643 · jejak dMRV '+t.tx+' · Glyiv Chain</small></div></div>'+
     '<div class="kbn-care">'+
       '<button class="kbn-act" data-care="siram" '+dis("siram",4000)+'><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg><b>Siram</b><small>+10 XP</small></button>'+
       '<button class="kbn-act" data-care="pupuk" '+dis("pupuk",6000)+'><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20v-8M12 12c-3 0-5-2-5-5 3 0 5 2 5 5zM12 12c0-3 2-5 5-5 0 3-2 5-5 5z"/></svg><b>Pupuk</b><small>−30 daun · tumbuh</small></button>'+
-      '<button class="kbn-act" data-care="verif" '+dis("verif",5000)+'><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><b>Verifikasi</b><small>+14 XP · +daun</small></button>'+
+      '<button class="kbn-act" data-care="verif" '+dis("verif",5000)+'><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><b>Periksa</b><small>+14 XP · +daun</small></button>'+
     '</div>'+
     '<div class="kbn-cta"><a class="kbn-btn solid" href="/lab/apps/tree-marketplace/">Miliki / sewa fraksi →</a><a class="kbn-btn ghost" href="/lab/tree.html">Tentang</a></div>';
   $$("[data-care]",$("[data-detail]")).forEach(function(b){b.addEventListener("click",function(){care(b.dataset.care,b);});});
@@ -440,10 +440,10 @@ function addXP(n){S.xp+=n;var up=false;while(S.xp>=xpMax()){S.xp-=xpMax();S.leve
 function care(kind,btn){
   var t=S.sel;if(!t)return;var now=Date.now();
   if(kind==="siram"){S.lastCare[t.id+"_siram"]=now;t.ndvi=+clamp(t.ndvi+.01,.4,.95).toFixed(2);addXP(10);S.acted++;S.cared=true;floatXP("+10 XP");toast("Disiram — NDVI naik ✓");}
-  else if(kind==="pupuk"){if(S.leaves<30){toast("Daun kurang — panen dulu lewat Verifikasi");return;}S.lastCare[t.id+"_pupuk"]=now;S.leaves-=30;t.age=Math.min(60,t.age+1);t.stage=stageOf(t.age);
+  else if(kind==="pupuk"){if(S.leaves<30){toast("Daun kurang — panen dulu lewat Periksa");return;}S.lastCare[t.id+"_pupuk"]=now;S.leaves-=30;t.age=Math.min(60,t.age+1);t.stage=stageOf(t.age);
     var f=Math.min(1,t.age/18);t.co2y=+(t.sp.b*(0.15+0.85*f)*rnd(.95,1.1)).toFixed(1);t.dia=+(t.dia+rnd(1.5,2.6)).toFixed(1);t.height=+(t.height+rnd(.5,1.1)).toFixed(1);t.co2total=+(t.co2total+t.co2y).toFixed(0);
     addXP(22);S.acted++;S.cared=true;floatXP("↑ tumbuh!","#8affc1");toast("Dipupuk — pohon tumbuh & menyerap lebih banyak");renderTrees();}
-  else if(kind==="verif"){S.lastCare[t.id+"_verif"]=now;var gain=ri(8,16);S.leaves+=gain;addXP(14);S.acted++;S.cared=true;floatXP("+"+gain+" 🍃","#c9e8a0");toast(gain+" daun dipanen dari verifikasi dMRV (simulasi)");}
+  else if(kind==="verif"){S.lastCare[t.id+"_verif"]=now;var gain=ri(8,16);S.leaves+=gain;addXP(14);S.acted++;S.cared=true;floatXP("+"+gain+" 🍃","#c9e8a0");toast(gain+" daun dipanen dari pemeriksaan dMRV (simulasi)");}
   renderHUD();renderDetail();renderAch();
   if(btn){btn.disabled=true;}
 }

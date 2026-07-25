@@ -3,20 +3,392 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Glyiv — Sistem Operasi Cerdas-Karbon untuk Kafe Indonesia</title>
-<meta name="description" content="Glyiv: pesan dari meja lewat QR + AI host Liv, tanpa antri ke kasir. Tiap pesanan jadi green receipt yang mendanai komunitas hijau lokal. Dibangun untuk standar global." />
-<meta name="theme-color" content="#06190f" />
-<link rel="icon" type="image/svg+xml" href="logo.svg" />
-<meta property="og:title" content="Glyiv — OS Cerdas-Karbon untuk Kafe" />
-<meta property="og:description" content="Pesan tanpa antri. Tiap gelas, jejak karbonnya nyata." />
+<title>Glyiv — Presentasi Produk Outlet Cerdas-Karbon (arsip desain awal)</title>
+<meta name="description" content="Presentasi produk Glyiv Outlet generasi awal: pesan dari meja lewat QR + host AI Liv, tanpa antri di titik bayar. Tiap pesanan jadi green receipt berdata karbon yang mendanai komunitas hijau." />
+<meta name="theme-color" content="#FFFFFF" />
+<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+<meta property="og:title" content="Glyiv — Presentasi Produk Outlet Cerdas-Karbon" />
+<meta property="og:description" content="Pesan tanpa antri. Tiap gelas, jejak karbonnya terlacak." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://glyiv.github.io" />
 <meta property="og:image" content="glyiv-thumb.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/glyiv.css?v=8" />
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css" />
+<style>
+/* =================================================================
+   GLYIV — LIGHT RE-THEME LAYER for pos.html.
+   glyiv.css is the original dark "bio-luminescent" sheet and is still
+   shared with design1.html, so it is left untouched: this layer loads
+   after it and re-points the tokens plus every hard-coded dark rule to
+   the current LIGHT brand (paper / pine / teal / brass, Newsreader +
+   Hanken Grotesk + IBM Plex Mono).
+   The three.js scenes keep their own dark viewports on purpose — they
+   are staged as intentional dark inset panels (".pl-theatre"), which
+   is how a lit 3D scene reads best inside an editorial light page.
+   ================================================================= */
+:root{
+  --abyss:#FFFFFF;
+  --forest-950:#FFFFFF00; --forest-900:#F5F7F5; --forest-850:#EEF2EE; --forest-800:#E4EBE6;
+  --moss-700:#1F7A6B; --moss-600:#1F7A6B;
+  --emerald:#1F7A6B; --emerald-bright:#1CAE6B; --lime:#8FD9BF;
+  --bio:#1F7A6B; --mint:#0F2E22;
+  --gold:#B0894F; --gold-soft:#946F34; --ember:#B4553A;
+  --cream:#F5F7F5; --ink:#12211B;
+  --text:#12211B; --text-dim:#48524B; --text-faint:#6B7280;
+  --line:#E7E9E6; --line-2:#DCE3DD;
+  --glass:#FFFFFF; --glass-2:#F5F7F5; --card:#FFFFFF;
+  --glow-em:0 0 0 1px rgba(31,122,107,.16),0 18px 44px -24px rgba(15,46,34,.26);
+  --glow-soft:0 10px 28px -8px rgba(15,26,20,.14),0 40px 80px -30px rgba(15,46,34,.2);
+  --f-disp:"Newsreader",Georgia,serif;
+  --f-body:"Hanken Grotesk","Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+  /* brand shorthands used by this layer */
+  --pine:#0F2E22; --pine2:#123C2C; --teal:#1F7A6B; --emer-br:#1CAE6B;
+  --brass:#B0894F; --brass2:#946F34; --paper2:#F5F7F5; --hair:#E7E9E6;
+  --sh1:0 1px 2px rgba(15,26,20,.04),0 4px 14px rgba(15,26,20,.05);
+  --sh2:0 2px 8px rgba(15,26,20,.05),0 16px 36px -12px rgba(15,26,20,.13);
+  --sh3:0 10px 28px -8px rgba(15,26,20,.14),0 40px 80px -30px rgba(15,46,34,.28);
+}
+body{background:#fff;color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:rgba(31,122,107,.16);color:var(--pine)}
+
+/* ---- ambient page field: paper wash instead of a forest night ---- */
+.gv-bg-root{background:
+  radial-gradient(1100px 720px at 6% -8%, rgba(31,122,107,.07), transparent 58%),
+  radial-gradient(1000px 820px at 106% 4%, rgba(176,137,79,.06), transparent 55%),
+  radial-gradient(880px 660px at 58% 118%, rgba(28,174,107,.05), transparent 60%),
+  linear-gradient(170deg,#FFFFFF 0%, #FAFCFA 55%, #F5F7F5 100%)}
+.gv-grain{opacity:.022}
+.gv-spore{display:none}
+.gv-section{border-bottom:1px solid var(--hair)}
+.gv-section__bg::before{background-image:radial-gradient(rgba(15,46,34,.07) 1px, transparent 1.4px);opacity:.7}
+.gv-section__bg::after{background:radial-gradient(circle, rgba(31,122,107,.10), transparent 62%)}
+.gv-section.is-glow-l .gv-section__bg::after{background:radial-gradient(circle, rgba(176,137,79,.11), transparent 64%)}
+.gv-section.is-glow-c .gv-section__bg::after{background:radial-gradient(circle, rgba(28,174,107,.09), transparent 64%)}
+.gv-contour path{stroke:rgba(31,122,107,.16)}
+.gv-contour path:nth-child(even){stroke:rgba(176,137,79,.18)}
+section[id]{scroll-margin-top:132px}
+
+/* ---- splash ---- */
+.gv-splash{background:radial-gradient(820px 620px at 50% 40%,#FFFFFF,#F2F6F3 72%),#F5F7F5}
+.gv-splash__mark{filter:drop-shadow(0 12px 30px rgba(15,46,34,.18))}
+.gv-splash__word{color:var(--pine);font-weight:600;letter-spacing:.16em}
+.gv-splash__word b{color:var(--teal)}
+.gv-splash__tag{color:var(--brass)}
+.gv-splash__bar{background:var(--hair)}
+.gv-splash__bar i{background:linear-gradient(90deg,transparent,var(--emer-br),var(--teal))}
+
+/* ---- display type: Newsreader tops out at 600 ---- */
+.gv-splash__word,.gv-brand__txt b,.gv-h1,.gv-h2,.gv-h3,.gv-statchip b,.gv-card h3,.mc-name,.mc-phead b,
+.mc-price,.mc-ro b,.cf-copy h3,.cf-memval b,.ow-anl-big b,.ow-avatar,.gmc-box b,.gl-card h4,.pb-card h3,
+.gv-stat__num,.gv-chat__title b,.gv-tier h4,.gv-chart h4,.gl-terr span{font-weight:600}
+.gv-h1,.gv-h2,.gv-h3,.gv-card h3,.cf-copy h3,.pb-card h3,.gl-card h4,.gmc-box b,.mc-name,.mc-phead b,
+.mc-ro b,.cf-memval b,.ow-anl-big b,.gv-statchip b,.gv-stat__num,.gv-tier h4,.gv-chart h4,
+.gv-chat__title b,.gv-splash__word,.gl-terr span{color:var(--pine)}
+.gv-h1{letter-spacing:-.02em;line-height:1.03}
+.gv-grad{background:linear-gradient(105deg,var(--teal),var(--emer-br) 46%,var(--brass));-webkit-background-clip:text;background-clip:text;color:transparent}
+.gv-eyebrow{color:var(--brass);font-weight:600}
+.gv-eyebrow::before{background:linear-gradient(90deg,var(--brass),transparent)}
+.gv-sec-tag{color:var(--brass)}
+.gv-lead{color:var(--text-dim)}
+.gv-lead b,.gv-muted b{color:var(--pine)}
+
+/* ---- shared site nav on top, legacy strip beneath ---- */
+.gv-shell{padding-top:112px}
+.gv-topbar2{top:68px;background:var(--paper2);border-bottom:1px solid var(--hair);padding:0 clamp(14px,3.5vw,42px);
+  min-height:44px;gap:12px;z-index:70;pointer-events:auto;flex-wrap:wrap}
+.gv-topbar2>*{min-width:0}
+.pl-back{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-body);font-weight:600;font-size:13.5px;color:var(--pine);
+  border:1px solid var(--hair);background:#fff;border-radius:999px;padding:6px 13px;box-shadow:var(--sh1);transition:.18s;white-space:nowrap}
+.pl-back:hover{border-color:var(--pine);transform:translateX(-2px)}
+.pl-strip{display:flex;align-items:center;gap:12px;min-width:0}
+.pl-tag{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--brass);font-weight:600;white-space:nowrap}
+@media(max-width:760px){.pl-tag{display:none}}
+.gv-topnav .tlink{color:var(--text-dim);font-family:var(--f-body)}
+.gv-topnav .tlink:hover{color:var(--pine);background:#fff}
+/* the section-rail toggle must not be mistaken for the site-nav burger above it */
+.gv-burger{width:38px;height:38px;border-radius:10px;border-color:rgba(176,137,79,.45);background:#fff;backdrop-filter:none;gap:3px}
+.gv-burger span{background:var(--brass);width:15px;height:1.5px}
+.gv-burger span:nth-child(2){width:11px}
+.gv-burger span:nth-child(3){width:15px}
+.gv-progress{top:auto;bottom:0;height:3px}
+.gv-progress i{background:linear-gradient(90deg,var(--teal),var(--emer-br));box-shadow:none}
+.gv-scrim{background:rgba(15,46,34,.35);backdrop-filter:blur(2px)}
+body #glyivLangPill{border:1px solid var(--hair);background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none;
+  font-family:var(--f-mono);color:var(--text-faint);box-shadow:var(--sh1)}
+body #glyivLangPill:hover{border-color:var(--teal)}
+body #glyivLangPill span.on{color:var(--teal);font-weight:600}
+body #glyivLangPill i{background:var(--hair)}
+
+/* ---- right-edge section rail ---- */
+.gv-nav__item{color:var(--text-faint)}
+.gv-nav__item:hover,.gv-nav__item.is-active{color:var(--pine)}
+.gv-nav__item.is-active .num{color:var(--brass)}
+.gv-nav__item.is-active .tick{background:linear-gradient(90deg,transparent,var(--teal));box-shadow:none}
+
+/* ---- buttons, chips, pills ---- */
+.gv-btn.is-primary{background:var(--pine);color:#fff;box-shadow:var(--sh1)}
+.gv-btn.is-primary:hover{box-shadow:var(--sh2)}
+.gv-btn.is-ghost{background:#fff;border-color:var(--hair);color:var(--pine)}
+.gv-btn.is-ghost:hover{background:var(--paper2);border-color:var(--pine)}
+.gv-btn.is-gold{background:linear-gradient(120deg,var(--brass),var(--brass2));color:#fff;box-shadow:var(--sh1)}
+.gv-chip{background:var(--paper2);border-color:var(--hair);color:var(--text-dim)}
+.gv-chip b{color:var(--pine)}
+.gv-chip .dot{background:var(--emer-br);box-shadow:0 0 0 3px rgba(28,174,107,.16)}
+.gv-pill{background:#fff;border-color:var(--hair);box-shadow:var(--sh1)}
+.gv-statchip{background:#fff;border-color:var(--hair);box-shadow:var(--sh1);backdrop-filter:none;padding:11px}
+.gv-statchip span{color:var(--brass)}
+.gv-hero__stats{gap:9px}
+.gv-scroll-cue{color:var(--text-faint)}
+.gv-scroll-cue i{background:linear-gradient(var(--teal),transparent)}
+.gv-hero__ring{border-color:rgba(15,46,34,.12)}
+.gv-hero__ring.r2{border-color:rgba(15,46,34,.07)}
+
+/* ---- cards, meters, stats ---- */
+.gv-card{background:#fff;border-color:var(--hair);box-shadow:var(--sh1);backdrop-filter:none}
+.gv-card:hover{border-color:var(--teal);box-shadow:var(--sh2)}
+.gv-card__ic{background:linear-gradient(140deg,rgba(31,122,107,.12),rgba(176,137,79,.08));border-color:var(--hair);color:var(--teal)}
+.gv-card p{color:var(--text-dim)}
+.gv-stat{background:#fff;border-color:var(--hair);box-shadow:var(--sh1)}
+.gv-stat__num .u{color:var(--brass)}
+.gv-stat__k{color:var(--brass)}
+.gv-tier{background:#fff;border-color:var(--hair);box-shadow:var(--sh1)}
+.gv-tier:hover{border-color:var(--teal)}
+.gv-tier__tag{color:var(--brass);font-weight:600}
+.gv-meter{background:var(--hair)}
+.gv-meter i{background:linear-gradient(90deg,var(--teal),var(--emer-br))}
+.gv-chart{background:#fff;border-color:var(--hair);box-shadow:var(--sh1)}
+.gv-bar__t{background:var(--hair)}
+.gv-bar__f{background:linear-gradient(90deg,var(--teal),var(--emer-br))}
+.gv-bar__v{color:var(--pine);font-weight:600}
+.gv-note{background:rgba(176,137,79,.08);border-color:rgba(176,137,79,.28);color:var(--brass2)}
+.gv-note.is-green{background:rgba(31,122,107,.06);border-color:rgba(31,122,107,.2);color:var(--pine)}
+.gv-note b{color:var(--pine)}
+.gv-feature__media{background:var(--paper2);border-color:var(--hair)}
+.gv-step{background:#fff;border-color:var(--hair);box-shadow:var(--sh1)}
+.gv-step:hover{border-color:var(--teal)}
+.gv-step__n{background:linear-gradient(140deg,var(--teal),var(--emer-br));color:#fff}
+.gv-step b{color:var(--pine)}
+
+/* ---- device mock: pine bezel, light screen (demo.html is light now) ---- */
+.gv-device{background:var(--pine);border-color:rgba(15,46,34,.5);box-shadow:0 40px 90px -40px rgba(15,46,34,.55), inset 0 0 0 1px rgba(255,255,255,.08)}
+.gv-device__notch{background:var(--pine)}
+.gv-device__screen{background:#fff}
+.gv-device iframe{background:#fff}
+
+/* ---- customer / owner carousels ---- */
+.cf-viewport{background:#fff;border-color:var(--hair);box-shadow:var(--sh1);backdrop-filter:none}
+.cf-copy p{color:var(--text-dim)}
+.cf-copy a{color:var(--teal);border-bottom-color:rgba(31,122,107,.35)}
+.cf-num{color:var(--brass)}
+.cf-pts li{color:var(--text)}
+.cf-arrow,.pb-arrow,.mc-arrow{background:#fff;border-color:var(--hair);color:var(--pine);box-shadow:var(--sh1)}
+.cf-arrow:hover,.pb-arrow:hover,.mc-arrow:hover{background:var(--paper2);border-color:var(--pine)}
+.cf-dot,.pb-dot{background:var(--hair)}
+.cf-dot.is-on,.pb-dot.is-on{background:var(--teal);box-shadow:none}
+.pb-dot.is-sol.is-on{background:var(--brass);box-shadow:none}
+.cf-phone{background:#fff;border-color:var(--hair);box-shadow:var(--sh2)}
+.cf-phone::after{background:var(--hair)}
+.cf-ph-top{color:var(--text-dim);border-bottom-color:var(--hair)}
+.cf-live,.cf-livdot{color:var(--teal)}
+.cf-tstep i{background:#fff;border-color:var(--hair)}
+.cf-tstep b{color:var(--pine)}
+.cf-trun{background:var(--hair)}
+.cf-tfill{background:linear-gradient(var(--emer-br),var(--teal))}
+@keyframes cfDot{0%,5%{background:#fff;border-color:var(--hair);box-shadow:none}9%,100%{background:var(--teal);border-color:var(--teal);box-shadow:0 0 0 3px rgba(31,122,107,.16)}}
+.cf-cb.me{background:linear-gradient(120deg,var(--teal),var(--emer-br));color:#fff}
+.cf-cb.liv{background:var(--paper2);border-color:var(--hair);color:var(--text)}
+.cf-typing span{background:var(--teal)}
+.cf-times span{border-color:var(--hair);color:var(--text-dim)}
+.cf-times span.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.cf-srow{color:var(--text-dim);border-bottom-color:var(--hair)}
+.cf-srow b.ok{background:rgba(31,122,107,.1);color:var(--teal)}
+.cf-srow b.no{background:rgba(180,85,58,.12);color:#8F3F27}
+.cf-tbl rect{fill:rgba(31,122,107,.08);stroke:#1F7A6B}
+.cf-tbl text{fill:#0F2E22}
+.cf-tbl.busy rect{fill:rgba(180,85,58,.12);stroke:rgba(180,85,58,.5)}
+.cf-tbl.busy text{fill:#8F3F27}
+.cf-tbl.pick rect{fill:#1F7A6B;stroke:#0F2E22;stroke-width:2.5}
+.cf-tbl.pick text{fill:#ffffff}
+.cf-memval span{color:var(--brass)}
+.cf-google,.mm-google{border:1px solid var(--hair);box-shadow:var(--sh1)}
+.cf-memchips span{background:var(--paper2);border-color:var(--hair);color:var(--text-dim)}
+
+/* menu customiser */
+.mc-item{background:linear-gradient(160deg,#FFFFFF,var(--paper2));border-color:var(--hair);box-shadow:var(--sh1)}
+.mc-item .mc-iem{filter:drop-shadow(0 10px 14px rgba(15,46,34,.16))}
+.mc-item .mc-inm{color:var(--pine)}
+.mc-item.is-active{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal),0 18px 40px -22px rgba(15,46,34,.35)}
+.mc-phead span{color:var(--brass)}
+.mc-price{color:var(--pine)}
+.mc-slider label{color:var(--text-dim)}
+.mc-slider label b{color:var(--teal)}
+.mc-slider input{background:var(--hair)}
+.mc-slider input::-webkit-slider-thumb{background:linear-gradient(140deg,var(--emer-br),var(--teal));box-shadow:0 2px 8px rgba(15,46,34,.22)}
+.mc-slider input::-moz-range-thumb{background:var(--teal)}
+.mc-szlabel{color:var(--brass)}
+.mc-szbtns button{background:#fff;border-color:var(--hair);color:var(--text-dim)}
+.mc-szbtns button.is-sel{background:var(--teal);color:#fff;border-color:var(--teal)}
+.mc-readout{background:var(--paper2);border-color:var(--hair)}
+.mc-ro span{color:var(--brass)}
+
+/* owner mocks */
+.ow-anl-big span{color:var(--brass)}
+.ow-bars span i{background:linear-gradient(180deg,var(--emer-br),var(--teal))}
+.ow-bars span em{color:var(--text-faint)}
+.ow-tag{background:rgba(31,122,107,.09);color:var(--teal);border-color:rgba(31,122,107,.2)}
+.ow-tag.is-gold{background:rgba(176,137,79,.12);color:var(--brass2);border-color:rgba(176,137,79,.3)}
+.ow-pos{background:#fff;border-color:var(--hair);box-shadow:var(--sh2)}
+.ow-pos-top{color:var(--text-dim);border-bottom-color:var(--hair)}
+.ow-pos-dot{background:var(--emer-br);box-shadow:0 0 0 3px rgba(28,174,107,.16)}
+.ow-pos-title{color:var(--pine)}
+.ow-pos-rev{color:var(--teal)}
+.ow-pcol-h{color:var(--brass);border-bottom-color:var(--hair)}
+.ow-pcol-h b{color:var(--teal)}
+.ow-pcard{background:var(--paper2);border-color:var(--hair)}
+.ow-pcard span{color:var(--pine)}
+.ow-pcard b{color:var(--teal)}
+.ow-pcard.ow-done{background:rgba(31,122,107,.09);border-color:rgba(31,122,107,.26)}
+@keyframes owDone{0%,100%{box-shadow:none}45%{box-shadow:0 0 0 1px rgba(31,122,107,.4),0 8px 20px -8px rgba(15,46,34,.3)}}
+.ow-pos-foot{border-top-color:var(--hair)}
+.ow-qris{background:rgba(31,122,107,.09);border-color:rgba(31,122,107,.2);color:var(--teal)}
+.ow-avatar{background:linear-gradient(135deg,var(--emer-br),var(--teal));color:#fff}
+.ow-prof b{color:var(--pine)}
+.ow-pchips span{background:var(--paper2);border-color:var(--hair);color:var(--text-dim)}
+.ow-spark{border-top-color:var(--hair)}
+.ow-spark em{color:var(--teal)}
+.ow-bavatar{filter:drop-shadow(0 14px 24px rgba(15,46,34,.16))}
+.ow-bswatches i{border-color:var(--hair)}
+@keyframes owApron{0%{fill:#1F7A6B}25%{fill:#B4553A}50%{fill:#2F5FA0}75%{fill:#B0894F}100%{fill:#1F7A6B}}
+@keyframes owCap{0%{fill:#0F2E22}25%{fill:#6E3A22}50%{fill:#22345E}75%{fill:#7A5A16}100%{fill:#0F2E22}}
+
+/* ---- green-membership loop ---- */
+.gmc-hubc{background:#fff;border:1px solid var(--teal);box-shadow:0 0 0 6px rgba(31,122,107,.06),var(--sh2)}
+@keyframes gmcHub{0%,100%{box-shadow:0 0 0 6px rgba(31,122,107,.05),var(--sh1)}50%{box-shadow:0 0 0 6px rgba(31,122,107,.1),var(--sh2)}}
+.gmc-hubc i{color:var(--brass)}
+.gmc-box{background:#fff;border-color:var(--hair);box-shadow:var(--sh1)}
+.gmc-box small{color:var(--text-faint)}
+@keyframes gmcPulse{0%,100%{box-shadow:var(--sh1)}50%{box-shadow:0 0 0 1px rgba(31,122,107,.35),var(--sh2)}}
+.gmc-box::after{color:var(--teal)}
+
+/* ---- roadmap ---- */
+.gl-cover-lbl{color:var(--brass)}
+.gl-track{background:var(--hair)}
+.gl-fill{background:linear-gradient(90deg,var(--teal),var(--brass));box-shadow:none}
+.gl-clabel{color:var(--brass);font-weight:600}
+.gl-card p{color:var(--text-dim)}
+.gl-chips span{background:var(--paper2);border-color:var(--hair);color:var(--pine)}
+.gl-rail::before{background:var(--hair)}
+.gl-rdot{background:#fff;border-color:var(--hair);color:var(--text-faint);box-shadow:var(--sh1)}
+.gl-rdot.is-on{background:var(--pine);border-color:var(--pine);color:#fff;box-shadow:var(--sh2)}
+.gl-rdot.is-done{border-color:var(--teal);color:var(--teal)}
+
+/* =================================================================
+   INTENTIONAL DARK INSETS — the 3D scenes and the lit night-map keep
+   a dark viewport, framed by the light page. Anything typed inside
+   them uses bright mint (#8affc1), never dark teal.
+   ================================================================= */
+.pb-stage,.gl-mapwrap,.liv-stage-frame{
+  background:radial-gradient(120% 120% at 50% 12%, #16452F 0%, #0F2E22 55%, #0A2318 100%);
+  border:1px solid rgba(15,46,34,.55);box-shadow:var(--sh3)}
+.pb-stage::after,.gl-mapwrap::after{background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(138,255,193,.05) 3px 4px);opacity:.5}
+.pb-hint{color:rgba(255,255,255,.55)}
+.pb-state{color:#FFC3A8}
+.pb[data-p="4"] .pb-state{color:#8affc1}
+.pb-tag{color:#8F3F27;border-color:rgba(180,85,58,.4);background:rgba(180,85,58,.07)}
+.pb-tag.is-sol{color:var(--teal);border-color:rgba(31,122,107,.3);background:rgba(31,122,107,.08)}
+.pb-card p{color:var(--text-dim)}
+.gl-mapwrap{border-radius:var(--r-xl)}
+.gl-terr span{color:var(--pine)}
+
+/* Liv 3D host: dark stage + white speech bubble */
+.liv-stage{filter:none}
+.liv-stage-frame{position:relative;border-radius:26px;overflow:hidden;padding:6px;margin:0 auto;width:min(360px,90vw)}
+.liv-stage-frame .liv-stage{width:100%;max-width:none;margin:0}
+.liv-stage-frame::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:26px;
+  background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(138,255,193,.045) 3px 4px);opacity:.5}
+.host-bubble{background:#fff;border:1px solid var(--hair);color:var(--pine);font-family:var(--f-body);box-shadow:var(--sh2);z-index:4}
+.host-bubble::after{border-right-color:var(--hair);border-bottom-color:var(--hair)}
+.liv-cz{max-width:340px}
+.cz-label{color:var(--brass)}
+.cz-sw.is-sel{border-color:var(--pine);box-shadow:0 0 0 2px rgba(31,122,107,.3)}
+.cz-sw.cz-logo{background:#fff;border-color:var(--hair);color:var(--pine)}
+.cz-sw.cz-logo.is-sel{border-color:var(--teal);box-shadow:0 0 0 2px rgba(31,122,107,.3)}
+.cz-sw.cz-opt{background:#fff;border-color:var(--hair);color:var(--text-dim)}
+.cz-sw.cz-opt.is-sel{border-color:var(--teal);color:var(--teal);box-shadow:0 0 0 2px rgba(31,122,107,.3)}
+
+/* ---- Liv assistant: launcher lens + light chat panel ---- */
+.liv-launcher canvas{position:relative;z-index:1;filter:drop-shadow(0 18px 34px rgba(15,46,34,.28))}
+.liv-launcher::before{content:"";position:absolute;left:50%;top:50%;width:56%;height:56%;transform:translate(-50%,-50%);
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 50% 40%, #17492F 0%, #0F2E22 58%, rgba(15,46,34,.86) 74%, rgba(15,46,34,0) 78%)}
+.liv-caption b{color:var(--pine);text-shadow:none;font-family:var(--f-disp);font-weight:600;letter-spacing:.28em}
+.liv-caption span{color:var(--brass)}
+.gv-chatwrap{background:#fff;border-color:var(--hair);box-shadow:var(--sh3);backdrop-filter:none}
+.gv-chat__head{background:var(--paper2);border-bottom-color:var(--hair)}
+.gv-chat__bot{background:radial-gradient(120% 120% at 50% 10%, #16452F, #0F2E22 62%);border-bottom-color:var(--hair)}
+.gv-chat__title span{color:var(--text-dim)}
+.gv-chat__title .on{background:var(--emer-br);box-shadow:0 0 0 3px rgba(28,174,107,.18)}
+.gv-chat__x{border-color:var(--hair);color:var(--text-dim);background:#fff}
+.gv-chat__x:hover{color:var(--pine);border-color:var(--pine)}
+.gv-chat__msgs::-webkit-scrollbar-thumb{background:var(--hair)}
+.gv-bubble.is-liv{background:var(--paper2);border-color:var(--hair);color:var(--text)}
+.gv-bubble.is-me{background:linear-gradient(120deg,var(--teal),var(--emer-br));color:#fff}
+.gv-typing{background:var(--paper2);border-color:var(--hair)}
+.gv-typing i{background:var(--teal)}
+.gv-qchip{background:#fff;border-color:var(--hair);color:var(--text-dim);box-shadow:var(--sh1)}
+.gv-chat__dock{border-top-color:var(--hair)}
+.gv-chat__dock input{background:#fff;border-color:var(--hair);color:var(--pine);font-family:var(--f-body)}
+.gv-chat__dock input:focus{border-color:var(--teal)}
+.gv-chat__send{background:linear-gradient(120deg,var(--teal),var(--emer-br));color:#fff}
+
+/* ---- closing CTA band + footer: the one deliberate dark passage ---- */
+.gv-cta-band{background:linear-gradient(150deg,var(--pine) 0%,#16452F 58%,#0F3B2B 100%);border-color:rgba(15,46,34,.6);box-shadow:var(--sh3)}
+.gv-cta-band .gv-h2{color:#fff}
+.gv-cta-band .gv-grad{background:linear-gradient(105deg,#8affc1,#33d188 48%,#F0CE8E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gv-cta-band .gv-lead{color:rgba(255,255,255,.86)}
+.gv-cta-band .gv-eyebrow{color:#8affc1}
+.gv-cta-band .gv-eyebrow::before{background:linear-gradient(90deg,#8affc1,transparent)}
+.gv-cta-band .gv-btn.is-primary{background:#fff;color:var(--pine)}
+.gv-cta-band .gv-btn.is-ghost{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4);color:#fff}
+.gv-cta-band .gv-btn.is-ghost:hover{background:rgba(255,255,255,.2)}
+.gv-invcontact{border-top-color:rgba(255,255,255,.2)}
+.gv-invcontact .gv-mono{color:rgba(255,255,255,.6)}
+.gv-invcontact a{color:#8affc1}
+.gv-invcontact a:hover{color:#fff}
+.gv-invsep{color:rgba(255,255,255,.4)}
+.gv-footer{background:var(--pine);border-top:0;color:rgba(255,255,255,.8)}
+.gv-footer .gv-brand{color:#fff}
+.gv-footer .gv-brand__txt span{color:#8affc1}
+.gv-footer .gv-muted{color:rgba(255,255,255,.66)}
+.gv-footer h5{color:#8affc1}
+.gv-footer a{color:rgba(255,255,255,.72)}
+.gv-footer a:hover{color:#fff}
+.gv-footer__bottom{border-top-color:rgba(255,255,255,.16);color:rgba(255,255,255,.52)}
+
+/* ---- touch layer: glyiv.css re-tints the glass panels dark; re-light them ---- */
+@media (hover:none) and (pointer:coarse){
+  .gv-card,.mc-wrap,.cf-viewport{background:#fff}
+  .gv-statchip{background:#fff}
+  .gv-burger{background:#fff}
+}
+@media (max-width:1100px){
+  .gv-secnav{background:rgba(255,255,255,.97);backdrop-filter:blur(16px);padding-top:132px}
+  .gv-nav__item{color:var(--text-dim)}
+  .gv-nav__item.is-active{color:var(--pine)}
+}
+@media (max-width:900px){
+  .gv-shell{padding-top:112px}
+}
+@media (max-width:560px){
+  .gv-topbar2{padding-left:14px;padding-right:14px}
+  .pl-back{font-size:12.5px;padding:6px 11px}
+}
+</style>
 <script src="assets/js/i18n.js?v=12"></script>
 <script src="assets/js/config.js?v=1"></script>
 <script type="importmap">
@@ -32,11 +404,11 @@
       <svg viewBox="0 0 100 100" width="100%" height="100%">
         <defs>
           <linearGradient id="spl" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#8affc1"/><stop offset=".55" stop-color="#1fae6b"/><stop offset="1" stop-color="#0d3526"/>
+            <stop offset="0" stop-color="#33d188"/><stop offset=".55" stop-color="#1F7A6B"/><stop offset="1" stop-color="#0F2E22"/>
           </linearGradient>
         </defs>
         <path d="M50 6C50 6 86 34 86 64C86 84 66 95 50 95C34 95 14 84 14 64C14 34 50 6 50 6Z" fill="url(#spl)"/>
-        <path d="M50 34C50 34 66 54 66 70C66 82 56 88 50 88C44 88 34 82 34 70C34 54 50 34 50 34Z" fill="#04150d" opacity=".55"/>
+        <path d="M50 34C50 34 66 54 66 70C66 82 56 88 50 88C44 88 34 82 34 70C34 54 50 34 50 34Z" fill="#0A2318" opacity=".32"/>
         <circle cx="50" cy="66" r="6" fill="#baffe0"/>
       </svg>
     </div>
@@ -49,18 +421,72 @@
 <div class="gv-bg-root"></div>
 <div class="gv-grain"></div>
 
-<!-- TOP BAR -->
+<!-- SHARED SITE NAV -->
+<header class="lnav" data-solid>
+  <div class="lnav__in">
+    <a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>
+    <nav class="lnav__links">
+      <div class="ldrop ldrop--mega">
+        <button class="ldrop__btn">Ekosistem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Inti platform</h4>
+            <a href="/lab/carbon-intelligence.html"><b>Carbon Intelligence</b><small>Lacak &middot; hitung &middot; offset</small></a>
+            <a href="/lab/tree.html"><b>Glyiv Aset</b><small>Pohon &amp; lahan (RWA)</small></a>
+            <a href="/lab/apps/kebun/"><b>Kebun Virtual</b><small>Rawat pohonmu, panen imbalan</small></a></div>
+          <div class="ldrop__grp"><h4>Ekonomi hijau</h4>
+            <a href="/lab/ekosistem/pasar.html"><b>Glyiv Pasar</b><small>Marketplace</small></a>
+            <a href="/lab/ekosistem/pangan.html"><b>Glyiv Pangan</b><small>Hub pangan berdata karbon</small></a>
+            <a href="/lab/ekosistem/dompet.html"><b>Glyiv Dompet</b><small>Carbon wallet</small></a>
+            <a href="/lab/ekosistem/dana.html"><b>Glyiv Dana</b><small>Investasi hijau</small></a>
+            <a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Sampah jadi imbalan</small></a></div>
+          <div class="ldrop__grp"><h4>Gaya hidup</h4>
+            <a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a>
+            <a href="/lab/ekosistem/sehat.html"><b>Glyiv Sehat</b><small>Habit sehat &amp; hijau</small></a>
+            <a href="/lab/ekosistem/belajar.html"><b>Glyiv Belajar</b><small>Literasi &amp; game</small></a></div>
+          <div class="ldrop__grp"><h4>Riset &amp; alat</h4>
+            <a href="/lab/ekosistem/lab-rnd.html"><b>Glyiv Lab</b><small>Material rendah-karbon</small></a>
+            <a href="/lab/apps/scanner/"><b>Scan Karbon</b><small>Foto item &rarr; estimasi</small></a>
+            <a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a></div>
+          <div class="ldrop__mega-foot"><span>Business tree tumbuh bertahap &middot; Live &amp; Roadmap</span><a href="/lab/apps/">Lihat semua aplikasi &rarr;</a></div>
+        </div>
+      </div>
+      <div class="ldrop">
+        <button class="ldrop__btn">Solusi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Keuangan</h4><a href="/lab/industri/bank-lembaga-keuangan.html">Bank &amp; Lembaga Keuangan</a><a href="/lab/industri/investor-aset-manajemen.html">Investor &amp; Aset Manajemen</a></div>
+          <div class="ldrop__grp"><h4>Industri Berat</h4><a href="/lab/industri/tambang-dan-logam.html">Tambang &amp; Logam</a><a href="/lab/industri/konstruksi-dan-semen.html">Konstruksi &amp; Semen</a><a href="/lab/industri/manufaktur.html">Manufaktur</a></div>
+          <div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a><a href="/lab/industri/retailer.html">Retailer (Toko/UMKM)</a></div>
+          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a></div>
+        </div>
+      </div>
+      <a href="/lab/kabar/index.html">Kabar</a>
+      <a href="/lab/landing/index.html" class="lnav__admin">Landing</a>
+      <div class="ldrop ldrop--r">
+        <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Glyiv</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim &amp; Manifesto</a><a href="/lab/kabar/index.html">Kabar</a></div>
+          <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
+        </div>
+      </div>
+    </nav>
+    <span class="lnav__sp"></span>
+    <a class="lnav__cta" href="/#gabung">Gabung</a>
+    <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  </div>
+</header>
+
+<!-- LEGACY BRIDGE STRIP (also hosts the section-rail burger on mobile) -->
 <header class="gv-topbar2">
-  <a class="gv-brand" href="index.html">
-    <svg class="gv-brand__logo" viewBox="0 0 100 100"><use href="#glyivmark"/></svg>
-    <div class="gv-brand__txt"><b>Glyiv</b><span>Carbon-Intelligent OS</span></div>
-  </a>
+  <div class="pl-strip">
+    <a class="pl-back" href="/lab/industri/fnb-ritel.html">&larr; Kembali ke Glyiv Outlet</a>
+    <span class="pl-tag">Arsip &middot; presentasi produk generasi awal</span>
+  </div>
   <div style="display:flex;align-items:center;gap:8px">
     <nav class="gv-topnav" aria-label="Tautan">
-      <a class="tlink" href="demo.html">Coba Demo</a>
-      <a class="tlink" href="index.html">Visi</a>
+      <a class="tlink" href="/demo.html">Demo pelanggan</a>
+      <a class="tlink" href="/demo-kasir.html">Papan pesanan</a>
     </nav>
-    <button class="gv-burger" id="gvBurger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <button class="gv-burger" id="gvBurger" aria-label="Daftar bagian"><span></span><span></span><span></span></button>
   </div>
 </header>
 <div class="gv-progress"><i id="gvProgress"></i></div>
@@ -68,10 +494,10 @@
 
 <!-- reusable logo symbol -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8affc1"/><stop offset=".55" stop-color="#1fae6b"/><stop offset="1" stop-color="#0d3526"/></linearGradient>
+  <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#33d188"/><stop offset=".55" stop-color="#1F7A6B"/><stop offset="1" stop-color="#0F2E22"/></linearGradient>
   <symbol id="glyivmark" viewBox="0 0 100 100">
     <path d="M50 6C50 6 86 34 86 64C86 84 66 95 50 95C34 95 14 84 14 64C14 34 50 6 50 6Z" fill="url(#lg)"/>
-    <path d="M50 34C50 34 66 54 66 70C66 82 56 88 50 88C44 88 34 82 34 70C34 54 50 34 50 34Z" fill="#04150d" opacity=".5"/>
+    <path d="M50 34C50 34 66 54 66 70C66 82 56 88 50 88C44 88 34 82 34 70C34 54 50 34 50 34Z" fill="#0A2318" opacity=".32"/>
     <circle cx="50" cy="66" r="5.5" fill="#baffe0"/>
   </symbol>
 </defs></svg>
@@ -101,13 +527,13 @@
           <div class="gv-hero__copy">
             <div class="gv-eyebrow" data-reveal>Dibangun untuk standar global</div>
             <h1 class="gv-h1" data-reveal data-d="1">Pesan dari meja.<br><span class="gv-grad">Tumbuhkan</span> bumi dari meja.</h1>
-            <p class="gv-lead" data-reveal data-d="2">Glyiv adalah sistem pemesanan & membership untuk kafe: scan QR di meja, ngobrol dengan <b style="color:var(--mint)">Liv</b> sang AI host, bayar lewat QRIS — tanpa antri ke kasir. Tiap pesanan otomatis jadi <b style="color:var(--mint)">green receipt</b> berdata karbon dan mendanai komunitas hijau lokal.</p>
+            <p class="gv-lead" data-reveal data-d="2">Glyiv adalah sistem pemesanan & membership untuk outlet: scan QR di meja, ngobrol dengan <b style="color:var(--mint)">Liv</b> sang AI host, bayar lewat QRIS — tanpa antri di titik bayar. Tiap pesanan otomatis jadi <b style="color:var(--mint)">green receipt</b> berdata karbon dan mendanai komunitas hijau lokal.</p>
             <div class="gv-hero__cta" data-reveal data-d="3">
               <a class="gv-btn is-primary" href="demo.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg> Coba Demo</a>
               <a class="gv-btn is-ghost" href="#investor">Untuk Investor</a>
             </div>
             <div class="gv-hero__stats" data-reveal data-d="4">
-              <div class="gv-statchip"><b>0</b><span>antrian kasir</span></div>
+              <div class="gv-statchip"><b>0</b><span>antrian di titik bayar</span></div>
               <div class="gv-statchip"><b>Per-item</b><span>jejak karbon</span></div>
               <div class="gv-statchip"><b>100%</b><span>kontribusi transparan</span></div>
               <div class="gv-statchip"><b>QRIS</b><span>siap pakai</span></div>
@@ -128,8 +554,8 @@
       <span class="gv-sec-tag">02 / Masalah</span>
       <div class="gv-inner">
         <div class="gv-eyebrow" data-reveal>Masalah</div>
-        <h2 class="gv-h2" data-reveal data-d="1">Antri di kasir membunuh momen — <br>dan datanya ikut hilang.</h2>
-        <p class="gv-lead" data-reveal data-d="2">Survei UX kami menegaskan dua hal: pelanggan malas antri, dan setiap struk kertas membuang data paling berharga di kafe — apa yang benar-benar dibeli.</p>
+        <h2 class="gv-h2" data-reveal data-d="1">Antri di titik bayar membunuh momen — <br>dan datanya ikut hilang.</h2>
+        <p class="gv-lead" data-reveal data-d="2">Survei UX kami menegaskan dua hal: pelanggan malas antri, dan setiap struk kertas membuang data paling berharga di outlet — apa yang benar-benar dibeli.</p>
 
         <!-- PROBLEM CAROUSEL — each problem a 3D scene (one shared canvas); content centered -->
         <div class="pb" id="pb" data-p="0" data-reveal>
@@ -167,7 +593,7 @@
       <span class="gv-sec-tag">03 / Produk</span>
       <div class="gv-inner">
         <div class="gv-eyebrow" data-reveal>Produk · Glyiv POS</div>
-        <h2 class="gv-h2" data-reveal data-d="1">Satu QR di meja. <span class="gv-grad">Seluruh kafe</span> di genggaman.</h2>
+        <h2 class="gv-h2" data-reveal data-d="1">Satu QR di meja. <span class="gv-grad">Seluruh outlet</span> di genggaman.</h2>
         <p class="gv-lead" data-reveal data-d="2">Bukan sekadar daftar fitur — coba sendiri: putar katalog menu 3D, atur takaran lewat slider, dan lihat nutrisi & jejak karbonnya berubah real-time.</p>
 
         <!-- CUSTOMER FEATURES — interactive carousel; each slide is a live, animated mock -->
@@ -180,34 +606,34 @@
               <article class="cf-slide" aria-label="Pesan via QR">
                 <div class="cf-media">
                   <svg class="cf-svg" viewBox="0 0 300 300" role="img" aria-label="Scan QR di meja">
-                    <ellipse cx="150" cy="262" rx="120" ry="16" fill="#021009"/>
-                    <rect x="34" y="184" width="150" height="62" rx="10" fill="#0c3322"/>
-                    <rect x="34" y="184" width="150" height="13" rx="6" fill="#15623f"/>
+                    <ellipse cx="150" cy="262" rx="120" ry="16" fill="#0F2E22" opacity=".07"/>
+                    <rect x="34" y="184" width="150" height="62" rx="10" fill="#E9EFEA"/>
+                    <rect x="34" y="184" width="150" height="13" rx="6" fill="#CBD8CF"/>
                     <g transform="translate(64,118)">
-                      <rect width="58" height="74" rx="7" fill="#f6fbf4"/>
-                      <rect x="9" y="9" width="40" height="40" rx="3" fill="#0e3a28"/>
-                      <g fill="#bdf5d3"><rect x="13" y="13" width="9" height="9"/><rect x="36" y="13" width="9" height="9"/><rect x="13" y="36" width="9" height="9"/><rect x="27" y="27" width="6" height="6"/><rect x="36" y="31" width="5" height="5"/><rect x="31" y="40" width="5" height="5"/></g>
-                      <text x="29" y="65" font-size="9" font-family="JetBrains Mono,monospace" fill="#15623f" text-anchor="middle" letter-spacing="2">SCAN</text>
+                      <rect width="58" height="74" rx="7" fill="#FFFFFF" stroke="#E7E9E6"/>
+                      <rect x="9" y="9" width="40" height="40" rx="3" fill="#0F2E22"/>
+                      <g fill="#8affc1"><rect x="13" y="13" width="9" height="9"/><rect x="36" y="13" width="9" height="9"/><rect x="13" y="36" width="9" height="9"/><rect x="27" y="27" width="6" height="6"/><rect x="36" y="31" width="5" height="5"/><rect x="31" y="40" width="5" height="5"/></g>
+                      <text x="29" y="65" font-size="9" font-family="IBM Plex Mono,ui-monospace,monospace" fill="#1F7A6B" text-anchor="middle" letter-spacing="2">SCAN</text>
                     </g>
                     <g class="cf-bob" transform="translate(176,86)">
-                      <rect width="84" height="156" rx="16" fill="#04140d" stroke="#1f9d63" stroke-width="1.5"/>
-                      <rect x="9" y="16" width="66" height="104" rx="7" fill="#08241a"/>
-                      <rect class="cf-scanbox" x="22" y="34" width="38" height="38" rx="5" fill="none" stroke="#33ffb0" stroke-width="2"/>
-                      <line class="cf-scanline" x1="22" y1="38" x2="60" y2="38" stroke="#33ffb0" stroke-width="2"/>
-                      <rect x="20" y="128" width="44" height="8" rx="4" fill="#1f9d63"/>
+                      <rect width="84" height="156" rx="16" fill="#0F2E22" stroke="#1F7A6B" stroke-width="1.5"/>
+                      <rect x="9" y="16" width="66" height="104" rx="7" fill="#16452F"/>
+                      <rect class="cf-scanbox" x="22" y="34" width="38" height="38" rx="5" fill="none" stroke="#8affc1" stroke-width="2"/>
+                      <line class="cf-scanline" x1="22" y1="38" x2="60" y2="38" stroke="#8affc1" stroke-width="2"/>
+                      <rect x="20" y="128" width="44" height="8" rx="4" fill="#4E9B7C"/>
                     </g>
                     <g class="cf-toast" transform="translate(150,44)">
-                      <rect x="-92" y="-15" width="184" height="30" rx="15" fill="#0e3a28" stroke="#33d188" stroke-width="1"/>
-                      <circle cx="-74" cy="0" r="7" fill="#33d188"/><path d="M-77 0l2.4 2.4 4-4.4" stroke="#04140d" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-                      <text x="-60" y="4" font-size="11" font-family="Inter,sans-serif" fill="#d8ffe9">Pesanan masuk · 0 antri</text>
+                      <rect x="-92" y="-15" width="184" height="30" rx="15" fill="#0F2E22" stroke="#1CAE6B" stroke-width="1"/>
+                      <circle cx="-74" cy="0" r="7" fill="#1CAE6B"/><path d="M-77 0l2.4 2.4 4-4.4" stroke="#FFFFFF" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+                      <text x="-60" y="4" font-size="11" font-family="Hanken Grotesk,system-ui,sans-serif" fill="#EAF7F0">Pesanan masuk · 0 antri</text>
                     </g>
                   </svg>
                 </div>
                 <div class="cf-copy">
                   <span class="cf-num gv-mono">01 / 07</span>
                   <h3>Pesan via QR · tanpa antri</h3>
-                  <p>Scan kode di meja, langsung pesan dari kursimu — tak perlu turun dari lantai 2 atau ikut antrian kasir. Pesanan masuk ke dapur seketika.</p>
-                  <ul class="cf-pts"><li>Tanpa unduh aplikasi — jalan di browser HP apa pun</li><li>Tiap meja punya QR sendiri</li><li>0 antrian, 0 kursi kosong gara-gara nunggu</li></ul>
+                  <p>Scan kode di meja, langsung pesan dari kursimu — tak perlu turun dari lantai 2 atau ikut antrian di titik bayar. Pesanan masuk ke dapur seketika.</p>
+                  <ul class="cf-pts"><li>Tanpa unduh aplikasi — jalan di browser HP apa pun</li><li>Tiap meja punya QR sendiri</li><li>Antrian menyusut, kursi tak lama kosong gara-gara nunggu</li></ul>
                 </div>
               </article>
 
@@ -240,7 +666,7 @@
                   <div class="cf-phone">
                     <div class="cf-ph-top"><span>Pesanan #A12</span><span class="cf-live">● live</span></div>
                     <div class="cf-track-steps">
-                      <div class="cf-tstep"><i></i><div><b>Diproses</b><span>kasir terima · 12:01</span></div></div>
+                      <div class="cf-tstep"><i></i><div><b>Diproses</b><span>diterima · 12:01</span></div></div>
                       <div class="cf-tstep"><i></i><div><b>Dimasak</b><span>dapur · 12:03</span></div></div>
                       <div class="cf-tstep"><i></i><div><b>Diantar</b><span>menuju meja 09</span></div></div>
                       <div class="cf-tstep"><i></i><div><b>Selesai</b><span>selamat menikmati</span></div></div>
@@ -251,8 +677,8 @@
                 <div class="cf-copy">
                   <span class="cf-num gv-mono">03 / 07</span>
                   <h3>Lacak pesanan real-time</h3>
-                  <p>Lihat status berjalan langsung dari mejamu: diproses, dimasak, diantar, selesai. Tak perlu bolak-balik bertanya ke kasir.</p>
-                  <ul class="cf-pts"><li>Status sinkron dengan papan kasir</li><li>Notifikasi tiap tahap berubah</li><li>Estimasi waktu antar</li></ul>
+                  <p>Lihat status berjalan langsung dari mejamu: diproses, dimasak, diantar, selesai. Tak perlu bolak-balik bertanya ke titik bayar.</p>
+                  <ul class="cf-pts"><li>Status sinkron dengan papan pesanan outlet</li><li>Notifikasi tiap tahap berubah</li><li>Estimasi waktu antar</li></ul>
                 </div>
               </article>
 
@@ -281,11 +707,11 @@
               <!-- 5 · Booking meja -->
               <article class="cf-slide" aria-label="Booking meja">
                 <div class="cf-media">
-                  <svg class="cf-svg" viewBox="0 0 300 300" role="img" aria-label="Denah meja kafe">
-                    <rect x="20" y="20" width="260" height="260" rx="16" fill="#08241a" stroke="#15623f" stroke-width="1"/>
-                    <rect x="20" y="20" width="260" height="30" rx="14" fill="#0c3322"/>
-                    <text x="34" y="40" font-size="12" font-family="JetBrains Mono,monospace" fill="#7fe9b3" letter-spacing="1">DENAH · LANTAI 2</text>
-                    <g font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle">
+                  <svg class="cf-svg" viewBox="0 0 300 300" role="img" aria-label="Denah meja outlet">
+                    <rect x="20" y="20" width="260" height="260" rx="16" fill="#FFFFFF" stroke="#E7E9E6" stroke-width="1"/>
+                    <rect x="20" y="20" width="260" height="30" rx="14" fill="#0F2E22"/>
+                    <text x="34" y="40" font-size="12" font-family="IBM Plex Mono,ui-monospace,monospace" fill="#8affc1" letter-spacing="1">DENAH · LANTAI 2</text>
+                    <g font-family="IBM Plex Mono,ui-monospace,monospace" font-size="11" text-anchor="middle">
                       <g class="cf-tbl busy"><rect x="48" y="78" width="52" height="44" rx="8"/><text x="74" y="105">07</text></g>
                       <g class="cf-tbl free"><rect x="124" y="78" width="52" height="44" rx="8"/><text x="150" y="105">08</text></g>
                       <g class="cf-tbl pick"><rect x="200" y="78" width="52" height="44" rx="8"/><text x="226" y="105">09</text></g>
@@ -300,7 +726,7 @@
                 <div class="cf-copy">
                   <span class="cf-num gv-mono">05 / 07</span>
                   <h3>Booking &amp; pilih meja</h3>
-                  <p>Lihat denah kafe secara langsung dan amankan meja kosong sebelum datang. Yang terisi ditandai jelas, yang dipilih menyala.</p>
+                  <p>Lihat denah outlet secara langsung dan amankan meja kosong sebelum datang. Yang terisi ditandai jelas, yang dipilih menyala.</p>
                   <ul class="cf-pts"><li>Status meja real-time</li><li>Pilih lokasi favorit (dekat jendela, lantai 2)</li><li>Datang langsung duduk</li></ul>
                 </div>
               </article>
@@ -323,7 +749,7 @@
                   <span class="cf-num gv-mono">06 / 07</span>
                   <h3>Pre-order &amp; stok real-time</h3>
                   <p>Pesan lebih awal untuk diambil pada jam pilihanmu, dan lihat menu yang sudah habis sebelum memesan — tanpa kecewa di tempat.</p>
-                  <ul class="cf-pts"><li>Pilih slot waktu ambil</li><li>Menu habis otomatis ditandai</li><li>Cocok untuk kafe ber-close-order</li></ul>
+                  <ul class="cf-pts"><li>Pilih slot waktu ambil</li><li>Menu habis otomatis ditandai</li><li>Cocok untuk outlet ber-close-order</li></ul>
                 </div>
               </article>
 
@@ -332,7 +758,7 @@
                 <div class="cf-media">
                   <div class="cf-phone cf-mem">
                     <div class="cf-memring">
-                      <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="9"/><circle class="cf-memarc" cx="60" cy="60" r="50" fill="none" stroke="#33d188" stroke-width="9" stroke-linecap="round" transform="rotate(-90 60 60)"/></svg>
+                      <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="#EDF1ED" stroke-width="9"/><circle class="cf-memarc" cx="60" cy="60" r="50" fill="none" stroke="#1F7A6B" stroke-width="9" stroke-linecap="round" transform="rotate(-90 60 60)"/></svg>
                       <div class="cf-memval"><b id="cfPts" data-countup="1240">0</b><span>poin hijau</span></div>
                     </div>
                     <button class="cf-google"><svg viewBox="0 0 24 24" width="15" height="15"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.6a4.8 4.8 0 0 1-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.6z"/><path fill="#34A853" d="M12 23c2.8 0 5.2-.9 6.9-2.5l-3.4-2.6c-.9.6-2.1 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10.4 10.4 0 0 0 12 23z"/><path fill="#FBBC05" d="M6.2 14.6a6.2 6.2 0 0 1 0-4l-3.5-2.7a10.4 10.4 0 0 0 0 9.4l3.5-2.7z"/><path fill="#EA4335" d="M12 5.4c1.5 0 2.9.5 3.9 1.5l2.9-2.9A10.4 10.4 0 0 0 2.7 7.9l3.5 2.7C7 7.2 9.3 5.4 12 5.4z"/></svg> Lanjut dengan Google</button>
@@ -357,7 +783,7 @@
         </div>
 
         <!-- OWNER FEATURES — interactive carousel; each slide is a live, animated mock -->
-        <div class="gv-eyebrow gv-mt-l" data-reveal>Untuk Pemilik Kafe</div>
+        <div class="gv-eyebrow gv-mt-l" data-reveal>Untuk Pemilik Outlet</div>
         <div class="cf" data-reveal>
           <div class="cf-viewport">
             <div class="cf-track">
@@ -371,48 +797,48 @@
                     <div class="ow-bars" aria-hidden="true">
                       <span style="--h:46%"><i></i><em>Kopi</em></span><span style="--h:72%"><i></i><em>Sapi</em></span><span style="--h:30%"><i></i><em>Teh</em></span><span style="--h:94%"><i></i><em>Burger</em></span><span style="--h:40%"><i></i><em>Salad</em></span><span style="--h:60%"><i></i><em>Mie</em></span>
                     </div>
-                    <div class="ow-tags"><span class="ow-tag">Aset data level-item</span><span class="ow-tag is-gold">Siap dilisensikan</span></div>
+                    <div class="ow-tags"><span class="ow-tag">Aset data level-item</span><span class="ow-tag is-gold">Potensi lisensi</span></div>
                   </div>
                 </div>
                 <div class="cf-copy">
                   <span class="cf-num gv-mono">01 / 06</span>
                   <h3>Data karbon tiap menu</h3>
-                  <p>Tiap item dihitung emisinya otomatis — bukan sekadar laporan, tapi aset data level-item yang bisa kamu lisensikan atau setor untuk kredit karbon.</p>
+                  <p>Tiap item dihitung emisinya otomatis — bukan sekadar laporan, tapi aset data level-item yang kelak bisa kamu lisensikan atau setor untuk kredit karbon.</p>
                   <ul class="cf-pts"><li>Jejak CO₂e per porsi, dihitung ulang real-time</li><li>Ranking menu hijau vs. boros emisi</li><li>Ekspor sebagai dataset bernilai jual</li></ul>
                 </div>
               </article>
 
-              <!-- 2 · Tanpa kasir lantai 2 -->
-              <article class="cf-slide" aria-label="Tanpa kasir lantai dua">
+              <!-- 2 · Tanpa titik bayar di lantai 2 -->
+              <article class="cf-slide" aria-label="Tanpa titik bayar di lantai dua">
                 <div class="cf-media">
                   <svg class="cf-svg" viewBox="0 0 300 300" role="img" aria-label="Denah dua lantai, tiap meja punya QR">
-                    <rect x="26" y="150" width="248" height="118" rx="12" fill="#08241a" stroke="#15623f"/>
-                    <rect x="26" y="34" width="248" height="104" rx="12" fill="#0a2c20" stroke="#15623f"/>
-                    <text x="40" y="56" font-family="JetBrains Mono,monospace" font-size="10" fill="#7fe9b3" letter-spacing="1">LANTAI 2 · tanpa kasir</text>
-                    <text x="40" y="172" font-family="JetBrains Mono,monospace" font-size="10" fill="#7fe9b3" letter-spacing="1">LANTAI 1 · 1 kasir</text>
+                    <rect x="26" y="150" width="248" height="118" rx="12" fill="#F5F7F5" stroke="#DCE3DD"/>
+                    <rect x="26" y="34" width="248" height="104" rx="12" fill="#FFFFFF" stroke="#DCE3DD"/>
+                    <text x="40" y="56" font-family="IBM Plex Mono,ui-monospace,monospace" font-size="10" fill="#1F7A6B" letter-spacing="1">LANTAI 2 · tanpa titik bayar</text>
+                    <text x="40" y="172" font-family="IBM Plex Mono,ui-monospace,monospace" font-size="10" fill="#1F7A6B" letter-spacing="1">LANTAI 1 · 1 titik bayar</text>
                     <g class="ow-qr">
-                      <g transform="translate(70,74)"><rect width="30" height="30" rx="5" fill="#0e3a28" stroke="#33d188"/><rect x="7" y="7" width="6" height="6" fill="#33ffb0"/><rect x="17" y="7" width="6" height="6" fill="#33ffb0"/><rect x="7" y="17" width="6" height="6" fill="#33ffb0"/><rect x="17" y="17" width="6" height="6" fill="#7fe9b3"/></g>
-                      <g transform="translate(135,90)"><rect width="30" height="30" rx="5" fill="#0e3a28" stroke="#33d188"/><rect x="7" y="7" width="6" height="6" fill="#33ffb0"/><rect x="17" y="7" width="6" height="6" fill="#7fe9b3"/><rect x="7" y="17" width="6" height="6" fill="#7fe9b3"/><rect x="17" y="17" width="6" height="6" fill="#33ffb0"/></g>
-                      <g transform="translate(205,72)"><rect width="30" height="30" rx="5" fill="#0e3a28" stroke="#33d188"/><rect x="7" y="7" width="6" height="6" fill="#7fe9b3"/><rect x="17" y="7" width="6" height="6" fill="#33ffb0"/><rect x="7" y="17" width="6" height="6" fill="#33ffb0"/><rect x="17" y="17" width="6" height="6" fill="#7fe9b3"/></g>
+                      <g transform="translate(70,74)"><rect width="30" height="30" rx="5" fill="#0F2E22" stroke="#1CAE6B"/><rect x="7" y="7" width="6" height="6" fill="#8affc1"/><rect x="17" y="7" width="6" height="6" fill="#8affc1"/><rect x="7" y="17" width="6" height="6" fill="#8affc1"/><rect x="17" y="17" width="6" height="6" fill="#33d188"/></g>
+                      <g transform="translate(135,90)"><rect width="30" height="30" rx="5" fill="#0F2E22" stroke="#1CAE6B"/><rect x="7" y="7" width="6" height="6" fill="#8affc1"/><rect x="17" y="7" width="6" height="6" fill="#33d188"/><rect x="7" y="17" width="6" height="6" fill="#33d188"/><rect x="17" y="17" width="6" height="6" fill="#8affc1"/></g>
+                      <g transform="translate(205,72)"><rect width="30" height="30" rx="5" fill="#0F2E22" stroke="#1CAE6B"/><rect x="7" y="7" width="6" height="6" fill="#33d188"/><rect x="17" y="7" width="6" height="6" fill="#8affc1"/><rect x="7" y="17" width="6" height="6" fill="#8affc1"/><rect x="17" y="17" width="6" height="6" fill="#33d188"/></g>
                     </g>
-                    <g transform="translate(95,196)"><circle r="15" fill="#15623f"/><text y="5" font-size="15" text-anchor="middle">💳</text></g>
-                    <text x="95" y="240" font-family="JetBrains Mono,monospace" font-size="9" fill="#9fb8ac" text-anchor="middle">kasir</text>
-                    <g class="ow-save" transform="translate(210,210)"><rect x="-46" y="-16" width="92" height="32" rx="16" fill="#0e3a28" stroke="#33d188"/><text y="5" font-size="13" font-family="Inter,sans-serif" fill="#d8ffe9" text-anchor="middle">−1 pos kasir</text></g>
+                    <g transform="translate(95,196)"><circle r="15" fill="#1F7A6B"/><text y="5" font-size="15" text-anchor="middle">💳</text></g>
+                    <text x="95" y="240" font-family="IBM Plex Mono,ui-monospace,monospace" font-size="9" fill="#6B7280" text-anchor="middle">titik bayar</text>
+                    <g class="ow-save" transform="translate(210,210)"><rect x="-46" y="-16" width="92" height="32" rx="16" fill="#0F2E22" stroke="#1CAE6B"/><text y="5" font-size="13" font-family="Hanken Grotesk,system-ui,sans-serif" fill="#EAF7F0" text-anchor="middle">−1 titik bayar</text></g>
                   </svg>
                 </div>
                 <div class="cf-copy">
                   <span class="cf-num gv-mono">02 / 06</span>
-                  <h3>Tanpa kasir di lantai 2</h3>
-                  <p>Tiap meja punya QR sendiri, jadi pelanggan di lantai atas pesan tanpa turun. Kamu hemat satu pos kasir penuh — langsung ke margin.</p>
-                  <ul class="cf-pts"><li>QR unik per meja, otomatis ter-routing ke dapur</li><li>Hemat gaji & ruang 1 kasir</li><li>Antrian turun, perputaran meja naik</li></ul>
+                  <h3>Tanpa titik bayar di lantai 2</h3>
+                  <p>Tiap meja punya QR sendiri, jadi pelanggan di lantai atas pesan tanpa turun. Kamu berpeluang hemat satu pos titik bayar penuh — langsung ke margin.</p>
+                  <ul class="cf-pts"><li>QR unik per meja, otomatis ter-routing ke dapur</li><li>Berpotensi hemat gaji &amp; ruang 1 titik bayar</li><li>Potensi antrian turun, perputaran meja naik</li></ul>
                 </div>
               </article>
 
-              <!-- 3 · Dashboard kasir (POS) -->
-              <article class="cf-slide" aria-label="Dashboard kasir POS">
+              <!-- 3 · Papan pesanan outlet (POS) -->
+              <article class="cf-slide" aria-label="Papan pesanan outlet POS">
                 <div class="cf-media">
                   <div class="ow-pos">
-                    <div class="ow-pos-top"><span class="ow-pos-dot"></span><span class="ow-pos-title">Papan Kasir</span><span class="ow-pos-rev">Rp 2,4jt<i> · hari ini</i></span><span class="cf-live">● live</span></div>
+                    <div class="ow-pos-top"><span class="ow-pos-dot"></span><span class="ow-pos-title">Papan Pesanan</span><span class="ow-pos-rev">Rp 2,4jt<i> · hari ini</i></span><span class="cf-live">● live</span></div>
                     <div class="ow-pos-board">
                       <div class="ow-pcol">
                         <div class="ow-pcol-h">Bayar <b>2</b></div>
@@ -437,9 +863,9 @@
                 </div>
                 <div class="cf-copy">
                   <span class="cf-num gv-mono">03 / 06</span>
-                  <h3>Dashboard kasir (POS)</h3>
+                  <h3>Papan pesanan outlet (POS)</h3>
                   <p>Terima pembayaran QRIS, lalu geser status pesanan dari kolom ke kolom hingga selesai — sinkron real-time dengan pelacakan pelanggan.</p>
-                  <ul class="cf-pts"><li>Papan kanban: Bayar → Masak → Antar → Selesai</li><li>Sinkron dua arah dengan aplikasi pelanggan</li><li><a href="demo-kasir.html" target="_blank" rel="noopener">Buka demo kasir ↗</a></li></ul>
+                  <ul class="cf-pts"><li>Papan kanban: Bayar → Masak → Antar → Selesai</li><li>Sinkron dua arah dengan aplikasi pelanggan</li><li><a href="/demo-kasir.html" target="_blank" rel="noopener">Buka demo papan pesanan ↗</a></li></ul>
                 </div>
               </article>
 
@@ -450,7 +876,7 @@
                     <div class="cf-ph-top"><span>Profil pelanggan</span><span class="cf-live">CRM</span></div>
                     <div class="ow-prof"><div class="ow-avatar">A</div><div><b>Andi · pelanggan tetap</b><span>14 kunjungan · bulan ini</span></div></div>
                     <div class="ow-pchips"><span>☕ Kopi aren</span><span>🌶️ Pedas</span><span>🧊 Less ice</span><span>🌿 Green member</span></div>
-                    <div class="ow-spark"><svg viewBox="0 0 200 60" preserveAspectRatio="none"><polyline class="ow-sparkline" points="0,46 28,40 56,44 84,30 112,33 140,20 168,24 200,10" fill="none" stroke="#33d188" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><em>kunjungan ulang ↑</em></div>
+                    <div class="ow-spark"><svg viewBox="0 0 200 60" preserveAspectRatio="none"><polyline class="ow-sparkline" points="0,46 28,40 56,44 84,30 112,33 140,20 168,24 200,10" fill="none" stroke="#1F7A6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><em>kunjungan ulang ↑</em></div>
                   </div>
                 </div>
                 <div class="cf-copy">
@@ -466,22 +892,22 @@
                 <div class="cf-media">
                   <div class="ow-brand">
                     <svg class="ow-bavatar" viewBox="0 0 120 140" role="img" aria-label="Avatar Liv ber-brand">
-                      <ellipse cx="60" cy="132" rx="34" ry="5" fill="#020c07" opacity=".5"/>
-                      <path class="ow-bapron" d="M34 138 L37 84 Q40 70 60 70 Q80 70 83 84 L86 138 Z" fill="#1f9d63"/>
-                      <circle cx="60" cy="100" r="11" fill="#f6fbf4"/><text x="60" y="105" font-size="12" font-weight="800" font-family="Bricolage Grotesque,sans-serif" fill="#15623f" text-anchor="middle">G</text>
+                      <ellipse cx="60" cy="132" rx="34" ry="5" fill="#0F2E22" opacity=".12"/>
+                      <path class="ow-bapron" d="M34 138 L37 84 Q40 70 60 70 Q80 70 83 84 L86 138 Z" fill="#1F7A6B"/>
+                      <circle cx="60" cy="100" r="11" fill="#FFFFFF"/><text x="60" y="105" font-size="12" font-weight="700" font-family="Newsreader,Georgia,serif" fill="#1F7A6B" text-anchor="middle">G</text>
                       <circle cx="60" cy="48" r="22" fill="#f1c69c"/>
                       <circle cx="52" cy="48" r="2.4" fill="#23170f"/><circle cx="68" cy="48" r="2.4" fill="#23170f"/>
                       <path d="M53 56 Q60 61 67 56" stroke="#7a3b22" stroke-width="2" fill="none" stroke-linecap="round"/>
-                      <path class="ow-bcap" d="M40 38 Q40 22 60 22 Q80 22 80 38 Q60 30 40 38 Z" fill="#0e3a28"/>
+                      <path class="ow-bcap" d="M40 38 Q40 22 60 22 Q80 22 80 38 Q60 30 40 38 Z" fill="#0F2E22"/>
                     </svg>
-                    <div class="ow-bswatches"><i style="background:#1f9d63"></i><i style="background:#c75c39"></i><i style="background:#3a5bd0"></i><i style="background:#e0a92b"></i></div>
+                    <div class="ow-bswatches"><i style="background:#1F7A6B"></i><i style="background:#B4553A"></i><i style="background:#2F5FA0"></i><i style="background:#B0894F"></i></div>
                   </div>
                 </div>
                 <div class="cf-copy">
                   <span class="cf-num gv-mono">05 / 06</span>
                   <h3>Avatar AI ber-brand</h3>
-                  <p>Dandani Liv dengan logo, warna celemek, dan topi kafemu sendiri — sosok ramah yang jadi wajah brand-mu di tiap pesanan.</p>
-                  <ul class="cf-pts"><li>Warna &amp; logo mengikuti identitas kafe</li><li>Sosok pria atau wanita</li><li><a href="#liv">Coba kustomisasi di bawah →</a></li></ul>
+                  <p>Dandani Liv dengan logo, warna celemek, dan topi outlet-mu sendiri — sosok ramah yang jadi wajah brand-mu di tiap pesanan.</p>
+                  <ul class="cf-pts"><li>Warna &amp; logo mengikuti identitas outlet</li><li>Sosok pria atau wanita</li><li><a href="#liv">Coba kustomisasi di bawah →</a></li></ul>
                 </div>
               </article>
 
@@ -489,12 +915,12 @@
               <article class="cf-slide" aria-label="Loop hijau otomatis">
                 <div class="cf-media">
                   <svg class="cf-svg" viewBox="0 0 300 260" role="img" aria-label="Sebagian transaksi mengalir ke komunitas hijau">
-                    <g transform="translate(54,40)"><rect x="-44" y="-22" width="88" height="44" rx="10" fill="#0e3a28" stroke="#15623f"/><text y="-2" font-size="10" font-family="JetBrains Mono,monospace" fill="#9fb8ac" text-anchor="middle">Tiap pesanan</text><text y="14" font-size="13" font-family="Inter,sans-serif" font-weight="700" fill="#fff" text-anchor="middle">Rp 28.000</text></g>
-                    <path id="owFlowPath" d="M54 64 C 54 150 150 150 150 196" fill="none" stroke="#1f6e49" stroke-width="2" stroke-dasharray="3 4"/>
-                    <g class="ow-coin"><circle r="9" fill="#f5c451"/><text y="4" font-size="10" text-anchor="middle">🌱</text><animateMotion dur="2.6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1"><mpath href="#owFlowPath"/></animateMotion></g>
-                    <g class="ow-coin ow-coin2"><circle r="9" fill="#f5c451"/><text y="4" font-size="10" text-anchor="middle">🌱</text><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite"><mpath href="#owFlowPath"/></animateMotion></g>
-                    <g transform="translate(150,214)"><ellipse cx="0" cy="0" rx="62" ry="30" fill="#0e3a28" stroke="#33d188"/><text y="-4" font-size="20" text-anchor="middle">🌳</text><text y="16" font-size="9.5" font-family="JetBrains Mono,monospace" fill="#7fe9b3" text-anchor="middle">Komunitas Hijau</text></g>
-                    <g transform="translate(244,150)"><rect x="-40" y="-18" width="80" height="36" rx="9" fill="#08241a" stroke="#15623f"/><text y="-2" font-size="8" font-family="JetBrains Mono,monospace" fill="#9fb8ac" text-anchor="middle">terkumpul</text><text y="12" font-size="12" font-weight="700" font-family="Inter,sans-serif" fill="#33d188" text-anchor="middle">Rp <tspan data-countup="4820">0</tspan></text></g>
+                    <g transform="translate(54,40)"><rect x="-44" y="-22" width="88" height="44" rx="10" fill="#FFFFFF" stroke="#E7E9E6"/><text y="-2" font-size="10" font-family="IBM Plex Mono,ui-monospace,monospace" fill="#6B7280" text-anchor="middle">Tiap pesanan</text><text y="14" font-size="13" font-family="Hanken Grotesk,system-ui,sans-serif" font-weight="700" fill="#0F2E22" text-anchor="middle">Rp 28.000</text></g>
+                    <path id="owFlowPath" d="M54 64 C 54 150 150 150 150 196" fill="none" stroke="#C6D2CB" stroke-width="2" stroke-dasharray="3 4"/>
+                    <g class="ow-coin"><circle r="9" fill="#B0894F"/><text y="4" font-size="10" text-anchor="middle">🌱</text><animateMotion dur="2.6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1"><mpath href="#owFlowPath"/></animateMotion></g>
+                    <g class="ow-coin ow-coin2"><circle r="9" fill="#B0894F"/><text y="4" font-size="10" text-anchor="middle">🌱</text><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite"><mpath href="#owFlowPath"/></animateMotion></g>
+                    <g transform="translate(150,214)"><ellipse cx="0" cy="0" rx="62" ry="30" fill="#0F2E22" stroke="#1CAE6B"/><text y="-4" font-size="20" text-anchor="middle">🌳</text><text y="16" font-size="9.5" font-family="IBM Plex Mono,ui-monospace,monospace" fill="#8affc1" text-anchor="middle">Komunitas Hijau</text></g>
+                    <g transform="translate(244,150)"><rect x="-40" y="-18" width="80" height="36" rx="9" fill="#F5F7F5" stroke="#E7E9E6"/><text y="-2" font-size="8" font-family="IBM Plex Mono,ui-monospace,monospace" fill="#6B7280" text-anchor="middle">terkumpul</text><text y="12" font-size="12" font-weight="700" font-family="Hanken Grotesk,system-ui,sans-serif" fill="#1F7A6B" text-anchor="middle">Rp <tspan data-countup="4820">0</tspan></text></g>
                   </svg>
                 </div>
                 <div class="cf-copy">
@@ -523,9 +949,11 @@
       <div class="gv-inner">
         <div class="gv-demo-grid" style="grid-template-columns:.85fr 1.15fr;align-items:center">
           <div class="gv-center" data-reveal style="display:flex;flex-direction:column;align-items:center;gap:18px">
-            <div class="liv-stage">
-              <div class="host-bubble" id="hostBubble" aria-live="polite"></div>
-              <canvas id="livHostCanvas"></canvas>
+            <div class="liv-stage-frame">
+              <div class="liv-stage">
+                <div class="host-bubble" id="hostBubble" aria-live="polite"></div>
+                <canvas id="livHostCanvas"></canvas>
+              </div>
             </div>
             <div class="liv-cz" data-reveal data-d="1">
               <div class="cz-row"><span class="cz-label">Celemek</span><div class="cz-swatches">
@@ -566,7 +994,7 @@
               </div></div>
             </div>
             <a class="gv-btn is-primary" href="demo.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M11 18h2"/></svg> Coba host di Demo Pelanggan</a>
-            <div class="gv-faint gv-mono" style="font-size:11px;letter-spacing:.1em">Avatar ber-brand · sosok kafe yang ramah</div>
+            <div class="gv-faint gv-mono" style="font-size:11px;letter-spacing:.1em">Avatar ber-brand · sosok outlet yang ramah</div>
           </div>
           <div>
             <div class="gv-eyebrow" data-reveal>Liv · AI Host</div>
@@ -579,7 +1007,7 @@
               <div class="gv-bubble is-liv">Mantap! 🌿 Teh Markisa & Pisang Epe paling ramah bumi — Green Points-nya juga lebih banyak.</div>
             </div>
             <div class="gv-pillrow" data-reveal data-d="4">
-              <span class="gv-pill"><span class="em">🎨</span> Avatar custom per kafe</span>
+              <span class="gv-pill"><span class="em">🎨</span> Avatar custom per outlet</span>
               <span class="gv-pill"><span class="em">🧠</span> Ingat preferensi</span>
               <span class="gv-pill"><span class="em">🌦️</span> Sadar cuaca & mood</span>
             </div>
@@ -605,19 +1033,19 @@
         <div class="gmc" data-reveal aria-label="Siklus Green Membership yang berputar">
           <svg class="gmc-svg" viewBox="0 0 600 320" aria-hidden="true">
             <defs>
-              <linearGradient id="gmcG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#33ffb0"/><stop offset="1" stop-color="#f5c451"/></linearGradient>
+              <linearGradient id="gmcG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1F7A6B"/><stop offset="1" stop-color="#B0894F"/></linearGradient>
               <path id="gmcPath" d="M110,52 H490 A58,58 0 0 1 548,110 V210 A58,58 0 0 1 490,268 H110 A58,58 0 0 1 52,210 V110 A58,58 0 0 1 110,52 Z" fill="none"/>
             </defs>
-            <use href="#gmcPath" stroke="rgba(51,209,136,.13)" stroke-width="2.4" fill="none"/>
+            <use href="#gmcPath" stroke="#E7E9E6" stroke-width="2.4" fill="none"/>
             <use href="#gmcPath" class="gmc-flow" stroke="url(#gmcG)" stroke-width="3" stroke-linecap="round" stroke-dasharray="9 20" fill="none"/>
-            <g fill="#33ffb0"><path d="M306,52 L295,46 L295,58 Z"/><path d="M548,166 L542,155 L554,155 Z"/><path d="M294,268 L305,262 L305,274 Z"/><path d="M52,154 L46,165 L58,165 Z"/></g>
-            <g class="gmc-comet"><circle r="11" fill="#33ffb0" opacity=".28"/><circle r="5.5" fill="#eafff4"/><animateMotion dur="7s" repeatCount="indefinite"><mpath href="#gmcPath"/></animateMotion></g>
+            <g fill="#1F7A6B"><path d="M306,52 L295,46 L295,58 Z"/><path d="M548,166 L542,155 L554,155 Z"/><path d="M294,268 L305,262 L305,274 Z"/><path d="M52,154 L46,165 L58,165 Z"/></g>
+            <g class="gmc-comet"><circle r="11" fill="#1F7A6B" opacity=".16"/><circle r="5.5" fill="#1F7A6B"/><animateMotion dur="7s" repeatCount="indefinite"><mpath href="#gmcPath"/></animateMotion></g>
           </svg>
           <div class="gmc-hubc"><span class="gmc-em">🌱</span><i class="gv-mono">LOOP HIJAU</i></div>
           <div class="gmc-box gmc-tl"><span class="gmc-em">🧾</span><b>Pesan</b><small>Tiap transaksi tercatat</small></div>
           <div class="gmc-box gmc-tr"><span class="gmc-em">🌿</span><b>Green Points</b><small>Otomatis terkumpul</small></div>
           <div class="gmc-box gmc-br"><span class="gmc-em">🤝</span><b>Komunitas Hijau</b><small>Disalurkan transparan</small></div>
-          <div class="gmc-box gmc-bl"><span class="gmc-em">🌳</span><b>Dampak Nyata</b><small>Terlacak &amp; terbukti</small></div>
+          <div class="gmc-box gmc-bl"><span class="gmc-em">🌳</span><b>Dampak Nyata</b><small>Terlacak &amp; dapat diaudit</small></div>
         </div>
 
         <div class="gv-grid c4 gv-mt-m">
@@ -645,8 +1073,8 @@
 
         <div class="gv-tiers gv-mt-m">
           <div class="gv-tier" data-reveal data-d="1">
-            <div class="gv-tier__tag">TIER A</div><h4>PCF Terverifikasi</h4>
-            <p>Jejak karbon produk spesifik, terverifikasi (ISO 14067 / EPD). Kualitas tertinggi.</p>
+            <div class="gv-tier__tag">TIER A</div><h4>PCF pihak ketiga</h4>
+            <p>Jejak karbon produk spesifik yang sudah diverifikasi pihak ketiga (ISO 14067 / EPD) — kelas data masukan tertinggi, bukan status angka Glyiv.</p>
             <div class="gv-meter"><i data-val="96"></i></div><div class="gv-meter-l"><span>Akurasi</span><span>Tertinggi</span></div>
           </div>
           <div class="gv-tier" data-reveal data-d="2">
@@ -661,10 +1089,15 @@
           </div>
         </div>
 
+        <div class="gv-note is-green gv-mt-m" data-reveal>
+          <span style="font-size:1.2rem">&#9888;</span>
+          <div><b>Baca tier ini sebagai kualitas data masukan, bukan klaim Glyiv.</b> Tier A menggambarkan kelas data terbaik yang ada di industri (PCF pihak ketiga, ISO 14067 / EPD) &mdash; bukan status angka yang kami keluarkan hari ini. Output Glyiv saat ini adalah <b>estimasi terlacak</b> dengan rentang ketidakpastian; sertifikasi, MRV, dan registry masih di roadmap.</div>
+        </div>
+
         <div class="gv-feature gv-mt-l" style="align-items:center">
           <div data-reveal>
             <h3 class="gv-h3">Data moat yang tak bisa ditiru bank</h3>
-            <p class="gv-muted">Karena Glyiv menangkap keranjang <b style="color:var(--mint)">di sumbernya</b> (POS kafe), kami melihat tiap item — bukan sekadar “Rp50.000 di sebuah kafe”. Inilah aset yang dicari institusi besar dan, kelak, pasar karbon internasional.</p>
+            <p class="gv-muted">Karena Glyiv menangkap keranjang <b style="color:var(--mint)">di sumbernya</b> (POS outlet), kami melihat tiap item — bukan sekadar “Rp50.000 di sebuah outlet”. Inilah aset yang dicari institusi besar dan, kelak, pasar karbon internasional.</p>
             <div class="gv-pillrow">
               <span class="gv-pill">🧾 Green Receipt</span>
               <span class="gv-pill">📊 Estimasi + rentang ketidakpastian</span>
@@ -673,13 +1106,13 @@
           </div>
           <div class="gv-card" data-reveal data-d="2" style="padding:0;overflow:hidden">
             <div style="padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
-              <b style="font-family:var(--f-disp);color:#fff">Green Receipt</b><span class="gv-mono gv-faint" style="font-size:10px">MEJA 07 · DEMO</span>
+              <b style="font-family:var(--f-disp);font-weight:600;color:var(--pine)">Green Receipt</b><span class="gv-mono gv-faint" style="font-size:10px">MEJA 07 · DEMO</span>
             </div>
             <div style="padding:16px 20px;display:flex;flex-direction:column;gap:11px">
               <div style="display:flex;justify-content:space-between;font-size:.9rem"><span class="gv-muted">Teh Dingin Markisa 🌿</span><span class="gv-mono" style="color:var(--bio)">0.2 kg</span></div>
               <div style="display:flex;justify-content:space-between;font-size:.9rem"><span class="gv-muted">Nasi Goreng Merah</span><span class="gv-mono" style="color:var(--gold)">1.3 kg</span></div>
               <div style="display:flex;justify-content:space-between;font-size:.9rem"><span class="gv-muted">Pisang Epe Keju 🌿</span><span class="gv-mono" style="color:var(--bio)">0.4 kg</span></div>
-              <div style="border-top:1px dashed var(--line);padding-top:11px;display:flex;justify-content:space-between"><b style="color:#fff">Total CO₂e</b><b class="gv-mono" style="color:var(--mint)">≈ 1.9 kg <span class="gv-faint" style="font-weight:400">(±0.4)</span></b></div>
+              <div style="border-top:1px dashed var(--line);padding-top:11px;display:flex;justify-content:space-between"><b style="color:var(--pine)">Total CO₂e</b><b class="gv-mono" style="color:var(--mint)">≈ 1.9 kg <span class="gv-faint" style="font-weight:400">(±0.4)</span></b></div>
             </div>
           </div>
         </div>
@@ -708,9 +1141,9 @@
             </div>
             <div class="gv-rowbtns gv-mt-m">
               <a class="gv-btn is-primary" href="demo.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 18h.01M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg> Demo Pelanggan</a>
-              <a class="gv-btn is-ghost" href="demo-kasir.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Demo Kasir (POS)</a>
+              <a class="gv-btn is-ghost" href="/demo-kasir.html" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg> Demo Papan Pesanan</a>
             </div>
-            <p class="gv-faint gv-mt-s" style="font-size:.82rem">Buka keduanya di tab berbeda — pesanan dari sisi pelanggan langsung muncul di papan kasir, dan status dari kasir tampil balik di pelacakan pelanggan. 🔄</p>
+            <p class="gv-faint gv-mt-s" style="font-size:.82rem">Buka keduanya di tab berbeda — pesanan dari sisi pelanggan langsung muncul di papan pesanan outlet, dan status dari sana tampil balik di pelacakan pelanggan. 🔄</p>
           </div>
         </div>
       </div>
@@ -719,10 +1152,10 @@
     <!-- ===== TRAKSI ===== -->
     <section class="gv-section" id="traksi">
       <div class="gv-section__bg"></div>
-      <span class="gv-sec-tag">08 / Validasi</span>
+      <span class="gv-sec-tag">08 / Validasi awal</span>
       <div class="gv-inner">
-        <div class="gv-eyebrow" data-reveal>Validasi & Traksi</div>
-        <h2 class="gv-h2" data-reveal data-d="1">Bukan asumsi. <span class="gv-grad">Tervalidasi</span> di lapangan.</h2>
+        <div class="gv-eyebrow" data-reveal>Validasi awal &amp; sinyal pasar</div>
+        <h2 class="gv-h2" data-reveal data-d="1">Bukan asumsi kosong. <span class="gv-grad">Sudah diuji</span> ke calon pengguna.</h2>
 
         <div class="gv-stats gv-mt-m">
           <div class="gv-stat" data-reveal data-d="1"><div class="gv-stat__num" data-count="33" data-suffix="+">0</div><div class="gv-stat__k">Responden survei UX</div></div>
@@ -731,20 +1164,25 @@
           <div class="gv-stat" data-reveal data-d="4"><div class="gv-stat__num">3<span class="u">rd</span></div><div class="gv-stat__k">Juara Indibiz (Gryn)</div></div>
         </div>
 
+        <div class="gv-note gv-mt-s" data-reveal>
+          <span style="font-size:1.2rem">&#9888;</span>
+          <div><b>Baca angka ini apa adanya.</b> Dua angka di tengah adalah <b>konteks pasar</b> &mdash; data publik ekosistem QRIS Indonesia, bukan traksi Glyiv. Angka survei berasal dari riset internal berskala kecil dan bersifat indikatif, belum studi yang representatif secara statistik. Glyiv belum beroperasi komersial di outlet mana pun: yang ada baru validasi awal, bukan bukti lapangan.</div>
+        </div>
+
         <div class="gv-demo-grid gv-mt-l">
           <div class="gv-chart" data-reveal>
             <h4>Hasil Survei UX</h4>
-            <p class="sub">n ≈ 33 calon pengunjung kafe</p>
+            <p class="sub">n ≈ 33 calon pengunjung outlet</p>
             <div class="gv-bar"><span class="gv-bar__l">Mau pakai QR untuk pesan</span><div class="gv-bar__t"><div class="gv-bar__f" data-val="82"></div></div><span class="gv-bar__v">82%</span></div>
             <div class="gv-bar"><span class="gv-bar__l">Tertarik kontribusi hijau</span><div class="gv-bar__t"><div class="gv-bar__f" data-val="76"></div></div><span class="gv-bar__v">76%</span></div>
             <div class="gv-bar"><span class="gv-bar__l">AI host terasa menarik</span><div class="gv-bar__t"><div class="gv-bar__f" data-val="64"></div></div><span class="gv-bar__v">64%</span></div>
-            <div class="gv-bar"><span class="gv-bar__l">Biasa antri ke kasir</span><div class="gv-bar__t"><div class="gv-bar__f" data-val="71"></div></div><span class="gv-bar__v">71%</span></div>
+            <div class="gv-bar"><span class="gv-bar__l">Biasa antri di titik bayar</span><div class="gv-bar__t"><div class="gv-bar__f" data-val="71"></div></div><span class="gv-bar__v">71%</span></div>
             <p class="gv-faint" style="font-size:.74rem;margin:10px 0 0">Ringkasan kualitatif dari respons survei internal; angka indikatif untuk validasi arah produk.</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:14px">
             <div class="gv-card" data-reveal data-d="1"><div class="gv-card__ic">🏆</div><h3>Juara 3 Indibiz</h3><p>Proyek pendahulu <b style="color:var(--mint)">Gryn</b> meraih peringkat 3 di Indibiz Business Competition.</p></div>
-            <div class="gv-card" data-reveal data-d="2"><div class="gv-card__ic">🏛️</div><h3>Akses pilot pemerintah kota</h3><p>Relasi juri membuka jalur kolaborasi langsung dengan pemerintah kota.</p></div>
-            <div class="gv-card" data-reveal data-d="3"><div class="gv-card__ic">🌏</div><h3>Jaringan Walhi</h3><p>Kanal komunitas hijau mendukung edukasi & rollout ke merchant.</p></div>
+            <div class="gv-card" data-reveal data-d="2"><div class="gv-card__ic">🏛️</div><h3>Jalur penjajakan pemerintah daerah</h3><p>Relasi dari kompetisi membuka pintu perkenalan ke pemerintah daerah — masih tahap penjajakan, belum program pilot yang ditandatangani.</p></div>
+            <div class="gv-card" data-reveal data-d="3"><div class="gv-card__ic">🌏</div><h3>Penjajakan kanal komunitas hijau</h3><p>Kami sedang menjajaki kanal komunitas lingkungan untuk edukasi &amp; rollout ke merchant. Belum ada kemitraan resmi yang diumumkan.</p></div>
           </div>
         </div>
       </div>
@@ -793,8 +1231,8 @@
                 <g class="gl-nodes">
                   <circle class="gl-node gl-node--world" data-node="world" cx="944" cy="66" r="9" fill="url(#glWorld)"/>
                   <circle class="gl-dot" data-node="world" cx="944" cy="66" r="4" fill="#aaffd0"/>
-                  <circle class="gl-dot" data-node="jakarta" cx="245" cy="298" r="4" fill="#8affc1"/>
-                  <circle class="gl-dot" data-node="surabaya" cx="356" cy="318" r="4" fill="#8affc1"/>
+                  <circle class="gl-dot" data-node="hub-a" cx="245" cy="298" r="4" fill="#8affc1"/>
+                  <circle class="gl-dot" data-node="hub-b" cx="356" cy="318" r="4" fill="#8affc1"/>
                   <circle class="gl-node gl-node--seed" data-node="seed" cx="481" cy="278" r="13" fill="url(#glWorld)"/>
                   <circle class="gl-dot gl-dot--seed" data-node="seed" cx="481" cy="278" r="5" fill="#f5c451"/>
                   <text x="481" y="303" class="gl-mklabel gv-mono" text-anchor="middle">OUTLET PERDANA</text>
@@ -816,7 +1254,7 @@
               </svg>
             </div>
             <div class="gl-panel">
-              <article class="gl-card" data-phase="0"><span class="gl-clabel gv-mono">Fase 0 · Q3–Q4 2026</span><h4>Pilot perdana</h4><p>10–25 kafe pilot di kota asal. Validasi alur pesan, ROI merchant, dan loop kontribusi hijau.</p><div class="gl-chips"><span>Glyiv POS</span><span>Liv</span><span>Carbon Tier C</span></div></article>
+              <article class="gl-card" data-phase="0"><span class="gl-clabel gv-mono">Fase 0 · Q3–Q4 2026</span><h4>Pilot perdana</h4><p>10–25 outlet pilot di gelombang pertama. Validasi alur pesan, ROI merchant, dan loop kontribusi hijau.</p><div class="gl-chips"><span>Glyiv POS</span><span>Liv</span><span>Carbon Tier C</span></div></article>
               <article class="gl-card" data-phase="1"><span class="gl-clabel gv-mono">Fase 1 · 2027</span><h4>PMF &amp; Monetisasi</h4><p>75–150 outlet berbayar pada gelombang pertama. Langganan SaaS aktif, modul green receipt, unit economics terkunci.</p><div class="gl-chips"><span>SaaS</span><span>Green Receipt</span><span>Tier B</span></div></article>
               <article class="gl-card" data-phase="2"><span class="gl-clabel gv-mono">Fase 2 · 2028</span><h4>Ekspansi Regional &amp; Nasional</h4><p>1.500–3.000 outlet. Carbon CRM, data products, token utilitas $GLYIV, kemitraan QRIS.</p><div class="gl-chips"><span>Carbon CRM</span><span>$GLYIV</span><span>Tree v1</span></div></article>
               <article class="gl-card" data-phase="3"><span class="gl-clabel gv-mono">Fase 3 · 2029–2030</span><h4>Nasional &amp; Standar Green Receipt</h4><p>10.000–25.000 outlet seluruh Indonesia. Standar data receipt-ke-emisi, eksplorasi e-wallet via mitra berlisensi.</p><div class="gl-chips"><span>Standar Terbuka</span><span>SME Carbon</span><span>E-wallet</span></div></article>
@@ -844,9 +1282,9 @@
       <span class="gv-sec-tag">10 / Investor</span>
       <div class="gv-inner">
         <div class="gv-cta-band" data-reveal>
-          <div class="gv-eyebrow is-center">Untuk Investor & Kafe Pilot</div>
-          <h2 class="gv-h2">Wedge yang tervalidasi.<br><span class="gv-grad">Visi sebesar infrastruktur.</span></h2>
-          <p class="gv-lead" style="margin:0 auto;max-width:60ch">SaaS kafe yang mudah dijual hari ini — berkembang menjadi data karbon level-item, e-wallet, dan marketplace Tree RWA. Dokumen roadmap & business model lengkap tersedia.</p>
+          <div class="gv-eyebrow is-center">Untuk Investor &amp; Outlet Pilot</div>
+          <h2 class="gv-h2">Wedge yang tajam.<br><span class="gv-grad">Visi sebesar infrastruktur.</span></h2>
+          <p class="gv-lead" style="margin:0 auto;max-width:60ch">SaaS outlet yang mudah dijual hari ini — berkembang menjadi data karbon level-item, e-wallet, dan marketplace Tree RWA. Dokumen roadmap & business model lengkap tersedia.</p>
           <div class="gv-btns">
             <a class="gv-btn is-primary" href="mailto:glyiv.archourium@gmail.com?subject=Permintaan%20Dokumen%20Investor%20Glyiv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg> Dokumen Investor</a>
             <a class="gv-btn is-gold" href="mailto:glyiv.archourium@gmail.com?subject=Glyiv%20Pilot%20%2F%20Investasi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg> Hubungi Kami</a>
@@ -867,7 +1305,7 @@
       <div class="gv-footer__grid">
         <div>
           <div class="gv-brand" style="padding:0 0 12px"><svg class="gv-brand__logo" viewBox="0 0 100 100"><use href="#glyivmark"/></svg><div class="gv-brand__txt"><b>Glyiv</b><span>Carbon-Intelligent OS</span></div></div>
-          <p class="gv-muted" style="font-size:.88rem;max-width:34ch">Sistem operasi cerdas-karbon untuk kafe & perdagangan. Dibangun untuk standar global.</p>
+          <p class="gv-muted" style="font-size:.88rem;max-width:34ch">Sistem operasi cerdas-karbon untuk outlet &amp; perdagangan. Dibangun untuk standar global.</p>
         </div>
         <div><h5>Produk</h5><a href="#produk">Glyiv POS</a><a href="#liv">Liv · AI Host</a><a href="#carbon">Mesin Karbon</a><a href="demo.html">Coba Demo</a></div>
         <div><h5>Perusahaan</h5><a href="#skala">Roadmap</a><a href="index.html">Visi Jangka Panjang</a><a href="index.html#tim">Tim</a></div>
@@ -907,5 +1345,6 @@
 
 <script type="module" src="assets/js/scenes.js?v=8"></script>
 <script src="assets/js/glyiv.js" defer></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
 </body>
 </html>

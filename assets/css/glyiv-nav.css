@@ -24,6 +24,7 @@
 .lnav a{text-decoration:none}
 .lbrand{display:flex;align-items:center;gap:9px;color:var(--n-pine)}
 .lbrand svg{width:28px;height:28px;display:block}
+.lbrand img.lbrand__mark,.lbrand__mark{width:28px;height:28px;display:block;border-radius:8px}
 .lbrand b{font-family:var(--n-serif);font-weight:600;font-size:22px;line-height:1}
 .lbrand b i{color:var(--n-teal);font-style:normal}
 .lnav__links{display:flex;align-items:center;gap:3px;margin-left:14px}
@@ -93,6 +94,20 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
   .ldrop__mega-foot{display:none}
   .lnav__burger{display:inline-flex}
   .lnav__cta{display:none}
+}
+/* Pemilih bahasa di navbar situs (disuntik site-lang.js). Pil kecil id/en/ar,
+   selaras dengan gaya navbar homepage. */
+.lnav__lang{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:999px;border:1px solid var(--n-hair);background:#fff;box-shadow:var(--n-sh1);margin-right:4px}
+.lnav__lang button{font-family:var(--n-mono);font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--n-muted);min-width:30px;min-height:26px;padding:0 7px;border:0;border-radius:999px;background:none;cursor:pointer;transition:color .15s,background .15s}
+.lnav__lang button:hover{color:var(--n-pine)}
+.lnav__lang button.is-on{background:var(--n-pine);color:#fff}
+.lnav:not(.scrolled) .lnav__lang{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.34)}
+.lnav:not(.scrolled) .lnav__lang button{color:rgba(255,255,255,.82)}
+.lnav:not(.scrolled) .lnav__lang button:hover{color:#fff}
+.lnav:not(.scrolled) .lnav__lang button.is-on{background:#fff;color:var(--n-pine)}
+@media (max-width:900px){
+  /* Di mobile, pil bahasa tetap terlihat di bar atas (CTA disembunyikan). */
+  .lnav__lang{margin-left:auto;margin-right:8px}
 }
 @media (prefers-reduced-motion:reduce){
   .lnav,.lnav *{transition:none!important}

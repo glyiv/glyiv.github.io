@@ -54,4 +54,10 @@
     gs.id = "glyiv-gly-js"; gs.src = "/assets/js/glyiv-gly.js"; gs.defer = true;
     document.head.appendChild(gs);
   }
+  /* language switcher for the site navbar (id/en/ar), shared localStorage with the app */
+  if (!document.getElementById("glyiv-lang-js")) {
+    var ls = document.createElement("script");
+    ls.id = "glyiv-lang-js"; ls.src = "/assets/js/site-lang.js"; ls.defer = true;
+    document.head.appendChild(ls);
+  }
 })();

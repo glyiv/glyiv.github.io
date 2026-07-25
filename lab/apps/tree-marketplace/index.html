@@ -233,7 +233,7 @@ body{background:var(--white)}
 <!-- NAV (shared component) -->
 <header class="lnav" data-solid>
   <div class="lnav__in">
-    <a class="lbrand" href="/"><svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#0a2a1d" stroke-width="1.5" stroke-linecap="round"/></svg><b>Gl<i>yiv</i></b></a>
+    <a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>
     <nav class="lnav__links">
       <a href="/#platform">Platform</a>
       <div class="ldrop">
@@ -242,7 +242,7 @@ body{background:var(--white)}
           <div class="ldrop__grp"><h4>Keuangan</h4><a href="/lab/industri/bank-lembaga-keuangan.html">Bank &amp; Lembaga Keuangan</a><a href="/lab/industri/investor-aset-manajemen.html">Investor &amp; Aset Manajemen</a></div>
           <div class="ldrop__grp"><h4>Industri Berat</h4><a href="/lab/industri/tambang-dan-logam.html">Tambang &amp; Logam</a><a href="/lab/industri/konstruksi-dan-semen.html">Konstruksi &amp; Semen</a><a href="/lab/industri/manufaktur.html">Manufaktur</a></div>
           <div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a><a href="/lab/industri/retailer.html">Retailer (Toko/UMKM)</a></div>
-          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a><a href="/lab/outlet.html">Glyiv Outlet<small>Infrastruktur jaringan outlet</small></a></div>
+          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a><a href="/lab/industri/fnb-ritel.html">Glyiv Outlet<small>Infrastruktur jaringan outlet</small></a></div>
         </div>
       </div>
       <a href="/#tour">Cara Kerja</a>
@@ -281,7 +281,7 @@ body{background:var(--white)}
   <!-- PORTFOLIO RIBBON -->
   <div class="tmx-ribbon">
     <div class="tmx-stat"><div class="k">Pohon terpantau</div><div class="v" data-rtrees>—</div><div class="s">di 4 blok lahan</div></div>
-    <div class="tmx-stat"><div class="k">Serapan tahunan</div><div class="v g" data-rco2>—</div><div class="s">tCO₂e diverifikasi dMRV</div></div>
+    <div class="tmx-stat"><div class="k">Serapan tahunan</div><div class="v g" data-rco2>—</div><div class="s">tCO₂e terlacak dMRV ⚠︎</div></div>
     <div class="tmx-stat"><div class="k">Nilai aset (est.)</div><div class="v" data-rval>—</div><div class="s">fraksi ter-tokenisasi</div></div>
     <div class="tmx-stat"><div class="k">Fraksi Anda</div><div class="v g" data-rmine>—</div><div class="s">ERC-3643 · dompet Anda</div></div>
   </div>
@@ -356,7 +356,7 @@ body{background:var(--white)}
           <div class="t3-fracbar"><i class="mine" style="width:22%"></i><i class="sold" style="width:41%"></i></div>
           <div class="t3-fracleg"><span><b>220</b> fraksi Anda</span><span><b>410</b> pemilik lain</span><span><b>370</b> tersedia</span></div>
         </div>
-        <div class="t3-onchain"><span class="d"></span> Terverifikasi on-chain · setiap pohon &amp; fraksinya punya jejak dMRV</div>
+        <div class="t3-onchain"><span class="d"></span> Tercatat on-chain · setiap pohon &amp; fraksinya punya jejak dMRV</div>
         <a class="tmx-btn solid" href="#" data-t3buy style="justify-content:center">Miliki fraksi pohon ini</a>
       </div>
     </div>
@@ -483,7 +483,7 @@ function renderDetail(){
    '</div>'+
    '<div class="tmx-growth"><div class="gt">Pertumbuhan · 12 bln<span class="tmx-seg"><button data-g="dia" class="on">Diameter</button><button data-g="co2">CO₂</button></span></div><canvas class="tmx-gchart" data-gchart></canvas></div>'+
    '<div class="tmx-caps"><h4>Citra satelit terbaru</h4><div class="tmx-capsrow">'+caps+'</div></div>'+
-   '<div class="tmx-onchain"><span class="ic">🔗</span><div><b>Terverifikasi on-chain</b><small>Aset ter-tokenisasi ERC-3643 · bukti dMRV '+t.tx+' · Glyiv Chain (testnet)</small></div></div>';
+   '<div class="tmx-onchain"><span class="ic">🔗</span><div><b>Tercatat on-chain</b><small>Aset ter-tokenisasi ERC-3643 · jejak dMRV '+t.tx+' · Glyiv Chain (testnet)</small></div></div>';
   $$("[data-g]").forEach(function(b){b.addEventListener("click",function(){$$("[data-g]").forEach(function(x){x.classList.remove("on")});b.classList.add("on");drawGrowth(b.dataset.g);});});
   drawGrowth("dia");
 }
@@ -566,7 +566,7 @@ var AI=[["ai","Agen Glyiv menandai anomali","Laju pertumbuhan Blok A −6% vs ba
   ["sat","Citra satelit baru masuk","Sentinel-2 · tutupan kanopi +1,2% · NDVI rata-rata 0,79."],
   ["ai","Rekomendasi agen","Fraksi GLYV-T1042 undervalued 8% vs serapan aktual — peluang akuisisi."],
   ["chain","Oracle memperbarui data","Serapan kumulatif dikirim ke Glyiv Chain · blok #"+Math.floor(rnd(84000,99000))],
-  ["ai","Agen menghitung ulang kredit","3 pohon lulus verifikasi dMRV → 1,8 tCO₂e siap diterbitkan."],
+  ["ai","Agen menghitung ulang kredit","3 pohon lulus pemeriksaan dMRV → 1,8 tCO₂e siap diterbitkan."],
   ["sat","Pemindaian terjadwal","Pass berikutnya ~4 jam · resolusi 10 m · seluruh 4 blok."]];
 var ai=0;function tickAI(){var x=AI[ai%AI.length];ai++;pushFeed(x[0],x[1],x[2]);}
 

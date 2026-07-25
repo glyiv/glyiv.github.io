@@ -1,0 +1,159 @@
+/* GLYIV — LIGHT RE-THEME LAYER for the archived early designs.
+   assets/css/glyiv.css is the original dark bio-luminescent sheet and is
+   deliberately left untouched (other archived pages still depend on it).
+   This file loads AFTER it and re-points the design tokens to the current
+   LIGHT brand: paper / pine / teal / brass, Newsreader + Hanken Grotesk +
+   IBM Plex Mono. Shared so the archive pages cannot drift apart. */
+:root{
+  --abyss:#FFFFFF;
+  --forest-950:#FFFFFF00; --forest-900:#F5F7F5; --forest-850:#EEF2EE; --forest-800:#E4EBE6;
+  --moss-700:#1F7A6B; --moss-600:#1F7A6B;
+  --emerald:#1F7A6B; --emerald-bright:#1CAE6B; --lime:#8FD9BF;
+  --bio:#1F7A6B; --mint:#0F2E22;
+  --gold:#B0894F; --gold-soft:#946F34; --ember:#B4553A;
+  --cream:#F5F7F5; --ink:#12211B;
+  --text:#12211B; --text-dim:#48524B; --text-faint:#6B7280;
+  --line:#E7E9E6; --line-2:#DCE3DD;
+  --glass:#FFFFFF; --glass-2:#F5F7F5; --card:#FFFFFF;
+  --glow-em:0 0 0 1px rgba(31,122,107,.16),0 18px 44px -24px rgba(15,46,34,.26);
+  --glow-soft:0 10px 28px -8px rgba(15,26,20,.14),0 40px 80px -30px rgba(15,46,34,.2);
+  --f-disp:"Newsreader",Georgia,serif;
+  --f-body:"Hanken Grotesk","Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+  /* brand shorthands used by this layer */
+  --pine:#0F2E22; --pine2:#123C2C; --teal:#1F7A6B; --emer-br:#1CAE6B;
+  --brass:#B0894F; --brass2:#946F34; --paper2:#F5F7F5; --hair:#E7E9E6;
+  --sh1:0 1px 2px rgba(15,26,20,.04),0 4px 14px rgba(15,26,20,.05);
+  --sh2:0 2px 8px rgba(15,26,20,.05),0 16px 36px -12px rgba(15,26,20,.13);
+  --sh3:0 10px 28px -8px rgba(15,26,20,.14),0 40px 80px -30px rgba(15,46,34,.28);
+}
+
+/* glyiv.css hard-codes a handful of dark values that no token controls. */
+html,body{background:#FFFFFF;color:#12211B}
+body::before,body::after{opacity:.35}
+[class*="hero"],[class*="sec"],[class*="band"]{background-color:transparent}
+
+/* Never leave dark-teal text on a dark panel: on any surface that stays
+   dark, accents must be bright mint rather than the deep brand teal. */
+.on-dark,.dark-panel{color:#EAF6EF}
+.on-dark a,.dark-panel a{color:#8affc1}
+
+/* Archive strip: these pages are earlier design generations kept for reference.
+   Says so plainly, and gives the reader a way back so they are never stranded. */
+.gv-archivebar{position:sticky;top:0;z-index:900;display:flex;align-items:center;gap:12px;
+  flex-wrap:wrap;padding:9px 20px;background:#FFFFFF;border-bottom:1px solid #E7E9E6}
+.gv-archivebar a.back{display:inline-flex;align-items:center;gap:7px;font-family:"Hanken Grotesk",system-ui,sans-serif;
+  font-weight:600;font-size:13.5px;color:#0F2E22;text-decoration:none;border:1px solid #E7E9E6;
+  background:#fff;border-radius:999px;padding:6px 13px;transition:.18s}
+.gv-archivebar a.back:hover{border-color:#0F2E22;transform:translateX(-2px)}
+.gv-archivebar .tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:#B0894F;font-weight:600}
+@media(max-width:640px){.gv-archivebar .tag{display:none}}
+
+/* glyiv.css hard-codes these two full-viewport layers (lines ~72 and ~92) with
+   dark values that no token controls, so they must be overridden by name.
+   Without this the page still reads dark no matter what the tokens say. */
+.gv-splash{
+  background:radial-gradient(800px 600px at 50% 40%,#FFFFFF,#F5F7F5 70%),#FFFFFF;
+}
+.gv-splash__word{color:#0F2E22}
+.gv-splash__mark{filter:drop-shadow(0 12px 34px rgba(31,122,107,.28))}
+.gv-bg-root{
+  background:
+    radial-gradient(1200px 760px at 8% -6%, rgba(31,122,107,.07), transparent 55%),
+    radial-gradient(1100px 900px at 108% 8%, rgba(176,137,79,.06), transparent 52%),
+    linear-gradient(165deg,#FFFFFF 0%,#F7F9F7 55%,#FFFFFF 100%);
+}
+.gv-grain{opacity:.25}
+.gv-scrim{background:rgba(15,46,34,.35)}
+
+/* glyiv.css sets display type and several UI labels to pure #fff for a dark
+   page. On the light re-theme those become white-on-white, so they are
+   re-pointed to pine. Elements that legitimately sit on a dark surface keep
+   light text via the .on-dark / .dark-panel escape hatches above. */
+.gv-h1,.gv-h2,.gv-h3,
+.gv-card h3,.gv-statchip b,.mc-name,.mc-phead b,.mc-ro b,
+.cf-copy h3,.cf-tstep b,.cf-memval b{color:#0F2E22}
+.gv-brand,.gv-nav__item.is-active{color:#0F2E22}
+/* pills and chips that paint a dark fill keep their white label */
+.mc-szbtns button.is-sel,.mm-chip.sel,.cf-cb.me,.cf-times span.on{color:#FFFFFF}
+/* body copy and muted text */
+.gv-p,.gv-lead,.gv-sub{color:#48524B}
+
+/* Complete sweep: every selector in glyiv.css that sets near-white text.
+   Enumerated from the stylesheet rather than guessed, so nothing is missed.
+   44 re-pointed to pine; 12 kept white because they sit on their own dark fill. */
+.gv-splash__word b,
+.gv-brand,
+.gv-nav__item.is-active,
+.gv-h1,
+.gv-h2,
+.gv-h3,
+.gv-statchip b,
+.gv-card h3,
+.mc-name,
+.mc-phead b,
+.mc-ro b,
+.cf-copy h3,
+.cf-tstep b,
+.cf-memval b,
+.ow-anl-big b,
+.ow-pos-title,
+.ow-pcard span,
+.ow-prof b,
+.gmc-box b,
+.gl-terr span,
+.gl-card h4,
+.pb-card h3,
+.vi-trow,
+.vi-trow b,
+.vi-stage b,
+.cafe-cap b,
+.gv-stat__num,
+.gv-step b,
+.gv-flow__node b,
+.gv-tier h4,
+.gv-chart h4,
+.gv-rstep h4,
+.gv-tcard__b b,
+.gv-tcard__li:hover,
+.gv-tcard__li:hover svg,
+.gv-invcontact a:hover,
+.plat__head b,
+.cflow__stage b,
+.wal__bal,
+.cmp__head .cmp__dim,.cmp__head .cmp__c,
+.cmp__head .is-glyiv,
+.rmap__stop b,
+.mulai__step b,
+.vals__i b{color:#0F2E22}
+
+/* Second pass, found by walking the rendered page and comparing each element's
+   text colour against its effective background — these read white-on-white. */
+.pb-bubble,.pb-hint,.gv-step__n,.gv-invsep,.gv-mono{color:#0F2E22}
+.gv-lead{color:#48524B}
+/* buttons: solid fills keep white labels, ghost/outline ones must not */
+.gv-btn.is-ghost{color:#0F2E22}
+.gv-btn.is-gold{color:#0F2E22}
+.ow-avatar{color:#0F2E22}
+
+/* deliberately blurred "unknown figure" motif — needs a visible tint on paper */
+.why2__blur,.vi-est{color:#48524B}
+
+/* The archive strip and the page's own fixed top bar both want y=0.
+   Pin the strip and push the page bar (and the content) down by its height. */
+.gv-archivebar{position:fixed;left:0;right:0;top:0}
+.gv-topbar2{top:46px !important}
+body{padding-top:46px}
+@media(max-width:640px){ .gv-archivebar{padding:8px 14px} .gv-topbar2{top:42px !important} body{padding-top:42px} }
+
+/* The hero globe is drawn with luminous mint strokes for a dark canvas. Rather
+   than repaint it, stage it on a deliberate dark disc — the same move pos.html
+   makes for its 3D scenes, and a lit object reads best against dark anyway. */
+.gv-hero__stage{
+  background:radial-gradient(circle at 50% 42%,#14432F,#0F2E22 68%,#0B2419 100%);
+  border-radius:50%;
+  box-shadow:0 30px 80px -40px rgba(15,46,34,.55),0 0 0 1px rgba(15,46,34,.06);
+}
+.gv-hero__ring{border-color:rgba(138,255,193,.28)}
+.gv-hero__ring.r2{border-color:rgba(138,255,193,.16)}

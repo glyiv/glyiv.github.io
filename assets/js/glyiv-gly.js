@@ -1,20 +1,24 @@
-/* GLYIV — "Gly" assistant (classic, self-contained). Loaded site-wide by glyiv-nav.js.
-   Skips pages that already carry their own chat widget (homepage Liv / Kabar bot).
-   Context-aware: sends the current page's title + heading + path to the LLM so answers
-   fit the page. Uses the deployed Groq proxy; falls back to canned replies offline.
-   Honest posture + carbon-platform positioning (no "kasir/kafe"). */
+/* GLYIV — asisten "Gly" (versi kaya, SAMA dengan homepage). Dimuat site-wide oleh
+   glyiv-nav.js. Menyuntik chatbox homepage yang sesungguhnya: FAB bot 3D BESAR
+   tanpa lingkaran (.liv-fab + #botLauncherCanvas) yang membuka panel berisi
+   MODEL GLY 3D di dalamnya (.liv-chat__bot + #botPanelCanvas) — persis homepage,
+   di SETIAP halaman. Gaya dari lab.css (dimuat global); 3D dari scenes.js (satu
+   konteks WebGL, aman di tablet). Backend jujur berbasis LLM (proxy Groq) +
+   fallback kalengan saat offline. Melewati halaman yang sudah punya widgetnya
+   sendiri (mis. bot artikel Kabar). */
 (function () {
   "use strict";
   if (window.__glyivGly) return;
-  // don't double-up where a page already has a Gly/Liv widget
+  // jangan dobel di halaman yang sudah membawa widget chat sendiri
   if (document.getElementById("gvChat") || document.getElementById("livLauncher") ||
-      document.getElementById("glyChat") || document.querySelector(".liv-fab")) return;
+      document.getElementById("glyChat") || document.querySelector(".liv-fab") ||
+      document.querySelector(".korb--3d")) return;
   window.__glyivGly = true;
 
   var PROXY = (window.GLYIV_CHAT_PROXY || "https://glyiv-chat.archourium.workers.dev").trim();
   var MODEL = "llama-3.3-70b-versatile";
 
-  /* ---- page context (makes Gly aware of where the user is) ---- */
+  /* ---- konteks halaman (membuat Gly sadar posisi pengguna) ---- */
   function pageContext() {
     var h1 = document.querySelector("h1, .lh1, .kart__cover h1");
     var kicker = document.querySelector(".lkick, .vhero__eyebrow, .kkick, .ga-crumb");
@@ -40,47 +44,8 @@
       'KONTEKS HALAMAN SAAT INI → ' + pageContext() + '\nKaitkan jawaban ke konteks halaman ini bila relevan; kalau ditanya di luar Glyiv, arahkan balik dengan ramah.';
   }
 
-  /* ---- styles ---- */
-  var css = document.createElement("style");
-  css.textContent =
-    "#gly-fab{position:fixed;right:20px;bottom:20px;z-index:120;width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;background:linear-gradient(145deg,#1f7a6b,#0f2e22);box-shadow:0 12px 30px -8px rgba(15,46,34,.5);display:grid;place-items:center;transition:transform .2s,box-shadow .2s;-webkit-tap-highlight-color:transparent}" +
-    "#gly-fab:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 18px 40px -10px rgba(15,46,34,.6)}" +
-    "#gly-fab canvas{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;z-index:1}" +
-    "#gly-fab .gly-fallback{position:relative;z-index:1;display:grid;place-items:center}" +
-    "#gly-fab .gly-fallback svg{width:30px;height:30px}" +
-    "body.webgl-on #gly-fab .gly-fallback{display:none}" +
-    "#gly-fab .pg{position:absolute;inset:-4px;border-radius:50%;border:2px solid #33d188;opacity:.5;animation:glyping 2.8s cubic-bezier(.22,1,.36,1) infinite;z-index:2}" +
-    "@keyframes glyping{0%{transform:scale(.85);opacity:.5}70%,100%{transform:scale(1.45);opacity:0}}" +
-    "#gly-fab .tip{position:absolute;right:70px;bottom:12px;white-space:nowrap;background:#0F2E22;color:#fff;font:600 12px 'Hanken Grotesk',system-ui,sans-serif;padding:7px 12px;border-radius:10px;opacity:0;transform:translateX(6px);transition:.2s;pointer-events:none}" +
-    "#gly-fab:hover .tip{opacity:1;transform:none}" +
-    "#gly-panel{position:fixed;right:20px;bottom:20px;z-index:121;width:min(380px,calc(100vw - 32px));height:min(560px,calc(100vh - 40px));background:#fff;border:1px solid #E6EAE6;border-radius:20px;box-shadow:0 30px 80px -24px rgba(15,46,34,.4);display:none;flex-direction:column;overflow:hidden;font-family:'Hanken Grotesk',system-ui,sans-serif}" +
-    "#gly-panel.on{display:flex;animation:glyup .28s cubic-bezier(.22,1,.36,1)}" +
-    "@keyframes glyup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}" +
-    ".gly-hd{display:flex;align-items:center;gap:11px;padding:15px 16px;background:linear-gradient(145deg,#123c2c,#0f2e22);color:#fff}" +
-    ".gly-hd .av{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;flex:0 0 auto}" +
-    ".gly-hd .av svg{width:20px;height:20px}" +
-    ".gly-hd b{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:16px;line-height:1}" +
-    ".gly-hd small{display:block;font:600 9px 'IBM Plex Mono',monospace;letter-spacing:.1em;color:#8affc1;margin-top:3px}" +
-    ".gly-hd .x{margin-left:auto;background:rgba(255,255,255,.14);border:0;color:#fff;width:30px;height:30px;border-radius:9px;font-size:17px;cursor:pointer;line-height:1}" +
-    ".gly-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#F6F8F6}" +
-    ".gly-bub{max-width:85%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.5;white-space:pre-wrap}" +
-    ".gly-bub.bot{align-self:flex-start;background:#fff;border:1px solid #E6EAE6;color:#25302a;border-bottom-left-radius:4px}" +
-    ".gly-bub.me{align-self:flex-end;background:#0F2E22;color:#fff;border-bottom-right-radius:4px}" +
-    ".gly-bub.typing{color:#6B7772;font-style:italic}" +
-    ".gly-chips{display:flex;flex-wrap:wrap;gap:7px;padding:10px 14px 4px;background:#F6F8F6}" +
-    ".gly-chip{font:600 11.5px 'Hanken Grotesk',system-ui,sans-serif;color:#0F2E22;background:#fff;border:1px solid #E6EAE6;border-radius:999px;padding:6px 11px;cursor:pointer;transition:.15s}" +
-    ".gly-chip:hover{border-color:#1F7A6B;color:#1F7A6B}" +
-    ".gly-in{display:flex;gap:8px;padding:12px 14px 14px;background:#F6F8F6;border-top:1px solid #E6EAE6}" +
-    ".gly-in input{flex:1;border:1px solid #E6EAE6;border-radius:12px;padding:11px 13px;font:14px 'Hanken Grotesk',system-ui,sans-serif;color:#0F2E22;outline:0;background:#fff}" +
-    ".gly-in input:focus{border-color:#1F7A6B;box-shadow:0 0 0 3px rgba(31,122,107,.12)}" +
-    ".gly-in button{background:#0F2E22;color:#fff;border:0;border-radius:12px;width:44px;font-size:18px;cursor:pointer;flex:0 0 auto}" +
-    "@media(max-width:520px){#gly-panel{right:10px;bottom:10px;width:calc(100vw - 20px);height:calc(100vh - 20px)}#gly-fab{right:14px;bottom:14px}#gly-fab .tip{display:none}}";
-  (document.head || document.documentElement).appendChild(css);
-
-  var LEAF = '<svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#eafff4" stroke-width="1.5" stroke-linecap="round"/></svg>';
-
-  // Load the shared-context 3D bot (scenes.js auto-inits it on #botLauncherCanvas via boot()).
-  // scenes.js draws ALL 3D through ONE WebGL context, so this adds no extra GPU context.
+  // Muat bot 3D lewat scenes.js (satu konteks WebGL bersama untuk semua kanvas —
+  // tak menambah konteks GPU). Panggil hook idempoten untuk memasang KEDUA bot.
   function loadBot3D() {
     try {
       if (!document.querySelector('script[type="importmap"]')) {
@@ -88,36 +53,52 @@
         im.textContent = '{"imports":{"three":"/assets/vendor/three.module.js"}}';
         document.head.appendChild(im);
       }
-      if (!document.getElementById("glyiv-scenes-js")) {
+      if (!document.getElementById("glyiv-scenes-js") && !document.querySelector('script[src*="/assets/js/scenes.js"]')) {
         var s = document.createElement("script"); s.type = "module"; s.src = "/assets/js/scenes.js"; s.id = "glyiv-scenes-js";
         document.head.appendChild(s);
       }
+      var tries = 0;
+      (function pasang() {
+        if (window.glyivMountChatBots) { window.glyivMountChatBots(); return; }
+        if (window.glyivMountBot) { window.glyivMountBot(document.getElementById("botLauncherCanvas"), "bust"); window.glyivMountBot(document.getElementById("botPanelCanvas"), "full"); return; }
+        if (tries++ < 100) setTimeout(pasang, 60);
+      })();
     } catch (e) {}
   }
 
   function mount() {
     if (!document.body) return setTimeout(mount, 30);
+
     var fab = document.createElement("button");
-    fab.id = "gly-fab"; fab.setAttribute("aria-label", "Tanya Gly");
-    // 3D bot canvas (same model as the homepage, via scenes.js shared-context renderer);
-    // the leaf is a CSS fallback shown only when WebGL is unavailable (no body.webgl-on).
-    fab.innerHTML = '<span class="pg"></span><canvas id="botLauncherCanvas"></canvas><span class="gly-fallback">' + LEAF + '</span><span class="tip">Tanya Gly</span>';
+    fab.className = "liv-fab"; fab.id = "glyBot"; fab.setAttribute("aria-label", "Tanya Gly");
+    fab.innerHTML = '<span class="liv-fab__ping"></span><canvas id="botLauncherCanvas"></canvas>';
     document.body.appendChild(fab);
+
+    var chat = document.createElement("div");
+    chat.className = "liv-chat"; chat.id = "glyChat"; chat.setAttribute("role", "dialog"); chat.setAttribute("aria-label", "Chat dengan Gly");
+    chat.innerHTML =
+      '<div class="liv-chat__hd"><span class="av"></span><div><b>Gly</b><small>ASISTEN GLYIV · AI</small></div><button class="cls" id="glyClose" aria-label="Tutup">&times;</button></div>' +
+      '<div class="liv-chat__bot"><canvas id="botPanelCanvas"></canvas><span class="liv-chat__cap">Gly &middot; online</span></div>' +
+      '<div class="liv-chat__msgs" id="glyMsgs"></div>' +
+      '<div class="liv-chat__chips" id="glyChips"></div>' +
+      '<div class="liv-chat__in"><input id="glyInput" placeholder="Tanya soal Glyiv atau halaman ini…" aria-label="Pesan"><button id="glySend" aria-label="Kirim">&rarr;</button></div>';
+    document.body.appendChild(chat);
+
     loadBot3D();
 
-    var panel = document.createElement("div");
-    panel.id = "gly-panel"; panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "Chat dengan Gly");
-    panel.innerHTML =
-      '<div class="gly-hd"><span class="av">' + LEAF + '</span><div><b>Gly</b><small>ASISTEN GLYIV · AI</small></div><button class="x" aria-label="Tutup">&times;</button></div>' +
-      '<div class="gly-msgs" id="gly-msgs"></div>' +
-      '<div class="gly-chips" id="gly-chips"></div>' +
-      '<div class="gly-in"><input id="gly-input" placeholder="Tanya soal Glyiv atau halaman ini…" aria-label="Pesan"><button id="gly-send" aria-label="Kirim">&rarr;</button></div>';
-    document.body.appendChild(panel);
-
-    var msgs = panel.querySelector("#gly-msgs"), input = panel.querySelector("#gly-input");
+    var msgs = chat.querySelector("#glyMsgs"), input = chat.querySelector("#glyInput");
     var history = [], opened = false, busy = false;
 
-    function bub(text, who) { var b = document.createElement("div"); b.className = "gly-bub " + (who || "bot"); b.textContent = text; msgs.appendChild(b); msgs.scrollTop = msgs.scrollHeight; return b; }
+    function bub(text, who) {
+      var b = document.createElement("div"); b.className = "liv-bub " + (who || "bot"); b.textContent = text;
+      msgs.appendChild(b); msgs.scrollTop = msgs.scrollHeight;
+      // gerakkan mulut bot 3D saat "bicara"
+      if ((who || "bot") === "bot" && window.glyivBot && window.glyivBot.speak) {
+        window.glyivBot.speak(true);
+        setTimeout(function () { window.glyivBot.speak(false); }, Math.min(4200, 700 + text.length * 26));
+      }
+      return b;
+    }
     function chips() {
       var p = location.pathname, list;
       if (/\/industri\//.test(p)) list = ["Apa solusi Glyiv untuk sektor ini?", "Bagaimana cara Glyiv mengukur emisinya?", "Apa itu CBAM & kenapa penting?"];
@@ -125,12 +106,16 @@
       else if (/\/ekosistem\//.test(p) || /\/apps\//.test(p)) list = ["Apa fungsi business tree ini?", "Bagaimana ini terhubung ke ekosistem?", "Apa itu Glyiv?"];
       else if (/kalkulator|scanner|imt/.test(p)) list = ["Bagaimana estimasi karbonnya dihitung?", "Apa maksud 'pohon untuk menebus'?", "Apa itu Glyiv?"];
       else list = ["Apa itu Glyiv?", "12 business tree apa saja?", "Kenapa carbon accounting penting?", "Untuk perusahaan saya?"];
-      var el = panel.querySelector("#gly-chips");
-      el.innerHTML = list.map(function (c) { return '<span class="gly-chip">' + c + "</span>"; }).join("");
-      Array.prototype.forEach.call(el.querySelectorAll(".gly-chip"), function (c) { c.addEventListener("click", function () { send(c.textContent); }); });
+      var el = chat.querySelector("#glyChips");
+      el.innerHTML = list.map(function (c) { return '<span class="liv-chip">' + c + "</span>"; }).join("");
+      Array.prototype.forEach.call(el.querySelectorAll(".liv-chip"), function (c) { c.addEventListener("click", function () { send(c.textContent); }); });
     }
-    function open() { panel.classList.add("on"); fab.style.display = "none"; if (!opened) { opened = true; chips(); setTimeout(function () { bub("Hai! Saya Gly, asisten Glyiv 🌿 Saya paham konteks halaman ini — tanya apa saja soal Glyiv, cara kerjanya, atau isi halaman ini."); }, 200); } setTimeout(function () { input.focus(); }, 300); }
-    function close() { panel.classList.remove("on"); fab.style.display = "grid"; }
+    function open() {
+      document.body.classList.add("livchat-open");
+      if (!opened) { opened = true; chips(); setTimeout(function () { bub("Hai! Saya Gly, asisten Glyiv 🌿 Saya paham konteks halaman ini — tanya apa saja soal Glyiv, cara kerjanya, atau isi halaman ini."); }, 220); }
+      setTimeout(function () { input.focus(); }, 300);
+    }
+    function close() { document.body.classList.remove("livchat-open"); }
 
     function fallback(t) {
       t = (t || "").toLowerCase();
@@ -156,8 +141,8 @@
     }
 
     fab.addEventListener("click", open);
-    panel.querySelector(".x").addEventListener("click", close);
-    panel.querySelector("#gly-send").addEventListener("click", function () { send(); });
+    chat.querySelector("#glyClose").addEventListener("click", close);
+    chat.querySelector("#glySend").addEventListener("click", function () { send(); });
     input.addEventListener("keydown", function (e) { if (e.key === "Enter") send(); });
   }
   mount();

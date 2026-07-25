@@ -146,16 +146,15 @@
 <!-- NAV (shared component) -->
 <header class="lnav">
   <div class="lnav__in">
-    <a class="lbrand" href="/"><svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#0a2a1d" stroke-width="1.5" stroke-linecap="round"/></svg><b>Gl<i>yiv</i></b></a>
+    <a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>
     <nav class="lnav__links">
       <div class="ldrop ldrop--mega">
         <button class="ldrop__btn">Ekosistem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
           <div class="ldrop__grp"><h4>Inti platform</h4>
-            <a href="/lab/carbon-intelligence.html"><b>Carbon Intelligence</b><small>Ukur &middot; verifikasi &middot; offset</small></a>
+            <a href="/lab/carbon-intelligence.html"><b>Carbon Intelligence</b><small>Lacak &middot; hitung &middot; offset</small></a>
             <a href="/lab/tree.html"><b>Glyiv Aset</b><small>Pohon &amp; lahan (RWA)</small></a>
-            <a href="/lab/apps/kebun/"><b>Kebun Virtual</b><small>Rawat pohonmu, panen imbalan</small></a>
-            <a href="/lab/outlet.html"><b>Glyiv Outlet</b><small>POS berdata karbon</small></a></div>
+            <a href="/lab/apps/kebun/"><b>Kebun Virtual</b><small>Rawat pohonmu, panen imbalan</small></a></div>
           <div class="ldrop__grp"><h4>Ekonomi hijau</h4>
             <a href="/lab/ekosistem/pasar.html"><b>Glyiv Pasar</b><small>Marketplace</small></a><a href="/lab/ekosistem/pangan.html"><b>Glyiv Pangan</b><small>Hub pangan berdata karbon</small></a>
             <a href="/lab/ekosistem/dompet.html"><b>Glyiv Dompet</b><small>Carbon wallet</small></a>
@@ -199,11 +198,11 @@
   <div class="vhero__scrim"></div>
   <div class="vhero__in">
     <div class="vhero__eyebrow" data-reveal><span class="ln"></span> Building the Digital Ecosystem for Sustainable Living</div>
-    <h1 class="lh1" data-reveal data-d="1">Hidup hijau, <span class="lserif-accent">imbalan nyata.</span></h1>
-    <p class="vhero__lead llead" data-reveal data-d="2">Glyiv mengubah pilihan sehari-hari &mdash; belanja, bepergian, membuang sampah &mdash; menjadi <b>aksi iklim yang terlacak dan imbalan nyata</b>. Satu ekosistem: dari aset hijau &amp; wallet karbon untuk semua, hingga intelijen karbon untuk enterprise.</p>
+    <h1 class="lh1" data-reveal data-d="1" data-i18n="hero.h1">Hidup hijau, <span class="lserif-accent">imbalan nyata.</span></h1>
+    <p class="vhero__lead llead" data-reveal data-d="2" data-i18n="hero.lead">Glyiv mengubah pilihan sehari-hari &mdash; belanja, bepergian, membuang sampah &mdash; menjadi <b>aksi iklim yang terlacak dan imbalan nyata</b>. Satu ekosistem: dari aset hijau &amp; wallet karbon untuk semua, hingga intelijen karbon untuk enterprise.</p>
     <div class="vhero__cta" data-reveal data-d="3">
-      <a class="lbtn lbtn--solid" href="#ekosistem" data-magnetic>Jelajahi Ekosistem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="lbtn lbtn--glass" href="#gabung">Gabung Komunitas</a>
+      <a class="lbtn lbtn--solid" href="#ekosistem" data-magnetic><span data-i18n="hero.cta1">Jelajahi Ekosistem</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="lbtn lbtn--glass" href="#gabung" data-i18n="hero.cta2">Gabung Komunitas</a>
     </div>
     <div class="vhero__trust" data-reveal data-d="4"><b>Fondasi terbuka:</b> GHG Protocol &middot; ISO 14064 &middot; ecoinvent &middot; Poore &amp; Nemecek 2018 &middot; EXIOBASE &middot; ERC-3643</div>
   </div>
@@ -220,19 +219,45 @@
       <p class="llead" data-reveal data-d="3" style="margin-top:14px"><b>Glyiv membuatnya terlihat &mdash; tanpa merepotkan.</b> Data karbon mengalir otomatis dari transaksi &amp; perangkat yang sudah kamu pakai. Lalu kami mengubahnya jadi hal yang berguna: keputusan yang lebih hijau, dan imbalan yang nyata.</p>
       <p class="llead" data-reveal data-d="3" style="margin-top:14px;font-size:15px;color:var(--muted)">Ini bukan aplikasi karbon yang meminta usaha ekstra. Ini ekonomi hijau yang bekerja di latar &mdash; untuk orang biasa maupun institusi.</p>
     </div>
-    <div class="whyviz" data-reveal data-d="2">
-      <div class="whyviz__img"><img src="/lab/img/forest.jpg" alt="Alam &amp; ekonomi hijau"><span class="cap">Low-friction &middot; pilihan hijau yang mudah</span></div>
+        <div class="whyviz" data-reveal data-d="2">
+      <div class="whyviz__img"><img src="/lab/img/titik-bayar.jpg" alt="Pelanggan membayar di titik bayar"><span class="cap">Satu transaksi biasa &middot; jadi data karbon</span></div>
       <div class="whyviz__b">
-        <div class="whyviz__ct"><span>Jejak yang terlacak &middot; 12 bulan</span><span data-src="Metodologi Glyiv (activity-based LCA)|/lab/carbon-intelligence.html#tour ;; ecoinvent|https://ecoinvent.org ;; Poore &amp; Nemecek 2018, Science|https://www.science.org/doi/10.1126/science.aaq0216" data-src-title="Cara angka ini dihitung" style="cursor:pointer;color:var(--teal)">ilustrasi</span></div>
-        <div class="whyviz__chart">
-          <i style="--h:.34"></i><i style="--h:.42"></i><i style="--h:.5"></i><i style="--h:.46"></i><i style="--h:.6"></i><i style="--h:.55"></i><i style="--h:.68"></i><i style="--h:.72"></i><i style="--h:.66"></i><i style="--h:.8"></i><i style="--h:.88"></i><i style="--h:1"></i>
+
+        <!-- Demo nyata: satu baris struk diurai jadi jejak karbonnya. Menggantikan
+             grafik batang menanjak yang dulu ada di sini — grafik itu justru
+             terbaca "emisi naik" oleh orang awam, kebalikan dari pesan kami. -->
+        <div class="rcp">
+          <div class="rcp__top">
+            <span class="rcp__ttl">Kopi Susu Gula Aren</span>
+            <span class="rcp__price">Rp22.000</span>
+          </div>
+
+          <div class="rcp__rows">
+            <div class="rcp__row"><span>Susu sapi &middot; 150 ml</span><i style="--w:62%"></i><b>0,45</b></div>
+            <div class="rcp__row"><span>Biji kopi &middot; 18 g</span><i style="--w:26%"></i><b>0,19</b></div>
+            <div class="rcp__row"><span>Gula aren &middot; 20 g</span><i style="--w:9%"></i><b>0,06</b></div>
+            <div class="rcp__row"><span>Cup &amp; tutup</span><i style="--w:6%"></i><b>0,04</b></div>
+          </div>
+
+          <div class="rcp__total">
+            <div class="rcp__tl">Jejak porsi ini</div>
+            <div class="rcp__tv"><b data-cu="0.74" data-dec="2">0</b><span>kg CO&#8322;e</span></div>
+          </div>
+
+          <!-- ELEMEN PEMBEDA: rentang ketidakpastian ditampilkan, bukan disembunyikan. -->
+          <div class="rcp__band" role="img" aria-label="Rentang estimasi 0,61 sampai 0,92 kilogram CO2e">
+            <div class="rcp__bar"><span class="rcp__fill"></span><span class="rcp__dot"></span></div>
+            <div class="rcp__bl"><span>0,61</span><em>rentang estimasi</em><span>0,92</span></div>
+          </div>
+
+          <div class="rcp__foot">
+            <span class="rcp__tier">Tier T3</span>
+            <span data-src="Metodologi Glyiv (activity-based LCA)|/lab/carbon-intelligence.html#tour ;; ecoinvent|https://ecoinvent.org ;; Poore &amp; Nemecek 2018, Science|https://www.science.org/doi/10.1126/science.aaq0216" data-src-title="Cara angka ini dihitung" class="rcp__src">contoh ilustrasi &middot; lihat sumber</span>
+          </div>
         </div>
+
         <div class="whyviz__flow"><span>Aktivitas</span><em>&rarr;</em><span>Data karbon</span><em>&rarr;</em><span>Imbalan</span></div>
-        <div class="whyviz__stats">
-          <div class="whyviz__stat"><b data-cu="12" data-suf="">0</b><span>business tree</span></div>
-          <div class="whyviz__stat"><b data-cu="3" data-suf="">0</b><span>Live sekarang</span></div>
-          <div class="whyviz__stat"><b data-cu="5" data-suf="+">0</b><span>standar internasional</span></div>
-        </div>
+        <p class="rcp__note">Merchant hanya mengisi resep &mdash; data yang memang sudah mereka punya untuk menghitung HPP. Angka karbonnya kami yang hitung, lengkap dengan rentang dan mutu datanya.</p>
       </div>
     </div>
   </div>
@@ -246,9 +271,8 @@
     <p class="llead" style="margin-top:12px;max-width:64ch">Setiap "business tree" berdiri sendiri, tapi berbagi tulang punggung data karbon yang sama. Mulai dari mana pun kamu berada &mdash; sebagai konsumen, retailer, atau perusahaan.</p>
   </div>
   <div class="indgrid">
-    <a class="indcard" href="/lab/carbon-intelligence.html"><span class="indcard__st live">Live</span><img src="https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Carbon Intelligence" loading="lazy" onerror="this.onerror=null;this.src='/lab/img/reforestation.jpg'"><div class="indcard__body"><div class="indcard__grp">Inti · Enterprise</div><div class="indcard__t">Glyiv Carbon Intelligence</div><span class="indcard__go">Ukur · verifikasi · offset →</span></div></a>
+    <a class="indcard" href="/lab/carbon-intelligence.html"><span class="indcard__st live">Live</span><img src="https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Carbon Intelligence" loading="lazy" onerror="this.onerror=null;this.src='/lab/img/reforestation.jpg'"><div class="indcard__body"><div class="indcard__grp">Glyiv CIP · Enterprise & F&amp;B/Ritel</div><div class="indcard__t">Glyiv Carbon Intelligence</div><span class="indcard__go">Solusi F&amp;B/Ritel siap dicoba · Lacak → hitung → offset →</span></div></a>
     <a class="indcard" href="/lab/tree.html"><span class="indcard__st live">Live</span><img src="/lab/img/reforestation.jpg" alt="Glyiv Aset"><div class="indcard__body"><div class="indcard__grp">Aset Hijau</div><div class="indcard__t">Glyiv Aset</div><span class="indcard__go">Pantau &amp; miliki fraksi pohon →</span></div></a>
-    <a class="indcard" href="/lab/outlet.html"><span class="indcard__st live">Live</span><img src="/lab/img/fnb-ritel.jpg" alt="Glyiv Outlet"><div class="indcard__body"><div class="indcard__grp">Outlet &amp; POS</div><div class="indcard__t">Glyiv Outlet</div><span class="indcard__go">Operasi outlet berdata karbon →</span></div></a>
     <a class="indcard" href="/lab/ekosistem/pasar.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/logistik-transport.jpg" alt="Glyiv Pasar"><div class="indcard__body"><div class="indcard__grp">Marketplace</div><div class="indcard__t">Glyiv Pasar</div><span class="indcard__go">Belanja dengan jejak karbon →</span></div></a>
     <a class="indcard" href="/lab/ekosistem/pangan.html"><span class="indcard__st soon">Roadmap</span><img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Glyiv Pangan" loading="lazy" onerror="this.onerror=null;this.src='/lab/img/sawit-agri.jpg'"><div class="indcard__body"><div class="indcard__grp">Pangan Hub</div><div class="indcard__t">Glyiv Pangan</div><span class="indcard__go">Kalori, emisi &amp; tebus per produk →</span></div></a>
     <a class="indcard" href="/lab/ekosistem/dompet.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/finance.jpg" alt="Glyiv Dompet"><div class="indcard__body"><div class="indcard__grp">Wallet</div><div class="indcard__t">Glyiv Dompet</div><span class="indcard__go">Bayar &amp; catat karbon otomatis →</span></div></a>
@@ -269,25 +293,72 @@
     <h2 class="lh2" style="margin-top:12px">Data karbon adalah <span class="lemph">tulang punggungnya.</span></h2>
     <p class="llead" style="margin-top:12px;max-width:62ch">Satu transaksi di satu tempat memperkaya seluruh ekosistem &mdash; disatukan oleh satu lapisan data karbon dan satu identitas.</p>
   </div>
-  <div class="ecoflow">
-    <div class="ecoflow__c" data-reveal><div class="ecoflow__n">01 · TANGKAP</div><h3>Data mengalir pasif</h3><p>Dari POS, belanja, perangkat IoT, hingga satelit &mdash; aktivitas jadi data karbon tanpa usaha ekstra.</p></div>
-    <div class="ecoflow__c" data-reveal data-d="1"><div class="ecoflow__n">02 · CERNA</div><h3>Agen AI menganalisis</h3><p>Faktor emisi kami yang kelola. Agen menghitung jejak, menemukan pemborosan, dan menyarankan aksi.</p></div>
-    <div class="ecoflow__c" data-reveal data-d="2"><div class="ecoflow__n">03 · BERI IMBALAN</div><h3>Nilai kembali ke kamu</h3><p>Kurangi, offset lewat aset hijau nyata, atau tukar kredit &mdash; semua terlacak, tersimpan di wallet.</p></div>
+  <div class="ecoflow flowrail">
+    <article class="tcard" data-reveal>
+      <div class="tcard__img">
+        <img src="/lab/img/titik-bayar.jpg" alt="Pelanggan membayar di titik bayar sebuah outlet" loading="lazy">
+        <span class="tcard__step">01 &middot; Tangkap</span>
+      </div>
+      <div class="tcard__body"><h3>Data mengalir pasif</h3>
+        <p>Dari titik bayar, belanja, dan citra satelit untuk lahan (snapshot NDVI) &mdash; kelak juga perangkat IoT &mdash; aktivitas jadi data karbon. Merchant cukup mengisi resep: data yang memang sudah mereka punya untuk menghitung HPP.</p></div>
+    </article>
+    <article class="tcard" data-reveal data-d="1">
+      <div class="tcard__img">
+        <img src="/lab/img/analitik.jpg" alt="Dasbor analitik menampilkan grafik dan ringkasan angka" loading="lazy">
+        <span class="tcard__step">02 &middot; Cerna</span>
+      </div>
+      <div class="tcard__body"><h3>Jejak dihitung otomatis</h3>
+        <p>Faktor emisi kami yang kelola. Mesin kami membaca struk dan menghitung jejaknya &mdash; lengkap dengan tier data dan rentang ketidakpastiannya. Agen yang menandai pemborosan dan menyarankan aksi masih dikembangkan.</p></div>
+    </article>
+    <article class="tcard" data-reveal data-d="2">
+      <div class="tcard__img">
+        <img src="/lab/img/tree-planting.jpg" alt="Seorang relawan menanam bibit pohon" loading="lazy">
+        <span class="tcard__step">03 &middot; Beri imbalan</span>
+      </div>
+      <div class="tcard__body"><h3>Nilai kembali ke kamu</h3>
+        <p>Kurangi, salurkan kontribusi lewat aset hijau nyata, atau tukar kredit &mdash; semuanya terlacak dan akan tersimpan di wallet karbonmu.</p></div>
+    </article>
   </div>
-  <div style="text-align:center;margin-top:24px" data-reveal><a class="lbtn lbtn--glass" href="/lab/carbon-intelligence.html#tour">Lihat cara kerja teknisnya →</a></div>
+  <div style="text-align:center;margin-top:26px" data-reveal><a class="lbtn lbtn--glass" href="/lab/carbon-intelligence.html#tour">Lihat cara kerja teknisnya &rarr;</a></div>
 </div></section>
 
 <!-- ECONOMY FOR EVERYONE (Gojek-style) -->
 <section class="lsec paper" id="ekonomi"><div class="lwrap">
   <div class="lhead" data-reveal><span class="lkick">Ekonomi untuk semua</span>
     <h2 class="lh2" style="margin-top:12px">Bukan cuma menghitung. <span class="lserif-accent">Memberi peluang.</span></h2>
-    <p class="llead" style="margin-top:12px;max-width:64ch">Seperti platform yang membuka lapangan kerja baru, infrastruktur Glyiv dirancang agar retailer dan orang biasa bisa mendapat imbalan dari kontribusi hijaunya.</p>
+    <p class="llead" style="margin-top:12px;max-width:64ch">Seperti platform yang membuka lapangan kerja baru, infrastruktur Glyiv dirancang agar retailer dan orang biasa bisa mendapat imbalan dari kontribusi hijaunya. Sebagian jalur di bawah sudah berjalan, sebagian masih dibangun bertahap &mdash; statusnya ditandai di peta ekosistem di atas.</p>
   </div>
-  <div class="earn">
-    <div class="earn__i" data-reveal><span class="earn__ic">🌳</span><div><b>Punya &amp; sewakan aset hijau</b><p>Miliki fraksi pohon/lahan (RWA), dapat imbalan dari serapan karbonnya, perdagangkan di bursa.</p></div></div>
-    <div class="earn__i" data-reveal data-d="1"><span class="earn__ic">♻️</span><div><b>Setor sampah, dapat kredit</b><p>Bank sampah Glyiv mengubah sampah terpilah jadi kredit yang bisa ditukar.</p></div></div>
-    <div class="earn__i" data-reveal data-d="1"><span class="earn__ic">📷</span><div><b>Scan &amp; kumpulkan imbalan</b><p>Foto item yang kamu beli, agen AI estimasi karbonnya, kamu dapat kredit ke wallet.</p></div></div>
-    <div class="earn__i" data-reveal data-d="2"><span class="earn__ic">🏪</span><div><b>Retailer untung &amp; hijau</b><p>Outlet berdata karbon: hemat biaya operasi, tarik pelanggan sadar-iklim, tanpa perangkat tambahan.</p></div></div>
+
+  <div class="gcar" data-autoplay="4.5" data-reveal aria-roledescription="carousel" aria-label="Cara mendapat imbalan di Glyiv">
+    <div class="gcar__track" tabindex="0" aria-label="Geser untuk melihat semua peluang">
+      <article class="tcard">
+        <div class="tcard__img"><img src="/lab/img/reforestation.jpg" alt="Hamparan hutan yang sedang dipulihkan" loading="lazy"></div>
+        <div class="tcard__body"><h3>Miliki fraksi aset hijau</h3>
+          <p>Miliki fraksi unit karbon dari sebuah petak lahan dan ikut menerima imbalan dari serapannya &mdash; porsi kepemilikanmu tercatat sampai ke petak asalnya.</p></div>
+      </article>
+      <article class="tcard">
+        <div class="tcard__img"><img src="/lab/img/bank-sampah.jpg" alt="Deretan tempat sampah terpilah berwarna" loading="lazy"></div>
+        <div class="tcard__body"><h3>Setor sampah, dapat kredit</h3>
+          <p>Bank sampah Glyiv mengubah sampah terpilah menjadi kredit yang bisa ditukar &mdash; tercatat rapi per setoran.</p></div>
+      </article>
+      <article class="tcard">
+        <div class="tcard__img"><img src="/lab/img/scan-belanja.jpg" alt="Rak sayur dan buah di sebuah toko" loading="lazy"></div>
+        <div class="tcard__body"><h3>Scan &amp; kumpulkan imbalan</h3>
+          <p>Foto barang yang kamu beli, agen AI mengestimasi karbonnya &mdash; kreditnya masuk ke wallet karbonmu.</p></div>
+      </article>
+      <article class="tcard">
+        <div class="tcard__img"><img src="/lab/img/fnb-ritel.jpg" alt="Suasana gerai makanan dan minuman" loading="lazy"></div>
+        <div class="tcard__body"><h3>Retailer untung &amp; hijau</h3>
+          <p>Outlet berdata karbon: hemat biaya operasi, menarik pelanggan sadar-iklim, tanpa membeli perangkat tambahan.</p></div>
+      </article>
+    </div>
+    <div class="gcar__nav">
+      <div class="gcar__dots"></div>
+      <button class="gcar__btn" type="button" data-car-prev aria-label="Sebelumnya">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <button class="gcar__btn" type="button" data-car-next aria-label="Berikutnya">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
   </div>
 </div></section>
 
@@ -295,12 +366,29 @@
 <section class="lsec" id="teknologi"><div class="lwrap">
   <div class="lhead" data-reveal><span class="lkick">Teknologi</span>
     <h2 class="lh2" style="margin-top:12px">Digital sepenuhnya, <span class="lemph">high-tech di setiap lapis.</span></h2>
+    <p class="llead" style="margin-top:12px;max-width:62ch">Empat lapisan yang bekerja bersama &mdash; dari agen yang menganalisis, sampai bukti yang bisa ditelusuri publik.</p>
   </div>
   <div class="techrow">
-    <div class="techc" data-reveal><div class="em">⛭</div><b>Agentic AI</b><p>Agen yang tak hanya menghitung, tapi menganalisis, menandai, dan bertindak untuk kamu.</p></div>
-    <div class="techc" data-reveal data-d="1"><div class="em">🔗</div><b>Web3 · ERC-3643</b><p>Aset hijau ter-tokenisasi &amp; ter-izin, kepemilikan yang bisa diperdagangkan &amp; ditelusuri.</p></div>
-    <div class="techc" data-reveal data-d="2"><div class="em">📡</div><b>Oracle &amp; DePIN</b><p>Data dunia-nyata (pohon, komoditas, perangkat) masuk ke sistem terdesentralisasi.</p></div>
-    <div class="techc" data-reveal data-d="3"><div class="em">📊</div><b>Metodologi terbuka</b><p><span data-src="GHG Protocol — standar akuntansi GRK|https://ghgprotocol.org ;; ecoinvent — basis data LCA|https://ecoinvent.org ;; Poore & Nemecek 2018, Science|https://www.science.org/doi/10.1126/science.aaq0216 ;; EXIOBASE — EEIO database|https://www.exiobase.eu">Selaras standar &amp; riset internasional.</span></p></div>
+    <article class="tcard tcard--dark" data-reveal>
+      <div class="tcard__img"><img src="/lab/img/data-center.jpg" alt="Ruang server tempat data diproses" loading="lazy"></div>
+      <div class="tcard__body"><h3>Agentic AI</h3>
+        <p>OCR struk &amp; klasifikasi item ke kategori emisi sudah berjalan. Agen yang menganalisis, menandai temuan, dan menyarankan tindakan masih dikembangkan &mdash; keputusan tetap di tangan manusia.</p></div>
+    </article>
+    <article class="tcard tcard--dark" data-reveal data-d="1">
+      <div class="tcard__img"><img src="/lab/img/investor-aset-manajemen.jpg" alt="Layar data keuangan dan kepemilikan aset" loading="lazy"></div>
+      <div class="tcard__body"><h3>Web3 &middot; ERC-3643</h3>
+        <p>Rel token ter-izin yang sedang diuji di testnet: kepemilikan unit karbon yang bisa dipecah, dipindahkan, dan ditelusuri sampai ke petak asalnya. Belum mainnet.</p></div>
+    </article>
+    <article class="tcard tcard--dark" data-reveal data-d="2">
+      <div class="tcard__img"><img src="/lab/img/satellite.jpg" alt="Satelit pengamat bumi di orbit" loading="lazy"></div>
+      <div class="tcard__body"><h3>Oracle &amp; DePIN</h3>
+        <p>Rancangannya: data dunia nyata &mdash; tegakan pohon, komoditas, perangkat lapangan &mdash; masuk lewat jalur yang bisa ditelusuri. Masih desain arsitektur.</p></div>
+    </article>
+    <article class="tcard tcard--dark" data-reveal data-d="3">
+      <div class="tcard__img"><img src="/lab/img/forest.jpg" alt="Kanopi hutan dilihat dari atas" loading="lazy"></div>
+      <div class="tcard__body"><h3>Metodologi terbuka</h3>
+        <p><span data-src="GHG Protocol &mdash; standar akuntansi GRK|https://ghgprotocol.org ;; ecoinvent &mdash; basis data LCA|https://ecoinvent.org ;; Poore &amp; Nemecek 2018, Science|https://www.science.org/doi/10.1126/science.aaq0216 ;; EXIOBASE &mdash; EEIO database|https://www.exiobase.eu">Selaras standar &amp; riset internasional, dan sumbernya bisa kamu buka sendiri.</span></p></div>
+    </article>
   </div>
 </div></section>
 
@@ -401,7 +489,7 @@
   <div class="imgband__in">
     <span class="lkick" data-reveal>Untuk enterprise</span>
     <h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 16px">Carbon Intelligence Platform.</h2>
-    <p class="llead" data-reveal data-d="2" style="margin:0 auto">Mengukur karbon menyorot kebocoran biaya yang tak pernah masuk anggaran &mdash; lalu menutupnya. Selaras GHG Protocol &amp; ISO 14064, dengan solusi per industri.</p>
+    <p class="llead" data-reveal data-d="2" style="margin:0 auto">Melacak karbon menyorot kebocoran biaya yang tak pernah masuk anggaran &mdash; lalu menunjukkan cara menutupnya. Selaras GHG Protocol &amp; ISO 14064, dengan solusi per industri.</p>
     <div style="margin-top:24px" data-reveal data-d="3"><a class="lbtn lbtn--solid" href="/lab/carbon-intelligence.html">Buka Carbon Intelligence →</a></div>
   </div>
 </section>
@@ -433,57 +521,57 @@
       <span class="mvcard__get"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Etalase Pasar &amp; program kreator</span>
     </article>
   </div>
-  <div class="comm" data-reveal>
-    <div class="comm__grid">
-      <div>
-        <span class="lkick">Gabung Komunitas</span>
-        <h2 class="lh2">Jadi bagian dari gerakannya &mdash; <span class="lserif-accent">bukan cuma laporannya.</span></h2>
-        <p>Ikuti kanal Glyiv untuk wawasan karbon mingguan, akses awal fitur baru, dan aksi hijau nyata bareng kampus &amp; komunitas. Pilih yang paling kamu suka.</p>
-        <div class="comm__socials" style="margin-top:22px">
-          <a class="soc" href="/lab/kabar/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v14H4z"/><path d="M4 9h16M8 5v14"/></svg>Kabar <small>newsletter</small></a>
-          <a class="soc" href="#" data-social="instagram" aria-label="Instagram Glyiv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a>
-          <a class="soc" href="#" data-social="tiktok" aria-label="TikTok Glyiv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c.3 2 1.5 3.6 3.5 4v3c-1.4 0-2.7-.4-3.8-1.1V15a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v3.1a2.5 2.5 0 1 0 1.7 2.4V3H16z"/></svg>TikTok</a>
-          <a class="soc" href="#" data-social="youtube" aria-label="YouTube Glyiv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="M11 9.5l4 2.5-4 2.5z" fill="currentColor"/></svg>YouTube</a>
-          <a class="soc" href="#" data-social="linkedin" aria-label="LinkedIn Glyiv"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.5 3.5A2 2 0 1 1 4 7a2 2 0 0 1 .5-3.5zM3 9h3v12H3zM9 9h3v1.7c.5-.9 1.7-1.9 3.5-1.9 3 0 4.5 2 4.5 5.4V21h-3v-6c0-1.7-.6-2.8-2.1-2.8-1.2 0-1.9.8-2.2 1.6-.1.3-.1.7-.1 1V21H9z"/></svg>LinkedIn</a>
-          <a class="soc" href="mailto:glyiv.archourium@gmail.com?subject=Gabung%20Waitlist%20Glyiv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg>Gabung waitlist</a>
-        </div>
-        <p class="comm__note">Tautan kanal sosial akan diarahkan ke akun resmi Glyiv (sedang disiapkan tim).</p>
-      </div>
-      <div class="comm__card" data-reveal data-d="1">
-        <h4>Yang kamu dapat</h4>
-        <div class="comm__stat"><b>01</b><span>Wawasan karbon mingguan, tanpa jargon — lewat Kabar.</span></div>
-        <div class="comm__stat"><b>02</b><span>Akses awal ke fitur baru: Tree Marketplace, wallet, scan karbon.</span></div>
-        <div class="comm__stat"><b>03</b><span>Aksi hijau nyata bareng kampus &amp; komunitas lokal.</span></div>
-        <div class="comm__stat"><b>04</b><span>Peluang imbalan dari ekosistem hijau Glyiv.</span></div>
-        <div class="mvfaces">
-          <div class="stk">
-            <i style="background:linear-gradient(135deg,#1F7A6B,#33d188)">GY</i>
-            <i style="background:linear-gradient(135deg,#B0894F,#e0c48f)">RS</i>
-            <i style="background:linear-gradient(135deg,#0B2471,#4f6fd8)">AN</i>
-            <i style="background:linear-gradient(135deg,#0F2E22,#2f6b52)">+</i>
-          </div>
-          <b>Gelombang awal <em>terbuka</em> &mdash; daftar waitlist hari ini.</b>
-        </div>
-        <div class="mvpills">
-          <span>Mahasiswa</span><span>Kampus</span><span>Komunitas</span><span>Kreator</span><span>UMKM hijau</span><span>Perusahaan</span>
-        </div>
-      </div>
+    <!-- Blok ini dulu mengajak "ikuti kanal kami" dengan 4 tautan sosial yang
+       href-nya masih "#" alias mati. Itu yang membuatnya terasa memaksa:
+       meminta orang bergabung ke sesuatu yang belum ada. Diganti dengan tiga
+       ajakan yang benar-benar bisa dilakukan HARI INI, dan status kanal sosial
+       dinyatakan apa adanya. -->
+  <div class="joinx" data-reveal>
+    <div class="joinx__head">
+      <span class="lkick">Cara ikut sekarang</span>
+      <h2 class="lh2" style="margin-top:10px">Tidak perlu menunggu peluncuran.</h2>
+      <p class="llead" style="margin-top:10px;max-width:60ch">Tiga hal ini sudah berjalan hari ini. Pilih yang paling dekat dengan kamu.</p>
     </div>
-  </div>
-</div></section>
+
+    <div class="joinx__grid">
+      <a class="joinx__c" href="/lab/kabar/index.html">
+        <span class="joinx__n">01</span>
+        <h3>Baca Kabar</h3>
+        <p>Liputan karbon Indonesia yang ditulis untuk orang biasa &mdash; regulasi, teknologi, dan uangnya.</p>
+        <span class="joinx__go">Buka Kabar &rarr;</span>
+      </a>
+      <a class="joinx__c" href="/outlet/daftar">
+        <span class="joinx__n">02</span>
+        <h3>Coba gratis untuk outlet</h3>
+        <p>Punya kafe atau toko? Daftarkan outlet Anda dan jalankan operasi berdata karbon &mdash; gratis 14 hari, tanpa membeli perangkat baru.</p>
+        <span class="joinx__go">Mulai uji coba gratis &rarr;</span>
+      </a>
+      <a class="joinx__c" href="/lab/tree.html">
+        <span class="joinx__n">03</span>
+        <h3>Daftarkan lahan</h3>
+        <p>Punya lahan bervegetasi? Ubah serapan karbonnya jadi nilai, tanpa menebang apa pun.</p>
+        <span class="joinx__go">Lihat Glyiv Aset &rarr;</span>
+      </a>
+    </div>
+
+    <div class="joinx__foot">
+      <a class="lbtn lbtn--solid" href="mailto:glyiv.archourium@gmail.com?subject=Bicara%20dengan%20Glyiv">Bicara dengan tim &rarr;</a>
+      <p class="joinx__note">Kanal media sosial Glyiv sedang disiapkan &mdash; kami tidak menautkannya sebelum benar-benar aktif. Sementara ini, Kabar dan email adalah kanal resmi kami.</p>
+    </div>
+  </div></div></section>
 
 <!-- FOOTER -->
 <footer class="lfoot"><div class="lwrap">
   <div class="lfoot__grid">
     <div>
-      <a class="lbrand" href="/"><b>Gl<i>yiv</i></b></a>
+      <a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>
       <p class="lfoot__about"><i style="font-family:var(--l-serif);font-size:16px;color:#eafff4;display:block;margin-bottom:8px">Building the digital ecosystem for sustainable living.</i>Menghubungkan manusia, alam, teknologi, dan ekonomi &mdash; agar setiap langkah menuju hidup yang sehat dan berkelanjutan bisa dilacak dan dipercaya.</p>
       <div class="mq on-dark"><div class="mq__track">
-        <span class="std">GHG Protocol</span><span class="std">ISO 14064</span><span class="std">ecoinvent</span><span class="std">EXIOBASE</span><span class="std">ERC-3643</span><span class="std">IDXCarbon</span>
-        <span class="std" aria-hidden="true">GHG Protocol</span><span class="std" aria-hidden="true">ISO 14064</span><span class="std" aria-hidden="true">ecoinvent</span><span class="std" aria-hidden="true">EXIOBASE</span><span class="std" aria-hidden="true">ERC-3643</span><span class="std" aria-hidden="true">IDXCarbon</span>
+        <span class="std">GHG Protocol</span><span class="std">ISO 14064</span><span class="std">ecoinvent</span><span class="std">EXIOBASE</span><span class="std">ERC-3643</span><span class="std">IDXCarbon (rujukan pasar)</span>
+        <span class="std" aria-hidden="true">GHG Protocol</span><span class="std" aria-hidden="true">ISO 14064</span><span class="std" aria-hidden="true">ecoinvent</span><span class="std" aria-hidden="true">EXIOBASE</span><span class="std" aria-hidden="true">ERC-3643</span><span class="std" aria-hidden="true">IDXCarbon (rujukan pasar)</span>
       </div></div>
     </div>
-    <div><h4>Ekosistem</h4><a href="/lab/carbon-intelligence.html">Carbon Intelligence</a><a href="/lab/tree.html">Glyiv Aset</a><a href="/lab/outlet.html">Glyiv Outlet</a><a href="/lab/apps/">Semua aplikasi</a></div>
+    <div><h4>Ekosistem</h4><a href="/lab/carbon-intelligence.html">Glyiv CIP · Carbon Intelligence</a><a href="/lab/industri/fnb-ritel.html" style="padding-left:14px;opacity:.9">↳ Solusi F&amp;B &amp; Ritel</a><a href="/outlet/daftar" style="padding-left:14px;opacity:.9">↳ Coba gratis (outlet)</a><a href="/lab/tree.html">Glyiv Aset</a><a href="/lab/apps/">Semua aplikasi</a></div>
     <div><h4>Ekonomi Hijau</h4><a href="/lab/ekosistem/pasar.html">Pasar</a><a href="/lab/ekosistem/pangan.html">Pangan</a><a href="/lab/ekosistem/dompet.html">Dompet</a><a href="/lab/ekosistem/bank-sampah.html">Bank Sampah</a><a href="/lab/ekosistem/dana.html">Dana</a></div>
     <div><h4>Perusahaan</h4><a href="/team.html">Tim &amp; Manifesto</a><a href="/wosu/index.html">PT WOSU Innovation Technology</a><a href="/lab/kabar/index.html">Kabar</a><a href="/#gabung">Gabung</a></div>
   </div>
@@ -493,20 +581,17 @@
   </div>
 </div></footer>
 
-<!-- GLY BOT -->
-<button class="liv-fab" id="glyBot" aria-label="Tanya Gly"><span class="liv-fab__ping"></span><canvas id="botLauncherCanvas"></canvas></button>
-<div class="liv-chat" id="glyChat" role="dialog" aria-label="Chat dengan Gly">
-  <div class="liv-chat__hd"><span class="av"></span><div><b>Gly</b><small>ASISTEN EKOSISTEM · AI</small></div><button class="cls" id="glyClose" aria-label="Tutup">&times;</button></div>
-  <div class="liv-chat__bot"><canvas id="botPanelCanvas"></canvas><span class="liv-chat__cap">Gly · online</span></div>
-  <div class="liv-chat__msgs" id="glyMsgs"></div>
-  <div class="liv-chat__chips" id="glyChips"><span class="liv-chip">Apa itu Glyiv?</span><span class="liv-chip">Business tree apa saja?</span><span class="liv-chip">Bagaimana saya dapat imbalan?</span><span class="liv-chip">Untuk perusahaan saya?</span></div>
-  <div class="liv-chat__in"><input id="glyInput" placeholder="Tanya soal ekosistem…" aria-label="Pesan"><button id="glySend" aria-label="Kirim">&rarr;</button></div>
-</div>
+<!-- GLY BOT — widget Gly dipasang seragam di SETIAP halaman oleh
+     /assets/js/glyiv-gly.js (dimuat glyiv-nav.js). Tidak lagi ditulis per-halaman
+     agar bot 3D + chat identik di mana pun (umpan balik pemilik: dulu tak
+     konsisten). Widget global memakai chat jujur berbasis LLM + bot 3D lewat
+     scenes.js (#botLauncherCanvas dibuat oleh widget, dipasang via glyivMountBot). -->
 
 <script type="module" src="/assets/js/scenes.js"></script>
 <script src="/assets/js/glyiv.js"></script>
 <script src="/lab/js/lab.js"></script>
 <script src="/assets/js/glyiv-nav.js" defer></script>
+<script src="/assets/js/glyiv-cards.js" defer></script>
 <script src="/assets/js/glyiv-sources.js" defer></script>
 </body>
 </html>
