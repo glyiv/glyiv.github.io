@@ -94,7 +94,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 /* NAV lives in /assets/css/glyiv-nav.css (shared by every page) */
 
 /* ============================ VIDEO / IMAGE HERO ============================ */
-.vhero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff}
+.vhero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff}
 .vhero__media{position:absolute;inset:0;z-index:-2;background:var(--pine)}
 .vhero__media video,.vhero__media img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.06);animation:heroKen 26s ease-in-out infinite alternate}
 @keyframes heroKen{from{transform:scale(1.06)}to{transform:scale(1.14) translate(-1.5%,-1.5%)}}
@@ -104,7 +104,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .vhero__eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--l-mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#bff0d5;margin-bottom:22px}
 .vhero__eyebrow .ln{width:34px;height:1px;background:var(--emer-br)}
 .vhero h1{max-width:15ch;margin:0 0 22px}
-.vhero__lead{max-width:52ch;margin:0 0 30px;color:rgba(255,255,255,.9)}
+.vhero__lead{max-width:46ch;margin:0 0 30px;color:rgba(255,255,255,.9);font-size:clamp(16px,1.55vw,20px)}
 .vhero__lead b{color:#fff}
 .vhero__cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .vhero__trust{margin-top:32px;font-family:var(--l-mono);font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,.62)}
@@ -317,7 +317,11 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .tour__screen.on{opacity:1;transform:none}
 
 /* ============================ INDUSTRY PAGE ============================ */
-.ind-hero{position:relative;min-height:82vh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff;padding-top:104px}
+/* Hero produk = SATU LAYAR PENUH. `svh` dipakai lebih dulu supaya bilah alamat
+   peramban ponsel tidak memotong hero (100vh di iOS/Android selalu lebih tinggi
+   dari layar yang benar-benar terlihat); `vh` tetap ditulis sebagai cadangan
+   untuk peramban lama. Dibatasi juga agar tidak melebihi layar di desktop pendek. */
+.ind-hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff;padding-top:104px}
 .ind-hero__media{position:absolute;inset:0;z-index:-2;background:var(--pine)}
 .ind-hero__media img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:heroKen 28s ease-in-out infinite alternate}
 .ind-hero__scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,20,13,.42),rgba(6,20,13,.3) 40%,rgba(6,20,13,.9))}
@@ -325,7 +329,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .ind-hero__crumb{font-family:var(--l-mono);font-size:11px;color:rgba(255,255,255,.7);margin-bottom:16px}
 .ind-hero__crumb a{color:#8affc1}
 .ind-hero h1{max-width:19ch;margin:0 0 16px;color:#fff;font-size:clamp(28px,4.2vw,52px);line-height:1.06}
-.ind-hero .llead{color:rgba(255,255,255,.9);max-width:56ch}
+.ind-hero .llead{color:rgba(255,255,255,.9);max-width:46ch;font-size:clamp(16px,1.55vw,20px)}
 
 /* cost-drain spotlight */
 .spot{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -333,6 +337,19 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .spot__ic{font-size:22px;flex:0 0 auto}
 .spot__i b{font-family:var(--l-sans);color:var(--ink);font-weight:700;display:block;margin-bottom:4px;font-size:15px}
 .spot__i p{font-size:13.5px;color:var(--slate);margin:0;line-height:1.5}
+/* 3-up varian .spot. Ditulis SEBELUM media query di bawah supaya aturan mobile
+   `.spot{grid-template-columns:1fr}` tetap menang di layar sempit (kekhususan
+   sama → urutan sumber yang menentukan). Jangan pindahkan ke bawah. */
+.spot--3{grid-template-columns:repeat(3,1fr)}
+
+/* CATATAN JUJUR — satu baris kecil di BAWAH bagian, bukan di dalam hero.
+   Hero menjual; catatan keterbatasan tetap ada, tapi tempatnya di sini supaya
+   tidak menenggelamkan kalimat pembuka. Dipakai di seluruh halaman Glyiv. */
+.lnote{font-family:var(--l-sans);font-size:13px;line-height:1.6;color:var(--muted);max-width:78ch;margin:22px 0 0;padding-top:16px;border-top:1px solid var(--hair)}
+.lnote b{color:var(--slate);font-weight:600}
+.lnote a{color:var(--teal);text-decoration:underline;text-underline-offset:2px}
+.on-dark .lnote,.vhero .lnote{color:rgba(255,255,255,.72);border-top-color:rgba(255,255,255,.16)}
+.on-dark .lnote b,.vhero .lnote b{color:#fff}
 
 /* apply steps */
 .applyrow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:step}
