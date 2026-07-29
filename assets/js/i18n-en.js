@@ -772,6 +772,8 @@ Object.assign(window.GLYIV_EN, {
   "Bank Sampah": "Waste Bank",
   "Sampah jadi imbalan": "Waste into rewards",
   "Gaya hidup": "Lifestyle",
+  "Glyiv Saku": "Glyiv Pocket",
+  "Aplikasi harian · sudah jalan": "Everyday app · already live",
   "Rumah pintar & trash-bin": "Smart home & trash-bin",
   "Glyiv Sehat": "Glyiv Health",
   "Habit sehat & hijau": "Healthy & green habits",
