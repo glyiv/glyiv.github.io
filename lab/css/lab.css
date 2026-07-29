@@ -60,8 +60,8 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .lemph{color:var(--teal);font-style:normal}
 /* On dark image heroes the teal accent is nearly invisible against foliage/photos.
    Brighten it to mint over the dark hero scrim (keeps teal on light sections). */
-.vhero .lserif-accent,.ind-hero .lserif-accent,.imgband .lserif-accent,
-.vhero .lemph,.ind-hero .lemph,.imgband .lemph{color:#8affc1}
+.vhero .lserif-accent,.ind-hero .lserif-accent,.ga-hero .lserif-accent,.tmx-hero .lserif-accent,.imgband .lserif-accent,
+.vhero .lemph,.ind-hero .lemph,.ga-hero .lemph,.tmx-hero .lemph,.imgband .lemph{color:#8affc1}
 
 .lsec{position:relative;z-index:1;padding:clamp(60px,9vh,116px) 0;background:var(--white)}
 .lsec.tight{padding:clamp(44px,6vh,80px) 0}
@@ -82,9 +82,18 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .lbtn--glass{background:#fff;color:var(--pine);border-color:var(--hair)}
 .lbtn--glass:hover{border-color:var(--pine);background:var(--paper2)}
 /* on-dark button variant (inside dark bands/hero) */
-.on-dark .lbtn--glass,.vhero .lbtn--glass,.imgband .lbtn--glass{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.28);backdrop-filter:blur(6px)}
-.on-dark .lbtn--glass:hover,.vhero .lbtn--glass:hover,.imgband .lbtn--glass:hover{border-color:#fff;background:rgba(255,255,255,.16)}
-.vhero .lbtn--solid,.imgband .lbtn--solid{background:linear-gradient(135deg,var(--emer-br),var(--emer));color:#04160e;box-shadow:0 14px 40px -14px rgba(28,174,107,.6)}
+/* ── TOMBOL DI ATAS HERO GELAP ────────────────────────────────────────────
+   Daftar selektor ini dulu hanya memuat .vhero & .imgband, jadi SETIAP hero
+   selain beranda (.ind-hero di /lab/tree + 12 halaman industri, .ga-hero di 13
+   halaman aplikasi, .tmx-hero) jatuh ke gaya tombol untuk LATAR TERANG:
+   tombol utama jadi pine pekat #0F2E22 di atas foto gelap (hijau kusam yang
+   ditolak pemilik), tombol kedua jadi putih pekat. Sekarang keempat sistem hero
+   memakai perlakuan yang sama persis dengan beranda: emerald terang + kaca
+   tembus pandang. Kalau kelak ada sistem hero baru, TAMBAHKAN ke dua aturan
+   di bawah — jangan membuat aturan tombol sendiri. */
+.on-dark .lbtn--glass,.vhero .lbtn--glass,.ind-hero .lbtn--glass,.ga-hero .lbtn--glass,.tmx-hero .lbtn--glass,.imgband .lbtn--glass{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.28);backdrop-filter:blur(6px)}
+.on-dark .lbtn--glass:hover,.vhero .lbtn--glass:hover,.ind-hero .lbtn--glass:hover,.ga-hero .lbtn--glass:hover,.tmx-hero .lbtn--glass:hover,.imgband .lbtn--glass:hover{border-color:#fff;background:rgba(255,255,255,.16)}
+.vhero .lbtn--solid,.ind-hero .lbtn--solid,.ga-hero .lbtn--solid,.tmx-hero .lbtn--solid,.imgband .lbtn--solid{background:linear-gradient(135deg,var(--emer-br),var(--emer));color:#04160e;box-shadow:0 14px 40px -14px rgba(28,174,107,.6)}
 
 /* MOTION: reveal */
 [data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
@@ -94,7 +103,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 /* NAV lives in /assets/css/glyiv-nav.css (shared by every page) */
 
 /* ============================ VIDEO / IMAGE HERO ============================ */
-.vhero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff}
+.vhero{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff}
 .vhero__media{position:absolute;inset:0;z-index:-2;background:var(--pine)}
 .vhero__media video,.vhero__media img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.06);animation:heroKen 26s ease-in-out infinite alternate}
 @keyframes heroKen{from{transform:scale(1.06)}to{transform:scale(1.14) translate(-1.5%,-1.5%)}}
@@ -321,7 +330,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
    peramban ponsel tidak memotong hero (100vh di iOS/Android selalu lebih tinggi
    dari layar yang benar-benar terlihat); `vh` tetap ditulis sebagai cadangan
    untuk peramban lama. Dibatasi juga agar tidak melebihi layar di desktop pendek. */
-.ind-hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff;padding-top:104px}
+.ind-hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff;padding-top:104px}
 .ind-hero__media{position:absolute;inset:0;z-index:-2;background:var(--pine)}
 .ind-hero__media img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:heroKen 28s ease-in-out infinite alternate}
 .ind-hero__scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,20,13,.42),rgba(6,20,13,.3) 40%,rgba(6,20,13,.9))}
@@ -611,7 +620,12 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .indgrid{grid-template-columns:1fr}
   .applyrow{grid-template-columns:1fr}
   .lfoot__grid{grid-template-columns:1fr}
-  .vhero{min-height:92vh}
+  /* Dulu 92vh di ponsel — itulah yang membuat hero beranda berhenti di 92%
+     layar dan menyisakan sepotong bagian berikutnya mengintip, padahal
+     pemilik minta hero SATU LAYAR PENUH. Disamakan dengan aturan dasar:
+     dvh = viewport yang benar-benar terlihat, jadi tombol CTA tidak pernah
+     tertutup bilah alamat (risiko kalau memakai 100vh polos di ponsel). */
+  .vhero{min-height:100vh;min-height:100dvh}
   .liv-fab{width:84px;height:84px;right:4px;bottom:4px}
   .liv-fab__ping{display:none}
   .leak__hd{flex-wrap:wrap}.leak__sw{margin-left:0;width:100%}.leak__sw button{flex:1}

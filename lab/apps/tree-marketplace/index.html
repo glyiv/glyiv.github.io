@@ -15,7 +15,7 @@
 /* ===== Tree Marketplace console — Glyiv light/editorial, image-rich (tmx- scoped) ===== */
 body{background:var(--white)}
 .tmx-wrap{max-width:1300px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
-.tmx-hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff;padding-top:88px}
+.tmx-hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff;padding-top:88px}
 .tmx-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transform:scale(1.05);animation:heroKen 26s ease-in-out infinite alternate}
 .tmx-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,20,13,.34),rgba(6,20,13,.2) 40%,rgba(6,20,13,.86))}
 .tmx-hero__in{width:100%;max-width:1300px;margin:0 auto;padding:0 clamp(16px,4vw,40px) clamp(30px,5vh,54px);display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
@@ -184,7 +184,9 @@ body{background:var(--white)}
 .tmx-btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--l-sans);font-weight:700;font-size:13px;padding:11px 18px;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:.18s var(--ease)}
 .tmx-btn.solid{background:var(--pine);color:#fff}
 .tmx-btn.solid:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
-.tmx-btn.gold{background:linear-gradient(120deg,var(--brass),var(--brass2));color:#fff}
+/* Di dalam hero gelap, tombol memakai perlakuan yang sama dengan hero beranda. */
+.tmx-hero .tmx-btn.solid{background:linear-gradient(135deg,var(--emer-br),var(--emer));color:#04160e;box-shadow:0 14px 40px -14px rgba(28,174,107,.6)}
+.tmx-btn.gold{background:linear-gradient(120deg,var(--brass),var(--brass2));color:#1c1405}
 .tmx-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--pine);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;opacity:0;transition:.25s var(--ease);z-index:90;box-shadow:var(--sh3)}
 .tmx-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 /* 3D tree */
