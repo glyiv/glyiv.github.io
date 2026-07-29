@@ -339,6 +339,16 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .ind-hero__crumb a{color:#8affc1}
 .ind-hero h1{max-width:19ch;margin:0 0 16px;color:#fff;font-size:clamp(28px,4.2vw,52px);line-height:1.06}
 .ind-hero .llead{color:rgba(255,255,255,.9);max-width:46ch;font-size:clamp(16px,1.55vw,20px)}
+/* `.llead b` global berwarna var(--ink) — hitam pekat, benar di atas kertas.
+   Penimpa putihnya sudah ada untuk .vhero dan .imgband, tapi TIDAK untuk
+   .ind-hero/.ga-hero/.tmx-hero, sehingga tiap kata <b> di paragraf hero 13
+   halaman tampil nyaris hitam di atas foto gelap. Ditutup di sini untuk SEMUA
+   wadah gelap sekaligus, termasuk <strong>, supaya tidak terulang per-kasus.
+   Dijaga oleh scripts/audit-kontras.cjs. */
+.ind-hero .llead b,.ind-hero .llead strong,
+.ga-hero .llead b,.ga-hero .llead strong,.ga-hero p b,.ga-hero p strong,
+.tmx-hero .llead b,.tmx-hero .llead strong,.tmx-hero p b,.tmx-hero p strong,
+.on-dark .llead b,.on-dark .llead strong{color:#fff}
 
 /* cost-drain spotlight */
 .spot{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
