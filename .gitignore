@@ -1,0 +1,5 @@
+
+# Cadangan gambar asli sebelum konversi WebP (scripts/optimasi-gambar.cjs).
+# Lokal saja — 22 MB dan tidak dilayani situs. Kalau sebuah konversi terlihat
+# lebih buruk, kembalikan dari sini lalu jalankan ulang porter.
+_asli-gambar/

@@ -4,7 +4,7 @@
    Sample data is deterministic (seeded PRNG, never Math.random)
    so every reload draws the exact same boundaries and curves.
    ============================================================= */
-(function () {
+(function (root) {
   "use strict";
 
   /* ---------------------------------------------------------
@@ -76,154 +76,31 @@
      - "komoditas"→ lahan produktif: kepemilikan bagian panen + bursa (harga
                     penawaran-permintaan) yang memangkas tengkulak untuk petani. */
   var USE = { mangrove: "kebun", hutan: "kebun", agro: "kebun", pulih: "kebun", komoditas: "komoditas" };
-  var PLOTS = [
-    {
-      id: "GLYV-P01", short: "Mangrove Selatan", kind: "mangrove",
-      name: "Mangrove Pesisir Selatan", prov: "Sulawesi Selatan",
-      // Tongke-Tongke, Sinjai — pesisir Teluk Bone (bukan pedalaman).
-      lat: -5.1700, lng: 120.2930, ha: 42,
-      species: ["Bakau (Rhizophora mucronata)", "Api-api (Avicennia marina)"],
-      year: 2021, ndvi: 0.71, canopy: 68, trees: 71400,
-      co2: 344, co2lo: 258, co2hi: 431, tier: 2,
-      obs: "2026-07-14", sat: "Sentinel-2 L2A · tutupan awan 6%"
-    },
-    {
-      id: "GLYV-P02", short: "Tepi Gambut", kind: "hutan",
-      name: "Restorasi Tepi Gambut Timur", prov: "Riau",
-      lat: 0.6180, lng: 102.0470, ha: 96,
-      species: ["Balangeran (Shorea balangeran)", "Pulai rawa (Alstonia pneumatophora)"],
-      year: 2020, ndvi: 0.64, canopy: 52, trees: 57600,
-      co2: 614, co2lo: 430, co2hi: 798, tier: 1,
-      obs: "2026-07-09", sat: "Sentinel-2 L2A · tutupan awan 21%"
-    },
-    {
-      id: "GLYV-P03", short: "Agro Kaki Gunung", kind: "agro",
-      name: "Agroforestri Kaki Gunung", prov: "Jawa Barat",
-      lat: -7.1400, lng: 107.6200, ha: 28,
-      species: ["Kopi arabika", "Suren (Toona sureni)", "Alpukat"],
-      year: 2022, ndvi: 0.68, canopy: 47, trees: 14560,
-      co2: 101, co2lo: 71, co2hi: 131, tier: 2,
-      obs: "2026-07-16", sat: "Sentinel-2 L2A · tutupan awan 12%"
-    },
-    {
-      id: "GLYV-P04", short: "Dataran Tinggi", kind: "hutan",
-      name: "Restorasi Hutan Dataran Tinggi", prov: "Jawa Tengah",
-      lat: -7.3020, lng: 110.0460, ha: 61,
-      species: ["Rasamala (Altingia excelsa)", "Puspa (Schima wallichii)", "Saninten"],
-      year: 2019, ndvi: 0.76, canopy: 74, trees: 64050,
-      co2: 555, co2lo: 416, co2hi: 694, tier: 2,
-      obs: "2026-07-12", sat: "Sentinel-2 L2A · tutupan awan 9%"
-    },
-    {
-      id: "GLYV-P05", short: "Delta Mangrove", kind: "mangrove",
-      name: "Mangrove Delta Mahakam", prov: "Kalimantan Timur",
-      // Delta Mahakam — muara/estuari pesisir (bukan dekat kota Samarinda).
-      lat: -0.9000, lng: 117.5600, ha: 118,
-      species: ["Bakau minyak (Rhizophora apiculata)", "Nipah (Nypa fruticans)"],
-      year: 2018, ndvi: 0.73, canopy: 71, trees: 188800,
-      co2: 1109, co2lo: 832, co2hi: 1386, tier: 2,
-      obs: "2026-07-11", sat: "Sentinel-2 L2A · tutupan awan 17%"
-    },
-    {
-      id: "GLYV-P06", short: "Lahan Kritis", kind: "pulih",
-      name: "Rehabilitasi Lahan Kritis", prov: "Nusa Tenggara Timur",
-      lat: -9.6480, lng: 124.0520, ha: 74,
-      species: ["Kayu putih (Melaleuca cajuputi)", "Johar", "Gamal"],
-      year: 2021, ndvi: 0.42, canopy: 29, trees: 51800,
-      co2: 229, co2lo: 149, co2hi: 310, tier: 1,
-      obs: "2026-06-28", sat: "Landsat 9 OLI-2 · tutupan awan 14%"
-    },
-    {
-      id: "GLYV-P07", short: "Penyangga Papua", kind: "hutan",
-      name: "Hutan Penyangga Dataran Rendah", prov: "Papua Barat Daya",
-      lat: -1.2050, lng: 132.1120, ha: 150,
-      species: ["Matoa (Pometia pinnata)", "Merbau (Intsia bijuga)", "Bintangur"],
-      year: 2017, ndvi: 0.82, canopy: 88, trees: 142500,
-      co2: 1680, co2lo: 1260, co2hi: 2100, tier: 1,
-      obs: "2026-07-06", sat: "Sentinel-2 L2A · tutupan awan 28%"
-    },
-    {
-      id: "GLYV-P08", short: "Agro Kopi", kind: "agro",
-      name: "Agroforestri Kopi Dataran Tinggi", prov: "Aceh",
-      lat: 4.6010, lng: 96.8480, ha: 36,
-      species: ["Kopi arabika", "Lamtoro (Leucaena leucocephala)", "Alpukat"],
-      year: 2022, ndvi: 0.66, canopy: 51, trees: 20160,
-      co2: 140, co2lo: 98, co2hi: 182, tier: 2,
-      obs: "2026-07-15", sat: "Sentinel-2 L2A · tutupan awan 11%"
-    },
-    {
-      id: "GLYV-P09", short: "Koridor Riparian", kind: "hutan",
-      name: "Koridor Riparian Sungai", prov: "Sumatera Selatan",
-      lat: -2.9200, lng: 104.0500, ha: 53,
-      species: ["Bambu betung", "Trembesi (Samanea saman)", "Ketapang"],
-      year: 2023, ndvi: 0.58, canopy: 38, trees: 33920,
-      co2: 249, co2lo: 174, co2hi: 324, tier: 2,
-      obs: "2026-07-13", sat: "Sentinel-2 L2A · tutupan awan 19%"
-    },
-    {
-      id: "GLYV-P10", short: "Sabuk Hijau", kind: "pulih",
-      name: "Sabuk Hijau Kawasan Penyangga", prov: "Banten",
-      lat: -6.3480, lng: 106.1520, ha: 12,
-      species: ["Trembesi (Samanea saman)", "Tabebuya", "Mahoni"],
-      year: 2023, ndvi: 0.55, canopy: 34, trees: 3720,
-      co2: 34, co2lo: 24, co2hi: 44, tier: 3,
-      obs: "2026-07-18", sat: "Sentinel-2 L2A · tutupan awan 8%"
-    },
-    {
-      id: "GLYV-P11", short: "Mangrove Muara", kind: "mangrove",
-      name: "Mangrove Muara Perancak", prov: "Bali",
-      // Perancak, Jembrana — muara pesisir barat-daya Bali (bukan pedalaman).
-      lat: -8.4080, lng: 114.6100, ha: 19,
-      species: ["Bakau (Rhizophora stylosa)", "Perepat (Sonneratia alba)"],
-      year: 2020, ndvi: 0.74, canopy: 72, trees: 33250,
-      co2: 167, co2lo: 125, co2hi: 209, tier: 3,
-      obs: "2026-07-17", sat: "Sentinel-2 L2A · tutupan awan 5%"
-    },
-    {
-      id: "GLYV-P12", short: "Pascatambang", kind: "pulih",
-      name: "Restorasi Lahan Pascatambang", prov: "Kalimantan Selatan",
-      lat: -3.6200, lng: 115.3800, ha: 88,
-      species: ["Sengon (Falcataria moluccana)", "Jabon", "Trembesi"],
-      year: 2020, ndvi: 0.61, canopy: 45, trees: 72160,
-      co2: 537, co2lo: 376, co2hi: 698, tier: 2,
-      obs: "2026-07-08", sat: "Landsat 9 OLI-2 · tutupan awan 16%"
-    },
-    {
-      /* ── LAHAN PRODUKTIF / KOMODITAS — bursa penawaran-permintaan (#14) ── */
-      id: "GLYV-P13", short: "Kebun Stroberi", kind: "komoditas",
-      name: "Kebun Stroberi Dataran Tinggi", prov: "Jawa Barat",
-      // Dataran tinggi Ciwidey — sentra stroberi (pesisir bukan relevan; ini lahan produktif).
-      lat: -7.1330, lng: 107.3720, ha: 8,
-      species: ["Stroberi (Fragaria × ananassa)", "Pohon peneduh: alpukat"],
-      year: 2023, ndvi: 0.62, canopy: 22, trees: 640,
-      co2: 12, co2lo: 8, co2hi: 16, tier: 3,
-      obs: "2026-07-19", sat: "Sentinel-2 L2A · tutupan awan 7%",
-      komoditas: {
-        nama: "Stroberi", unit: "kg",
-        panen: 3200,        /* estimasi panen musim ini (kg) ⚠︎ */
-        terjual: 2100,      /* sudah dipesan/dimiliki (kg) — dasar permintaan */
-        hargaWajar: 45000,  /* harga wajar konsumen /kg ⚠︎ */
-        hargaTengkulak: 22000, /* yang biasa diterima petani lewat tengkulak /kg ⚠︎ */
-        bagiPetani: 78, bagiOperasi: 10, bagiPemilik: 12 /* % dari harga wajar */
-      }
-    },
-    {
-      id: "GLYV-P14", short: "Kebun Vanili", kind: "komoditas",
-      name: "Kebun Vanili Agroforestri", prov: "Bali",
-      // Dataran tinggi Bedugul — hortikultura/vanili (lahan produktif).
-      lat: -8.2750, lng: 115.1650, ha: 14,
-      species: ["Vanili (Vanilla planifolia)", "Gamal (panjatan)", "Kopi"],
-      year: 2022, ndvi: 0.69, canopy: 58, trees: 9800,
-      co2: 96, co2lo: 67, co2hi: 125, tier: 2,
-      obs: "2026-07-18", sat: "Sentinel-2 L2A · tutupan awan 10%",
-      komoditas: {
-        nama: "Vanili kering", unit: "kg",
-        panen: 210, terjual: 120,
-        hargaWajar: 3200000, hargaTengkulak: 1600000,
-        bagiPetani: 74, bagiOperasi: 12, bagiPemilik: 14
-      }
+  /* Daftar petaknya TIDAK lagi tinggal di berkas ini.
+     ────────────────────────────────────────────────────────────────────────
+     Sampai ronde 38 larik PLOTS diketik langsung di sini, sementara aplikasi
+     Hijau (React) menyimpan daftarnya sendiri di src/lib/petakContoh.ts. Petak
+     yang SAMA lalu punya luas dan NDVI berbeda di dua halaman — mis. Mangrove
+     Pesisir Selatan 42 ha di sini dan 84 ha di aplikasi. Sekarang keduanya
+     membaca satu berkas: /lab/apps/peta/petak-data.js (dimuat SEBELUM berkas
+     ini), dan versi TypeScript-nya dibangkitkan dari sana oleh
+     scripts/sinkron-petak.cjs.
+
+     Tutupan tajuk, jumlah pohon, dan estimasi serapan ikut pindah ke sana
+     sebagai TURUNAN — dihitung dengan rumus yang sama persis dengan aplikasi,
+     bukan diketik tangan. */
+  var SUMBER_PETAK = root.GLYIV_PETAK;
+  var PLOTS = (SUMBER_PETAK && SUMBER_PETAK.PETAK) || [];
+  if (!PLOTS.length) {
+    /* Tanpa data tidak ada yang bisa digambar. Katakan itu di layar — peta
+       kosong tanpa penjelasan terbaca sebagai halaman rusak. */
+    var fbData = $("[data-fallback]");
+    if (fbData) {
+      fbData.classList.add("on");
+      fbData.innerHTML = "<p>Data petak contoh gagal dimuat (/lab/apps/peta/petak-data.js).<br>Muat ulang halaman; kalau tetap gagal, peta ini sedang tidak lengkap.</p>";
     }
-  ];
+    return;
+  }
 
   /* status derived from NDVI — also drives polygon + badge colour */
   function statusOf(p) {
@@ -413,7 +290,92 @@
   /* --- layers --- */
   var polyLayer = L.layerGroup().addTo(map);
   var markLayer = L.layerGroup().addTo(map);
+  /* Titik pohon virtual petak terpilih. Lapisan TERPISAH supaya menutupnya cukup
+     satu clearLayers() — dan supaya ia tidak pernah ikut terhitung saat peta
+     memasang/melepas penanda mengikuti filter. */
+  var pohonLayer = L.layerGroup().addTo(map);
   var LEAF = "M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z";
+
+  /* ---------------------------------------------------------
+     4b. POHON VIRTUAL — titik di dalam petak terpilih
+     ---------------------------------------------------------
+     Cermin `bangkitkanPohon()` di src/lib/hijau/pohonVirtual.ts: tolak-terima di
+     dalam poligon dengan PRNG bersemai, tanpa Math.random, sehingga petak yang
+     sama selalu menampilkan sebaran yang sama. Kisi teratur sengaja dihindari —
+     barisan lurus terbaca seperti perkebunan yang benar-benar ditanam, kesan
+     yang justru ingin dihindari.
+
+     ⚠︎ Ini BUKAN pohon nyata dan bukan sensus batang. Ia titik yang dihitung
+     dari satu angka kerapatan tanam perkiraan (900 batang/ha, satu angka untuk
+     semua spesies), dan layar WAJIB mengatakan itu — lihat pita di bawah peta.
+
+     BATAS RENDER 420 jauh di bawah batas 1.500 aplikasinya. Alasannya perangkat:
+     halaman ini juga memuat peta ubin satelit, panel, dan kanvas 3D di bawahnya,
+     dan pemilik mengujinya di tablet. Kalau dipotong, layar mengatakannya. */
+  var BATAS_TITIK_POHON = 420;
+
+  function titikDiPoligon(pt, ring) {
+    var x = pt[1], y = pt[0], di = false, i, j;
+    for (i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      var xi = ring[i][1], yi = ring[i][0], xj = ring[j][1], yj = ring[j][0];
+      if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) di = !di;
+    }
+    return di;
+  }
+
+  /** Ringkasan jumlah — dipakai teks pita maupun hutan 3D di bawah peta. */
+  function ringkasPohon(p) {
+    var penuh = p.trees;
+    var dirender = Math.min(BATAS_TITIK_POHON, penuh);
+    return { penuh: penuh, dirender: dirender, dipotong: penuh > dirender };
+  }
+
+  /** Posisi pohon virtual — MURNI terhadap `p.id`; hasilnya di-cache di petaknya. */
+  function pohonPetak(p) {
+    if (p.pohon) return p.pohon;
+    var r = ringkasPohon(p), rnd = mulberry32(seedOf("contoh-" + p.id)), out = [], i;
+    var minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity;
+    for (i = 0; i < p.ring.length; i++) {
+      var q = p.ring[i];
+      if (q[0] < minLat) minLat = q[0];
+      if (q[0] > maxLat) maxLat = q[0];
+      if (q[1] < minLng) minLng = q[1];
+      if (q[1] > maxLng) maxLng = q[1];
+    }
+    /* Pagar terhadap perulangan tak berujung: poligon menyerong punya rasio
+       luas-terhadap-kotak-pembatas kecil, jadi sebagian undian pasti gagal. */
+    var maksPercobaan = r.dirender * 60 + 2000;
+    for (i = 0; i < maksPercobaan && out.length < r.dirender; i++) {
+      var lat = minLat + rnd() * (maxLat - minLat);
+      var lng = minLng + rnd() * (maxLng - minLng);
+      if (!titikDiPoligon([lat, lng], p.ring)) continue;
+      /* Satu undian "vigor" menggerakkan tinggi & lebar tajuk bersamaan —
+         dipakai hutan 3D di bawah peta. Ilustratif ⚠︎. */
+      out.push({ lat: lat, lng: lng, vigor: rnd() });
+    }
+    p.pohon = out;
+    return out;
+  }
+
+  var pohonTampil = true;
+
+  function gambarPohon(p) {
+    pohonLayer.clearLayers();
+    if (!p || !pohonTampil) return;
+    var daftar = pohonPetak(p), col = p.st.col, i;
+    for (i = 0; i < daftar.length; i++) {
+      L.circleMarker([daftar[i].lat, daftar[i].lng], {
+        radius: 1.9 + daftar[i].vigor * 1.5,
+        stroke: false,
+        fillColor: col,
+        fillOpacity: 0.85,
+        /* non-interaktif: 420 penanda yang bisa diklik membuat peta berat di
+           tablet, dan tidak ada satu pun yang perlu diklik. */
+        interactive: false,
+        className: "pt-tree"
+      }).addTo(pohonLayer);
+    }
+  }
 
   PLOTS.forEach(function (p) {
     p.poly = L.polygon(p.ring, {
@@ -610,6 +572,13 @@
       b.setAttribute("aria-pressed", on ? "true" : "false");
     });
     renderPanel(p);
+    gambarPohon(p);
+    /* Hutan 3D di bawah peta mendengarkan ini. Dikirim sebagai peristiwa, bukan
+       panggilan langsung, supaya berkas peta tidak perlu tahu apa pun tentang
+       three.js — dan supaya halaman tetap utuh kalau berkas 3D-nya gagal dimuat. */
+    window.dispatchEvent(new CustomEvent("glyiv:petak-terpilih", {
+      detail: { petak: p, pohon: pohonPetak(p), ringkas: ringkasPohon(p) }
+    }));
     if (fly) {
       var opt = padOpts(56);
       opt.maxZoom = 15.5; opt.duration = 1.1;
@@ -735,12 +704,22 @@
       '<div><b>' + esc(TIERS[p.tier]) + '</b><small>tingkat kelengkapan data yang terlacak untuk petak ini</small></div></div>' +
       '</div>' +
 
+      '<div class="pt-sub">Pohon virtual petak ini</div>' +
+      '<div class="pt-vtree">' +
+      '<div><b>' + fmt(ringkasPohon(p).penuh) + '</b><small>perkiraan batang ' + WARN + '</small></div>' +
+      '<div><b>' + fmt(ringkasPohon(p).dirender) + '</b><small>titik digambar di peta</small></div>' +
+      '<p>Titik hijau di dalam batas petak adalah <b>pohon virtual</b> — bukan pohon nyata dan bukan sensus batang, melainkan sebaran yang dihitung sistem dari perkiraan kerapatan tanam ' + fmt(SUMBER_PETAK.KERAPATAN_TANAM_PER_HA) + ' batang/ha ' + WARN + '. ' +
+      (ringkasPohon(p).dipotong ? 'Peta hanya menggambar ' + fmt(ringkasPohon(p).dirender) + ' di antaranya supaya tetap lancar di tablet. ' : '') +
+      '<b>Hutan 3D-nya ada tepat di bawah peta.</b></p>' +
+      '</div>' +
+
       '<div class="pt-road"><span>⚠</span><div><b>Status:</b> sertifikasi, MRV pihak ketiga, dan registri kredit <b>belum tersedia</b> — masih dalam roadmap Glyiv. Angka di panel ini adalah data contoh untuk prototipe.</div></div>' +
 
       interaktifSection(p) +
 
       '<div class="pt-acts">' +
       '<button type="button" class="ga-btn solid" data-zoom>Zoom ke petak</button>' +
+      '<a class="ga-btn glass" href="#hutan3d">Lihat hutan 3D ↓</a>' +
       '</div>';
 
     if (window.GlyivSources && GlyivSources.scan) GlyivSources.scan(panel);
@@ -840,9 +819,26 @@
     panel.classList.add("out");
     var prev = state.sel;
     state.sel = null;
+    state.selPlot = null;
     if (prev && byId(prev)) paint(byId(prev));
     $$("[data-go]").forEach(function (b) { b.classList.remove("on"); b.setAttribute("aria-pressed", "false"); });
+    gambarPohon(null);
+    /* Hutan 3D di bawah peta kembali ke keadaan "belum ada petak dipilih". */
+    window.dispatchEvent(new CustomEvent("glyiv:petak-terpilih", { detail: { petak: null } }));
     queueDeclutter();
+  }
+
+  /* Sakelar titik pohon virtual — hidup di pita bawah peta, bukan di panel:
+     panel bisa tertutup sementara titiknya masih tergambar, dan sakelar yang
+     hilang bersama panelnya membuat orang mengira titiknya tidak bisa dimatikan. */
+  var sakelarPohon = $("[data-toggle-pohon]");
+  if (sakelarPohon) {
+    sakelarPohon.addEventListener("click", function () {
+      pohonTampil = !pohonTampil;
+      sakelarPohon.setAttribute("aria-pressed", pohonTampil ? "true" : "false");
+      sakelarPohon.classList.toggle("on", pohonTampil);
+      gambarPohon(state.selPlot);
+    });
   }
 
   /* ---- draggable bottom sheet (mobile only) ---- */
@@ -976,6 +972,6 @@
   /* Diekspos supaya lapisan segmentasi NDVI (ndvi-layer.js) bisa mewarnai
      ulang poligon dan membaca data petak, TANPA harus menyalin logika peta
      ini. Sengaja hanya baca-tulis gaya, bukan API publik untuk umum. */
-  window.__GLYIV_PETA = { map: map, plots: PLOTS, state: state };
+  window.__GLYIV_PETA = { map: map, plots: PLOTS, state: state, pilih: select, catatan: SUMBER_PETAK.CATATAN };
   window.dispatchEvent(new CustomEvent("glyiv:peta-siap"));
-})();
+})(typeof window !== "undefined" ? window : globalThis);

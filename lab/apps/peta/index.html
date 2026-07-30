@@ -24,7 +24,7 @@
       <div class="ga-crumb"><a href="/">Glyiv</a> &rsaquo; <a href="/lab/tree.html">Green Assets</a> &rsaquo; Green Asset Maps</div>
       <span class="ga-badge"><i></i> Satu peta &middot; pantau &middot; kebun virtual &amp; bursa: <b>simulasi</b> &middot; data contoh</span>
       <h1>Glyiv <em>Green Asset Maps</em></h1>
-      <p>Gambar batas sebuah petak, lihat luas terhitung dan estimasi serapannya &#9888;&#65038;. Pohon virtual dan bursanya <b>simulasi</b> &mdash; tidak ada panen dan tidak ada uang.</p>
+      <p>Tekan sebuah petak: titik pohon virtualnya muncul di peta, hutan 3D-nya di bawahnya. Pohon virtual dan bursanya <b>simulasi</b> &#9888;&#65038;.</p>
       <div style="margin-top:18px"><a class="ga-btn glass" href="/hijau">Buka Green Assets &rarr;</a></div>
     </div>
     <div class="ga-hero__aside">
@@ -49,7 +49,7 @@
     <div class="ga-stat">
       <div class="k">Estimasi pohon</div>
       <div class="v" data-sum-trees>0</div>
-      <div class="s" data-src-inside="1" data-src-title="Sumber estimasi pohon" data-src="FAO Global Forest Resources Assessment|https://www.fao.org/forest-resources-assessment/en/ ;; Angka pohon adalah estimasi kerapatan tanam, bukan sensus batang|">batang &middot; estimasi &#9888;</div>
+      <div class="s" data-src-inside="1" data-src-title="Sumber estimasi pohon" data-src="FAO Global Forest Resources Assessment|https://www.fao.org/forest-resources-assessment/en/ ;; Angka pohon adalah estimasi kerapatan tanam, bukan sensus batang| ;; Perkiraan kasar 900 batang/ha, satu angka untuk semua spesies — angka yang sama dipakai aplikasi Glyiv Green Assets|">batang &middot; 900/ha &#9888;</div>
     </div>
     <div class="ga-stat">
       <div class="k">Estimasi serapan</div>
@@ -115,6 +115,8 @@
         <span><i style="background:#1cae6b"></i> Pemulihan berjalan</span>
         <span><i style="background:#B0894F"></i> Perlu tinjau lapangan</span>
         <span><i class="box"></i> Batas petak &middot; perbesar untuk melihat</span>
+        <span><i class="dot"></i> Titik = pohon virtual &middot; bukan pohon nyata &#9888;</span>
+        <button type="button" class="pt-toggle on" data-toggle-pohon aria-pressed="true">Titik pohon virtual</button>
       </div>
       <div class="pt-credit">
         Peta jalan: &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> (ODbL)<br>
@@ -122,6 +124,30 @@
       </div>
     </div>
   </div>
+  <!-- Hutan 3D petak terpilih. Diisi oleh hutan3d.js; three.js baru diambil saat
+       seksi ini masuk layar. Tanpa JavaScript, yang tersisa adalah teks jujur
+       di bawah beserta jalan ke aplikasinya. -->
+  <section class="h3-sec" id="hutan3d" data-hutan3d aria-label="Model hutan 3D petak terpilih">
+    <div class="h3-hd">
+      <div>
+        <div class="h3-crumb">Pohon virtual &middot; model 3D</div>
+        <h2 data-h3-judul>Belum ada petak dipilih</h2>
+        <div class="h3-meta" data-h3-meta></div>
+      </div>
+      <a class="ga-btn glass" href="/hijau">Rawat pohonnya di aplikasi &rarr;</a>
+    </div>
+    <div class="h3-stage">
+      <div class="h3-kanvas" data-h3-kanvas></div>
+      <span class="h3-badge">MODEL SIMULASI</span>
+    </div>
+    <p class="h3-status" data-h3-status>Pilih sebuah petak di peta di atas &mdash; hutan 3D-nya digambar di sini.</p>
+    <p class="h3-note">
+      &#9888;&#65038; Batang di model ini <b>bukan pohon nyata</b> dan bukan hasil sensus. Posisinya dihitung sistem dari perkiraan kerapatan tanam <b>900 batang per hektare</b> &mdash; satu angka untuk semua spesies, belum dikalibrasi lapangan &mdash; dan tinggi batangnya angka contoh.
+      Yang dihitung sungguhan di sini hanya <b>luas petak</b> dan <b>estimasi serapannya</b>, dan estimasi itu pun berdiri di atas NDVI contoh.
+      Menyiram atau mengadopsi pohon di aplikasi <b>tidak menyerap karbon di dunia nyata</b>; imbalannya poin permainan.
+    </p>
+  </section>
+
   <!-- Panel segmentasi NDVI + kalkulator. Diisi oleh ndvi-layer.js. -->
   <section data-ndvi-panel aria-label="Segmentasi tutupan dan kalkulator serapan"></section>
 
@@ -137,7 +163,11 @@
 <script src="/assets/js/glyiv-nav.js" defer></script>
 <script src="/assets/js/glyiv-sources.js" defer></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+<!-- petak-data.js WAJIB sebelum app.js: ia satu-satunya sumber daftar petak,
+     dipakai juga oleh src/lib/petakContoh.ts lewat scripts/sinkron-petak.cjs. -->
+<script src="/lab/apps/peta/petak-data.js" defer></script>
 <script src="/lab/apps/peta/app.js" defer></script>
 <script src="/lab/apps/peta/ndvi-layer.js" defer></script>
+<script src="/lab/apps/peta/hutan3d.js" defer></script>
 </body>
 </html>

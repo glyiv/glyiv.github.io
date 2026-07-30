@@ -8,6 +8,20 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var enc = encodeURIComponent;
+
+  /* ⚠︎ ABSOLUT, JANGAN DIKEMBALIKAN JADI "artikel.html?a=".
+     Tautan RELATIF diselesaikan terhadap DIREKTORI alamat yang sedang dibuka.
+     Di glyiv.github.io alamatnya `/lab/kabar/` (ada index.html sungguhan), jadi
+     bentuk relatif kebetulan benar. Di aplikasi React alamatnya `/lab/kabar`
+     TANPA garis miring akhir — direktorinya `/lab/`, sehingga "artikel.html"
+     menjadi `/lab/artikel.html`: rute yang tidak ada, dan penangkap `*`
+     melempar pembaca ke BERANDA. Terukur di peramban sebelum perbaikan ini:
+     menekan kartu artikel mendarat di "/" dengan judul beranda, bukan artikel.
+     Bentuk absolut benar di KEDUA tempat (situsnya dilayani dari akar domain).
+     Dipakai ketiga tautan artikel di berkas ini: kartu feed, layar akhir Story,
+     dan lompatan otomatis di akhir Story. `shareUrl()` sudah absolut sejak awal. */
+  var URL_ARTIKEL = "/lab/kabar/artikel.html?a=";
+
   var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
   var fmt = function (n) { n = n || 0; return n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(".0", "") + "rb" : String(n); };
   function hexA(hex, a) { var h = (hex || "#1F7A6B").replace("#", ""); if (h.length === 3) h = h.replace(/./g, "$&$&"); var n = parseInt(h, 16); return "rgba(" + ((n >> 16) & 255) + "," + ((n >> 8) & 255) + "," + (n & 255) + "," + a + ")"; }
@@ -94,7 +108,7 @@
     }
     function card(a, feat) {
       var c = counts(a);
-      return '<a class="kc' + (feat ? " feat" : "") + '" href="artikel.html?a=' + enc(a.slug) + '" style="--kc-mood:' + esc(a.mood) + '">' +
+      return '<a class="kc' + (feat ? " feat" : "") + '" href="' + URL_ARTIKEL + enc(a.slug) + '" style="--kc-mood:' + esc(a.mood) + '">' +
         '<div class="kc__img">' + (a.cover ? '<img src="' + esc(a.cover) + '" alt="" loading="lazy" onerror="this.style.display=\'none\'">' : "") + '<span class="kc__topic">' + esc(a.topic) + '</span></div>' +
         '<div class="kc__b"><h3>' + esc(a.title) + '</h3><p>' + esc(a.dek) + '</p>' +
         '<div class="kc__meta"><span>' + a.read + ' mnt</span>' +
@@ -187,11 +201,11 @@
       if (s.kind === "hook") return '<div class="kstory__scene"><span class="lab">' + esc(a.topic) + "</span><h2>" + esc(s.title) + "</h2>" + (s.text ? "<p>" + esc(s.text) + "</p>" : "") + "</div>";
       if (s.kind === "stat") return '<div class="kstory__scene"><span class="lab">Angka</span><div class="big">' + esc(s.big) + "</div><p>" + esc(s.label || "") + "</p>" + (s.source ? '<div class="src">' + esc(s.source) + "</div>" : "") + "</div>";
       if (s.kind === "quote") return '<div class="kstory__scene quote"><h2>' + esc(s.text) + "”</h2></div>";
-      if (s.kind === "end") return '<div class="kstory__scene"><span class="lab">Selesai</span><h2>' + esc(s.title) + "</h2>" + (s.text ? "<p>" + esc(s.text) + "</p>" : "") + '<a class="go" href="artikel.html?a=' + enc(a.slug) + '">Baca lengkap →</a></div>';
+      if (s.kind === "end") return '<div class="kstory__scene"><span class="lab">Selesai</span><h2>' + esc(s.title) + "</h2>" + (s.text ? "<p>" + esc(s.text) + "</p>" : "") + '<a class="go" href="' + URL_ARTIKEL + enc(a.slug) + '">Baca lengkap →</a></div>';
       return '<div class="kstory__scene"><span class="lab">' + esc(a.topic) + "</span><h2>" + esc(s.title || "") + "</h2>" + (s.text ? "<p>" + esc(s.text) + "</p>" : "") + "</div>";
     }
     function show(n) {
-      if (n >= scenes.length) { close(); location.href = "artikel.html?a=" + enc(a.slug); return; }
+      if (n >= scenes.length) { close(); location.href = URL_ARTIKEL + enc(a.slug); return; }
       if (n < 0) n = 0; idx = n; wrap.innerHTML = sceneHTML(scenes[idx]);
       bars.forEach(function (b, i) { b.classList.remove("act", "done"); if (i < idx) b.classList.add("done"); if (i === idx && !paused) { b.style.setProperty("--sdur", dur + "ms"); void b.offsetWidth; b.classList.add("act"); } });
       schedule();

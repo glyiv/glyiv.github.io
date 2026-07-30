@@ -316,3 +316,71 @@
   border:1px solid rgba(31,122,107,.3);color:var(--pine,#0F2E22);font-weight:600;font-size:13px}
 .uni-ok small{font-weight:400;color:var(--muted,#6B7772)}
 @media(max-width:520px){.uni-grid{grid-template-columns:1fr 1fr}}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   POHON VIRTUAL DI PETA + HUTAN 3D DI BAWAH PETA
+   ══════════════════════════════════════════════════════════════════════════════
+   Menyatukan teaser peta dengan aplikasi gamifikasi: menekan sebuah petak
+   memunculkan titik pohon virtualnya di peta DAN hutan 3D-nya di bawah peta.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* titik pohon virtual — tidak menerima pointer, jadi peta tetap ringan di tablet */
+.pt-tree{pointer-events:none}
+
+.pt-leg i.dot{width:7px;height:7px;background:var(--teal);box-shadow:0 0 0 3px rgba(31,122,107,.16)}
+
+/* Sakelar titik pohon virtual.
+   ⚠︎ Tinggi 44px DINYATAKAN LANGSUNG, bukan lewat `::before` yang melebar.
+   Trik ::before sempat dipakai di sini dan DIUKUR TIDAK BEKERJA:
+   `document.elementFromPoint()` 6px di atas dan di bawah tombolnya tidak
+   mengembalikan tombol itu, jadi jari yang meleset sedikit tidak mengenai apa
+   pun. Pita legenda memang jadi sedikit lebih tinggi — itu harga yang benar
+   untuk tombol yang bisa ditekan di tablet. */
+.pt-toggle{display:inline-flex;align-items:center;min-height:44px;
+  font-family:var(--l-mono);font-size:9.5px;letter-spacing:.04em;
+  color:var(--muted);background:#fff;border:1px solid var(--hair);border-radius:999px;
+  padding:0 14px;cursor:pointer;transition:.16s;white-space:nowrap}
+.pt-toggle:hover,.pt-toggle:focus-visible{border-color:var(--teal);color:var(--teal);outline:none}
+.pt-toggle.on{background:rgba(31,122,107,.1);border-color:var(--teal);color:var(--pine)}
+.pt-toggle.on::after{content:" ✓";font-weight:700}
+
+/* blok pohon virtual di dalam panel detail */
+.pt-vtree{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin-top:2px;
+  padding:12px 13px;background:var(--paper2);border:1px solid var(--hair);border-radius:13px}
+.pt-vtree>div{display:flex;flex-direction:column;gap:2px}
+.pt-vtree b{font-family:var(--l-serif);font-weight:600;font-size:19px;color:var(--pine);line-height:1.05}
+.pt-vtree small{font-family:var(--l-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.pt-vtree p{grid-column:1/-1;margin:0;font-size:11.5px;line-height:1.65;color:var(--slate)}
+
+/* ── seksi hutan 3D ─────────────────────────────────────────────────────────── */
+.h3-sec{margin-top:22px;background:#fff;border:1px solid var(--hair);border-radius:20px;
+  box-shadow:var(--sh2);padding:16px 16px 18px;scroll-margin-top:78px}
+.h3-hd{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between;margin-bottom:12px}
+.h3-crumb{font-family:var(--l-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.h3-hd h2{font-family:var(--l-serif);font-weight:600;font-size:21px;color:var(--pine);margin:4px 0 0;line-height:1.2}
+.h3-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px}
+.h3-meta span{font-family:var(--l-mono);font-size:10px;color:var(--slate)}
+.h3-hd .ga-btn{flex:0 0 auto}
+
+.h3-stage{position:relative;border-radius:15px;overflow:hidden;background:#eef2ee;border:1px solid var(--hair)}
+/* Tinggi kanvas: cukup untuk membaca tegakan sebagai hutan, tidak sampai
+   memakan satu layar penuh di tablet — bagian bawah peta harus tetap terlihat
+   bersamaan supaya hubungan "titik di peta = pohon di sini" terbaca. */
+.h3-kanvas{height:min(58vh,420px);min-height:250px;width:100%}
+.h3-kanvas canvas{display:block;width:100%;height:100%}
+/* Lencana SIMULASI: melayang, tanpa pointer, TIDAK ADA jalan mematikannya. */
+.h3-badge{position:absolute;top:10px;right:10px;pointer-events:none;
+  font-family:var(--l-mono);font-size:9px;letter-spacing:.16em;
+  background:var(--brass);color:#1c1405;border-radius:999px;padding:5px 11px;font-weight:600}
+.h3-status{margin:11px 0 0;font-size:12px;line-height:1.65;color:var(--slate)}
+.h3-status.warn{color:var(--brass)}
+.h3-note{margin:9px 0 0;font-size:11px;line-height:1.7;color:var(--muted);
+  border-top:1px solid var(--hair);padding-top:9px}
+.h3-note b{color:var(--slate)}
+
+@media(max-width:620px){
+  .h3-sec{padding:14px 13px 16px;border-radius:16px}
+  .h3-hd{align-items:flex-start}
+  .h3-hd .ga-btn{width:100%;justify-content:center}
+  .h3-kanvas{height:min(52vh,320px)}
+}

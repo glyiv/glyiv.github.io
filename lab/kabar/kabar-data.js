@@ -34,7 +34,7 @@ window.KABAR = [
     mood: "#1cae6b",
     title: "Kenapa sebuah pohon kini adalah aset yang bisa diaudit.",
     dek: "Offset karbon punya reputasi buruk — penuh 'kredit zombie' yang tak jelas asalnya. Tokenisasi aset pohon nyata mengubahnya: dari klaim di atas kertas menjadi bukti yang dipantau satelit dan tercatat di rantai.",
-    cover: "/lab/img/reforestation.jpg",
+    cover: "/lab/img/reforestation.webp",
     author: "Redaksi Glyiv",
     role: "Ditinjau terhadap standar VCMI/ICVCM & ERC-3643",
     read: 7,
