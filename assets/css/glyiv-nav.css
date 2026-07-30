@@ -93,7 +93,29 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
   .ldrop--mega .ldrop__grp a b{font-size:13px}.ldrop--mega .ldrop__grp a small{display:none}
   .ldrop__mega-foot{display:none}
   .lnav__burger{display:inline-flex}
+  /* CTA navbar sengaja disembunyikan di bawah 900px: ruangnya tidak ada, dan
+     memaksanya masuk akan mendesak logo. Konsekuensinya harus ditutup di tempat
+     lain, dan itu memang dilakukan — pita aksi `.lstick` di lab.css bagian 8
+     memasang ajakan bertindak yang MENEMPEL di tepi bawah, tempat ibu jari
+     berada. Tanpa pita itu, halaman ponsel tidak punya satu pun ajakan bertindak
+     yang tetap terjangkau (laci burger pun tidak memuatnya). Jadi kalau baris
+     `display:none` ini pernah dipertanyakan lagi: jawabannya bukan menampilkan
+     kembali CTA di sini, melainkan memastikan halamannya punya `.lstick`. */
   .lnav__cta{display:none}
+}
+
+/* ── TARGET SENTUH DI PERANGKAT SENTUH ──────────────────────────────────────
+   Terukur di 390px: pil bahasa 30x26px, tombol burger 42x38px, dan tiap tautan
+   di dalam laci 34px — semuanya di bawah 44px, padahal pemilik memakai tablet
+   Android dan ini kontrol navigasi utamanya. Digating `pointer:coarse` sehingga
+   tata letak desktop (tetikus) sama sekali tidak berubah. */
+@media (pointer:coarse){
+  .lnav__lang button{min-width:44px;min-height:44px}
+  .lnav__lang{padding:2px}
+  .lnav__burger{min-width:44px;min-height:44px;align-items:center;justify-content:center}
+  .lnav__links>a,.ldrop__btn{min-height:48px}
+  .ldrop__grp a{min-height:44px;display:flex;flex-direction:column;justify-content:center;padding:7px 0}
+  .ldrop--mega .ldrop__grp a{padding:8px 0}
 }
 /* Pemilih bahasa di navbar situs (disuntik site-lang.js). Pil kecil id/en/ar,
    selaras dengan gaya navbar homepage. */
@@ -111,4 +133,56 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
 }
 @media (prefers-reduced-motion:reduce){
   .lnav,.lnav *{transition:none!important}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   TARGET SENTUH — hanya pada perangkat berpenunjuk KASAR (jari).
+   ══════════════════════════════════════════════════════════════════════════════
+   Terukur di /lab/tree pada 390px: 35 tautan nav + 12 tautan footer berada di
+   28–34px. Pemilik memakai Samsung Galaxy Tab, dan target di bawah 44px sudah
+   berulang kali jadi keluhan.
+
+   `pointer: coarse`, BUKAN `max-width`. Alasannya: tablet pemilik dipakai
+   mendatar pada 1280px — lebar itu lolos setiap ambang "mobile" tetapi tetap
+   layar sentuh. Sebaliknya, desktop bertetikus tidak pernah cocok dengan kueri
+   ini, jadi kerapatan tampilan desktop TIDAK berubah sama sekali.
+
+   Yang SENGAJA tidak disentuh: tautan di DALAM kalimat. Memaksa 44px pada tautan
+   prosa akan merenggangkan baris teks secara aneh, dan pedoman aksesibilitas pun
+   mengecualikannya. Diperiksa: dari 48 target kecil di halaman itu, 47 adalah
+   tautan nav/footer yang berdiri sendiri — nol tautan prosa. */
+@media (pointer: coarse) {
+  .lnav__links a,
+  .lnav__cta a,
+  .lnav__admin,
+  .lfoot__grid a,
+  .lfoot__legal a,
+  .lfoot__about a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  /* Merek di bilah atas: kotak sentuhnya dilebarkan tanpa menggeser tata letak
+     (ia sudah `display:flex`). */
+  .lbrand {
+    min-height: 44px;
+  }
+  .lnav__burger {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+}
+
+/* Penimpa yang HARUS berada di akhir berkas.
+   Blok `pointer:coarse` di baris ~113 sudah menyetel tombol bahasa ke 44px,
+   tetapi aturan DASAR `.lnav__lang button{…min-height:26px}` ada di baris ~123 —
+   LEBIH BELAKANG di berkas yang sama, spesifisitas sama, jadi yang belakangan
+   menang dan tombolnya tetap 26px. Terukur: `min-height` terhitung 26px padahal
+   `(pointer: coarse)` cocok. Diletakkan di sini supaya urutan cascade-nya benar. */
+@media (pointer: coarse) {
+  .lnav__lang button {
+    min-width: 44px;
+    min-height: 44px;
+  }
 }

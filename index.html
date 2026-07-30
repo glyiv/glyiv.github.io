@@ -295,7 +295,7 @@
     <h2 class="lh2" style="margin-top:12px">Data karbon adalah <span class="lemph">tulang punggungnya.</span></h2>
     <p class="llead" style="margin-top:12px;max-width:62ch">Satu transaksi di satu titik bayar memperkaya seluruh ekosistem &mdash; disatukan oleh satu lapisan data karbon dan satu identitas. Tiga langkah, dan hanya langkah pertama yang butuh dunia nyata.</p>
   </div>
-  <div class="ecoflow flowrail">
+  <div class="ecoflow flowrail mrail">
     <article class="tcard" data-reveal>
       <div class="tcard__img">
         <img src="/lab/img/titik-bayar.jpg" alt="Pelanggan membayar di titik bayar sebuah outlet" loading="lazy">
@@ -370,7 +370,7 @@
     <h2 class="lh2" style="margin-top:12px">Digital sepenuhnya, <span class="lemph">high-tech di setiap lapis.</span></h2>
     <p class="llead" style="margin-top:12px;max-width:62ch">Empat lapisan yang bekerja bersama &mdash; dari agen yang membaca struk, sampai metodologi yang sumbernya bisa Anda buka sendiri. Tiap kartu menyebut apa yang sudah berjalan dan apa yang belum.</p>
   </div>
-  <div class="techrow">
+  <div class="techrow mrail">
     <article class="tcard tcard--dark" data-reveal>
       <div class="tcard__img"><img src="/lab/img/data-center.jpg" alt="Ruang server tempat data diproses" loading="lazy"></div>
       <div class="tcard__body"><h3>Agentic AI</h3>
@@ -400,7 +400,7 @@
     <h2 class="lh2" style="margin-top:12px">Arah yang jujur, <span class="lemph">bukan janji.</span></h2>
     <p class="llead" style="margin-top:12px;max-width:72ch">Sebagian sudah prototipe, sebagian masih visi. Tiap kartu menandai statusnya apa adanya &mdash; lengkap dengan demo atau ilustrasi konsepnya. Kami tidak mengklaim yang belum berjalan.</p>
   </div>
-  <div class="rmap" style="margin-top:26px">
+  <div class="rmap mrail" style="margin-top:26px">
 
     <article class="rmc" data-reveal>
       <div class="rmc__viz"><div class="rvai">
@@ -503,7 +503,7 @@
     <h2 class="lh2" style="margin-top:12px">Ini gerakan, <span class="lserif-accent">bukan sekadar aplikasi.</span></h2>
     <p class="llead" style="margin:12px auto 0;max-width:64ch">Glyiv tumbuh dari orang-orang yang mau hidup lebih hijau tanpa ribet. Dari mahasiswa sampai pemilik outlet kecil &mdash; semua punya tempat, punya peran, dan punya imbalan. Tidak perlu jadi ahli iklim untuk ikut.</p>
   </div>
-  <div class="mvmt">
+  <div class="mvmt mrail">
     <article class="mvcard" data-reveal>
       <div class="mvcard__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M21 8v6M7 11v4c0 1.3 2.2 2.5 5 2.5s5-1.2 5-2.5v-4"/></svg></div>
       <h3>Mahasiswa &amp; kampus</h3>
@@ -582,6 +582,18 @@
     <span>Produk dari <a href="/wosu/index.html" style="color:#8affc1">PT WOSU Innovation Technology</a> &middot; pratinjau produk &middot; angka ilustrasi</span>
   </div>
 </div></footer>
+
+<!-- PITA AKSI PONSEL (.lstick — lab.css bagian 8)
+     Hanya tampil di bawah 900px. Alasannya cacat yang terukur: glyiv-nav.css
+     menyembunyikan .lnav__cta di bawah 900px dan laci burger juga tidak
+     memuatnya, jadi di ponsel dan di tablet tegak beranda ini TIDAK punya satu
+     pun ajakan bertindak yang tetap terjangkau — satu-satunya jalan adalah
+     menggulir kembali ke hero. Pita ini menaruhnya di tempat ibu jari berada.
+     Di desktop `display:none`; navbar kembali jadi pemilik tunggal CTA. -->
+<div class="lstick">
+  <span class="lstick__t"><b>Mulai dari yang paling dekat</b>Gratis 14 hari untuk outlet &middot; tanpa perangkat baru</span>
+  <a class="lbtn lbtn--solid" href="#gabung">Cara ikut</a>
+</div>
 
 <!-- GLY BOT — widget Gly dipasang seragam di SETIAP halaman oleh
      /assets/js/glyiv-gly.js (dimuat glyiv-nav.js). Tidak lagi ditulis per-halaman

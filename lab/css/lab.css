@@ -27,7 +27,13 @@ img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer}
 ::selection{background:rgba(31,122,107,.18)}
-.lwrap{width:100%;max-width:1240px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+/* Sela tepi halaman. Dijadikan properti supaya REL KARTU PONSEL (bagian
+   "TATA LETAK PONSEL" di kaki berkas) bisa keluar dari sela ini dengan margin
+   negatif yang PERSIS sama besar. Kalau keduanya ditulis dua kali dan salah satu
+   berubah, rel akan menonjol keluar layar dan halaman bisa digulir mendatar.
+   Nilai terhitungnya identik dengan sebelumnya — desktop tidak berubah. */
+:root{--l-pad:clamp(20px,5vw,48px)}
+.lwrap{width:100%;max-width:1240px;margin:0 auto;padding:0 var(--l-pad)}
 
 /* soft ambient wash (subtle, static) */
 .gv-bg-root{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
@@ -840,3 +846,342 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 .joinx__foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
   padding-top:18px;border-top:1px solid var(--hair)}
 .joinx__note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0;flex:1 1 320px}
+
+
+/* ============================================================================
+   TATA LETAK PONSEL & TABLET — tata letak SENDIRI, bukan desktop yang dikecilkan
+   ============================================================================
+
+   PERMINTAAN PEMILIK (dijawab di bagian ini):
+     "Saya ingin untuk tampilan website itu tidak ditampilkan kecil untuk android
+      atau hp mobile. Harusnya itu terpisah."
+
+   YANG SUDAH DIUKUR LEBIH DULU — supaya perbaikannya menyasar cacat yang benar.
+   Pemeriksaan pertama membantah keluhan ini dengan angka yang salah sasaran: meta
+   viewport benar, lebar tata letak 390px, zoom 1, h1 38px, isi 16px. Semua sehat.
+   Tetapi `scripts/ukur-tata-letak.cjs` mengukur hal yang benar, yaitu PANJANG
+   GULIR halaman:
+
+       beranda    390px = 17.172px  ·  1440px = 9.553px  → ponsel 1,80x LEBIH PANJANG
+       /lab/tree  390px =  9.070px  ·  1440px = 6.216px  → ponsel 1,46x lebih panjang
+
+   Halaman ponsel yang benar-benar dirancang untuk ponsel TIDAK dua kali lebih
+   panjang daripada versi desktopnya. Angka itu adalah tanda tangan satu pola:
+   setiap grid desktop dipatahkan menjadi `grid-template-columns:1fr`. Enam kartu
+   sederajat yang di desktop berdiri berdampingan menjadi enam kartu bertumpuk;
+   tiga belas kartu ekosistem menjadi tiga belas layar penuh gulir. Tidak ada satu
+   pun keputusan tata letak yang diambil UNTUK layar kecil — hanya pembatalan tata
+   letak desktop. Itulah yang pemilik lihat sebagai "dikecilkan".
+
+   YANG DILAKUKAN DI SINI, dan batasnya:
+     - Deretan hal SEDERAJAT  -> rel kartu bergulir mendatar dengan scroll-snap.
+     - Tabel perbandingan     -> kartu bertumpuk per baris, bukan tabel 3 kolom.
+     - Statistik ringkas      -> tetap 3 kolom (memang cukup), bukan ditumpuk.
+     - Pasangan teks+visual   -> TETAP satu kolom. Itu memang urutan, bukan deret.
+     - Tipografi              -> skala sendiri, bukan warisan ukuran desktop.
+     - Target sentuh          -> >=44px di perangkat sentuh.
+     - Gulir                  -> sumber jank dimatikan di ponsel (bagian 7).
+
+   ATURAN YANG TIDAK BOLEH DILANGGAR: `dist/` adalah desain yang SUDAH DISETUJUI.
+   Tidak ada satu pun aturan di bagian ini yang boleh mengubah tampilan DESKTOP.
+   Karena itu SELURUH bagian ini berada di dalam media query `max-width` /
+   `pointer:coarse` / `hover:none` — sebuah aturan di sini secara struktural tidak
+   bisa menyentuh laptop. Merek, warna, font, dan komponennya tidak diubah; hanya
+   SUSUNANNYA di lebar kecil.
+   ============================================================================ */
+
+/* --- 1. REL KARTU PONSEL ----------------------------------------------------
+   Mekanika ini sengaja meniru `.gcar__track` yang sudah ada dan sudah disetujui
+   pemilik (carousel "Ekonomi untuk semua" di beranda) — jadi ini BUKAN pola baru
+   yang dikarang, melainkan pola merek yang sudah ada, dipakai di tempat lain yang
+   membutuhkannya.
+
+   Kenapa `.mrail.mrail` (nama kelas ditulis dua kali)? Karena kelas grid seperti
+   `.techrow` dan `.rmap` didefinisikan di dalam blok <style> MILIK HALAMAN, dan
+   blok itu dimuat SESUDAH lab.css. Pada kekhususan yang sama (0,1,0), aturan yang
+   dimuat terakhir menang — jadi `.mrail` biasa akan selalu kalah dari
+   `.techrow{grid-template-columns:repeat(4,1fr)}` di halamannya sendiri. Menulis
+   kelasnya dua kali menaikkan kekhususan ke (0,2,0) sehingga rel menang TANPA
+   `!important`; `!important` akan menutup pintu bagi satu halaman yang kelak
+   benar-benar perlu mengecualikan diri.
+
+   Ambang 900px, bukan 600px: Galaxy Tab S10 tegak sekitar 800px, dan di 800px
+   kartu yang menumpuk satu kolom sama salahnya. 900px juga persis titik tempat
+   garis penghubung `.flowrail::before` menyala, jadi rel dan garis itu tidak
+   pernah aktif bersamaan. */
+@media (max-width:900px){
+  .mrail.mrail,
+  .indgrid.indgrid,
+  .applyrow.applyrow,
+  .feat.feat,
+  .joinx__grid.joinx__grid{
+    display:grid;
+    grid-auto-flow:column;
+    /* `none` wajib: tanpa ini jejak `grid-template-columns` desktop bertahan
+       sebagai kolom eksplisit pertama, dan kartu pertama jadi selebar wadah
+       sementara sisanya menyempit. */
+    grid-template-columns:none;
+    /* min(78vw,320px): di 390px kartu 304px menyisakan sekitar 66px sehingga
+       kartu BERIKUTNYA mengintip — satu-satunya isyarat "bisa digeser" yang tidak
+       perlu tulisan, ikon, atau JavaScript. Di 800px kartu berhenti di 320px
+       supaya tablet menampilkan sekitar 2,5 kartu, bukan satu kartu raksasa. */
+    grid-auto-columns:min(78vw,320px);
+    gap:12px;
+    overflow:auto hidden;
+    scroll-snap-type:x mandatory;
+    overscroll-behavior-x:contain;
+    /* Bilah gulir disembunyikan: kartu yang mengintip sudah jadi isyaratnya, dan
+       bilah abu-abu bawaan sistem merusak kerapian kartu. Tetap bisa digeser
+       dengan sentuh, trackpad, dan papan tik. */
+    scrollbar-width:none;
+    /* Keluar dari sela .lwrap supaya rel menyentuh tepi layar (rasa aplikasi),
+       tetapi kartu PERTAMA tetap sejajar dengan teks di atasnya. --l-pad adalah
+       sela .lwrap yang sama persis, jadi keduanya tidak bisa berselisih. */
+    margin-inline:calc(-1 * var(--l-pad));
+    padding-inline:var(--l-pad);
+    scroll-padding-inline-start:var(--l-pad);
+    /* Ruang vertikal untuk bayangan kartu: `overflow-y:hidden` memotongnya. */
+    padding-block:4px 12px;
+  }
+  .mrail.mrail::-webkit-scrollbar,
+  .indgrid.indgrid::-webkit-scrollbar,
+  .applyrow.applyrow::-webkit-scrollbar,
+  .feat.feat::-webkit-scrollbar,
+  .joinx__grid.joinx__grid::-webkit-scrollbar{display:none}
+
+  .mrail.mrail>*,
+  .indgrid.indgrid>*,
+  .applyrow.applyrow>*,
+  .feat.feat>*,
+  .joinx__grid.joinx__grid>*{scroll-snap-align:start;min-width:0}
+
+  /* Kartu ekosistem lebih sempit: ia hanya foto + dua baris teks, jadi 13 kartu
+     tidak perlu 78vw masing-masing. */
+  .indgrid.indgrid{grid-auto-columns:min(68vw,290px)}
+
+  /* WAJIB: isi rel TIDAK BOLEH bergantung pada animasi masuk.
+     `[data-reveal]` mulai dari `opacity:0` dan baru terlihat saat
+     IntersectionObserver menandainya `.is-in`. Kartu yang berada di luar layar
+     SECARA MENDATAR di dalam rel tidak berpotongan dengan viewport, jadi ia bisa
+     tinggal tak terlihat — dan kalau pengamatnya sudah dilepas, ia tak akan
+     pernah muncul lagi. Isi yang hilang jauh lebih buruk daripada kehilangan satu
+     efek pudar; sebagai bonus, menghapus transisi per-kartu membuat geseran
+     mendatar lebih mulus di tablet. */
+  .mrail [data-reveal],
+  .indgrid [data-reveal],
+  .applyrow [data-reveal],
+  .feat [data-reveal],
+  .joinx__grid [data-reveal]{opacity:1;transform:none;transition:none}
+}
+
+/* Pengubah `.applyrow--2`: dua kolom di desktop, bukan empat.
+   Ini dulu ditulis sebagai `style="grid-template-columns:1fr 1fr"` sebaris di
+   `lab/tree.html`. Gaya sebaris mengalahkan lembar gaya (RULES §5), jadi rel
+   ponsel di atas TIDAK AKAN PERNAH berlaku pada elemen itu — kartunya tetap dua
+   kolom sempit di 390px. Dipindah ke kelas, dan dibatasi `min-width:901px`
+   supaya nilai desktopnya identik dengan sebelumnya sementara di bawah 901px
+   rel bebas mengambil alih. */
+@media (min-width:901px){
+  .applyrow--2{grid-template-columns:1fr 1fr}
+}
+
+/* --- 2. TABEL PERBANDINGAN -> KARTU BERTUMPUK -------------------------------
+   `.cmp__row` adalah grid 3 kolom (pertanyaan / umumnya / Glyiv). Di 390px
+   ketiganya menyempit jadi sekitar 150-85-85px dengan teks 13px: terbaca sebagai
+   tabel yang rusak, bukan sebagai perbandingan. Di ponsel setiap baris menjadi
+   satu kartu — pertanyaan di kepala, lalu dua jawaban berdampingan yang
+   masing-masing diberi label sendiri. Baris kepala tabel disembunyikan karena
+   labelnya sudah pindah ke tiap kartu; kalau tidak, labelnya muncul dua kali. */
+@media (max-width:900px){
+  .cmp{border:0;background:transparent;box-shadow:none;border-radius:0;overflow:visible}
+  .cmp__row.hd{display:none}
+  .cmp__row{
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:"f f" "o g";
+    align-items:stretch;
+    background:#fff;
+    border:1px solid var(--hair);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .cmp__row+.cmp__row{border-top:1px solid var(--hair);margin-top:10px}
+  /* Kekhususan sengaja disamakan dengan `.cmp__row>div` (0,2,1) yang sudah ada,
+     lalu dimenangkan oleh urutan — `.cmp__feat` sendirian (0,1,0) akan kalah. */
+  .cmp__row>.cmp__feat{grid-area:f;background:var(--paper2);padding:13px 15px;font-size:14.5px}
+  .cmp__row>.oth{grid-area:o;text-align:left;border-top:1px solid var(--hair);border-right:1px solid var(--hair)}
+  .cmp__row>.gly{grid-area:g;text-align:left;border-top:1px solid var(--hair)}
+  .cmp__row>.oth,.cmp__row>.gly{padding:11px 14px;font-size:13.5px;line-height:1.5}
+  .cmp__row>.oth::before,.cmp__row>.gly::before{
+    display:block;font-family:var(--l-mono);font-size:9.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:5px;font-weight:600
+  }
+  .cmp__row>.oth::before{content:"Umumnya"}
+  .cmp__row>.gly::before{content:"Glyiv"}
+}
+
+/* --- 3. STATISTIK RINGKAS TETAP BERDAMPINGAN --------------------------------
+   Kebalikan dari rel: `.iproofgrid` berisi tiga angka pendek + labelnya. Angka
+   pendek MEMANG cukup untuk tiga kolom di 390px (sekitar 105px per kolom), dan
+   menumpuknya justru memboroskan tiga layar untuk informasi yang bisa dibaca
+   sekali pandang. Ini contoh "satu kolom hanya kalau itu memang urutan". */
+@media (max-width:900px){
+  .iproofgrid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .iproofgrid .n{font-size:25px}
+  .iproofgrid .l{font-size:11.5px;margin-top:6px;line-height:1.35}
+  .iproofgrid .s{font-size:8.5px;margin-top:5px}
+}
+
+/* --- 4. SKALA TIPOGRAFI PONSEL ----------------------------------------------
+   Sebelum ini, ukuran huruf di ponsel bukan sebuah skala melainkan LANTAI dari
+   `clamp()` desktop: `.lh2` 28px, `.llead` 16px. Yang membuat halaman terasa
+   "kecil" bukan judulnya — judul 38px besar. Yang kecil adalah ISI KARTU:
+   `.rmc p` 12,6px, `.techc p` 12,5px, `.mvcard p` 13,5px, label mono 9-10px.
+   Angka itu dipilih untuk sel grid selebar sekitar 290px di DESKTOP, lalu dipakai
+   ulang apa adanya di ponsel. Di sini isi kartu dinaikkan, dan tracking judul
+   dilonggarkan (tracking -0,02em membuat Newsreader berdempet di ukuran kecil).
+   Judul TIDAK dikecilkan: pemilik mengeluh terlalu kecil, bukan terlalu besar. */
+@media (max-width:600px){
+  .lh1{letter-spacing:-.01em;line-height:1.05}
+  .lh2{font-size:30px;letter-spacing:-.008em;line-height:1.12}
+  .lh3{font-size:21px;line-height:1.22}
+  .lkick{font-size:11px;letter-spacing:.13em}
+  .llead{font-size:16.5px;line-height:1.66}
+  .lnote{font-size:13.5px;line-height:1.65}
+  /* Isi kartu — inilah "kecil" yang sebenarnya dikeluhkan. */
+  .tcard__body h3,.mvcard h3,.rmc h3,.joinx__c h3{font-size:20.5px;line-height:1.2}
+  .tcard__body p,.mvcard p,.rmc p,.joinx__c p{font-size:14.8px;line-height:1.55}
+  .indcard__t{font-size:20px}
+  .indcard__grp{font-size:10.5px}
+  .rmc__phase,.rmc__foot{font-size:10.5px}
+  .mvcard__get{font-size:11px}
+  .joinx__n,.joinx__go{font-size:11.5px}
+}
+
+/* --- 5. ISI YANG HANYA MUNCUL SAAT HOVER = CACAT DI LAYAR SENTUH ------------
+   `.indcard__go` (baris "->" yang menyebut apa isi kartunya) mulai dari
+   `opacity:0` dan hanya terlihat pada `:hover`. Di ponsel dan di Galaxy Tab TIDAK
+   ADA hover, jadi baris itu tidak pernah terbaca sama sekali — 13 kartu ekosistem
+   di beranda kehilangan keterangannya di perangkat pemilik.
+   Digunakan `hover:none`, bukan lebar layar: yang menentukan bukan sempitnya
+   layar melainkan ada-tidaknya penunjuk yang bisa hover. */
+@media (hover:none){
+  .indcard__go{opacity:1;transform:none}
+}
+
+/* --- 6. TARGET SENTUH >=44px ------------------------------------------------
+   Terukur di 390px sebelum perbaikan: 21 target di bawah 44px pada beranda, 18
+   pada /lab/tree. Yang terbanyak adalah tautan menu & footer setinggi 34px, dan
+   pil bahasa 30x26px (diperbaiki di glyiv-nav.css). Digating `pointer:coarse`
+   supaya tata letak desktop tidak tersentuh sama sekali. */
+@media (pointer:coarse){
+  .lfoot a{padding:11px 0}
+  .lfoot .lbrand{min-height:44px}
+  .lfoot__legal a{display:inline-flex;align-items:center;min-height:44px}
+  .rmc__foot a.demo{display:inline-flex;align-items:center;min-height:44px}
+}
+
+/* --- 7. GULIR HARUS MULUS — pemilik menuntut NOL lag di Galaxy Tab ----------
+   Dua sumber jank yang nyata di Android, keduanya hanya dimatikan di ponsel:
+
+   (a) `.lnav.scrolled` memakai `backdrop-filter:saturate(1.4) blur(16px)` pada
+       bilah TETAP selebar layar. Setiap frame gulir, penyusun harus mem-blur
+       ulang seluruh pita di belakang header. Ini penyebab klasik gulir tersendat
+       di Android. Di ponsel blur diganti latar hampir pekat — perbedaan
+       tampilannya nyaris tak terlihat (0,82 + blur menjadi 0,97 pekat),
+       biayanya nol. Desktop tetap memakai blur.
+
+   (b) Hero memutar video layar penuh SEKALIGUS menganimasikan
+       `transform:scale()` selama 26 detik (`heroKen`). Menganimasikan transform
+       pada tekstur sebesar layar memaksa penyusunan terus-menerus selama video
+       berjalan, bahkan saat hero sudah tergulir lewat. Di ponsel gerak
+       Ken-Burns-nya dimatikan; videonya tetap jalan, jadi hero tetap hidup. */
+@media (pointer:coarse){
+  .lnav.scrolled{
+    background:rgba(255,255,255,.97);
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+}
+@media (max-width:900px){
+  .vhero__media video,.vhero__media img{animation:none;transform:scale(1.06)}
+}
+
+/* --- 8. AKSI UTAMA MENEMPEL DI BAWAH ---------------------------------------
+   Ini menutup cacat yang ditemukan saat membaca `glyiv-nav.css`:
+
+       @media (max-width:900px){ .lnav__cta{display:none} }
+
+   Tombol utama situs ("Gabung") DIHAPUS dari chrome di bawah 900px, dan ia juga
+   bukan bagian dari laci burger — jadi di ponsel DAN di Galaxy Tab tegak, halaman
+   tidak punya satu pun ajakan bertindak yang tetap terjangkau. Satu-satunya jalan
+   adalah menggulir kembali ke hero.
+
+   `.lstick` adalah pita aksi yang menempel di tepi bawah, tempat ibu jari berada.
+   Ia hanya ada di bawah 900px; di desktop `display:none` dan navbar kembali
+   menjadi pemilik tunggal ajakan bertindak.
+
+   FAB Gly menempel di kanan-bawah — persis tempat pita ini. Aturan merek menuntut
+   Gly ada di setiap halaman, jadi FAB-nya DINAIKKAN, bukan dihapus.
+   `body:has(.lstick)` membuat penyesuaian itu berlaku HANYA di halaman yang
+   memang punya pita, sehingga halaman lain tidak tersentuh sama sekali. */
+.lstick{display:none}
+@media (max-width:900px){
+  .lstick{
+    display:flex;align-items:center;gap:12px;
+    position:fixed;left:0;right:0;bottom:0;z-index:75;
+    padding:10px var(--l-pad) calc(10px + env(safe-area-inset-bottom));
+    background:rgba(255,255,255,.97);
+    border-top:1px solid var(--hair);
+    box-shadow:0 -8px 24px -16px rgba(15,26,20,.4);
+  }
+  .lstick__t{flex:1 1 auto;min-width:0;font-size:12px;line-height:1.35;color:var(--muted)}
+  .lstick__t b{display:block;color:var(--pine);font-size:13.5px;font-weight:700;font-family:var(--l-sans)}
+  .lstick .lbtn{flex:0 0 auto;min-height:46px;padding:12px 18px;font-size:14px}
+  /* Ruang supaya baris terakhir halaman & pita disclaimer tidak tertutup pita. */
+  body:has(.lstick) .lfoot{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  body:has(.lstick) .liv-fab{bottom:calc(72px + env(safe-area-inset-bottom))}
+  body:has(.lstick) .liv-chat{bottom:calc(72px + env(safe-area-inset-bottom))}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   TARGET SENTUH pada kontrol kecil — hanya perangkat berpenunjuk KASAR (jari).
+   ══════════════════════════════════════════════════════════════════════════════
+   Terukur di 390px: titik korsel 7px, tombol sumber 20px, panah korsel 38px.
+   Pemilik memakai Galaxy Tab; target sekecil itu praktis tidak bisa ditekan.
+
+   Untuk TITIK KORSEL yang dibesarkan adalah AREA SENTUHNYA, bukan titiknya:
+   titik 7px memang bagian dari bahasa visualnya. Caranya `::after` transparan
+   yang melebar ke 44px — jadi tampilan tidak berubah sedikit pun sementara
+   jarinya punya sasaran yang wajar. */
+@media (pointer: coarse) {
+  .gcar__dot {
+    position: relative;
+  }
+  .gcar__dot::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+  }
+  .gcar__btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .gsrc-btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  /* Remah navigasi hero: tautannya setinggi 14px karena mengikuti baris teks.
+     Diberi ruang tekan tanpa mengubah tinggi barisnya. */
+  .ind-hero__crumb a,
+  .vhero__eyebrow a,
+  .ga-hero__crumb a {
+    display: inline-block;
+    padding: 12px 2px;
+    margin: -12px 0;
+  }
+}
