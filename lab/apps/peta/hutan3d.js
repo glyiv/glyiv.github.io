@@ -198,12 +198,31 @@
     pulih: 0x8aa55f
   };
 
+  /* MEMBUANG SEMUA yang dipegang GPU — termasuk yang tidak dipegang geometri.
+     ─────────────────────────────────────────────────────────────────────────
+     `geometry.dispose()` + `material.dispose()` TIDAK cukup untuk InstancedMesh.
+     Matriks per-instans (`instanceMatrix`) dan warna per-instans
+     (`instanceColor`) adalah buffer GPU TERPISAH, dan three.js hanya
+     melepaskannya lewat `InstancedMesh.dispose()` — lihat `onInstancedMeshDispose`
+     di three.module.js r160 (`attributes.remove(instancedMesh.instanceMatrix)`).
+
+     Diukur, bukan ditebak: dengan `gl.createBuffer`/`gl.deleteBuffer` dihitung
+     dari luar, mengganti petak 8 kali membuat 125 buffer dan menghapus 101 —
+     24 tersisa, tepat 3 per pergantian (batang.instanceMatrix +
+     tajuk.instanceMatrix + tajuk.instanceColor). Pada tablet yang dipakai
+     memilih-milih petak berpuluh kali, itu tumpukan yang tidak pernah surut.
+     Sesudah `dispose()` ditambahkan: 101 buat / 101 hapus, sisa 0.
+
+     `parent` dikosongkan sendiri karena `pop()` sudah mengeluarkan anaknya dari
+     larik `children`, sehingga `grup.remove(anak)` tidak akan menemukannya lagi
+     dan diam-diam meninggalkan `anak.parent` menunjuk grup yang sudah kosong. */
   function bersihkan(grup) {
     while (grup.children.length) {
       var anak = grup.children.pop();
+      anak.parent = null;
       if (anak.geometry) anak.geometry.dispose();
       if (anak.material) anak.material.dispose();
-      grup.remove(anak);
+      if (typeof anak.dispose === "function") anak.dispose();
     }
   }
 
@@ -326,13 +345,19 @@
       metaEl.innerHTML =
         "<span>" + p.prov + " · " + p.kindLabel + "</span>" +
         "<span>" + angka(p.ha) + " ha</span>" +
-        "<span>" + angka(terpilih.ringkas.dirender) + " pohon digambar</span>" +
+        /* `n`, BUKAN `ringkas.dirender`. Keduanya 420 selama tolak-terima
+           berhasil memenuhi kuotanya, tetapi `pohonPetak()` di app.js berhenti
+           setelah `dirender*60+2000` undian — poligon yang sangat menyerong bisa
+           pulang dengan lebih sedikit. Memakai angka yang DIMINTA alih-alih
+           angka yang BENAR-BENAR digambar adalah persis jenis selisih diam-diam
+           yang tidak boleh ada di produk iklim. */
+        "<span>" + angka(n) + " pohon digambar</span>" +
         /* Koma desimal, bukan titik: seluruh angka di situs ini berbahasa Indonesia. */
         "<span>skala ±" + (Math.round(meterPerSatuan * 10) / 10).toLocaleString("id-ID") + " m / satuan</span>" +
         "<span>tinggi pohon ×" + (Math.round(lebihTinggi * 10) / 10).toLocaleString("id-ID") + " ⚠︎</span>";
     }
     status(
-      "Menggambar " + angka(terpilih.ringkas.dirender) + " pohon virtual dari perkiraan " +
+      "Menggambar " + angka(n) + " pohon virtual dari perkiraan " +
       angka(terpilih.ringkas.penuh) + " batang ⚠︎ untuk petak ini. Posisinya sama persis dengan titik hijau di peta di atas. " +
       "Bukan pohon nyata, bukan sensus batang, dan tinggi batangnya angka contoh yang dilebihkan ×" +
       (Math.round(lebihTinggi * 10) / 10).toLocaleString("id-ID") +

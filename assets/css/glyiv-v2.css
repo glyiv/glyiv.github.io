@@ -46,7 +46,7 @@ button{font-family:inherit;cursor:pointer}
   background:radial-gradient(circle, rgba(176,137,79,.08), rgba(176,137,79,0) 64%);filter:blur(18px)}
 
 /* ============================ NAV (kept from current design) ============================ */
-.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.72);backdrop-filter:saturate(1.4) blur(14px);
+.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.72);-webkit-backdrop-filter: saturate(1.4) blur(14px); backdrop-filter: saturate(1.4) blur(14px);
   -webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s,background .3s}
 .nav.scrolled{border-bottom-color:var(--hairline);box-shadow:0 1px 0 rgba(16,33,27,.02),0 6px 24px -16px rgba(16,33,27,.18);background:rgba(255,255,255,.86)}
 .nav__in{display:flex;align-items:center;gap:18px;height:66px;max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,5vw,44px)}

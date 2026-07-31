@@ -70,7 +70,7 @@
 .pt-fallback.on{display:grid}
 
 /* base-layer switch (a real Leaflet control, so it stacks with zoom) */
-.pt-base{display:flex;gap:3px;background:rgba(255,255,255,.94);border:1px solid var(--hair);border-radius:12px;padding:3px;box-shadow:var(--sh2);backdrop-filter:blur(6px)}
+.pt-base{display:flex;gap:3px;background:rgba(255,255,255,.94);border:1px solid var(--hair);border-radius:12px;padding:3px;box-shadow:var(--sh2);-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)}
 .pt-base button{border:0;background:none;border-radius:9px;padding:7px 12px;font-family:var(--l-sans);font-weight:700;font-size:11.5px;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:6px;line-height:1;transition:.16s}
 .pt-base button svg{width:13px;height:13px}
 .pt-base button:hover{color:var(--pine)}
@@ -78,7 +78,7 @@
 .pt-ctlbtn{display:grid;place-items:center;width:34px;height:34px;background:#fff;border:1px solid var(--hair);border-radius:12px;box-shadow:var(--sh2);color:var(--pine);cursor:pointer;transition:.16s}
 .pt-ctlbtn:hover{color:var(--teal);background:var(--paper2)}
 .pt-ctlbtn svg{width:16px;height:16px}
-.pt-hint{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:600;max-width:min(92%,420px);text-align:center;font-family:var(--l-mono);font-size:9.5px;letter-spacing:.04em;color:#eafff4;background:rgba(15,46,34,.72);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 12px;pointer-events:none;backdrop-filter:blur(5px);transition:opacity .4s}
+.pt-hint{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:600;max-width:min(92%,420px);text-align:center;font-family:var(--l-mono);font-size:9.5px;letter-spacing:.04em;color:#eafff4;background:rgba(15,46,34,.72);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px 12px;pointer-events:none;-webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);transition:opacity .4s}
 .pt-hint.gone{opacity:0}
 
 /* ---------------- badge markers (divIcon) ---------------- */
@@ -383,4 +383,86 @@
   .h3-hd{align-items:flex-start}
   .h3-hd .ga-btn{width:100%;justify-content:center}
   .h3-kanvas{height:min(52vh,320px)}
+}
+
+/* ── TARGET SENTUH ≥44px — HANYA di perangkat sentuh ─────────────────────────
+   Pemilik menguji di Galaxy Tab. Diukur di 390 px dengan `pointer:coarse=true`
+   (emulasi CDP, bukan sekadar lebar layar): halaman ini punya 19 target di
+   bawah 44 px, sementara /lab/tree.html punya 1 dan beranda punya 1 — jadi ini
+   halamannya yang tertinggal, bukan ambangnya yang terlalu galak.
+
+   Yang dinaikkan adalah AREA SENTUH, bukan bahasa visualnya: `.pt-chip` tetap
+   berukuran huruf 9,5 px dan tetap berbentuk pil; yang berubah hanya tinggi
+   minimum dan ruang tekan. `pointer:coarse` menjaga tata letak desktop tidak
+   tersentuh sama sekali. Tidak ada animasi, transisi, atau bayangan yang
+   dikurangi di sini — perbaikan ini tidak dibayar dengan gerak. */
+@media (pointer: coarse) {
+  .pt-chip {
+    min-height: 44px;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: inline-flex;
+    align-items: center;
+  }
+  .pt-base button {
+    min-height: 44px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .pt-ctlbtn {
+    width: 44px;
+    height: 44px;
+  }
+  /* KONTROL DI DALAM PANEL DETAIL — hanya ada sesudah sebuah petak ditekan,
+     jadi audit yang mengukur halaman "apa adanya" tidak pernah melihatnya.
+     Justru inilah yang paling sering disentuh: tombol tutup lembar bawah,
+     stepper jumlah, dan penggeser. Terukur 28 / 30 / 16 px sebelum blok ini. */
+  .pt-x {
+    width: 44px;
+    height: 44px;
+  }
+  .uni-b {
+    width: 44px;
+    height: 44px;
+  }
+  .uni-range {
+    min-height: 44px;
+  }
+  /* Tombol aksi panel ("Zoom ke petak", "Lihat hutan 3D") terukur 42 px —
+     lolos mata, gagal ambang. Hanya di perangkat sentuh. */
+  .pt-acts .ga-btn,
+  .uni-acts .ga-btn,
+  .h3-hd .ga-btn {
+    min-height: 44px;
+  }
+  /* Panel segmentasi NDVI (ndvi-layer.js): tombol pita 34 px dan penggeser
+     16 px. Penggeser adalah kontrol yang paling menuntut ketelitian jari, jadi
+     justru ia yang paling tidak boleh setipis itu di tablet. */
+  .nd__b {
+    min-height: 44px;
+    padding-top: 0;
+    padding-bottom: 0;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nd__slider input[type="range"] {
+    min-height: 44px;
+  }
+  /* Kredit peta: tautan 11 px di dalam paragraf. Yang dinaikkan hanya ruang
+     tekannya — ukuran hurufnya sengaja kecil dan tidak diubah. */
+  .pt-credit a {
+    display: inline-block;
+    padding: 17px 2px;
+    margin: -17px 0;
+  }
+  /* Kontrol zoom bawaan Leaflet: 25 px. Ia kontrol peta yang paling sering
+     ditekan di tablet, dan pustaka pihak ketiga tidak akan memperbaikinya
+     untuk kita. */
+  .leaflet-touch .leaflet-bar a,
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out {
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+  }
 }

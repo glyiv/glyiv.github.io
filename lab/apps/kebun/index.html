@@ -87,13 +87,13 @@ body{background:var(--paper)}
 
 /* field HUD chips + legend + locate overlay */
 .kbn-fhud{position:absolute;left:14px;top:14px;z-index:12;display:flex;gap:7px;flex-wrap:wrap;max-width:70%}
-.kbn-chip{font-family:var(--l-mono);font-size:9.5px;color:#eafff4;background:rgba(8,34,22,.62);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:5px 10px;backdrop-filter:blur(6px)}
+.kbn-chip{font-family:var(--l-mono);font-size:9.5px;color:#eafff4;background:rgba(8,34,22,.62);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:5px 10px;-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)}
 .kbn-chip b{color:#8affc1}
-.kbn-legend{position:absolute;right:14px;bottom:14px;z-index:12;display:flex;gap:10px;background:rgba(8,34,22,.5);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:8px 11px;backdrop-filter:blur(6px)}
+.kbn-legend{position:absolute;right:14px;bottom:14px;z-index:12;display:flex;gap:10px;background:rgba(8,34,22,.5);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:8px 11px;-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)}
 .kbn-legend span{display:flex;flex-direction:column;align-items:center;gap:3px;font-family:var(--l-mono);font-size:8px;color:rgba(255,255,255,.85)}
 .kbn-legend i{background:#57b97e;border-radius:50% 50% 45% 45%;display:block}
 .kbn-locate{position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:20px;
-  background:linear-gradient(180deg,rgba(6,26,18,.72),rgba(6,26,18,.9));backdrop-filter:blur(3px);text-align:center;transition:opacity .5s var(--ease)}
+  background:linear-gradient(180deg,rgba(6,26,18,.72),rgba(6,26,18,.9));-webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px);text-align:center;transition:opacity .5s var(--ease)}
 .kbn-locate.hide{opacity:0;pointer-events:none}
 .kbn-locate__c{max-width:400px}
 .kbn-locate h3{font-family:var(--l-serif);font-weight:600;font-size:23px;color:#fff;margin:0 0 8px}

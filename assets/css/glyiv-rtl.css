@@ -1,0 +1,225 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700&display=swap");
+/* ════════════════════════════════════════════════════════════════════════════
+   GLYIV — lapisan KANAN-KE-KIRI (العربية).
+   Disuntikkan oleh assets/js/i18n.js HANYA saat bahasa Arab dipilih.
+   ════════════════════════════════════════════════════════════════════════════
+
+   KENAPA BERKAS TERPISAH, BUKAN MENGUBAH lab.css:
+   `dist/` adalah desain yang sudah disetujui (lihat SOURCE-OF-TRUTH.md). Setiap
+   sentuhan pada lab.css berisiko menggeser tampilan LTR yang sudah benar. Semua
+   aturan di sini bersarang di bawah `[dir="rtl"]`, jadi versi Indonesia dan
+   Inggris tidak bisa terpengaruh — bahkan kalau berkas ini salah.
+
+   KENAPA ADA SAMA SEKALI:
+   `document.documentElement.dir = "rtl"` membalik urutan flex dan perataan teks,
+   dan berhenti di situ. Ia TIDAK menyentuh: `margin-left:auto` yang mendorong
+   elemen ke satu sisi, dropdown yang dipatok `left:0`, lencana `position:absolute`
+   di pojok kartu, garis aksen `border-left`, panel chat yang dipatok `right:20px`,
+   dan ikon panah yang menunjuk ke arah baca. Semuanya masih memakai kiri/kanan
+   fisik di lab.css & glyiv-nav.css, jadi halaman Arab tampak "hampir benar" —
+   yang justru lebih buruk daripada jelas salah, karena tidak ada yang melaporkannya.
+
+   YANG TIDAK DIBALIK, DENGAN SENGAJA:
+   · angka, satuan, mata uang, dan kode → tetap kiri-ke-kanan (lihat blok "ANGKA")
+   · `translateX(-50%)` untuk memusatkan → memusatkan tetap memusatkan
+   · logo, foto, dan grafik → membalik grafik mengubah artinya
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── HURUF ARAB ──────────────────────────────────────────────────────────────
+   Newsreader / Hanken Grotesk / IBM Plex Mono tidak punya satu pun glif Arab,
+   jadi tanpa blok ini peramban jatuh ke huruf sistem — di Android itu Droid
+   Naskh, yang tingginya berbeda dan membuat setiap baris terlihat salah pasang.
+   IBM Plex Sans Arabic dipilih karena SATU KELUARGA dengan IBM Plex Mono yang
+   sudah dipakai merek; Noto Kufi Arabic untuk judul, menggantikan peran serif
+   Newsreader (Arab tidak mengenal serif/italic — padanan "display"-nya kufi).
+   Huruf Latin tetap didahulukan supaya nama produk (Glyiv, tCO₂e, ERC-3643)
+   tidak berubah bentuk. */
+[dir="rtl"] body,
+[dir="rtl"] .llead,
+[dir="rtl"] .vhero__lead {
+  font-family: "Hanken Grotesk", "IBM Plex Sans Arabic", system-ui, sans-serif;
+}
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4,
+[dir="rtl"] .lh1, [dir="rtl"] .lh2, [dir="rtl"] .lserif, [dir="rtl"] .lserif-accent {
+  font-family: "Newsreader", "Noto Kufi Arabic", "IBM Plex Sans Arabic", serif;
+  /* Arab tidak punya miring; teks miring dipaksa tegak agar tidak dicondongkan
+     mesin (synthetic oblique), yang merusak sambungan huruf. */
+  font-style: normal;
+}
+[dir="rtl"] .lmono, [dir="rtl"] .lkicker, [dir="rtl"] .lsec__kicker {
+  font-family: "IBM Plex Mono", "IBM Plex Sans Arabic", ui-monospace, monospace;
+}
+
+/* Spasi antarhuruf memutus sambungan aksara Arab — huruf yang seharusnya
+   menyatu jadi berdiri sendiri dan kata menjadi sulit dibaca. Dimatikan, KECUALI
+   untuk potongan yang memang huruf Latin (pil bahasa, angka, kode). */
+/* `html[dir=…]` bukan `[dir=…]` dengan sengaja: halaman hasil port menyuntikkan
+   lembar gaya khusus-halaman ke dalam <body>, jadi ia menang atas berkas ini
+   pada spesifisitas seri. Diukur: tanpa selektor `html` di depan, satu keterangan
+   gambar (.whyviz__img .cap) tetap membawa letter-spacing 0,6px pada teks Arab. */
+html[dir="rtl"],
+html[dir="rtl"] *:not([data-i18n-ltr], [data-i18n-ltr] *, [lang="en"], [lang="en"] *, [lang="id"], [lang="id"] *, code, pre, .lnav__lang, .lnav__lang *) {
+  letter-spacing: normal;
+}
+/* Judul besar memakai letter-spacing negatif untuk Latin; pada Arab itu membuat
+   huruf saling menindih. */
+html[dir="rtl"] .lh1, html[dir="rtl"] h1, html[dir="rtl"] h2 { letter-spacing: normal; }
+/* Aksara Arab lebih tinggi dari Latin pada ukuran font yang sama — baris yang
+   pas untuk Latin terasa sesak. */
+[dir="rtl"] .llead, [dir="rtl"] .vhero__lead, [dir="rtl"] p { line-height: 1.85; }
+[dir="rtl"] .lh1, [dir="rtl"] h1 { line-height: 1.25; }
+
+/* ── ANGKA, SATUAN, DAN KODE TETAP KIRI-KE-KANAN ──────────────────────────────
+   i18n.js menandai daun yang isinya hanya angka/latin dengan [data-i18n-ltr].
+   `unicode-bidi: plaintext` membuat arah paragraf elemen itu ditentukan huruf
+   berarah kuat PERTAMA di dalamnya; kalau tidak ada satu pun (mis. "18,2" atau
+   "31,89%"), algoritma bidi Unicode jatuh ke kiri-ke-kanan — persis yang kita
+   mau. Tanpa ini "Rp71 M" dirender "M 71Rp" di dalam kalimat Arab. */
+[dir="rtl"] [data-i18n-ltr] { unicode-bidi: plaintext; }
+[dir="rtl"] code, [dir="rtl"] pre, [dir="rtl"] samp, [dir="rtl"] kbd,
+[dir="rtl"] .mono, [dir="rtl"] input[type="number"], [dir="rtl"] .lnav__lang {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: start;
+}
+/* ⚠︎ JANGAN mengisolasi b/strong/em/i secara borongan. Sudah dicoba dan salah:
+   wordmark ditulis `<b>Gl<i>yiv</i></b>`, dan mengisolasi <i> membuatnya jadi
+   objek netral yang diletakkan mengikuti urutan RTL — di setiap halaman logonya
+   terbaca "yivGl". Tanpa isolasi, "Gl" dan "yiv" adalah satu rentetan berarah
+   kiri-ke-kanan dan algoritma bidi menyambungnya dengan benar. Isolasi hanya
+   dipakai di tempat yang memang PULAU Latin utuh (di bawah ini). */
+[dir="rtl"] .lbrand,
+[dir="rtl"] .lbrand b,
+[dir="rtl"] .gv-splash__word,
+[dir="rtl"] .lfoot__brand,
+[dir="rtl"] .lnav__admin {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ── IKON PANAH ──────────────────────────────────────────────────────────────
+   Panah "lanjut" menunjuk ke arah baca. Dalam bahasa Arab arah baca ke KIRI,
+   jadi panah kanan berarti "kembali" — kebalikan dari maksudnya. Dibalik hanya
+   pada wadah yang panahnya memang penunjuk arah; logo, ikon, dan grafik
+   dibiarkan (membaliknya mengubah artinya). */
+[dir="rtl"] .lbtn > svg,
+[dir="rtl"] .indcard__go svg,
+[dir="rtl"] .mvcard__get svg,
+[dir="rtl"] .lfoot a > svg,
+[dir="rtl"] .ldrop__mega-foot svg,
+[dir="rtl"] .rcp__row svg,
+[dir="rtl"] .tmrow > svg:last-child,
+[dir="rtl"] [class*="__go"] svg,
+[dir="rtl"] [class*="__next"] svg,
+[dir="rtl"] [class*="__prev"] svg {
+  transform: scaleX(-1);
+}
+/* Tanda panah yang berupa HURUF di dalam teks (→ ↗ ⟶) tidak bisa dibalik CSS.
+   Wadah panah teks memakai kelas ini di markup hasil port bila ada; kalau tidak,
+   panah tetap sebagaimana ditulis penerjemah. */
+[dir="rtl"] .lar, [dir="rtl"] .arrow-glyph { display: inline-block; transform: scaleX(-1); }
+
+/* ── NAVBAR ──────────────────────────────────────────────────────────────────
+   glyiv-nav.css memakai kiri/kanan fisik. Diubah ke properti logis di sini,
+   bukan di berkas aslinya, supaya sisi LTR tidak tersentuh. */
+[dir="rtl"] .lnav__links { margin-left: 0; margin-inline-start: 14px; }
+[dir="rtl"] .lnav__sp { margin-left: 0; margin-inline-start: auto; }
+[dir="rtl"] .lnav__burger { margin-left: 0; margin-inline-start: auto; }
+[dir="rtl"] .lnav__lang { margin-right: 0; margin-inline-end: 4px; }
+[dir="rtl"] .ldrop__grp a:hover { padding-left: 0; padding-inline-start: 3px; }
+[dir="rtl"] .ldrop__menu { left: auto; right: 0; }
+[dir="rtl"] .ldrop--r .ldrop__menu { right: auto; left: 0; }
+[dir="rtl"] .ldrop--mega .ldrop__menu { left: auto; right: 0; transform: translateX(24px) translateY(6px); }
+[dir="rtl"] .ldrop--mega:hover .ldrop__menu,
+[dir="rtl"] .ldrop--mega:focus-within .ldrop__menu { transform: translateX(24px) translateY(0); }
+@media (max-width: 900px) {
+  [dir="rtl"] .lnav__lang { margin-left: 0; margin-right: 0; margin-inline-start: auto; margin-inline-end: 8px; }
+}
+
+/* ── HERO ────────────────────────────────────────────────────────────────────
+   Bagian yang paling terlihat, jadi diperiksa satu per satu. Isi hero rata
+   kiri-di-LTR lewat pewarisan, sehingga `dir=rtl` sudah membalikkannya. Yang
+   TIDAK ikut terbalik: garis kecil di eyebrow (dekorasi berarah), dan penunjuk
+   gulir yang dipatok dengan left/transform. */
+[dir="rtl"] .vhero__in,
+[dir="rtl"] .ind-hero__in,
+[dir="rtl"] .ga-hero__in,
+[dir="rtl"] .tmx-hero__in { text-align: right; }
+[dir="rtl"] .vhero__eyebrow { flex-direction: row-reverse; }
+[dir="rtl"] .vhero h1, [dir="rtl"] .vhero__lead { margin-inline-end: 0; }
+/* Penunjuk gulir dipusatkan, bukan disandarkan — biarkan apa adanya. */
+[dir="rtl"] .vhero__scroll { left: 50%; right: auto; transform: translateX(-50%); }
+[dir="rtl"] .vhero__scroll i::after { left: auto; right: 0; }
+
+/* ── DORONGAN "margin-left:auto" ─────────────────────────────────────────────
+   Pola paling sering di lab.css untuk mendorong elemen ke ujung baris. Dalam RTL
+   ujung baris ada di kiri, jadi auto-nya harus pindah sisi — kalau tidak, nilai
+   angka dan lencana menumpuk di tengah. */
+[dir="rtl"] .scr__top .live,
+[dir="rtl"] .d-top .tag,
+[dir="rtl"] .d-src .st,
+[dir="rtl"] .d-tree .tv,
+[dir="rtl"] .liv-chat__hd .cls,
+[dir="rtl"] .leak__sw,
+[dir="rtl"] .leak__lg,
+[dir="rtl"] .tmapp__top .tag,
+[dir="rtl"] .tmrow__v,
+[dir="rtl"] .tmpanel__hd .chip { margin-left: 0; margin-inline-start: auto; }
+[dir="rtl"] .gcar__dots { margin-right: 0; margin-inline-end: auto; }
+[dir="rtl"] .frame-browser__url { margin-left: 0; margin-inline-start: 10px; }
+[dir="rtl"] .mvfaces .stk i { margin-left: 0; margin-inline-start: -11px; }
+[dir="rtl"] .mvfaces .stk i:first-child { margin-inline-start: 0; }
+[dir="rtl"] .lfoot a:hover { padding-left: 0; padding-inline-start: 3px; }
+
+/* ── PERATAAN TEKS ───────────────────────────────────────────────────────────── */
+[dir="rtl"] .dtab,
+[dir="rtl"] .tmrow,
+[dir="rtl"] .cmp__row > .oth,
+[dir="rtl"] .cmp__row > .gly { text-align: right; }
+[dir="rtl"] .d-tree .tv,
+[dir="rtl"] .tmrow__v,
+[dir="rtl"] .rcp__row b { text-align: left; }
+
+/* ── LENCANA & DEKORASI YANG DIPATOK KE SUDUT ────────────────────────────────── */
+[dir="rtl"] .vcard__n { left: auto; right: 16px; }
+[dir="rtl"] .vcard__ic { right: auto; left: 16px; }
+[dir="rtl"] .storyfig .tagpill { left: auto; right: 16px; }
+[dir="rtl"] .indcard__st { left: auto; right: 14px; }
+[dir="rtl"] .tcard__step { left: auto; right: 14px; }
+[dir="rtl"] .rv-badge { right: auto; left: 10px; }
+[dir="rtl"] .rvsat .lab.l { left: auto; right: 8px; }
+[dir="rtl"] .rvsat .lab.r { right: auto; left: 8px; }
+[dir="rtl"] .whyviz__img .cap { left: auto; right: 16px; }
+[dir="rtl"] .indcard__go { transform: translateX(6px); }
+
+/* ── GARIS AKSEN & RADIUS ────────────────────────────────────────────────────── */
+[dir="rtl"] .spot__i {
+  border-left: 1px solid var(--hair);
+  border-right: 3px solid var(--brass);
+  border-radius: 14px 0 0 14px;
+}
+[dir="rtl"] .tour__step { padding-left: 0; padding-inline-start: 24px; }
+[dir="rtl"] .tour__step::before { left: auto; right: 0; }
+[dir="rtl"] .dtab .dt-bar { left: auto; right: 0; transform-origin: right; }
+
+/* ── PANEL MENGAMBANG (chatbot Gly) ──────────────────────────────────────────── */
+[dir="rtl"] .liv-fab { right: auto; left: 10px; }
+[dir="rtl"] .liv-fab__ping { right: auto; left: 8px; }
+[dir="rtl"] .liv-chat { right: auto; left: 20px; transform-origin: bottom left; }
+@media (max-width: 640px) {
+  [dir="rtl"] .liv-fab { right: auto; left: 4px; }
+}
+
+/* ── FORMULIR ───────────────────────────────────────────────────────────────── */
+[dir="rtl"] input, [dir="rtl"] textarea, [dir="rtl"] select { text-align: right; }
+[dir="rtl"] input[type="email"], [dir="rtl"] input[type="url"],
+[dir="rtl"] input[type="tel"], [dir="rtl"] input[type="number"] {
+  direction: ltr;
+  text-align: left;
+}
+[dir="rtl"] ul, [dir="rtl"] ol { padding-left: 0; padding-inline-start: 1.4em; }
+
+/* ── PIL BAHASA ─────────────────────────────────────────────────────────────────
+   Labelnya "ID / EN / AR" — selalu huruf Latin, jadi urutannya tidak boleh ikut
+   terbalik. Pengguna yang mencari "AR" akan mencarinya di posisi yang sama. */
+[dir="rtl"] .lnav__lang { flex-direction: row; }

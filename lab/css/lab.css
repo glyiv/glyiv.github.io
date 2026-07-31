@@ -97,7 +97,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
    memakai perlakuan yang sama persis dengan beranda: emerald terang + kaca
    tembus pandang. Kalau kelak ada sistem hero baru, TAMBAHKAN ke dua aturan
    di bawah — jangan membuat aturan tombol sendiri. */
-.on-dark .lbtn--glass,.vhero .lbtn--glass,.ind-hero .lbtn--glass,.ga-hero .lbtn--glass,.tmx-hero .lbtn--glass,.imgband .lbtn--glass{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.28);backdrop-filter:blur(6px)}
+.on-dark .lbtn--glass,.vhero .lbtn--glass,.ind-hero .lbtn--glass,.ga-hero .lbtn--glass,.tmx-hero .lbtn--glass,.imgband .lbtn--glass{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.28);-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)}
 .on-dark .lbtn--glass:hover,.vhero .lbtn--glass:hover,.ind-hero .lbtn--glass:hover,.ga-hero .lbtn--glass:hover,.tmx-hero .lbtn--glass:hover,.imgband .lbtn--glass:hover{border-color:#fff;background:rgba(255,255,255,.16)}
 .vhero .lbtn--solid,.ind-hero .lbtn--solid,.ga-hero .lbtn--solid,.tmx-hero .lbtn--solid,.imgband .lbtn--solid{background:linear-gradient(135deg,var(--emer-br),var(--emer));color:#04160e;box-shadow:0 14px 40px -14px rgba(28,174,107,.6)}
 
@@ -210,12 +210,12 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .vcard__b{padding:22px 22px 24px}
 .vcard__b h3{margin:0 0 9px}
 .vcard__b p{font-size:14px;color:var(--slate);line-height:1.55;margin:0}
-.vcard__ic{position:absolute;right:16px;bottom:12px;z-index:2;width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.14);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;color:#fff}
+.vcard__ic{position:absolute;right:16px;bottom:12px;z-index:2;width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.14);-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);border:1px solid rgba(255,255,255,.3);display:grid;place-items:center;color:#fff}
 
 /* stakes / story section image */
 .storyfig{position:relative;border-radius:20px;overflow:hidden;box-shadow:var(--sh3);border:1px solid var(--hair)}
 .storyfig img{width:100%;height:100%;object-fit:cover;min-height:340px}
-.storyfig .tagpill{position:absolute;left:16px;top:16px;font-family:var(--l-mono);font-size:10px;letter-spacing:.1em;color:#fff;background:rgba(6,20,13,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 12px}
+.storyfig .tagpill{position:absolute;left:16px;top:16px;font-family:var(--l-mono);font-size:10px;letter-spacing:.1em;color:#fff;background:rgba(6,20,13,.55);-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 12px}
 .bignum{font-family:var(--l-serif);font-weight:600;font-size:clamp(40px,5vw,64px);color:var(--teal);line-height:1;letter-spacing:-.02em}
 .bignum small{font-size:.4em;color:var(--brass);font-family:var(--l-mono);letter-spacing:0;display:block;margin-top:8px}
 
@@ -229,7 +229,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .indcard__body{padding:20px;position:relative;color:#fff}
 .indcard__grp{font-family:var(--l-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8affc1;margin-bottom:6px}
 /* honest status badge on ecosystem cards */
-.indcard__st{position:absolute;top:14px;left:14px;z-index:2;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;border-radius:999px;padding:5px 10px;backdrop-filter:blur(6px)}
+.indcard__st{position:absolute;top:14px;left:14px;z-index:2;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;border-radius:999px;padding:5px 10px;-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)}
 .indcard__st.live{color:#04160e;background:rgba(138,255,193,.92)}
 .indcard__st.soon{color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34)}
 .indcard__t{font-family:var(--l-serif);font-weight:600;font-size:19px;color:#fff;line-height:1.12}
@@ -721,7 +721,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   background:linear-gradient(180deg,rgba(15,46,34,0) 45%,rgba(15,46,34,.55)) }
 .tcard__step{ position:absolute; left:14px; bottom:12px; z-index:2;
   font-family:var(--l-mono); font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;
-  color:#fff; background:rgba(15,46,34,.55); backdrop-filter:blur(6px);
+  color:#fff; background:rgba(15,46,34,.55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   border:1px solid rgba(255,255,255,.28); border-radius:999px; padding:5px 11px }
 .tcard__body{ padding:18px 20px 22px }
 .tcard__body h3{ font-family:var(--l-serif); font-weight:600; font-size:19px;
@@ -1083,7 +1083,29 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 /* --- 7. GULIR HARUS MULUS — pemilik menuntut NOL lag di Galaxy Tab ----------
    Dua sumber jank yang nyata di Android, keduanya hanya dimatikan di ponsel:
 
-   (a) `.lnav.scrolled` memakai `backdrop-filter:saturate(1.4) blur(16px)` pada
+   (a) `.lnav.scrolled` memakai `-webkit-backdrop-filter: saturate(1.4) blur(16px)` pada
+       bilah TETAP selebar layar. Setiap frame gulir, penyusun harus mem-blur
+       ulang seluruh pita di belakang header. Ini penyebab klasik gulir tersendat
+       di Android. Di ponsel blur diganti latar hampir pekat — perbedaan
+       tampilannya nyaris tak terlihat (0,82 + blur menjadi 0,97 pekat),
+       biayanya nol. Desktop tetap memakai blur.
+
+   (b) Hero memutar video layar penuh SEKALIGUS menganimasikan
+       `transform:scale()` selama 26 detik (`heroKen`). Menganimasikan transform
+       pada tekstur sebesar layar memaksa penyusunan terus-menerus selama video
+       berjalan, bahkan saat hero sudah tergulir lewat. Di ponsel gerak
+       Ken-Burns-nya dimatikan; -webkit-backdrop-filter: saturate(1.4) blur(16px)` pada
+       bilah TETAP selebar layar. Setiap frame gulir, penyusun harus mem-blur
+       ulang seluruh pita di belakang header. Ini penyebab klasik gulir tersendat
+       di Android. Di ponsel blur diganti latar hampir pekat — perbedaan
+       tampilannya nyaris tak terlihat (0,82 + blur menjadi 0,97 pekat),
+       biayanya nol. Desktop tetap memakai blur.
+
+   (b) Hero memutar video layar penuh SEKALIGUS menganimasikan
+       `transform:scale()` selama 26 detik (`heroKen`). Menganimasikan transform
+       pada tekstur sebesar layar memaksa penyusunan terus-menerus selama video
+       berjalan, bahkan saat hero sudah tergulir lewat. Di ponsel gerak
+       Ken-Burns-nya dimatikan; backdrop-filter: saturate(1.4) blur(16px)` pada
        bilah TETAP selebar layar. Setiap frame gulir, penyusun harus mem-blur
        ulang seluruh pita di belakang header. Ini penyebab klasik gulir tersendat
        di Android. Di ponsel blur diganti latar hampir pekat — perbedaan
@@ -1098,7 +1120,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 @media (pointer:coarse){
   .lnav.scrolled{
     background:rgba(255,255,255,.97);
-    backdrop-filter:none;
+    -webkit-backdrop-filter: none; backdrop-filter: none;
     -webkit-backdrop-filter:none;
   }
 }
@@ -1176,12 +1198,30 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
     align-items: center;
   }
   /* Remah navigasi hero: tautannya setinggi 14px karena mengikuti baris teks.
-     Diberi ruang tekan tanpa mengubah tinggi barisnya. */
+     Diberi ruang tekan tanpa mengubah tinggi barisnya.
+
+     ⚠︎ `.ga-hero__crumb` TIDAK PERNAH ADA di satu berkas HTML pun — diperiksa
+     dengan grep ke seluruh dist/: satu-satunya kemunculannya adalah baris di
+     bawah ini. Kelas yang benar-benar dipakai hero aplikasi adalah `.ga-crumb`
+     (dist/lab/apps/app.css baris 18), dan ia dipakai **12 halaman
+     /lab/apps/***. Jadi aturan ini terlihat sudah menutup keempat sistem hero
+     padahal salah satunya menunjuk kelas hantu, dan remah di 12 halaman itu
+     tetap setinggi 14 px di tablet — terukur di 390 px dengan
+     `pointer:coarse=true`: /lab/apps/peta 19 target <44 px lawan
+     /lab/tree.html 1 dan beranda 1.
+
+     Selektor lamanya SENGAJA ditinggal: kalau suatu hari ada halaman yang
+     memakai `ga-hero__crumb`, ia tetap tertutup. Yang ditambahkan hanya
+     `.ga-crumb a`. */
   .ind-hero__crumb a,
   .vhero__eyebrow a,
-  .ga-hero__crumb a {
+  .ga-hero__crumb a,
+  .ga-crumb a {
     display: inline-block;
-    padding: 12px 2px;
-    margin: -12px 0;
+    /* 15 px, bukan 12. Dengan 12 px kotak sentuhnya terukur 42 px di 390 —
+       lolos pandangan mata, gagal ambang 44. 15 px membawanya ke 48 tanpa
+       menggeser satu piksel pun tata letak, karena margin negatifnya ikut. */
+    padding: 15px 2px;
+    margin: -15px 0;
   }
 }

@@ -111,14 +111,14 @@ section[id]{scroll-margin-top:132px}
 .gv-topnav .tlink{color:var(--text-dim);font-family:var(--f-body)}
 .gv-topnav .tlink:hover{color:var(--pine);background:#fff}
 /* the section-rail toggle must not be mistaken for the site-nav burger above it */
-.gv-burger{width:38px;height:38px;border-radius:10px;border-color:rgba(176,137,79,.45);background:#fff;backdrop-filter:none;gap:3px}
+.gv-burger{width:38px;height:38px;border-radius:10px;border-color:rgba(176,137,79,.45);background:#fff;-webkit-backdrop-filter: none; backdrop-filter: none;gap:3px}
 .gv-burger span{background:var(--brass);width:15px;height:1.5px}
 .gv-burger span:nth-child(2){width:11px}
 .gv-burger span:nth-child(3){width:15px}
 .gv-progress{top:auto;bottom:0;height:3px}
 .gv-progress i{background:linear-gradient(90deg,var(--teal),var(--emer-br));box-shadow:none}
-.gv-scrim{background:rgba(15,46,34,.35);backdrop-filter:blur(2px)}
-body #glyivLangPill{border:1px solid var(--hair);background:#fff;backdrop-filter:none;-webkit-backdrop-filter:none;
+.gv-scrim{background:rgba(15,46,34,.35);-webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px)}
+body #glyivLangPill{border:1px solid var(--hair);background:#fff;-webkit-backdrop-filter: none; backdrop-filter: none;-webkit-backdrop-filter:none;
   font-family:var(--f-mono);color:var(--text-faint);box-shadow:var(--sh1)}
 body #glyivLangPill:hover{border-color:var(--teal)}
 body #glyivLangPill span.on{color:var(--teal);font-weight:600}
@@ -140,7 +140,7 @@ body #glyivLangPill i{background:var(--hair)}
 .gv-chip b{color:var(--pine)}
 .gv-chip .dot{background:var(--emer-br);box-shadow:0 0 0 3px rgba(28,174,107,.16)}
 .gv-pill{background:#fff;border-color:var(--hair);box-shadow:var(--sh1)}
-.gv-statchip{background:#fff;border-color:var(--hair);box-shadow:var(--sh1);backdrop-filter:none;padding:11px}
+.gv-statchip{background:#fff;border-color:var(--hair);box-shadow:var(--sh1);-webkit-backdrop-filter: none; backdrop-filter: none;padding:11px}
 .gv-statchip span{color:var(--brass)}
 .gv-hero__stats{gap:9px}
 .gv-scroll-cue{color:var(--text-faint)}
@@ -149,7 +149,7 @@ body #glyivLangPill i{background:var(--hair)}
 .gv-hero__ring.r2{border-color:rgba(15,46,34,.07)}
 
 /* ---- cards, meters, stats ---- */
-.gv-card{background:#fff;border-color:var(--hair);box-shadow:var(--sh1);backdrop-filter:none}
+.gv-card{background:#fff;border-color:var(--hair);box-shadow:var(--sh1);-webkit-backdrop-filter: none; backdrop-filter: none}
 .gv-card:hover{border-color:var(--teal);box-shadow:var(--sh2)}
 .gv-card__ic{background:linear-gradient(140deg,rgba(31,122,107,.12),rgba(176,137,79,.08));border-color:var(--hair);color:var(--teal)}
 .gv-card p{color:var(--text-dim)}
@@ -181,7 +181,7 @@ body #glyivLangPill i{background:var(--hair)}
 .gv-device iframe{background:#fff}
 
 /* ---- customer / owner carousels ---- */
-.cf-viewport{background:#fff;border-color:var(--hair);box-shadow:var(--sh1);backdrop-filter:none}
+.cf-viewport{background:#fff;border-color:var(--hair);box-shadow:var(--sh1);-webkit-backdrop-filter: none; backdrop-filter: none}
 .cf-copy p{color:var(--text-dim)}
 .cf-copy a{color:var(--teal);border-bottom-color:rgba(31,122,107,.35)}
 .cf-num{color:var(--brass)}
@@ -328,7 +328,7 @@ body #glyivLangPill i{background:var(--hair)}
   background:radial-gradient(circle at 50% 40%, #17492F 0%, #0F2E22 58%, rgba(15,46,34,.86) 74%, rgba(15,46,34,0) 78%)}
 .liv-caption b{color:var(--pine);text-shadow:none;font-family:var(--f-disp);font-weight:600;letter-spacing:.28em}
 .liv-caption span{color:var(--brass)}
-.gv-chatwrap{background:#fff;border-color:var(--hair);box-shadow:var(--sh3);backdrop-filter:none}
+.gv-chatwrap{background:#fff;border-color:var(--hair);box-shadow:var(--sh3);-webkit-backdrop-filter: none; backdrop-filter: none}
 .gv-chat__head{background:var(--paper2);border-bottom-color:var(--hair)}
 .gv-chat__bot{background:radial-gradient(120% 120% at 50% 10%, #16452F, #0F2E22 62%);border-bottom-color:var(--hair)}
 .gv-chat__title span{color:var(--text-dim)}
@@ -377,7 +377,7 @@ body #glyivLangPill i{background:var(--hair)}
   .gv-burger{background:#fff}
 }
 @media (max-width:1100px){
-  .gv-secnav{background:rgba(255,255,255,.97);backdrop-filter:blur(16px);padding-top:132px}
+  .gv-secnav{background:rgba(255,255,255,.97);-webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);padding-top:132px}
   .gv-nav__item{color:var(--text-dim)}
   .gv-nav__item.is-active{color:var(--pine)}
 }

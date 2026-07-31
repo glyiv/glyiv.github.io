@@ -23,7 +23,7 @@ body{background:var(--white)}
 .ga-badge{display:inline-flex;align-items:center;gap:7px;font-family:var(--l-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#bff0d5;border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:6px 12px;margin-bottom:14px}
 .ga-badge i{width:7px;height:7px;border-radius:50%;background:var(--emer-br);box-shadow:0 0 8px var(--emer-br);animation:gaBlink 2.2s var(--ease) infinite}
 @keyframes gaBlink{0%,100%{opacity:1}50%{opacity:.35}}
-.ga-hero__aside{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ga-hero__aside{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);-webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .ga-hero__aside .k{font-family:var(--l-mono);font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.65)}
 .ga-hero__aside .v{font-family:var(--l-serif);font-size:20px;color:#fff;line-height:1}
 .ga-hero__aside .v.g{color:#8affc1}
@@ -128,7 +128,7 @@ body{background:var(--white)}
    TIDAK berubah. */
 .ga-hero .ga-btn.solid{background:linear-gradient(135deg,var(--emer-br),var(--emer));color:#04160e;box-shadow:0 14px 40px -14px rgba(28,174,107,.6)}
 .ga-hero .ga-btn.solid:hover{transform:translateY(-2px)}
-.ga-hero .ga-btn.glass{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.28);backdrop-filter:blur(6px)}
+.ga-hero .ga-btn.glass{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.28);-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)}
 .ga-hero .ga-btn.glass:hover{border-color:#fff;background:rgba(255,255,255,.16)}
 .ga-fld label{font-family:var(--l-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
 .ga-fld input,.ga-fld select{width:100%;background:#fff;border:1px solid var(--hair);border-radius:10px;padding:12px;color:var(--pine);font-family:var(--l-serif);font-size:16px;outline:none}

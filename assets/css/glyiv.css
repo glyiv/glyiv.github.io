@@ -141,12 +141,12 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .gv-progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--emerald),var(--bio));box-shadow:0 0 10px var(--bio);transition:width .12s linear}
 
 /* ---- burger + scrim (mobile) ---- */
-.gv-burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line-2);background:rgba(8,28,20,.7);backdrop-filter:blur(8px);place-items:center;gap:4px;flex-direction:column}
+.gv-burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line-2);background:rgba(8,28,20,.7);-webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);place-items:center;gap:4px;flex-direction:column}
 .gv-burger span{display:block;width:18px;height:2px;border-radius:2px;background:var(--mint);transition:.25s}
 body.nav-open .gv-burger span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 body.nav-open .gv-burger span:nth-child(2){opacity:0}
 body.nav-open .gv-burger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-.gv-scrim{position:fixed;inset:0;z-index:55;background:rgba(2,10,6,.7);opacity:0;visibility:hidden;transition:.3s;backdrop-filter:blur(2px)}
+.gv-scrim{position:fixed;inset:0;z-index:55;background:rgba(2,10,6,.7);opacity:0;visibility:hidden;transition:.3s;-webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px)}
 body.nav-open .gv-scrim{opacity:1;visibility:visible}
 
 section[id]{scroll-margin-top:84px}
@@ -236,7 +236,7 @@ section[id]{scroll-margin-top:84px}
 .gv-hero__orbit{position:absolute;width:13px;height:13px;border-radius:50%;background:radial-gradient(circle,var(--bio),var(--emerald));box-shadow:0 0 16px var(--bio);top:50%;left:50%}
 .gv-hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
 .gv-hero__stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
-.gv-statchip{background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:11px 15px;backdrop-filter:blur(8px)}
+.gv-statchip{background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:11px 15px;-webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px)}
 .gv-statchip b{font-family:var(--f-disp);font-weight:800;font-size:1.15rem;color:#fff;display:block;line-height:1}
 .gv-statchip span{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.12em;color:var(--text-faint);text-transform:uppercase}
 
@@ -251,7 +251,7 @@ section[id]{scroll-margin-top:84px}
 .gv-grid.c4{grid-template-columns:repeat(4,1fr)}
 .gv-card{
   position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);
-  padding:24px;backdrop-filter:blur(8px);overflow:hidden;transition:.3s var(--ease)
+  padding:24px;-webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);overflow:hidden;transition:.3s var(--ease)
 }
 .gv-card:hover{border-color:var(--line-2);transform:translateY(-4px);box-shadow:var(--glow-soft)}
 .gv-card__ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;margin-bottom:16px;
@@ -273,7 +273,7 @@ section[id]{scroll-margin-top:84px}
 .cafe-hint{position:absolute;right:14px;bottom:14px;z-index:2;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;color:var(--text-faint);text-transform:uppercase;pointer-events:none}
 
 /* ===== interactive feature showcase (menu carousel + customization) ===== */
-.mc-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px);align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);padding:clamp(18px,3vw,32px);margin-top:10px;backdrop-filter:blur(8px)}
+.mc-wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px);align-items:center;background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);padding:clamp(18px,3vw,32px);margin-top:10px;-webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px)}
 .mc-left{display:flex;flex-direction:column;gap:12px}
 .mc-stage{height:260px;perspective:1100px;position:relative;cursor:grab;touch-action:pan-y}
 .mc-stage:active{cursor:grabbing}
@@ -338,7 +338,7 @@ a.gv-btn.mm{display:inline-flex}
 
 /* ===================== CUSTOMER FEATURE CAROUSEL ===================== */
 .cf{margin-top:14px;position:relative}
-.cf-viewport{overflow:hidden;border:1px solid var(--line);border-radius:var(--r-xl);background:var(--card);backdrop-filter:blur(8px)}
+.cf-viewport{overflow:hidden;border:1px solid var(--line);border-radius:var(--r-xl);background:var(--card);-webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px)}
 .cf-track{display:flex;transition:transform .62s cubic-bezier(.7,0,.18,1);will-change:transform}
 .cf-slide{flex:0 0 100%;min-width:100%;box-sizing:border-box;display:grid;grid-template-columns:1.04fr 1fr;gap:clamp(20px,3.4vw,46px);align-items:center;padding:clamp(20px,3.4vw,40px);opacity:.3;transform:scale(.975);transition:opacity .55s var(--ease),transform .55s var(--ease)}
 .cf-slide.is-on{opacity:1;transform:none}
@@ -749,7 +749,7 @@ a.gv-btn.mm{display:inline-flex}
 .gv-chatwrap{position:fixed;right:20px;bottom:20px;z-index:90;width:380px;max-width:calc(100vw - 28px);height:min(620px,82vh);
   background:linear-gradient(180deg,rgba(8,30,21,.96),rgba(4,18,12,.97));border:1px solid var(--line-2);border-radius:26px;
   display:flex;flex-direction:column;overflow:hidden;box-shadow:0 50px 120px -30px rgba(0,0,0,.85);
-  opacity:0;visibility:hidden;transform:translateY(24px) scale(.97);transition:.34s var(--ease);backdrop-filter:blur(16px)}
+  opacity:0;visibility:hidden;transform:translateY(24px) scale(.97);transition:.34s var(--ease);-webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px)}
 .gv-chatwrap.is-open{opacity:1;visibility:visible;transform:none}
 .gv-chat__head{display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--line);background:rgba(13,53,38,.5)}
 .gv-chat__bot{height:148px;flex:0 0 auto;position:relative;border-bottom:1px solid var(--line);background:radial-gradient(120% 120% at 50% 14%,rgba(51,209,136,.15),transparent 62%)}
@@ -935,7 +935,7 @@ a.gv-btn.mm{display:inline-flex}
   .gv-burger{display:grid}
   /* section nav becomes a fullscreen overlay */
   .gv-secnav{right:0;left:0;top:0;bottom:0;transform:none;width:100%;height:100dvh;
-    background:linear-gradient(180deg,rgba(7,33,23,.97),rgba(4,18,12,.98));backdrop-filter:blur(16px);
+    background:linear-gradient(180deg,rgba(7,33,23,.97),rgba(4,18,12,.98));-webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
     justify-content:center;align-items:center;gap:6px;padding:64px 0 0;opacity:0;visibility:hidden;transition:.34s var(--ease)}
   body.nav-open .gv-secnav{opacity:1;visibility:visible}
   .gv-nav__item{font-size:16px;gap:14px;padding:11px 14px;justify-content:center}
@@ -1183,7 +1183,15 @@ a.gv-btn.mm{display:inline-flex}
 /* ============================ TOUCH PERF LAYER ============================
    Scroll jank on phones/tablets is GPU-compositing saturation, not JS. Two costs
    dominate on a mobile GPU and fire every scroll frame:
-     1. backdrop-filter:blur() on scrolling glass cards — the GPU re-samples and
+     1. -webkit-backdrop-filter: blur() on scrolling glass cards — the GPU re-samples and
+        re-blurs the backdrop under each panel on every frame it moves.
+     2. dozens of permanently will-change-promoted, never-pausing infinite ambient
+        animations (per-section grid drift + glow breathe, contour dash, spores).
+   Desktop/Mac absorbs this; -webkit-backdrop-filter: blur() on scrolling glass cards — the GPU re-samples and
+        re-blurs the backdrop under each panel on every frame it moves.
+     2. dozens of permanently will-change-promoted, never-pausing infinite ambient
+        animations (per-section grid drift + glow breathe, contour dash, spores).
+   Desktop/Mac absorbs this; backdrop-filter: blur() on scrolling glass cards — the GPU re-samples and
         re-blurs the backdrop under each panel on every frame it moves.
      2. dozens of permanently will-change-promoted, never-pausing infinite ambient
         animations (per-section grid drift + glow breathe, contour dash, spores).
