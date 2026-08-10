@@ -1,35 +1,25 @@
-<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Glyiv">
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none" role="img" aria-label="Glyiv">
   <defs>
-    <linearGradient id="glyivTile" x1="18" y1="8" x2="86" y2="94" gradientUnits="userSpaceOnUse">
+    <linearGradient id="glyivUbin" x1="18" y1="8" x2="86" y2="94" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#134C38"/>
       <stop offset="0.55" stop-color="#12402D"/>
       <stop offset="1" stop-color="#0C2A1D"/>
     </linearGradient>
-    <radialGradient id="glyivGlow" cx="0.74" cy="0.16" r="0.9" gradientUnits="objectBoundingBox">
+    <radialGradient id="glyivKilau" cx="0.74" cy="0.16" r="0.9" gradientUnits="objectBoundingBox">
       <stop offset="0" stop-color="#33D188" stop-opacity="0.4"/>
       <stop offset="0.5" stop-color="#1F7A6B" stop-opacity="0.1"/>
       <stop offset="1" stop-color="#0C2A1D" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="glyivLeaf" x1="50" y1="20" x2="50" y2="82" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#B6FFD4"/>
-      <stop offset="0.55" stop-color="#8AFFC1"/>
-      <stop offset="1" stop-color="#33D188"/>
-    </linearGradient>
   </defs>
-
-  <!-- Squircle app-icon tile (gaya modern) -->
-  <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#glyivTile)"/>
-  <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#glyivGlow)"/>
+  <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#glyivUbin)"/>
+  <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#glyivKilau)"/>
   <rect x="6.75" y="6.75" width="86.5" height="86.5" rx="25.25" stroke="#8AFFC1" stroke-opacity="0.16" stroke-width="1.5"/>
-
-  <!-- Daun SIMETRIS di sekitar sumbu tengah x=50 -->
-  <path d="M50 20 C63 31 68 46 63 60 C59 71 55 77 50 82 C45 77 41 71 37 60 C32 46 37 31 50 20 Z" fill="url(#glyivLeaf)"/>
-  <!-- Urat tengah LURUS & INLINE persis di sumbu tengah (x=50), pucuk → pangkal -->
-  <path d="M50 27 L50 76" stroke="#0C2A1D" stroke-opacity="0.5" stroke-width="2.6" stroke-linecap="round"/>
-  <!-- Sepasang urat samping SIMETRIS (atas) -->
-  <path d="M50 43 C55 44 58 47 60 51 M50 43 C45 44 42 47 40 51" stroke="#0C2A1D" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round" fill="none"/>
-  <!-- Sepasang urat samping SIMETRIS (bawah) -->
-  <path d="M50 56 C54 57 56 59 58 62 M50 56 C46 57 44 59 42 62" stroke="#0C2A1D" stroke-opacity="0.26" stroke-width="1.8" stroke-linecap="round" fill="none"/>
-  <!-- Kilau tepi kanan, kesan tiga dimensi yang tenang -->
-  <path d="M50 20 C63 31 68 46 63 60" stroke="#EAFFF5" stroke-opacity="0.42" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <g transform="translate(31.126 14) scale(0.3899)">
+    <path d="M0 44.8214L44.8214 0V89.6428L0 44.8214Z" fill="#B6FFD4"/>
+  <path d="M44.8213 89.6427L0 44.8213V134.464L44.8213 89.6427Z" fill="#B6FFD4"/>
+  <path d="M96.8145 44.8214L51.993 0V89.6428L96.8145 44.8214Z" fill="#1FA870"/>
+  <path d="M51.9932 89.6427L96.8146 44.8213V134.464L51.9932 89.6427Z" fill="#33D188"/>
+  <path d="M93.2285 139.843L48.4071 95.0215V184.664L93.2285 139.843Z" fill="#4FE0A2"/>
+  <path d="M3.58594 139.843L48.4074 95.0215V184.664L3.58594 139.843Z" fill="#8AFFC1"/>
+  </g>
 </svg>

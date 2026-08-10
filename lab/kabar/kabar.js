@@ -149,7 +149,7 @@
     var slug = new URLSearchParams(location.search).get("a");
     var a = window.__kGet(slug) || DATA[0];
     if (!a) { root.innerHTML = '<div class="wrap" style="padding:120px 0;text-align:center">Artikel tidak ditemukan.</div>'; return; }
-    setMood(a.mood); document.title = a.title + " — Glyiv Kabar";
+    setMood(a.mood); document.title = a.title + " — Glyiv News";
     var orbTip = $(".korb__tip b"); if (orbTip) orbTip.textContent = a.orb;
     var c = counts(a), av = (a.author || "R").trim().charAt(0).toUpperCase();
     root.innerHTML =
@@ -167,7 +167,11 @@
     $("[data-sharebtn]", root).addEventListener("click", function () { openShare(a); });
     window.KE.view(a.slug);
     var prog = $(".kprog");
-    if (prog) { var onS = function () { var h = document.documentElement; prog.style.width = Math.min(100, h.scrollTop / (h.scrollHeight - h.clientHeight || 1) * 100) + "%"; }; document.addEventListener("scroll", onS, { passive: true }); onS(); }
+    /* ⚠︎ Dulu baris ini menulis `style.width` PADA SETIAP PERISTIWA GULIR — satu
+       properti tata letak, diubah puluhan kali per detik selama orang membaca.
+       Sekarang yang ditulis variabel `--kprog` (0–1) yang dipakai `scaleX` di
+       kabar.css: pekerjaannya pindah dari layout ke komposit. */
+    if (prog) { var onS = function () { var h = document.documentElement; prog.style.setProperty("--kprog", String(Math.min(1, h.scrollTop / (h.scrollHeight - h.clientHeight || 1)))); }; document.addEventListener("scroll", onS, { passive: true }); onS(); }
     if ("IntersectionObserver" in window) { var bio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) e.target.classList.add("in"); }); }, { threshold: 0.3 }); $$(".kbars", root).forEach(function (b) { bio.observe(b); }); }
   }
   function blockHTML(b) {
@@ -191,13 +195,13 @@
     var scenes = a.story || [], av = (a.author || "R").charAt(0).toUpperCase();
     storyEl.innerHTML = '<div class="kstory__stage" style="--mood:' + esc(a.mood) + '"><div class="kstory__bg">' + (a.cover ? '<img src="' + esc(a.cover) + '" alt="">' : "") + "</div>" +
       '<div class="kstory__bars">' + scenes.map(function (_, i) { return "<i" + (i === 0 ? ' class="act"' : "") + "><b></b></i>"; }).join("") + "</div>" +
-      '<div class="kstory__top"><span class="av">' + av + '</span><span>Glyiv Kabar · ' + esc(a.topic) + '</span><button class="kstory__x" aria-label="Tutup">×</button></div>' +
+      '<div class="kstory__top"><span class="av">' + av + '</span><span>Glyiv News · ' + esc(a.topic) + '</span><button class="kstory__x" aria-label="Tutup">×</button></div>' +
       '<div class="kstory__scenewrap"></div><div class="kstory__nav"><div class="prev"></div><div class="next"></div></div>' +
       '<button class="kstory__pause">❚❚ jeda</button><div class="kstory__share">' + sbtn("wa") + sbtn("x") + '<button data-net="gen" aria-label="Bagikan lainnya">' + ICON.share + "</button></div></div>";
     var stage = $(".kstory__stage", storyEl), wrap = $(".kstory__scenewrap", storyEl), bars = $$(".kstory__bars i", storyEl);
     var idx = 0, timer = null, paused = false, dur = 5200;
     function sceneHTML(s) {
-      if (s.kind === "cover") return '<div class="kstory__scene cover"><div><span class="lab">Glyiv Kabar</span><h2>' + esc(s.title) + "</h2>" + (s.text ? "<p>" + esc(s.text) + "</p>" : "") + "</div></div>";
+      if (s.kind === "cover") return '<div class="kstory__scene cover"><div><span class="lab">Glyiv News</span><h2>' + esc(s.title) + "</h2>" + (s.text ? "<p>" + esc(s.text) + "</p>" : "") + "</div></div>";
       if (s.kind === "hook") return '<div class="kstory__scene"><span class="lab">' + esc(a.topic) + "</span><h2>" + esc(s.title) + "</h2>" + (s.text ? "<p>" + esc(s.text) + "</p>" : "") + "</div>";
       if (s.kind === "stat") return '<div class="kstory__scene"><span class="lab">Angka</span><div class="big">' + esc(s.big) + "</div><p>" + esc(s.label || "") + "</p>" + (s.source ? '<div class="src">' + esc(s.source) + "</div>" : "") + "</div>";
       if (s.kind === "quote") return '<div class="kstory__scene quote"><h2>' + esc(s.text) + "”</h2></div>";
@@ -226,7 +230,7 @@
 
   /* ============================ SHARE ============================ */
   function shareUrl(a) { return location.origin + "/lab/kabar/artikel.html?a=" + enc(a.slug); }
-  function shareText(a) { return a.title + " — Glyiv Kabar"; }
+  function shareText(a) { return a.title + " — Glyiv News"; }
   function sbtn(net) { return '<button data-net="' + net + '" aria-label="Bagikan ' + net + '">' + ssvg(net) + "</button>"; }
   function shareTo(net, a) {
     var u = enc(shareUrl(a)), t = enc(shareText(a));

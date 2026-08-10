@@ -1,0 +1,287 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   GLYIV — gaya khusus halaman /team (dist/team.html).
+   Dimuat SESUDAH glyiv-v2.css dan glyiv-nav.css, jadi aturan di sini menang
+   pada kekhususan yang sama. Hanya halaman tim yang memakainya.
+
+   Semua nama kelas berawalan `tp-` ("team page") supaya tidak ada satu pun
+   aturan di sini yang bisa bocor ke halaman lain — halaman ini SENGAJA tidak
+   lagi memakai `.spine`/`.scene`/`.pf` milik glyiv-v2.css, karena kelas-kelas
+   itu membawa dua hal yang justru harus dibuang ronde ini:
+     · `.pf .duo{filter: none}` — foto hitam-putih,
+     · `@media (prefers-reduced-motion){.scene{opacity:1!important}}` — yang
+       menumpuk SEMUA adegan sekaligus alih-alih menampilkan satu.
+
+   ⚠︎ JANGAN menaruh rujukan aset relatif (fungsi CSS `url`, kurung buka-tutup)
+   di berkas ini. Konverter React (scripts/port-dist-page.cjs) menyalin isi
+   lembar gaya lokal ke dalam halaman; rujukan relatif akan diselesaikan
+   terhadap alamat HALAMAN, bukan alamat berkas CSS, jadi setiap aset patah.
+
+   ⚠︎ Dan JANGAN menuliskannya sebagai contoh di komentar pun. Pemindainya
+   membaca teks mentah, komentar ikut terbaca: satu contoh di komentar sudah
+   cukup membuat konverter menolak menyalin lembar gaya ini dan
+   mengembalikannya menjadi <link> — kedip halaman-tanpa-gaya yang justru
+   hendak dihabisi. Berkas ini nol rujukan aset.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. PENYEBAB FOTO IKUT MENGGULIR ────────────────────────────────────────
+   `glyiv-v2.css` memberi `body{overflow-x:hidden}`. Menurut spesifikasi CSS,
+   `overflow-x:hidden` dengan `overflow-y:visible` memaksa nilai terpakai
+   `overflow-y` menjadi `auto` — jadi <body> BERUBAH menjadi wadah gulir. Sebuah
+   `position:sticky` di dalamnya lalu menempel pada scrollport <body>, dan
+   scrollport itu tidak pernah bergulir (yang bergulir <html>). Hasilnya: elemen
+   sticky bergerak 1:1 bersama halaman — persis keluhan pemilik.
+
+   Terukur di https://glyiv.io/team sebelum perbaikan ini (posisi kolom foto
+   terhadap viewport, diambil pada empat posisi gulir):
+       scrollY  440 → atas foto  +108
+       scrollY  843 → atas foto  −295
+       scrollY 1334 → atas foto  −786
+       scrollY 1833 → atas foto −1285
+   Δgulir +1393 px, Δfoto −1393 px. Foto tidak diam sedetik pun.
+
+   `overflow-x:clip` memotong persis sama tetapi TIDAK membuat wadah gulir, jadi
+   sticky kembali hidup. Diuji di halaman live yang sama: atas foto tetap +96 px
+   pada scrollY 723 / 848 / 1333 / 1831.
+
+   Cakupannya dikunci ke halaman ini lewat `:has(.tp-page)` supaya tidak ada
+   halaman lain yang ikut berubah perilakunya. */
+@supports (overflow: clip) and (selector(:has(*))) {
+  body:has(.tp-page) { overflow-x: clip; }
+}
+
+/* ── 2. MASTHEAD ─────────────────────────────────────────────────────────── */
+.tp-page .folio span { color: var(--brass); }
+
+/* ── 3. TULANG PUNGGUNG NARASI (teks kiri, potret kanan yang DIAM) ────────── */
+.tp-spine {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  gap: clamp(28px, 4vw, 72px);
+  align-items: start;
+}
+/* Keduanya di baris yang sama: area grid kolom kanan setinggi kolom teks,
+   dan area grid itulah blok penampung `position:sticky` — itu yang memberi
+   potret ruang untuk menempel sepanjang narasi. Urutan DOM sengaja
+   panggung-dulu supaya tata letak ponsel (block) menaruh foto di atas. */
+.tp-spine__text  { grid-column: 1; grid-row: 1; padding: 4vh 0; }
+.tp-spine__stage { grid-column: 2; grid-row: 1; }
+
+/* Sifat logis (`padding-inline-start`, `inset-inline-start`) dipakai, bukan
+   `left`/`padding-left`: halaman ini ikut dibaca dalam bahasa Arab, dan garis
+   bab harus pindah ke kanan sendirinya. `glyiv-rtl.css` hanya mengenal kelas
+   lama `.chapter`, jadi kelas `tp-` ini harus mengurus dirinya sendiri. */
+.tp-chapter {
+  min-height: 72vh;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; padding-inline-start: 26px;
+  opacity: .34; transition: opacity .45s var(--ease);
+}
+.tp-chapter::before {
+  content: ""; position: absolute; inset-inline-start: 0; top: 10px; bottom: 10px; width: 2px;
+  background: var(--hairline); transition: background .45s var(--ease);
+}
+.tp-chapter.is-on { opacity: 1; }
+.tp-chapter.is-on::before { background: var(--brass); }
+.tp-chapter__no {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em;
+  color: var(--brass); font-weight: 600; text-transform: uppercase;
+}
+.tp-chapter h2 { font-size: clamp(24px, 3vw, 36px); margin: 12px 0 14px; }
+.tp-chapter p  { font-size: 16px; color: var(--slate); line-height: 1.62; max-width: 44ch; margin: 0; }
+.tp-who {
+  font-family: var(--f-mono); font-size: 11.5px; letter-spacing: .04em;
+  margin-top: 16px; color: var(--muted); text-transform: uppercase;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
+}
+.tp-who b    { color: var(--pine); font-weight: 600; }
+.tp-who b::after { content: " —"; color: var(--hairline); }
+.tp-who span { color: var(--brass-600); }
+
+/* Panggung yang DIAM. 96px = tinggi navbar tetap (68px, `.lnav__in` di
+   glyiv-nav.css) + 28px napas, jadi potret berhenti persis di bawahnya. */
+.tp-spine__stage {
+  position: sticky; top: 96px;
+  /* Tinggi panggung dinyatakan sebagai VARIABEL supaya `.tp-plate` bisa
+     menghitung lebar maksimum yang muat di dalamnya. Lihat catatan di
+     `.tp-plate` — tanpa ini pelatnya bisa terpotong di kanan-kiri. */
+  --tp-h: min(74vh, 620px);
+  height: var(--tp-h);
+  display: flex; align-items: center; justify-content: center;
+}
+.tp-scene {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  opacity: 0; transform: scale(1.012);
+  transition: opacity .55s var(--ease), transform .55s var(--ease);
+  pointer-events: none;
+}
+.tp-scene.is-on { opacity: 1; transform: none; pointer-events: auto; }
+
+/* Pelat potret. Rasionya WAJIB sama persis dengan rasio berkas hasil
+   normalisasi — hari ini 1024×1229 (lihat `scripts/bingkai-foto-tim.cjs`) —
+   supaya `object-fit:cover` tidak memotong apa pun; yang disusun di berkas
+   gambar persis yang terlihat di layar.
+
+   ⚠︎ DITULIS `1024 / 1229`, BUKAN `5 / 6`. Keduanya beda 0,016 % (0,83320 vs
+   0,83333), dan pada pelat setinggi 620 px selisih itu 0,08 px — cukup untuk
+   membuat `cover` memotong sepersekian piksel dan memunculkan garis rambut abu
+   di tepi. Menyalin angka berkasnya apa adanya menutup celah itu tanpa berpikir.
+
+   ⚠︎ 3/4 → 1024/1229 pada ronde ini. Sebabnya keluhan pemilik yang KEDUA
+   ("masih terpotong kanan kirinya … bahunya seperti terpotong"): pada bingkai
+   3:4, memberi napas 10 % di kiri-kanan memaksa ruang kosong di atas kepala
+   naik ke 26,7 %, dan potretnya terbaca kecil & terapung. Bingkai yang sedikit
+   lebih gempal menutup keduanya sekaligus — margin 6,0 % → 10,0 % sementara
+   ruang atas justru TURUN 19,4 % → 18,9 %. Aritmatika lengkapnya ada di
+   `scripts/bingkai-foto-tim.cjs`. Kalau angka di skrip itu berubah, DUA tempat
+   di berkas ini dan atribut `height=` di `dist/team.html` ikut berubah. */
+/* ⚠︎ `margin:0` BUKAN kosmetik. Pelatnya `<figure>`, dan gaya bawaan peramban
+   memberinya `margin:1em 40px`. Terukur di 1440px: pelat ganda menyusut jadi
+   213,5 px alih-alih 293,5 px — persis 80 px margin yang dimakan tiap pelat —
+   sehingga dua potret International Relations tampil jauh lebih kecil daripada
+   potret tunggal di bab lain. Cacat ini tidak terlihat pada bab satu-potret,
+   jadi ia lolos dari tangkapan layar bab 03. */
+/* ⛔ `height:100%` + `max-width:100%` TIDAK BOLEH DIPAKAI BERSAMA di sini, dan
+   ini BUKAN teori — terukur di peramban pada lebar 1024 px sesudah rasio berkas
+   berubah: pelat tergambar 510,2 × 620 = rasio 0,8229, bukan 0,8332. Sebabnya
+   `height:100%` mengunci tinggi ke tinggi panggung, `aspect-ratio` menghitung
+   lebar 516,6 px, lalu `max-width:100%` MEMOTONGNYA ke lebar kolom 510,2 px —
+   tinggi tidak ikut menyusut, jadi kotaknya jadi lebih jangkung daripada
+   berkasnya dan `object-fit:cover` memakan 1,2 % di KANAN dan KIRI. Persis
+   keluhan pemilik, dilahirkan kembali oleh CSS alih-alih oleh berkas.
+   ⚠︎ Cacat ini TIDAK terlihat di tangkapan layar 1440 px maupun 412 px — hanya
+   di lebar tengah, ketika kolomnya lebih sempit daripada lebar yang muat di
+   tinggi panggung. Ukur di beberapa lebar, jangan satu.
+
+   Yang benar: LEBAR yang dipilih (bukan tinggi), sebagai yang TERKECIL antara
+   lebar kolom dan lebar yang masih muat di tinggi panggung. Tinggi lalu
+   diturunkan `aspect-ratio`, jadi rasionya tidak bisa meleset di lebar mana pun. */
+.tp-plate {
+  position: relative; margin: 0;
+  width: min(100%, calc(var(--tp-h) * 1024 / 1229));
+  height: auto; aspect-ratio: 1024 / 1229;
+  border-radius: var(--r-xl); overflow: hidden;
+  background: #fff; box-shadow: var(--sh-3);
+}
+/* Dua orang dalam satu adegan (International Relations): ukurannya ditentukan
+   LEBAR, bukan tinggi, supaya dua pelat selalu muat di kolomnya. Konsekuensinya
+   tingginya tinggal 391 px di panggung 620 px (terukur di 1440px), jadi kalau
+   keduanya rata tengah, bab ini terlihat mengempis dibanding bab satu-potret.
+   Diselang-seling atas/bawah: pasangannya kembali mengisi tinggi panggung, dan
+   bacanya jadi satu diptik, bukan dua sisa ruang. */
+/* ⚠︎ Batas kedua (`var(--tp-h)`) BUKAN hiasan: tanpa itu, terukur di 1440 px,
+   pelat ganda tergambar 627,4 px tinggi di panggung 620 px — meluber 7,4 px ke
+   luar panggung sticky. */
+.tp-scene--duo .tp-plate { height: auto; width: min(calc(50% - 7px), calc(var(--tp-h) * 1024 / 1229)); }
+.tp-scene--duo .tp-plate:first-child { align-self: flex-start; }
+.tp-scene--duo .tp-plate:last-child  { align-self: flex-end; }
+.tp-plate img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  /* WARNA ASLI — permintaan (3). Foto tim TIDAK PERNAH hitam-putih lagi. */
+  filter: none;
+}
+.tp-plate__cap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 34px 18px 15px;
+  background: linear-gradient(to top, rgba(15, 46, 34, .74), rgba(15, 46, 34, 0));
+  color: #fff;
+}
+.tp-plate__cap b { display: block; font-family: var(--f-serif); font-size: 17px; font-weight: 600; }
+.tp-plate__cap span {
+  display: block; font-family: var(--f-mono); font-size: 10.5px;
+  letter-spacing: .09em; text-transform: uppercase; margin-top: 3px;
+  /* Aksen di atas latar gelap WAJIB mint terang, bukan teal gelap. */
+  color: #8affc1;
+}
+
+/* ── 4. KISI TIM — enam orang, 3 × 2 di desktop ──────────────────────────── */
+.tp-roster {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 30px) clamp(16px, 2vw, 26px);
+  margin-top: 42px;
+}
+.tp-card { min-width: 0; text-align: start; }
+/* Rasio kartu roster DIKUNCI ke rasio berkas yang sama dengan `.tp-plate`.
+   Kalau salah satunya saja diubah, halaman tetap TAMPIL wajar — yang berubah
+   diam-diam cuma potongan `cover` di kanan-kiri, persis cacat yang dikeluhkan. */
+.tp-card__pf {
+  position: relative; aspect-ratio: 1024 / 1229; overflow: hidden;
+  border-radius: var(--r-lg); background: #fff;
+  border: 1px solid var(--hairline); box-shadow: var(--sh-1);
+  transition: box-shadow .3s var(--ease), transform .3s var(--ease);
+}
+.tp-card__pf img { width: 100%; height: 100%; object-fit: cover; display: block; filter: none; }
+@media (hover: hover) {
+  .tp-card:hover .tp-card__pf { box-shadow: var(--sh-2); transform: translateY(-3px); }
+}
+.tp-card__nama {
+  display: block; margin-top: 15px;
+  font-family: var(--f-serif); font-weight: 600; font-size: 19px; color: var(--pine);
+}
+.tp-card__peran {
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--brass); margin-top: 4px;
+}
+.tp-card p { font-size: 13.5px; color: var(--slate); line-height: 1.55; margin: 9px 0 0; }
+
+/* ── 5. TABLET ───────────────────────────────────────────────────────────── */
+@media (max-width: 1040px) {
+  .tp-roster { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── 6. PONSEL & TABLET SEMPIT ───────────────────────────────────────────────
+   Spine jadi block: potret pindah ke atas dan TETAP sticky, kali ini terhadap
+   `.tp-spine` seluruhnya (bukan satu baris grid), jadi ia diam sementara kelima
+   babnya lewat di bawahnya. */
+@media (max-width: 900px) {
+  .tp-spine { display: block; }
+  /* ⚠︎ z-index WAJIB. `.tp-chapter` ber-`position:relative` dan datang SESUDAH
+     panggung di DOM, jadi tanpa ini teks bab tergambar DI ATAS foto sticky —
+     dua elemen berposisi, yang belakangan menang. */
+  .tp-spine__stage {
+    /* ⚠︎ `--tp-h` WAJIB ikut didefinisikan ulang di sini. Kalau hanya `height`
+       yang diganti, `.tp-plate` tetap menghitung lebarnya dari 620 px desktop
+       dan pelatnya jadi lebih besar daripada panggungnya. */
+    top: 74px; --tp-h: min(42vh, 330px); height: var(--tp-h);
+    margin: 0 0 22px; padding-bottom: 12px;
+    background: var(--white); z-index: 2;
+  }
+  .tp-spine__text { position: relative; z-index: 1; padding: 0; }
+  .tp-chapter { min-height: auto; opacity: 1; padding: 20px 0 24px; padding-inline-start: 20px; }
+  .tp-chapter::before { top: 22px; bottom: 22px; }
+  .tp-chapter.is-on::before { background: var(--brass); }
+  .tp-scene--duo .tp-plate { width: min(calc(50% - 7px), calc(var(--tp-h) * 1024 / 1229)); }
+}
+
+/* SATU FOTO PER LAYAR (permintaan 8). `svh` dipakai supaya bilah alamat
+   peramban ponsel yang muncul-hilang tidak membuat kartu meloncat; `vh` di
+   baris sebelumnya adalah cadangan untuk peramban tanpa `svh`. */
+@media (max-width: 640px) {
+  .tp-roster { grid-template-columns: 1fr; gap: 0; margin-top: 28px; }
+  .tp-card {
+    min-height: calc(100vh - 96px);
+    min-height: calc(100svh - 96px);
+    display: flex; flex-direction: column; justify-content: center;
+    text-align: center; padding: 30px 0 34px;
+    border-top: 1px solid var(--hairline);
+  }
+  .tp-card:first-child { border-top: 0; }
+  .tp-card__pf { width: min(70vw, 300px); margin: 0 auto; }
+  .tp-card p { max-width: 40ch; margin-inline: auto; }
+  .tp-card__nama { font-size: 21px; }
+}
+
+/* ── 7. GERAK MINIMAL ────────────────────────────────────────────────────────
+   Yang dimatikan hanya GERAKNYA: peralihan, skala, dan angkat-saat-hover.
+   Pergantian potret per bab TETAP jalan — itu isi, bukan animasi — dan tetap
+   SATU adegan pada satu waktu (inilah yang salah di aturan lama `.scene`, yang
+   memaksa `opacity:1` pada semuanya sehingga kelima adegan bertumpuk di satu
+   kotak — terukur di sini: opasitas adegan [0,0,1,0,0], bukan [1,1,1,1,1]).
+   Sticky tidak dimatikan: ia justru MENGURANGI gerak, bukan menambahnya. */
+@media (prefers-reduced-motion: reduce) {
+  .tp-chapter, .tp-scene, .tp-card__pf { transition: none !important; }
+  .tp-scene { transform: none !important; }
+  .tp-chapter { opacity: 1 !important; }
+  .tp-card:hover .tp-card__pf { transform: none !important; }
+}

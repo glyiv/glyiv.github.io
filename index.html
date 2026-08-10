@@ -2,9 +2,40 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Glyiv — Platform Ekonomi Hijau</title>
-<meta name="description" content="Glyiv — platform ekonomi hijau yang mengubah pilihan sehari-hari menjadi aksi iklim yang terlacak dan imbalan nyata. Satu ekosistem: aset hijau, marketplace, wallet, IoT, dan carbon intelligence untuk enterprise.">
+<!-- ── SEO · POSITIONING, BUKAN DAFTAR FITUR ──────────────────────────────────
+     Judul & deskripsi menyatakan hal yang sama dengan hero: apa itu Glyiv →
+     untuk siapa → apa yang didapat. Judul lama ("Platform Ekonomi Hijau")
+     menyebut kategori tanpa menyebut apa yang dikerjakan platformnya; deskripsi
+     lama membuka dengan daftar tujuh nama produk, yang di hasil pencarian
+     terpotong sebelum pembacanya sampai ke manfaat.
+     ⚠︎ Kunci kamus IKUT BERUBAH. `i18n.js` menerjemahkan `document.title` lewat
+     kamus dengan teks Indonesia sebagai kunci; entri lama
+     "Glyiv — Platform Ekonomi Hijau" tidak lagi cocok. Judul baru sengaja sudah
+     berbahasa Inggris (aturan proyek: nama & URL Inggris), jadi ia benar di
+     ketiga bahasa tanpa entri kamus baru. -->
+<title>Glyiv — Your Green Industry Intelligence Platform</title>
+<meta name="description" content="Glyiv memetakan jejak karbon dari aktivitas nyata — belanja harian sampai operasi industri — jadi estimasi yang terlacak, lalu jadi reward untuk pilihan yang berkesinambungan.">
+<!-- Kartu bagikan (WhatsApp, X, LinkedIn). Sebelum ini beranda TIDAK punya satu
+     pun tag og:/twitter:, jadi setiap tautan yang dibagikan tampil sebagai
+     potongan teks tanpa gambar. Gambarnya poster hero yang sudah ada —
+     TERUKUR 1000×560 px, 121.910 byte, HTTP 200 di https://glyiv.io — bukan aset
+     baru, jadi tidak menambah berkas yang harus dirawat. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Glyiv">
+<meta property="og:locale" content="id_ID">
+<meta property="og:url" content="https://glyiv.io/">
+<meta property="og:title" content="Glyiv — Your Green Industry Intelligence Platform">
+<meta property="og:description" content="Jejak karbon dari aktivitas nyata, terlacak sampai sumbernya — untuk individu maupun perusahaan. Catat, lihat angkanya, kumpulkan reward.">
+<meta property="og:image" content="https://glyiv.io/lab/img/hero-poster.webp">
+<meta property="og:image:width" content="1000">
+<meta property="og:image:height" content="560">
+<meta property="og:image:alt" content="Hamparan hijau dari udara — poster hero Glyiv">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Glyiv — Your Green Industry Intelligence Platform">
+<meta name="twitter:description" content="Jejak karbon dari aktivitas nyata, terlacak sampai sumbernya — untuk individu maupun perusahaan. Catat, lihat angkanya, kumpulkan reward.">
+<meta name="twitter:image" content="https://glyiv.io/lab/img/hero-poster.webp">
 <link rel="icon" href="/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -28,25 +59,92 @@
 .techc .em{font-size:22px}
 .techc b{display:block;font-family:var(--l-serif);font-weight:600;font-size:17px;color:#fff;margin:8px 0 6px}
 .techc p{font-size:12.5px;color:#9ec9b3;line-height:1.5;margin:0}
-/* why-side visual */
-.whyviz{background:#fff;border:1px solid var(--hair);border-radius:22px;box-shadow:var(--sh2);overflow:hidden}
-.whyviz__img{height:132px;position:relative}
-.whyviz__img img{width:100%;height:100%;object-fit:cover}
-.whyviz__img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,13,.1),rgba(6,20,13,.55))}
-.whyviz__img .cap{position:absolute;left:16px;bottom:12px;z-index:2;font-family:var(--l-mono);font-size:10px;letter-spacing:.06em;color:#eafff4}
-.whyviz__b{padding:20px}
-.whyviz__ct{display:flex;align-items:center;justify-content:space-between;font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.whyviz__chart{display:flex;align-items:flex-end;gap:6px;height:120px;padding:8px 2px 0;border-bottom:1px solid var(--hair2)}
-.whyviz__chart i{flex:1;height:100%;border-radius:4px 4px 2px 2px;background:linear-gradient(180deg,var(--teal),#8fd9bf);transform:scaleY(.05);transform-origin:bottom;transition:transform .8s var(--ease)}
-.whyviz__chart i:nth-child(3n){background:linear-gradient(180deg,var(--brass),#e0c48f)}
-[data-reveal].is-in .whyviz__chart i,.whyviz.is-in .whyviz__chart i{transform:scaleY(var(--h,.6))}
-.whyviz__flow{display:flex;align-items:center;gap:8px;margin:16px 0 14px}
-.whyviz__flow span{flex:1;text-align:center;background:var(--paper2);border:1px solid var(--hair);border-radius:10px;padding:9px 6px;font-size:11.5px;font-weight:600;color:var(--pine)}
-.whyviz__flow em{color:var(--brass);font-style:normal;font-weight:700}
-.whyviz__stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.whyviz__stat{text-align:center}
-.whyviz__stat b{font-family:var(--l-serif);font-weight:600;font-size:26px;color:var(--teal);line-height:1;display:block}
-.whyviz__stat span{font-size:11px;color:var(--muted);display:block;margin-top:3px;line-height:1.3}
+/* ── #kenapa · ADEGAN IKLIM YANG BISA DIGESER ─────────────────────────────────
+   Menggantikan `.whyviz` (foto titik bayar + demo struk karbon). Yang lama
+   bercerita soal KARBON satu porsi minuman; seksi ini sekarang bercerita soal
+   EKONOMI HIJAU, jadi yang lama dicabut — bukan ditumpuk (PRINSIP-UIUX §1).
+
+   SATU properti kustom `--t` (0..1) menggerakkan seluruh adegan. JS hanya
+   MENULIS properti itu; tidak ada satu pun API pembaca tata letak
+   (getBoundingClientRect/offsetWidth) yang dipanggil di dalam gelang animasi —
+   pemilik menguji di tablet Android dan gulir tersendat adalah keluhan lama.
+
+   Tiap elemen tetap memegang atribut presentasi (fill/stop-color) sebagai
+   cadangan: kalau JS gagal, `--t` tetap 0 dan adegan tampil utuh sebagai
+   skenario +1,5°C, bukan kotak kosong. */
+.gvis{background:#fff;border:1px solid var(--hair);border-radius:22px;box-shadow:var(--sh2);overflow:hidden}
+.gvis__svg{display:block;width:100%;height:auto;--t:0;background:#dceaf2}
+/* langit, matahari, kabut panas */
+.gv-s1{stop-color:rgb(calc(163 + 68*var(--t)) calc(206 - 46*var(--t)) calc(231 - 124*var(--t)))}
+.gv-s2{stop-color:rgb(calc(224 + 25*var(--t)) calc(240 - 22*var(--t)) calc(243 - 66*var(--t)))}
+.gv-sun{transform-origin:416px 64px;transform:scale(calc(1 + .3*var(--t)))}
+.gv-sun__c{fill:rgb(255 calc(221 - 62*var(--t)) calc(138 - 92*var(--t)))}
+.gv-haze{opacity:calc(var(--t)*.42)}
+.gv-shimmer{opacity:calc((var(--t) - .38)*1.15)}
+/* bukit & petak sawah */
+.gv-hill--far{fill:rgb(calc(129 + 74*var(--t)) calc(169 + 2*var(--t)) calc(149 - 45*var(--t)))}
+.gv-hill--near{fill:rgb(calc(94 + 84*var(--t)) calc(142 - 4*var(--t)) calc(119 - 43*var(--t)))}
+.gv-terr--3{fill:rgb(calc(216 + 21*var(--t)) calc(236 - 22*var(--t)) calc(219 - 43*var(--t)))}
+.gv-terr--2{fill:rgb(calc(209 + 23*var(--t)) calc(231 - 22*var(--t)) calc(213 - 42*var(--t)))}
+.gv-terr--1{fill:rgb(calc(201 + 26*var(--t)) calc(225 - 22*var(--t)) calc(206 - 41*var(--t)))}
+.gv-bund{stroke:rgb(calc(122 + 62*var(--t)) calc(160 - 22*var(--t)) calc(136 - 44*var(--t)))}
+/* padi: layu dan menguning saat skenario dinaikkan */
+.gv-stalk{transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(calc(1 - .42*var(--t)));
+  stroke:rgb(calc(56 + 142*var(--t)) calc(139 + 22*var(--t)) calc(95 - 30*var(--t)))}
+/* air pasang naik ke arah rumah panggung */
+.gv-flood{transform:translateY(calc(42px - 42px*var(--t)))}
+/* panel */
+.gvis__b{padding:16px 18px 18px}
+.gvis__head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+/* Ketiga nama pita ADA di markup (supaya mesin i18n menerjemahkan semuanya
+   sekali di awal) tapi menumpuk di SATU sel kisi: hanya yang aktif terlihat,
+   lebarnya sudah setinggi/selebar yang terpanjang, dan barisnya tidak pernah
+   membungkus di 390px — tiga pil berjajar dulu mendorong angka suhu ke baris
+   sendiri. */
+.gvis__chips{display:grid;justify-items:start}
+.gvis__chip{grid-area:1/1;font-family:var(--l-mono);font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;
+  color:#fff;background:var(--pine);border:1px solid var(--pine);border-radius:999px;padding:4px 9px;white-space:nowrap;
+  opacity:0;visibility:hidden;transition:opacity .3s var(--ease),visibility 0s .3s}
+.gvis__chip.is-on{opacity:1;visibility:visible;transition:opacity .3s var(--ease),visibility 0s}
+.gvis__deg{font-family:var(--l-serif);font-weight:600;font-size:27px;color:var(--pine);line-height:1;white-space:nowrap;font-variant-numeric:tabular-nums}
+.gvis__hint{font-size:11.5px;color:var(--muted);margin:0 0 2px}
+.gvis__range{-webkit-appearance:none;appearance:none;display:block;width:100%;height:44px;margin:0;padding:0;background:transparent;cursor:pointer}
+.gvis__range::-webkit-slider-runnable-track{height:6px;border-radius:999px;background:linear-gradient(90deg,var(--teal),#B0894F 62%,#A6572C)}
+.gvis__range::-moz-range-track{height:6px;border-radius:999px;background:linear-gradient(90deg,var(--teal),#B0894F 62%,#A6572C)}
+.gvis__range::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-9px;border-radius:50%;
+  background:#fff;border:3px solid var(--pine);box-shadow:0 2px 8px rgba(15,46,34,.3)}
+.gvis__range::-moz-range-thumb{width:24px;height:24px;border-radius:50%;box-sizing:border-box;
+  background:#fff;border:3px solid var(--pine);box-shadow:0 2px 8px rgba(15,46,34,.3)}
+.gvis__range:focus-visible{outline:none}
+.gvis__range:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 4px rgba(31,122,107,.4)}
+.gvis__range:focus-visible::-moz-range-thumb{box-shadow:0 0 0 4px rgba(31,122,107,.4)}
+.gvis__scale{display:flex;justify-content:space-between;font-family:var(--l-mono);font-size:10px;color:var(--muted);margin-top:-6px}
+/* tiga pernyataan bertumpuk di SATU sel kisi: tingginya mengikuti yang
+   terpanjang, jadi berganti pita tidak pernah menggeser tata letak halaman. */
+.gvis__says{display:grid;margin:12px 0 2px}
+.gvis__say{grid-area:1/1;margin:0;font-size:13px;line-height:1.6;color:var(--slate);
+  opacity:0;visibility:hidden;transform:translateY(6px);
+  transition:opacity .35s var(--ease),transform .35s var(--ease),visibility 0s .35s}
+.gvis__say.is-on{opacity:1;visibility:visible;transform:none;
+  transition:opacity .35s var(--ease),transform .35s var(--ease),visibility 0s}
+.gvis__metric{display:grid;grid-template-columns:1fr auto;align-items:end;gap:7px 12px;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair)}
+.gvis__mlab{font-family:var(--l-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.gvis__mlab i{font-style:normal;color:var(--brass)}
+.gvis__mval{display:flex;align-items:baseline;gap:6px;justify-self:end}
+.gvis__num{font-family:var(--l-serif);font-weight:600;font-size:28px;color:var(--pine);line-height:1;font-variant-numeric:tabular-nums}
+.gvis__unit{font-family:var(--l-mono);font-size:10.5px;color:var(--slate)}
+.gvis__mbar{grid-column:1/-1;height:6px;border-radius:999px;background:var(--hair2);overflow:hidden}
+.gvis__mbar i{display:block;height:100%;width:12%;border-radius:999px;background:linear-gradient(90deg,var(--teal),var(--brass));transition:width .3s var(--ease)}
+.gvis__msub{grid-column:1/-1;font-size:11.5px;color:var(--muted);line-height:1.5}
+/* Di bawah ~430px label "TEKANAN HARGA PANGAN" dan nilainya berebut satu baris:
+   labelnya pecah dua baris sementara satuannya menyentuh tepi kanan. Ditumpuk. */
+@media(max-width:430px){.gvis__metric{grid-template-columns:1fr}.gvis__mval{justify-self:start}}
+.gvis__foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:13px;padding-top:11px;border-top:1px solid var(--hair)}
+.gvis__tag{font-family:var(--l-mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--brass);
+  border:1px solid rgba(176,137,79,.4);border-radius:999px;padding:3px 9px}
+.gvis__src{font-family:var(--l-mono);font-size:10.5px;color:var(--teal);cursor:pointer}
+.gvis__a11y{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.gvis__say,.gvis__chip,.gvis__mbar i{transition:none}}
 /* community / movement */
 .mvmt{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:8px 0 30px}
 .mvcard{background:#fff;border:1px solid var(--hair);border-radius:18px;padding:22px 20px;box-shadow:var(--sh1);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
@@ -107,8 +205,25 @@
 .rvor .n .ic{width:28px;height:28px;border-radius:50%;background:#0e2c20;border:1.5px solid rgba(138,255,193,.4);display:grid;place-items:center;color:#8affc1}
 .rvor .n .ic svg{width:14px;height:14px}
 .rvor .n span{font-family:var(--l-mono);font-size:7.5px;color:#bff0d5;text-align:center}
-.rvor .dot{position:absolute;top:8px;left:9%;width:8px;height:8px;border-radius:50%;background:#8affc1;box-shadow:0 0 8px #8affc1;animation:rvTravel 3.4s linear infinite}
-@keyframes rvTravel{0%{left:9%}100%{left:88%}}
+/* ⛔ `left` DIGANTI `transform`. Sampai ronde 58 aturan ini berbunyi
+   `animation:rvTravel …` dengan `@keyframes rvTravel{0%{left:9%}100%{left:88%}}`.
+   `left` bukan properti komposit: ia memaksa LAYOUT + PAINT setiap bingkai,
+   selamanya, dan pemindaian seluruh 119 animasi beranda menemukan ia
+   SATU-SATUNYA yang menyentuh properti tata letak. Pemilik menguji di tablet
+   Samsung Galaxy Tab dan gulir tersendat sudah berkali-kali jadi keluhan.
+   Titik awal dipindah ke `left:9%` yang statis; geraknya kini `translateX`
+   sepanjang lebar rel (`.flow` 82 % lebar, dikurangi lebar titik). */
+.rvor .dot{position:absolute;top:8px;left:9%;width:8px;height:8px;border-radius:50%;background:#8affc1;box-shadow:0 0 8px #8affc1;animation:rvTravel 3.4s linear infinite;will-change:transform}
+/* ⚠︎ Jarak tempuh dalam `cqw` — persen LEBAR WADAH, bukan persen lebar elemen.
+   `translateX(79%)` akan salah total di sini: persen pada `translateX` mengacu
+   ke kotak elemen ITU SENDIRI (8 px), jadi titiknya cuma bergeser 6,3 px.
+   `container-type:inline-size` pada `.flow` yang membuat `cqw` punya arti.
+   Lebar `.flow` ditentukan induknya (blok, `justify-content:space-between`),
+   bukan oleh isinya, jadi containment ini tidak mengubah tata letak.
+   Peramban tanpa dukungan `cqw` menjatuhkan deklarasinya → titik diam di
+   `left:9%`. Diam itu degradasi yang jujur; `left` beranimasi tidak. */
+.rvor .flow{container-type:inline-size}
+@keyframes rvTravel{0%{transform:translateX(0)}100%{transform:translateX(calc(79cqw - 8px))}}
 .rvor .por{margin-top:16px;font-family:var(--l-mono);font-size:8px;color:#9ec9b3}
 .rvor .porbar{height:6px;border-radius:999px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:4px}
 .rvor .porbar i{display:block;height:100%;width:78%;background:linear-gradient(90deg,#1F7A6B,#8affc1)}
@@ -128,9 +243,352 @@
 .rvsat input[type=range]{position:absolute;left:8%;right:8%;bottom:8px;width:84%;-webkit-appearance:none;appearance:none;height:4px;border-radius:999px;background:rgba(255,255,255,.3);outline:0}
 .rvsat input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:#8affc1;border:2px solid #0b241a;cursor:pointer}
 .rvsat input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#8affc1;border:2px solid #0b241a;cursor:pointer}
+/* jalan kedua & ketiga di kaki blok Aplikasi — TAUTAN, bukan tombol.
+   Aturannya di sini dan bukan di lab.css karena `.joinx*` hanya dipakai berkas
+   ini (grep: 1 berkas), jadi menaruhnya di lembar bersama 54 halaman berarti
+   mengirim aturan yang tidak pernah dipakai 53 di antaranya.
+   `min-height:44px` TANPA gerbang lebar layar: aturan target sentuh yang hanya
+   berlaku di `max-width:600px` tidak pernah menyentuh tablet pemilik
+   (RULES §5 · PRINSIP-UIUX §9). Di desktop tingginya sama dengan `.lbtn` di
+   sebelahnya, jadi tidak ada biayanya. */
+.joinx__alt{display:flex;flex-wrap:wrap;align-items:center;gap:2px 22px;flex:1 1 260px}
+.joinx__alt a{display:inline-flex;align-items:center;min-height:44px;font-size:13.5px;font-weight:600;color:var(--teal);text-decoration:none}
+.joinx__alt a:hover{color:var(--pine);text-decoration:underline}
+.joinx__alt a:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:6px}
 @media(max-width:980px){.rmap{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:900px){.ecoflow,.techrow{grid-template-columns:1fr}.earn{grid-template-columns:1fr}.mvmt{grid-template-columns:1fr}}
 @media(max-width:620px){.rmap{grid-template-columns:1fr}}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   HERO BERANDA — narasi dua kolom
+   ══════════════════════════════════════════════════════════════════════════
+   KENAPA ATURANNYA DI SINI, BUKAN DI lab.css. Susunan dua kolom ini hanya
+   dipakai beranda; `.vhero` yang polos masih dipakai halaman lain lewat
+   `lab/css/lab.css`. Menaruh kisi ini di lembar bersama berarti mengirim aturan
+   yang tidak pernah terpakai ke 50+ halaman. Semua penimpa di bawah memakai
+   selektor `.vhero__in--split …` (0,2,0) supaya menang atas `.vhero h1` (0,1,1)
+   dan `.vhero__lead` (0,1,0) di lab.css tanpa satu pun `!important`.
+
+   CACAT YANG DIPERBAIKINYA — TERUKUR, bukan selera. Jaraknya diukur dari tepi
+   kanan TEKS (Range.getClientRects), bukan tepi kotak: kotak blok selalu
+   selebar wadahnya walau kalimatnya berhenti di sepertiga lebar, jadi mengukur
+   kotak akan menjawab "penuh" pada hero yang justru kosong.
+     https://glyiv.io (hero lama) · 1280×800 → sisa kanan 490 px
+     https://glyiv.io (hero lama) · 1440×900 → sisa kanan 479 px
+     hero ini            · 1280×800 →  72 px
+     hero ini            · 1440×900 →  81 px
+   Kolom kanan mengisinya dengan LANGKAH — bagian narasi yang memang belum
+   pernah ada di hero.
+
+   Yang jadi usang karenanya (PRINSIP-UIUX §1 · "mengganti, bukan menumpuk"):
+    · moto lama di garis mata hero ("Building the Digital Ecosystem for
+      Sustainable Living") — diganti moto positioning;
+    · `<b>` di tengah paragraf hero — dulu memecah satu kalimat jadi tiga kunci
+      kamus (`scripts/audit-kalimat-terpecah.cjs`);
+    · `data-i18n="hero.*"` — lihat catatan di markup hero. */
+/* `padding-top` ADA KARENA CACAT YANG TERUKUR, bukan kerapian. `.vhero` memakai
+   `align-items:flex-end`, jadi isi yang lebih tinggi dari layar meluber KE ATAS —
+   dan hero ini memang lebih tinggi dari yang lama. Pengukuran pertama di
+   1280×801: `.lnav` setinggi 69 px, sedangkan garis mata (moto) mendarat di
+   y=43 — moto tertutup navbar. Bantalan ini menahannya turun; kalau isinya
+   tumbuh (terjemahan Arab biasanya lebih tinggi), bantalanlah yang termakan
+   lebih dulu, bukan keterbacaan motonya. */
+.vhero__in--split{display:grid;gap:26px clamp(28px,4vw,60px);align-items:end;padding-top:clamp(88px,11vh,112px)}
+.vhero__col{min-width:0}
+/* Garis mata = MOTO. Dibiarkan satu simpul teks, tanpa <b>. */
+.vhero__in--split .vhero__eyebrow{margin-bottom:16px;color:#8affc1;font-weight:600}
+/* Judul lebih kecil dari `.lh1` bawaan (clamp 38→78 px) — TERUKUR: pada 78 px
+   judul dua kalimat ini setinggi 313 px, dan seluruh isi hero jadi 678 px di
+   dalam layar 801 px yang navbarnya sudah memakan 69 px. Yang dikorbankan bukan
+   dampak judulnya melainkan tiga baris kosong. */
+.vhero__in--split .lh1{font-size:clamp(34px,4.3vw,58px);line-height:1.05;max-width:19ch;margin-bottom:16px}
+.vhero__in--split .vhero__lead{max-width:56ch;margin-bottom:20px}
+
+/* VALUE PROPOSITION — dua sisi pengguna, berdampingan.
+   Tiap sel: label mono + SATU kalimat utuh, masing-masing simpul teks sendiri
+   (tidak ada teks langsung di induknya), jadi kamus menerjemahkannya utuh. */
+.vhero__who{list-style:none;margin:0 0 22px;padding:0;display:grid;gap:10px 22px}
+.vhero__who li{display:grid;gap:3px;padding-left:13px;border-left:2px solid rgba(138,255,193,.45)}
+.vhero__who b{font-family:var(--l-mono);font-weight:600;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:#8affc1}
+.vhero__who span{font-size:14px;line-height:1.5;color:rgba(255,255,255,.88)}
+
+.vhero__in--split .vhero__cta{margin-bottom:18px}
+
+/* UNDUH APK — tautan, bukan tombol ketiga & keempat.
+   Hero sudah punya dua tombol setara; menambah dua tombol lagi menghapus
+   gagasan "tombol utama" (catatan yang sama sudah tertulis di kaki blok
+   Aplikasi di berkas ini). `min-height:44px` tanpa gerbang lebar layar —
+   pemilik menguji di tablet, dan aturan sentuh yang hanya berlaku di ponsel
+   tidak pernah menyentuhnya. */
+.vhero__apk{display:flex;flex-wrap:wrap;align-items:center;gap:2px 18px}
+.vhero__apk b{font-family:var(--l-mono);font-weight:500;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.vapk{display:inline-flex;align-items:center;gap:7px;min-height:44px;font-size:13.5px;font-weight:700;color:#8affc1;text-decoration:none}
+.vapk svg{width:15px;height:15px;flex:0 0 auto}
+.vapk:hover{color:#fff;text-decoration:underline}
+.vapk:focus-visible{outline:2px solid #8affc1;outline-offset:3px;border-radius:6px}
+
+/* KOLOM KANAN — LANGKAHNYA.
+   Ringkasan seksi #cara yang sudah ada, memakai nomor & nama langkah yang SAMA
+   (01 Tangkap · 02 Process · 03 Reward) dan menaut ke sana. Sengaja bukan sistem
+   baru: pembaca yang menggulir menemukan tiga kartu dengan nama yang sama. */
+.vhero__side{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:20px;
+  padding:20px 20px 16px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);min-width:0}
+.vside__k{font-family:var(--l-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#8affc1}
+.vside__t{font-family:var(--l-serif);font-weight:600;font-size:20px;line-height:1.2;color:#fff;margin:8px 0 14px}
+/* `.vside__steps`, `.vside__steps li`, dan `.vstep__b` DIBUANG, bukan
+   ditinggalkan: daftar tiga <li> statisnya diganti carousel di bawah, dan
+   selektornya tidak dipakai satu berkas pun lagi (terukur:
+   `grep -rn "vside__steps" dist` → 0 di luar berkas ini). */
+.vstep__n{font-family:var(--l-mono);font-size:10.5px;font-weight:600;color:#0b241a;background:#8affc1;
+  border-radius:999px;min-width:26px;height:20px;display:grid;place-items:center;margin-top:2px}
+.vstep__t{display:block;font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.vstep__d{margin:0;font-size:13px;line-height:1.5;color:rgba(255,255,255,.8)}
+.vside__more{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;
+  font-family:var(--l-mono);font-size:11.5px;letter-spacing:.04em;color:#8affc1;text-decoration:none}
+.vside__more:hover{color:#fff;text-decoration:underline}
+.vside__more:focus-visible{outline:2px solid #8affc1;outline-offset:3px;border-radius:6px}
+/* Pita fondasi terbuka pindah ke kaki kolom kanan: di kolom kiri ia menambah
+   satu baris penuh pada tinggi hero, di sini ia mengisi ruang yang memang ada. */
+.vhero__side .vhero__trust{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.16);
+  display:grid;gap:3px}
+.vhero__side .vhero__trust b{color:#bff0d5;font-weight:500}
+
+@media(min-width:1024px){
+  .vhero__in--split{grid-template-columns:minmax(0,1.12fr) minmax(300px,.88fr)}
+  .vhero__in--split .vhero__who{grid-template-columns:1fr 1fr}
+  /* Ruang untuk FAB Gly, yang duduk `fixed` di sudut kanan bawah SETIAP halaman.
+     TERUKUR di 1280×801 sebelum baris ini: `.liv-fab` menempati x 1139–1255 ·
+     y 678–793, sedangkan baris terakhir pita "Fondasi terbuka" berakhir di
+     x 1184 · y 705 — bot menimpa ujung kanan pita itu. Kolom kanan diangkat
+     supaya kakinya (721) naik ke atas puncak bot (678). Kolom kiri tidak perlu:
+     bot tidak pernah berada di sisi kiri. */
+  .vhero__side{margin-bottom:52px}
+}
+@media(max-width:1023px){
+  /* Satu kolom: kartu langkah turun ke bawah CTA. Angkanya dirapatkan karena
+     hero ini membawa lima blok narasi, dan pada 412×915 ukuran desktop membuat
+     isinya setinggi 1.147 px — TERUKUR, 333 px lebih tinggi dari layar. Aturan
+     satu-layar (RULES §2) tidak bisa dipenuhi sepenuhnya tanpa membuang salah
+     satu blok yang justru diminta pemilik; yang bisa dilakukan adalah membuat
+     hero berhenti sedekat mungkin dengan satu layar. */
+  .vhero__in--split{gap:16px;padding-top:78px}
+  .vhero__in--split .vhero__eyebrow{margin-bottom:12px}
+  .vhero__in--split .lh1{font-size:clamp(29px,7.2vw,42px);line-height:1.07;max-width:none;margin-bottom:11px}
+  .vhero__in--split .vhero__lead{font-size:15px;line-height:1.5;max-width:none;margin-bottom:13px}
+  .vhero__who{margin-bottom:13px;gap:7px}
+  .vhero__who li{padding-left:11px}
+  .vhero__who span{font-size:13px;line-height:1.45}
+  .vhero__in--split .vhero__cta{margin-bottom:8px;gap:10px}
+  .vhero__apk{gap:0 14px}
+  .vhero__side{padding:14px 15px 10px;border-radius:16px}
+  .vside__t{font-size:15.5px;line-height:1.25;margin:5px 0 10px}
+  .vstep__t{font-size:13.5px}
+  .vstep__d{font-size:12.5px;line-height:1.45}
+  /* Pita "Fondasi terbuka" DISEMBUNYIKAN — bukan dibuang. Daftar standar yang
+     sama (GHG Protocol · ISO 14064 · ecoinvent · EXIOBASE · ERC-3643) sudah
+     berjalan di pita `.mq` di footer halaman ini, jadi di layar sempit ia
+     mengulang informasi sambil menambah 82 px pada hero yang sudah kepanjangan
+     (TERUKUR di 412×915: isi hero 953 px tanpa pita, 1.035 px dengan pita).
+     Di ≥1024px ia tetap tampil: di sana ia mengisi ruang yang memang ada. */
+  .vhero__side .vhero__trust{display:none}
+  /* Pita "scroll" DISEMBUNYIKAN di bawah 1024px, dan itu perbaikan cacat, bukan
+     selera: ia `position:absolute; bottom:20px` di dalam `.vhero`, jadi ia
+     mendarat di KAKI HERO — yang di ponsel berada di bawah lipatan. TERUKUR di
+     360×740: pita itu menimpa tautan "Lihat langkah lengkapnya →" seluas
+     836 px², yakni menutupi target sentuh. Di layar di mana hero memang lebih
+     tinggi dari layar, isyarat "gulir" juga tidak memberi tahu apa pun yang
+     belum terlihat sendiri. */
+  .vhero__scroll{display:none}
+}
+@media(max-width:620px){
+  .vhero__in--split{padding-top:72px;gap:14px}
+  .vhero__in--split .vhero__lead{margin-bottom:11px}
+  .vhero__who{margin-bottom:11px}
+  .vside__more{margin-top:0}
+}
+@media(prefers-reduced-motion:reduce){
+  .vapk,.vside__more{transition:none}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   HERO · CAROUSEL LANGKAH VERTIKAL + TIGA ADEGAN ISOMETRIK
+   ══════════════════════════════════════════════════════════════════════════
+   KENAPA DI SINI, BUKAN DI `lab/css/lab.css`. Alasannya sama persis dengan
+   yang tertulis di kepala blok hero di atas, ditambah satu yang khusus:
+    1. `.vcar` dan `.vsc` HANYA ada di beranda. Menaruhnya di lembar bersama
+       berarti mengirim ~120 baris aturan + 14 @keyframes ke 50+ halaman yang
+       tidak pernah memakainya.
+    2. `lab.css` sudah pernah menyajikan SALINAN BASI ke peramban — cacat yang
+       terukur dan tercatat di kepala `glyiv-nav.js` (lembar terpasang 56
+       aturan, berkas di URL yang sama 80). Aturan yang ikut di dalam HTML
+       tidak bisa basi sendirian: ia selalu seumur halamannya.
+
+   Yang jadi usang karenanya (PRINSIP-UIUX §1 — "mengganti, bukan menumpuk"):
+   `.vside__steps` + `.vside__steps li` + `.vstep__b` (dihapus di atas) dan
+   `<ol class="vside__steps">` beserta tiga <li>-nya di markup. */
+
+.vcar{display:block}
+/* TINGGI TETAP, TANPA MENGUNCI ANGKA. Ketiga slide menempati SATU sel kisi
+   (`grid-area:1/1`), jadi tinggi wadah = tinggi slide TERTINGGI dan tidak
+   pernah berubah saat berganti — walau panjang teks tiap langkah berbeda.
+   Mengunci `height` dalam px akan memotong teks saat kamus lain (AR/EN) lebih
+   panjang; cara ini tidak pernah bisa. */
+.vcar__vp{position:relative;display:grid;overflow:hidden;
+  /* `pan-x pinch-zoom`: gerakan VERTIKAL jadi milik carousel (itu yang diminta),
+     cubit-perbesar tetap milik pengguna. `none` akan membunuh cubit-perbesar —
+     itu pelanggaran aksesibilitas, bukan pilihan selera. */
+  touch-action:pan-x pinch-zoom}
+.vcar__slide{grid-area:1/1;min-width:0;opacity:0;pointer-events:none;
+  transform:translateY(calc(var(--o,1) * 100%));
+  transition:transform .58s cubic-bezier(.22,.72,.24,1),opacity .3s linear}
+.vcar__slide.is-on{opacity:1;pointer-events:auto;transform:translateY(0)}
+/* TINGGI TERUKUR, bukan selera. `.vsc` di-`preserveAspectRatio` bawaan (meet),
+   jadi tinggi elemenlah yang membatasi skala gambar: pada 112px adegan hanya
+   memakai 205 dari 347px lebar kartu (59%) dan terlihat hilang di tengah
+   kekosongan. 140px + viewBox yang dirapatkan membawanya ke ±223px (64%)
+   dengan tambahan tinggi kartu yang masih muat di hero satu layar. */
+/* ⚠︎ 140 → 210 px. Ruang itu datang dari pita "Fondasi terbuka" yang dicabut
+   dari hero ronde 59, dan pemilik meminta ganti ruangnya diberikan ke sini:
+   *"besarkan animasi SVG kita. Kita highlight itu lebih banyak."*
+   Tinggi kartu hero TIDAK bertambah — ia hanya berpindah pemilik. */
+.vsc{display:block;width:100%;height:210px;margin:0 auto 12px}
+.vcar__head{display:flex;align-items:center;gap:9px;margin-bottom:3px}
+.vcar__head .vstep__t{display:inline;margin:0}
+/* Titik & tautan berbagi SATU baris: kontrol carousel tidak menambah satu pun
+   piksel pada tinggi hero, yang di ponsel sudah lebih tinggi dari layar. */
+.vside__foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px}
+.vside__foot .vside__more{margin-top:0}
+.vcar__dots{display:flex;align-items:center}
+/* 44px BUKAN hiasan: pemilik menguji di tablet. Batangnya kecil, target
+   sentuhnya penuh. */
+.vcar__dot{-webkit-appearance:none;appearance:none;background:none;border:0;margin:0;padding:0;
+  width:44px;min-height:44px;display:grid;place-items:center;cursor:pointer;color:inherit}
+.vcar__dot i{display:block;width:20px;height:3px;border-radius:99px;background:rgba(255,255,255,.26);
+  transition:background .3s ease,transform .3s ease}
+.vcar__dot:hover i{background:rgba(255,255,255,.55)}
+.vcar__dot[aria-current="true"] i{background:#8affc1;transform:scaleX(1.3)}
+.vcar__dot:focus-visible{outline:2px solid #8affc1;outline-offset:-5px;border-radius:10px}
+
+/* ── ADEGAN: hanya yang TAMPIL yang bergerak ──────────────────────────────────
+   Tanpa baris ini ketiga adegan berjalan serentak sepanjang waktu — 43 simpul
+   beranimasi terus-menerus di halaman yang harus mulus digulir di tablet. */
+.vcar__slide:not(.is-on) .vsc *{animation-play-state:paused}
+/* Gerak HANYA transform/opacity — tidak ada `filter`, tidak ada blur, tidak ada
+   WebGL. Itu syarat gulir mulus di Galaxy Tab S10. */
+@keyframes vscFly{
+  0%{transform:translate(0,0) scale(.55);opacity:0}
+  12%{transform:translate(0,0) scale(1);opacity:1}
+  72%{opacity:1}
+  100%{transform:translate(var(--dx,0px),var(--dy,0px)) scale(.32);opacity:0}
+}
+@keyframes vscBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.6px)}}
+@keyframes vscRing{0%{transform:scale(.7);opacity:0}22%{opacity:.8}100%{transform:scale(1.55);opacity:0}}
+@keyframes vscGlow{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes vscSway{0%,100%{transform:rotate(0)}34%{transform:rotate(1.9deg)}68%{transform:rotate(-1.4deg)}}
+@keyframes vscRiffle{0%,100%{transform:translate(0,0)}20%,46%{transform:translate(7.7px,3.9px)}}
+@keyframes vscFeed{
+  0%{transform:translate(-26px,-13px);opacity:0}
+  16%{opacity:1}
+  60%{transform:translate(13.2px,6.6px);opacity:1}
+  76%,100%{transform:translate(24.2px,12.1px);opacity:0}
+}
+@keyframes vscScan{0%{transform:translateY(0);opacity:0}14%,84%{opacity:.9}100%{transform:translateY(-17px);opacity:0}}
+@keyframes vscTick{0%,100%{opacity:.22}30%,58%{opacity:1}}
+@keyframes vscCap{0%,100%{transform:translateY(0);opacity:.7}50%{transform:translateY(-1.6px);opacity:1}}
+@keyframes vscBar{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.55)}}
+@keyframes vscLeaf{0%,100%{transform:rotate(0)}30%{transform:rotate(1.5deg)}65%{transform:rotate(-1.1deg)}}
+@keyframes vscPop{0%,12%{transform:scale(1)}22%{transform:scale(.15)}54%{transform:scale(1.09)}66%,100%{transform:scale(1)}}
+@keyframes vscBadge{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2.4px) scale(1.05)}}
+@keyframes vscRise{0%{transform:translateY(0);opacity:0}22%{opacity:1}100%{transform:translateY(-13px);opacity:0}}
+/* `transform-origin:0 0` untuk yang duduk di dalam <g transform="translate(…)">:
+   di SVG, titik acuan bawaan adalah PUSAT KANVAS (transform-box:view-box +
+   50% 50%), bukan pusat benda. Sisanya membawa titik acuannya sendiri di
+   atribut `style`, dihitung dari geometrinya. */
+.vsc-mote,.vsc-rise{transform-origin:0 0}
+.vsc-pop{transform-origin:0 0}
+.vsc-mote{animation:vscFly 3.4s cubic-bezier(.45,0,.5,1) infinite;animation-delay:var(--d,0s)}
+.vsc-bob{animation:vscBob 3.6s ease-in-out infinite}
+.vsc-ring{animation:vscRing 2.8s ease-out infinite}
+.vsc-glow{animation:vscGlow 2.4s ease-in-out infinite}
+.vsc-sway{animation:vscSway 5s ease-in-out infinite}
+.vsc-card{animation:vscRiffle 4.2s cubic-bezier(.4,0,.25,1) infinite;animation-delay:var(--d,0s)}
+.vsc-feed{animation:vscFeed 4.2s cubic-bezier(.35,0,.5,1) infinite}
+.vsc-scan{animation:vscScan 3.6s linear infinite}
+.vsc-tick{animation:vscTick 3.2s ease-in-out infinite;animation-delay:var(--d,0s)}
+.vsc-cap{animation:vscCap 2.8s ease-in-out infinite;animation-delay:var(--d,0s)}
+.vsc-bar{animation:vscBar 2.6s ease-in-out infinite;animation-delay:var(--d,0s)}
+.vsc-leaf{animation:vscLeaf 6s ease-in-out infinite;animation-delay:var(--d,0s)}
+.vsc-pop{animation:vscPop 4.4s ease-in-out infinite}
+.vsc-badge{animation:vscBadge 3.8s ease-in-out infinite}
+.vsc-rise{animation:vscRise 3.2s ease-out infinite;animation-delay:var(--d,0s)}
+
+/* Di bawah 1024px hero SUDAH lebih tinggi dari layar (tercatat di blok media
+   di atas: 953px pada 412×915), jadi adegan dipendekkan — bukan dibuang. */
+@media(max-width:1023px){
+  .vsc{height:150px;margin-bottom:9px}
+  .vcar__head{gap:8px;margin-bottom:2px}
+}
+@media(max-width:620px){
+  .vsc{height:132px}
+}
+/* ── ADEGAN HERO DIRAMPINGKAN DI JARI, BUKAN CUMA DIPENDEKKAN ────────────────
+   Cacat yang ditemukan pembantah ronde 58, dan angkanya telak: `getAnimations()`
+   yang disaring nama `vsc*` menghitung **43 di 1280px dan 43 di 412×915** —
+   selisih NOL. Tinggi adegannya memang turun 120 → 96 → 88 px, tetapi jumlah
+   simpul dan animasinya tidak berkurang sedikit pun.
+
+   ⛔ Dan ambang LEBAR saja tidak menolong pemilik: tablet Samsung Galaxy Tab
+   dipakai mendatar pada ~1280px — lolos setiap ambang "mobile" yang ada di
+   berkas ini, padahal justru perangkat itulah yang gulirnya tersendat. Karena
+   itu pagarnya `pointer:coarse`, sama seperti pagar target-sentuh 44px yang
+   sudah dipakai di glyiv-nav.css. Beranda sebelumnya TIDAK punya satu pun blok
+   `pointer:coarse` (terukur: `grep` → nol kecocokan).
+
+   Yang dibuang lebih dulu adalah yang paling tidak membawa arti: partikel
+   berulang (`.vsc-rise`, `.vsc-leaf` berlebih) dan denyut halus (`.vsc-pop`,
+   `.vsc-badge`). Rangka isometriknya — yang MENJELASKAN langkahnya — tetap
+   utuh dan tetap bergerak, jadi janji "3D yang menjelaskan" tidak dibatalkan. */
+@media (pointer:coarse){
+  .vsc-rise:nth-of-type(n+3),.vsc-leaf:nth-of-type(n+3){display:none}
+  .vsc-pop,.vsc-badge{animation:none}
+}
+@media (max-width:620px){
+  /* Layar sempit: sisakan satu partikel penanda arah saja. */
+  .vsc-rise:nth-of-type(n+2),.vsc-leaf:nth-of-type(n+2){display:none}
+}
+/* Tanpa gerak: tidak ada slide, tidak ada maju otomatis (dijaga juga di
+   hero-langkah.js), tidak ada adegan yang bergerak — tapi KETIGA langkah tetap
+   terjangkau lewat titik, dan tingginya tetap karena slide yang tersembunyi
+   masih memesan selnya (`visibility`, bukan `display:none`). */
+@media(prefers-reduced-motion:reduce){
+  .vcar__slide,.vcar__slide.is-on{transition:none;transform:none}
+  .vcar__slide{visibility:hidden}
+  .vcar__slide.is-on{visibility:visible}
+  .vcar__dot i{transition:none}
+  .vsc *{animation:none}
+  /* ── KARTU ROADMAP — TERLEWAT SAMPAI RONDE 58, DAN INI YANG PALING MAHAL ───
+     Pembantah ronde ini mengukur `document.getAnimations().length` = 10 (bukan
+     0) SESUDAH `prefers-reduced-motion:reduce` dipaksa. Yang lolos: `rvBlink`
+     (titik berkedip), `rvGlow` (kotak token bersinar), dan `rvTravel` (titik
+     berjalan di rel oracle). Ketiganya `infinite`.
+     `grep rvBlink|rvGlow|rvTravel` ke seluruh `dist/` hanya mengembalikan baris
+     definisinya — NOL aturan penawar di mana pun.
+     Ini bukan cacat ronde 58; ia sudah lama ada dan tidak pernah ditanya satu
+     gerbang pun, karena gerbang lama hanya memeriksa ornamen yang BARU dibuat.
+     Pelajarannya: pagar `prefers-reduced-motion` harus disusun dari
+     `document.getAnimations()` — dari apa yang BENAR-BENAR berjalan — bukan
+     dari daftar animasi yang kebetulan kita ingat sudah kita tulis. */
+  .rvai .ln i,.rvw3 .glow,.rvor .dot{animation:none}
+  /* Kartu yang isinya tampil lewat `rvUp .5s forwards`: tanpa animasi ia akan
+     tertinggal pada `opacity:0` dan HILANG. Jadi bukan dimatikan — dijadikan
+     keadaan akhirnya langsung. */
+  .rvai .chip,.rvai .sum{animation:none;opacity:1;transform:none}
+  /* Bilah splash: `visibility:hidden` TIDAK menghentikan animasi CSS menurut
+     spesifikasi — hanya `display:none` yang menghentikannya. Jadi bilah ini
+     terus berdenyut selamanya sesudah tirainya padam. Terukur: ia salah satu
+     dari 10 animasi yang masih berjalan. Penawarnya di sini DAN di lab.css. */
+  .gv-splash__bar i{animation:none}
+}
 </style>
 </head>
 <body>
@@ -147,43 +605,66 @@
 <header class="lnav">
   <div class="lnav__in">
     <a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>
+    <span class="lnav__tag">Your Green Industry Intelligence Platform</span>
     <nav class="lnav__links">
       <div class="ldrop ldrop--mega">
         <button class="ldrop__btn">Ekosistem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
           <div class="ldrop__grp"><h4>Inti platform</h4>
-            <a href="/lab/carbon-intelligence.html"><b>Carbon Intelligence</b><small>Lacak &middot; hitung &middot; offset</small></a>
+            <a href="/lab/green-intelligence.html"><b>Green Intelligence</b><small>Lacak &middot; hitung &middot; offset</small></a>
             <a href="/lab/tree.html"><b>Glyiv Aset</b><small>Pohon &amp; lahan (RWA)</small></a>
             <a href="/lab/apps/kebun/"><b>Kebun Virtual</b><small>Rawat pohonmu, panen imbalan</small></a></div>
           <div class="ldrop__grp"><h4>Ekonomi hijau</h4>
             <a href="/lab/ekosistem/pasar.html"><b>Glyiv Pasar</b><small>Marketplace</small></a><a href="/lab/ekosistem/pangan.html"><b>Glyiv Pangan</b><small>Hub pangan berdata karbon</small></a>
-            <a href="/lab/ekosistem/dompet.html"><b>Glyiv Dompet</b><small>Carbon wallet</small></a>
             <a href="/lab/ekosistem/dana.html"><b>Glyiv Dana</b><small>Investasi hijau</small></a>
-            <a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Sampah jadi imbalan</small></a></div>
+            <a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Setor di titik komunitas</small></a><a href="/lab/ekosistem/recycle.html"><b>Glyiv Recycle</b><small>Komposter &amp; jemput terjadwal</small></a></div>
           <div class="ldrop__grp"><h4>Gaya hidup</h4>
-            <a href="/lab/ekosistem/saku.html"><b>Glyiv Saku</b><small>Aplikasi harian &middot; sudah jalan</small></a>
+            <a href="/lab/ekosistem/saku.html"><b>Glyiv Pocket</b><small>Scan &amp; catat harian &middot; sudah jalan</small></a>
             <a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a>
             <a href="/lab/ekosistem/sehat.html"><b>Glyiv Sehat</b><small>Habit sehat &amp; hijau</small></a>
             <a href="/lab/ekosistem/belajar.html"><b>Glyiv Belajar</b><small>Literasi &amp; game</small></a></div>
           <div class="ldrop__grp"><h4>Riset &amp; alat</h4>
             <a href="/lab/ekosistem/lab-rnd.html"><b>Glyiv Lab</b><small>Material rendah-karbon</small></a>
-            <a href="/lab/apps/scanner/"><b>Scan Karbon</b><small>Foto item &rarr; estimasi</small></a>
-            <a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a></div>
+            <a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a>
+            <a href="/download.html"><b>Unduh Aplikasi</b><small>APK Android &middot; di luar Play Store</small></a></div>
           <div class="ldrop__mega-foot"><span>Business tree tumbuh bertahap &middot; Live &amp; Roadmap</span><a href="/lab/apps/">Lihat semua aplikasi &rarr;</a></div>
         </div>
       </div>
+      <!-- ⛔ DROPDOWN "Solusi" DIKEMBALIKAN KE BERANDA — ronde 59.
+           Terukur sub-agen pembantah: 25 halaman ber-.lnav, 24 punya menu ini,
+           dan yang SATU tanpa menu adalah index.html — halaman pertama yang
+           dilihat pengunjung. Seluruh menu industri (14 halaman /lab/industri/*)
+           tidak terjangkau dari beranda, lalu MUNCUL begitu pengunjung pindah
+           ke halaman lain: navigasi yang bertambah sendiri saat berpindah
+           halaman terbaca sebagai situs yang rusak.
+           Blok ini disalin apa adanya dari dist/team.html supaya isinya tidak
+           bisa menyimpang; kalau menu industri berubah, ubah di SEMUA halaman
+           lewat skrip, jangan tangan. -->
+      <div class="ldrop">
+        <button class="ldrop__btn">Solusi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="ldrop__menu">
+          <div class="ldrop__grp"><h4>Keuangan</h4><a href="/lab/industri/bank-lembaga-keuangan.html">Bank &amp; Lembaga Keuangan</a><a href="/lab/industri/investor-aset-manajemen.html">Investor &amp; Aset Manajemen</a></div>
+          <div class="ldrop__grp"><h4>Industri Berat</h4><a href="/lab/industri/tambang-dan-logam.html">Tambang &amp; Logam</a><a href="/lab/industri/konstruksi-dan-semen.html">Konstruksi &amp; Semen</a><a href="/lab/industri/manufaktur.html">Manufaktur</a></div>
+          <div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a><a href="/lab/industri/retailer.html">Retailer (Toko/UMKM)</a></div>
+          <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a></div>
+        </div>
+      </div>
       <a href="/lab/kabar/index.html">Kabar</a>
-      <a href="/lab/landing/index.html" class="lnav__admin">Landing</a>
+      <a href="/download.html">Store</a><a href="/lab/landing/index.html" class="lnav__admin">Landing</a>
       <div class="ldrop ldrop--r">
         <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
           <div class="ldrop__grp"><h4>Glyiv</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim &amp; Manifesto</a><a href="/lab/kabar/index.html">Kabar</a></div>
-          <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
+          <!-- Pintu masuk PT WOSU di laci ini DICABUT atas permintaan pemilik.
+               Halaman /wosu tetap ada, tetap bisa dibuka, dan tetap tertaut dari KAKI
+               halaman; yang ditutup hanya butir navbar. Yang dibuang satu grup utuh
+               (judul laci + tautannya), bukan hanya tautannya: kepala laci tanpa isi
+               tidak menuju ke mana pun. Jangan dikembalikan tanpa perintah pemilik. -->
         </div>
       </div>
     </nav>
     <span class="lnav__sp"></span>
-    <a class="lnav__cta" href="/#gabung">Gabung</a>
+    <a class="lnav__cta" href="/auth">Login</a>
     <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
 </header>
@@ -194,111 +675,360 @@
     <video autoplay muted loop playsinline preload="metadata" poster="/lab/img/hero-poster.webp">
       <source src="/lab/video/hero.mp4" type="video/mp4">
     </video>
-    <img src="/lab/img/hero-poster.webp" alt="" style="display:none">
+    <!-- Dulu ada satu tag gambar kembar hero-poster.webp ber-style display:none di
+         sini. Dihapus ronde 45: display:none TIDAK mencegah unduhan — 130 KB turun
+         dengan prioritas tinggi di setiap muat beranda lalu tidak pernah tergambar
+         satu piksel pun. Berkas yang sama sudah dipakai sebagai poster= video di
+         atas, jadi tag itu murni ganda. Tidak ada animasi yang hilang: heroKen
+         tetap berjalan pada elemen video, satu-satunya yang benar-benar terlihat.
+         (Ditulis tanpa sintaks tag: satu tag di dalam komentar ikut terhitung oleh
+         pemindai jumlah gambar di verify-site.cjs dan oleh porter.) -->
   </div>
   <div class="vhero__scrim"></div>
-  <div class="vhero__in">
-    <div class="vhero__eyebrow" data-reveal><span class="ln"></span> Building the Digital Ecosystem for Sustainable Living</div>
-    <h1 class="lh1" data-reveal data-d="1" data-i18n="hero.h1">Hidup hijau, <span class="lserif-accent">imbalan nyata.</span></h1>
-    <p class="vhero__lead llead" data-reveal data-d="2" data-i18n="hero.lead">Setiap struk, perjalanan, dan kantong sampah punya jejak karbon. Glyiv membacanya otomatis dari data yang sudah Anda punya — lalu mengubahnya jadi <b>imbalan nyata</b>.</p>
+  <!-- ⛔ `data-i18n` SENGAJA TIDAK DIPAKAI LAGI DI HERO — dan itu keputusan i18n,
+       bukan kelalaian.
+       Elemen ber-`data-i18n` adalah MILIK `assets/js/site-lang.js`: mesin kamus
+       (`i18n.js`) melewatinya (`MILIK_LAIN`), dan terjemahannya diambil dari
+       peta `I18N` yang ditulis tangan di dalam berkas itu — hanya empat kunci:
+       hero.h1, hero.lead, hero.cta1, hero.cta2. Kalau narasi di bawah tetap
+       memakai kunci-kunci itu, halaman EN/AR akan menampilkan NARASI LAMA
+       ("Live green, real rewards.") sementara halaman ID menampilkan yang baru —
+       dua cerita berbeda di satu situs.
+       Karena itu hero kembali ke SATU mekanisme yang sama dengan 50+ halaman
+       lain: simpul teks biasa, diterjemahkan kamus `i18n-en.js` / `i18n-ar.js`
+       dengan teks Indonesia sebagai kunci.
+       ⚠︎ KONSEKUENSI YANG HARUS DIKERJAKAN AGEN UTAMA: kalimat baru di bawah
+       belum ada di kamus. Rantainya sudah ada, jangan bikin yang kedua:
+         node scripts/panen-bahasa.cjs → bagi-bahasa → gabung-bahasa.cjs
+       TIGA potong teks sengaja DIPERTAHANKAN kata per kata karena kuncinya sudah
+       ada di kamus, jadi ketiganya ikut berbahasa hari ini juga: "Jelajahi
+       Ekosistem", "Gabung Komunitas", dan label "Fondasi terbuka:" (dengan titik
+       dua — itu bagian dari kuncinya). TERUKUR: 5 dari 29 potong teks hero+chip
+       punya entri EN; 24 sisanya belum.
+       ⚠︎ Peta `I18N` di site-lang.js kini tidak menunjuk elemen mana pun di
+       beranda; ia sisa yang perlu dibuang di ronde yang menyentuh berkas itu. -->
+  <div class="vhero__in vhero__in--split">
+   <div class="vhero__col">
+    <!-- MOTO, sekarang di hero.
+         ⚠︎ DICATAT APA ADANYA supaya ronde berikutnya tidak mencari yang tidak
+         ada: di markup navbar berkas ini (`header.lnav`) TIDAK ADA teks moto —
+         yang ada cuma lambang + nama. Moto lama hidup di tiga tempat lain, dan
+         semuanya sudah diperiksa: `brand.tagline` ("Platform Ekonomi Hijau",
+         dipakai `src/pages/AuthPage.tsx` & `src/pages/HomePage.tsx`), pita
+         splash `.gv-splash__tag`, dan kalimat aspirasi perusahaan di footer.
+         Yang DIGANTI di sini hanya garis mata hero, yang dulu memuat kalimat
+         aspirasi itu — jadi kalimat tersebut kini hidup SATU kali saja, di
+         footer, sebagai suara perusahaan. Ketiga tempat lain ada di luar berkas
+         ini; lihat laporan ronde. -->
+    <div class="vhero__eyebrow" data-reveal><span class="ln"></span> Your Green Industry Intelligence Platform</div>
+    <!-- Judul dipecah jadi DUA span yang masing-masing kalimat utuh, dan induknya
+         tidak punya simpul teks langsung. Itu bentuk yang diminta
+         `scripts/audit-kalimat-terpecah.cjs`: aksen mint tetap ada, tapi tidak
+         ada kalimat yang dibelah jadi tiga kunci kamus. -->
+    <h1 class="lh1" data-reveal data-d="1"><span>Kecerdasan hijau untuk industri.</span> <span class="lserif-accent">Reward nyata untuk semua.</span></h1>
+    <p class="vhero__lead llead" data-reveal data-d="2">Green di sini berarti terlacak: belanja harian, perjalanan, dan bahan baku dibaca jadi estimasi karbon dari aktivitas nyata — lalu jadi reward untuk pilihan yang berkesinambungan.</p>
+    <ul class="vhero__who" data-reveal data-d="2">
+      <li><b>Untuk individu</b><span>Catat belanja dan kebiasaan harian, lihat jejaknya, kumpulkan reward-nya.</span></li>
+      <li><b>Untuk perusahaan</b><span>Jejak terlacak dari aktivitas nyata di titik bayar, dapur produksi, dan rantai pasok.</span></li>
+    </ul>
     <div class="vhero__cta" data-reveal data-d="3">
-      <a class="lbtn lbtn--solid" href="#ekosistem" data-magnetic><span data-i18n="hero.cta1">Jelajahi Ekosistem</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="lbtn lbtn--glass" href="#gabung" data-i18n="hero.cta2">Gabung Komunitas</a>
+      <a class="lbtn lbtn--solid" href="#ekosistem" data-magnetic><span>Jelajahi Ekosistem</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="lbtn lbtn--glass" href="#gabung">Gabung Komunitas</a>
     </div>
-    <div class="vhero__trust" data-reveal data-d="4"><b>Fondasi terbuka:</b> GHG Protocol &middot; ISO 14064 &middot; ecoinvent &middot; Poore &amp; Nemecek 2018 &middot; EXIOBASE &middot; ERC-3643</div>
+    <!-- Dua APK yang benar-benar bisa diunduh hari ini. TERUKUR di
+         https://glyiv.io: /download/Glyiv-Pocket.apk → HTTP 200 (33.490 byte),
+         /download/Glyiv-Green-Assets.apk → HTTP 200 (29.395 byte). Nama berkas &
+         nama produk berbahasa Inggris, jadi tidak butuh entri kamus. -->
+    <div class="vhero__apk" data-reveal data-d="4">
+      <b>Unduh APK Android</b>
+      <a class="vapk" href="/download/Glyiv-Pocket.apk" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Glyiv Pocket</a>
+      <a class="vapk" href="/download/Glyiv-Green-Assets.apk" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>Glyiv Green Assets</a>
+    </div>
+   </div>
+
+   <!-- KOLOM KANAN — LANGKAHNYA. Nomor & nama langkah SAMA PERSIS dengan seksi
+        #cara di bawah — 01 Tangkap · 02 Process · 03 Reward — dan tautannya
+        mengantar ke sana. Ini ringkasan sistem yang sudah ada, bukan sistem
+        kedua.
+        ⚠︎ RONDE INI: "Cerna" → "Process" dan "Beri imbalan" → "Reward" atas
+        pilihan kata pemilik ("ini mending ganti jadi 'Process', ingat pemilihan
+        kata itu penting"). Diganti di KEDUA tempat sekaligus supaya situs tidak
+        pernah menyebut satu langkah dengan dua nama; kunci kamus EN/AR untuk
+        "03 · Beri imbalan" ikut diganti di i18n-en.js & i18n-ar.js. -->
+   <aside class="vhero__side" data-reveal data-d="3" aria-label="Langkah mendapatkan reward">
+     <div class="vside__k">Langkahnya</div>
+     <p class="vside__t">Tiga langkah, dan hanya langkah pertama yang butuh dunia nyata.</p>
+     <!-- CAROUSEL LANGKAH — vertikal, satu langkah pada satu waktu.
+          Tingginya TETAP karena ketiga slide berbagi SATU sel kisi
+          (grid-area:1/1): tinggi wadah = slide tertinggi, jadi teks yang
+          panjangnya berbeda tidak pernah menggeser tata letak. Adegan
+          hanya beranimasi saat slide-nya aktif (animation-play-state).
+          Perilakunya di /assets/js/hero-langkah.js. -->
+     <div class="vcar" data-jeda="5000" aria-roledescription="carousel" aria-label="Tiga langkah mendapatkan reward">
+       <div class="vcar__vp" aria-live="polite">
+         <div class="vcar__slide is-on">
+           <svg class="vsc" viewBox="27 2 166 104" aria-hidden="true" focusable="false"><polygon points="33,62 110,100.5 110,104.1 33,65.6" fill="#0f2a1e"/><polygon points="187,62 110,100.5 110,104.1 187,65.6" fill="#0a1d14"/><polygon points="110,23.5 187,62 110,100.5 33,62" fill="#153a2b" stroke="rgba(138,255,193,.28)" stroke-width=".8" stroke-linejoin="round"/><line x1="129.3" y1="33.1" x2="52.3" y2="71.6" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="90.8" y1="33.1" x2="167.8" y2="71.6" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="148.5" y1="42.8" x2="71.5" y2="81.3" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="71.5" y1="42.8" x2="148.5" y2="81.3" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="167.8" y1="52.4" x2="90.8" y2="90.9" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="52.3" y1="52.4" x2="129.3" y2="90.9" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><polygon points="77,49.9 90.2,56.5 77,63.1 63.8,56.5" fill="rgba(3,14,9,.42)"/><polygon points="63.8,46.3 77,52.9 77,63.1 63.8,56.5" fill="#123526"/><polygon points="90.2,46.3 77,52.9 77,63.1 90.2,56.5" fill="#0b2317"/><polygon points="77,39.7 90.2,46.3 77,52.9 63.8,46.3" fill="#1c4b37" stroke="rgba(138,255,193,.40)" stroke-width=".7" stroke-linejoin="round"/><polygon points="77,41.6 86.2,46.2 77,50.8 67.8,46.2" fill="#071a11"/><polygon points="73,40.8 77.4,43 77.4,47.8 73,45.6" fill="#b0894f"/><polygon points="81.8,40.8 77.4,43 77.4,47.8 81.8,45.6" fill="#7c6035"/><polygon points="77.4,38.6 81.8,40.8 77.4,43 73,40.8" fill="#d3ab6a"/><polygon points="75,45 78.8,46.8 78.8,50.2 75,48.3" fill="#1c4c34"/><polygon points="82.5,45 78.8,46.8 78.8,50.2 82.5,48.3" fill="#123322"/><polygon points="78.8,43.1 82.5,45 78.8,46.8 75,45" fill="#2b6b4c"/><path d="M67.1,46.3 Q77,29.3 86.9,46.3" fill="none" stroke="rgba(138,255,193,.80)" stroke-width="1.7" stroke-linecap="round"/><polygon points="115.5,42.8 128.2,49.1 115.5,55.4 102.9,49.1" fill="rgba(3,14,9,.42)"/><polygon points="102.9,38.9 115.5,45.2 115.5,55.4 102.9,49.1" fill="#123526"/><polygon points="128.2,38.9 115.5,45.2 115.5,55.4 128.2,49.1" fill="#0b2317"/><polygon points="115.5,32.6 128.2,38.9 115.5,45.2 102.9,38.9" fill="#1c4b37" stroke="rgba(138,255,193,.40)" stroke-width=".7" stroke-linejoin="round"/><polygon class="vsc-glow" points="115.5,34.3 124.2,38.6 115.5,43 106.8,38.6" fill="#8affc1"/><polygon points="115.5,36.4 119.8,38.5 115.5,40.7 111.2,38.5" fill="#0b241a"/><g class="vsc-sway" style="transform-origin:114.5px 31px"><polygon points="122,28.5 124.2,29.6 124.2,8.6 122,7.5" fill="#8fae9d"/><path d="M109,33 L122,28.5 L122,7.5 L119.4,8.8 L116.8,7 L114.2,9.6 L111.6,7.8 L109,10.4 Z" fill="#eefff5"/><path d="M110.6,25.8 L119.9,22.1 M110.6,20.8 L119.9,17.1 M110.6,15.8 L117.3,13.1" stroke="#1F7A6B" stroke-width="1.3" stroke-linecap="round" opacity=".8"/></g><polygon points="132,66.4 145.2,73 132,79.6 118.8,73" fill="rgba(3,14,9,.42)"/><g class="vsc-bob"><polygon points="118.8,52 132,58.6 132,73 118.8,66.4" fill="#41cf8c"/><polygon points="145.2,52 132,58.6 132,73 145.2,66.4" fill="#1f8a5c"/><polygon points="132,45.4 145.2,52 132,58.6 118.8,52" fill="#8affc1"/><polygon class="vsc-ring" style="transform-origin:132px 51.9px" points="132,45.3 145.2,51.9 132,58.5 118.8,51.9" fill="none" stroke="#8affc1" stroke-width="1.2"/></g><g transform="translate(72,44)"><polygon class="vsc-mote" style="--dx:60px;--dy:8px;--d:0s" points="0,-2.3 4.6,0 0,2.3 -4.6,0" fill="#8affc1"/></g><g transform="translate(85,50)"><polygon class="vsc-mote" style="--dx:47px;--dy:2px;--d:0.55s" points="0,-2.3 4.6,0 0,2.3 -4.6,0" fill="#8affc1"/></g><g transform="translate(113,22)"><polygon class="vsc-mote" style="--dx:19px;--dy:30px;--d:1.1s" points="0,-2.3 4.6,0 0,2.3 -4.6,0" fill="#8affc1"/></g><g transform="translate(118,13)"><polygon class="vsc-mote" style="--dx:14px;--dy:39px;--d:1.65s" points="0,-2.3 4.6,0 0,2.3 -4.6,0" fill="#8affc1"/></g><g transform="translate(116,38)"><polygon class="vsc-mote" style="--dx:16px;--dy:14px;--d:2.2s" points="0,-2.3 4.6,0 0,2.3 -4.6,0" fill="#8affc1"/></g><g transform="translate(101,42)"><polygon class="vsc-mote" style="--dx:31px;--dy:10px;--d:2.75s" points="0,-2.3 4.6,0 0,2.3 -4.6,0" fill="#8affc1"/></g></svg>
+           <div class="vcar__head"><span class="vstep__n">01</span><span class="vstep__t">Tangkap</span></div>
+           <p class="vstep__d">Belanja, perjalanan, dan transaksi outlet masuk sebagai data.</p>
+         </div>
+         <div class="vcar__slide" aria-hidden="true">
+           <svg class="vsc" viewBox="27 2 166 104" aria-hidden="true" focusable="false"><polygon points="33,62 110,100.5 110,104.1 33,65.6" fill="#0f2a1e"/><polygon points="187,62 110,100.5 110,104.1 187,65.6" fill="#0a1d14"/><polygon points="110,23.5 187,62 110,100.5 33,62" fill="#153a2b" stroke="rgba(138,255,193,.28)" stroke-width=".8" stroke-linejoin="round"/><line x1="129.3" y1="33.1" x2="52.3" y2="71.6" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="90.8" y1="33.1" x2="167.8" y2="71.6" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="148.5" y1="42.8" x2="71.5" y2="81.3" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="71.5" y1="42.8" x2="148.5" y2="81.3" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="167.8" y1="52.4" x2="90.8" y2="90.9" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="52.3" y1="52.4" x2="129.3" y2="90.9" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><g class="vsc-feed"><polygon points="62.7,34.9 72.6,39.8 72.6,50.6 62.7,45.7" fill="#41cf8c"/><polygon points="82.5,34.9 72.6,39.8 72.6,50.6 82.5,45.7" fill="#1f8a5c"/><polygon points="72.6,29.9 82.5,34.9 72.6,39.8 62.7,34.9" fill="#8affc1"/></g><polygon points="100.1,46.1 125.4,58.7 100.1,71.4 74.8,58.7" fill="rgba(3,14,9,.42)"/><g class="vsc-card" style="--d:0s"><polygon points="74.8,55.6 100.1,68.2 100.1,70.1 74.8,57.5" fill="#123526"/><polygon points="125.4,55.6 100.1,68.2 100.1,70.1 125.4,57.5" fill="#0b2317"/><polygon points="100.1,42.9 125.4,55.6 100.1,68.2 74.8,55.6" fill="#1c4b37" stroke="rgba(138,255,193,.40)" stroke-width=".7" stroke-linejoin="round"/><polygon points="100.3,46 111.1,51.4 100.3,56.8 89.5,51.4" fill="rgba(138,255,193,.24)"/><line x1="113.3" y1="53.8" x2="113.3" y2="58.8" stroke="rgba(138,255,193,.80)" stroke-width=".9"/></g><g class="vsc-card" style="--d:0.2s"><polygon points="74.8,51.5 100.1,64.1 100.1,66.1 74.8,53.4" fill="#123526"/><polygon points="125.4,51.5 100.1,64.1 100.1,66.1 125.4,53.4" fill="#0b2317"/><polygon points="100.1,38.8 125.4,51.5 100.1,64.1 74.8,51.5" fill="#1c4b37" stroke="rgba(138,255,193,.40)" stroke-width=".7" stroke-linejoin="round"/><polygon points="100.3,41.9 111.1,47.3 100.3,52.7 89.5,47.3" fill="rgba(138,255,193,.24)"/><line x1="113.3" y1="49.7" x2="113.3" y2="54.7" stroke="rgba(138,255,193,.80)" stroke-width=".9"/></g><g class="vsc-card" style="--d:0.4s"><polygon points="74.8,47.4 100.1,60.1 100.1,62 74.8,49.3" fill="#123526"/><polygon points="125.4,47.4 100.1,60.1 100.1,62 125.4,49.3" fill="#0b2317"/><polygon points="100.1,34.8 125.4,47.4 100.1,60.1 74.8,47.4" fill="#1c4b37" stroke="rgba(138,255,193,.40)" stroke-width=".7" stroke-linejoin="round"/><polygon points="100.3,37.8 111.1,43.2 100.3,48.6 89.5,43.2" fill="rgba(138,255,193,.24)"/><line x1="113.3" y1="45.7" x2="113.3" y2="50.6" stroke="rgba(138,255,193,.80)" stroke-width=".9"/></g><g class="vsc-card" style="--d:0.6s"><polygon points="74.8,43.3 100.1,56 100.1,57.9 74.8,45.3" fill="#123526"/><polygon points="125.4,43.3 100.1,56 100.1,57.9 125.4,45.3" fill="#0b2317"/><polygon points="100.1,30.7 125.4,43.3 100.1,56 74.8,43.3" fill="#1c4b37" stroke="rgba(138,255,193,.40)" stroke-width=".7" stroke-linejoin="round"/><polygon points="100.3,33.8 111.1,39.2 100.3,44.5 89.5,39.2" fill="rgba(138,255,193,.24)"/><line x1="113.3" y1="41.6" x2="113.3" y2="46.5" stroke="rgba(138,255,193,.80)" stroke-width=".9"/></g><g class="vsc-card" style="--d:0.8s"><polygon points="74.8,39.3 100.1,51.9 100.1,53.8 74.8,41.2" fill="#123526"/><polygon points="125.4,39.3 100.1,51.9 100.1,53.8 125.4,41.2" fill="#0b2317"/><polygon points="100.1,26.6 125.4,39.3 100.1,51.9 74.8,39.3" fill="#245f45" stroke="rgba(138,255,193,.40)" stroke-width=".7" stroke-linejoin="round"/><polygon points="100.3,29.7 111.1,35.1 100.3,40.5 89.5,35.1" fill="rgba(138,255,193,.24)"/><line x1="113.3" y1="37.5" x2="113.3" y2="42.4" stroke="rgba(138,255,193,.80)" stroke-width=".9"/></g><polygon class="vsc-scan" points="100.1,42.7 125.4,55.3 100.1,68 74.8,55.3" fill="none" stroke="#8affc1" stroke-width="1.2"/><polygon points="132,38.1 161.2,52.6 161.2,70.6 132,56.1" fill="rgba(138,255,193,.10)" stroke="rgba(138,255,193,.38)" stroke-width=".8"/><line x1="134.2" y1="53" x2="159" y2="65.3" stroke="rgba(138,255,193,.5)" stroke-width="1"/><line class="vsc-tick" style="--d:0s" x1="135.3" y1="53.5" x2="135.3" y2="49.9" stroke="#8affc1" stroke-width="2" stroke-linecap="round"/><line class="vsc-tick" style="--d:0.2s" x1="139.2" y1="55.4" x2="139.2" y2="51.8" stroke="#8affc1" stroke-width="2" stroke-linecap="round"/><line class="vsc-tick" style="--d:0.3s" x1="143" y1="57.4" x2="143" y2="53.8" stroke="#8affc1" stroke-width="2" stroke-linecap="round"/><line class="vsc-tick" style="--d:0.5s" x1="146.9" y1="59.3" x2="146.9" y2="55.7" stroke="#8affc1" stroke-width="2" stroke-linecap="round"/><line class="vsc-tick" style="--d:0.6s" x1="150.7" y1="61.2" x2="150.7" y2="57.6" stroke="#8affc1" stroke-width="2" stroke-linecap="round"/><line class="vsc-tick" style="--d:0.8s" x1="154.6" y1="63.1" x2="154.6" y2="59.5" stroke="#8affc1" stroke-width="2" stroke-linecap="round"/><line class="vsc-tick" style="--d:1s" x1="158.4" y1="65.1" x2="158.4" y2="61.5" stroke="#8affc1" stroke-width="2" stroke-linecap="round"/><line class="vsc-cap" style="--d:0s;transform-origin:135.3px 56.1px" x1="135.3" y1="56.1" x2="135.3" y2="47" stroke="#d3ab6a" stroke-width="2.2" stroke-linecap="round"/><line class="vsc-cap" style="--d:0.9s;transform-origin:158.4px 67.7px" x1="158.4" y1="67.7" x2="158.4" y2="58.6" stroke="#d3ab6a" stroke-width="2.2" stroke-linecap="round"/><line class="vsc-bar" style="--d:0s;transform-origin:140.8px 49.1px" x1="140.8" y1="49.1" x2="140.8" y2="44" stroke="#41cf8c" stroke-width="3" stroke-linecap="round"/><line class="vsc-bar" style="--d:0.4s;transform-origin:146.9px 52.1px" x1="146.9" y1="52.1" x2="146.9" y2="43.9" stroke="#41cf8c" stroke-width="3" stroke-linecap="round"/><line class="vsc-bar" style="--d:0.7s;transform-origin:152.9px 55.1px" x1="152.9" y1="55.1" x2="152.9" y2="49.1" stroke="#41cf8c" stroke-width="3" stroke-linecap="round"/></svg>
+           <div class="vcar__head"><span class="vstep__n">02</span><span class="vstep__t">Process</span></div>
+           <p class="vstep__d">Pustaka faktor emisi mengubahnya jadi estimasi karbon berentang.</p>
+         </div>
+         <div class="vcar__slide" aria-hidden="true">
+           <svg class="vsc" viewBox="27 2 166 104" aria-hidden="true" focusable="false"><polygon points="33,62 110,100.5 110,104.1 33,65.6" fill="#0f2a1e"/><polygon points="187,62 110,100.5 110,104.1 187,65.6" fill="#0a1d14"/><polygon points="110,23.5 187,62 110,100.5 33,62" fill="#153a2b" stroke="rgba(138,255,193,.28)" stroke-width=".8" stroke-linejoin="round"/><line x1="129.3" y1="33.1" x2="52.3" y2="71.6" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="90.8" y1="33.1" x2="167.8" y2="71.6" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="148.5" y1="42.8" x2="71.5" y2="81.3" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="71.5" y1="42.8" x2="148.5" y2="81.3" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="167.8" y1="52.4" x2="90.8" y2="90.9" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><line x1="52.3" y1="52.4" x2="129.3" y2="90.9" stroke="rgba(138,255,193,.13)" stroke-width=".6"/><polygon points="86.9,42.8 118.8,58.7 90.2,73 58.3,57.1" fill="#0e2519" stroke="rgba(138,255,193,.34)" stroke-width=".8" stroke-dasharray="3.4 2.6"/><polygon points="86.9,46.1 112.2,58.7 90.2,69.7 64.9,57.1" fill="#0a1d13"/><polygon points="89.1,54.6 93.9,57.1 89.1,59.5 84.3,57.1" fill="rgba(3,14,9,.42)"/><polygon points="85.6,41.4 89.1,43.2 89.1,58.8 85.6,57.1" fill="#6d5231"/><polygon points="92.6,41.4 89.1,43.2 89.1,58.8 92.6,57.1" fill="#4a3821"/><polygon points="89.1,39.7 92.6,41.4 89.1,43.2 85.6,41.4" fill="#8a6a3f"/><g class="vsc-leaf" style="--d:0s;transform-origin:89.1px 57.1px"><polygon points="75.4,44 89.1,47.9 89.1,50.8 75.4,46.9" fill="#22935f"/><polygon points="89.1,47.9 102.8,44 102.8,46.9 89.1,50.8" fill="#136243"/><polygon points="89.1,47.9 75.4,44 75.4,36 89.1,32.1 102.8,36 102.8,44" fill="#4fd58e" stroke="rgba(138,255,193,.40)" stroke-width=".8" stroke-linejoin="round"/></g><g class="vsc-leaf" style="--d:.3s;transform-origin:89.1px 57.1px"><polygon points="78.6,38.7 89.1,41.8 89.1,44.4 78.6,41.3" fill="#22935f"/><polygon points="89.1,41.8 99.6,38.7 99.6,41.3 89.1,44.4" fill="#136243"/><polygon points="89.1,41.8 78.6,38.7 78.6,32.7 89.1,29.6 99.6,32.7 99.6,38.7" fill="#4fd58e" stroke="rgba(138,255,193,.40)" stroke-width=".8" stroke-linejoin="round"/></g><g class="vsc-leaf" style="--d:.6s;transform-origin:89.1px 57.1px"><polygon points="82.4,34 89.1,36 89.1,38.2 82.4,36.2" fill="#41cf8c"/><polygon points="89.1,36 95.8,34 95.8,36.2 89.1,38.2" fill="#1f8a5c"/><polygon points="89.1,36 82.4,34 82.4,30.1 89.1,28.2 95.8,30.1 95.8,34" fill="#8affc1"/></g><g transform="translate(91.3,66.4)"><g class="vsc-pop"><path d="M0,0 L0,-12" stroke="#41cf8c" stroke-width="1.8" stroke-linecap="round"/><path d="M0,-7.5 C-6,-10 -7.5,-15 -1,-14 Z" fill="#4fd58e"/><path d="M0,-10.5 C6,-13 7.5,-18 1,-17 Z" fill="#8affc1"/></g></g><g transform="translate(74,10)"><polygon class="vsc-mote" style="--dx:6px;--dy:42px;--d:0s" points="0,-1.9 3.8,0 0,1.9 -3.8,0" fill="#8affc1"/></g><g transform="translate(94,6)"><polygon class="vsc-mote" style="--dx:-12px;--dy:48px;--d:1.3s" points="0,-1.9 3.8,0 0,1.9 -3.8,0" fill="#8affc1"/></g><g transform="translate(60,16)"><polygon class="vsc-mote" style="--dx:18px;--dy:38px;--d:2.5s" points="0,-1.9 3.8,0 0,1.9 -3.8,0" fill="#8affc1"/></g><polygon points="132,67.5 147.4,75.2 132,82.9 116.6,75.2" fill="rgba(3,14,9,.42)"/><polygon points="116.6,71.6 132,79.3 132,82.9 116.6,75.2" fill="#123526"/><polygon points="147.4,71.6 132,79.3 132,82.9 147.4,75.2" fill="#0b2317"/><polygon points="132,63.9 147.4,71.6 132,79.3 116.6,71.6" fill="#1c4b37" stroke="rgba(138,255,193,.40)" stroke-width=".7" stroke-linejoin="round"/><polygon points="132,66.9 141.2,71.5 132,76.1 122.8,71.5" fill="rgba(3,14,9,.52)"/><g class="vsc-badge" style="transform-origin:132px 62.5px"><polygon points="120.4,65.8 132,69.2 132,72.6 120.4,69.2" fill="#41cf8c"/><polygon points="132,69.2 143.6,65.8 143.6,69.2 132,72.6" fill="#1f8a5c"/><polygon points="132,69.2 120.4,65.8 120.4,59.1 132,55.8 143.6,59.1 143.6,65.8" fill="#8affc1"/><polygon points="132,67.2 123.6,64.8 123.6,59.9 132,57.5 140.4,59.9 140.4,64.8" fill="none" stroke="#b0894f" stroke-width="1.1" stroke-linejoin="round"/><path d="M132,65.9 C125.6,63.9 126.4,58.5 132,57.3 C137.6,58.5 138.4,63.9 132,65.9 Z" fill="#0F2E22"/><path d="M132,65.1 L132,58.1" stroke="#8affc1" stroke-width=".9" stroke-linecap="round"/></g><g transform="translate(115,59.5)"><polygon class="vsc-tick" style="--d:0s" points="0,-1.8 3.6,0 0,1.8 -3.6,0" fill="#8affc1"/></g><g transform="translate(149,59.5)"><polygon class="vsc-tick" style="--d:0.3s" points="0,-1.8 3.6,0 0,1.8 -3.6,0" fill="#8affc1"/></g><g transform="translate(119,70.5)"><polygon class="vsc-tick" style="--d:0.6s" points="0,-1.8 3.6,0 0,1.8 -3.6,0" fill="#8affc1"/></g><g transform="translate(145,70.5)"><polygon class="vsc-tick" style="--d:0.9s" points="0,-1.8 3.6,0 0,1.8 -3.6,0" fill="#8affc1"/></g><g transform="translate(126,53.5)"><polygon class="vsc-rise" style="--d:.2s" points="0,-1.6 3.2,0 0,1.6 -3.2,0" fill="#8affc1"/></g><g transform="translate(139,54.5)"><polygon class="vsc-rise" style="--d:1.4s" points="0,-1.6 3.2,0 0,1.6 -3.2,0" fill="#8affc1"/></g></svg>
+           <div class="vcar__head"><span class="vstep__n">03</span><span class="vstep__t">Reward</span></div>
+           <p class="vstep__d">Kurangi dulu, lalu salurkan kontribusi ke aset hijau nyata.</p>
+         </div>
+       </div>
+       <div class="vside__foot">
+         <div class="vcar__dots">
+           <button class="vcar__dot" type="button" aria-label="Langkah 01 — Tangkap" aria-current="true"><i></i></button>
+           <button class="vcar__dot" type="button" aria-label="Langkah 02 — Process" aria-current="false"><i></i></button>
+           <button class="vcar__dot" type="button" aria-label="Langkah 03 — Reward" aria-current="false"><i></i></button>
+         </div>
+         <a class="vside__more" href="#cara">Lihat langkah lengkapnya &rarr;</a>
+       </div>
+     </div>
+     <!-- ⛔ PITA "Fondasi terbuka" DICABUT DARI HERO — permintaan pemilik ronde 59:
+          *"saya mau open foundationnya itu hilangkan saja yang di hero, lalu
+          besarkan animasi SVG kita. Kita highlight itu lebih banyak."*
+          Daftar standarnya TIDAK hilang dari situs: ia tetap hidup di seksi #cara
+          dan di kaki halaman — tempat pembaca yang memang mencarinya melihatnya.
+          Yang dibuang hanya kemunculannya di hero, yang memakan tinggi kartu
+          tanpa terbaca pada detik pertama. Ruang yang dibebaskan diberikan ke
+          adegan SVG (lihat .vsc di lembar gaya atas). -->
+   </aside>
   </div>
   <div class="vhero__scroll">scroll <i></i></div>
 </section>
 
-<!-- WHY (layperson) -->
-<section class="lsec" id="kenapa"><div class="lwrap">
+<!-- WHY (ekonomi hijau) -->
+<section class="lsec lsec--n1" id="kenapa">
+  <!-- ORNAMEN 1 · CINCIN (ronde 59). Yang berdiri di sini sebelumnya adalah
+       lapisan kontur `inset:0` — terukur MENUTUP 100 % luas seksi, dan itulah
+       yang pemilik sebut "ornamennya terlalu besar". Gantinya satu donat tipis
+       di sudut kanan atas: 232 px pada seksi 1440x837 = 4,5 % luasnya, dengan
+       SATU busur yang menyapu kelilingnya tiap 26 detik.
+       Gaya + pagar (reduced-motion, ≤700 px, penunjuk kasar) di lab.css blok
+       "RONDE 59". Ubin `--canvas-art` KEMBALI di seksi ini karena ornamennya
+       tidak lagi bidang — `lsec--art` dicabut seluruhnya. -->
+  <div class="orn orn--ka orn--teal" aria-hidden="true" style="--d:clamp(150px,16vw,232px)">
+    <i class="orn-ring"><b></b></i>
+  </div>
+  <div class="lwrap">
   <div class="split-6040">
     <div>
       <span class="lkick" data-reveal>Kenapa Glyiv</span>
-      <h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 18px">Karbon terasa jauh. <span class="lserif-accent">Padahal ada di tiap pilihan.</span></h2>
-      <p class="llead" data-reveal data-d="2">Kopi yang kamu beli, motor yang kamu pakai, sampah yang kamu buang &mdash; semuanya punya jejak karbon. Selama ini jejak itu tak terlihat. Yang tak terlihat tak pernah terkelola, apalagi dihargai.</p>
-      <p class="llead" data-reveal data-d="3" style="margin-top:14px"><b>Glyiv membuatnya terlihat &mdash; tanpa menambah pekerjaan siapa pun.</b> Datanya sudah ada di struk, transaksi, dan resep yang setiap outlet pakai untuk menghitung HPP. Kami membacanya, menghitung jejaknya lengkap dengan rentang ketidakpastian, lalu mengubahnya jadi dua hal yang berguna: keputusan yang lebih hijau, dan imbalan yang nyata.</p>
-      <p class="llead" data-reveal data-d="3" style="margin-top:14px;font-size:15px;color:var(--muted)">Tidak ada perangkat baru yang harus dibeli, tidak ada formulir tambahan yang harus diisi. Ini bukan aplikasi karbon yang meminta usaha ekstra &mdash; ini ekonomi hijau yang bekerja di latar, untuk orang biasa maupun institusi.</p>
+      <h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 18px">Iklim berubah di atmosfer. <span class="lserif-accent">Tagihannya turun ke dompet.</span></h2>
+      <!-- RONDE 56 — narasi dipangkas 212 → 102 kata atas perintah pemilik
+           ("narasinya terlalu panjang, orang akan bosan duluan baca ini").
+           Yang dibuang BUKAN dipindahkan: semua angka yang hilang dari sini
+           (17% PDB Asia-Pasifik 2070, 0,66-3,45% PDB 2030, 2,2% jam kerja,
+           0,92-3,23 poin harga pangan) memang SUDAH ADA di kartu geser di
+           sebelah kanan, lengkap dengan lencana sumbernya sendiri. Kolom kiri
+           berhenti mengulangnya — inilah "mengganti, bukan menumpuk".
+           Sumber yang ikut dicabut karena angkanya dicabut: ADB, Roadmap NDC
+           (Kemenkeu), ANTARA/Bappenas 2025-2029, Kotz dkk. 2024, ILO 2019.
+           Yang bertahan di sini hanya tiga: UNFCCC (Perjanjian Paris), WMO
+           (1,48°C), dan Bappenas (15,3 juta pekerjaan 2045 ⚠︎).
+
+           Kalimat "Karena itu Glyiv bukan aplikasi karbon" DICABUT: pemilik
+           menilai mendefinisikan diri lewat apa yang BUKAN kita itu buruk.
+           Gantinya pernyataan positif — Glyiv adalah ekosistem digital
+           ekonomi hijau, dan memang begitu sejak awal. -->
+      <p class="llead" data-reveal data-d="2">Lewat Perjanjian Paris, dunia sepakat menahan pemanasan jauh di bawah 2&deg;C. Rata-rata suhu global 2023-2025 sudah 1,48&deg;C &mdash; ambang itu bukan lagi hal yang ditunggu.</p>
+      <p class="llead" data-reveal data-d="3" style="margin-top:14px"><b>Suhu naik, ekonomi menyusut.</b> Panen menipis, jam kerja lapangan berkurang, harga pangan terdorong naik. Yang berubah bukan grafik: belanja, penghasilan, dan rasa aman pekerjaan.</p>
+      <p class="llead" data-reveal data-d="3" style="margin-top:14px"><b>Glyiv adalah ekosistem digital ekonomi hijau.</b> Kami menyambung pilihan harian, usaha kecil, lahan, dan modal &mdash; supaya yang lebih hijau juga masuk akal secara ekonomi. Di Indonesia, ekonomi hijau diperkirakan membuka 15,3 juta pekerjaan pada 2045 &#9888;&#65038;. Jalannya kami buka untuk orang biasa, bukan hanya korporasi.</p>
+      <p class="llead" data-reveal data-d="3" style="margin-top:14px;font-size:14px;color:var(--muted)">Tanda &#9888;&#65038; berarti proyeksi: kemungkinan, bukan kejadian. <span class="gvis__src" data-src="Perjanjian Paris, UNFCCC (2015)|https://unfccc.int/process-and-meetings/the-paris-agreement ;; WMO &middot; State of the Global Climate 2025|https://wmo.int/publication-series/state-of-global-climate/state-of-global-climate-2025 ;; Bappenas &middot; 15,3 juta pekerjaan hijau pada 2045 (Indonesia.go.id)|https://indonesia.go.id/kategori/editorial/7877/ekonomi-hijau-buka-15-3-juta-lapangan-kerja-baru" data-src-title="Sumber angka iklim dan ekonomi">Lihat sumber tiap angka</span></p>
     </div>
-        <div class="whyviz" data-reveal data-d="2">
-      <div class="whyviz__img"><img src="/lab/img/titik-bayar.webp" alt="Pelanggan membayar di titik bayar"><span class="cap">Satu transaksi biasa &middot; jadi data karbon</span></div>
-      <div class="whyviz__b">
 
-        <!-- Demo nyata: satu baris struk diurai jadi jejak karbonnya. Menggantikan
-             grafik batang menanjak yang dulu ada di sini — grafik itu justru
-             terbaca "emisi naik" oleh orang awam, kebalikan dari pesan kami. -->
-        <div class="rcp">
-          <div class="rcp__top">
-            <span class="rcp__ttl">Kopi Susu Gula Aren</span>
-            <span class="rcp__price">Rp22.000</span>
-          </div>
+    <!-- Adegan iklim yang bisa digeser. Menggantikan foto titik bayar + demo
+         struk karbon: struk itu menjawab "berapa karbon satu gelas", seksi ini
+         sekarang menjawab "kenapa ekonomi hijau". Dua-duanya tidak boleh
+         berdiri bersama, jadi yang lama dicabut (PRINSIP-UIUX §1).
+         Gerak otomatis: lihat skrip #kenapa di kaki berkas ini. -->
+    <div class="gvis" data-reveal data-d="2">
+      <svg class="gvis__svg" viewBox="0 0 520 300" role="img" aria-label="Ilustrasi satu keluarga di petak sawah: makin tinggi skenario pemanasan, langit makin panas, padi menguning, dan air pasang naik ke rumah panggung">
+        <defs>
+          <linearGradient id="gvSky" x1="0" y1="0" x2="0" y2="1">
+            <stop class="gv-s1" offset="0" stop-color="#A3CEE7"/>
+            <stop class="gv-s2" offset="1" stop-color="#E0F0F3"/>
+          </linearGradient>
+          <linearGradient id="gvWater" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#6FA8BE" stop-opacity=".82"/>
+            <stop offset="1" stop-color="#38708A" stop-opacity=".95"/>
+          </linearGradient>
+          <radialGradient id="gvGlow" cx=".5" cy=".5" r=".5">
+            <stop offset="0" stop-color="#FFF0B8" stop-opacity=".9"/>
+            <stop offset="1" stop-color="#FFCE66" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="gvHaze" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#E9A75B" stop-opacity="0"/>
+            <stop offset=".55" stop-color="#E08C3E" stop-opacity="1"/>
+            <stop offset="1" stop-color="#E9A75B" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
 
-          <div class="rcp__rows">
-            <div class="rcp__row"><span>Susu sapi &middot; 150 ml</span><i style="--w:62%"></i><b>0,45</b></div>
-            <div class="rcp__row"><span>Biji kopi &middot; 18 g</span><i style="--w:26%"></i><b>0,19</b></div>
-            <div class="rcp__row"><span>Gula aren &middot; 20 g</span><i style="--w:9%"></i><b>0,06</b></div>
-            <div class="rcp__row"><span>Cup &amp; tutup</span><i style="--w:6%"></i><b>0,04</b></div>
-          </div>
+        <rect x="0" y="0" width="520" height="300" fill="url(#gvSky)"/>
+        <g class="gv-sun"><circle cx="416" cy="64" r="56" fill="url(#gvGlow)"/><circle class="gv-sun__c" cx="416" cy="64" r="19" fill="#FFDD8A"/></g>
+        <rect class="gv-haze" x="0" y="92" width="520" height="70" fill="url(#gvHaze)"/>
 
-          <div class="rcp__total">
-            <div class="rcp__tl">Jejak porsi ini</div>
-            <div class="rcp__tv"><b data-cu="0.74" data-dec="2">0</b><span>kg CO&#8322;e</span></div>
-          </div>
+        <path class="gv-hill gv-hill--far" d="M0 158V126L58 100L118 130L186 96L262 132L330 104L404 134L466 108L520 130V158Z" fill="#81A994"/>
+        <path class="gv-hill gv-hill--near" d="M0 158V140L52 120L112 143L180 118L252 146L322 124L396 148L460 128L520 146V158Z" fill="#5E8E77"/>
 
-          <!-- ELEMEN PEMBEDA: rentang ketidakpastian ditampilkan, bukan disembunyikan. -->
-          <div class="rcp__band" role="img" aria-label="Rentang estimasi 0,61 sampai 0,92 kilogram CO2e">
-            <div class="rcp__bar"><span class="rcp__fill"></span><span class="rcp__dot"></span></div>
-            <div class="rcp__bl"><span>0,61</span><em>rentang estimasi</em><span>0,92</span></div>
-          </div>
+        <path class="gv-terr gv-terr--3" d="M0 158C130 150 320 166 520 152V200H0Z" fill="#D8ECDB"/>
+        <path class="gv-terr gv-terr--2" d="M0 200C140 192 330 208 520 196V248H0Z" fill="#D1E7D5"/>
+        <path class="gv-terr gv-terr--1" d="M0 248C150 238 340 256 520 242V300H0Z" fill="#C9E1CE"/>
+        <g fill="none" stroke-width="2" stroke-linecap="round">
+          <path class="gv-bund" d="M0 158C130 150 320 166 520 152" stroke="#7AA088"/>
+          <path class="gv-bund" d="M0 200C140 192 330 208 520 196" stroke="#7AA088"/>
+          <path class="gv-bund" d="M0 248C150 238 340 256 520 242" stroke="#7AA088"/>
+        </g>
 
-          <div class="rcp__foot">
-            <span class="rcp__tier">Tier T3</span>
-            <span data-src="Metodologi Glyiv (activity-based LCA)|/lab/carbon-intelligence.html#tour ;; ecoinvent|https://ecoinvent.org ;; Poore &amp; Nemecek 2018, Science|https://www.science.org/doi/10.1126/science.aaq0216" data-src-title="Cara angka ini dihitung" class="rcp__src">contoh ilustrasi &middot; lihat sumber</span>
+        <g fill="none" stroke="#388B5F" stroke-width="2.2" stroke-linecap="round">
+        <path class="gv-stalk" d="M22 194V176M22 188l7-6M22 182l-7-6M22 176q5-2 7-6"/><path class="gv-stalk" d="M64 194V176M64 188l7-6M64 182l-7-6M64 176q5-2 7-6"/><path class="gv-stalk" d="M106 194V176M106 188l7-6M106 182l-7-6M106 176q5-2 7-6"/><path class="gv-stalk" d="M148 194V176M148 188l7-6M148 182l-7-6M148 176q5-2 7-6"/><path class="gv-stalk" d="M190 194V176M190 188l7-6M190 182l-7-6M190 176q5-2 7-6"/><path class="gv-stalk" d="M232 194V176M232 188l7-6M232 182l-7-6M232 176q5-2 7-6"/><path class="gv-stalk" d="M274 194V176M274 188l7-6M274 182l-7-6M274 176q5-2 7-6"/><path class="gv-stalk" d="M316 194V176M316 188l7-6M316 182l-7-6M316 176q5-2 7-6"/><path class="gv-stalk" d="M358 194V176M358 188l7-6M358 182l-7-6M358 176q5-2 7-6"/><path class="gv-stalk" d="M400 194V176M400 188l7-6M400 182l-7-6M400 176q5-2 7-6"/><path class="gv-stalk" d="M442 194V176M442 188l7-6M442 182l-7-6M442 176q5-2 7-6"/><path class="gv-stalk" d="M484 194V176M484 188l7-6M484 182l-7-6M484 176q5-2 7-6"/>
+        <path class="gv-stalk" d="M26 242V224M26 236l7-6M26 230l-7-6M26 224q5-2 7-6"/><path class="gv-stalk" d="M78 242V224M78 236l7-6M78 230l-7-6M78 224q5-2 7-6"/><path class="gv-stalk" d="M130 242V224M130 236l7-6M130 230l-7-6M130 224q5-2 7-6"/><path class="gv-stalk" d="M182 242V224M182 236l7-6M182 230l-7-6M182 224q5-2 7-6"/><path class="gv-stalk" d="M234 242V224M234 236l7-6M234 230l-7-6M234 224q5-2 7-6"/><path class="gv-stalk" d="M286 242V224M286 236l7-6M286 230l-7-6M286 224q5-2 7-6"/><path class="gv-stalk" d="M338 242V224M338 236l7-6M338 230l-7-6M338 224q5-2 7-6"/>
+        </g>
+
+        <g class="gv-house">
+          <rect x="394" y="231" width="5" height="42" fill="#42604F"/><rect x="455" y="231" width="5" height="42" fill="#42604F"/>
+          <path d="M384 190L426 166L468 190Z" fill="#2F4A3C"/>
+          <rect x="392" y="189" width="68" height="36" rx="3" fill="#F4F7F2" stroke="#2F4A3C" stroke-width="1.6"/>
+          <rect x="418" y="205" width="15" height="20" rx="1.5" fill="#2F4A3C" opacity=".75"/>
+          <rect x="384" y="223" width="84" height="8" rx="2" fill="#5C7A66"/>
+        </g>
+
+        <g fill="#2F4A3C">
+          <g transform="translate(58,284)"><circle cx="0" cy="-27" r="5.2"/><rect x="-5.4" y="-21" width="10.8" height="13" rx="4"/><rect x="-4.4" y="-9" width="3.4" height="9" rx="1.4"/><rect x="1" y="-9" width="3.4" height="9" rx="1.4"/></g>
+          <g transform="translate(79,284)"><circle cx="0" cy="-25" r="4.9"/><rect x="-5.1" y="-19.5" width="10.2" height="12" rx="3.8"/><rect x="-4.1" y="-8.5" width="3.2" height="8.5" rx="1.3"/><rect x=".9" y="-8.5" width="3.2" height="8.5" rx="1.3"/></g>
+          <g transform="translate(96,285)"><circle cx="0" cy="-19" r="3.8"/><rect x="-4" y="-15" width="8" height="9" rx="3"/><rect x="-3.2" y="-6.5" width="2.6" height="6.5" rx="1.1"/><rect x=".6" y="-6.5" width="2.6" height="6.5" rx="1.1"/></g>
+        </g>
+
+        <g class="gv-shimmer" fill="none" stroke="#B96A2E" stroke-width="1.8" stroke-linecap="round" opacity="0">
+          <path d="M118 178q9-6 18 0t18 0"/><path d="M256 170q9-6 18 0t18 0"/><path d="M320 214q9-6 18 0t18 0"/>
+        </g>
+
+        <g class="gv-flood">
+          <rect x="0" y="256" width="520" height="80" fill="url(#gvWater)"/>
+          <path d="M0 257q26-5 52 0t52 0t52 0t52 0t52 0t52 0t52 0t52 0t52 0t52 0" fill="none" stroke="#D6EEF6" stroke-width="2" stroke-opacity=".5"/>
+        </g>
+      </svg>
+
+      <div class="gvis__b">
+        <div class="gvis__head">
+          <div class="gvis__chips">
+            <span class="gvis__chip is-on">Target Paris</span>
+            <span class="gvis__chip">Batas atas Paris</span>
+            <span class="gvis__chip">Jalur emisi tinggi</span>
           </div>
+          <div class="gvis__deg" data-i18n-skip>+<b class="gvis__degv">1,5</b>&deg;C</div>
         </div>
 
-        <div class="whyviz__flow"><span>Aktivitas</span><em>&rarr;</em><span>Data karbon</span><em>&rarr;</em><span>Imbalan</span></div>
-        <p class="rcp__note">Merchant hanya mengisi resep &mdash; data yang memang sudah mereka punya untuk menghitung HPP. Angka karbonnya kami yang hitung, lengkap dengan rentang dan mutu datanya.</p>
+        <p class="gvis__hint">Geser sendiri, atau biarkan ia bergerak.</p>
+        <input class="gvis__range" type="range" min="15" max="30" step="1" value="15" aria-label="Skenario pemanasan global" aria-valuetext="+1,5 derajat Celsius">
+        <div class="gvis__scale" data-i18n-skip><span>+1,5&deg;C</span><span>+2&deg;C</span><span>+3&deg;C</span></div>
+
+        <div class="gvis__says">
+          <p class="gvis__say is-on">Angka yang dijanjikan Perjanjian Paris. Rata-rata global 2023-2025 sudah 1,48&deg;C. Pada 2030, panas diproyeksikan menghapus 2,2% jam kerja dunia &#9888;&#65038;.</p>
+          <p class="gvis__say">Batas atas yang disepakati dunia. Pemerintah memperkirakan kerugian iklim menekan PDB Indonesia 0,66-3,45% pada 2030 &#9888;&#65038;. Yang menyusut lebih dulu: panen, jam kerja lapangan, daya beli.</p>
+          <p class="gvis__say">Jalur bila emisi dibiarkan tinggi. PDB Asia-Pasifik berkembang diproyeksikan 17% lebih rendah pada 2070, dan hingga 300 juta orang terancam genangan pesisir &#9888;&#65038;.</p>
+        </div>
+
+        <div class="gvis__metric">
+          <div class="gvis__mlab"><span class="gvis__mtxt">Tekanan harga pangan</span> <i data-i18n-skip>&#9888;&#65038;</i></div>
+          <div class="gvis__mval"><b class="gvis__num" data-i18n-skip>0,9</b><span class="gvis__unit">poin persen / tahun</span></div>
+          <div class="gvis__mbar"><i></i></div>
+          <div class="gvis__msub">Proyeksi 2035, rentang lintas skenario emisi (0,92 sampai 3,23). Bukan kepastian.</div>
+        </div>
+
+        <!-- `data-src` menempel LANGSUNG pada lencana ilustrasi. Dulu ada teks
+             "Angka dan sumbernya" terpisah di sebelahnya; glyiv-sources.js sudah
+             menyuntikkan pilnya sendiri ("ⓘ sumber"), jadi kakinya memuat tiga
+             hal yang mengatakan dua: lencana, ajakan, dan tombol. Satu dicabut. -->
+        <div class="gvis__foot">
+          <span class="gvis__tag" data-src="Perjanjian Paris, UNFCCC (2015)|https://unfccc.int/process-and-meetings/the-paris-agreement ;; WMO &middot; State of the Global Climate 2025|https://wmo.int/publication-series/state-of-global-climate/state-of-global-climate-2025 ;; ADB &middot; Asia-Pacific Climate Report 2024|https://www.adb.org/publications/asia-pacific-climate-report-2024 ;; Roadmap NDC Adaptasi 2020, dikutip Kementerian Keuangan RI|https://mediakeuangan.kemenkeu.go.id/article/show/bersama-atasi-perubahan-iklim ;; Kotz, Kuik, Lis &amp; Nickel 2024 &middot; Communications Earth &amp; Environment|https://www.nature.com/articles/s43247-023-01173-x ;; ILO &middot; Working on a Warmer Planet (2019)|https://www.ilo.org/publications/major-publications/working-warmer-planet-effect-heat-stress-productivity-and-decent-work" data-src-title="Sumber angka iklim dan ekonomi">Adegan ilustrasi</span>
+        </div>
+
+        <span class="gvis__a11y"><i>derajat Celsius</i><i>poin persen per tahun</i></span>
       </div>
     </div>
   </div>
 </div></section>
 
 <!-- ECOSYSTEM GRID (centerpiece) -->
-<section class="lsec paper" id="ekosistem"><div class="lwrap">
-  <div class="lhead" data-reveal>
+<section class="lsec lsec--n2 lsec--seam seam-n1" id="ekosistem">
+  <!-- PEMISAH · JAHITAN GRADASI (ronde 59). Batas ini dulu dikerjakan kelas
+       `paper`: pita `--paper2` yang memudar di KEDUA ujung seksi. Sekarang
+       seksi berwarna PENUH (`lsec--n2`) dan hanya batas ATASnya yang membawa
+       gradasi 88-180 px dari warna seksi sebelumnya (`seam-n1` = --white).
+       Satu peralihan untuk satu batas — tidak ada garis, tidak ada bentuk.
+
+       ORNAMEN 2 · PERSEGI GLOSSY + TITIK ORBIT. Menggantikan lapisan 14 spora
+       `inset:0` (terukur 100 % luas seksi, 14 simpul beranimasi). Sekarang dua
+       benda kecil di sudut berlawanan, 2 simpul beranimasi. -->
+  <div class="orn orn--ki orn--teal" aria-hidden="true" style="--w:clamp(190px,23vw,330px);--h:clamp(44px,4.3vw,62px)">
+    <i class="orn-caps orn-caps--kotak"><b></b></i>
+  </div>
+  <div class="orn orn--kb orn--sekunder" aria-hidden="true" style="--d:clamp(110px,12vw,172px)">
+    <i class="orn-orbit"><b></b></i>
+  </div>
+  <div class="lwrap">
+  <!-- BUTIR 11 · `lhead--wide` + gaya sebaris `max-width:64ch` DICABUT.
+       Yang menahan paragraf ini di 573,4 px BUKAN gaya sebarisnya (terhitung
+       680,96 px, tidak pernah mengikat) melainkan `.lhead{max-width:64ch}` di
+       lab.css. Sesudah ini judul & paragraf selebar `.indgrid` di bawahnya. -->
+  <div class="lhead lhead--wide lhead--rule" data-reveal>
     <span class="lkick">Ekosistem Glyiv</span>
     <h2 class="lh2" style="margin-top:12px">Satu identitas, <span class="lserif-accent">banyak jalan hijau.</span></h2>
-    <p class="llead" style="margin-top:12px;max-width:64ch">Setiap "business tree" berdiri sendiri &mdash; punya pengguna, produk, dan alasannya sendiri &mdash; tapi semuanya berbagi satu tulang punggung data karbon dan satu identitas. Masuk dari pintu mana pun yang paling dekat denganmu: sebagai konsumen, pemilik outlet, pemilik lahan, atau perusahaan.</p>
+    <p class="llead" style="margin-top:12px">Setiap "business tree" berdiri sendiri &mdash; punya pengguna, produk, dan alasannya sendiri &mdash; tapi semuanya berbagi satu tulang punggung data karbon dan satu identitas. Masuk dari pintu mana pun yang paling dekat denganmu: sebagai konsumen, pemilik outlet, pemilik lahan, atau perusahaan.</p>
   </div>
   <div class="indgrid">
-    <a class="indcard" href="/lab/carbon-intelligence.html"><span class="indcard__st live">Live</span><img src="https://images.unsplash.com/photo-1425913397330-cf8af2ff40a1?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Carbon Intelligence" loading="lazy" onerror="this.onerror=null;this.src='/lab/img/reforestation.webp'"><div class="indcard__body"><div class="indcard__grp">Glyiv CIP · Enterprise & F&amp;B/Ritel</div><div class="indcard__t">Glyiv Carbon Intelligence</div><span class="indcard__go">Solusi F&amp;B/Ritel siap dicoba · Lacak → hitung → offset →</span></div></a>
-    <a class="indcard" href="/lab/tree.html"><span class="indcard__st live">Live</span><img src="/lab/img/reforestation.webp" alt="Glyiv Aset"><div class="indcard__body"><div class="indcard__grp">Aset Hijau</div><div class="indcard__t">Glyiv Aset</div><span class="indcard__go">Pantau petak &amp; baca statusnya &#9888;&#65038; →</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/saku.html"><span class="indcard__st live">Live</span><img src="/lab/img/scan-belanja.webp" alt="Glyiv Saku"><div class="indcard__body"><div class="indcard__grp">Aplikasi Konsumen</div><div class="indcard__t">Glyiv Saku</div><span class="indcard__go">Cari barang, IMT &amp; catatan harian &rarr;</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/pasar.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/logistik-transport.webp" alt="Glyiv Pasar"><div class="indcard__body"><div class="indcard__grp">Marketplace</div><div class="indcard__t">Glyiv Pasar</div><span class="indcard__go">Belanja dengan jejak karbon →</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/pangan.html"><span class="indcard__st soon">Roadmap</span><img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Glyiv Pangan" loading="lazy" onerror="this.onerror=null;this.src='/lab/img/sawit-agri.jpg'"><div class="indcard__body"><div class="indcard__grp">Pangan Hub</div><div class="indcard__t">Glyiv Pangan</div><span class="indcard__go">Kalori, emisi &amp; tebus per produk →</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/dompet.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/finance.jpg" alt="Glyiv Dompet"><div class="indcard__body"><div class="indcard__grp">Wallet</div><div class="indcard__t">Glyiv Dompet</div><span class="indcard__go">Bayar &amp; catat karbon otomatis →</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/iot.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/data-center.jpg" alt="Glyiv IoT"><div class="indcard__body"><div class="indcard__grp">IoT</div><div class="indcard__t">Glyiv IoT</div><span class="indcard__go">Rumah pintar &amp; sortir sampah AI →</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/dana.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/investor-aset-manajemen.webp" alt="Glyiv Dana"><div class="indcard__body"><div class="indcard__grp">Investment</div><div class="indcard__t">Glyiv Dana</div><span class="indcard__go">Kelola aset hijau →</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/bank-sampah.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/pemerintah.webp" alt="Glyiv Bank Sampah"><div class="indcard__body"><div class="indcard__grp">Bank Sampah</div><div class="indcard__t">Glyiv Bank Sampah</div><span class="indcard__go">Setor sampah, dapat imbalan →</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/sehat.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/rumah-sakit.webp" alt="Glyiv Sehat"><div class="indcard__body"><div class="indcard__grp">Health</div><div class="indcard__t">Glyiv Sehat</div><span class="indcard__go">Kebiasaan sehat &amp; hijau →</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/belajar.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/tree-planting.webp" alt="Glyiv Belajar"><div class="indcard__body"><div class="indcard__grp">Edukasi</div><div class="indcard__t">Glyiv Belajar</div><span class="indcard__go">Literasi hijau &amp; game →</span></div></a>
-    <a class="indcard" href="/lab/ekosistem/lab-rnd.html"><span class="indcard__st soon">Riset</span><img src="/lab/img/manufaktur.webp" alt="Glyiv Lab"><div class="indcard__body"><div class="indcard__grp">Lab · R&amp;D</div><div class="indcard__t">Glyiv Lab</div><span class="indcard__go">Material rendah-karbon →</span></div></a>
-    <a class="indcard" href="/lab/apps/scanner/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/solar.jpg" alt="Scan Karbon"><div class="indcard__body"><div class="indcard__grp">Alat</div><div class="indcard__t">Glyiv Scan Karbon</div><span class="indcard__go">Foto item → estimasi + kredit →</span></div></a>
+    <a class="indcard" href="/lab/green-intelligence.html"><span class="indcard__st live">Live</span><img alt="Green Intelligence" loading="lazy" width="1600" height="1200" sizes="(max-width:900px) 100vw, 900px" src="/lab/img/gip-hero.webp" srcset="/lab/img/gip-hero-600.webp 600w, /lab/img/gip-hero-900.webp 900w, /lab/img/gip-hero.webp 1600w"><div class="indcard__body"><div class="indcard__grp">Glyiv GIP · Enterprise & F&amp;B/Ritel</div><div class="indcard__t">Glyiv Green Intelligence</div><span class="indcard__go">Solusi F&amp;B/Ritel siap dicoba · Lacak → hitung → offset →</span></div></a>
+    <a class="indcard" href="/lab/tree.html"><span class="indcard__st live">Live</span><img src="/lab/img/reforestation.webp" srcset="/lab/img/reforestation-600.webp 600w, /lab/img/reforestation-900.webp 900w, /lab/img/reforestation.webp 1600w" sizes="280px" width="1600" height="1000" alt="Glyiv Aset" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">Aset Hijau</div><div class="indcard__t">Glyiv Aset</div><span class="indcard__go">Pantau petak &amp; baca statusnya &#9888;&#65038; →</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/saku.html"><span class="indcard__st live">Live</span><img src="/lab/img/scan-belanja.webp" srcset="/lab/img/scan-belanja-600.webp 600w, /lab/img/scan-belanja-900.webp 900w, /lab/img/scan-belanja.webp 1400w" sizes="280px" width="1400" height="1050" alt="Glyiv Pocket" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">Aplikasi Konsumen</div><div class="indcard__t">Glyiv Pocket</div><span class="indcard__go">Cari barang, IMT &amp; catatan harian &rarr;</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/pasar.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/logistik-transport.webp" srcset="/lab/img/logistik-transport-600.webp 600w, /lab/img/logistik-transport-900.webp 900w, /lab/img/logistik-transport.webp 1600w" sizes="280px" width="1600" height="1000" alt="Glyiv Pasar" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">Marketplace</div><div class="indcard__t">Glyiv Pasar</div><span class="indcard__go">Belanja dengan jejak karbon →</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/pangan.html"><span class="indcard__st soon">Roadmap</span><img alt="Glyiv Pangan" loading="lazy" width="1600" height="1067" sizes="(max-width:900px) 100vw, 900px" src="/lab/img/eko-pangan.webp" srcset="/lab/img/eko-pangan-600.webp 600w, /lab/img/eko-pangan-900.webp 900w, /lab/img/eko-pangan.webp 1600w"><div class="indcard__body"><div class="indcard__grp">Pangan Hub</div><div class="indcard__t">Glyiv Pangan</div><span class="indcard__go">Kalori, emisi &amp; tebus per produk →</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/iot.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/data-center.webp" srcset="/lab/img/data-center-600.webp 600w, /lab/img/data-center-900.webp 900w, /lab/img/data-center.webp 1600w" sizes="280px" width="1600" height="1000" alt="Glyiv IoT" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">IoT</div><div class="indcard__t">Glyiv IoT</div><span class="indcard__go">Rumah pintar &amp; sortir sampah AI →</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/dana.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/investor-aset-manajemen.webp" srcset="/lab/img/investor-aset-manajemen-600.webp 600w, /lab/img/investor-aset-manajemen-900.webp 900w, /lab/img/investor-aset-manajemen.webp 1600w" sizes="280px" width="1600" height="1000" alt="Glyiv Dana" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">Investment</div><div class="indcard__t">Glyiv Dana</div><span class="indcard__go">Kelola aset hijau →</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/bank-sampah.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/pemerintah.webp" srcset="/lab/img/pemerintah-600.webp 600w, /lab/img/pemerintah-900.webp 900w, /lab/img/pemerintah.webp 1600w" sizes="280px" width="1600" height="1000" alt="Glyiv Bank Sampah" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">Bank Sampah</div><div class="indcard__t">Glyiv Bank Sampah</div><span class="indcard__go">Setor sendiri di titik komunitas →</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/recycle.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/bank-sampah.webp" srcset="/lab/img/bank-sampah-600.webp 600w, /lab/img/bank-sampah-900.webp 900w, /lab/img/bank-sampah.webp 1200w" sizes="280px" width="1200" height="800" alt="Glyiv Recycle" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">Sampah Rumah Tangga</div><div class="indcard__t">Glyiv Recycle</div><span class="indcard__go">Komposter &amp; jemput terjadwal →</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/sehat.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/rumah-sakit.webp" srcset="/lab/img/rumah-sakit-600.webp 600w, /lab/img/rumah-sakit-900.webp 900w, /lab/img/rumah-sakit.webp 1600w" sizes="280px" width="1600" height="1000" alt="Glyiv Sehat" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">Health</div><div class="indcard__t">Glyiv Sehat</div><span class="indcard__go">Kebiasaan sehat &amp; hijau →</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/belajar.html"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/tree-planting.webp" srcset="/lab/img/tree-planting-600.webp 600w, /lab/img/tree-planting-900.webp 900w, /lab/img/tree-planting.webp 1400w" sizes="280px" width="1400" height="900" alt="Glyiv Belajar" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">Edukasi</div><div class="indcard__t">Glyiv Belajar</div><span class="indcard__go">Literasi hijau &amp; game →</span></div></a>
+    <a class="indcard" href="/lab/ekosistem/lab-rnd.html"><span class="indcard__st soon">Riset</span><img src="/lab/img/manufaktur.webp" srcset="/lab/img/manufaktur-600.webp 600w, /lab/img/manufaktur-900.webp 900w, /lab/img/manufaktur.webp 1600w" sizes="280px" width="1600" height="1000" alt="Glyiv Lab" loading="lazy" decoding="async"><div class="indcard__body"><div class="indcard__grp">Lab · R&amp;D</div><div class="indcard__t">Glyiv Lab</div><span class="indcard__go">Material rendah-karbon →</span></div></a>
   </div>
   <p class="llead" data-reveal style="margin-top:22px;max-width:74ch;color:var(--muted);font-size:14px">Badge <b style="color:var(--teal)">Live</b> = bisa dijelajah sekarang. <b>Roadmap/Riset</b> = dalam pengembangan bertahap. Kami menyatakannya apa adanya, bukan mengklaim yang belum ada.</p>
 </div></section>
 
 <!-- HOW THE ECOSYSTEM CONNECTS -->
-<section class="lsec" id="cara"><div class="lwrap">
-  <div class="lhead" data-reveal><span class="lkick">Cara ekosistem terhubung</span>
+<section class="lsec lsec--brass lsec--seam seam-n2" id="cara">
+  <!-- ⛔ DIBUANG DI SINI · `.secedge secedge--white` — TEPI KONTUR ROBEK.
+       Inilah "divider wavy" yang pemilik sebut menghilangkan kesan
+       profesional, dan ia benar: bentuk bergelombang di batas seksi adalah
+       tanda tema siap-pakai. Gantinya `lsec--seam seam-n2` — gradasi vertikal
+       dari `--paper2` (warna #ekosistem) ke brass, tanpa satu piksel garis.
+
+       ORNAMEN 3 · CINCIN + GARIS DIAGONAL. Menggantikan lapisan arus `inset:0`
+       (100 % luas seksi). -->
+  <div class="orn orn--kib orn--brass" aria-hidden="true" style="--d:clamp(140px,15vw,214px)">
+    <i class="orn-ring"><b></b></i>
+  </div>
+  <div class="orn orn--ka orn--sekunder orn--brass" aria-hidden="true" style="--w:clamp(160px,18vw,258px)">
+    <i class="orn-garis"></i>
+  </div>
+  <!-- ⛔ DIBUANG · lapisan `secart--arus` (3 pita goresan, seluruh bidang). -->
+  <div class="lwrap">
+  <div class="lhead lhead--wide lhead--rule" data-reveal><span class="lkick">Cara ekosistem terhubung</span>
     <h2 class="lh2" style="margin-top:12px">Data karbon adalah <span class="lemph">tulang punggungnya.</span></h2>
-    <p class="llead" style="margin-top:12px;max-width:62ch">Satu transaksi di satu titik bayar memperkaya seluruh ekosistem &mdash; disatukan oleh satu lapisan data karbon dan satu identitas. Tiga langkah, dan hanya langkah pertama yang butuh dunia nyata.</p>
+    <p class="llead" style="margin-top:12px">Satu transaksi di satu titik bayar memperkaya seluruh ekosistem &mdash; disatukan oleh satu lapisan data karbon dan satu identitas. Tiga langkah, dan hanya langkah pertama yang butuh dunia nyata.</p>
   </div>
   <div class="ecoflow flowrail mrail">
     <article class="tcard" data-reveal>
       <div class="tcard__img">
-        <img src="/lab/img/titik-bayar.webp" alt="Pelanggan membayar di titik bayar sebuah outlet" loading="lazy">
+        <img src="/lab/img/titik-bayar.webp" srcset="/lab/img/titik-bayar-600.webp 600w, /lab/img/titik-bayar-900.webp 900w, /lab/img/titik-bayar.webp 1200w" sizes="(max-width:900px) 92vw, 380px" width="1200" height="800" alt="Ranting kopi berbuah di sebuah kebun kopi" loading="lazy" decoding="async">
         <span class="tcard__step">01 &middot; Tangkap</span>
       </div>
       <div class="tcard__body"><h3>Data mengalir pasif</h3>
@@ -306,50 +1036,61 @@
     </article>
     <article class="tcard" data-reveal data-d="1">
       <div class="tcard__img">
-        <img src="/lab/img/analitik.webp" alt="Dasbor analitik menampilkan grafik dan ringkasan angka" loading="lazy">
-        <span class="tcard__step">02 &middot; Cerna</span>
+        <img src="/lab/img/analitik.webp" srcset="/lab/img/analitik-600.webp 600w, /lab/img/analitik-900.webp 900w, /lab/img/analitik.webp 1400w" sizes="(max-width:900px) 92vw, 380px" width="1400" height="997" alt="Petak-petak lahan pertanian dilihat dari udara" loading="lazy" decoding="async">
+        <span class="tcard__step">02 &middot; Process</span>
       </div>
       <div class="tcard__body"><h3>Jejak dihitung otomatis</h3>
         <p>Faktor emisi kami yang kelola. Mesin kami membaca struk dan menghitung jejaknya &mdash; lengkap dengan tier data dan rentang ketidakpastiannya. Agen yang menandai pemborosan dan menyarankan aksi masih dikembangkan.</p></div>
     </article>
     <article class="tcard" data-reveal data-d="2">
       <div class="tcard__img">
-        <img src="/lab/img/tree-planting.webp" alt="Seorang relawan menanam bibit pohon" loading="lazy">
-        <span class="tcard__step">03 &middot; Beri imbalan</span>
+        <img src="/lab/img/tree-planting.webp" srcset="/lab/img/tree-planting-600.webp 600w, /lab/img/tree-planting-900.webp 900w, /lab/img/tree-planting.webp 1400w" sizes="(max-width:900px) 92vw, 380px" width="1400" height="900" alt="Deretan pohon muda berajir yang baru ditanam" loading="lazy" decoding="async">
+        <span class="tcard__step">03 &middot; Reward</span>
       </div>
       <div class="tcard__body"><h3>Nilai kembali ke kamu</h3>
         <p>Kurangi dulu, lalu salurkan kontribusi lewat aset hijau nyata, atau tukar kreditnya. Setiap kontribusi tertaut ke petak asalnya, dan akan tersimpan di dompet karbonmu. Kami menyebutnya kontribusi &mdash; bukan klaim netral karbon.</p></div>
     </article>
   </div>
-  <div style="text-align:center;margin-top:26px" data-reveal><a class="lbtn lbtn--glass" href="/lab/carbon-intelligence.html#tour">Lihat cara kerja teknisnya &rarr;</a></div>
+  <div style="text-align:center;margin-top:26px" data-reveal><a class="lbtn lbtn--glass" href="/lab/green-intelligence.html#tour">Lihat cara kerja teknisnya &rarr;</a></div>
 </div></section>
 
 <!-- ECONOMY FOR EVERYONE (Gojek-style) -->
-<section class="lsec paper" id="ekonomi"><div class="lwrap">
-  <div class="lhead" data-reveal><span class="lkick">Ekonomi untuk semua</span>
+<section class="lsec lsec--pine lsec--seam seam-brass" id="ekonomi">
+  <!-- ⛔ DIBUANG · `.secedge secedge--brass` (tepi robek kedua) DAN lapisan
+       `secart--kisi` — 18 titik berkilau yang menutup 100 % luas seksi, ornamen
+       terbanyak simpulnya di seluruh beranda. Gantinya gradasi brass→pine di
+       batas atas, plus dua benda kecil di sudut. -->
+  <div class="orn orn--ka" aria-hidden="true" style="--d:clamp(110px,12vw,172px)">
+    <i class="orn-orbit"><b></b></i>
+  </div>
+  <div class="orn orn--kib orn--sekunder orn--teal" aria-hidden="true" style="--w:clamp(190px,23vw,330px);--h:clamp(44px,4.3vw,62px)">
+    <i class="orn-caps"><b></b></i>
+  </div>
+  <div class="lwrap">
+  <div class="lhead lhead--wide lhead--rule" data-reveal><span class="lkick">Ekonomi untuk semua</span>
     <h2 class="lh2" style="margin-top:12px">Bukan cuma menghitung. <span class="lserif-accent">Memberi peluang.</span></h2>
-    <p class="llead" style="margin-top:12px;max-width:64ch">Kalau hijau hanya jadi biaya, tidak ada yang bertahan lama. Karena itu infrastruktur Glyiv dirancang agar pemilik outlet, pemilik lahan, dan orang biasa bisa menerima <b>imbalan</b> dari kontribusi hijaunya &mdash; bukan sekadar rasa bangga. Sebagian jalur di bawah sudah berjalan, sebagian masih dibangun bertahap; statusnya ditandai apa adanya di peta ekosistem di atas.</p>
+    <p class="llead" style="margin-top:12px">Kalau hijau hanya jadi biaya, tidak ada yang bertahan lama. Karena itu infrastruktur Glyiv dirancang agar pemilik outlet, pemilik lahan, dan orang biasa bisa menerima <b>imbalan</b> dari kontribusi hijaunya &mdash; bukan sekadar rasa bangga. Sebagian jalur di bawah sudah berjalan, sebagian masih dibangun bertahap; statusnya ditandai apa adanya di peta ekosistem di atas.</p>
   </div>
 
   <div class="gcar" data-autoplay="4.5" data-reveal aria-roledescription="carousel" aria-label="Cara mendapat imbalan di Glyiv">
     <div class="gcar__track" tabindex="0" aria-label="Geser untuk melihat semua peluang">
       <article class="tcard">
-        <div class="tcard__img"><img src="/lab/img/reforestation.webp" alt="Hamparan hutan yang sedang dipulihkan" loading="lazy"></div>
+        <div class="tcard__img"><img src="/lab/img/reforestation.webp" srcset="/lab/img/reforestation-600.webp 600w, /lab/img/reforestation-900.webp 900w, /lab/img/reforestation.webp 1600w" sizes="(max-width:900px) 88vw, 310px" width="1600" height="1000" alt="Hamparan hutan yang sedang dipulihkan" loading="lazy" decoding="async"></div>
         <div class="tcard__body"><h3>Miliki fraksi aset hijau</h3>
           <p>Miliki fraksi unit karbon dari sebuah petak lahan dan ikut menerima imbalan dari serapannya &mdash; porsi kepemilikanmu tercatat sampai ke petak asalnya.</p></div>
       </article>
       <article class="tcard">
-        <div class="tcard__img"><img src="/lab/img/bank-sampah.webp" alt="Deretan tempat sampah terpilah berwarna" loading="lazy"></div>
+        <div class="tcard__img"><img src="/lab/img/bank-sampah.webp" srcset="/lab/img/bank-sampah-600.webp 600w, /lab/img/bank-sampah-900.webp 900w, /lab/img/bank-sampah.webp 1200w" sizes="(max-width:900px) 88vw, 310px" width="1200" height="800" alt="Kotak-kotak bahan organik terpilah dilihat dari atas" loading="lazy" decoding="async"></div>
         <div class="tcard__body"><h3>Setor sampah, dapat kredit</h3>
           <p>Bank sampah Glyiv mengubah sampah terpilah menjadi kredit yang bisa ditukar &mdash; tercatat rapi per setoran.</p></div>
       </article>
       <article class="tcard">
-        <div class="tcard__img"><img src="/lab/img/scan-belanja.webp" alt="Rak sayur dan buah di sebuah toko" loading="lazy"></div>
+        <div class="tcard__img"><img src="/lab/img/scan-belanja.webp" srcset="/lab/img/scan-belanja-600.webp 600w, /lab/img/scan-belanja-900.webp 900w, /lab/img/scan-belanja.webp 1400w" sizes="(max-width:900px) 88vw, 310px" width="1400" height="1050" alt="Bedengan sayur berbaris di sebuah kebun" loading="lazy" decoding="async"></div>
         <div class="tcard__body"><h3>Catat belanja, kumpulkan imbalan</h3>
-          <p>Catat barang yang kamu beli di <b>Glyiv Saku</b> &mdash; estimasi karbonnya keluar dari pustaka faktor emisi, lengkap dengan rentangnya. Pengenalan foto otomatis dan kredit ke dompet karbon masih peta jalan.</p></div>
+          <p>Catat barang yang kamu beli di <b>Glyiv Pocket</b> &mdash; estimasi karbonnya keluar dari pustaka faktor emisi, lengkap dengan rentangnya. Pengenalan foto otomatis dan kredit ke dompet karbon masih peta jalan.</p></div>
       </article>
       <article class="tcard">
-        <div class="tcard__img"><img src="/lab/img/fnb-ritel.webp" alt="Suasana gerai makanan dan minuman" loading="lazy"></div>
+        <div class="tcard__img"><img src="/lab/img/fnb-ritel.webp" srcset="/lab/img/fnb-ritel-600.webp 600w, /lab/img/fnb-ritel-900.webp 900w, /lab/img/fnb-ritel.webp 1600w" sizes="(max-width:900px) 88vw, 310px" width="1600" height="1000" alt="Kebun teh berteras di lereng bukit" loading="lazy" decoding="async"></div>
         <div class="tcard__body"><h3>Outlet untung &amp; hijau</h3>
           <p>Operasi outlet berdata karbon: pemborosan bahan jadi terlihat, pelanggan sadar-iklim punya alasan untuk kembali &mdash; tanpa membeli perangkat tambahan.</p></div>
       </article>
@@ -365,40 +1106,74 @@
 </div></section>
 
 <!-- TECH -->
-<section class="lsec" id="teknologi"><div class="lwrap">
-  <div class="lhead" data-reveal><span class="lkick">Teknologi</span>
+<section class="lsec lsec--navy lsec--seam seam-pine" id="teknologi">
+  <!-- ⛔ DIBUANG · `.secseam` (jahitan brass selebar LAYAR, menunggangi batas).
+       Tugasnya — menandai kepala seksi — dipindahkan ke `.lhead--rule` di
+       bawah, yang duduk selebar KISI, bukan selebar viewport. Batasnya sendiri
+       kini gradasi pine→navy.
+       ⛔ DIBUANG · lapisan `secart--orbit` (tiga elips raksasa, `inset:0`).
+       ORNAMEN 5 · CINCIN GANDA — bentuk yang sama, dikecilkan jadi benda sudut
+       214 px: satu cincin luar, satu cincin dalam statis, satu busur menyapu. -->
+  <div class="orn orn--ka orn--navy" aria-hidden="true" style="--d:clamp(140px,15vw,214px)">
+    <i class="orn-ring orn-ring--dalam"><b></b></i>
+  </div>
+  <div class="lwrap">
+  <div class="lhead lhead--wide lhead--rule" data-reveal><span class="lkick">Teknologi</span>
     <h2 class="lh2" style="margin-top:12px">Digital sepenuhnya, <span class="lemph">high-tech di setiap lapis.</span></h2>
-    <p class="llead" style="margin-top:12px;max-width:62ch">Empat lapisan yang bekerja bersama &mdash; dari agen yang membaca struk, sampai metodologi yang sumbernya bisa Anda buka sendiri. Tiap kartu menyebut apa yang sudah berjalan dan apa yang belum.</p>
+    <p class="llead" style="margin-top:12px">Empat lapisan yang bekerja bersama &mdash; dari agen yang membaca struk, sampai metodologi yang sumbernya bisa Anda buka sendiri. Tiap kartu menyebut apa yang sudah berjalan dan apa yang belum.</p>
   </div>
   <div class="techrow mrail">
     <article class="tcard tcard--dark" data-reveal>
-      <div class="tcard__img"><img src="/lab/img/data-center.jpg" alt="Ruang server tempat data diproses" loading="lazy"></div>
+      <div class="tcard__img"><img src="/lab/img/data-center.webp" srcset="/lab/img/data-center-600.webp 600w, /lab/img/data-center-900.webp 900w, /lab/img/data-center.webp 1600w" sizes="(max-width:900px) 92vw, 290px" width="1600" height="1000" alt="Rumpun bambu yang tumbuh rapat" loading="lazy" decoding="async"></div>
       <div class="tcard__body"><h3>Agentic AI</h3>
         <p>OCR struk &amp; klasifikasi item ke kategori emisi sudah berjalan. Agen yang menganalisis, menandai temuan, dan menyarankan tindakan masih dikembangkan &mdash; keputusan tetap di tangan manusia.</p></div>
     </article>
     <article class="tcard tcard--dark" data-reveal data-d="1">
-      <div class="tcard__img"><img src="/lab/img/investor-aset-manajemen.webp" alt="Layar data keuangan dan kepemilikan aset" loading="lazy"></div>
+      <div class="tcard__img"><img src="/lab/img/investor-aset-manajemen.webp" srcset="/lab/img/investor-aset-manajemen-600.webp 600w, /lab/img/investor-aset-manajemen-900.webp 900w, /lab/img/investor-aset-manajemen.webp 1600w" sizes="(max-width:900px) 92vw, 290px" width="1600" height="1000" alt="Tajuk pohon menjulang ke arah langit" loading="lazy" decoding="async"></div>
       <div class="tcard__body"><h3>Web3 &middot; ERC-3643</h3>
         <p>Rel token ter-izin yang sedang diuji di testnet: kepemilikan unit karbon yang bisa dipecah, dipindahkan, dan ditelusuri sampai ke petak asalnya. Belum mainnet.</p></div>
     </article>
     <article class="tcard tcard--dark" data-reveal data-d="2">
-      <div class="tcard__img"><img src="/lab/img/satellite.jpg" alt="Satelit pengamat bumi di orbit" loading="lazy"></div>
+      <div class="tcard__img"><img src="/lab/img/satellite.webp" srcset="/lab/img/satellite-600.webp 600w, /lab/img/satellite-900.webp 900w, /lab/img/satellite.webp 1600w" sizes="(max-width:900px) 92vw, 290px" width="1600" height="1000" alt="Semak jarang di lahan kering, dilihat dari udara" loading="lazy" decoding="async"></div>
       <div class="tcard__body"><h3>Oracle &amp; DePIN</h3>
         <p>Rancangannya: data dunia nyata &mdash; tegakan pohon, komoditas, perangkat lapangan &mdash; masuk lewat jalur yang bisa ditelusuri. Masih desain arsitektur.</p></div>
     </article>
     <article class="tcard tcard--dark" data-reveal data-d="3">
-      <div class="tcard__img"><img src="/lab/img/forest.webp" alt="Kanopi hutan dilihat dari atas" loading="lazy"></div>
+      <div class="tcard__img"><img src="/lab/img/forest.webp" srcset="/lab/img/forest-600.webp 600w, /lab/img/forest-900.webp 900w, /lab/img/forest.webp 1600w" sizes="(max-width:900px) 92vw, 290px" width="1600" height="1066" alt="Kanopi hutan dilihat dari atas" loading="lazy" decoding="async"></div>
       <div class="tcard__body"><h3>Metodologi terbuka</h3>
-        <p><span data-src="GHG Protocol &mdash; standar akuntansi GRK|https://ghgprotocol.org ;; ecoinvent &mdash; basis data LCA|https://ecoinvent.org ;; Poore &amp; Nemecek 2018, Science|https://www.science.org/doi/10.1126/science.aaq0216 ;; EXIOBASE &mdash; EEIO database|https://www.exiobase.eu">Selaras standar &amp; riset internasional, dan sumbernya bisa kamu buka sendiri.</span></p></div>
+        <!-- ⛔ `data-src-dark` WAJIB DI SINI, dan ketiadaannya adalah cacat
+             kontras yang nyata. Kartu ini `.tcard--dark`; tanpa atribut itu
+             `glyiv-sources.js` (baris 75) tidak memasang kelas `on-dark`,
+             sehingga tombol "sumber" memakai `--slate #46524B` di atas latar
+             efektif `rgb(13,44,33)` → terukur **1,84 : 1**, jauh di bawah WCAG
+             AA 4,5:1. Enam tombol sumber lain di halaman ini duduk di latar
+             terang dan terukur 7,05–7,45:1; yang ini satu-satunya yang gelap.
+             Mekanismenya sudah ada sejak lama — hanya tidak pernah tersambung.
+             Aturan merek: aksen di atas gelap wajib mint, tidak pernah tinta
+             tema terang. -->
+        <p><span data-src-dark data-src="GHG Protocol &mdash; standar akuntansi GRK|https://ghgprotocol.org ;; ecoinvent &mdash; basis data LCA|https://ecoinvent.org ;; Poore &amp; Nemecek 2018, Science|https://www.science.org/doi/10.1126/science.aaq0216 ;; EXIOBASE &mdash; EEIO database|https://www.exiobase.eu">Selaras standar &amp; riset internasional, dan sumbernya bisa kamu buka sendiri.</span></p></div>
     </article>
   </div>
 </div></section>
 
 <!-- ROADMAP TEKNOLOGI -->
-<section class="lsec paper" id="roadmap"><div class="lwrap">
-  <div class="lhead" data-reveal><span class="lkick">Roadmap teknologi</span>
+<section class="lsec lsec--n2 lsec--seam seam-navy" id="roadmap">
+  <!-- ⛔ DIBUANG · `.secedge secedge--navy` (tepi robek ketiga) DAN lapisan
+       `secart--garis` (dua gelombang selebar seksi + tiga titik berdenyut).
+       Gelombang itu bukan cuma ornamen besar — bentuknya sendiri BERGELOMBANG,
+       persis yang pemilik tolak. Kelas `paper` juga dicabut: gradasi seksi ini
+       sekarang cuma di batas ATAS (navy→paper2), bukan pudar di dua ujung.
+       ORNAMEN 6 · KAPSUL GLOSSY + GARIS DIAGONAL. -->
+  <div class="orn orn--ka orn--brass" aria-hidden="true" style="--w:clamp(190px,23vw,330px);--h:clamp(44px,4.3vw,62px)">
+    <i class="orn-caps"><b></b></i>
+  </div>
+  <div class="orn orn--kib orn--sekunder" aria-hidden="true" style="--w:clamp(160px,18vw,258px)">
+    <i class="orn-garis"></i>
+  </div>
+  <div class="lwrap">
+  <div class="lhead lhead--wide lhead--rule" data-reveal><span class="lkick">Roadmap teknologi</span>
     <h2 class="lh2" style="margin-top:12px">Arah yang jujur, <span class="lemph">bukan janji.</span></h2>
-    <p class="llead" style="margin-top:12px;max-width:72ch">Sebagian sudah prototipe, sebagian masih visi. Tiap kartu menandai statusnya apa adanya &mdash; lengkap dengan demo atau ilustrasi konsepnya. Kami tidak mengklaim yang belum berjalan.</p>
+    <p class="llead" style="margin-top:12px">Sebagian sudah prototipe, sebagian masih visi. Tiap kartu menandai statusnya apa adanya &mdash; lengkap dengan demo atau ilustrasi konsepnya. Kami tidak mengklaim yang belum berjalan.</p>
   </div>
   <div class="rmap mrail" style="margin-top:26px">
 
@@ -467,8 +1242,12 @@
 
     <article class="rmc" data-reveal data-d="1">
       <div class="rmc__viz rvsat">
-        <img class="after" src="/lab/img/forest.webp" alt="Sesudah — kanopi rapat">
-        <img class="before" src="/lab/img/satellite.jpg" alt="Sebelum — tutupan rendah">
+        <img class="after" src="/lab/img/forest.webp" srcset="/lab/img/forest-600.webp 600w, /lab/img/forest-900.webp 900w, /lab/img/forest.webp 1600w" sizes="(max-width:900px) 92vw, 380px" width="1600" height="1066" loading="lazy" decoding="async" alt="Sesudah — kanopi rapat">
+        <!-- `satellite.webp` sekarang berisi citra udara lahan bertutupan RENDAH
+             (semak jarang di tanah kering), dipilih justru supaya geser ini jujur:
+             sisi "sebelum" harus benar-benar terlihat bertutupan rendah, dan foto
+             lahan hijau subur di sini akan membantah keterangannya sendiri. -->
+        <img class="before" src="/lab/img/satellite.webp" srcset="/lab/img/satellite-600.webp 600w, /lab/img/satellite-900.webp 900w, /lab/img/satellite.webp 1600w" sizes="(max-width:900px) 92vw, 380px" width="1600" height="1000" loading="lazy" decoding="async" alt="Sebelum — tutupan rendah">
         <div class="div"></div>
         <span class="lab l">before</span><span class="lab r">after · NDVI</span>
         <input type="range" min="10" max="90" value="50" aria-label="Geser before/after" oninput="this.parentNode.style.setProperty('--sw',this.value+'%')">
@@ -476,7 +1255,7 @@
       <div class="rmc__b">
         <span class="rmc__phase p-vision">Masa depan</span>
         <h3>Satelit &amp; Monitoring</h3>
-        <p>Kini Glyiv memakai citra pihak ketiga (snapshot NDVI Sentinel&#8209;2) sebagai indikasi tutupan. Monitoring langsung near-real-time (deteksi perubahan, verifikasi otomatis) masih roadmap &mdash; Glyiv <b>tidak</b> punya satelit sendiri.</p>
+        <p>Kini Glyiv memakai citra pihak ketiga (snapshot NDVI Sentinel&#8209;2) sebagai indikasi tutupan. Monitoring langsung near-real-time (deteksi perubahan, verifikasi otomatis) masih roadmap &mdash; Glyiv <b>tidak punya satelit sendiri</b>.</p>
         <div class="rmc__foot"><span data-src="ESA Copernicus Sentinel-2|https://www.copernicus.eu/en/access-data/copernicus-services-catalogue" data-src-title="Sumber citra">Sentinel&#8209;2</span><span style="color:var(--brass)">Geser &middot; citra contoh</span></div>
       </div>
     </article>
@@ -486,18 +1265,26 @@
 
 <!-- ENTERPRISE BAND -->
 <section class="imgband" id="enterprise">
-  <div class="imgband__media"><img src="/lab/img/manufaktur.webp" alt="Enterprise"></div>
+  <div class="imgband__media"><img src="/lab/img/manufaktur.webp" srcset="/lab/img/manufaktur-600.webp 600w, /lab/img/manufaktur-900.webp 900w, /lab/img/manufaktur.webp 1600w" sizes="100vw" width="1600" height="1000" loading="lazy" decoding="async" alt="Enterprise"></div>
   <div class="imgband__scrim"></div>
   <div class="imgband__in">
     <span class="lkick" data-reveal>Untuk enterprise</span>
-    <h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 16px">Carbon Intelligence Platform.</h2>
+    <h2 class="lh2" data-reveal data-d="1" style="margin:14px 0 16px">Green Intelligence Platform.</h2>
     <p class="llead" data-reveal data-d="2" style="margin:0 auto">Melacak karbon menyorot kebocoran biaya yang tak pernah masuk anggaran &mdash; energi yang terbuang, bahan yang menyusut, rute yang berputar &mdash; lalu menunjukkan cara menutupnya. Disusun selaras GHG Protocol &amp; ISO 14064, dengan solusi yang berbeda untuk tiap industri. Sertifikasi dan MRV pihak ketiga masih peta jalan; yang kami berikan hari ini adalah angka yang <b>terlacak</b> dan bisa ditelusuri sampai sumbernya.</p>
-    <div style="margin-top:24px" data-reveal data-d="3"><a class="lbtn lbtn--solid" href="/lab/carbon-intelligence.html">Buka Carbon Intelligence Platform →</a></div>
+    <div style="margin-top:24px" data-reveal data-d="3"><a class="lbtn lbtn--solid" href="/lab/green-intelligence.html">Buka Green Intelligence Platform →</a></div>
   </div>
 </section>
 
 <!-- KOMUNITAS / GABUNG -->
-<section class="lsec tight" id="gabung"><div class="lwrap">
+<section class="lsec tight lsec--n1" id="gabung">
+  <!-- ORNAMEN 7 · CINCIN. Seksi ini sengaja yang paling polos di beranda (ia
+       menutup halaman), jadi cukup satu benda di sudut kanan bawah — dan tidak
+       ada jahitan gradasi di atasnya: batasnya adalah tepi keras pita gambar
+       gelap #enterprise, dan tepi keras memang cara foto berbatasan. -->
+  <div class="orn orn--kb orn--teal" aria-hidden="true" style="--d:clamp(150px,16vw,232px)">
+    <i class="orn-ring"><b></b></i>
+  </div>
+  <div class="lwrap">
   <div class="lhead" data-reveal style="text-align:center;margin:0 auto 6px">
     <span class="lkick">Komunitas &amp; Gerakan</span>
     <h2 class="lh2" style="margin-top:12px">Ini gerakan, <span class="lserif-accent">bukan sekadar aplikasi.</span></h2>
@@ -523,42 +1310,124 @@
       <span class="mvcard__get"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Etalase Pasar &amp; program kreator</span>
     </article>
   </div>
-    <!-- Blok ini dulu mengajak "ikuti kanal kami" dengan 4 tautan sosial yang
-       href-nya masih "#" alias mati. Itu yang membuatnya terasa memaksa:
-       meminta orang bergabung ke sesuatu yang belum ada. Diganti dengan tiga
-       ajakan yang benar-benar bisa dilakukan HARI INI, dan status kanal sosial
-       dinyatakan apa adanya. -->
-  <div class="joinx" data-reveal>
+    <!-- ═══ APLIKASI GLYIV → halaman unduh ═════════════════════════════════════
+       RIWAYAT BLOK INI, karena ia sudah dua kali berganti isi dan alasannya
+       harus ikut, bukan cuma hasilnya:
+
+       (1) Awalnya "ikuti kanal kami" dengan 4 tautan sosial ber-href="#" alias
+           mati — mengajak orang bergabung ke sesuatu yang belum ada.
+       (2) Lalu diganti tiga kartu "cara ikut sekarang": Baca Kabar ·
+           Coba gratis untuk outlet · Pantau lahan hijau.
+       (3) SEKARANG kisi aplikasi. Ini MENGGANTI (3), bukan menumpuk di
+           atasnya — `dokumen/PRINSIP-UIUX.md §1`, pertanyaannya "apa yang jadi
+           usang karena ini?".
+
+       Jawabannya konkret: ketiga kartu di (3) adalah "pilih pintu masuk ke
+       aplikasi kami", persis tugas kisi ini — hanya saja ia memuat 3 dari 6
+       aplikasi dan masing-masing satu paragraf penuh. Kabar dan Aset Hijau
+       tetap ada di kisi ini sebagai dua dari enam; uji coba gratis untuk outlet
+       tetap ada sebagai tombol di kaki blok, jadi tidak ada jalan yang hilang —
+       yang hilang hanya cara KEDUA untuk menempuhnya.
+       Prosanya turun dari 3 paragraf (± 90 kata) menjadi 6 baris satu kalimat.
+
+       ⛔ TAUTANNYA SENGAJA MASIH BERNAMA INDONESIA — JANGAN "DIRAPIKAN".
+       Perintah pemilik menuntut alamat Inggris (`/wallet` `/news` `/dbh`
+       `/green-assets` `/gip/outlet` `/app-store`), dan alamat itu MEMANG yang
+       dipakai — tetapi bukan di berkas ini. `dist/` adalah repo publik terpisah
+       (glyiv.github.io) yang dilayani GitHub Pages TANPA mesin rewrite: menulis
+       `/app-store` di sini membuat tombolnya 404 di sana, karena tidak ada
+       berkas `app-store.html`. Penerjemahnya `scripts/peta-rute.cjs`, yang
+       dijalankan porter; terukur di `src/pages/site/BerandaPage.tsx` sesudah
+       `node scripts/port-all.cjs`:
+         /hijau → /green-assets · /ukur → /dbh · /app → /wallet
+         /lab/kabar/index.html → /news · /akun/gip/outlet → /gip/outlet
+         /download.html → /app-store
+       Jadi glyiv.web.app dapat nama Inggris, glyiv.github.io tetap hidup.
+       Aturan yang sama ditulis di kepala `scripts/peta-rute.cjs` catatan #1. -->
+  <div class="joinx" id="aplikasi" data-reveal>
     <div class="joinx__head">
-      <span class="lkick">Cara ikut sekarang</span>
-      <h2 class="lh2" style="margin-top:10px">Tidak perlu menunggu peluncuran.</h2>
-      <p class="llead" style="margin-top:10px;max-width:60ch">Tiga hal ini sudah bisa dilakukan hari ini &mdash; bukan daftar tunggu. Pilih yang paling dekat dengan kamu.</p>
+      <span class="lkick">Aplikasi Glyiv</span>
+      <h2 class="lh2" style="margin-top:10px">Lima aplikasi, <span class="lserif-accent">satu halaman unduh.</span></h2>
+      <p class="llead" style="margin-top:10px;max-width:60ch">Semuanya punya versi web yang bisa dibuka sekarang. Versi Android-nya berkas APK &mdash; belum ada di Play Store, dan kami mengatakannya apa adanya.</p>
     </div>
 
-    <div class="joinx__grid">
-      <a class="joinx__c" href="/lab/kabar/index.html">
-        <span class="joinx__n">01</span>
-        <h3>Baca Kabar</h3>
-        <p>Liputan karbon Indonesia yang ditulis untuk orang biasa &mdash; regulasi, teknologi, dan uangnya.</p>
-        <span class="joinx__go">Buka Kabar &rarr;</span>
+    <div class="appx">
+      <a class="appx__c" href="/hijau">
+        <img class="appx__ik" src="/download/icon-green-assets.webp" width="40" height="40" alt="" loading="lazy" decoding="async">
+        <div class="appx__b">
+          <h3 class="appx__n">Glyiv Green Assets</h3>
+          <p class="appx__d">Gambar batas lahan, pantau tutupan hijaunya.</p>
+          <span class="appx__go">Buka versi web &rarr;</span>
+        </div>
       </a>
-      <a class="joinx__c" href="/auth?next=/akun/cip/outlet/daftar">
-        <span class="joinx__n">02</span>
-        <h3>Coba gratis untuk outlet</h3>
-        <p>Punya outlet atau toko? Daftarkan titik bayar Anda dan jalankan operasi berdata karbon &mdash; gratis 14 hari, tanpa perangkat baru dan tanpa mengganti sistem titik bayar yang sudah jalan.</p>
-        <span class="joinx__go">Mulai uji coba gratis &rarr;</span>
+      <a class="appx__c" href="/ukur">
+        <img class="appx__ik" src="/download/icon-dbh.webp" width="40" height="40" alt="" loading="lazy" decoding="async">
+        <div class="appx__b">
+          <h3 class="appx__n">Glyiv DBH</h3>
+          <p class="appx__d">Ukur diameter pohon, tetap jalan tanpa sinyal.</p>
+          <span class="appx__go">Buka versi web &rarr;</span>
+        </div>
       </a>
-      <a class="joinx__c" href="/hijau">
-        <span class="joinx__n">03</span>
-        <h3>Pantau lahan hijau</h3>
-        <p>Punya lahan bervegetasi? Gambar batasnya, lihat luas terhitung dan estimasi serapannya &#9888;&#65038;, lalu pantau tutupannya. Pendaftaran pemilik lahan masih ditunda.</p>
-        <span class="joinx__go">Buka Green Assets &rarr;</span>
+      <a class="appx__c" href="/app">
+        <img class="appx__ik" src="/download/icon-pocket.webp" width="40" height="40" alt="" loading="lazy" decoding="async">
+        <div class="appx__b">
+          <h3 class="appx__n">Glyiv Pocket</h3>
+          <p class="appx__d">Catat belanja harian dan jejak karbonnya.</p>
+          <span class="appx__go">Buka versi web &rarr;</span>
+        </div>
+      </a>
+      <a class="appx__c" href="/lab/kabar/index.html">
+        <img class="appx__ik" src="/download/icon-news.webp" width="40" height="40" alt="" loading="lazy" decoding="async">
+        <div class="appx__b">
+          <h3 class="appx__n">Glyiv News</h3>
+          <p class="appx__d">Liputan karbon Indonesia untuk orang biasa.</p>
+          <span class="appx__go">Buka versi web &rarr;</span>
+        </div>
+      </a>
+      <!-- Dua kartu terakhir memakai judul PERAN, bukan nama aplikasinya.
+           Sengaja: nama berkasnya memuat kata yang dilarang di situs publik
+           (CLAUDE.md → "outlet"/"titik bayar", dan `gabung-bahasa.cjs` menolak
+           padanan Inggrisnya). Nama utuhnya ada di halaman unduh, satu ketukan
+           dari sini. -->
+      <a class="appx__c" href="/akun/gip/outlet">
+        <img class="appx__ik" src="/download/icon-outlet.webp" width="40" height="40" alt="" loading="lazy" decoding="async">
+        <div class="appx__b">
+          <h3 class="appx__n">Glyiv GIP Outlet</h3>
+          <p class="appx__d">Terima pesanan, kelola stok &amp; jejak karbonnya. Satu aplikasi, dua peran perangkat.</p>
+          <span class="appx__go">Buka versi web &rarr;</span>
+        </div>
       </a>
     </div>
 
+    <!-- SATU tombol, dan itu keputusan, bukan kelalaian.
+         Sebelumnya kaki blok ini memuat TIGA tombol setara (`.lbtn`) plus satu
+         paragraf 2 kalimat tentang kanal media sosial. Tiga tombol setara =
+         tidak ada tombol utama: mata harus membaca ketiganya untuk tahu mana
+         yang dimaksud, dan itulah "dinding" yang dikeluhkan pemilik dalam
+         bentuk tombol. Bagian ini punya SATU tugas — mengantar orang ke halaman
+         unduh — jadi satu tombol pekat, dan dua jalan lain turun jadi tautan
+         teks yang tetap hidup (`.joinx__alt`), bukan hilang.
+         Paragraf kanal media sosial DIHAPUS: blok ini sudah tidak memuat satu
+         pun tautan sosial sejak kartu "ikuti kanal kami" dibuang, jadi ia
+         menjelaskan ketiadaan yang tidak terlihat siapa pun. Ia BUKAN
+         penyangkalan kejujuran (`PRINSIP-UIUX.md §4`) — penyangkalan yang wajib
+         ada di blok ini adalah "belum ada di Play Store", dan itu tetap
+         berdiri di paragraf pembuka.
+         ⚠︎ Akibatnya `.joinx__note` di `lab/css/lab.css` tidak dipakai siapa pun
+         lagi (`grep joinx dist/**/*.html` → hanya berkas ini). Hapus di ronde
+         yang menyentuh lab.css.
+         ⛔ `?next=` DITULIS DALAM NAMA BARU. `petakanTautan()` di
+         `scripts/peta-rute.cjs` memetakan PATH dan menyalin `?query` apa adanya,
+         jadi `?next=/akun/gip/outlet/daftar` akan lolos ke React dengan nama
+         yang sudah mati di dalamnya — persis jebakan "`?next=` menyimpan nama
+         yang sudah mati" di `RULES.md §4`. Rute `/gip/outlet/register` sudah ada
+         (`src/App.tsx` path="gip/outlet/register"). -->
     <div class="joinx__foot">
-      <a class="lbtn lbtn--solid" href="mailto:glyiv.archourium@gmail.com?subject=Bicara%20dengan%20Glyiv">Bicara dengan tim &rarr;</a>
-      <p class="joinx__note">Kanal media sosial Glyiv sedang disiapkan &mdash; kami tidak menautkannya sebelum benar-benar aktif. Sementara ini, Kabar dan email adalah kanal resmi kami.</p>
+      <a class="lbtn lbtn--solid" href="/download.html">Unduh aplikasi Android &rarr;</a>
+      <span class="joinx__alt">
+        <a href="/auth?next=/gip/outlet/register">Coba gratis untuk outlet &rarr;</a>
+        <a href="mailto:glyiv.archourium@gmail.com?subject=Bicara%20dengan%20Glyiv">Bicara dengan tim &rarr;</a>
+      </span>
     </div>
   </div></div></section>
 
@@ -568,16 +1437,17 @@
     <div>
       <a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>
       <p class="lfoot__about"><i style="font-family:var(--l-serif);font-size:16px;color:#eafff4;display:block;margin-bottom:8px">Building the digital ecosystem for sustainable living.</i>Menghubungkan manusia, alam, teknologi, dan ekonomi &mdash; agar setiap langkah menuju hidup yang sehat dan berkelanjutan bisa dilacak dan dipercaya.</p>
+      <div class="lfoot__sos" data-i18n-skip="sosial"><a class="lsos" href="https://www.instagram.com/glyiv.io" target="_blank" rel="noopener noreferrer" aria-label="Instagram Glyiv" title="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a class="lsos" href="https://www.tiktok.com/@glyiv.io" target="_blank" rel="noopener noreferrer" aria-label="TikTok Glyiv" title="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M16 3c.3 2 1.5 3.6 3.5 4v3c-1.4 0-2.7-.4-3.8-1.1V15a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v3.1a2.5 2.5 0 1 0 1.7 2.4V3H16z"/></svg></a><a class="lsos" href="https://www.youtube.com/@glyiv_io" target="_blank" rel="noopener noreferrer" aria-label="YouTube Glyiv" title="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="M11 9.5l4 2.5-4 2.5z" fill="currentColor"/></svg></a><a class="lsos" href="https://x.com/glyiv_io" target="_blank" rel="noopener noreferrer" aria-label="X Glyiv" title="X"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M4 4l7.6 9.8L4.4 20h2.1l6-6.5L17 20h3l-8-10.3L19.4 4h-2.1l-5.6 6.1L7 4H4z"/></svg></a><a class="lsos" href="https://www.facebook.com/profile.php?id=61592151959052" target="_blank" rel="noopener noreferrer" aria-label="Facebook Glyiv" title="Facebook"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3h-3.1V8.2c0-.9.3-1.5 1.5-1.5h1.7V4.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H7.8v3h2.2v8h3.5z"/></svg></a><a class="lsos" href="https://www.linkedin.com/company/glyivio/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Glyiv" title="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M4.5 3.5A2 2 0 1 1 4 7a2 2 0 0 1 .5-3.5zM3 9h3v12H3zM9 9h3v1.7c.5-.9 1.7-1.9 3.5-1.9 3 0 4.5 2 4.5 5.4V21h-3v-6c0-1.7-.6-2.8-2.1-2.8-1.2 0-1.9.8-2.2 1.6-.1.3-.1.7-.1 1V21H9z"/></svg></a></div>
       <div class="mq on-dark"><div class="mq__track">
         <span class="std">GHG Protocol</span><span class="std">ISO 14064</span><span class="std">ecoinvent</span><span class="std">EXIOBASE</span><span class="std">ERC-3643</span><span class="std">IDXCarbon (rujukan pasar)</span>
         <span class="std" aria-hidden="true">GHG Protocol</span><span class="std" aria-hidden="true">ISO 14064</span><span class="std" aria-hidden="true">ecoinvent</span><span class="std" aria-hidden="true">EXIOBASE</span><span class="std" aria-hidden="true">ERC-3643</span><span class="std" aria-hidden="true">IDXCarbon (rujukan pasar)</span>
       </div></div>
     </div>
-    <div><h4>Ekosistem</h4><a href="/lab/carbon-intelligence.html">Glyiv CIP · Carbon Intelligence</a><a href="/lab/industri/fnb-ritel.html" style="padding-left:14px;opacity:.9">↳ Solusi F&amp;B &amp; Ritel</a><a href="/auth?next=/akun/cip/outlet/daftar" style="padding-left:14px;opacity:.9">↳ Coba gratis (outlet)</a><a href="/lab/tree.html">Glyiv Green Assets</a><a href="/lab/ekosistem/saku.html">Glyiv Saku · aplikasi konsumen</a><a href="/lab/apps/">Semua aplikasi</a></div>
+    <div><h4>Ekosistem</h4><a href="/lab/green-intelligence.html">Glyiv GIP · Green Intelligence</a><a href="/lab/industri/fnb-ritel.html" style="padding-left:14px;opacity:.9">↳ Solusi F&amp;B &amp; Ritel</a><a href="/auth?next=/gip/outlet/register" style="padding-left:14px;opacity:.9">↳ Coba gratis (outlet)</a><a href="/lab/tree.html">Glyiv Green Assets</a><a href="/lab/ekosistem/saku.html">Glyiv Pocket · aplikasi konsumen</a><a href="/lab/apps/">Semua aplikasi</a></div>
     <div><h4>Ekonomi Hijau</h4><a href="/lab/ekosistem/pasar.html">Pasar</a><a href="/lab/ekosistem/pangan.html">Pangan</a><a href="/lab/ekosistem/dompet.html">Dompet</a><a href="/lab/ekosistem/bank-sampah.html">Bank Sampah</a><a href="/lab/ekosistem/dana.html">Dana</a></div>
     <div><h4>Perusahaan</h4><a href="/team.html">Tim &amp; Manifesto</a><a href="/wosu/index.html">PT WOSU Innovation Technology</a><a href="/lab/kabar/index.html">Kabar</a><a href="/#gabung">Gabung</a></div>
   </div>
-  <div class="lfoot__legal">
+  <div class="lfoot__legal"><span><a href="/ketentuan.html" style="color:#8affc1">Ketentuan Layanan</a> &middot; <a href="/privasi.html" style="color:#8affc1">Kebijakan Privasi</a></span>
     <span>© <span data-yr>2026</span> Glyiv · Platform Ekonomi Hijau</span>
     <span>Produk dari <a href="/wosu/index.html" style="color:#8affc1">PT WOSU Innovation Technology</a> &middot; pratinjau produk &middot; angka ilustrasi</span>
   </div>
@@ -591,7 +1461,7 @@
      menggulir kembali ke hero. Pita ini menaruhnya di tempat ibu jari berada.
      Di desktop `display:none`; navbar kembali jadi pemilik tunggal CTA. -->
 <div class="lstick">
-  <span class="lstick__t"><b>Mulai dari yang paling dekat</b>Gratis 14 hari untuk outlet &middot; tanpa perangkat baru</span>
+  <span class="lstick__t"><b>Mulai dari yang paling dekat</b>Gratis 30 hari untuk outlet &middot; tanpa perangkat baru</span>
   <a class="lbtn lbtn--solid" href="#gabung">Cara ikut</a>
 </div>
 
@@ -607,5 +1477,239 @@
 <script src="/assets/js/glyiv-nav.js" defer></script>
 <script src="/assets/js/glyiv-cards.js" defer></script>
 <script src="/assets/js/glyiv-sources.js" defer></script>
+<script src="/assets/js/hero-langkah.js" defer></script>
+
+<!-- ═══ #kenapa · penggerak adegan iklim ════════════════════════════════════════
+     Aturan yang dipegang skrip ini, semuanya sudah pernah memakan waktu:
+     · TIDAK memanggil API pembaca tata letak (getBoundingClientRect, offsetWidth)
+       di dalam gelang rAF. Yang ditulis per bingkai hanya properti kustom `--t`
+       pada satu elemen, plus `value` slider (satu elemen, tanpa tanggungan).
+     · KEHALUSAN DIBAYAR SAAT MESIN SENGGANG, BUKAN SAAT GULIR (ronde 56).
+       Kuantum `--t` 1/50 selama halaman digulir atau bingkai meleset, 1/200
+       saat diam. Penjaganya satu pendengar "scroll" pasif yang hanya menyimpan
+       stempel waktu — dipasang saat adegan mulai, DILEPAS saat adegan berhenti,
+       jadi kartu di luar layar tidak menempel apa pun pada gulir halaman.
+     · Gerak otomatis MATI total kalau pengunjung minta gerak dikurangi.
+     · Gerak otomatis BERHENTI selamanya begitu pengguna menyentuh slider, dan
+       DIJEDA saat adegan di luar layar (IntersectionObserver). rAF tidak pernah
+       dibiarkan menyala tanpa penonton.
+     · Teks hanya ditulis ulang saat nilai bulat (persepuluhan derajat) berubah,
+       jadi kira-kira 2 tulisan tiap 0,5 detik, bukan 60 per detik.
+     · Kalimat per pita ADA SEMUA di markup, hanya kelasnya yang diganti — supaya
+       mesin i18n menerjemahkannya sekali di awal, bukan mengejar teks yang
+       ditulis JS. Aturan yang sama membuat `aria-valuetext` ikut berbahasa:
+       potongannya dibaca dari DOM yang sudah diterjemahkan. -->
+<script>
+(function () {
+  "use strict";
+  function init() {
+    var akar = document.querySelector(".gvis");
+    if (!akar || akar.getAttribute("data-gvis") === "on") return;
+    var svg = akar.querySelector(".gvis__svg");
+    var geser = akar.querySelector(".gvis__range");
+    if (!svg || !geser) return;
+    akar.setAttribute("data-gvis", "on");
+
+    var derajat = akar.querySelector(".gvis__degv");
+    var angkaEl = akar.querySelector(".gvis__num");
+    var batang = akar.querySelector(".gvis__mbar i");
+    var namaEl = akar.querySelector(".gvis__mtxt");
+    var pil = akar.querySelectorAll(".gvis__chip");
+    var kata = akar.querySelectorAll(".gvis__say");
+    var potong = akar.querySelectorAll(".gvis__a11y i");
+
+    var MIN = 15, MAX = 30;          /* persepuluhan derajat: 1,5°C .. 3,0°C */
+    var P0 = 0.92, P1 = 3.23;        /* tekanan harga pangan 2035, rentang lintas
+                                        skenario emisi (Kotz, Kuik, Lis & Nickel
+                                        2024, Communications Earth & Environment) */
+    var kurang = window.matchMedia ? window.matchMedia("(prefers-reduced-motion: reduce)") : null;
+
+    var halus = MIN, tertulis = -1, arah = 1, tTulis = -1, jariTulis = -1;
+    var otomatis = true, jalan = false, raf = 0, lalu = 0;
+    var gulirTs = -1e9, rerataDt = 16.7;
+
+    function koma(n, d) { return n.toFixed(d).replace(".", ","); }
+
+    /* ── KENAPA `--t` DIBULATKAN, DAN KENAPA KUANTUMNYA SEKARANG BERUBAH-UBAH ──
+       34 elemen SVG memakai `var(--t)` di `fill`/`stroke`/`stop-color`/
+       `transform`, jadi SATU tulisan `--t` memaksa Chrome menghitung ulang gaya
+       seluruh adegan. Ronde 55 mengunci kuantum di 1/50 karena itu, dan angkanya
+       nyata: biaya melekat pada JUMLAH NILAI BERBEDA yang ditulis per detik,
+       bukan pada rAF-nya (saat tulisan `--t` diblok tapi rAF & panel tetap
+       jalan, biayanya langsung jatuh ke garis dasar).
+
+       Tapi 1/50 pada sapuan 7 detik = 7 langkah per detik, dan itulah yang
+       dikeluhkan pemilik: "pergantian slidernya terlalu tidak smooth". Jadi
+       ronde 56 TIDAK membuang kuantumnya — ia memisahkan dua keadaan yang
+       biayanya berbeda:
+
+         · SAAT MENGGULIR (atau bingkai sedang meleset) → kuantum KASAR 1/50.
+           Persis grid ronde 55, jadi ongkos gulir tidak naik sedikit pun.
+           Di sini memang tidak ada yang sedang menatap kehalusan adegan.
+         · SAAT DIAM (adegan terlihat, mesin senggang) → kuantum HALUS 1/200.
+           Empat kali lebih rapat: satu langkah menggeser warna langit 0,34
+           satuan (dari 255), garis air 0,21 px, skala matahari 0,0015 — jauh
+           di bawah ambang yang bisa dilihat mata, jadi geraknya terbaca
+           menerus, bukan mencatuk.
+
+       Diukur ulang dengan alat yang sama (390px, gulir 6 detik, CPU dicekik 4×,
+       TANPA prefers-reduced-motion, UpdateLayoutTree dijumlahkan):
+
+         gerak lama, kuantum tetap 1/50, sapuan linear 7 s   0,59 s  (7,2 tulis/dtk)
+         gerak baru, kuantum adaptif, saat MENGGULIR         0,59 s  (5,2 tulis/dtk)
+         tulisan `--t` diblok (garis dasar mesin)            0,46 s  (0 tulis/dtk)
+
+       Jadi biaya gulir TETAP, sementara saat diam resolusinya naik ±4×.
+       Pelunakan (smoothstep) membuat lajunya tidak rata: paling lambat di ujung,
+       paling cepat di tengah — persis seperti tangan yang menggeser. Karena
+       rata-ratanya turun (sapuan 7 s → 10 s), puncak lajunya pun masih di bawah
+       7,2 tulis/detik milik versi lama. */
+    var KASAR = 50;     /* 1/50  = 0,02  — saat menggulir / bingkai meleset */
+    var HALUS = 200;    /* 1/200 = 0,005 — saat diam & mesin senggang */
+    function adegan(v, kuantum) {
+      var t = Math.round(((v - MIN) / (MAX - MIN)) * kuantum) / kuantum;
+      if (t === tTulis) return;
+      tTulis = t;
+      svg.style.setProperty("--t", t.toFixed(4));
+    }
+
+    /* Ibu jari slider ditulis TERPISAH dari adegan, dengan grid tiga kali lebih
+       rapat. Boleh, karena ia satu elemen tanpa tanggungan: menulis `value`
+       hanya menggeser satu semu-elemen, bukan 34 simpul SVG. Ini yang paling
+       kentara dulu — dengan step=1 ibu jarinya melompat 16 kali sepanjang
+       sapuan, ±20 px sekali lompat di layar 390px. `step` dilonggarkan hanya
+       selama gerak otomatis dan DIKEMBALIKAN ke 1 begitu pengguna menyentuhnya,
+       supaya panah papan ketik tetap melangkah 0,1°C. */
+    function ibuJari(v, grid) {
+      var x = MIN + (Math.round(((v - MIN) / (MAX - MIN)) * grid) / grid) * (MAX - MIN);
+      if (x === jariTulis) return;
+      jariTulis = x;
+      geser.value = x.toFixed(3);
+    }
+
+    function panel(v) {
+      if (v === tertulis) return;
+      tertulis = v;
+      var t = (v - MIN) / (MAX - MIN);
+      var pangan = P0 + (P1 - P0) * t;
+      if (derajat) derajat.textContent = koma(v / 10, 1);
+      if (angkaEl) angkaEl.textContent = koma(pangan, 1);
+      if (batang) batang.style.width = (12 + t * 88).toFixed(1) + "%";
+      var pita = v < 20 ? 0 : (v < 25 ? 1 : 2);
+      for (var i = 0; i < pil.length; i++) pil[i].classList.toggle("is-on", i === pita);
+      for (var j = 0; j < kata.length; j++) kata[j].classList.toggle("is-on", j === pita);
+
+      var sDerajat = potong[0] ? potong[0].textContent : "derajat Celsius";
+      var sSatuan = potong[1] ? potong[1].textContent : "poin persen per tahun";
+      var sPita = pil[pita] ? pil[pita].textContent.trim() : "";
+      var sNama = namaEl ? namaEl.textContent.trim() : "";
+      geser.setAttribute("aria-valuetext",
+        "+" + koma(v / 10, 1) + " " + sDerajat + ". " + sPita + ". " +
+        sNama + " " + koma(pangan, 1) + " " + sSatuan + ".");
+    }
+
+    function pasang(v) { halus = v; adegan(v, HALUS); panel(Math.round(v)); }
+
+    /* Satu-satunya pendengar di luar kartu: stempel waktu gulir. Ia TIDAK
+       membaca tata letak (performance.now bukan pembaca), pasif, dan dilepas
+       lagi begitu adegan berhenti — jadi saat kartu di luar layar tidak ada
+       apa pun yang menempel pada gulir halaman. */
+    function catatGulir() { gulirTs = performance.now(); }
+
+    function jeda() {
+      jalan = false;
+      if (raf) { cancelAnimationFrame(raf); raf = 0; }
+      window.removeEventListener("scroll", catatGulir);
+    }
+    /* stop() harus IDEMPOTEN: ia dipanggil dua kali dalam satu tarikan jari
+       (pointerdown, lalu input). Kalau tidak dijaga, panggilan kedua menimpa
+       nilai yang baru saja digeser pengguna dengan nilai animasi terakhir. */
+    function stop() {
+      if (!otomatis) return;
+      otomatis = false;
+      jeda();
+      geser.step = "1";
+      geser.value = String(Math.round(halus));
+      jariTulis = -1;
+    }
+
+    /* Gerak seperti tangan, bukan seperti metronom: melaju dengan pelunakan
+       (smoothstep — pelan di ujung, penuh di tengah), lalu DIAM sejenak di
+       ujung sebelum berbalik. Versi lama linear dan memantul tajam di ujung. */
+    var SAPU = 10000;   /* satu arah, ms — lebih lambat dari 7000 versi lama */
+    var DIAM = 1000;    /* jeda di ujung sebelum berbalik, ms */
+    var fase = 0, tunggu = 0;
+
+    function langkah(ts) {
+      if (!jalan) { raf = 0; return; }
+      if (!lalu) lalu = ts;
+      var dt = Math.min(64, ts - lalu);   /* lompatan besar dijepit: tab yang
+                                             kembali aktif tidak melompat */
+      lalu = ts;
+      raf = requestAnimationFrame(langkah);
+      rerataDt += (dt - rerataDt) * 0.1;  /* rata-rata bergerak: menghindari
+                                             kuantum yang berkedip kasar-halus */
+      if (tunggu > 0) { tunggu -= dt; return; }
+
+      fase += dt / SAPU;
+      var ujung = fase >= 1;
+      if (ujung) fase = 1;
+      var e = fase * fase * (3 - 2 * fase);
+      halus = arah > 0 ? MIN + (MAX - MIN) * e : MAX - (MAX - MIN) * e;
+
+      /* "Mesin tidak sibuk" diukur, bukan ditebak: kalau bingkai rata-rata
+         sudah meleset (> 22 ms) atau halaman baru saja digulir, turun ke grid
+         kasar. Dua-duanya gratis — dt sudah dihitung, gulirTs cuma satu angka. */
+      var senggang = (ts - gulirTs > 260) && rerataDt < 22;
+      adegan(halus, senggang ? HALUS : KASAR);
+      ibuJari(halus, senggang ? 300 : 100);
+      panel(Math.round(halus));
+
+      if (ujung) { tunggu = DIAM; fase = 0; arah = -arah; }
+    }
+    function mulai() {
+      if (!otomatis || jalan) return;
+      if (kurang && kurang.matches) return;
+      jalan = true; lalu = 0;
+      geser.step = "0.001";   /* dikembalikan ke "1" di stop() */
+      window.addEventListener("scroll", catatGulir, { passive: true });
+      raf = requestAnimationFrame(langkah);
+    }
+
+    var hentikan = ["pointerdown", "mousedown", "touchstart", "keydown", "focusin"];
+    for (var k = 0; k < hentikan.length; k++) {
+      geser.addEventListener(hentikan[k], stop, { passive: true });
+    }
+    geser.addEventListener("input", function () {
+      /* nilai DIBACA DULU: stop() menyetel ulang step & value, dan kalau ini
+         panggilan stop() yang pertama (mis. teknologi bantu yang mengubah nilai
+         tanpa pointerdown) ia akan menimpa maunya pengguna. */
+      var v = Math.round(parseFloat(geser.value));
+      stop();
+      pasang(Math.min(MAX, Math.max(MIN, v || MIN)));
+      geser.value = String(Math.round(halus));
+    });
+
+    if (window.IntersectionObserver) {
+      /* threshold 0 (satu piksel tampak), BUKAN pecahan. Kartunya setinggi ~650px
+         di ponsel 390px; ambang 0,25 menuntut 160px terlihat sekaligus, dan pada
+         posisi gulir tertentu itu tidak pernah tercapai — adegannya membeku di
+         +1,5°C tepat saat pengguna sedang menatapnya. Pertanyaan yang benar di
+         sini memang "apakah ada yang melihat", bukan "seberapa banyak". */
+      new IntersectionObserver(function (baris) {
+        for (var i = 0; i < baris.length; i++) {
+          if (baris[i].isIntersecting) mulai(); else jeda();
+        }
+      }, { threshold: 0 }).observe(akar);
+    } else { mulai(); }
+
+    pasang(Math.min(MAX, Math.max(MIN, parseInt(geser.value, 10) || MIN)));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else { init(); }
+})();
+</script>
 </body>
 </html>

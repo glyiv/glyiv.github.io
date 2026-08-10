@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glyiv IoT — Rumah Pintar &amp; AI Trash-Bin</title>
 <meta name="description" content="Glyiv IoT: perangkat pintar yang mendata karbon rumah tangga otomatis — AC pintar, smart metering, dan AI trash-bin (ESP32 image recognition + servo penyortir sampah), terhubung DePIN.">
@@ -25,9 +26,15 @@
 /* trash bin */
 .io-bin{background:linear-gradient(160deg,#0c261c,#081a12);border-radius:18px;padding:20px;color:#fff;text-align:center;position:relative;overflow:hidden}
 .io-bin__cam{width:150px;height:110px;margin:6px auto 14px;border-radius:14px;background:#06140d;border:1px solid rgba(255,255,255,.1);display:grid;place-items:center;font-size:52px;position:relative;overflow:hidden}
-.io-bin__scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#33d188,transparent);top:0;box-shadow:0 0 10px #33d188;opacity:0}
+/* ⚠︎ Dulu `top: 0 → 100%` — properti tata letak, 0,9 detik penuh perhitungan
+   ulang tiap kali kamera "memindai". Persen pada `translateY` mengacu ke kotak
+   ELEMEN SENDIRI (2px), bukan wadahnya; karena itu elemennya dijadikan REL
+   setinggi kamera (tembus pandang) dan garisnya digambar `::before`. */
+.io-bin__scan{position:absolute;left:0;right:0;top:0;bottom:0;opacity:0;pointer-events:none}
+.io-bin__scan::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,#33d188,transparent);box-shadow:0 0 10px #33d188}
 .io-bin.scan .io-bin__scan{animation:ioScan .9s ease-in-out}
-@keyframes ioScan{0%{top:0;opacity:1}100%{top:100%;opacity:0}}
+@keyframes ioScan{0%{transform:translateY(0);opacity:1}100%{transform:translateY(100%);opacity:0}}
+@media (prefers-reduced-motion:reduce){.io-bin.scan .io-bin__scan{animation:none!important;opacity:0!important}}
 .io-bin__label{font-family:var(--l-mono);font-size:10px;letter-spacing:.08em;color:#8affc1;min-height:16px}
 .io-comps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px}
 .io-comp{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 5px;transition:.2s}
@@ -43,7 +50,7 @@
 <div id="ga-nav"></div>
 
 <section class="ga-hero">
-  <img class="bg" src="/lab/img/data-center.jpg" alt="IoT">
+  <img class="bg" alt="IoT" width="1600" height="1000" sizes="100vw" src="/lab/img/data-center.webp" srcset="/lab/img/data-center-600.webp 600w, /lab/img/data-center-900.webp 900w, /lab/img/data-center.webp 1600w">
   <div class="ga-hero__in">
     <div>
       <div class="ga-crumb"><a href="/">Glyiv</a> &rsaquo; <a href="/#ekosistem">Ekosistem</a> &rsaquo; Glyiv IoT</div>
@@ -131,7 +138,7 @@
     </div>
   </div>
 
-  <div class="ga-cta"><a class="ga-btn solid" href="/lab/carbon-intelligence.html#demo">Jadwalkan demo lengkap</a><a class="ga-btn glass" href="/#ekosistem" style="margin-left:8px">← Ekosistem Glyiv</a></div>
+  <div class="ga-cta"><a class="ga-btn solid" href="/lab/green-intelligence.html#demo">Jadwalkan demo lengkap</a><a class="ga-btn glass" href="/#ekosistem" style="margin-left:8px">← Ekosistem Glyiv</a></div>
 </div>
 
 <section class="lsec tight paper"><div class="lwrap"><p class="lnote" style="margin:0;padding-top:0;border-top:0">&#9888;&#65038; Halaman ini <b>pratinjau</b>: perangkat, konsumsi energi, dan kredit di dalamnya ilustrasi; jaringan DePIN masih peta jalan.</p></div></section>

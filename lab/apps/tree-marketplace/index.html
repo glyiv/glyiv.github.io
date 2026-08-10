@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glyiv Tree Marketplace — Konsol Pemantauan &amp; Kepemilikan Aset Hijau</title>
 <meta name="description" content="Konsol Glyiv Tree Marketplace: pantau tiap pohon & lahan real-time (metadata, satelit, dMRV), miliki atau sewa fraksi kepemilikan (ERC-3643), dan perdagangkan di bursa aset hijau.">
@@ -52,8 +53,14 @@ body{background:var(--white)}
 .tmx-map__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .tmx-map__grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:44px 44px;mix-blend-mode:overlay}
 .tmx-map__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,26,18,.28),rgba(8,26,18,.5))}
-.tmx-map__scan{position:absolute;top:0;bottom:0;width:80px;background:linear-gradient(90deg,transparent,rgba(51,209,136,.25));border-right:1.5px solid rgba(138,255,193,.7);animation:tmxScan 4.6s linear infinite}
-@keyframes tmxScan{0%{left:-10%}100%{left:100%}}
+/* ⚠︎ Sapuan peta ini dulu berjalan dengan `left:-10% → 100%`, `infinite` —
+   layout dihitung ulang tiap bingkai, selamanya. Persen pada `translateX`
+   mengacu ke kotak ELEMEN SENDIRI, bukan wadahnya; karena itu elemennya
+   dijadikan REL selebar peta (tembus pandang) dan pita 80px-nya digambar
+   `::before`. Jarak tempuhnya jadi identik dengan yang dulu. */
+.tmx-map__scan{position:absolute;top:0;bottom:0;left:0;width:100%;pointer-events:none;animation:tmxScan 4.6s linear infinite;will-change:transform}
+.tmx-map__scan::before{content:"";position:absolute;left:0;top:0;bottom:0;width:80px;background:linear-gradient(90deg,transparent,rgba(51,209,136,.25));border-right:1.5px solid rgba(138,255,193,.7)}
+@keyframes tmxScan{0%{transform:translateX(-10%)}100%{transform:translateX(100%)}}
 .tmx-pin{position:absolute;width:16px;height:16px;transform:translate(-50%,-50%);border-radius:50%;border:2px solid #fff;cursor:pointer;transition:transform .2s var(--ease);box-shadow:0 2px 8px rgba(0,0,0,.4);z-index:2}
 .tmx-pin:hover{transform:translate(-50%,-50%) scale(1.25)}
 .tmx-pin.baik{background:var(--emer-br)}
@@ -186,7 +193,7 @@ body{background:var(--white)}
 .tmx-btn.solid:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
 /* Di dalam hero gelap, tombol memakai perlakuan yang sama dengan hero beranda. */
 .tmx-hero .tmx-btn.solid{background:linear-gradient(135deg,var(--emer-br),var(--emer));color:#04160e;box-shadow:0 14px 40px -14px rgba(28,174,107,.6)}
-.tmx-btn.gold{background:linear-gradient(120deg,var(--brass),var(--brass2));color:#1c1405}
+.tmx-btn.gold{background:linear-gradient(120deg,#8A6730,#6F5124);color:#fff}
 .tmx-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--pine);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;opacity:0;transition:.25s var(--ease);z-index:90;box-shadow:var(--sh3)}
 .tmx-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 /* 3D tree */
@@ -228,6 +235,19 @@ body{background:var(--white)}
 .tmx-vc .src{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
 .tmx-vc .src span{font-family:var(--l-mono);font-size:8.5px;color:var(--muted);background:var(--paper2);border:1px solid var(--hair);border-radius:6px;padding:3px 7px}
 @media (max-width:940px){.tmx-ribbon{grid-template-columns:1fr 1fr}.tmx-grid,.tmx-exgrid{grid-template-columns:1fr}.t3-grid{grid-template-columns:1fr}.t3-stage{border-right:0;border-bottom:1px solid var(--hair)}.tmx-vis{grid-template-columns:1fr}}
+
+/* ══ HEMAT GERAK ═════════════════════════════════════════════════════════════
+   Halaman ini tidak punya satu pun blok hemat-gerak: sapuan peramban menemukan
+   LIMA animasi masih berjalan saat pengguna meminta gerak dikurangi (heroKen,
+   tmxBlink, tmxScan, tmxPulse, tmxFade). Ken-Burns dimatikan berikut skalanya
+   supaya gambarnya tidak tertinggal membesar 5% dan terpotong; titik "langsung"
+   dan pin terpilih tetap TERGAMBAR, hanya kedip/denyutnya yang berhenti. */
+@media (prefers-reduced-motion:reduce){
+  .tmx-hero img{animation:none!important;transform:scale(1.05)!important}
+  .tmx-live i,.tmx-pin.on,.tmx-pane.on{animation:none!important}
+  .tmx-map__scan{animation:none!important;transform:translateX(-10%)!important}
+  .tmx-pin,.tmx-plot,.tmx-tab{transition:none!important}
+}
 </style>
 </head>
 <body>
@@ -236,8 +256,9 @@ body{background:var(--white)}
 <header class="lnav" data-solid>
   <div class="lnav__in">
     <a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>
+    <span class="lnav__tag">Your Green Industry Intelligence Platform</span>
     <nav class="lnav__links">
-      <a href="/lab/carbon-intelligence.html#platform">Platform</a>
+      <a href="/lab/green-intelligence.html#platform">Platform</a>
       <div class="ldrop">
         <button class="ldrop__btn">Solusi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
@@ -247,27 +268,31 @@ body{background:var(--white)}
           <div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a><a href="/lab/industri/fnb-ritel.html">Glyiv Outlet<small>Infrastruktur jaringan outlet</small></a></div>
         </div>
       </div>
-      <a href="/lab/carbon-intelligence.html#tour">Cara Kerja</a>
+      <a href="/lab/green-intelligence.html#tour">Cara Kerja</a>
       <a href="/lab/tree.html">Tree Marketplace</a>
       <a href="/lab/kabar/index.html">Kabar</a>
-      <a href="/lab/landing/index.html" class="lnav__admin">Landing</a>
+      <a href="/download.html">Store</a><a href="/lab/landing/index.html" class="lnav__admin">Landing</a>
       <div class="ldrop ldrop--r">
         <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
           <div class="ldrop__grp"><h4>Glyiv</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim &amp; Manifesto</a></div>
-          <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
+          <!-- Pintu masuk PT WOSU di laci ini DICABUT atas permintaan pemilik.
+               Halaman /wosu tetap ada, tetap bisa dibuka, dan tetap tertaut dari KAKI
+               halaman; yang ditutup hanya butir navbar. Yang dibuang satu grup utuh
+               (judul laci + tautannya), bukan hanya tautannya: kepala laci tanpa isi
+               tidak menuju ke mana pun. Jangan dikembalikan tanpa perintah pemilik. -->
         </div>
       </div>
     </nav>
     <span class="lnav__sp"></span>
-    <a class="lnav__cta" href="/lab/carbon-intelligence.html#demo">Jadwalkan Demo</a>
+    <a class="lnav__cta" href="/lab/green-intelligence.html#demo">Jadwalkan Demo</a>
     <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
 </header>
 
 <!-- HERO -->
 <section class="tmx-hero">
-  <img src="/lab/img/forest.webp" alt="Hutan terpantau">
+  <img alt="Hutan terpantau" width="1600" height="1066" sizes="100vw" src="/lab/img/forest.webp" srcset="/lab/img/forest-600.webp 600w, /lab/img/forest-900.webp 900w, /lab/img/forest.webp 1600w">
   <div class="tmx-hero__in">
     <div>
       <div class="tmx-crumb"><a href="/">Glyiv</a> &rsaquo; <a href="/lab/tree.html">Green Assets</a> &rsaquo; Tree Marketplace</div>
@@ -295,7 +320,7 @@ body{background:var(--white)}
     <div class="tmx-card">
       <div class="tmx-card__hd"><h3>Peta Pemantauan</h3><span class="tag" data-plotname>—</span></div>
       <div class="tmx-map">
-        <img class="tmx-map__img" data-mapimg src="/lab/img/sawit-agri.jpg" alt="Citra aerial lahan">
+        <img class="tmx-map__img" data-mapimg src="/lab/img/sawit-agri.webp" alt="Citra aerial lahan">
         <div class="tmx-map__grid"></div><div class="tmx-map__scrim"></div><div class="tmx-map__scan"></div>
         <div class="tmx-mapleg">
           <span><i style="background:#1cae6b"></i> sehat</span>
@@ -393,7 +418,7 @@ body{background:var(--white)}
 
   <div style="text-align:center;padding:34px 0 60px">
     <a class="lbtn lbtn--solid" href="/lab/apps/kebun/">🌱 Coba Kebun Virtual</a>
-    <a class="lbtn lbtn--glass" href="/lab/carbon-intelligence.html#demo" style="margin-left:10px">Jadwalkan demo lengkap</a>
+    <a class="lbtn lbtn--glass" href="/lab/green-intelligence.html#demo" style="margin-left:10px">Jadwalkan demo lengkap</a>
     <a class="lbtn lbtn--glass" href="/hijau" style="margin-left:10px">Buka Green Assets →</a>
     <a class="lbtn lbtn--glass" href="/lab/tree.html" style="margin-left:10px">← Green Assets</a>
   </div>
@@ -405,7 +430,7 @@ body{background:var(--white)}
 (function(){
 "use strict";
 /* any aerial/satellite image that fails to load falls back to a local aerial photo */
-document.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG"&&/unsplash\.com/.test(t.src||"")&&!t.dataset.fb){t.dataset.fb="1";t.src="/lab/img/sawit-agri.jpg";}},true);
+document.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG"&&/unsplash\.com/.test(t.src||"")&&!t.dataset.fb){t.dataset.fb="1";t.src="/lab/img/sawit-agri.webp";}},true);
 var $=function(s,r){return (r||document).querySelector(s)};
 var $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 var rnd=function(a,b){return a+Math.random()*(b-a)};
@@ -558,7 +583,7 @@ $$(".tmx-tab").forEach(function(t){t.addEventListener("click",function(){setTab(
 
 $("[data-connect]").addEventListener("click",function(){
   state.connected=!state.connected;
-  if(state.connected){state.bal=+rnd(4000,12000).toFixed(0);this.textContent="0x7a…Gl9 ✓";pushFeed("chain","Wallet terhubung","Glyiv Wallet · saldo ◈ "+fmt(state.bal));toast("Wallet terhubung (simulasi)");}
+  if(state.connected){state.bal=+rnd(4000,12000).toFixed(0);this.textContent="0x7a…Gl9 ✓";pushFeed("chain","Wallet terhubung","Glyiv Pocket · saldo ◈ "+fmt(state.bal));toast("Wallet terhubung (simulasi)");}
   else{state.bal=0;this.textContent="Hubungkan Wallet";}
   $("[data-wbal]").textContent="◈ "+fmt(state.bal);
 });

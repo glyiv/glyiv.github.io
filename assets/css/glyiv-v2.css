@@ -4,15 +4,35 @@
    transform/opacity + IntersectionObserver; tablet-safe (0 WebGL).
    ============================================================= */
 :root{
-  --white:#FFFFFF;          /* true white base (owner: benar-benar putih) */
-  --paper-2:#F7F8F7;        /* faint panel wash (NOT cream) */
+  /* ══ RONDE 59 · KERTAS HANGAT ═══════════════════════════════════════════
+     Pemilik: *"Coba cari warna putih yang menunjukkan warna putih tapi tidak
+     yang buat sakit mata, putih yang bukan neon putih, tapi seperti smooth dan
+     enak di mata begitu."*
+
+     Berkas ini dipakai `dist/team.html` SENDIRIAN (tanpa lab.css — terukur:
+     team.html memuat glyiv-v2.css + glyiv-nav.css + glyiv-team.css), jadi
+     tokennya harus digeser di SINI juga, kalau tidak halaman tim akan jadi
+     satu-satunya halaman yang masih #FFFFFF neon di sebelah situs berkertas.
+     Nilainya PERSIS sama dengan tangga di `dist/lab/css/lab.css` ronde 59:
+       --white   #F9F8F3  Y 0,9375   kanvas
+       --paper-2 #F4F2EA  Y 0,8868   nada 2
+     Kartu tetap `#fff` (tersebar sebagai `background:#fff` di berkas ini), jadi
+     lapisannya sama: kartu putih murni MENGAMBANG di atas kertas hangat.
+
+     ⚠︎ `--muted` ikut dipekatkan #6B7280 → #65706B. Kanvas yang menggelap
+     MENURUNKAN rasio teks gelap: #6B7280 di atas #FFFFFF = 4,83:1, tetapi di
+     atas #F9F8F3 = 4,55:1 — masih AA, hanya 0,05 dari lantainya. #65706B
+     mengembalikannya ke 4,84:1 DAN menyamakannya dengan lab.css, jadi dua
+     berkas ini berhenti punya dua abu yang berbeda. */
+  --white:#F9F8F3;          /* kertas hangat — putih, bukan putih layar */
+  --paper-2:#F4F2EA;        /* faint panel wash (NOT cream) */
   --pine:#0F2E22; --pine-700:#16412F; --pine-600:#1d5741;
   --navy:#0B2471; --navy-600:#1b3aa0;
-  --ink:#12211B; --slate:#48524B; --muted:#6B7280;
+  --ink:#12211B; --slate:#48524B; --muted:#65706B;
   --brass:#B0894F; --brass-600:#9a7639;
   --teal:#1F7A6B; --teal-300:#8fc9bd;
   --hairline:#E7E9E6; --hairline-2:#EEF0ED;
-  --pine-tint:#EDF3EF; --navy-tint:#EEF1FB; --brass-tint:#F7F1E6;
+  --pine-tint:#EFF4EF; --navy-tint:#EDF1F9; --brass-tint:#F7F2E6;
   /* real, layered elevation (depth without color) */
   --sh-1:0 1px 2px rgba(16,33,27,.04), 0 2px 8px rgba(16,33,27,.05);
   --sh-2:0 2px 6px rgba(16,33,27,.05), 0 12px 28px -8px rgba(16,33,27,.10);
@@ -222,7 +242,11 @@ em.brassed{font-style:normal;color:var(--brass-600)}
 /* ============================ FOOTER ============================ */
 .foot{background:var(--pine);color:#fff;position:relative;z-index:1}
 .foot__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:26px;padding:clamp(48px,7vh,72px) 0 30px}
-.foot .brand{color:#fff}.foot .brand i{color:var(--teal)}
+/* ⛔ --teal (#1F7A6B) di atas kaki pine #0F2E22 = 2,83:1 — terukur di /team.html.
+   Aksen di atas gelap WAJIB mint. Dua salinan sejenis sudah benar sejak lama:
+   glyiv-nav.css .lnav:not(.scrolled) .lbrand b i{#33d188} dan
+   lab.css .lfoot .lbrand b i{#33d188}. Ini yang ketiga, dan ia terlewat. */
+.foot .brand{color:#fff}.foot .brand i{color:#33d188}
 .foot__about{color:#a9c2b6;font-size:13.5px;margin:14px 0 16px;line-height:1.55;max-width:34ch}
 .foot__badges{display:flex;flex-wrap:wrap;gap:7px}
 .foot__badges span{font-family:var(--f-mono);font-size:10.5px;color:#cfe0d6;border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:5px 9px}

@@ -2,134 +2,456 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PT WOSU Innovation Technology — Membangun teknologi bernilai tinggi dari Indonesia</title>
-<meta name="description" content="PT WOSU Innovation Technology — perusahaan teknologi yang membangun produk bernilai tinggi untuk Indonesia dan dunia. Induk dari Glyiv, platform intelijen karbon.">
-<link rel="icon" href="/logo.svg">
+<title>PT WOSU Innovation Technology — Innovate. Optimize. Elevate.</title>
+<meta name="description" content="PT WOSU Innovation Technology — perusahaan induk teknologi asal Indonesia yang membangun produk bernilai tinggi. Induk dari Glyiv (Green Intelligence Platform), Freszon, dan lini pengembangan game di platform Roblox.">
+<meta name="theme-color" content="#0B0B0B">
+<link rel="icon" href="/wosu/wosu.svg">
+<link rel="preload" as="font" type="font/woff2" href="/wosu/font/montserrat-wosu.woff2" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --navy:#0A2540; --navy-900:#071B33; --navy-700:#0f2f57; --navy-600:#1a3a6b;
-  --gold:#C6A15B; --gold-600:#a8863f; --gold-tint:#F5EFE2;
-  --white:#FFFFFF; --paper:#F7F5F0; --paper-2:#F2EFE7; --ink:#14181C; --slate:#49525C; --muted:#6B7480; --hair:#E7E3D9; --hair-2:#EFEBE1;
-  --navy-tint:#EEF2F8;
-  --serif:"Newsreader",Georgia,serif; --sans:"Hanken Grotesk",system-ui,-apple-system,Segoe UI,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
-  --ease:cubic-bezier(.22,1,.36,1);
-  --sh1:0 1px 2px rgba(10,37,64,.05),0 4px 14px rgba(10,37,64,.06);
-  --sh2:0 2px 8px rgba(10,37,64,.06),0 16px 36px -12px rgba(10,37,64,.16);
-  --sh3:0 10px 28px -8px rgba(10,37,64,.16),0 40px 80px -30px rgba(7,27,51,.3);
+/* ══════════════════════════════════════════════════════════════════════════
+   PT WOSU INNOVATION TECHNOLOGY — identitas korporat monokrom.
+
+   Palet deck identitas — yang dipamerkan di seksi "Identitas": #EBEBEB ·
+   #A7A7A7 · #555555 · #1A1A1A. Di luar keempatnya halaman ini hanya memakai
+   TANGGA ABU-ABU netral (--w-000 … --w-w di bawah): tidak ada satu pun rona
+   berwarna, dan tidak ada warna merek Glyiv. Lambang dua nada abu #C3C3C3 /
+   #5B5B5B. Tipografi Montserrat.
+
+   ⛔ Palet gelap ini MILIK HALAMAN WOSU SAJA. Merek Glyiv tetap terang dan
+      editorial (_glyiv-brain/RULES.md §1) — jangan bawa nada gelap ini ke
+      halaman Glyiv mana pun, dan jangan sentuh komponen bersama `.lnav`.
+      Semua aturan di bawah diikat ke `.wos` supaya tidak bisa bocor.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Montserrat, subset latin + tanda baca yang dipakai halaman ini (20.016 B).
+   Variabel 100–900 → SATU berkas untuk semua bobot. Dimuat HANYA di sini;
+   jangan pindahkan ke index.html global. */
+@font-face{
+  font-family:"Montserrat";
+  src:url("/wosu/font/montserrat-wosu.woff2") format("woff2");
+  font-weight:100 900;font-style:normal;font-display:swap;
 }
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+.wos{
+  /* ⚠︎ MANA YANG BOLEH DIPAKAI UNTUK TEKS — diukur, bukan dikira-kira.
+     Palet monokrom itu sempit; di halaman gelap sangat mudah menaruh abu-abu
+     yang terlihat "cukup" padahal 2,6:1. Tabel di bawah dihitung ULANG ronde ini
+     dari nilai heksa persis di baris `--w-*` berikutnya, dengan rumus luminans
+     relatif + (L1+0,05)/(L2+0,05) WCAG 2.x. Dua angka kolom terang yang lama
+     SALAH dan sudah dibetulkan: `--w-400` di #FFFFFF 3,42 → 3,45 dan `--w-500`
+     di #FFFFFF 4,90 → 5,10.
+
+       token      di #0B0B0B / #1A1A1A     di #FFFFFF / #EBEBEB     luminans
+       --w-100   16,51 / 14,60  ✔ teks      1,19 / 1,00  ✘           0,831
+       --w-200   12,63 / 11,17  ✔ teks      1,56 / 1,31  ✘           0,624
+       --w-300    8,18 /  7,23  ✔ teks      2,41 / 2,02  ✘           0,386
+       --w-400    5,70 /  5,04  ✔ teks      3,45 / 2,90  ✘           0,254
+       --w-500    3,86 /  3,41  ✘           5,10 / 4,28  ✘ di #EBEBEB 0,156
+       --w-600    2,64 /  2,33  ✘           7,46 / 6,25  ✔ teks       0,091
+
+     ⛔ DAN ADA SYARAT KEDUA YANG LEBIH KETAT DARI WCAG. `scripts/audit-kontras.cjs`
+     — gerbang wajib proyek ini (RULES §2) — tidak mengukur RASIO sama sekali:
+     ia menolak setiap teks di dalam wadah `.on-dark` yang LUMINANSnya < 0,30.
+     `--w-400` (#8A8A8A) lolos WCAG di latar gelap (5,70:1) tetapi luminansnya
+     0,254 — audit ronde sebelumnya mencatat 17 temuan karenanya. Jadi
+     `--w-400`/`--w-500` untuk garis, bar, dan lambang saja, tidak pernah huruf.
+
+     ⚠︎ TEKS SEKUNDER DI LATAR GELAP NAIK DARI `--w-300` KE `--w-200`, atas
+     permintaan pemilik ("teks diputihkan sedikit"). Ini BUKAN perbaikan
+     pelanggaran: `--w-300` sudah lulus WCAG AA (8,18:1), dan pengukuran seluruh
+     simpul teks halaman ini sebelum perubahan memang 0 pelanggaran, rasio
+     terendah 6,25:1. Yang diperbaiki keterbacaan di layar tablet — label
+     terkecil halaman ini 8,5–9,5px, huruf besar, berjarak 0,17–0,22em. Sesudah
+     ganti: 7,23 → 11,17 di #1A1A1A dan 8,18 → 12,63 di #0B0B0B.
+
+     ⚠︎ DAN LATAR GELAPNYA BUKAN WARNA PADAT — angka #0B0B0B di atas terlalu
+     murah hati. Hero menumpuk radial rgba(235,235,235,.09) + kisi (.045 dengan
+     opacity .55) sehingga titik paling terangnya rgb(36,36,36); panel `.wflag`
+     bergradien sampai #222222. Di dua titik terburuk itu `--w-200` = 9,94:1 dan
+     10,21:1 (`--w-300` di sana hanya 6,44:1 dan 6,61:1).
+
+     Ringkasnya: di latar GELAP teks `--w-200` (sekunder) dan `--w-100`/#FFF
+     (utama); `--w-300` turun pangkat jadi warna GARIS & aksen saja (rel
+     `.whero__tag::before`). Di latar TERANG teks minimal `--w-600` — di sana
+     "memutihkan" justru MENURUNKAN kontras, jadi sisi terang tidak disentuh. */
+  --w-000:#0B0B0B; --w-ink:#1A1A1A; --w-800:#242424; --w-700:#3A3A3A;
+  --w-600:#555555; --w-500:#6E6E6E; --w-400:#8A8A8A; --w-300:#A7A7A7;
+  --w-200:#CFCFCF; --w-100:#EBEBEB; --w-050:#F5F5F5; --w-w:#FFFFFF;
+  --wm-a:#C3C3C3; --wm-b:#5B5B5B;
+  --w-sans:"Montserrat",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --w-ease:cubic-bezier(.22,1,.36,1);
+  --w-hair:rgba(26,26,26,.14);
+  --w-hair-d:rgba(235,235,235,.16);
+  font-family:var(--w-sans);font-synthesis:none;
+  color:var(--w-ink);background:var(--w-w);line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wos *,.wos *::before,.wos *::after{box-sizing:border-box}
+.wos [hidden]{display:none!important}
 html{scroll-behavior:smooth;overflow-x:hidden}
-body{margin:0;font-family:var(--sans);color:var(--ink);background:var(--white);line-height:1.62;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-img{max-width:100%;display:block}
-a{color:inherit;text-decoration:none}
-button{font-family:inherit;cursor:pointer}
-::selection{background:rgba(198,161,91,.25)}
-.wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
-.sec{position:relative;padding:clamp(60px,9vh,116px) 0}
-.sec.tight{padding:clamp(44px,6vh,80px) 0}
-.sec.paper{background:var(--paper)}
-.kick{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-600);font-weight:600}
-h1,h2,h3{font-family:var(--serif);font-weight:600;color:var(--navy);letter-spacing:-.014em;line-height:1.08;margin:0}
-h1{font-size:clamp(36px,5.6vw,68px)}
-h2{font-size:clamp(28px,3.8vw,46px)}
-h3{font-size:20px}
-.lead{font-size:clamp(16px,1.5vw,19px);color:var(--slate);line-height:1.62}
-.lead b{color:var(--ink)}
-em.g{font-style:normal;color:var(--gold-600)}
-.head{max-width:62ch;margin-bottom:36px}.head .kick{display:block;margin-bottom:14px}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,60px);align-items:center}
-.split-64{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(28px,4vw,60px);align-items:center}
-[data-r]{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-[data-r].in{opacity:1;transform:none}
-[data-d="1"]{transition-delay:.08s}[data-d="2"]{transition-delay:.16s}[data-d="3"]{transition-delay:.24s}[data-d="4"]{transition-delay:.32s}
-.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;padding:13px 23px;border-radius:11px;border:1px solid transparent;transition:transform .2s var(--ease),box-shadow .25s,background .25s,border-color .25s}
-.btn svg{width:16px;height:16px}
-.btn.primary{background:var(--navy);color:#fff;box-shadow:var(--sh1)}.btn.primary:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
-.btn.gold{background:var(--gold);color:var(--navy-900);box-shadow:0 12px 30px -12px rgba(198,161,91,.6)}.btn.gold:hover{transform:translateY(-2px)}
-.btn.ghost{background:#fff;color:var(--navy);border-color:var(--hair)}.btn.ghost:hover{border-color:var(--navy)}
-.on-navy .btn.ghost{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.3)}.on-navy .btn.ghost:hover{border-color:#fff;background:rgba(255,255,255,.16)}
+body{margin:0;overflow-x:hidden}
+.wos img{max-width:100%;display:block}
+.wos a{color:inherit;text-decoration:none}
+.wos button{font-family:inherit;cursor:pointer}
+/* ⚠︎ `:where()` DISENGAJA. `.wos p{margin:0}` berspesifisitas (0,1,1) dan
+   diam-diam MENGALAHKAN setiap aturan satu-kelas seperti `.whero__lead
+   {margin-bottom:36px}` — jaraknya jadi 0 tanpa satu pun galat, dan itu
+   terlihat seperti "desainnya memang rapat". `:where()` menyumbang 0, jadi
+   reset ini turun ke (0,1,0) dan aturan komponen di bawahnya kembali berlaku. */
+.wos :where(p){margin:0}
+.wos ::selection{background:rgba(85,85,85,.28)}
 
-/* nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:80;transition:background .3s,backdrop-filter .3s,border-color .3s,box-shadow .3s;border-bottom:1px solid transparent}
-.nav.scr{background:rgba(255,255,255,.85);-webkit-backdrop-filter: saturate(1.4) blur(16px); backdrop-filter: saturate(1.4) blur(16px);border-bottom-color:var(--hair);box-shadow:0 6px 24px -18px rgba(10,37,64,.3)}
-.nav__in{display:flex;align-items:center;gap:16px;max-width:1200px;margin:0 auto;height:68px;padding:0 clamp(20px,5vw,48px)}
-.brand{display:flex;align-items:center;gap:11px;color:var(--navy)}
-.brand__mk{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--navy),var(--navy-600));display:grid;place-items:center;color:var(--gold);font-family:var(--serif);font-weight:600;font-size:19px;flex:0 0 auto}
-.brand b{font-family:var(--serif);font-weight:600;font-size:18px;line-height:1}
-.brand small{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;display:block}
-.nav:not(.scr) .brand{color:#fff}.nav:not(.scr) .brand small{color:rgba(255,255,255,.6)}.nav:not(.scr) .brand__mk{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25)}
-.nav__lnk{display:flex;gap:4px;margin-left:14px}
-.nav__lnk a{font-size:14px;font-weight:600;color:var(--slate);padding:9px 12px;border-radius:9px;transition:.18s}
-.nav__lnk a:hover{color:var(--navy);background:var(--navy-tint)}
-.nav:not(.scr) .nav__lnk a{color:rgba(255,255,255,.85)}.nav:not(.scr) .nav__lnk a:hover{color:#fff;background:rgba(255,255,255,.12)}
-.nav__sp{margin-left:auto}
-.nav__cta{font-weight:700;font-size:14px;color:#fff;background:var(--navy);padding:10px 18px;border-radius:999px;box-shadow:var(--sh1);transition:transform .18s}
-.nav:not(.scr) .nav__cta{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.4)}
-.nav__cta:hover{transform:translateY(-1px)}
+/* ── kerangka ──────────────────────────────────────────────────────────── */
+.wwrap{width:100%;max-width:1180px;margin:0 auto;padding:0 clamp(20px,5vw,48px)}
+.wsec{position:relative;padding:clamp(64px,9vh,120px) 0}
+.wsec--rapat{padding:clamp(48px,6vh,84px) 0}
+.wsec--terang{background:var(--w-100)}
+.wsec--kertas{background:var(--w-w)}
+.wsec--gelap{background:var(--w-ink);color:var(--w-100)}
+.wsec--tinta{background:var(--w-000);color:var(--w-100)}
+.wrule{height:1px;background:var(--w-hair);border:0;margin:0}
 
-/* hero */
-.hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;color:#fff;background:radial-gradient(120% 90% at 80% -10%,#0f2f57,#0A2540 55%,#071B33)}
-.hero::before{content:"";position:absolute;inset:0;opacity:.5;background:radial-gradient(50% 50% at 82% 30%,rgba(198,161,91,.14),transparent 60%),radial-gradient(40% 60% at 10% 90%,rgba(26,58,107,.5),transparent 60%)}
-.hero__grid{position:absolute;inset:0;opacity:.5;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(70% 70% at 70% 40%,#000,transparent)}
-.hero__in{position:relative;width:100%;max-width:1200px;margin:0 auto;padding:110px clamp(20px,5vw,48px) 0}
-.hero__eye{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
-.hero__eye .ln{width:32px;height:1px;background:var(--gold)}
-.hero h1{color:#fff;max-width:17ch;margin-bottom:22px}
-.hero h1 em{font-style:italic;color:var(--gold)}
-.hero__lead{max-width:52ch;color:rgba(255,255,255,.86);margin-bottom:30px}
-.hero__cta{display:flex;gap:14px;flex-wrap:wrap}
-.hero__stats{display:flex;gap:38px;flex-wrap:wrap;margin-top:48px;border-top:1px solid rgba(255,255,255,.14);padding-top:26px}
-.hero__stat b{font-family:var(--serif);font-weight:600;font-size:30px;color:#fff;display:block;line-height:1}
-.hero__stat span{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:rgba(255,255,255,.55);text-transform:uppercase}
-.hero__stat b i{font-style:normal;color:var(--gold)}
+/* ── tipografi ─────────────────────────────────────────────────────────── */
+.wos :where(h1,h2,h3,h4){font-family:var(--w-sans);color:inherit;margin:0;letter-spacing:-.018em;line-height:1.1;font-weight:700}
+.wh1{font-size:clamp(40px,7vw,86px);font-weight:800;letter-spacing:-.035em;line-height:.94}
+.wh2{font-size:clamp(27px,3.6vw,44px);font-weight:700}
+.wh3{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.wkick{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--w-600)}
+.wsec--gelap .wkick,.wsec--tinta .wkick,.whero .wkick{color:var(--w-200)}
+.wlead{font-size:clamp(15.5px,1.4vw,18px);color:var(--w-600);line-height:1.68}
+.wlead b{color:var(--w-ink);font-weight:600}
+.wsec--gelap .wlead,.wsec--tinta .wlead,.whero .wlead{color:var(--w-200)}
+.wsec--gelap .wlead b,.wsec--tinta .wlead b,.whero .wlead b{color:var(--w-w)}
+.whead{max-width:60ch;margin-bottom:38px}
+.whead .wkick{margin-bottom:14px}
+.whead .wh2{margin-bottom:14px}
 
-/* pillars */
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.card{background:#fff;border:1px solid var(--hair);border-radius:16px;padding:26px 24px;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s}
-.card:hover{transform:translateY(-5px);box-shadow:var(--sh3)}
-.card__ic{width:44px;height:44px;border-radius:12px;background:var(--navy-tint);display:grid;place-items:center;color:var(--navy);margin-bottom:16px}
-.card__ic svg{width:22px;height:22px}
-.card h3{margin-bottom:9px}.card p{font-size:14.5px;color:var(--slate);margin:0}
+/* ── lambang WOSU (SVG sebaris, dua nada) ──────────────────────────────── */
+.wmark{display:block;width:100%;height:auto}
+.wmark .wt-a{fill:var(--wm-a)}
+.wmark .wt-b{fill:var(--wm-b)}
+/* Aturan pemakaian lambang dari deck: latar terang vs latar gelap.
+   Hubungan dua nadanya dipertahankan, nilainya disesuaikan agar terbaca. */
+.wmark--terang{--wm-a:#8A8A8A;--wm-b:#1A1A1A}
+.wmark--gelap{--wm-a:#EBEBEB;--wm-b:#7C7C7C}
+.wmark--asli{--wm-a:#C3C3C3;--wm-b:#5B5B5B}
 
-/* flagship product (Glyiv) */
-.flag{background:linear-gradient(135deg,var(--navy),var(--navy-900));border-radius:24px;padding:clamp(30px,4vw,52px);color:#fff;position:relative;overflow:hidden}
-.flag::after{content:"";position:absolute;right:-10%;top:-30%;width:50%;height:160%;background:radial-gradient(circle,rgba(198,161,91,.16),transparent 65%)}
-.flag__badge{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--gold);border:1px solid rgba(198,161,91,.4);border-radius:999px;padding:6px 13px;margin-bottom:18px}
-.flag h2{color:#fff;max-width:20ch;margin-bottom:14px}
-.flag p{color:rgba(255,255,255,.82);max-width:60ch;margin:0 0 24px}
-.flag__row{display:flex;gap:10px;flex-wrap:wrap}
-.flag .chip{font-family:var(--mono);font-size:11px;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:7px 11px}
+/* ── tombol · target sentuh ≥44px ──────────────────────────────────────── */
+.wbtn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:48px;padding:13px 26px;font-size:14px;font-weight:700;letter-spacing:.02em;
+  border:1px solid transparent;border-radius:2px;
+  transition:background .25s var(--w-ease),color .25s var(--w-ease),border-color .25s var(--w-ease),transform .2s var(--w-ease)}
+.wbtn svg{width:15px;height:15px;flex:0 0 auto}
+.wbtn:hover{transform:translateY(-2px)}
+.wbtn--isi{background:var(--w-ink);color:var(--w-100)}
+.wbtn--isi:hover{background:var(--w-600)}
+.wbtn--garis{background:transparent;color:var(--w-ink);border-color:rgba(26,26,26,.28)}
+.wbtn--garis:hover{border-color:var(--w-ink);background:rgba(26,26,26,.05)}
+/* Di atas gelap: isian TERANG, garis putih. Jangan pernah tinta di atas tinta. */
+.wsec--gelap .wbtn--isi,.wsec--tinta .wbtn--isi,.whero .wbtn--isi{background:var(--w-100);color:var(--w-000)}
+.wsec--gelap .wbtn--isi:hover,.wsec--tinta .wbtn--isi:hover,.whero .wbtn--isi:hover{background:var(--w-w)}
+.wsec--gelap .wbtn--garis,.wsec--tinta .wbtn--garis,.whero .wbtn--garis{color:var(--w-100);border-color:rgba(235,235,235,.34)}
+.wsec--gelap .wbtn--garis:hover,.wsec--tinta .wbtn--garis:hover,.whero .wbtn--garis:hover{border-color:var(--w-100);background:rgba(235,235,235,.09)}
 
-/* leadership */
-.people{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start;max-width:900px;margin:0 auto}
-.person{min-width:0}
-.person__pf{aspect-ratio:4/5;border-radius:16px;overflow:hidden;border:1px solid var(--hair);box-shadow:var(--sh2);background:var(--paper-2);position:relative}
-.person__pf img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(1) contrast(1.02)}
-.person__pf::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,37,64,.12),transparent 55%);mix-blend-mode:multiply}
-.person b{font-family:var(--serif);font-weight:600;font-size:18px;color:var(--navy);display:block;margin-top:14px}
-.person .role{font-family:var(--mono);font-size:11px;color:var(--gold-600);letter-spacing:.05em;text-transform:uppercase;margin-top:3px}
-.person .ph{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:6px}
+/* ── singkap saat digulir (dipertahankan dari versi sebelumnya) ─────────── */
+.wos [data-r]{opacity:0;transform:translateY(20px);transition:opacity .7s var(--w-ease),transform .7s var(--w-ease)}
+.wos [data-r].in{opacity:1;transform:none}
+.wos [data-d="1"]{transition-delay:.08s}.wos [data-d="2"]{transition-delay:.16s}
+.wos [data-d="3"]{transition-delay:.24s}.wos [data-d="4"]{transition-delay:.32s}
 
-/* values */
-.vals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.val{border-left:2px solid var(--gold);padding:6px 0 6px 20px}
-.val b{font-family:var(--serif);font-weight:600;font-size:19px;color:var(--navy);display:block;margin-bottom:6px}
-.val p{font-size:14px;color:var(--slate);margin:0}
+/* ══ SPLASH KHUSUS WOSU ════════════════════════════════════════════════════
+   Syarat: CSS murni · SVG sebaris · hormati prefers-reduced-motion · PUNYA
+   BATAS WAKTU. Batas waktunya BUKAN JavaScript: animasi `wsplash-keluar`
+   berjalan tanpa syarat dengan `forwards`, jadi splash tetap hilang walau
+   seluruh skrip halaman mati. JS hanya mencabutnya dari pohon aksesibilitas
+   SESUDAH animasinya selesai.
 
-/* footer */
-.foot{background:var(--navy-900);color:#fff;padding:clamp(48px,7vh,72px) 0 28px}
-.foot__grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:28px}
-.foot__about{color:rgba(255,255,255,.62);font-size:13.5px;max-width:36ch;line-height:1.55;margin:14px 0}
-.foot h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
-.foot a{display:block;color:rgba(255,255,255,.7);font-size:14px;padding:6px 0;transition:.18s}.foot a:hover{color:#fff;padding-left:3px}
-.foot__legal{border-top:1px solid rgba(255,255,255,.12);margin-top:30px;padding-top:20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.45)}
+   ⚠︎ Kenapa TIDAK ADA "lewati kalau sudah pernah lihat" berbasis sessionStorage:
+   di halaman hasil port, skrip halaman dijalankan `usePageScripts` di dalam
+   effect — SESUDAH React melukis. Terukur oleh scripts/uji-splash-wosu.cjs:
+   splash tetap tergambar 585 ms lalu baru dipotong. Jadi "lewati" itu bukan
+   melewatkan apa pun, ia hanya memotong splash di tengah — lebih buruk
+   daripada memutarnya utuh. Yang dipakai sekarang: splash PENDEK (1,0 s tahan
+   + 0,5 s pudar) yang sama persis di setiap kunjungan, tanpa balapan.
 
-@media(max-width:980px){.split,.split-64{grid-template-columns:1fr;gap:28px}.grid3,.vals{grid-template-columns:1fr}.people{grid-template-columns:repeat(2,1fr)}.foot__grid{grid-template-columns:1fr 1fr}.nav__lnk{display:none}}
-@media(max-width:560px){.people{grid-template-columns:1fr}.hero__stats{gap:24px}}
-@media(prefers-reduced-motion:reduce){[data-r]{opacity:1!important;transform:none!important;transition:none!important}html{scroll-behavior:auto}}
+   `pointer-events:none` sejak frame pertama — splash tidak pernah menelan
+   ketukan (jebakan overlay di RULES §4). */
+.wsplash{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;
+  background:var(--w-000);pointer-events:none;
+  animation:wsplash-keluar .5s var(--w-ease) 1s forwards}
+.wsplash__box{display:grid;justify-items:center;gap:20px;padding:24px;text-align:center}
+.wsplash__mark{width:clamp(96px,22vw,148px);height:auto}
+.wsplash__mark .wt-a,.wsplash__mark .wt-b{opacity:0;transform-box:fill-box;transform-origin:50% 50%;
+  animation:wsplash-segitiga .5s var(--w-ease) forwards}
+.wsplash__mark path:nth-child(1){animation-delay:.03s}
+.wsplash__mark path:nth-child(2){animation-delay:.08s}
+.wsplash__mark path:nth-child(3){animation-delay:.13s}
+.wsplash__mark path:nth-child(4){animation-delay:.18s}
+.wsplash__mark path:nth-child(5){animation-delay:.23s}
+.wsplash__mark path:nth-child(6){animation-delay:.28s}
+.wsplash__mark path:nth-child(7){animation-delay:.33s}
+.wsplash__mark path:nth-child(8){animation-delay:.38s}
+.wsplash__wm{font-size:clamp(26px,7vw,38px);font-weight:800;letter-spacing:.3em;
+  text-indent:.3em;color:var(--w-100);opacity:0;animation:wsplash-naik .42s var(--w-ease) .4s forwards}
+.wsplash__tag{font-size:10.5px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--w-200);opacity:0;animation:wsplash-naik .42s var(--w-ease) .52s forwards}
+.wsplash__bar{width:120px;height:2px;background:rgba(235,235,235,.14);overflow:hidden}
+.wsplash__bar i{display:block;height:100%;width:100%;background:var(--w-400);
+  transform:scaleX(0);transform-origin:left;animation:wsplash-bar .95s linear forwards}
+@keyframes wsplash-segitiga{from{opacity:0;transform:translateY(9px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes wsplash-naik{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes wsplash-bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes wsplash-keluar{to{opacity:0;visibility:hidden}}
+
+/* ══ HERO — satu layar penuh (RULES §2: 100dvh, satu paragraf, tanpa disclaimer) */
+.whero{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:center;
+  overflow:hidden;background:var(--w-000);color:var(--w-100)}
+.whero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(78% 62% at 78% 8%,rgba(235,235,235,.09),transparent 62%),
+             radial-gradient(60% 60% at 6% 100%,rgba(167,167,167,.07),transparent 64%)}
+.whero__kisi{position:absolute;inset:0;pointer-events:none;opacity:.55;
+  background-image:linear-gradient(rgba(235,235,235,.045) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(235,235,235,.045) 1px,transparent 1px);
+  background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(72% 68% at 68% 34%,#000,transparent);
+          mask-image:radial-gradient(72% 68% at 68% 34%,#000,transparent)}
+.whero__in{position:relative;width:100%;max-width:1180px;margin:0 auto;
+  padding:120px clamp(20px,5vw,48px) 108px}
+.wcrumb{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--w-200);margin-bottom:18px}
+/* ⚠︎ `min-height` saja TIDAK cukup. Terukur di 390px DAN 1280px: kotak tautan
+   remah "Glyiv" = 43,9 × 48 — tingginya benar, LEBARNYA kurang 0,1px dari 44,
+   karena lebarnya ditentukan panjang teks, bukan aturan. Target sentuh punya
+   dua sisi; ukur keduanya. */
+.wcrumb a{display:inline-flex;align-items:center;min-height:44px;min-width:44px;color:var(--w-200)}
+.wcrumb a:hover{color:var(--w-w)}
+.wcrumb i{font-style:normal;color:var(--w-200)}
+/* ⚠︎ `.whero .whero__lock`, bukan `.whero__lock` saja: aturan umum
+   `.wos h1,.wos h2,…{margin:0}` berspesifisitas (0,1,1) dan MENGALAHKAN satu
+   kelas. Terukur: margin-bottom terhitung 0px, sehingga garis aksen tagline
+   mendarat tepat di bawah baris nama badan hukum dan terbaca sebagai garis
+   bawah yang salah. */
+/* ⚠︎ Ukuran huruf besar hidup di `<h1>` ITU SENDIRI, bukan hanya di anaknya.
+   Versi pertama menaruh `font-size` di `.whero__wm` sehingga h1-nya sendiri
+   terhitung 16px — `scripts/sapu-halaman.cjs` menandainya "H1 TERLALU KECIL
+   (16px)" walau di layar wordmark-nya 86px. Gerbang itu membaca gaya terhitung
+   elemen h1, dan itu juga yang dibaca mesin telusur. */
+.whero .whero__lock{display:block;margin:0 0 40px;
+  font-size:clamp(42px,9vw,86px);font-weight:800;letter-spacing:.015em;line-height:.9}
+.whero__baris{display:flex;align-items:center;gap:clamp(16px,2.6vw,26px)}
+.whero__lock .wmark{width:clamp(58px,8.5vw,88px);flex:0 0 auto}
+.whero__wm{display:block;font-size:1em;font-weight:inherit;letter-spacing:inherit;
+  line-height:inherit;color:var(--w-w)}
+.whero__legal{display:block;margin-top:18px;font-size:clamp(9.5px,1.15vw,12px);font-weight:600;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--w-200)}
+.whero__tag{position:relative;padding-top:22px;margin-bottom:26px;
+  font-size:clamp(16px,2vw,22px);font-weight:600;letter-spacing:.01em;color:var(--w-100)}
+.whero__tag::before{content:"";position:absolute;top:0;left:0;width:44px;height:2px;background:var(--w-300)}
+.whero__lead{max-width:52ch;margin-bottom:36px}
+.whero__cta{display:flex;gap:12px;flex-wrap:wrap}
+.wstats{display:flex;gap:clamp(22px,5vw,54px);flex-wrap:wrap;margin-top:56px;
+  border-top:1px solid var(--w-hair-d);padding-top:28px}
+.wstat b{display:block;font-size:clamp(21px,2.6vw,28px);font-weight:700;line-height:1;color:var(--w-w)}
+.wstat span{display:block;margin-top:8px;font-size:9.5px;font-weight:600;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--w-200)}
+.whero__turun{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);
+  display:grid;place-items:center;width:46px;height:46px;color:var(--w-200)}
+.whero__turun:hover{color:var(--w-100)}
+.whero__turun svg{width:18px;height:18px;animation:wnudge 2.1s var(--w-ease) infinite}
+@keyframes wnudge{0%,100%{transform:translateY(0);opacity:.55}50%{transform:translateY(6px);opacity:1}}
+
+/* ══ IDENTITAS LAMBANG ═════════════════════════════════════════════════════ */
+.wid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:start}
+.wid__tampil{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wid__ubin{display:grid;place-items:center;gap:14px;padding:30px 18px;border:1px solid var(--w-hair)}
+.wid__ubin--terang{background:var(--w-w)}
+.wid__ubin--gelap{background:var(--w-000);border-color:transparent}
+.wid__ubin .wmark{width:min(96px,42vw)}
+.wid__ubin span{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.wid__ubin--terang span{color:var(--w-600)}
+.wid__ubin--gelap span{color:var(--w-200)}
+.wsub{display:block;margin:30px 0 12px;font-size:9.5px;font-weight:700;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--w-600)}
+.wpal{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.wpal__i{aspect-ratio:16/9;display:flex;align-items:flex-end;padding:9px 10px}
+.wpal__i span{font-size:9px;font-weight:700;letter-spacing:.08em}
+.wpal__i--a{background:#EBEBEB;box-shadow:inset 0 0 0 1px rgba(26,26,26,.14)}.wpal__i--a span{color:#1A1A1A}
+.wpal__i--b{background:#A7A7A7}.wpal__i--b span{color:#1A1A1A}
+.wpal__i--c{background:#555555}.wpal__i--c span{color:#EBEBEB}
+.wpal__i--d{background:#1A1A1A}.wpal__i--d span{color:#EBEBEB}
+.wtipo{display:grid;gap:7px;border-top:1px solid var(--w-hair);padding-top:16px}
+.wtipo b{font-size:clamp(22px,2.4vw,30px);font-weight:700;letter-spacing:-.025em;color:var(--w-ink)}
+.wtipo em{font-style:normal;font-size:clamp(17px,2vw,22px);font-weight:400;letter-spacing:.05em;color:var(--w-600)}
+.wtipo p{font-size:13px;color:var(--w-600)}
+.wfil{display:grid;gap:2px;margin-top:26px;background:var(--w-hair)}
+.wfil__i{background:var(--w-100);padding:20px 22px;display:grid;gap:6px}
+.wsec--terang .wfil__i{background:var(--w-100)}
+.wfil__i b{font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--w-ink)}
+.wfil__i p{font-size:14px;color:var(--w-600)}
+.wfil__n{font-size:10px;font-weight:700;letter-spacing:.14em;color:var(--w-600)}
+
+/* ══ KARTU ═════════════════════════════════════════════════════════════════ */
+.wgrid2{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,4vw,60px);align-items:center}
+.wgrid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--w-hair)}
+.wkartu{background:var(--w-w);padding:28px 26px;display:grid;gap:10px;align-content:start;
+  transition:background .3s var(--w-ease),transform .3s var(--w-ease)}
+.wkartu:hover{background:var(--w-050);transform:translateY(-4px)}
+.wkartu__ic{width:40px;height:40px;display:grid;place-items:center;color:var(--w-ink);
+  border:1px solid var(--w-hair);margin-bottom:6px}
+.wkartu__ic svg{width:19px;height:19px}
+.wkartu p{font-size:14px;color:var(--w-600)}
+.wsec--terang .wgrid3{background:rgba(26,26,26,.16)}
+.wsec--terang .wkartu{background:var(--w-100)}
+.wsec--terang .wkartu:hover{background:var(--w-050)}
+
+/* ══ PORTOFOLIO — kartu produk unggulan ════════════════════════════════════ */
+.wflag{border:1px solid var(--w-hair-d);padding:clamp(28px,4vw,52px);position:relative;overflow:hidden;
+  background:linear-gradient(140deg,#222 0%,var(--w-ink) 46%,var(--w-000) 100%)}
+.wflag__pita{display:inline-flex;align-items:center;gap:9px;font-size:10px;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--w-200);
+  border:1px solid var(--w-hair-d);padding:8px 14px;margin-bottom:20px}
+.wflag__pita i{width:6px;height:6px;background:var(--w-100);border-radius:50%;
+  animation:wdenyut 2.4s ease-in-out infinite}
+@keyframes wdenyut{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+.wflag .wh2{color:var(--w-w);max-width:22ch;margin-bottom:14px}
+.wflag .wlead{max-width:58ch;margin-bottom:24px}
+.wchips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.wchip{font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--w-200);
+  border:1px solid var(--w-hair-d);padding:8px 12px}
+
+/* ── kisi produk lain, DI BAWAH panel andalan ──────────────────────────────
+   Glyiv tetap `.wflag`: bergradien, ber-pita berdenyut, ber-tombol ISI. Kartu
+   di bawah ini sengaja dibuat lebih tenang (latar rata, tombol GARIS, tanpa
+   pita) supaya urutan kepentingannya terbaca dalam sekali lihat — portofolio
+   bertambah tanpa menurunkan yang andalan.
+
+   ⛔ JEBAKAN KONTRAS YANG NYATA DI SINI. `audit-kontras.cjs` melewati setiap
+   keturunan wadah yang punya latar GRADIEN — itulah sebabnya teks di dalam
+   `.wflag` tidak pernah muncul di temuannya. Kartu ini latarnya PADAT
+   (`--w-ink`), jadi kelonggaran itu TIDAK berlaku: tiap simpul teks di
+   dalamnya benar-benar diukur, dan ambangnya luminans ≥ 0,30. Karena itu
+   semua warna huruf di bawah hanya `--w-200` (lum 0,624) atau `--w-100`
+   (0,831); `--w-400` dipakai HANYA untuk titik status (bukan huruf). Lihat
+   tabel luminans di kepala berkas sebelum menyentuh angka mana pun di blok
+   ini. */
+.wport{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;
+  background:var(--w-hair-d);margin-top:clamp(20px,2.6vw,28px)}
+.wport__i{background:var(--w-ink);padding:clamp(24px,3vw,34px);
+  display:grid;gap:12px;align-content:start;min-width:0;
+  transition:background .3s var(--w-ease),transform .3s var(--w-ease)}
+.wport__i:hover{background:var(--w-800);transform:translateY(-3px)}
+.wport__kepala{display:flex;align-items:flex-start;justify-content:space-between;
+  gap:12px;flex-wrap:wrap}
+.wport__i .wh3{color:var(--w-100)}
+.wport__i p{font-size:14px;line-height:1.66;color:var(--w-200)}
+/* Pita status: satu kata jujur tentang tahap produk, bukan hiasan. */
+.wport__st{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;
+  font-size:9.5px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;
+  color:var(--w-200);border:1px solid var(--w-hair-d);padding:6px 10px}
+.wport__st i{width:5px;height:5px;flex:0 0 auto;border-radius:50%;background:var(--w-400)}
+.wport__st--jalan i{background:var(--w-100);animation:wdenyut 2.4s ease-in-out infinite}
+/* `.wchips` bawaan panel andalan punya margin-bawah 26px; di kartu jaraknya
+   diatur `gap` kisi, jadi marginnya dinolkan (bukan dihapus dari komponen). */
+.wport__i .wchips{margin:2px 0 0}
+.wport__i .wbtn{justify-self:start;margin-top:6px}
+
+/* ══ DEWAN ═════════════════════════════════════════════════════════════════ */
+.worang{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3vw,30px);
+  max-width:930px;margin:0 auto}
+.worang__i{min-width:0}
+.worang__pf{aspect-ratio:4/5;overflow:hidden;background:var(--w-100);border:1px solid var(--w-hair)}
+.worang__pf img{width:100%;height:100%;object-fit:cover;object-position:center 12%;
+  filter:grayscale(1);transition:transform .6s var(--w-ease)}
+.worang__i:hover .worang__pf img{transform:scale(1.03)}
+.worang__i b{display:block;margin-top:16px;font-size:17px;font-weight:700;color:var(--w-ink)}
+.worang__i .wperan{margin-top:5px;font-size:10px;font-weight:700;letter-spacing:.19em;
+  text-transform:uppercase;color:var(--w-600)}
+.worang__i .wtugas{margin-top:8px;font-size:13px;color:var(--w-600)}
+
+/* ══ NILAI ═════════════════════════════════════════════════════════════════ */
+.wnilai{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,34px)}
+.wnilai__i{border-top:2px solid var(--w-ink);padding-top:18px}
+.wnilai__i b{display:block;font-size:18px;font-weight:700;margin-bottom:8px;color:var(--w-ink)}
+.wnilai__i p{font-size:14px;color:var(--w-600)}
+
+/* ══ KONTAK ════════════════════════════════════════════════════════════════ */
+.wkontak{text-align:center}
+.wkontak .wh2{max-width:20ch;margin:0 auto 16px;color:var(--w-w)}
+.wkontak .wlead{max-width:50ch;margin:0 auto 28px}
+.wfakta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;
+  background:var(--w-hair-d);margin-top:40px;text-align:left}
+.wfakta__i{background:var(--w-ink);padding:20px 22px}
+.wfakta__i span{display:block;font-size:9px;font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--w-200);margin-bottom:8px}
+.wfakta__i b{font-size:14px;font-weight:600;color:var(--w-100)}
+.wfakta__i a{display:inline-flex;align-items:center;min-height:44px;color:var(--w-w);
+  border-bottom:1px solid var(--w-600)}
+.wfakta__i a:hover{border-bottom-color:var(--w-100)}
+
+/* ══ FOOTER ════════════════════════════════════════════════════════════════ */
+.wfoot{background:var(--w-000);color:var(--w-200);padding:clamp(50px,7vh,76px) 0 26px}
+.wfoot__grid{display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:30px}
+.wfoot__lock{display:flex;align-items:center;gap:13px}
+.wfoot__lock .wmark{width:40px;flex:0 0 auto}
+.wfoot__lock b{font-size:17px;font-weight:800;letter-spacing:.2em;color:var(--w-100)}
+.wfoot__lock small{display:block;margin-top:5px;font-size:8.5px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--w-200)}
+.wfoot__ttg{font-size:13px;line-height:1.62;max-width:38ch;margin-top:22px;color:var(--w-200)}
+.wfoot h4{font-size:9.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--w-200);margin:0 0 8px}
+.wfoot a{display:flex;align-items:center;min-height:44px;font-size:14px;color:var(--w-200);
+  transition:.18s}
+.wfoot a:hover{color:var(--w-w);padding-left:3px}
+.wfoot__legal{border-top:1px solid var(--w-hair-d);margin-top:34px;padding-top:22px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:10.5px;letter-spacing:.06em;color:var(--w-200)}
+
+/* ══ RESPONSIF ═════════════════════════════════════════════════════════════ */
+@media(max-width:980px){
+  .wid,.wgrid2{grid-template-columns:1fr;gap:32px}
+  .wgrid3,.wnilai,.wport{grid-template-columns:1fr;gap:1px}
+  .wnilai{gap:24px}
+  .worang{grid-template-columns:repeat(2,1fr)}
+  .wfoot__grid{grid-template-columns:1fr 1fr}
+  .wfakta{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .worang{grid-template-columns:1fr;max-width:340px}
+  .whero__baris{gap:14px}
+  .wid__tampil{grid-template-columns:1fr}
+  .wbtn{width:100%}
+  /* ⚠︎ `min-height:100dvh` hanya menjamin hero TIDAK LEBIH PENDEK dari satu
+     layar — ia tidak menjamin isinya MUAT. Terukur di 390×844: tinggi hero
+     922px, jadi baris statistik dan panah "gulir ke bawah" (bottom:22px, jadi
+     y≈900) berdiri 78px di bawah lipatan — sebuah ajakan yang tidak bisa
+     dilihat. Angka di bawah memotong 82px: 120→96 + 108→84 + jarak statistik
+     56/28→34/22 + 40→34 → tinggi hero 840px, muat di 844. */
+  .whero__in{padding:96px clamp(20px,5vw,48px) 84px}
+  .whero .whero__lock{margin-bottom:34px}
+  .wstats{gap:22px 30px;margin-top:34px;padding-top:22px}
+}
+/* Target sentuh diukur untuk JARI, bukan untuk lebar layar (RULES §5). */
+@media(pointer:coarse){
+  .wfoot a,.wcrumb a,.wfakta__i a{min-height:48px}
+  .wbtn{min-height:50px}
+}
+@media(prefers-reduced-motion:reduce){
+  .wos [data-r]{opacity:1!important;transform:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .whero__turun svg,.wflag__pita i,.wport__st--jalan i{animation:none}
+  .worang__i:hover .worang__pf img{transform:none}
+  .wbtn:hover{transform:none}
+  /* Splash tetap PUNYA BATAS WAKTU — hanya geraknya yang dilepas. */
+  .wsplash{animation:wsplash-keluar .3s linear .45s forwards}
+  .wsplash__mark .wt-a,.wsplash__mark .wt-b,.wsplash__wm,.wsplash__tag{
+    opacity:1;transform:none;animation:none}
+  .wsplash__bar i{transform:scaleX(1);animation:none}
+}
+
 </style>
   <link rel="stylesheet" href="/assets/css/glyiv-nav.css">
 </head>
@@ -138,26 +460,25 @@ em.g{font-style:normal;color:var(--gold-600)}
 <header class="lnav">
   <div class="lnav__in">
     <a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>
+    <span class="lnav__tag">Your Green Industry Intelligence Platform</span>
     <nav class="lnav__links">
       <div class="ldrop ldrop--mega">
         <button class="ldrop__btn">Ekosistem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
           <div class="ldrop__grp"><h4>Inti platform</h4>
-            <a href="/lab/carbon-intelligence.html"><b>Carbon Intelligence</b><small>Lacak · hitung · offset</small></a>
+            <a href="/lab/green-intelligence.html"><b>Green Intelligence</b><small>Lacak · hitung · offset</small></a>
             <a href="/lab/tree.html"><b>Glyiv Aset</b><small>Pohon &amp; lahan (RWA)</small></a></div>
           <div class="ldrop__grp"><h4>Ekonomi hijau</h4>
             <a href="/lab/ekosistem/pasar.html"><b>Glyiv Pasar</b><small>Marketplace</small></a><a href="/lab/ekosistem/pangan.html"><b>Glyiv Pangan</b><small>Hub pangan berdata karbon</small></a>
-            <a href="/lab/ekosistem/dompet.html"><b>Glyiv Dompet</b><small>Carbon wallet</small></a>
             <a href="/lab/ekosistem/dana.html"><b>Glyiv Dana</b><small>Investasi hijau</small></a>
-            <a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Sampah jadi imbalan</small></a></div>
+            <a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Setor di titik komunitas</small></a><a href="/lab/ekosistem/recycle.html"><b>Glyiv Recycle</b><small>Komposter &amp; jemput terjadwal</small></a></div>
           <div class="ldrop__grp"><h4>Gaya hidup</h4>
-            <a href="/lab/ekosistem/saku.html"><b>Glyiv Saku</b><small>Aplikasi harian &middot; sudah jalan</small></a><a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a>
+            <a href="/lab/ekosistem/saku.html"><b>Glyiv Pocket</b><small>Scan &amp; catat harian &middot; sudah jalan</small></a><a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a>
             <a href="/lab/ekosistem/sehat.html"><b>Glyiv Sehat</b><small>Habit sehat &amp; hijau</small></a>
             <a href="/lab/ekosistem/belajar.html"><b>Glyiv Belajar</b><small>Literasi &amp; game</small></a></div>
           <div class="ldrop__grp"><h4>Riset &amp; alat</h4>
             <a href="/lab/ekosistem/lab-rnd.html"><b>Glyiv Lab</b><small>Material rendah-karbon</small></a>
-            <a href="/lab/apps/scanner/"><b>Scan Karbon</b><small>Foto item → estimasi</small></a>
-            <a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a></div>
+            <a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a><a href="/download.html"><b>Unduh Aplikasi</b><small>APK Android &middot; di luar Play Store</small></a></div>
           <div class="ldrop__mega-foot"><span>Business tree tumbuh bertahap · Live &amp; Roadmap</span><a href="/lab/apps/">Lihat semua aplikasi &rarr;</a></div>
         </div>
       </div>
@@ -171,126 +492,299 @@ em.g{font-style:normal;color:var(--gold-600)}
         </div>
       </div>
       <a href="/lab/kabar/index.html">Kabar</a>
-      <a href="/lab/landing/index.html" class="lnav__admin">Landing</a>
+      <a href="/download.html">Store</a><a href="/lab/landing/index.html" class="lnav__admin">Landing</a>
       <div class="ldrop ldrop--r">
         <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
           <div class="ldrop__grp"><h4>Glyiv</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim &amp; Manifesto</a><a href="/lab/kabar/index.html">Kabar</a></div>
-          <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
+          <!-- Pintu masuk PT WOSU di laci ini DICABUT atas permintaan pemilik.
+               Halaman /wosu tetap ada, tetap bisa dibuka, dan tetap tertaut dari KAKI
+               halaman; yang ditutup hanya butir navbar. Yang dibuang satu grup utuh
+               (judul laci + tautannya), bukan hanya tautannya: kepala laci tanpa isi
+               tidak menuju ke mana pun. Jangan dikembalikan tanpa perintah pemilik. -->
         </div>
       </div>
     </nav>
     <span class="lnav__sp"></span>
-    <a class="lnav__cta" href="/#gabung">Gabung</a>
+    <a class="lnav__cta" href="/auth">Login</a>
     <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
 </header>
 
+<div class="wos">
+
+<!-- SPLASH KHUSUS WOSU — lambang sendiri, palet sendiri, batas waktu CSS murni -->
+<div class="wsplash" role="presentation" aria-hidden="true">
+  <div class="wsplash__box">
+    <svg class="wmark wsplash__mark wmark--asli" viewBox="0 0 300 200" aria-hidden="true" focusable="false">
+      <path class="wt-a" d="M0 0L100 100H0V0Z"/>
+      <path class="wt-a" d="M100 200L0 100H100V200Z"/>
+      <path class="wt-b" d="M200 0L100 100H200V0Z"/>
+      <path class="wt-b" d="M100 200L200 100H100V200Z"/>
+      <path class="wt-a" d="M100 0L200 100H100V0Z"/>
+      <path class="wt-a" d="M200 200L100 100H200V200Z"/>
+      <path class="wt-b" d="M300 0L200 100H300V0Z"/>
+      <path class="wt-b" d="M200 200L300 100H200V200Z"/>
+    </svg>
+    <div class="wsplash__wm">WOSU</div>
+    <div class="wsplash__tag">Innovate. Optimize. Elevate.</div>
+    <div class="wsplash__bar"><i></i></div>
+  </div>
+</div>
+
 <!-- HERO -->
-<section class="hero on-navy"><div class="hero__grid"></div>
-  <div class="hero__in">
-    <div class="hero__eye" data-r><span class="ln"></span> PT WOSU Innovation Technology</div>
-    <h1 data-r data-d="1">Membangun teknologi <em>bernilai tinggi</em> dari Indonesia.</h1>
-    <p class="hero__lead" data-r data-d="2">Kami perusahaan teknologi yang membangun produk kelas dunia untuk masalah nyata — dimulai dari <b style="color:#fff">Glyiv</b>, platform intelijen karbon untuk enterprise.</p>
-    <div class="hero__cta" data-r data-d="3"><a class="btn gold" href="#produk">Lihat Produk Kami</a><a class="btn ghost" href="#dewan">Kenali Tim</a></div>
-    <div class="hero__stats" data-r data-d="4">
-      <div class="hero__stat"><b>2026</b><span>Didirikan</span></div>
-      <div class="hero__stat"><b>Indonesia<i>.</i></b><span>Berkedudukan</span></div>
-      <div class="hero__stat"><b>Glyiv</b><span>Produk unggulan</span></div>
-      <div class="hero__stat"><b>Deep-tech</b><span>Karbon &amp; AI</span></div>
+<section class="whero on-dark" id="atas">
+  <div class="whero__kisi" aria-hidden="true"></div>
+  <div class="whero__in">
+    <p class="wcrumb" data-r><a href="/">Glyiv</a> <i>&rsaquo;</i> Perusahaan induk</p>
+    <h1 class="whero__lock" data-r data-d="1">
+      <span class="whero__baris">
+        <svg class="wmark wmark--gelap" viewBox="0 0 300 200" aria-hidden="true" focusable="false">
+          <path class="wt-a" d="M0 0L100 100H0V0Z"/>
+          <path class="wt-a" d="M100 200L0 100H100V200Z"/>
+          <path class="wt-b" d="M200 0L100 100H200V0Z"/>
+          <path class="wt-b" d="M100 200L200 100H100V200Z"/>
+          <path class="wt-a" d="M100 0L200 100H100V0Z"/>
+          <path class="wt-a" d="M200 200L100 100H200V200Z"/>
+          <path class="wt-b" d="M300 0L200 100H300V0Z"/>
+          <path class="wt-b" d="M200 200L300 100H200V200Z"/>
+        </svg>
+        <span class="whero__wm">WOSU</span>
+      </span>
+      <small class="whero__legal">PT WOSU Innovation Technology</small>
+    </h1>
+    <p class="whero__tag" data-r data-d="2">Innovate. Optimize. Elevate.</p>
+    <p class="wlead whero__lead" data-r data-d="3">Perusahaan induk teknologi asal Indonesia. Kami membangun produk bernilai tinggi untuk masalah yang penting — dimulai dari <b>Glyiv</b>.</p>
+    <div class="whero__cta" data-r data-d="4">
+      <a class="wbtn wbtn--isi" href="#portofolio">Lihat portofolio</a>
+      <a class="wbtn wbtn--garis" href="#dewan">Kenali dewan</a>
+    </div>
+    <div class="wstats" data-r data-d="4">
+      <div class="wstat"><b>2026</b><span>Didirikan</span></div>
+      <div class="wstat"><b>Indonesia</b><span>Berkedudukan</span></div>
+      <div class="wstat"><b>Glyiv</b><span>Produk unggulan</span></div>
+      <div class="wstat"><b>Deep-tech</b><span>Karbon &amp; AI</span></div>
     </div>
   </div>
+  <a class="whero__turun" href="#identitas" aria-label="Gulir ke bagian identitas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </a>
 </section>
 
-<!-- TENTANG -->
-<section class="sec" id="tentang"><div class="wrap"><div class="split-64">
-  <div>
-    <span class="kick" data-r>Tentang kami</span>
-    <h2 data-r data-d="1" style="margin:14px 0 18px">Sebuah rumah bagi produk yang <em class="g">bermakna.</em></h2>
-    <p class="lead" data-r data-d="2">PT WOSU Innovation Technology adalah perusahaan induk teknologi asal Indonesia. Kami tidak membangun aplikasi biasa — kami membangun <b>infrastruktur dan intelijen</b> untuk masalah yang penting: iklim, keberlanjutan, dan ekonomi digital.</p>
-    <p class="lead" data-r data-d="3" style="margin-top:14px">Setiap produk kami dirancang dengan standar global, tata kelola yang serius, dan komitmen jangka panjang — bukan sekadar mengejar tren.</p>
+<!-- IDENTITAS LAMBANG -->
+<section class="wsec wsec--terang" id="identitas"><div class="wwrap">
+  <div class="wid">
+    <div>
+      <span class="wkick" data-r>Identitas</span>
+      <h2 class="wh2" data-r data-d="1" style="margin:14px 0 16px">Delapan segitiga, satu arah.</h2>
+      <p class="wlead" data-r data-d="2">Lambang WOSU dibentuk delapan segitiga yang menyatu jadi huruf W — dua nada abu-abu, tanpa warna lain. Sederhana karena harus bertahan lama.</p>
+      <div class="wfil" data-r data-d="3">
+        <div class="wfil__i"><span class="wfil__n">01</span><b>Kolaborasi</b><p>Segitiga yang saling bertemu: bersama mencapai tujuan.</p></div>
+        <div class="wfil__i"><span class="wfil__n">02</span><b>Inovasi</b><p>Arah yang menanjak: terus mencari dan berkembang.</p></div>
+        <div class="wfil__i"><span class="wfil__n">03</span><b>Pertumbuhan</b><p>Bentuk yang naik bertahap: membangun masa depan yang lebih baik.</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="wid__tampil" data-r data-d="2">
+        <div class="wid__ubin wid__ubin--terang">
+          <svg class="wmark wmark--terang" viewBox="0 0 300 200" role="img" aria-label="Lambang WOSU di latar terang">
+            <path class="wt-a" d="M0 0L100 100H0V0Z"/>
+            <path class="wt-a" d="M100 200L0 100H100V200Z"/>
+            <path class="wt-b" d="M200 0L100 100H200V0Z"/>
+            <path class="wt-b" d="M100 200L200 100H100V200Z"/>
+            <path class="wt-a" d="M100 0L200 100H100V0Z"/>
+            <path class="wt-a" d="M200 200L100 100H200V200Z"/>
+            <path class="wt-b" d="M300 0L200 100H300V0Z"/>
+            <path class="wt-b" d="M200 200L300 100H200V200Z"/>
+          </svg>
+          <span>Latar terang</span>
+        </div>
+        <div class="wid__ubin wid__ubin--gelap on-dark">
+          <svg class="wmark wmark--gelap" viewBox="0 0 300 200" role="img" aria-label="Lambang WOSU di latar gelap">
+            <path class="wt-a" d="M0 0L100 100H0V0Z"/>
+            <path class="wt-a" d="M100 200L0 100H100V200Z"/>
+            <path class="wt-b" d="M200 0L100 100H200V0Z"/>
+            <path class="wt-b" d="M100 200L200 100H100V200Z"/>
+            <path class="wt-a" d="M100 0L200 100H100V0Z"/>
+            <path class="wt-a" d="M200 200L100 100H200V200Z"/>
+            <path class="wt-b" d="M300 0L200 100H300V0Z"/>
+            <path class="wt-b" d="M200 200L300 100H200V200Z"/>
+          </svg>
+          <span>Latar gelap</span>
+        </div>
+      </div>
+      <p class="wlead" data-r data-d="3" style="margin-top:18px;font-size:13px">Nilai abu-abunya disesuaikan agar lambang tetap terbaca di kedua latar; hubungan dua nadanya tidak berubah.</p>
+      <span class="wsub" data-r data-d="3">Palet</span>
+      <div class="wpal" data-r data-d="3">
+        <div class="wpal__i wpal__i--a"><span>#EBEBEB</span></div>
+        <div class="wpal__i wpal__i--b"><span>#A7A7A7</span></div>
+        <div class="wpal__i wpal__i--c"><span>#555555</span></div>
+        <div class="wpal__i wpal__i--d"><span>#1A1A1A</span></div>
+      </div>
+      <span class="wsub" data-r data-d="4">Tipografi</span>
+      <div class="wtipo" data-r data-d="4">
+        <b>Montserrat</b>
+        <em>Aa Bb Cc &middot; 0123456789</em>
+        <p>Satu keluarga huruf untuk seluruh identitas.</p>
+      </div>
+    </div>
   </div>
-  <div class="grid3" data-r data-d="2" style="grid-template-columns:1fr;gap:14px">
-    <div class="card"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><h3>Standar global</h3><p>Metodologi &amp; tata kelola yang selaras standar internasional sejak hari pertama.</p></div>
-    <div class="card"><div class="card__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div><h3>Indonesia-first, global-ready</h3><p>Dibangun untuk pasar Indonesia, dirancang untuk skala dunia.</p></div>
+</div></section>
+
+<!-- TENTANG -->
+<section class="wsec wsec--kertas" id="tentang"><div class="wwrap"><div class="wgrid2">
+  <div>
+    <span class="wkick" data-r>Tentang kami</span>
+    <h2 class="wh2" data-r data-d="1" style="margin:14px 0 18px">Rumah bagi produk yang bermakna.</h2>
+    <p class="wlead" data-r data-d="2">PT WOSU Innovation Technology adalah perusahaan induk teknologi asal Indonesia. Kami tidak membangun aplikasi biasa — kami membangun <b>infrastruktur dan intelijen</b> untuk masalah yang penting: iklim, keberlanjutan, dan ekonomi digital.</p>
+    <p class="wlead" data-r data-d="3" style="margin-top:14px">Setiap produk kami dirancang dengan standar global, tata kelola yang serius, dan komitmen jangka panjang — bukan sekadar mengejar tren.</p>
+  </div>
+  <div class="wgrid3" data-r data-d="2" style="grid-template-columns:1fr">
+    <div class="wkartu"><div class="wkartu__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div><h3 class="wh3">Standar global</h3><p>Metodologi dan tata kelola yang selaras standar internasional sejak hari pertama.</p></div>
+    <div class="wkartu"><div class="wkartu__ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div><h3 class="wh3">Indonesia dulu, siap global</h3><p>Dibangun untuk pasar Indonesia, dirancang untuk skala dunia.</p></div>
   </div>
 </div></div></section>
 
-<!-- PRODUK (Glyiv flagship) -->
-<section class="sec paper" id="produk"><div class="wrap">
-  <div class="head" data-r><span class="kick">Portofolio produk</span><h2 style="margin-top:12px">Produk unggulan kami.</h2></div>
-  <div class="flag" data-r data-d="1">
-    <div class="flag__badge">PRODUK UNGGULAN &middot; LIVE</div>
-    <h2>Glyiv — Carbon Intelligence Platform</h2>
-    <p>Platform intelijen karbon kelas enterprise: sebuah agen AI yang membaca data karbon perusahaan, menganalisis emisi terhadap biaya, lalu mengubahnya menjadi keputusan. Lacak &rarr; Hitung &rarr; Offset. Selaras GHG Protocol &amp; ISO 14064.</p>
-    <div class="flag__row" style="margin-bottom:24px"><span class="chip">Carbon Accounting</span><span class="chip">AI Agent</span><span class="chip">dMRV Satelit (roadmap)</span><span class="chip">Tree Marketplace &middot; ERC-3643</span><span class="chip">11 Industri</span></div>
-    <a class="btn gold" href="/">Kunjungi Glyiv &rarr;</a>
+<!-- PORTOFOLIO — panel andalan (Glyiv) + kisi produk lain.
+     Urutannya menurun menurut KEMATANGAN, bukan menurut selera: sudah jalan →
+     demo & pilot → dalam pengembangan. Status tiap kartu ditulis apa adanya;
+     kartu yang belum punya apa-apa untuk ditautkan memang tidak punya tombol,
+     dan itu lebih jujur daripada tombol yang mendarat di halaman kosong. -->
+<section class="wsec wsec--gelap on-dark" id="portofolio"><div class="wwrap">
+  <div class="whead" data-r><span class="wkick">Portofolio produk</span><h2 class="wh2" style="margin-top:12px;color:#fff">Yang kami bangun.</h2><p class="wlead">Satu produk andalan yang sudah berjalan, dan lini lain yang sedang kami bangun. Tahapan tiap produk kami tulis apa adanya.</p></div>
+  <div class="wflag" data-r data-d="1">
+    <div class="wflag__pita"><i></i> Produk unggulan &middot; sudah jalan</div>
+    <h2 class="wh2">Glyiv — Green Intelligence Platform</h2>
+    <p class="wlead">Platform intelijen hijau kelas enterprise: agen AI yang membaca data karbon perusahaan, menganalisis emisi terhadap biaya, lalu mengubahnya jadi keputusan. Lacak, hitung, offset — selaras GHG Protocol dan ISO 14064. Sertifikasi dan registri masih peta jalan, bukan kemampuan yang sudah jadi.</p>
+    <div class="wchips">
+      <span class="wchip">Carbon accounting</span><span class="wchip">Agen AI</span><span class="wchip">dMRV satelit (peta jalan)</span><span class="wchip">Tree marketplace &middot; ERC-3643</span><span class="wchip">11 industri</span>
+    </div>
+    <a class="wbtn wbtn--isi" href="/">Kunjungi Glyiv
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+
+  <div class="wport">
+    <article class="wport__i" data-r data-d="2">
+      <div class="wport__kepala">
+        <h3 class="wh3">Freszon</h3>
+        <span class="wport__st wport__st--jalan"><i></i> Demo jalan &middot; tahap pilot</span>
+      </div>
+      <p>Marketplace tukang AC terverifikasi. Pelanggan memesan servis atau cuci AC dari ponsel, tukang menerimanya di papan order, dan kedua sisi memantau progres yang sama secara langsung — dengan harga yang disetujui lebih dulu sebelum pengerjaan dimulai.</p>
+      <div class="wchips">
+        <span class="wchip">Sisi pelanggan &amp; sisi tukang</span><span class="wchip">Asisten AI &ldquo;Eska&rdquo;</span><span class="wchip">Verifikasi KYC tukang</span><span class="wchip">Demo dua sisi bisa dicoba</span>
+      </div>
+      <!-- `https://` + garis miring penutup, BUKAN `http://void.gt.tc/freszon`.
+           Terukur: yang `http` menempuh pengalihan lalu mendarat di
+           `https://void.gt.tc/freszon/?i=1` (tantangan JS), sedangkan yang
+           `https://…/` langsung 200 di `https://void.gt.tc/freszon/`. Lompatan
+           pertama lewat `http` itu polos — penurunan protokol dari halaman
+           HTTPS, bisa dibajak di jaringan yang tidak bersahabat. -->
+      <a class="wbtn wbtn--garis" href="https://void.gt.tc/freszon/" target="_blank" rel="noopener noreferrer">Lihat Freszon
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </article>
+
+    <article class="wport__i" data-r data-d="3">
+      <div class="wport__kepala">
+        <h3 class="wh3">Game &middot; platform Roblox</h3>
+        <span class="wport__st"><i></i> Dalam pengembangan</span>
+      </div>
+      <p>Lini pengembangan game dengan fokus di platform Roblox. Masih dalam pengembangan: belum ada judul yang dirilis, dan kami belum menjanjikan tanggal rilis. Halamannya menyusul ketika ada yang benar-benar bisa dimainkan.</p>
+      <div class="wchips">
+        <span class="wchip">Platform Roblox</span><span class="wchip">Dikembangkan sendiri</span><span class="wchip">Pra-rilis</span>
+      </div>
+    </article>
   </div>
 </div></section>
 
-<!-- DEWAN / LEADERSHIP -->
-<section class="sec" id="dewan"><div class="wrap">
-  <div class="head" data-r><span class="kick">Dewan &amp; kepemimpinan</span><h2 style="margin-top:12px">Dipimpin oleh orang <em class="g">yang tepat.</em></h2></div>
-  <div class="people">
-    <div class="person" data-r data-d="1"><div class="person__pf"><img src="/founder.webp" alt="Laode Muhamad Fitrah Ramadhan"></div><b>Laode M. Fitrah R.</b><div class="role">Direktur Utama</div><div class="ph">Memimpin arah &amp; eksekusi perusahaan</div></div>
-    <div class="person" data-r data-d="2"><div class="person__pf"><img src="/syun.webp" alt="Khairul Miftah Sumardin"></div><b>Khairul Miftah S.</b><div class="role">Direktur</div><div class="ph">Tata kelola, korporasi &amp; operasi</div></div>
-    <div class="person" data-r data-d="3"><div class="person__pf"><img src="/wosu/img/placeholder-syahril.jpg" alt="Syahril Syam"></div><b>Syahril Syam</b><div class="role">Komisaris</div><div class="ph">Pengawasan &amp; penasihat</div></div>
+<!-- DEWAN -->
+<section class="wsec wsec--kertas" id="dewan"><div class="wwrap">
+  <div class="whead" data-r><span class="wkick">Dewan &amp; kepemimpinan</span><h2 class="wh2" style="margin-top:12px">Dipimpin oleh orang yang tepat.</h2></div>
+  <div class="worang">
+    <div class="worang__i" data-r data-d="1"><div class="worang__pf"><img src="/wosu/img/laode.webp" width="900" height="1125" loading="lazy" alt="Laode Muhamad Fitrah Ramadhan"></div><b>Laode M. Fitrah R.</b><div class="wperan">Direktur Utama</div><div class="wtugas">Memimpin arah dan eksekusi perusahaan</div></div>
+    <div class="worang__i" data-r data-d="2"><div class="worang__pf"><img src="/wosu/img/khairul.webp" width="900" height="1125" loading="lazy" alt="Khairul Miftah Sumardin"></div><b>Khairul Miftah S.</b><div class="wperan">Direktur</div><div class="wtugas">Tata kelola, korporasi dan operasi</div></div>
+    <div class="worang__i" data-r data-d="3"><div class="worang__pf"><img src="/wosu/img/syahril.webp" width="900" height="1125" loading="lazy" alt="Syahril Syam"></div><b>Syahril Syam</b><div class="wperan">Komisaris</div><div class="wtugas">Pengawasan dan penasihat</div></div>
   </div>
-  <p class="lead" data-r style="margin-top:26px;font-size:13.5px;color:var(--muted)">Foto Komisaris bersifat sementara (placeholder) hingga foto resmi tersedia.</p>
 </div></section>
 
 <!-- NILAI -->
-<section class="sec paper" id="nilai"><div class="wrap">
-  <div class="head" data-r><span class="kick">Nilai kami</span><h2 style="margin-top:12px">Prinsip yang tak bisa ditawar.</h2></div>
-  <div class="vals">
-    <div class="val" data-r data-d="1"><b>Integritas data</b><p>Kami membangun di atas bukti yang bisa diaudit — bukan klaim kosong.</p></div>
-    <div class="val" data-r data-d="2"><b>Kualitas kelas dunia</b><p>Standar global, desain elegan, dan eksekusi yang serius di tiap produk.</p></div>
-    <div class="val" data-r data-d="3"><b>Dampak jangka panjang</b><p>Kami menyelesaikan masalah yang penting, bukan mengejar tren sesaat.</p></div>
+<section class="wsec wsec--terang" id="nilai"><div class="wwrap">
+  <div class="whead" data-r><span class="wkick">Nilai kami</span><h2 class="wh2" style="margin-top:12px">Prinsip yang tak bisa ditawar.</h2></div>
+  <div class="wnilai">
+    <div class="wnilai__i" data-r data-d="1"><b>Integritas data</b><p>Kami membangun di atas bukti yang bisa diaudit — bukan klaim kosong.</p></div>
+    <div class="wnilai__i" data-r data-d="2"><b>Kualitas kelas dunia</b><p>Standar global, desain elegan, dan eksekusi yang serius di tiap produk.</p></div>
+    <div class="wnilai__i" data-r data-d="3"><b>Dampak jangka panjang</b><p>Kami menyelesaikan masalah yang penting, bukan mengejar tren sesaat.</p></div>
   </div>
 </div></section>
 
-<!-- KONTAK / CTA -->
-<section class="sec tight" id="kontak" style="text-align:center"><div class="wrap">
-  <span class="kick" data-r>Hubungi kami</span>
-  <h2 data-r data-d="1" style="max-width:20ch;margin:14px auto 16px">Mari bangun sesuatu yang bernilai.</h2>
-  <p class="lead" data-r data-d="2" style="max-width:50ch;margin:0 auto 26px">Untuk kemitraan, investasi, atau pertanyaan pers — kami senang mendengar dari Anda.</p>
-  <div data-r data-d="3"><a class="btn primary" href="mailto:wosu.archourium@gmail.com?subject=PT%20WOSU%20Innovation%20Technology">Hubungi PT WOSU</a></div>
-  <div data-r data-d="3" style="margin-top:34px;display:inline-flex;flex-wrap:wrap;gap:0;border:1px solid var(--hair);border-radius:14px;overflow:hidden;background:#fff;box-shadow:var(--sh1);text-align:left">
-    <div style="padding:16px 22px;border-right:1px solid var(--hair)">
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Badan hukum</div>
-      <div style="font-weight:700;color:var(--navy);margin-top:4px">PT WOSU Innovation Technology</div>
-    </div>
-    <div style="padding:16px 22px;border-right:1px solid var(--hair)">
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Kedudukan</div>
-      <div style="font-weight:700;color:var(--navy);margin-top:4px">Indonesia &middot; beroperasi global</div>
-    </div>
-    <div style="padding:16px 22px">
-      <div style="font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Surel</div>
-      <div style="font-weight:700;color:var(--navy);margin-top:4px"><a href="mailto:wosu.archourium@gmail.com" style="color:var(--gold-600)">wosu.archourium@gmail.com</a></div>
-    </div>
+<!-- KONTAK -->
+<section class="wsec wsec--rapat wsec--gelap on-dark" id="kontak"><div class="wwrap wkontak">
+  <span class="wkick" data-r>Hubungi kami</span>
+  <h2 class="wh2" data-r data-d="1" style="margin-top:14px">Mari bangun sesuatu yang bernilai.</h2>
+  <p class="wlead" data-r data-d="2">Untuk kemitraan, investasi, atau pertanyaan pers — kami senang mendengar dari Anda.</p>
+  <div data-r data-d="3"><a class="wbtn wbtn--isi" href="mailto:wosu.archourium@gmail.com?subject=PT%20WOSU%20Innovation%20Technology">Hubungi PT WOSU</a></div>
+  <div class="wfakta" data-r data-d="4">
+    <div class="wfakta__i"><span>Badan hukum</span><b>PT WOSU Innovation Technology</b></div>
+    <div class="wfakta__i"><span>Kedudukan</span><b>Indonesia &middot; beroperasi global</b></div>
+    <div class="wfakta__i"><span>Surel</span><b><a href="mailto:wosu.archourium@gmail.com">wosu.archourium@gmail.com</a></b></div>
   </div>
 </div></section>
 
 <!-- FOOTER -->
-<footer class="foot"><div class="wrap">
-  <div class="foot__grid">
+<footer class="wfoot on-dark"><div class="wwrap">
+  <div class="wfoot__grid">
     <div>
-      <a class="brand" href="/wosu/index.html" style="color:#fff"><span class="brand__mk" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25)">W</span><span><b style="color:#fff">WOSU</b><small style="color:rgba(255,255,255,.55)">Innovation Technology</small></span></a>
-      <p class="foot__about">Perusahaan teknologi asal Indonesia yang membangun produk bernilai tinggi untuk dunia. Induk dari Glyiv.</p>
+      <a class="wfoot__lock" href="/wosu/index.html">
+        <svg class="wmark wmark--gelap" viewBox="0 0 300 200" aria-hidden="true" focusable="false">
+          <path class="wt-a" d="M0 0L100 100H0V0Z"/>
+          <path class="wt-a" d="M100 200L0 100H100V200Z"/>
+          <path class="wt-b" d="M200 0L100 100H200V0Z"/>
+          <path class="wt-b" d="M100 200L200 100H100V200Z"/>
+          <path class="wt-a" d="M100 0L200 100H100V0Z"/>
+          <path class="wt-a" d="M200 200L100 100H200V200Z"/>
+          <path class="wt-b" d="M300 0L200 100H300V0Z"/>
+          <path class="wt-b" d="M200 200L300 100H200V200Z"/>
+        </svg>
+        <span><b>WOSU</b><small>Innovation Technology</small></span>
+      </a>
+      <p class="wfoot__ttg">Perusahaan induk teknologi asal Indonesia yang membangun produk bernilai tinggi untuk dunia. Induk dari Glyiv, Freszon, dan lini pengembangan game.</p>
     </div>
     <div><h4>Perusahaan</h4><a href="#tentang">Tentang</a><a href="#dewan">Dewan</a><a href="#nilai">Nilai</a></div>
-    <div><h4>Produk</h4><a href="/">Glyiv</a><a href="#kontak">Kemitraan</a></div>
+    <div><h4>Produk</h4><a href="/">Glyiv</a><a href="https://void.gt.tc/freszon/" target="_blank" rel="noopener noreferrer">Freszon</a><a href="#portofolio">Portofolio</a><a href="#kontak">Kemitraan</a></div>
   </div>
-  <div class="foot__legal"><span>© <span id="yr">2026</span> PT WOSU Innovation Technology · Indonesia</span><span>Membangun dari Indonesia, untuk dunia.</span></div>
+  <div class="wfoot__legal"><span>© <span data-tahun>2026</span> PT WOSU Innovation Technology · Indonesia</span><span>Innovate. Optimize. Elevate.</span></div>
 </div></footer>
+
+</div><!-- /.wos -->
 
 <script>
 (function(){
+  var akar=document.querySelector(".wos");
+  if(!akar) return;               /* halaman lain: jangan berbuat apa-apa */
+
+  /* Singkap saat digulir. */
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},{threshold:.14,rootMargin:"0px 0px -8% 0px"});
-  document.querySelectorAll("[data-r]").forEach(function(e){io.observe(e);});
-  var nav=document.querySelector(".nav");var t=false;
-  addEventListener("scroll",function(){if(t)return;t=true;requestAnimationFrame(function(){nav.classList.toggle("scr",scrollY>10);t=false;});},{passive:true});
-  document.getElementById("yr").textContent=new Date().getFullYear();
+  akar.querySelectorAll("[data-r]").forEach(function(e){io.observe(e);});
+
+  /* Tahun berjalan. Dulu `document.getElementById("yr")` — id tunggal itu pecah
+     kalau halaman lain memakai id yang sama; sekarang penanda `data-tahun`. */
+  var th=String(new Date().getFullYear());
+  akar.querySelectorAll("[data-tahun]").forEach(function(e){e.textContent=th;});
+
+  /* SPLASH — batas waktunya ada di CSS (`wsplash-keluar … forwards`), jadi ia
+     PASTI hilang walau blok ini tidak pernah jalan. Tugas JS di sini HANYA
+     mencabutnya dari pohon aksesibilitas sesudah animasinya selesai; ia tidak
+     pernah menjadi syarat splash itu berakhir.
+     Tidak ada `nav.classList` lagi di berkas ini: halaman memakai `.lnav`
+     bersama, tidak pernah punya `.nav`, jadi baris lama itu melempar
+     TypeError tiap kali halaman digulir. */
+  var sp=akar.querySelector(".wsplash");
+  if(sp){
+    var tutup=function(){ if(sp && !sp.hasAttribute("hidden")) sp.setAttribute("hidden",""); };
+    sp.addEventListener("animationend",function(e){ if(e.animationName==="wsplash-keluar") tutup(); });
+    setTimeout(tutup,2600);   /* jaring pengaman: animationend tak pernah datang */
+  }
 })();
 </script>
 <script src="/assets/js/glyiv-nav.js" defer></script>

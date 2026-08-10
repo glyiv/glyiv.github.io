@@ -18,6 +18,31 @@
   var PROXY = (window.GLYIV_CHAT_PROXY || "https://glyiv-chat.archourium.workers.dev").trim();
   var MODEL = "llama-3.3-70b-versatile";
 
+  /* ── BAHASA · MENUMPANG MESIN YANG SUDAH ADA, BUKAN MEKANISME KEDUA ─────────
+     Cacat yang diperbaiki blok ini: badge rekomendasi ("chip") Gly tetap
+     Bahasa Indonesia di halaman EN/AR. Sebabnya BUKAN mesin i18n tidak ada —
+     `assets/js/i18n.js` sudah berjalan di setiap halaman dan sudah punya dua
+     alat yang tepat untuk skrip penyuntik markup seperti berkas ini:
+        GlyivI18n.apply(elemen)  — terjemahkan satu cabang DOM
+        peristiwa "glyiv:lang"   — diumumkan tiap kali bahasa berganti
+     Yang hilang cuma pemakaiannya. `MutationObserver` mesin memang menangkap
+     simpul yang disuntik, tetapi (1) ia bisa kalah cepat dari suntikan yang
+     terjadi sebelum mesin menyala, dan (2) chip dirender SEKALI saat panel
+     pertama dibuka — mengganti bahasa sesudah itu tidak pernah menyentuhnya
+     lagi. Dua-duanya ditutup di bawah.
+     ⚠︎ Kamusnya sendiri tetap satu: `i18n-en.js` / `i18n-ar.js`, kunci = teks
+     Indonesia. Kalimat baru di berkas ini belum ada di sana sampai
+     `scripts/panen-bahasa.cjs` → `gabung-bahasa.cjs` dijalankan. Tidak ada
+     tabel terjemahan cadangan di berkas ini — itu justru mekanisme kedua yang
+     dilarang. */
+  var NAMA_BAHASA = { id: "Bahasa Indonesia", en: "English", ar: "Arabic (العربية)" };
+  function bahasaAktif() {
+    try { return (window.GlyivI18n && window.GlyivI18n.lang) || window.GLYIV_LANG || "id"; } catch (e) { return "id"; }
+  }
+  function terjemahkan(el) {
+    try { if (el && window.GlyivI18n && window.GlyivI18n.apply) window.GlyivI18n.apply(el); } catch (e) {}
+  }
+
   /* ---- konteks halaman (membuat Gly sadar posisi pengguna) ---- */
   function pageContext() {
     var h1 = document.querySelector("h1, .lh1, .kart__cover h1");
@@ -32,16 +57,35 @@
     return parts.join(" · ");
   }
   function sysPrompt() {
-    return 'Kamu adalah "Gly", asisten AI dari Glyiv — Carbon Intelligence & Offset Platform kelas enterprise untuk Indonesia (produk PT WOSU Innovation Technology).\n' +
-      'Gaya: Bahasa Indonesia santai tapi kredibel, ringkas (2-4 kalimat), ramah ke konsumen maupun enterprise/investor. Boleh 1 emoji sesekali. Jangan bertele-tele.\n' +
+    var lang = bahasaAktif();
+    return 'Kamu adalah "Gly", asisten AI dari Glyiv — Your Green Industry Intelligence Platform (produk PT WOSU Innovation Technology).\n' +
+      /* Bahasa jawaban mengikuti bahasa halaman. Sebelum ini prompt memaksa
+         Bahasa Indonesia, jadi pengunjung halaman EN/AR mendapat chip yang sudah
+         berbahasa mereka tetapi jawaban yang tidak. */
+      'BAHASA JAWABAN: ' + (NAMA_BAHASA[lang] || NAMA_BAHASA.id) + '. Jawab HANYA dalam bahasa itu, apa pun bahasa pertanyaannya.\n' +
+      'Gaya: santai tapi kredibel, ringkas (2-4 kalimat), ramah ke konsumen maupun enterprise/investor. Boleh 1 emoji sesekali. Jangan bertele-tele.\n' +
       'Yang HARUS kamu tahu:\n' +
-      '- Tiga lapisan: Ukur → Verifikasi → Offset. Dua wajah satu sistem: konsumen = "Platform Ekonomi Hijau" (tagline "Hidup hijau, imbalan nyata."); enterprise = "Carbon Intelligence".\n' +
+      /* Lima butir pertama = LIMA POIN HERO BERANDA, berurutan: apa itu Glyiv →
+         untung buat individu → untung buat perusahaan → bagaimana dapatnya →
+         langkahnya. Kalau hero berubah, butir-butir ini ikut berubah. */
+      '- APA ITU: platform kecerdasan hijau. "Green" di sini berarti TERLACAK — belanja harian, perjalanan, dan bahan baku dibaca jadi estimasi karbon dari aktivitas nyata, bukan klaim.\n' +
+      '- UNTUNG BUAT INDIVIDU: catat belanja & kebiasaan harian, lihat jejaknya, kumpulkan reward dari pilihan yang berkesinambungan.\n' +
+      '- UNTUNG BUAT PERUSAHAAN: jejak terlacak dari aktivitas nyata di titik bayar, dapur produksi, dan rantai pasok — bahan laporan, bukan tebakan rata-rata kategori.\n' +
+      '- CARA DAPAT REWARD-NYA & LANGKAHNYA: 01 Tangkap (aktivitas masuk sebagai data) → 02 Process (pustaka faktor emisi jadi estimasi berentang) → 03 Reward (kurangi dulu, lalu salurkan kontribusi ke aset hijau nyata). Hanya langkah pertama yang butuh dunia nyata.\n' +
+      '- Dua wajah satu sistem: konsumen = ekonomi hijau harian; enterprise = Green Intelligence.\n' +
       '- Mengukur emisi dari aktivitas nyata: activity-based/process-LCA (resep × faktor emisi) + fallback spend-based EEIO (EXIOBASE). Library faktor: ecoinvent, Poore & Nemecek 2018, ADEME Agribalyse, DEFRA, IPCC.\n' +
-      '- Ekosistem 13 business tree: Carbon Intelligence, Glyiv Aset (pohon/lahan RWA), Glyiv Outlet (POS/titik bayar berdata karbon), Glyiv Saku (aplikasi konsumen di /app), Glyiv Pasar (marketplace), Glyiv Pangan (hub pangan: label kalori+emisi+tebus), Glyiv Dompet (carbon wallet), Glyiv IoT, Glyiv Dana, Bank Sampah, Glyiv Sehat, Glyiv Belajar, Glyiv Lab/RnD; + alat konsumen (Scan Karbon, Kalkulator) & Kabar (media).\n' +
-      '- Glyiv Saku = SATU-SATUNYA cabang konsumen yang SUDAH BISA DIPAKAI hari ini (buka /app, halamannya /lab/ekosistem/saku.html): cari barang dari NAMA -> estimasi CO2e berentang + tier, kalkulator IMT, catatan harian + grafik. Batasnya harus disebut kalau ditanya: BELUM ada pengenalan gambar (bukan foto, tapi ketik nama), hasilnya rentang bukan angka pasti, padanan pohon = gambaran skala bukan penebusan, IMT bukan nasihat medis, aplikasi Android/iOS masih roadmap (belum di Play Store).\n' +
+      '- Ekosistem 13 business tree: Green Intelligence, Glyiv Aset (pohon/lahan RWA), Glyiv Outlet (POS/titik bayar berdata karbon), Glyiv Pocket (aplikasi konsumen di /app), Glyiv Pasar (marketplace), Glyiv Pangan (hub pangan: label kalori+emisi+tebus), Glyiv Dompet (carbon wallet), Glyiv IoT, Glyiv Dana, Bank Sampah, Glyiv Sehat, Glyiv Belajar, Glyiv Lab/RnD; + alat konsumen (Scan Karbon, Kalkulator) & Kabar (media).\n' +
+      '- Glyiv Pocket = SATU-SATUNYA cabang konsumen yang SUDAH BISA DIPAKAI hari ini (buka /app, halamannya /lab/ekosistem/saku.html): cari barang dari NAMA -> estimasi CO2e berentang + tier, kalkulator IMT, catatan harian + grafik. Batasnya harus disebut kalau ditanya: BELUM ada pengenalan gambar (bukan foto, tapi ketik nama), hasilnya rentang bukan angka pasti, padanan pohon = gambaran skala bukan penebusan, IMT bukan nasihat medis.\n' +
+      /* Butir ini dulu berbunyi "aplikasi Android/iOS masih roadmap (belum di
+         Play Store)" — sudah tidak benar untuk Android. TERUKUR hari ini:
+         GET https://glyiv.io/download/Glyiv-Pocket.apk → 200 (33.490 byte) dan
+         .../Glyiv-Green-Assets.apk → 200 (29.395 byte). Keduanya kini juga
+         ditautkan langsung dari hero beranda, jadi Gly tidak boleh menyangkal
+         hal yang tautannya ada di layar yang sama. */
+      '- APK Android BISA DIUNDUH LANGSUNG hari ini (di luar Play Store): /download/Glyiv-Pocket.apk dan /download/Glyiv-Green-Assets.apk, keduanya ditautkan dari hero beranda dan dari /download.html. Play Store & iOS masih peta jalan.\n' +
       '- Web3: aset hijau token RWA ERC-3643 (permissioned, KYC on-chain); oracle & DePIN (sensor/foto-GPS, satelit masa depan); anti double-counting.\n' +
       '- Pendorong regulasi: EU CBAM (fase bayar 1 Jan 2026), IFRS S2/ISSB, POJK, IDXCarbon.\n' +
-      'POSTUR JUJUR (WAJIB): klaim "kontribusi", BUKAN "netral karbon"; "terlacak", bukan "terukur"; sertifikasi/MRV masih dalam roadmap. Jangan mengarang angka. Jangan menyebut kamu LLM/model/Groq. JANGAN pakai kata "kasir"/"kafe" — gunakan "outlet"/"titik bayar".\n' +
+      'POSTUR JUJUR (WAJIB, berlaku di ketiga bahasa): klaim "kontribusi"/"contribution", BUKAN "netral karbon"/"carbon neutral"; "terlacak"/"tracked", bukan "terukur"/"measured"/"verified"; "reward"/"imbalan", bukan "penghasilan"/"income"; sertifikasi/MRV masih peta jalan. Jangan mengarang angka. Jangan menyebut kamu LLM/model/Groq. JANGAN pakai kata "kasir"/"kafe"/"cashier"/"cafe" — gunakan "outlet"/"titik bayar".\n' +
       'KONTEKS HALAMAN SAAT INI → ' + pageContext() + '\nKaitkan jawaban ke konteks halaman ini bila relevan; kalau ditanya di luar Glyiv, arahkan balik dengan ramah.';
   }
 
@@ -72,7 +116,12 @@
 
     var fab = document.createElement("button");
     fab.className = "liv-fab"; fab.id = "glyBot"; fab.setAttribute("aria-label", "Tanya Gly");
-    fab.innerHTML = '<span class="liv-fab__ping"></span><canvas id="botLauncherCanvas"></canvas>';
+    /* ⚠︎ Keterangan "Tanya Gly" ditulis sebagai SIMPUL TEKS di dalam <i>, bukan
+       lewat CSS `content:`. Isi `content:` tidak bisa dijangkau kamus i18n, jadi
+       versi lamanya bertahan Bahasa Indonesia di halaman EN dan AR — di setiap
+       halaman, tepat di bawah model 3D. Sebagai simpul teks ia diterjemahkan
+       kamus seperti teks lain di situs. */
+    fab.innerHTML = '<span class="liv-fab__ping"><i>Tanya Gly</i></span><canvas id="botLauncherCanvas"></canvas>';
     document.body.appendChild(fab);
 
     var chat = document.createElement("div");
@@ -93,6 +142,14 @@
     function bub(text, who) {
       var b = document.createElement("div"); b.className = "liv-bub " + (who || "bot"); b.textContent = text;
       msgs.appendChild(b); msgs.scrollTop = msgs.scrollHeight;
+      /* Gelembung yang kami tulis sendiri (sapaan, jawaban cadangan offline)
+         lewat kamus juga — supaya bukan hanya chip yang berbahasa halaman.
+         Jawaban dari LLM sudah datang dalam bahasa yang benar lewat sysPrompt,
+         dan `tr()` di i18n.js hanya menulis kalau kuncinya persis ada, jadi
+         memanggilnya di sini aman untuk teks apa pun.
+         Gelembung "me" DIKECUALIKAN: itu kata-kata pengunjung sendiri, dan
+         menuliskan ulang kalimat orang bukan tugas mesin bahasa. */
+      if ((who || "bot") !== "me") terjemahkan(b);
       // gerakkan mulut bot 3D saat "bicara"
       if ((who || "bot") === "bot" && window.glyivBot && window.glyivBot.speak) {
         window.glyivBot.speak(true);
@@ -100,33 +157,76 @@
       }
       return b;
     }
-    function chips() {
-      var p = location.pathname, list;
-      if (/\/industri\//.test(p)) list = ["Apa solusi Glyiv untuk sektor ini?", "Bagaimana cara Glyiv mengukur emisinya?", "Apa itu CBAM & kenapa penting?"];
-      else if (/\/ekosistem\/pangan/.test(p)) list = ["Bagaimana label pangan dihitung?", "Apa itu hari-pohon?", "Kenapa daging lebih tinggi emisinya?"];
-      else if (/\/ekosistem\//.test(p) || /\/apps\//.test(p)) list = ["Apa fungsi business tree ini?", "Bagaimana ini terhubung ke ekosistem?", "Apa itu Glyiv?"];
-      else if (/kalkulator|scanner|imt/.test(p)) list = ["Bagaimana estimasi karbonnya dihitung?", "Apa maksud 'pohon untuk menebus'?", "Apa itu Glyiv?"];
-      else list = ["Apa itu Glyiv?", "12 business tree apa saja?", "Kenapa carbon accounting penting?", "Untuk perusahaan saya?"];
-      var el = chat.querySelector("#glyChips");
-      el.innerHTML = list.map(function (c) { return '<span class="liv-chip">' + c + "</span>"; }).join("");
-      Array.prototype.forEach.call(el.querySelectorAll(".liv-chip"), function (c) { c.addEventListener("click", function () { send(c.textContent); }); });
+
+    /* BADGE REKOMENDASI BERANDA = LIMA POIN HERO, URUTANNYA SAMA:
+       apa itu → untung buat individu → untung buat perusahaan → bagaimana dapat
+       reward-nya → apa langkahnya. Daftar lama ("12 business tree apa saja?",
+       "Kenapa carbon accounting penting?") menawarkan tur fitur, bukan lima
+       pertanyaan yang baru saja ditimbulkan hero di layar yang sama. */
+    var CHIP_BERANDA = [
+      "Apa itu Glyiv?",
+      "Apa untungnya buat saya?",
+      "Untuk perusahaan saya?",
+      "Bagaimana cara dapat reward-nya?",
+      "Apa saja langkahnya?",
+    ];
+    function daftarChip() {
+      var p = location.pathname;
+      if (/\/industri\//.test(p)) return ["Apa solusi Glyiv untuk sektor ini?", "Bagaimana jejaknya dilacak?", "Apa itu CBAM & kenapa penting?"];
+      if (/\/ekosistem\/pangan/.test(p)) return ["Bagaimana label pangan dihitung?", "Apa itu hari-pohon?", "Kenapa daging lebih tinggi emisinya?"];
+      if (/\/ekosistem\//.test(p) || /\/apps\//.test(p)) return ["Apa fungsi business tree ini?", "Bagaimana ini terhubung ke ekosistem?", "Apa itu Glyiv?"];
+      if (/kalkulator|scanner|imt/.test(p)) return ["Bagaimana estimasi karbonnya dihitung?", "Apa maksud 'pohon untuk menebus'?", "Apa itu Glyiv?"];
+      return CHIP_BERANDA;
     }
+    function chips() {
+      var el = chat.querySelector("#glyChips");
+      if (!el) return;
+      el.innerHTML = daftarChip().map(function (c) {
+        return '<span class="liv-chip" role="button" tabindex="0">' + c + "</span>";
+      }).join("");
+      Array.prototype.forEach.call(el.querySelectorAll(".liv-chip"), function (c) {
+        var pakai = function () { send(c.textContent); };
+        c.addEventListener("click", pakai);
+        /* Chip adalah <span> (kelas `.liv-chip` di lab.css menggayai span, bukan
+           button), jadi papan ketik tidak mendapatkannya gratis. */
+        c.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pakai(); }
+        });
+      });
+      /* Suntik dulu, terjemahkan sesudahnya — `GlyivI18n.apply` menelusuri cabang
+         ini apa adanya. Tanpa baris ini chip bergantung pada MutationObserver
+         mesin, yang tidak berjalan kalau mesin baru menyala setelah chip ada. */
+      terjemahkan(el);
+    }
+    /* Ganti bahasa SESUDAH panel terbuka: chip dirender sekali, jadi tanpa
+       pendengar ini ia membeku di bahasa saat pertama dibuka. Peristiwanya milik
+       i18n.js dan diumumkan oleh SEMUA pemilih bahasa (pil navbar situs, pemilih
+       React, ?lang=), jadi tidak ada jalur yang terlewat. */
+    document.addEventListener("glyiv:lang", function () { if (opened) chips(); });
+
     function open() {
       document.body.classList.add("livchat-open");
-      if (!opened) { opened = true; chips(); setTimeout(function () { bub("Hai! Saya Gly, asisten Glyiv 🌿 Saya paham konteks halaman ini — tanya apa saja soal Glyiv, cara kerjanya, atau isi halaman ini."); }, 220); }
+      if (!opened) { opened = true; chips(); setTimeout(function () { bub("Hai! Saya Gly, asisten Glyiv 🌿 Di sini 'green' berarti terlacak — tanya apa itu Glyiv, apa untungnya buat kamu atau perusahaanmu, dan apa saja langkahnya."); }, 220); }
       setTimeout(function () { input.focus(); }, 300);
     }
     function close() { document.body.classList.remove("livchat-open"); }
 
+    /* Jawaban cadangan saat proxy tak terjangkau. Kelimanya menjawab kelima chip
+       di atas, dengan isi yang sama dengan hero — bukan cerita ketiga.
+       ⚠︎ "mengukur emisi" dibuang dari dua jawaban: diksi tetap proyek adalah
+       "terlacak", bukan "terukur". */
     function fallback(t) {
       t = (t || "").toLowerCase();
       var has = function () { for (var i = 0; i < arguments.length; i++) if (t.indexOf(arguments[i]) >= 0) return true; return false; };
-      if (has("apa itu", "glyiv", "produk")) return "Glyiv adalah Carbon Intelligence & Offset Platform: mengukur emisi dari aktivitas nyata (terlacak, bukan tebakan), lalu menyalurkannya ke kontribusi iklim yang berimbal. Tiga lapisan: Ukur → Verifikasi → Offset. 🌿";
-      if (has("business tree", "ekosistem", "cabang")) return "Ada 12 business tree: Carbon Intelligence, Glyiv Aset (pohon/lahan RWA), Outlet, Pasar, Pangan, Dompet, IoT, Dana, Bank Sampah, Sehat, Belajar, Lab — plus alat konsumen (Scan, Kalkulator) & Kabar. Semua berbagi satu tulang punggung data karbon.";
+      if (has("langkah", "step", "cara kerja")) return "Tiga langkah, dan hanya yang pertama butuh dunia nyata: 01 Tangkap — belanja, perjalanan, dan transaksi outlet masuk sebagai data; 02 Process — pustaka faktor emisi mengubahnya jadi estimasi berentang; 03 Reward — kurangi dulu, lalu salurkan kontribusi ke aset hijau nyata. 🌿";
+      if (has("reward", "imbalan", "untung", "dapat apa")) return "Reward datang dari pilihan yang berkesinambungan: catat belanja & kebiasaan harian di Glyiv Pocket, lihat jejaknya, lalu kurangi dan salurkan kontribusi ke aset hijau nyata. Kami menyebutnya kontribusi terlacak — bukan klaim netral karbon.";
+      if (has("perusahaan", "enterprise", "bisnis", "demo", "harga")) return "Untuk perusahaan: jejak terlacak dari aktivitas nyata di titik bayar, dapur produksi, dan rantai pasok — selaras GHG Protocol/ISO 14064, lengkap dengan tier data dan rentangnya. Klik 'Gabung' atau hubungi tim untuk demo. 🙌";
+      if (has("apa itu", "glyiv", "produk")) return "Glyiv adalah Your Green Industry Intelligence Platform. 'Green' di sini berarti terlacak: belanja harian, perjalanan, dan bahan baku dibaca jadi estimasi karbon dari aktivitas nyata — lalu jadi reward untuk pilihan yang berkesinambungan. 🌿";
+      if (has("business tree", "ekosistem", "cabang")) return "Ada 12 business tree: Green Intelligence, Glyiv Aset (pohon/lahan RWA), Outlet, Pasar, Pangan, Dompet, IoT, Dana, Bank Sampah, Sehat, Belajar, Lab — plus alat konsumen (Scan, Kalkulator) & Kabar. Semua berbagi satu tulang punggung data karbon.";
       if (has("kenapa", "penting", "regulasi", "cbam")) return "Karbon kini biaya nyata: EU CBAM masuk fase bayar 1 Jan 2026 ⚠︎, plus IFRS S2/ISSB, POJK, IDXCarbon. Yang tak terlacak diam-diam menggerus laba & akses pasar.";
-      if (has("offset", "pohon", "tebus", "rwa")) return "Offset Glyiv diikat ke aset pohon/lahan nyata yang dipantau (oracle) dan ter-tokenisasi RWA (ERC-3643). Kami menyebutnya kontribusi terlacak, bukan klaim 'netral karbon'.";
-      if (has("perusahaan", "enterprise", "bisnis", "demo", "harga")) return "Untuk enterprise, Glyiv mengukur Scope 1/2/3 dari data aktivitas nyata (selaras GHG Protocol/ISO 14064) + demo per-industri. Klik 'Gabung' atau hubungi tim untuk demo. 🙌";
-      return "Saya paling paham soal Glyiv: apa itu, 12 business tree, kenapa karbon penting, cara mengukur & offset, dan isi halaman ini. Mau bahas yang mana?";
+      if (has("offset", "pohon", "tebus", "rwa")) return "Kontribusi Glyiv diikat ke aset pohon/lahan nyata yang dipantau (oracle) dan ter-tokenisasi RWA (ERC-3643). Kami menyebutnya kontribusi terlacak, bukan klaim 'netral karbon'.";
+      if (has("unduh", "apk", "aplikasi", "android", "download")) return "APK Android bisa diunduh langsung dari hero beranda: Glyiv Pocket dan Glyiv Green Assets. Keduanya di luar Play Store — Play Store dan iOS masih peta jalan.";
+      return "Saya paling paham soal Glyiv: apa itu, apa untungnya buat kamu atau perusahaanmu, bagaimana reward-nya datang, apa saja langkahnya, dan isi halaman ini. Mau bahas yang mana?";
     }
 
     function send(text) {

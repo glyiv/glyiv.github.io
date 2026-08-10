@@ -56,7 +56,9 @@
 /* `html[dir=…]` bukan `[dir=…]` dengan sengaja: halaman hasil port menyuntikkan
    lembar gaya khusus-halaman ke dalam <body>, jadi ia menang atas berkas ini
    pada spesifisitas seri. Diukur: tanpa selektor `html` di depan, satu keterangan
-   gambar (.whyviz__img .cap) tetap membawa letter-spacing 0,6px pada teks Arab. */
+   gambar di beranda tetap membawa letter-spacing 0,6px pada teks Arab. (Elemen
+   yang dipakai untuk mengukur — `.whyviz__img .cap` — sudah dicabut sejak seksi
+   `#kenapa` diganti; alasan aturannya tetap berlaku.) */
 html[dir="rtl"],
 html[dir="rtl"] *:not([data-i18n-ltr], [data-i18n-ltr] *, [lang="en"], [lang="en"] *, [lang="id"], [lang="id"] *, code, pre, .lnav__lang, .lnav__lang *) {
   letter-spacing: normal;
@@ -107,7 +109,6 @@ html[dir="rtl"] .lh1, html[dir="rtl"] h1, html[dir="rtl"] h2 { letter-spacing: n
 [dir="rtl"] .mvcard__get svg,
 [dir="rtl"] .lfoot a > svg,
 [dir="rtl"] .ldrop__mega-foot svg,
-[dir="rtl"] .rcp__row svg,
 [dir="rtl"] .tmrow > svg:last-child,
 [dir="rtl"] [class*="__go"] svg,
 [dir="rtl"] [class*="__next"] svg,
@@ -169,7 +170,10 @@ html[dir="rtl"] .lh1, html[dir="rtl"] h1, html[dir="rtl"] h2 { letter-spacing: n
 [dir="rtl"] .frame-browser__url { margin-left: 0; margin-inline-start: 10px; }
 [dir="rtl"] .mvfaces .stk i { margin-left: 0; margin-inline-start: -11px; }
 [dir="rtl"] .mvfaces .stk i:first-child { margin-inline-start: 0; }
-[dir="rtl"] .lfoot a:hover { padding-left: 0; padding-inline-start: 3px; }
+/* `:not(.lbrand)` — pasangan dari perbaikan merek kaki halaman di `lab.css`.
+   Tanpa ini aturan RTL tetap menggeser SELURUH merek 3 px saat disentuh, karena
+   spesifisitasnya (0,3,1) mengalahkan pengecualian di lab.css. */
+[dir="rtl"] .lfoot a:not(.lbrand):hover { padding-left: 0; padding-inline-start: 3px; }
 
 /* ── PERATAAN TEKS ───────────────────────────────────────────────────────────── */
 [dir="rtl"] .dtab,
@@ -177,8 +181,7 @@ html[dir="rtl"] .lh1, html[dir="rtl"] h1, html[dir="rtl"] h2 { letter-spacing: n
 [dir="rtl"] .cmp__row > .oth,
 [dir="rtl"] .cmp__row > .gly { text-align: right; }
 [dir="rtl"] .d-tree .tv,
-[dir="rtl"] .tmrow__v,
-[dir="rtl"] .rcp__row b { text-align: left; }
+[dir="rtl"] .tmrow__v { text-align: left; }
 
 /* ── LENCANA & DEKORASI YANG DIPATOK KE SUDUT ────────────────────────────────── */
 [dir="rtl"] .vcard__n { left: auto; right: 16px; }
@@ -189,8 +192,14 @@ html[dir="rtl"] .lh1, html[dir="rtl"] h1, html[dir="rtl"] h2 { letter-spacing: n
 [dir="rtl"] .rv-badge { right: auto; left: 10px; }
 [dir="rtl"] .rvsat .lab.l { left: auto; right: 8px; }
 [dir="rtl"] .rvsat .lab.r { right: auto; left: 8px; }
-[dir="rtl"] .whyviz__img .cap { left: auto; right: 16px; }
 [dir="rtl"] .indcard__go { transform: translateX(6px); }
+
+/* Adegan iklim `#kenapa`: kendalinya DIPAKSA kiri-ke-kanan. `input[type=range]`
+   membalik arahnya sendiri di RTL, sementara skala di bawahnya (+1,5 → +3) dan
+   gradien relnya tidak — hasilnya slider yang bergerak berlawanan dengan
+   angkanya. Satu baris ini lebih murah daripada tiga aturan pembalik. */
+[dir="rtl"] .gvis__range,
+[dir="rtl"] .gvis__scale { direction: ltr; }
 
 /* ── GARIS AKSEN & RADIUS ────────────────────────────────────────────────────── */
 [dir="rtl"] .spot__i {

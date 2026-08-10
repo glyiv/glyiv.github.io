@@ -21,15 +21,82 @@ const DPR = capDPR(1.75);
 // the IntersectionObserver can't is an ancestor toggled to visibility:hidden (the
 // closed chat panel), which changes on a click, not per frame. So cache the answer
 // and re-test at most ~4x/second: imperceptible delay, ~94% fewer forced layouts.
+// ⛔ CACHE BERBASIS WAKTU (250 ms) SUDAH TIDAK CUKUP — DIUKUR, BUKAN DIKIRA.
+// Jejak kinerja sungguhan di https://glyiv.web.app (1280x800, CPU 4x, gulir
+// penuh naik-turun 9.042 px) menyalahkan `SHOWN` sebagai penyebab forced reflow
+// TERBESAR di seluruh halaman: **4.084 ms**, di atas glyiv.js (1.725 ms) dan
+// ukurHero (426 ms). Sebabnya aritmetika: cache 250 ms berarti tiap kanvas
+// tetap memaksa 4 tata-letak sinkron per detik, dan halaman ini menjalankan
+// beberapa adegan sekaligus. "Jarang" bukan "tidak pernah".
+//
+// Yang berubah: jawabannya tidak lagi kedaluwarsa karena WAKTU, melainkan
+// karena PERISTIWA. `checkVisibility()` hanya dipanggil lagi setelah ada
+// sesuatu yang benar-benar bisa mengubah jawabannya:
+//   · atribut `class`/`style`/`hidden` berubah di mana pun dalam dokumen —
+//     itulah yang membuka/menutup panel obrolan (`visibility:hidden`);
+//   · transisi selesai (panel memakai transisi);
+//   · ukuran jendela berubah.
+// Ketiganya jarang dan digerakkan manusia. Di antara peristiwa itu, jumlah
+// pembacaan tata letak dari fungsi ini NOL — berapa pun bingkai yang lewat.
+//
+// ⚠︎ MutationObserver-nya SATU untuk seluruh berkas, bukan satu per kanvas, dan
+// ia hanya MENAIKKAN nomor generasi. Ia tidak membaca tata letak apa pun; biaya
+// per mutasi hanyalah penambahan satu angka.
+// ⛔ PENGAMAT SELURUH DOKUMEN SUDAH DICOBA DAN GAGAL — dicatat supaya tidak
+// dicoba lagi. Versi keduanya memakai satu MutationObserver ber-`subtree:true`
+// atas `documentElement`. Hasilnya nyaris tidak berubah (4.084 → 3.575 ms),
+// dan sebabnya jelas begitu dilihat: halaman ini MEMANG mengubah `class` terus-
+// menerus — `data-reveal` menyala saat digulir, carousel hero menukar `is-on`,
+// ornamen berganti keadaan. Jadi nomor generasinya naik hampir tiap bingkai dan
+// cache-nya tidak pernah sempat dipakai. Pengamat yang terlalu lebar sama saja
+// dengan tidak ada cache.
+//
+// Yang menentukan jawaban `checkVisibility()` untuk sebuah kanvas HANYA rantai
+// leluhurnya sendiri — sekitar 5-8 simpul. `data-reveal` di seksi lain tidak
+// bisa menyembunyikan kanvas obrolan. Jadi yang diamati rantai itu saja, dan
+// `subtree` MATI. Kelas yang berubah di tempat lain tidak lagi membatalkan apa
+// pun, dan di antara peristiwa yang benar-benar relevan jumlah pembacaan tata
+// letak dari fungsi ini NOL.
 const _visCache = new WeakMap();
+function _pasangPengamat(c) {
+  let gen = 0;
+  const naik = () => { gen++; };
+  if (typeof MutationObserver === "function") {
+    const mo = new MutationObserver(naik);
+    for (let el = c; el; el = el.parentElement) {
+      mo.observe(el, { attributes: true, attributeFilter: ["class", "style", "hidden"] });
+    }
+    /* Panel obrolan memakai transisi; `transitionend` di rantai itu menutup
+       celah antara "kelas berubah" dan "visibility benar-benar berlaku". */
+    for (let el = c; el; el = el.parentElement) {
+      el.addEventListener("transitionend", naik, { passive: true });
+    }
+  }
+  addEventListener("resize", naik, { passive: true });
+  return () => gen;
+}
+// DUA PAGAR SEKALIGUS, dan masing-masing menutup celah pagar yang lain:
+//   · BERBASIS PERISTIWA — kalau tidak ada leluhur kanvas yang berubah, jawaban
+//     lama dipakai selamanya. Ini yang membuat halaman DIAM benar-benar gratis.
+//   · BERBATAS LAJU (250 ms) — `<html>` dan `<body>` ikut di rantai leluhur, dan
+//     keduanya memang berganti kelas selama gulir (`is-ready`, `lnav-open`,
+//     `gl-splash-*`). Tanpa batas laju, gulir menaikkan generasi hampir tiap
+//     bingkai dan pagar pertama tidak menolong.
+// Terukur pada jejak yang sama (1280x800, CPU 4x, gulir penuh 9.287 px):
+//   cache waktu saja            4.084 ms   ← keadaan awal
+//   pengamat seluruh dokumen    3.575 ms   ← gagal: kelas reveal membatalkannya
+//   pengamat rantai leluhur     1.711 ms
+//   keduanya (versi ini)        lihat laporan ronde
 const SHOWN = (c) => {
   if (typeof c.checkVisibility !== "function") return true;
+  let e = _visCache.get(c);
+  if (!e) { e = { gen: _pasangPengamat(c), g: -1, t: 0, v: true }; _visCache.set(c, e); }
+  const g = e.gen();
   const now = performance.now();
-  const e = _visCache.get(c);
-  if (e && now - e.t < 250) return e.v;
-  const v = c.checkVisibility({ checkVisibilityCSS: true });
-  _visCache.set(c, { t: now, v });
-  return v;
+  if (e.g === g || now - e.t < 250) return e.v;
+  e.g = g; e.t = now;
+  e.v = c.checkVisibility({ checkVisibilityCSS: true });
+  return e.v;
 };
 
 /* soft round sprite (shared) */
@@ -535,24 +602,236 @@ function initLivBot(canvas, framing) {
   const k = (x) => { keep.push(x); return x; };
   const std = (h, o = {}) => k(new THREE.MeshStandardMaterial({ color: new THREE.Color(h), roughness: o.rough ?? 0.4, metalness: o.metal ?? 0.6, emissive: new THREE.Color(o.emissive ?? 0x000000), emissiveIntensity: o.ei ?? 1, flatShading: o.flat ?? false }));
   const glow = (h, op = 1) => k(new THREE.MeshBasicMaterial({ color: new THREE.Color(h), transparent: true, opacity: op, blending: THREE.AdditiveBlending, depthWrite: false }));
-  const EYE_Z = 0.92;
-
   const titan = new THREE.Group(); scene.add(titan);
   const head = new THREE.Group(); titan.add(head);
-  // bio-crystal "seed" core (dodecahedron, slightly elongated) — distinct from the koios icosahedron
-  const core = new THREE.Mesh(k(new THREE.DodecahedronGeometry(0.9, 0)), std("#08251a", { rough: 0.3, metal: 0.55, emissive: ACC, ei: 0.2, flat: true })); core.scale.set(1, 1.08, 1); head.add(core);
-  const wire = new THREE.LineSegments(k(new THREE.EdgesGeometry(new THREE.DodecahedronGeometry(0.93, 0))), k(new THREE.LineBasicMaterial({ color: ACC, transparent: true, opacity: 0.85 }))); wire.scale.set(1, 1.08, 1); head.add(wire);
-  const inner = new THREE.Mesh(k(new THREE.IcosahedronGeometry(0.48, 0)), std("#0c3a28", { rough: 0.2, metal: 0.4, emissive: GOLD, ei: 0.5, flat: true })); head.add(inner);
 
-  const eyeGrp = new THREE.Group(); eyeGrp.position.set(0, 0.08, EYE_Z); head.add(eyeGrp);
+  /* ── KEPALA GLY = LAMBANG GLYIV UTUH, DIPERPANJANG KE BELAKANG ────────────
+     Permintaan pemilik (10 Agu 2026), verbatim: *"3d model glyiv masih jelek
+     sekali bro. Coba buat 3dnya jangan begitu. Dari SVG logo glyiv itu, extend
+     ke belakang, jadi ada volumenya itu. Paham tidak diberikan volume. Jadi
+     dari 2d itu diperpanjang ke belakang paham tidak sih, jadi ada volumenya."*
+
+     ⛔ DUA PERCOBAAN SEBELUMNYA DITOLAK — dibaca dulu supaya tidak jadi tiga:
+     · Ronde 58: `ExtrudeGeometry` setebal 0,14 pada lambang setinggi 1,9 —
+       7% tingginya, 14% lebarnya. Pemilik: *"kamu hanya membuat svg flat
+       menjadi 3d, tidak betul2 kasih volume."* Betul: 7% itu PELAT.
+     · Ronde 59: lambangnya DIPECAH jadi tiga kristal melayang bergeometri
+       bertirus. Pemilik: *"masih jelek sekali."* Yang hilang siluetnya —
+       lambangnya tidak terbaca lagi sebagai lambang.
+
+     Kalimat barunya menutup KEDUA kegagalan itu sekaligus, dan itulah acuan
+     ronde ini:
+       (1) bentuknya TETAP lambang utuh — enam segitiga `logo.svg` apa adanya,
+           bersinggungan, tanpa celah, tanpa dipecah;
+       (2) lambang itu DIPERPANJANG KE BELAKANG sampai benar-benar berisi.
+
+     ── ANGKANYA, BUKAN KIRA-KIRA ────────────────────────────────────────────
+     `TEBAL` diukur terhadap LEBAR lambang, bukan terhadap satu ronde ke ronde
+     lain: lebar lambang = 96,8145 satuan SVG = 0,5243 satuan kerja. Dengan
+     `TEBAL` 0,33 rasionya **62,9%** (ronde 58: 14%). Lebih tebal daripada satu
+     sayapnya sendiri (0,2427), jadi penampangnya bukan lagi pelat melainkan
+     balok — dan itu yang membuat sisi sampingnya terbaca sebagai DINDING.
+
+     ── KENAPA SATU GEOMETRI, BUKAN ENAM MESH ────────────────────────────────
+     Kelima faset digabung ke SATU `BufferGeometry` non-indexed dengan atribut
+     `color` per-verteks, jadi satu draw call untuk seluruh lambang (dulu 6 mesh
+     + 6 LineSegments = 12; sekarang 1 mesh + 1 LineSegments). Pemilik menguji
+     di tablet; jumlah draw call itu yang paling murah dipangkas tanpa
+     mengorbankan apa pun.
+     Warna per-verteks juga MENJAMIN syarat yang tidak boleh bergantung pada
+     arah cahaya: muka depan, talang (bevel), dan dinding samping diberi
+     pengali terang yang BERBEDA (`TINT`), sehingga ketiganya tetap terpisah
+     nilainya walaupun sorot `key` kebetulan jatuh rata.
+
+     ── KENAPA GEOMETRI TANGAN, BUKAN `ExtrudeGeometry` ──────────────────────
+     Bukan karena `ExtrudeGeometry` salah — kali ini ia justru bentuk yang
+     benar. Alasannya praktis: (a) kelima faset CEMBUNG (empat segitiga + satu
+     jajar-genjang), jadi tutupnya cukup satu kipas dan tidak butuh triangulasi
+     apa pun; (b) `TINT` per PERAN muka menuntut atribut warna yang ditulis
+     saat membangun, dan `ExtrudeGeometry` tidak menyediakan tempat
+     menaruhnya; (c) talangnya dihitung dengan pergeseran garis-bagi yang
+     EKSAK (lihat `cap`), bukan penyusutan terhadap pusat massa yang membuat
+     lebar talang tidak rata di segitiga tak-samasisi. */
+  const FASET = [
+    /* ⚠︎ SAYAP KIRI DIGABUNG JADI SATU SEGI-EMPAT, bukan dua segitiga —
+       DIPUTUSKAN SESUDAH MELIHAT RENDER, bukan dari teori. Dua `<path>` pertama
+       `logo.svg` berwarna SAMA (#B6FFD4) dan bertemu di diagonal A–C; kalau
+       keduanya dibangun sebagai prisma terpisah, diagonal itu mendapat talang
+       sendiri dan muncul sebagai GARIS TERANG membelah sayap kiri — lipatan
+       yang TIDAK ADA di lambang. Digabung, satu-satunya lipatan yang tersisa
+       persis lipatan warna milik lambang: sayap kanan (#1FA870/#33D188) dan
+       belah ketupat bawah (#4FE0A2/#8AFFC1). Urutan A→B→C→D menyusuri
+       jajar-genjangnya, jadi poligonnya sederhana dan cembung. */
+    { p: [[0, 44.8214], [44.8214, 0], [44.8214, 89.6428], [0, 134.464]], c: "#B6FFD4" },
+    { p: [[96.8145, 44.8214], [51.993, 0], [51.993, 89.6428]], c: "#1FA870" },
+    { p: [[51.9932, 89.6427], [96.8146, 44.8213], [96.8146, 134.464]], c: "#33D188" },
+    { p: [[93.2285, 139.843], [48.4071, 95.0215], [48.4071, 184.664]], c: "#4FE0A2" },
+    { p: [[3.58594, 139.843], [48.4074, 95.0215], [48.4074, 184.664]], c: "#8AFFC1" }
+  ];
+  /* Titik asal = PERTIGAAN (rata-rata ketiga simpul terdalam), bukan pusat
+     kotak batas — di situlah lekuk kosong lambang, dan di situ pula matanya
+     duduk. Keduanya nyaris berimpit (48,407·91,436 vs 48,407·92,332), jadi
+     lambangnya tetap tampak seimbang di dalam bingkai. */
+  const J_X = (44.8213 + 51.9932 + 48.4071) / 3;
+  const J_Y = (89.6427 + 89.6427 + 95.0215) / 3;
+  const S0 = 1 / 184.664;                                   // satuan SVG → satuan kerja (tinggi lambang = 1)
+  const kv = ([x, y]) => [(x - J_X) * S0, (J_Y - y) * S0];  // sumbu Y SVG turun, three.js naik
+  const SEGI = FASET.map((f) => f.p.map(kv));
+
+  let xMin = Infinity, xMax = -Infinity, yMin = Infinity, yMax = -Infinity;
+  SEGI.forEach((t) => t.forEach(([x, y]) => {
+    if (x < xMin) xMin = x; if (x > xMax) xMax = x;
+    if (y < yMin) yMin = y; if (y > yMax) yMax = y;
+  }));
+  const LEBAR = xMax - xMin;             // 0,52428 satuan kerja
+  const TEBAL = 0.33;                    // 62,9% LEBAR — lihat catatan di atas
+  /* Talang SEMPIT tapi CURAM (0,018 ke dalam bidang, 0,028 sepanjang z ⇒ ±57°).
+     ⚠︎ ANGKANYA TURUN DARI 0,022 SESUDAH MELIHAT RENDER. Celah asli lambang —
+     slot tegak antara kedua sayap — lebarnya hanya 0,0388 satuan kerja; dengan
+     talang 0,022 di KEDUA tepinya, 0,044 dari 0,0388 termakan talang, jadi
+     celahnya tertutup rapat oleh dua pita terang dan lambang kehilangan
+     ruang-negatifnya. Pada 0,018 masih tersisa dinding gelap di dalam celah. */
+  const BEV_S = 0.018, BEV_T = 0.028;
+  const FIT = 1.98 / (yMax - yMin);      // tinggi akhir 1,98 satuan adegan
+
+  /* Pengali terang tiap PERAN muka (ruang kerja LINEAR — three r160).
+     ⚠︎ TALANGNYA LEBIH GELAP DARIPADA MUKA (0,76), bukan lebih terang. Percobaan
+     pertama memakai 1,62 dan hasilnya dilihat: setiap batas faset berubah jadi
+     pita terang, dan karena lambang ini rapat-berbatasan, seluruh mukanya
+     luntur jadi satu bidang mint — persis "1 warna" yang membuat lambangnya
+     tidak terbaca. Dengan 0,76 batas faset menjadi garis gelap tipis, sehingga
+     tingkatan warna asli lambang (#B6FFD4 terang di kiri vs #1FA870 tua di
+     kanan) kembali kelihatan. Syaratnya "nilai terang BERBEDA", dan lebih
+     gelap sama sahnya dengan lebih terang — yang penting terukur berbeda. */
+  const TINT = { muka: 1, talang: 0.76, dinding: 0.42, blkTalang: 0.32, blkMuka: 0.24 };
+  const POS = [], COL = [];
+  function prisma(pts, warna) {
+    const n = pts.length;
+    let luas = 0;
+    for (let i = 0; i < n; i++) { const a = pts[i], b = pts[(i + 1) % n]; luas += a[0] * b[1] - b[0] * a[1]; }
+    const P = luas < 0 ? pts.slice().reverse() : pts;        // paksa CCW → muka depan menghadap +Z
+    /* Tutup depan/belakang = kontur yang DIGESER MASUK sejauh `BEV_S` — persis
+       `BEV_S` dari SETIAP sisi, karena tiap simpul digeser sepanjang garis-bagi
+       sejauh BEV_S/cos(sudut antara garis-bagi dan normal sisi). Menyusutkan
+       poligon terhadap pusat massa (cara yang lebih pendek) memberi lebar
+       talang yang berbeda-beda di segitiga tak-samasisi — talangnya terbaca
+       miring, dan itu terlihat justru di ukuran kecil. */
+    const cap = P.map((p, i) => {
+      const q = P[(i - 1 + n) % n], w = P[(i + 1) % n];
+      const ux = p[0] - q[0], uy = p[1] - q[1], ul = Math.hypot(ux, uy);
+      const vx = w[0] - p[0], vy = w[1] - p[1], vl = Math.hypot(vx, vy);
+      const n1x = -uy / ul, n1y = ux / ul;                   // normal MASUK sisi (i−1 → i)
+      const n2x = -vy / vl, n2y = vx / vl;                   // normal MASUK sisi (i → i+1)
+      let mx = n1x + n2x, my = n1y + n2y;
+      const ml = Math.hypot(mx, my) || 1; mx /= ml; my /= ml;
+      const d = BEV_S / Math.max(0.2, mx * n1x + my * n1y);
+      return [p[0] + mx * d, p[1] + my * d];
+    });
+    const zF = TEBAL / 2, zFR = zF - BEV_T, zB = -TEBAL / 2, zBR = zB + BEV_T;
+    const c0 = new THREE.Color(warna);
+    const V = (p, z) => [p[0], p[1], z];
+    const tri = (a, b, c, t) => {
+      POS.push(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2]);
+      const r = Math.min(1, c0.r * t), g = Math.min(1, c0.g * t), bl = Math.min(1, c0.b * t);
+      for (let q = 0; q < 3; q++) COL.push(r, g, bl);
+    };
+    // Tutup depan — kipas dari simpul 0. Sah karena semua faset lambang CEMBUNG
+    // (empat segitiga + satu jajar-genjang); tidak ada yang butuh triangulasi.
+    for (let i = 1; i < n - 1; i++) tri(V(cap[0], zF), V(cap[i], zF), V(cap[i + 1], zF), TINT.muka);
+    for (let i = 0; i < n; i++) {
+      const j = (i + 1) % n;
+      tri(V(P[i], zFR), V(P[j], zFR), V(cap[j], zF), TINT.talang);        // talang depan
+      tri(V(P[i], zFR), V(cap[j], zF), V(cap[i], zF), TINT.talang);
+      tri(V(P[i], zFR), V(P[i], zBR), V(P[j], zBR), TINT.dinding);        // DINDING SAMPING
+      tri(V(P[i], zFR), V(P[j], zBR), V(P[j], zFR), TINT.dinding);
+      tri(V(P[j], zBR), V(P[i], zBR), V(cap[i], zB), TINT.blkTalang);     // talang belakang
+      tri(V(P[j], zBR), V(cap[i], zB), V(cap[j], zB), TINT.blkTalang);
+    }
+    for (let i = 1; i < n - 1; i++) tri(V(cap[0], zB), V(cap[i + 1], zB), V(cap[i], zB), TINT.blkMuka);   // tutup belakang (urutan dibalik)
+  }
+  SEGI.forEach((t, i) => prisma(t, FASET[i].c));
+
+  // Pertigaan tetap di (0,0) — di situ matanya; yang digeser KEPALANYA, supaya
+  // kotak batas lambang tetap terpusat di bingkai kamera.
+  head.position.y = -((yMax + yMin) / 2) * FIT;
+
+  const core = new THREE.Group(); head.add(core);            // dipakai `breath` (skala napas)
+  const emb = new THREE.Group(); core.add(emb);              // dipakai kemiringan tetap + ayunan
+
+  const embGeo = k(new THREE.BufferGeometry());
+  embGeo.setAttribute("position", new THREE.Float32BufferAttribute(POS, 3));
+  embGeo.setAttribute("color", new THREE.Float32BufferAttribute(COL, 3));
+  embGeo.scale(FIT, FIT, FIT);
+  embGeo.computeVertexNormals();                             // non-indexed → normal per-MUKA (faset tajam)
+  /* ⚠︎ `metalness` rendah (0,18) DIPERTAHANKAN, dan itu bukan selera.
+     `MeshStandardMaterial` metalik TANPA envMap memantulkan "tidak ada
+     apa-apa": #B6FFD4 dan #8AFFC1 keluar abu-abu dan tingkatan warna
+     lambangnya hilang. `polygonOffset` mendorong muka sedikit ke belakang
+     supaya garis tepi di bawah tidak berkedip-kedip melawan permukaannya
+     (menyekala garisnya 1,004 sudah dicoba dan tidak cukup pada tebal ini). */
+  const embMat = k(new THREE.MeshStandardMaterial({
+    vertexColors: true, flatShading: true, roughness: 0.42, metalness: 0.18,
+    emissive: ACC, emissiveIntensity: 0.1, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1
+  }));
+  const coreMats = [embMat];
+  emb.add(new THREE.Mesh(embGeo, embMat));
+  const wireMat = k(new THREE.LineBasicMaterial({ color: ACC, transparent: true, opacity: 0.22 }));
+  emb.add(new THREE.LineSegments(k(new THREE.EdgesGeometry(embGeo, 22)), wireMat));
+
+  /* ── KEMIRINGAN TETAP: TANPA INI, EKSTRUSI SETEBAL APA PUN TERBACA DATAR ──
+     Kalau lambang menghadap kamera lurus, dinding sampingnya sejajar arah
+     pandang dan lebar layarnya NOL — 62,9% tebal pun tak terlihat sama sekali.
+     Karena itu miringnya TETAP (bukan hanya saat beranimasi), sehingga ia
+     benar juga pada `prefers-reduced-motion` di mana hanya ada SATU render
+     diam.
+     Arah putarnya dipilih, bukan diacak: `TILT_Y` NEGATIF memutar sisi kanan
+     lambang MENDEKAT ke kamera, jadi yang tersingkap dinding yang menghadap
+     +X — sisi yang MEMBELAKANGI sorot `key` (x = −2,4) dan hanya disapu lampu
+     titik mint `rim` (x = +2,2). Hasilnya kontras terbesar antara muka depan
+     (terang, putih) dan dinding (gelap, kehijauan). Kalau diputar ke arah
+     sebaliknya, dinding justru ikut disorot `key` dan bedanya mengecil.
+     `TILT_X` positif menjatuhkan muka sedikit ke bawah sehingga dinding ATAS
+     ikut masuk layar — dan dinding atas justru yang paling disorot `key`.
+     Jadi ada TIGA nilai terang di layar sekaligus: dinding atas (paling
+     terang) · muka depan · dinding kanan (paling gelap).
+     Lebar dinding kanan di layar = TEBAL·FIT·sin|TILT_Y| = 0,653·0,389 = 0,254
+     satuan adegan ≈ 8,8 px pada peluncur 115 px, ≈ 10,6 px pada panel 372×149. */
+  const TILT_X = 0.17, TILT_Y = -0.40, TILT_Z = 0;
+  emb.rotation.set(TILT_X, TILT_Y, TILT_Z);
+
+  /* Mata TUNGGAL, komponen lama apa adanya (cakram + iris + pupil + cincin +
+     batang vocoder) — yang berubah hanya TEMPATNYA: sekarang ia anak `emb`,
+     jadi ia MENUMPANG pada muka depan lambang dan ikut miring bersamanya,
+     persis seperti wajah yang tertanam di permukaan liontin. Kalau ia tetap
+     anak `head` (seperti dulu), muka depan yang sudah miring akan MENELAN
+     matanya di sisi yang mendekat ke kamera — pada TEBAL 0,653 pergeserannya
+     0,44·x, jauh lebih besar daripada jarak aman 0,06 yang lama.
+     `MUKA_Z` dihitung dari tutup depan (z = TEBAL/2 · FIT = 0,327), bukan
+     ditebak; seluruh wajah duduk 0,045 di depannya. */
+  const MUKA_Z = (TEBAL / 2) * FIT + 0.045;
+  const EYE_S = 0.62, MOUTH_Y = -0.28;
+  const face = new THREE.Group(); face.position.z = MUKA_Z; emb.add(face);
+
+  /* ⚠︎ `eyeWrap` ADA KARENA `frame()` MENULIS `eyeGrp.scale.y = blink`. Menaruh
+     pengecilan langsung di `eyeGrp` akan ditimpa kedipan pada bingkai pertama —
+     mata melompat balik ke ukuran penuh dan tidak pernah mengecil lagi. Jadi
+     ukurannya dipegang bungkus di atasnya, kedipan tetap milik `eyeGrp`. */
+  const eyeWrap = new THREE.Group(); eyeWrap.scale.setScalar(EYE_S); face.add(eyeWrap);
+  const eyeGrp = new THREE.Group(); eyeWrap.add(eyeGrp);
   eyeGrp.add(new THREE.Mesh(k(new THREE.CircleGeometry(0.34, 28)), std("#03120c", { rough: 0.6, metal: 0.2, emissive: ACC, ei: 0.12 })));
   const iris = new THREE.Mesh(k(new THREE.CircleGeometry(0.26, 28)), glow(ACC, 0.85)); iris.position.z = 0.02; eyeGrp.add(iris);
   const pupil = new THREE.Mesh(k(new THREE.CircleGeometry(0.12, 24)), k(new THREE.MeshBasicMaterial({ color: 0xf2fff5, transparent: true }))); pupil.position.z = 0.03; eyeGrp.add(pupil);
   const eyeRing = new THREE.Mesh(k(new THREE.RingGeometry(0.3, 0.36, 32)), glow("#ffffff", 0.5)); eyeRing.position.z = 0.015; eyeGrp.add(eyeRing);
   const bars = [];
   for (let i = 0; i < 5; i++) { const bar = new THREE.Mesh(k(new THREE.BoxGeometry(0.052, 0.2, 0.04)), glow(ACC, 0.95)); bar.position.set(-0.16 + i * 0.08, 0, 0.045); bar.scale.y = 0.001; eyeGrp.add(bar); bars.push(bar); }
-  const brow = new THREE.Mesh(k(new THREE.TorusGeometry(0.42, 0.035, 8, 24, Math.PI)), std("#08251a", { emissive: ACC, ei: 0.6, metal: 0.8, rough: 0.3 })); brow.position.set(0, 0.14, EYE_Z - 0.02); head.add(brow);
-  const mouth = new THREE.Mesh(k(new THREE.BoxGeometry(0.4, 0.045, 0.05)), glow(ACC, 0.85)); mouth.position.set(0, -0.34, EYE_Z - 0.04); head.add(mouth);
+  /* Alis & mulut ikut diperkecil dengan faktor yang SAMA (`EYE_S`) supaya
+     perbandingan wajahnya persis seperti bot lama. Alis diskalakan lewat
+     `scale` (aman: `frame()` tidak pernah menyentuhnya); mulut lewat
+     GEOMETRINYA, karena `frame()` MENULIS `mouth.scale.x/y` saat berbicara dan
+     akan menghapus skala apa pun. Keduanya duduk 0,012 di belakang bidang
+     mata — masih 0,033 di depan tutup lambang, jadi tidak pernah tenggelam. */
+  const brow = new THREE.Mesh(k(new THREE.TorusGeometry(0.42, 0.035, 8, 24, Math.PI)), std("#08251a", { emissive: ACC, ei: 0.6, metal: 0.8, rough: 0.3 })); brow.position.set(0, 0.06 * EYE_S, -0.012); brow.scale.setScalar(EYE_S); face.add(brow);
+  const mouth = new THREE.Mesh(k(new THREE.BoxGeometry(0.4 * EYE_S, 0.045 * EYE_S, 0.05)), glow(ACC, 0.85)); mouth.position.set(0, MOUTH_Y, -0.012); face.add(mouth);
 
   // leaf shape (reused for orbiting leaves + sprout)
   const leafShape = new THREE.Shape();
@@ -561,20 +840,71 @@ function initLivBot(canvas, framing) {
   const leafMat = std("#1faf6b", { emissive: ACC, ei: 0.55, rough: 0.45, metal: 0.1 }); leafMat.side = THREE.DoubleSide;
   const leafMatGold = std("#c9a23c", { emissive: GOLD, ei: 0.4, rough: 0.5, metal: 0.2 }); leafMatGold.side = THREE.DoubleSide;
 
-  // single thin orbit ring (vine) + traveling node
-  const ring1 = new THREE.Mesh(k(new THREE.TorusGeometry(1.5, 0.02, 8, 90)), std("#08251a", { emissive: ACC, ei: 0.85, metal: 0.6, rough: 0.3 })); ring1.rotation.set(Math.PI / 2.1, 0, 0.2); titan.add(ring1);
+  /* ── BIDANG ORBIT DIMIRINGKAN — SUPAYA TIDAK ADA YANG LEWAT DI DEPAN MATA ──
+     Cacat yang diperbaiki (terukur 11 Agu 2026): orbitnya DATAR (y tetap) dan
+     `yr` lama `(i % 3 - 1) * 0.55` membuat DUA dari enam daun ber-`yr = 0` —
+     tinggi mata persis. Dengan jari-jari 1,42–1,64 setiap putaran menyeret daun
+     tepat melintasi wajah; geometrinya MENJAMIN itu berulang. Pita vine `ring1`
+     ikut bersalah: `rotation.x = π/2.1` hampir mendatar, jadi garisnya
+     memotong mata seperti coretan.
+
+     Perbaikannya BUKAN mengacak angka, melainkan memiringkan bidangnya:
+       · `ORB_MIRING` = 0,50 rad — sisi DEPAN orbit turun (y = −r·sin θ), sisi
+         belakang naik. Daun, vine, dan simpul pengembara memakai bidang yang
+         SAMA, jadi ketiganya tetap terbaca sebagai satu sulur.
+       · `ORB_Z` = −0,30 — pusat orbit didorong ke belakang model, sehingga saat
+         daun melintas di depan ia lebih jauh dari kamera → lebih kecil di layar
+         dan bingkainya lebih lapang.
+       · `yr` diperkecil ke ±0,05 dan ayunan vertikal ke 0,06 (dulu 0,18):
+         variasinya sekarang datang dari SUDUT orbit, bukan dari tinggi acak,
+         supaya jaminan "tidak menyentuh mata" tidak bisa dirusak angka acak.
+       · Geometri daun pengorbit DIPUSATKAN (`translate(0, -0.26, 0)`). Yang
+         asli berpangkal di (0,0) dan menjulur 0,52 KE ATAS — itulah yang dulu
+         menjulur balik ke wajah walau titik jangkarnya sudah di bawah. Daun
+         tunas (sLeafL/sLeafR) TETAP memakai `leafGeo` asli karena ia memang
+         harus menempel pangkal ke batang.
+     Ambang yang dihitung dari bingkai peluncur (kamera z 5,8, fov 32°, kanvas
+     bujur sangkar): cakram penjaga mata ber-jari-jari 0,19 NDC.
+
+     ⛔ 0,50 → 0,62, DAN INI BUKAN PENYETELAN SELERA. Ronde ini memindahkan mata
+     ke MUKA DEPAN lambang, dan muka depan benda setebal 0,653 yang ter-yaw
+     −0,40 BERGESER KE KIRI sejauh 0,127 satuan adegan — mendekat ke sisi
+     lintasan daun. Jarak amannya dihitung ulang dengan menyapu seluruh orbit
+     (720 langkah × 6 daun × 3 ayunan) untuk SEMUA sikap kepala yang mungkin
+     (yaw ±0,26 = tatapan 0,20 + goyang 0,06; pitch ±0,48 = tatapan 0,16 +
+     angguk 0,32), dan hanya menghitung daun yang benar-benar LEBIH DEKAT ke
+     kamera daripada mata (yang di belakang tertutup cakram mata):
+         ORB_MIRING 0,50 → sisa 0,024 NDC ≈ 1,4 px   ⛔ praktis bersinggungan
+         ORB_MIRING 0,56 → sisa 0,073 NDC ≈ 4,2 px
+         ORB_MIRING 0,62 → sisa 0,120 NDC ≈ 6,9 px   ✅ dipakai
+         ORB_MIRING 0,68 → sisa 0,163 NDC ≈ 9,3 px   (orbitnya mulai terlalu tegak)
+     Memiringkan bidangnya menurunkan sisi DEPAN orbit, jadi yang lewat di depan
+     wajah lewat di bawah dagu — bukan mengacak angka supaya "biasanya" aman. */
+  const ORB_MIRING = 0.62, ORB_Z = -0.30;
+  const ORB_S = Math.sin(ORB_MIRING), ORB_C = Math.cos(ORB_MIRING);
+
+  // single thin orbit ring (vine) + traveling node — sebidang dengan daun
+  const ring1 = new THREE.Mesh(k(new THREE.TorusGeometry(1.5, 0.02, 8, 90)), std("#08251a", { emissive: ACC, ei: 0.85, metal: 0.6, rough: 0.3 }));
+  ring1.rotation.set(Math.PI / 2 + ORB_MIRING, 0, 0.2); ring1.position.z = ORB_Z; titan.add(ring1);
   const node = new THREE.Mesh(k(new THREE.SphereGeometry(0.06, 12, 12)), glow("#ffffff", 0.95)); titan.add(node);
 
   // orbiting leaves (replace the geometric shards)
+  const leafGeoOrbit = k(leafGeo.clone().translate(0, -0.26, 0));   // pangkal → pusat
   const leaves = [];
   for (let i = 0; i < 6; i++) {
-    const lf = new THREE.Mesh(leafGeo, i % 3 === 0 ? leafMatGold : leafMat);
-    lf.userData = { a: (i / 6) * Math.PI * 2, rad: 1.42 + (i % 2) * 0.22, yr: (i % 3 - 1) * 0.55, sp: 0.16 + (i % 3) * 0.05, t: i };
-    lf.scale.setScalar(0.78 + (i % 2) * 0.28); titan.add(lf); leaves.push(lf);
+    const lf = new THREE.Mesh(leafGeoOrbit, i % 3 === 0 ? leafMatGold : leafMat);
+    lf.userData = { a: (i / 6) * Math.PI * 2, rad: 1.42 + (i % 2) * 0.22, yr: (i % 3 - 1) * 0.05, sp: 0.16 + (i % 3) * 0.05, t: i };
+    lf.scale.setScalar(0.62 + (i % 2) * 0.2); titan.add(lf); leaves.push(lf);
   }
 
   // sprout growing from the crown
-  const sprout = new THREE.Group(); sprout.position.set(0, 0.82, 0.16); head.add(sprout);
+  /* Tunas kini anak `emb`, bukan `head`: pada tebal 0,653 titik lamanya
+     (y 0,82 · z 0,16) berada DI DALAM benda padatnya — batangnya akan hilang
+     ditelan lambang. Sekarang ia tumbuh dari MAHKOTA lambang, di celah selebar
+     0,077 antara kedua puncak sayap (x = ∓0,0385, dari y 0,019 sampai 0,980);
+     diameter batang 0,064 muat di celah itu, dan z = 0 menaruhnya di tengah
+     tebal sehingga ia benar-benar terbaca tumbuh DARI bendanya. */
+  const sprout = new THREE.Group(); sprout.position.set(0, 0.86, 0); emb.add(sprout);
   const stem = new THREE.Mesh(k(new THREE.CylinderGeometry(0.018, 0.032, 0.34, 6)), std("#2a7d52", { emissive: ACC, ei: 0.4, rough: 0.6 })); stem.position.y = 0.17; sprout.add(stem);
   const sLeafL = new THREE.Mesh(leafGeo, leafMat); sLeafL.position.set(-0.02, 0.26, 0); sLeafL.scale.setScalar(0.62); sLeafL.rotation.z = 0.6; sprout.add(sLeafL);
   const sLeafR = new THREE.Mesh(leafGeo, leafMat); sLeafR.position.set(0.02, 0.22, 0); sLeafR.scale.setScalar(0.62); sLeafR.rotation.z = -0.6; sprout.add(sLeafR);
@@ -589,20 +919,44 @@ function initLivBot(canvas, framing) {
 
   scene.add(new THREE.AmbientLight(0xffffff, 0.55));
   const key = new THREE.DirectionalLight(0xffffff, 1.1); key.position.set(-2.4, 3, 4); scene.add(key);
-  const rim = new THREE.PointLight(ACC.getHex(), 14, 12); rim.position.set(2.2, -1, 2.6); scene.add(rim);
+  /* ⚠︎ `rim` 14 → 8, DIUKUR bukan dikira. Lampu titik mint ini berdiri di
+     x = +2,2 — persis sisi yang kemiringan tetap `TILT_Y` singkapkan, jadi ia
+     menyorot TEPAT dinding samping yang seharusnya menjadi sisi gelap. Terukur
+     pada intensitas 14: muka sayap kanan L=109 sedangkan dindingnya L=88 —
+     beda 19% saja, padahal warna verteks dindingnya sudah dikalikan 0,5.
+     Artinya lampunya mengembalikan yang baru saja digelapkan. Pada 8 bedanya
+     kembali terbaca (angka sesudahnya ada di laporan ronde). */
+  const rim = new THREE.PointLight(ACC.getHex(), 8, 12); rim.position.set(2.2, -1, 2.6); scene.add(rim);
   const rim2 = new THREE.PointLight(GOLD.getHex(), 7, 12); rim2.position.set(-2.5, 1.5, -2); scene.add(rim2);
 
   if (!window.glyivBot) { window.__botSpeaking = false; window.glyivBot = { speak(on) { window.__botSpeaking = !!on; } }; }
 
-  let tRY = 0, tRX = 0, cRY = 0, cRX = 0, blink = 1, blinkT = 1, spinBoost = 0;
+  let tRY = 0, tRX = 0, cRY = 0, cRX = 0, blink = 1, blinkT = 1, spinBoost = 0, dorong = 0;
   let action = null, actionStart = 0;
   const DUR = { pulse: 1100, nod: 900, spin: 1700 };
   const timers = [];
   const play = (a) => { action = a; actionStart = performance.now(); };
-  let rect = canvas.getBoundingClientRect(), rectRaf = 0;
+  let rect = canvas.getBoundingClientRect(), rectRaf = 0, rectBasi = false;
+  // PENJAGA YANG SAMA DENGAN frame(). Kanvas yang tidak tergambar tidak boleh
+  // membayar getBoundingClientRect tiap bingkai saat menggulir. Terukur di /:
+  // 80 pembacaan per 120 bingkai = 2 kanvas Gly, dan yang KEDUA (#botPanelCanvas)
+  // adalah panel obrolan TERTUTUP (visibility:hidden) yang tak pernah dilihat
+  // siapa pun. frame() sudah dijaga sejak dulu; invalidate/refreshRect belum.
+  // Rect-nya cukup ditandai BASI lalu dibaca SEKALI saat kanvas tampil lagi,
+  // jadi arah pandang bot tetap benar begitu panelnya dibuka.
+  let visible = true;
+  const terlihat = () => visible && !document.hidden && SHOWN(canvas);
   const refreshRect = () => { rectRaf = 0; rect = canvas.getBoundingClientRect(); };
-  const invalidate = () => { if (!rectRaf) rectRaf = requestAnimationFrame(refreshRect); };
-  const onMove = (e) => { const nx = Math.max(-1, Math.min(1, (e.clientX - (rect.left + rect.width / 2)) / 420)); const ny = Math.max(-1, Math.min(1, (e.clientY - (rect.top + rect.height / 2)) / 420)); tRY = nx * 0.6; tRX = ny * 0.4; };
+  const invalidate = () => {
+    if (!terlihat()) { rectBasi = true; return; }
+    if (!rectRaf) rectRaf = requestAnimationFrame(refreshRect);
+  };
+  /* ⛔ 0,6 → 0,20 (dan 0,4 → 0,16). Bukan selera: tatapan ±0,6 rad LEBIH BESAR
+     daripada kemiringan tetap lambang (−0,40), jadi tetikus di tepi kanan layar
+     memutar kepala sampai lambangnya menghadap kamera LURUS — dinding
+     sampingnya lenyap dan modelnya kembali terbaca pelat, persis cacat yang
+     ronde ini perbaiki. ±0,20 rad masih 11,5°, tatapannya tetap terasa. */
+  const onMove = (e) => { const nx = Math.max(-1, Math.min(1, (e.clientX - (rect.left + rect.width / 2)) / 420)); const ny = Math.max(-1, Math.min(1, (e.clientY - (rect.top + rect.height / 2)) / 420)); tRY = nx * 0.2; tRX = ny * 0.16; };
   if (!REDUCE) {
     window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("scroll", invalidate, { passive: true });
@@ -610,15 +964,23 @@ function initLivBot(canvas, framing) {
     const blinkLoop = () => timers.push(setTimeout(() => { blinkT = 0.08; timers.push(setTimeout(() => (blinkT = 1), 120)); blinkLoop(); }, 2600 + Math.random() * 3600));
     const behav = () => timers.push(setTimeout(() => { if (!action) { const pool = ["pulse", "pulse", "nod", "nod", "spin"]; play(pool[Math.floor(Math.random() * pool.length)]); } behav(); }, 4200 + Math.random() * 4400));
     blinkLoop(); behav(); timers.push(setTimeout(() => play("pulse"), 420));
-  } else { head.rotation.set(-0.05, -0.2, 0); }
+  } else { head.rotation.set(-0.02, -0.05, 0); }   // kemiringan volumenya sudah di `emb`, jangan ditambah banyak
+
+  /* ⛔ WAJIB SEBELUM `resize()`. `resize()` sendiri sudah me-render sekali saat
+     `REDUCE`, jadi kalau orbit belum ditata di sini, render pertama itu yang
+     memperlihatkan enam daun bertumpuk di pertigaan. Diletakkan sesudah blok
+     `let` di atas karena `tataOrbit` membaca `spinBoost`. */
+  tataOrbit(performance.now());
 
   function resize() { const w = canvas.clientWidth || canvas.parentElement.clientWidth, h = canvas.clientHeight || canvas.parentElement.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); rect = canvas.getBoundingClientRect(); if (REDUCE) renderer.render(scene, camera); }
   const ro = new ResizeObserver(resize); ro.observe(canvas.parentElement); resize();
-  let visible = true; const visIO = new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }); visIO.observe(canvas);
+  const visIO = new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }); visIO.observe(canvas);
 
-  // Teardown lengkap — dipanggil host (mis. React cleanup) saat kanvas dilepas.
-  // Menghentikan loop frame, melepas listener window, timer, observer, dan konteks
-  // WebGL, lalu mereset flag agar remount berikutnya bisa init ulang dengan bersih.
+  // Teardown — dipanggil host (mis. React cleanup) saat kanvas dilepas.
+  // Menghentikan loop frame, melepas listener window, timer, observer, dan
+  // geometri/material milik scene ini, lalu mereset flag agar remount berikutnya
+  // bisa init ulang dengan bersih. Konteks WebGL-nya TIDAK dilepas — lihat
+  // catatan di bawah, ia milik halaman (bersama), bukan milik kanvas ini.
   canvas.__teardown = () => {
     canvas.__dead = true;
     try { window.removeEventListener("mousemove", onMove); } catch (e) {}
@@ -628,22 +990,74 @@ function initLivBot(canvas, framing) {
     if (rectRaf) { try { cancelAnimationFrame(rectRaf); } catch (e) {} rectRaf = 0; }
     try { ro.disconnect(); } catch (e) {}
     try { visIO.disconnect(); } catch (e) {}
-    try { renderer.dispose(); if (renderer.forceContextLoss) renderer.forceContextLoss(); } catch (e) {}
+    // `keep` sudah dikumpulkan sejak dulu tapi TIDAK PERNAH dibuang. Lambang
+    // menambah 12 geometri (6 kristal `BufferGeometry` + 6 `EdgesGeometry`) di
+    // atas yang lama, dan pemilik menguji di tablet — jadi pembuangannya
+    // dipasang di sini, bukan ditunda ke forceContextLoss yang hanya
+    // membebaskan sisi GPU.
+    keep.forEach((o) => { try { if (o && o.dispose) o.dispose(); } catch (e) {} }); keep.length = 0;
+    /* ⛔ TIDAK ADA `renderer.dispose()` / `forceContextLoss()` DI SINI, DAN ITU
+       DISENGAJA. Baris itu dulu ADA dan tidak pernah bekerja sedetik pun:
+       `glyivRenderer()` mengembalikan PROXY yang hanya punya `setPixelRatio`,
+       `setSize`, dan `render` — `renderer.dispose` = undefined, jadi `try`
+       menelan TypeError-nya dan semuanya tampak beres. Kode yang BERPURA-PURA
+       membersihkan lebih berbahaya daripada tidak ada, karena orang berikutnya
+       mengira konteksnya sudah dilepas.
+       Yang benar juga bukan "beri proxy-nya jalan melepas konteks": konteks
+       WebGL-nya BERSAMA (`_sharedR`, dipakai 13 pemanggil di berkas ini —
+       hero, globe, cafe, emblem, …). Melepasnya dari teardown SATU kanvas akan
+       memutihkan SEMUA kanvas 3D di halaman. Konteks itu milik halaman, bukan
+       milik kanvas ini; yang memang milik kanvas ini adalah geometri/material
+       di `keep`, dan itu sudah dibuang pada baris di atas. */
     canvas.__glyivBotMounted = false; canvas.__livBot = false;
   };
+
+  /* ⛔ POSISI ORBIT DIPISAH DARI GERAK ORBIT — INI PERBAIKAN CACAT NYATA.
+     Dulu posisi keenam daun DAN simpul `node` dihitung DI DALAM `frame()`.
+     `frame()` keluar lebih awal saat `prefers-reduced-motion: reduce`, jadi
+     pada satu-satunya render yang pernah terjadi di keadaan itu semuanya masih
+     berada di posisi lahirnya, (0,0,0) — TEPAT di celah pertigaan yang baru
+     saja dikosongkan untuk wajah Gly. Yang terlihat: kerucut emas-hijau
+     tumpukan enam daun terjepit di antara dua kristal atas, persis menutupi
+     mata (dibuktikan dengan render `prefers-reduced-motion: reduce`).
+
+     Karena itu penempatannya pindah ke fungsi ini, yang dipanggil DUA tempat:
+     sekali sebelum render pertama (di atas, sebelum `resize()`), dan tiap
+     bingkai dari `frame()`. Yang MEMAJUKAN sudut orbit (`d.a`) tetap tinggal di
+     `frame()` — jadi saat `reduce` daunnya berada di orbitnya sejak bingkai
+     pertama tapi TIDAK bergerak. Yang diperbaiki posisinya, bukan geraknya. */
+  function tataOrbit(now) {
+    const na = now * (0.0012 + spinBoost * 0.4), ns = Math.sin(na);
+    node.position.set(Math.cos(na) * 1.5, -ns * 1.5 * ORB_S, ORB_Z + ns * 1.5 * ORB_C);
+    for (let i = 0; i < leaves.length; i++) {
+      const lf = leaves[i], d = lf.userData, s = Math.sin(d.a);
+      lf.position.set(
+        Math.cos(d.a) * d.rad,
+        d.yr - s * d.rad * ORB_S + Math.sin(now * 0.0013 + d.t) * 0.06,
+        ORB_Z + s * d.rad * ORB_C
+      );
+      lf.rotation.set(Math.sin(now * 0.002 + d.t) * 0.5, d.a + Math.PI / 2, Math.cos(now * 0.0018 + d.t) * 0.4 + 0.3);
+    }
+  }
 
   function frame() {
     if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || REDUCE || !SHOWN(canvas)) return;
+    // Bayar pembacaan tata letak yang tertunda — sekali, saat kanvas tampil lagi.
+    if (rectBasi) { rectBasi = false; rect = canvas.getBoundingClientRect(); }
     const now = performance.now();
     cRY += (tRY - cRY) * 0.09; cRX += (tRX - cRX) * 0.09;
     let nod = 0, pulse = 0, eyeFlash = 0;
     if (action) { const p = (now - actionStart) / DUR[action]; if (p >= 1) action = null; else { const env = Math.sin(p * Math.PI); if (action === "pulse") { pulse = env; eyeFlash = env; } else if (action === "nod") nod = Math.sin(p * Math.PI * 2) * 0.32; else if (action === "spin") spinBoost = env * 0.5; } }
-    head.rotation.y = cRY; head.rotation.x = cRX + nod;
+    /* ⛔ Inti lama BERPUTAR PENUH (`core.rotation.y += 0.004`) — boleh, karena
+       dodekahedron terlihat sama dari segala arah. Lambang TIDAK: putaran penuh
+       membuatnya menipis jadi garis lalu memperlihatkan punggungnya. Jadi
+       "hidup"-nya ayunan lembut SELURUH kepala + ayunan lambang (di bawah),
+       sehingga siluetnya selalu terbaca dan dindingnya tidak pernah lenyap. */
+    head.rotation.y = cRY + Math.sin(now * 0.00055) * 0.06; head.rotation.x = cRX + nod;
     titan.position.y = Math.sin(now * 0.0014) * 0.05;
     const breath = 1 + Math.sin(now * 0.0016) * 0.015 + pulse * 0.06;
-    core.scale.set(breath, breath * 1.08, breath); wire.scale.set(breath * 1.01, breath * 1.09, breath * 1.01);
-    core.rotation.y += 0.004; core.rotation.x += 0.0016; inner.rotation.y -= 0.012; inner.rotation.z += 0.008;
+    core.scale.setScalar(breath);
     blink += (blinkT - blink) * 0.5; eyeGrp.scale.y = blink;
     const sp = window.__botSpeaking;
     const irisM = iris.material, pupilM = pupil.material;
@@ -652,10 +1066,37 @@ function initLivBot(canvas, framing) {
     const mouthM = mouth.material;
     if (sp) { const o = Math.abs(Math.sin(now * 0.017)); mouth.scale.set(0.4 + o * 0.9, 1 + o * 1.6, 1); mouthM.opacity = 0.85; }
     else { mouth.scale.x += (1 - mouth.scale.x) * 0.2; mouth.scale.y += (1 - mouth.scale.y) * 0.2; mouthM.opacity += (0.4 - mouthM.opacity) * 0.2; }
-    core.material.emissiveIntensity = 0.18 + pulse * 0.5 + (sp ? 0.12 : 0);
+    /* LAMBANGNYA UTUH, jadi "hidup"-nya bukan lagi tiga kepingan yang memuai
+       (ronde 59 — ditolak) melainkan AYUNAN benda padat itu sendiri di sekitar
+       kemiringan tetapnya. Amplitudonya kecil dan tiga periodenya tidak
+       sebanding (0,00062 · 0,00047 · 0,00053), jadi ia tidak pernah berulang
+       persis dan tidak pernah kembali menghadap kamera lurus — kalau lurus,
+       dinding sampingnya lenyap dari layar dan volumenya hilang.
+       ⛔ AMBANGNYA DIJAGA, bukan diharapkan: `TILT_Y` −0,40 lawan ayunan 0,055
+       + goyang kepala 0,06 + tatapan tetikus 0,20 = paling jauh −0,085 rad,
+       masih negatif. Karena itulah `tRY` dikecilkan dari 0,6 (lihat `onMove`) —
+       pada 0,6 tetikus di tepi kanan layar MEMBATALKAN kemiringannya dan
+       lambang rata jadi pelat, tepat keluhan yang sedang diperbaiki.
+       Saat Gly BICARA `dorong` naik dan seluruh benda mengangguk-miring sedikit
+       lebih dalam, jadi "berbicara" tetap terbaca dari bentuknya.
+       ⚠︎ Semuanya menulis `position`/`rotation` saja — tak ada properti tata
+       letak, tak ada pembacaan `getBoundingClientRect`. */
+    const dorongT = (sp ? 0.1 + Math.abs(Math.sin(now * 0.0075)) * 0.06 : 0) + pulse * 0.06;
+    dorong += (dorongT - dorong) * 0.12;
+    emb.rotation.set(
+      TILT_X + Math.sin(now * 0.00062) * 0.045 + dorong * 0.5,
+      TILT_Y + Math.sin(now * 0.00047 + 1.2) * 0.055,
+      TILT_Z + Math.cos(now * 0.00053) * 0.02
+    );
+    // ⚠︎ Dasar 0,18 → 0,10. Emissive TIDAK dikalikan warna verteks, jadi ia
+    // menambah hijau yang SAMA ke muka terang, dinding gelap, dan talang —
+    // pada 0,18 tingkatan warna lambang ikut luntur. Kilatannya (pulse/bicara)
+    // tetap, karena itu memang harus terlihat.
+    const ei = 0.1 + pulse * 0.5 + (sp ? 0.12 : 0);
+    for (let i = 0; i < coreMats.length; i++) coreMats[i].emissiveIntensity = ei;
     const rs = 0.005 + spinBoost; ring1.rotation.z += rs;
-    const na = now * (0.0012 + spinBoost * 0.4); node.position.set(Math.cos(na) * 1.5, Math.sin(na) * 0.5, Math.sin(na) * 1.5);
-    leaves.forEach((lf) => { const d = lf.userData; d.a += d.sp * 0.016 * (1 + spinBoost * 2); const x = Math.cos(d.a) * d.rad, z = Math.sin(d.a) * d.rad; lf.position.set(x, d.yr + Math.sin(now * 0.0013 + d.t) * 0.18, z); lf.rotation.set(Math.sin(now * 0.002 + d.t) * 0.5, d.a + Math.PI / 2, Math.cos(now * 0.0018 + d.t) * 0.4 + 0.3); });
+    leaves.forEach((lf) => { lf.userData.a += lf.userData.sp * 0.016 * (1 + spinBoost * 2); });
+    tataOrbit(now);
     sprout.rotation.z = Math.sin(now * 0.0015) * 0.12; sLeafL.rotation.x = Math.sin(now * 0.003) * 0.2; sLeafR.rotation.x = Math.sin(now * 0.003 + 1) * 0.2;
     spores.rotation.y += 0.0009; spores.position.y = Math.sin(now * 0.0009) * 0.1;
     spinBoost *= 0.96;
@@ -918,9 +1359,15 @@ function initLivHost(canvas) {
   let tRY = 0, tRX = 0, cRY = 0, cRX = 0, blink = 1, blinkT = 1;
   let talking = false, talkAmp = 0, waveT = 0, waving = false;
   const timers = [];
-  let rect = canvas.getBoundingClientRect(), rectRaf = 0;
+  let rect = canvas.getBoundingClientRect(), rectRaf = 0, rectBasi = false;
+  // Penjaga yang sama dengan initLivBot — lihat catatan di sana.
+  let visible = true;
+  const terlihat = () => visible && !document.hidden && SHOWN(canvas);
   const refresh = () => { rectRaf = 0; rect = canvas.getBoundingClientRect(); };
-  const invalidate = () => { if (!rectRaf) rectRaf = requestAnimationFrame(refresh); };
+  const invalidate = () => {
+    if (!terlihat()) { rectBasi = true; return; }
+    if (!rectRaf) rectRaf = requestAnimationFrame(refresh);
+  };
   const onMove = (e) => {
     const nx = Math.max(-1, Math.min(1, (e.clientX - (rect.left + rect.width / 2)) / 460));
     const ny = Math.max(-1, Math.min(1, (e.clientY - (rect.top + rect.height / 2)) / 460));
@@ -954,11 +1401,12 @@ function initLivHost(canvas) {
     rect = canvas.getBoundingClientRect(); if (REDUCE) renderer.render(scene, camera);
   }
   const ro = new ResizeObserver(resize); ro.observe(canvas.parentElement); resize();
-  let visible = true; new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
+  new IntersectionObserver((es) => (visible = es[0].isIntersecting), { threshold: 0.01 }).observe(canvas);
 
   function frame() {
     if (canvas.__dead) return; requestAnimationFrame(frame);
     if (!visible || document.hidden || REDUCE || !SHOWN(canvas)) return;
+    if (rectBasi) { rectBasi = false; rect = canvas.getBoundingClientRect(); }
     const now = performance.now(), t = now * 0.001;
     cRY += (tRY - cRY) * 0.09; cRX += (tRX - cRX) * 0.09;
     head.rotation.y = cRY; head.rotation.x = cRX + Math.sin(t * 0.9) * 0.015;

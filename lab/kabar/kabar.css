@@ -47,8 +47,12 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .knav__sp{margin-left:auto}
 .knav__cta{font-weight:700;font-size:13.5px;color:#fff;background:var(--pine);padding:9px 16px;border-radius:999px}
 
-/* reading progress bar */
-.kprog{position:fixed;top:0;left:0;height:3px;background:var(--mood);width:0;z-index:90;transition:width .1s linear}
+/* reading progress bar
+   ⚠︎ Dulu `width` yang digerakkan, dan JS menyetelnya ULANG PADA SETIAP
+   PERISTIWA GULIR — properti tata letak, dianimasikan sepanjang orang membaca.
+   Sekarang lebarnya tetap 100% dan JS menyetel `--kprog` (0–1) yang dipakai
+   `scaleX`. Pekerjaan bergeser dari layout ke komposit. */
+.kprog{position:fixed;top:0;left:0;height:3px;background:var(--mood);width:100%;transform:scaleX(var(--kprog,0));transform-origin:left center;z-index:90;transition:transform .1s linear;will-change:transform}
 
 /* home hero */
 /* the shared navbar is fixed (68px) — the light hero has to clear it */
@@ -80,7 +84,27 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kc__meta .eng svg{width:13px;height:13px}
 
 /* ARTICLE PAGE */
-.kart__cover{position:relative;min-height:64vh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff}
+/* HERO ARTIKEL — SATU LAYAR PENUH.
+   Pemilik, verbatim: "hero di setiap artikel kita itu terlalu dekat menurut
+   saya … tingkatkan lagi tinggi heronya. Kalau perlu tinggi satu halaman
+   seperti hero2 halaman lain juga tidak masalah. Lebih bagus malah."
+   Terukur sebelum perubahan: 64vh → 576 px di 1440x900, 585,6 px di 412x915.
+
+   ⚠︎ DUA baris `min-height`, dan URUTANNYA penting:
+     · `100vh` lebih dulu = cadangan untuk peramban tanpa satuan dinamis;
+     · `100dvh` menimpanya di peramban yang punya. `vh` POLOS di ponsel
+       memakai tinggi layar SAAT BILAH ALAMAT TERSEMBUNYI, jadi dengan bilah
+       alamat terlihat, tepi bawah hero (tempat tombol "Lihat sebagai Story"
+       berada) jatuh DI BALIK bilah itu.
+   ⛔ BUKAN `svh`: `svh` selalu memakai tinggi TERKECIL, jadi begitu bilah
+      alamat menghilang hero berhenti sebelum tepi layar dan ada jahitan.
+   ⛔ JANGAN menambahkan `@media(max-width:600px){min-height:92vh}` atau
+      sejenisnya. Aturan seperti itu pernah ada di halaman lain dan
+      membatalkan aturan dasar HANYA di ponsel — persis di perangkat yang
+      dipakai pemilik menguji.
+   Isi hero tetap ditambatkan ke BAWAH (`align-items:flex-end`), jadi menaikkan
+   tinggi menambah napas di atas judul, bukan mendorong tombolnya keluar layar. */
+.kart__cover{position:relative;min-height:100vh;min-height:100dvh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;color:#fff}
 .kart__cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.05);animation:kken 24s ease-in-out infinite alternate;z-index:-2}
 @keyframes kken{to{transform:scale(1.13)}}
 .kart__cover::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,20,13,.35),rgba(6,20,13,.2) 40%,rgba(6,20,13,.88)),linear-gradient(120deg,var(--mood) -20%,transparent 55%);opacity:.94}
@@ -174,7 +198,7 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kc__meta .eng{margin-left:auto;display:flex;gap:12px;align-items:center}
 .kc__meta .eng__i{display:inline-flex;align-items:center;gap:5px}
 .kc__meta .eng__i svg{width:13px;height:13px}
-.kc__story{margin-left:0;display:inline-flex;align-items:center;gap:5px;background:var(--mood-soft);border:1px solid transparent;color:var(--mood);font-family:var(--sans);font-weight:700;font-size:11.5px;border-radius:999px;padding:6px 12px;cursor:pointer;transition:.15s;position:relative;z-index:3}
+.kc__story{margin-left:0;display:inline-flex;align-items:center;gap:5px;background:var(--mood-soft);border:1px solid transparent;color:#0F2E22;font-family:var(--sans);font-weight:700;font-size:11.5px;border-radius:999px;padding:6px 12px;cursor:pointer;transition:.15s;position:relative;z-index:3}
 .kc__story:hover{background:var(--mood);color:#fff}
 .kc__story svg{width:12px;height:12px}
 .kpager{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:10px 0 clamp(50px,8vh,90px)}
@@ -218,10 +242,13 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kcard.feat .kcard__bars,.kcard.feat .kcard__topic{top:18px}
 .kcard.feat .kcard__topic{left:20px}
 .kcard__bars i{flex:1;height:2.5px;border-radius:2px;background:rgba(255,255,255,.32);overflow:hidden}
-.kcard__bars i b{display:block;height:100%;width:0;background:#fff;border-radius:2px}
-.kcard__bars i.done b{width:100%}
+/* ⚠︎ Bilah cerita dulu terisi dengan `width:0 → 100%` selama 4–5 detik, terus
+   berulang setiap slide. Sekarang lebarnya TETAP penuh dan yang bergerak
+   `scaleX` dari tepi kiri — sama di mata, nol perhitungan layout. */
+.kcard__bars i b{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left center;background:#fff;border-radius:2px}
+.kcard__bars i.done b{transform:scaleX(1)}
 .kcard__bars i.act b{animation:kcfill var(--dur,4s) linear forwards}
-@keyframes kcfill{from{width:0}to{width:100%}}
+@keyframes kcfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .kcard__foot{position:absolute;left:0;right:0;bottom:0;z-index:4;display:flex;align-items:center;gap:14px;padding:0 clamp(18px,3vw,26px) 16px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.82);pointer-events:none}
 .kcard__foot .story{margin-left:auto;pointer-events:auto;display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:6px 12px;color:#fff;font-weight:600;-webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);transition:.15s}
 .kcard__foot .story:hover{background:rgba(255,255,255,.28)}
@@ -250,8 +277,8 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kstory__scene .go{margin-top:22px;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--pine);font-weight:700;font-size:14px;border-radius:999px;padding:12px 20px;border:0;cursor:pointer;text-decoration:none}
 .kstory__bars{position:absolute;top:14px;left:14px;right:14px;z-index:6;display:flex;gap:5px}
 .kstory__bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
-.kstory__bars i b{display:block;height:100%;width:0;background:#fff;border-radius:2px}
-.kstory__bars i.done b{width:100%}
+.kstory__bars i b{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left center;background:#fff;border-radius:2px}
+.kstory__bars i.done b{transform:scaleX(1)}
 .kstory__bars i.act b{animation:kcfill var(--sdur,5s) linear forwards}
 .kstory__top{position:absolute;top:26px;left:16px;right:16px;z-index:7;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:#fff}
 .kstory__top .av{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);display:grid;place-items:center;font-family:var(--serif)}
@@ -296,4 +323,22 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .klive i{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);animation:kblink 1.8s infinite}
 @keyframes kblink{0%,100%{opacity:1}50%{opacity:.35}}
 
-@media(prefers-reduced-motion:reduce){*{animation:none!important}[data-r]{opacity:1!important;transform:none!important}.kbars i,.kart__cover img{transform:none!important}.kcard__bars i.act b,.kstory__bars i.act b{width:100%!important}}
+/* ══ HEMAT GERAK ═════════════════════════════════════════════════════════════
+   ⛔ CACAT YANG DIPERBAIKI DI SINI — jangan diulang: penjaganya dulu ditulis
+   `*{animation:none!important}` saja. **Selektor universal TIDAK menjaring
+   pseudo-element.** `.kbg::before` dan `.kbg::after` (drift1 / drift2, keduanya
+   `infinite`) karena itu tetap berputar di /lab/kabar/ dan
+   /lab/kabar/artikel.html walau pengguna sudah meminta gerak dikurangi.
+   Jebakan yang sama sudah tercatat panjang di `assets/css/glyiv-nav.css`.
+   Yang benar: `*,*::before,*::after`.
+
+   ⚠︎ `animation:none` dipertahankan di sini (bukan pola `.001ms` seperti
+   lab.css) karena bilah cerita ber-`fill:forwards` diberi keadaan akhirnya
+   secara eksplisit satu baris di bawah — tanpa itu bilahnya akan tertinggal
+   kosong, bukan penuh. */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.001ms!important;transition-delay:0s!important}
+  [data-r]{opacity:1!important;transform:none!important}
+  .kbars i,.kart__cover img{transform:none!important}
+  .kcard__bars i.act b,.kstory__bars i.act b{transform:scaleX(1)!important}
+}

@@ -2,15 +2,23 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tim — Glyiv · Carbon Intelligence Platform</title>
-<meta name="description" content="Tim Glyiv: hand-picked founding team yang membangun Carbon Intelligence & Offset Platform dari Indonesia — untuk dunia.">
-<link rel="icon" href="logo.svg">
+<title>Tim — Glyiv · Green Intelligence Platform</title>
+<meta name="description" content="Tim Glyiv: enam orang yang membangun Green Intelligence &amp; Offset Platform dari Indonesia — untuk dunia.">
+<link rel="icon" href="/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/glyiv-v2.css">
   <link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+  <!-- Gaya khusus halaman tim. WAJIB TERAKHIR: ia memperbaiki sticky yang
+       dipatahkan aturan `overflow-x:hidden` pada `body` di glyiv-v2.css, dan
+       mengganti kelas potret lama yang membawa filter hitam-putih.
+       Kurung kurawal sengaja dihindari di komentar: konverter React membuang
+       kurawal dari komentar HTML, jadi contoh kode di sini akan berubah bunyi
+       begitu halamannya diport. -->
+  <link rel="stylesheet" href="/assets/css/glyiv-team.css">
 </head>
 <body>
 <div class="glow-root" aria-hidden="true"></div>
@@ -19,26 +27,25 @@
 <header class="lnav" data-solid>
   <div class="lnav__in">
     <a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>
+    <span class="lnav__tag">Your Green Industry Intelligence Platform</span>
     <nav class="lnav__links">
       <div class="ldrop ldrop--mega">
         <button class="ldrop__btn">Ekosistem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
           <div class="ldrop__grp"><h4>Inti platform</h4>
-            <a href="/lab/carbon-intelligence.html"><b>Carbon Intelligence</b><small>Lacak · hitung · offset</small></a>
+            <a href="/lab/green-intelligence.html"><b>Green Intelligence</b><small>Lacak · hitung · offset</small></a>
             <a href="/lab/tree.html"><b>Glyiv Aset</b><small>Pohon &amp; lahan (RWA)</small></a></div>
           <div class="ldrop__grp"><h4>Ekonomi hijau</h4>
             <a href="/lab/ekosistem/pasar.html"><b>Glyiv Pasar</b><small>Marketplace</small></a><a href="/lab/ekosistem/pangan.html"><b>Glyiv Pangan</b><small>Hub pangan berdata karbon</small></a>
-            <a href="/lab/ekosistem/dompet.html"><b>Glyiv Dompet</b><small>Carbon wallet</small></a>
             <a href="/lab/ekosistem/dana.html"><b>Glyiv Dana</b><small>Investasi hijau</small></a>
-            <a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Sampah jadi imbalan</small></a></div>
+            <a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Setor di titik komunitas</small></a><a href="/lab/ekosistem/recycle.html"><b>Glyiv Recycle</b><small>Komposter &amp; jemput terjadwal</small></a></div>
           <div class="ldrop__grp"><h4>Gaya hidup</h4>
-            <a href="/lab/ekosistem/saku.html"><b>Glyiv Saku</b><small>Aplikasi harian &middot; sudah jalan</small></a><a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a>
+            <a href="/lab/ekosistem/saku.html"><b>Glyiv Pocket</b><small>Scan &amp; catat harian &middot; sudah jalan</small></a><a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a>
             <a href="/lab/ekosistem/sehat.html"><b>Glyiv Sehat</b><small>Habit sehat &amp; hijau</small></a>
             <a href="/lab/ekosistem/belajar.html"><b>Glyiv Belajar</b><small>Literasi &amp; game</small></a></div>
           <div class="ldrop__grp"><h4>Riset &amp; alat</h4>
             <a href="/lab/ekosistem/lab-rnd.html"><b>Glyiv Lab</b><small>Material rendah-karbon</small></a>
-            <a href="/lab/apps/scanner/"><b>Scan Karbon</b><small>Foto item → estimasi</small></a>
-            <a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a></div>
+            <a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a><a href="/download.html"><b>Unduh Aplikasi</b><small>APK Android &middot; di luar Play Store</small></a></div>
           <div class="ldrop__mega-foot"><span>Business tree tumbuh bertahap · Live &amp; Roadmap</span><a href="/lab/apps/">Lihat semua aplikasi &rarr;</a></div>
         </div>
       </div>
@@ -52,79 +59,143 @@
         </div>
       </div>
       <a href="/lab/kabar/index.html">Kabar</a>
-      <a href="/lab/landing/index.html" class="lnav__admin">Landing</a>
+      <a href="/download.html">Store</a><a href="/lab/landing/index.html" class="lnav__admin">Landing</a>
       <div class="ldrop ldrop--r">
         <button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="ldrop__menu">
           <div class="ldrop__grp"><h4>Glyiv</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim &amp; Manifesto</a><a href="/lab/kabar/index.html">Kabar</a></div>
-          <div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>
+          <!-- Pintu masuk PT WOSU di laci ini DICABUT atas permintaan pemilik.
+               Halaman /wosu tetap ada, tetap bisa dibuka, dan tetap tertaut dari KAKI
+               halaman; yang ditutup hanya butir navbar. Yang dibuang satu grup utuh
+               (judul laci + tautannya), bukan hanya tautannya: kepala laci tanpa isi
+               tidak menuju ke mana pun. Jangan dikembalikan tanpa perintah pemilik. -->
         </div>
       </div>
     </nav>
     <span class="lnav__sp"></span>
-    <a class="lnav__cta" href="/#gabung">Gabung</a>
+    <a class="lnav__cta" href="/auth">Login</a>
     <button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
   </div>
 </header>
 
-<main>
+<main class="tp-page">
 <!-- ===== MASTHEAD ===== -->
 <section class="tp-mast"><div class="wrap">
-  <div class="folio" data-reveal>No. 01 / 04 — Perusahaan</div>
-  <div class="dateline" data-reveal data-d="1">INDONESIA &nbsp;→&nbsp; PASAR GLOBAL</div>
+  <div class="folio" data-reveal><span>Perusahaan</span> — Glyiv</div>
+  <!-- Spasi tak-putus di ATRIBUT ditulis &#160;, bukan &nbsp;. Konverter React
+       membuka entitas pada nilai atribut lewat tabelnya sendiri, dan di tabel itu
+       &nbsp; dipetakan ke spasi BIASA — jadi versi Inggris/Arab akan kehilangan
+       spasi tak-putusnya diam-diam. Entitas numerik dibuka apa adanya. -->
+  <div class="dateline" data-reveal data-d="1" data-i18n-skip="tp" data-en="INDONESIA &#160;→&#160; GLOBAL MARKET" data-ar="إندونيسيا &#160;←&#160; السوق العالمية">INDONESIA &nbsp;→&nbsp; PASAR GLOBAL</div>
   <h1 data-reveal data-d="2">Dibangun untuk dunia. <em class="grad">Sejak baris pertama.</em></h1>
-  <p class="lead" data-reveal data-d="3">Tim kecil yang dipilih dengan sengaja — bukan bagan organisasi yang tipis. Empat orang, satu keyakinan: <b>data karbon paling jujur lahir di titik transaksi</b>, dan itu bisa dibangun dari Indonesia untuk pasar global.</p>
+  <p class="lead" data-reveal data-d="3"><span data-i18n-skip="tp" data-en="A small team chosen on purpose — not a thin org chart. Six people, one conviction:" data-ar="فريق صغير اختير عن قصد — لا مخطط تنظيمي هزيل. ستة أشخاص، قناعة واحدة:">Tim kecil yang dipilih dengan sengaja — bukan bagan organisasi yang tipis. Enam orang, satu keyakinan:</span> <b>data karbon paling jujur lahir di titik transaksi</b>, dan itu bisa dibangun dari Indonesia untuk pasar global.</p>
 </div></section>
 <div class="wrap"><div class="tp-rule brass"></div></div>
 
-<!-- ===== SCROLLYTELLING SPINE ===== -->
-<section class="section"><div class="wrap"><div class="spine">
-  <div class="spine__text">
-    <div class="chapter" data-chapter>
-      <div class="cnum">Bab 01 · Keyakinan</div>
-      <h2>Dimulai dari sebuah keyakinan.</h2>
-      <p>Laode memulai Glyiv — memimpin produk, strategi, dan eksekusi. Keyakinannya sederhana: pasar karbon penuh angka tebakan, dan cara memperbaikinya adalah menghasilkan data di sumbernya, bukan menebak dari rata-rata pengeluaran.</p>
-      <div class="who">LAODE M. FITRAH R. — FOUNDER &amp; CEO</div>
+<!-- ===== NARASI: teks bergulir, potret DIAM dan berganti per bab =====
+     Panggung sengaja ditulis LEBIH DULU daripada teksnya. Di desktop posisinya
+     diatur grid (kolom 2), jadi urutan DOM tidak terlihat; di ponsel tata
+     letaknya jadi block dan urutan itulah yang menaruh potret di atas teks. -->
+<section class="section"><div class="wrap"><div class="tp-spine" data-tp-spine>
+
+  <div class="tp-spine__stage">
+    <div class="tp-scene is-on" data-tp-scene>
+      <figure class="tp-plate">
+        <!-- Tanpa `loading="lazy"`: potret ini yang pertama terlihat, jadi ia
+             elemen LCP halaman. `fetchpriority` sengaja TIDAK dipakai — React
+             mengenalinya sebagai `fetchPriority` dan menolak ejaan kecilnya
+             dengan galat konsol di halaman hasil port. -->
+        <img src="/team/seragam/ode.webp" width="1024" height="1229" alt="Laode Muhamad Fitrah Ramadhan" decoding="async">
+        <figcaption class="tp-plate__cap"><b>Laode M. Fitrah R.</b><span>Direktur Utama</span></figcaption>
+      </figure>
     </div>
-    <div class="chapter" data-chapter>
-      <div class="cnum">Bab 02 · Fondasi</div>
-      <h2>Produk yang berpijak pada data.</h2>
-      <p>Khairul bergabung sebagai Co-Founder — mempertajam strategi, inovasi, dan daya saing. Bersama, mereka mengubah keyakinan itu menjadi produk nyata: POS yang dipakai karena untung, dengan data karbon level-item yang lahir sendiri tiap transaksi.</p>
-      <div class="who">KHAIRUL MIFTAH S. — CO-FOUNDER</div>
+    <div class="tp-scene" data-tp-scene>
+      <figure class="tp-plate">
+        <img src="/team/seragam/khairul.webp" width="1024" height="1229" alt="Khairul Miftah Sumardin" loading="lazy" decoding="async">
+        <figcaption class="tp-plate__cap"><b>Khairul Miftah S.</b><span>Direktur</span></figcaption>
+      </figure>
     </div>
-    <div class="chapter" data-chapter>
-      <div class="cnum">Bab 03 · Jembatan</div>
-      <h2>Dibangun di sini, dipakai di mana saja.</h2>
-      <p>Menjangkau pasar global butuh jembatan yang sengaja dibangun. Julius dan Tobias memegang International Relations — memetakan jaringan, mendekati calon mitra strategis, dan membuka jalan ke standar &amp; pasar Eropa. Tim produk membangunnya; mereka menghubungkannya ke dunia.</p>
-      <div class="who">JULIUS VOIGT &amp; TOBIAS BURKERT — INTERNATIONAL RELATIONS</div>
+    <div class="tp-scene" data-tp-scene>
+      <figure class="tp-plate">
+        <img src="/team/seragam/syahril.webp" width="1024" height="1229" alt="Syahril Syam" loading="lazy" decoding="async">
+        <figcaption class="tp-plate__cap"><b>Syahril Syam</b><span>Komisaris</span></figcaption>
+      </figure>
+    </div>
+    <div class="tp-scene" data-tp-scene>
+      <figure class="tp-plate">
+        <img src="/team/seragam/yahya.webp" width="1024" height="1229" alt="Muhammad Yahya Abdillah" loading="lazy" decoding="async">
+        <figcaption class="tp-plate__cap"><b>Muhammad Yahya A.</b><span data-i18n-skip="tp" data-en="Operations Manager" data-ar="مدير العمليات">Manajer Operasional</span></figcaption>
+      </figure>
+    </div>
+    <div class="tp-scene tp-scene--duo" data-tp-scene>
+      <figure class="tp-plate">
+        <img src="/team/seragam/julius.webp" width="1024" height="1229" alt="Julius Voigt" loading="lazy" decoding="async">
+        <figcaption class="tp-plate__cap"><b>Julius Voigt</b><span data-i18n-skip="tp" data-ar="العلاقات الدولية">International Relations</span></figcaption>
+      </figure>
+      <figure class="tp-plate">
+        <img src="/team/seragam/tobi.webp" width="1024" height="1229" alt="Tobias Burkert" loading="lazy" decoding="async">
+        <figcaption class="tp-plate__cap"><b>Tobias Burkert</b><span data-i18n-skip="tp" data-ar="العلاقات الدولية">International Relations</span></figcaption>
+      </figure>
     </div>
   </div>
 
-  <div class="spine__scenes">
-    <div class="scene" data-scene>
-      <div class="pf"><img src="founder.webp" alt="Laode Muhamad Fitrah Ramadhan"><span class="duo" style="background-image:url(founder.webp)"></span>
-        <div class="pf__cap"><b>Laode M. Fitrah R.</b><span>Founder &amp; CEO</span></div></div>
+  <div class="tp-spine__text">
+    <div class="tp-chapter is-on" data-tp-chapter>
+      <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 01 · Conviction" data-ar="الفصل 01 · القناعة">Bab 01 · Keyakinan</div>
+      <h2>Dimulai dari sebuah keyakinan.</h2>
+      <!-- Kalimatnya SENGAJA tidak lagi berbunyi "Laode memulai Glyiv". Bunyi lama
+           itu punya entri sendiri di i18n-en.js yang menerjemahkannya menjadi
+           "Laode started Glyiv — leading product, strategy, and execution", dan
+           dulu ditandatangani "FOUNDER & CEO" — dua sebutan yang dicabut pemilik.
+           Tanda tangannya sudah menjadi "Direktur Utama" pada baris tp-who di
+           bawah; kalimatnya baru diganti di sini supaya keduanya tidak bertentangan.
+           Kamus global tidak boleh disunting dari halaman ini, jadi kuncinya yang
+           dibuat tidak lagi cocok: mesin kamus melewati paragraf ini dan terjemahan
+           pada atributnya sendiri yang dipakai. -->
+      <p data-i18n-skip="tp"
+         data-en="Laode leads Glyiv as President Director — holding the line on product, strategy, and execution. His conviction is simple: the carbon market is full of guessed numbers, and the way to fix it is to generate the data at source, not infer it from average spending."
+         data-ar="يقود Laode شركة Glyiv بصفته المدير الرئيسي — ممسكًا باتجاه المنتج والاستراتيجية والتنفيذ. وقناعته بسيطة: سوق الكربون مليء بالأرقام المُخمَّنة، وسبيل إصلاحه هو توليد البيانات من مصدرها، لا تخمينها من متوسط الإنفاق.">Laode memimpin Glyiv sebagai Direktur Utama — memegang arah produk, strategi, dan eksekusi. Keyakinannya sederhana: pasar karbon penuh angka tebakan, dan cara memperbaikinya adalah menghasilkan data di sumbernya, bukan menebak dari rata-rata pengeluaran.</p>
+      <div class="tp-who"><b>Laode M. Fitrah R.</b><span>Direktur Utama</span></div>
     </div>
-    <div class="scene" data-scene>
-      <div class="pf"><img src="syun.webp" alt="Khairul Miftah Sumardin"><span class="duo" style="background-image:url(syun.webp)"></span>
-        <div class="pf__cap"><b>Khairul Miftah S.</b><span>Co-Founder</span></div></div>
+    <div class="tp-chapter" data-tp-chapter>
+      <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 02 · Foundation" data-ar="الفصل 02 · الأساس">Bab 02 · Fondasi</div>
+      <h2>Produk yang berpijak pada data.</h2>
+      <p data-i18n-skip="tp"
+         data-en="Khairul holds the Director seat — sharpening strategy, innovation, and competitiveness. Together they turned that conviction into a real product: a POS used because it pays, with item-level carbon data born of every transaction."
+         data-ar="يشغل Khairul مقعد المدير — ويشحذ الاستراتيجية والابتكار والقدرة التنافسية. ومعًا حوّلا تلك القناعة إلى منتج حقيقي: نظام نقاط بيع يُستخدم لأنه مُجدٍ، مع بيانات كربون على مستوى الصنف تولد مع كل معاملة.">Khairul memegang kursi Direktur — mempertajam strategi, inovasi, dan daya saing. Bersama, mereka mengubah keyakinan itu menjadi produk nyata: POS yang dipakai karena untung, dengan data karbon level-item yang lahir sendiri tiap transaksi.</p>
+      <div class="tp-who"><b>Khairul Miftah S.</b><span>Direktur</span></div>
     </div>
-    <div class="scene" data-scene>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;height:100%">
-        <div class="pf"><img src="julius1.webp" alt="Julius Voigt"><span class="duo" style="background-image:url(julius1.webp)"></span>
-          <div class="pf__cap"><b>Julius Voigt</b><span>Int'l Relations · Eropa</span></div></div>
-        <div class="pf"><img src="tobi.webp" alt="Tobias Burkert"><span class="duo" style="background-image:url(tobi.webp)"></span>
-          <div class="pf__cap"><b>Tobias Burkert</b><span>Int'l Relations · Eropa</span></div></div>
-      </div>
+    <div class="tp-chapter" data-tp-chapter>
+      <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 03 · Oversight" data-ar="الفصل 03 · الإشراف">Bab 03 · Pengawasan</div>
+      <h2 data-i18n-skip="tp" data-en="Overseen, not left to chance." data-ar="تحت إشراف، لا متروكة للصدفة.">Diawasi, bukan dibiarkan.</h2>
+      <p data-i18n-skip="tp"
+         data-en="Syahril Syam sits as Commissioner — overseeing how the company is run and advising on the big decisions. Climate claims stretch easily; oversight that stands outside the line of execution is how we hold them in check."
+         data-ar="يجلس Syahril Syam بصفته عضو مجلس المفوّضين — يشرف على سير الشركة ويقدّم المشورة في القرارات الكبرى. ادعاءات المناخ تتمدد بسهولة؛ والإشراف الذي يقف خارج خط التنفيذ هو وسيلتنا لكبحها.">Syahril Syam duduk sebagai Komisaris — mengawasi jalannya perusahaan dan menjadi penasihat pada keputusan besar. Klaim iklim gampang melar; pengawasan yang berdiri di luar garis eksekusi adalah cara kami menahannya.</p>
+      <div class="tp-who"><b>Syahril Syam</b><span>Komisaris</span></div>
+    </div>
+    <div class="tp-chapter" data-tp-chapter>
+      <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 04 · Operations" data-ar="الفصل 04 · العمليات">Bab 04 · Operasi</div>
+      <h2 data-i18n-skip="tp" data-en="What has to run every day." data-ar="ما يجب أن يعمل كل يوم.">Yang harus jalan setiap hari.</h2>
+      <p data-i18n-skip="tp"
+         data-en="Muhammad Yahya Abdillah holds operations — making sure what is promised on screen actually runs at the outlet: installation, user onboarding, and the quality of the daily data reaching the platform."
+         data-ar="يتولى Muhammad Yahya Abdillah العمليات — ويتأكد أن ما يُوعد به على الشاشة يعمل فعلًا في المنفذ: التركيب، ومرافقة المستخدمين، وجودة البيانات اليومية التي تصل إلى المنصة.">Muhammad Yahya Abdillah memegang operasional — memastikan yang dijanjikan di layar benar-benar berjalan di outlet: pemasangan, pendampingan pengguna, dan mutu data harian yang masuk ke platform.</p>
+      <div class="tp-who"><b>Muhammad Yahya A.</b><span data-i18n-skip="tp" data-en="Operations Manager" data-ar="مدير العمليات">Manajer Operasional</span></div>
+    </div>
+    <div class="tp-chapter" data-tp-chapter>
+      <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 05 · Bridge" data-ar="الفصل 05 · الجسر">Bab 05 · Jembatan</div>
+      <h2>Dibangun di sini, dipakai di mana saja.</h2>
+      <p>Menjangkau pasar global butuh jembatan yang sengaja dibangun. Julius dan Tobias memegang International Relations — memetakan jaringan, mendekati calon mitra strategis, dan membuka jalan ke standar &amp; pasar Eropa. Tim produk membangunnya; mereka menghubungkannya ke dunia.</p>
+      <div class="tp-who"><b>Julius Voigt &amp; Tobias Burkert</b><span data-i18n-skip="tp" data-ar="العلاقات الدولية">International Relations</span></div>
     </div>
   </div>
+
 </div></div></section>
 
 <!-- ===== MAP MOMENT: hub → world ===== -->
 <section class="section tight" style="background:var(--paper-2);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)"><div class="wrap mapwrap">
   <span class="eyebrow" data-reveal>Jangkauan</span>
-  <h2 data-reveal data-d="1" style="max-width:20ch;margin:12px auto 0">Satu titik asal. <em class="brassed">Ambisi global.</em></h2>
-  <svg class="map" viewBox="0 0 960 420" data-reveal aria-label="Peta jangkauan Glyiv ke Eropa dan dunia">
+  <h2 data-reveal data-d="1" style="max-width:20ch;margin:12px auto 0"><span data-i18n-skip="tp" data-en="One point of origin." data-ar="نقطة انطلاق واحدة.">Satu titik asal.</span> <em class="brassed" data-i18n-skip="tp" data-en="Global ambition." data-ar="طموح عالمي.">Ambisi global.</em></h2>
+  <svg class="map" viewBox="0 0 960 420" data-reveal aria-label="Peta jangkauan Glyiv ke Eropa dan dunia" data-label-en="Map of Glyiv reach toward Europe and the world" data-label-ar="خريطة انتشار Glyiv نحو أوروبا والعالم">
     <!-- stylized globe grid -->
     <g opacity="0.5">
       <ellipse class="land" cx="480" cy="210" rx="430" ry="180" fill="none"></ellipse>
@@ -140,45 +211,70 @@
     <path class="arc t" data-draw d="M760,268 C620,320 380,340 190,270"></path>
     <!-- pins -->
     <circle class="pin home" cx="760" cy="268" r="7"></circle>
-    <text class="lbl home" x="748" y="296" text-anchor="middle">INDONESIA</text>
+    <text class="lbl home" x="748" y="296" text-anchor="middle" data-i18n-skip="tp" data-ar="إندونيسيا">INDONESIA</text>
     <circle class="pin" cx="210" cy="150" r="5.5"></circle>
-    <text class="lbl" x="210" y="138" text-anchor="middle">EROPA</text>
+    <text class="lbl" x="210" y="138" text-anchor="middle" data-i18n-skip="tp" data-en="EUROPE" data-ar="أوروبا">EROPA</text>
     <circle class="pin" cx="250" cy="120" r="4.5"></circle>
     <circle class="pin" cx="190" cy="270" r="5"></circle>
-    <text class="lbl" x="190" y="290" text-anchor="middle">GLOBAL</text>
+    <text class="lbl" x="190" y="290" text-anchor="middle" data-i18n-skip="tp" data-ar="عالمي">GLOBAL</text>
   </svg>
-  <p class="lead" data-reveal data-d="2" style="max-width:56ch;margin:22px auto 0;text-align:center">Glyiv dibangun Indonesia-first — lalu dijembatani ke standar &amp; pasar internasional. Struktur tim 2+2 adalah strategi, bukan kebetulan: tim produk membangunnya, tim Eropa menghubungkannya ke dunia.</p>
+  <p class="lead" data-reveal data-d="2" style="max-width:56ch;margin:22px auto 0;text-align:center" data-i18n-skip="tp"
+     data-en="Glyiv is built Indonesia-first — then bridged to international standards &amp; markets. The 4+2 team structure is strategy, not coincidence: the Indonesian team builds and runs it, the European team connects it to the world."
+     data-ar="تُبنى Glyiv بمنهج إندونيسيا أولًا — ثم يُمدّ الجسر نحو المعايير والأسواق الدولية. وبنية الفريق 4+2 استراتيجية لا مصادفة: الفريق الإندونيسي يبني ويشغّل، والفريق الأوروبي يصله بالعالم.">Glyiv dibangun Indonesia-first — lalu dijembatani ke standar &amp; pasar internasional. Struktur tim 4+2 adalah strategi, bukan kebetulan: tim Indonesia membangun dan menjalankannya, tim Eropa menghubungkannya ke dunia.</p>
 </div></section>
 
-<!-- ===== FOUNDERS RECAP ===== -->
+<!-- ===== TIM INTI — kisi 3 × 2 di desktop, satu foto per layar di ponsel ===== -->
 <section class="section"><div class="wrap">
-  <span class="eyebrow" data-reveal>Tim inti</span>
-  <h2 data-reveal data-d="1">Empat orang, satu misi.</h2>
-  <div class="founders">
-    <div class="fcard" data-reveal data-d="1">
-      <div class="pf"><img src="founder.webp" alt="Laode Muhamad Fitrah Ramadhan"><span class="duo" style="background-image:url(founder.webp)"></span></div>
-      <b>Laode M. Fitrah R.</b><div class="role">Founder &amp; CEO</div>
+  <span class="eyebrow" data-reveal data-i18n-skip="tp" data-en="Core team" data-ar="الفريق الأساسي">Tim inti</span>
+  <h2 data-reveal data-d="1" data-i18n-skip="tp" data-en="Six people, one mission." data-ar="ستة أشخاص، مهمة واحدة.">Enam orang, satu misi.</h2>
+  <div class="tp-roster">
+
+    <article class="tp-card" data-reveal data-d="1">
+      <div class="tp-card__pf"><img src="/team/seragam/ode.webp" width="1024" height="1229" alt="Laode Muhamad Fitrah Ramadhan" loading="lazy" decoding="async"></div>
+      <b class="tp-card__nama">Laode M. Fitrah R.</b>
+      <div class="tp-card__peran">Direktur Utama</div>
       <p>Memimpin produk, strategi, dan eksekusi Glyiv — dengan keyakinan bahwa data karbon paling jujur lahir di titik transaksi.</p>
-      <a href="https://www.linkedin.com/in/laodefitrah/" target="_blank" rel="noopener">↗ LinkedIn</a>
-    </div>
-    <div class="fcard" data-reveal data-d="2">
-      <div class="pf"><img src="syun.webp" alt="Khairul Miftah Sumardin"><span class="duo" style="background-image:url(syun.webp)"></span></div>
-      <b>Khairul Miftah S.</b><div class="role">Co-Founder</div>
+    </article>
+
+    <article class="tp-card" data-reveal data-d="2">
+      <div class="tp-card__pf"><img src="/team/seragam/khairul.webp" width="1024" height="1229" alt="Khairul Miftah Sumardin" loading="lazy" decoding="async"></div>
+      <b class="tp-card__nama">Khairul Miftah S.</b>
+      <div class="tp-card__peran">Direktur</div>
       <p>Mempertajam strategi, inovasi, dan daya saing — memastikan setiap keputusan produk berpijak pada data dan kebutuhan nyata pengguna.</p>
-      <a href="https://www.linkedin.com/in/khairulms/" target="_blank" rel="noopener">↗ LinkedIn</a>
-    </div>
-    <div class="fcard" data-reveal data-d="3">
-      <div class="pf"><img src="julius1.webp" alt="Julius Voigt"><span class="duo" style="background-image:url(julius1.webp)"></span></div>
-      <b>Julius Voigt</b><div class="role">International Relations</div>
+    </article>
+
+    <article class="tp-card" data-reveal data-d="3">
+      <div class="tp-card__pf"><img src="/team/seragam/syahril.webp" width="1024" height="1229" alt="Syahril Syam" loading="lazy" decoding="async"></div>
+      <b class="tp-card__nama">Syahril Syam</b>
+      <div class="tp-card__peran">Komisaris</div>
+      <p data-i18n-skip="tp"
+         data-en="Overseeing how the company is run and advising on the big decisions — keeping every claim proportionate to its evidence."
+         data-ar="الإشراف على سير الشركة وتقديم المشورة في القرارات الكبرى — مع إبقاء كل ادعاء متناسبًا مع دليله.">Mengawasi jalannya perusahaan dan menjadi penasihat pada keputusan besar — menjaga agar klaim tetap sepadan dengan buktinya.</p>
+    </article>
+
+    <article class="tp-card" data-reveal data-d="1">
+      <div class="tp-card__pf"><img src="/team/seragam/yahya.webp" width="1024" height="1229" alt="Muhammad Yahya Abdillah" loading="lazy" decoding="async"></div>
+      <b class="tp-card__nama">Muhammad Yahya A.</b>
+      <div class="tp-card__peran" data-i18n-skip="tp" data-en="Operations Manager" data-ar="مدير العمليات">Manajer Operasional</div>
+      <p data-i18n-skip="tp"
+         data-en="Keeping daily operations running: installation at outlets, user onboarding, and the quality of the data that reaches the platform."
+         data-ar="الحفاظ على العمليات اليومية: التركيب في المنافذ، ومرافقة المستخدمين، وجودة البيانات التي تصل إلى المنصة.">Menjaga operasional harian: pemasangan di outlet, pendampingan pengguna, dan mutu data yang masuk ke platform.</p>
+    </article>
+
+    <article class="tp-card" data-reveal data-d="2">
+      <div class="tp-card__pf"><img src="/team/seragam/julius.webp" width="1024" height="1229" alt="Julius Voigt" loading="lazy" decoding="async"></div>
+      <b class="tp-card__nama">Julius Voigt</b>
+      <div class="tp-card__peran" data-i18n-skip="tp" data-ar="العلاقات الدولية">International Relations</div>
       <p>Membuka percakapan awal dengan jaringan &amp; calon mitra strategis di Eropa — menjembatani metodologi Glyiv ke standar dan pasar global.</p>
-      <a href="https://www.linkedin.com/in/julius-voigt-9a9389327/" target="_blank" rel="noopener">↗ LinkedIn</a>
-    </div>
-    <div class="fcard" data-reveal data-d="4">
-      <div class="pf"><img src="tobi.webp" alt="Tobias Burkert"><span class="duo" style="background-image:url(tobi.webp)"></span></div>
-      <b>Tobias Burkert</b><div class="role">International Relations</div>
+    </article>
+
+    <article class="tp-card" data-reveal data-d="3">
+      <div class="tp-card__pf"><img src="/team/seragam/tobi.webp" width="1024" height="1229" alt="Tobias Burkert" loading="lazy" decoding="async"></div>
+      <b class="tp-card__nama">Tobias Burkert</b>
+      <div class="tp-card__peran" data-i18n-skip="tp" data-ar="العلاقات الدولية">International Relations</div>
       <p>Merintis kemitraan institusi &amp; peluang lintas-negara — agar Glyiv relevan di panggung internasional sejak hari pertama.</p>
-      <a href="https://www.linkedin.com/in/tobias-burkert-559393327/" target="_blank" rel="noopener">↗ LinkedIn</a>
-    </div>
+    </article>
+
   </div>
 </div></section>
 
@@ -187,9 +283,9 @@
   <span class="eyebrow" data-reveal style="color:var(--brass-600)">Keyakinan kami</span>
   <svg data-reveal data-d="1" width="34" height="34" viewBox="0 0 24 24" fill="none" style="margin:18px auto 0;display:block"><path d="M10 11H6a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2v6c0 2.2-1.8 4-4 4M20 11h-4a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2v6c0 2.2-1.8 4-4 4" stroke="#B0894F" stroke-width="1.4"/></svg>
   <blockquote data-reveal data-d="2" style="font-family:var(--f-serif);font-weight:500;font-size:clamp(24px,3.4vw,40px);line-height:1.26;color:var(--pine);max-width:24ch;margin:14px auto 0;font-style:italic">"Karbon yang bisa diaudit ke sumbernya adalah fondasi ekonomi rendah-karbon yang jujur — dan kami membangunnya untuk dunia."</blockquote>
-  <div data-reveal data-d="3" style="font-family:var(--f-mono);font-size:12px;color:var(--brass-600);letter-spacing:.1em;margin-top:24px">— TIM GLYIV</div>
+  <div data-reveal data-d="3" style="font-family:var(--f-mono);font-size:12px;color:var(--brass-600);letter-spacing:.1em;margin-top:24px" data-i18n-skip="tp" data-en="— THE GLYIV TEAM" data-ar="— فريق Glyiv">— TIM GLYIV</div>
   <div class="row" data-reveal data-d="3" style="display:flex;gap:12px;justify-content:center;margin-top:30px">
-    <a class="btn primary" href="index.html#demo">Minta Demo</a>
+    <a class="btn primary" href="index.html#demo" data-i18n-skip="tp" data-en="Request a Demo" data-ar="اطلب عرضًا توضيحيًا">Minta Demo</a>
     <a class="btn ghost" href="index.html">← Kembali ke beranda</a>
   </div>
 </div></section>
@@ -199,11 +295,15 @@
 <footer class="foot"><div class="wrap">
   <div class="foot__grid">
     <div>
-      <a class="brand" href="index.html">Glyiv<i>.</i></a>
-      <p class="foot__about">Carbon Intelligence &amp; Offset Platform. Dibangun untuk dunia. Kerangka &amp; standar yang kami rujuk:</p>
+      <!-- Kunci merek di kaki halaman kini membawa lambang resmi (Glyiv Pendant),
+           sama seperti kaki beranda. `.brand` memakai align-items:baseline, jadi
+           lambangnya diberi align-self:center supaya tidak duduk di atas garis
+           dasar teks; gaya sebaris karena `.brand` tinggal di glyiv-v2.css. -->
+      <a class="brand" href="index.html"><img src="/logo.svg" width="26" height="26" alt="" aria-hidden="true" style="align-self:center;margin-right:9px">Glyiv<i>.</i></a>
+      <p class="foot__about">Green Intelligence &amp; Offset Platform. Dibangun untuk dunia. Kerangka &amp; standar yang kami rujuk:</p>
       <div class="foot__badges"><span>GHG Protocol</span><span>ISO 14064</span><span>IFRS S2</span><span>IDXCarbon (pasar)</span><span>ERC-3643</span></div>
     </div>
-    <div class="foot__col"><h5>Platform</h5><a href="index.html#produk">Carbon Accounting</a><a href="lab/carbon-intelligence.html#platform">Metodologi &amp; dMRV</a><a href="index.html#produk">Tree Marketplace</a></div>
+    <div class="foot__col"><h5>Platform</h5><a href="index.html#produk">Carbon Accounting</a><a href="lab/green-intelligence.html#platform">Metodologi &amp; dMRV</a><a href="index.html#produk">Tree Marketplace</a></div>
     <div class="foot__col"><h5>Solusi</h5><a href="index.html#verticals">Keuangan</a><a href="index.html#verticals">Industri Berat</a><a href="index.html#verticals">Operasional</a></div>
     <div class="foot__col"><h5>Perusahaan</h5><a href="team.html">Tim</a><a href="index.html#why">Kenapa Karbon</a><a href="mailto:glyiv.archourium@gmail.com">Kontak</a></div>
   </div>
@@ -215,5 +315,133 @@
 
 <script src="assets/js/glyiv-v2.js"></script>
 <script src="/assets/js/glyiv-nav.js" defer></script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   Halaman tim — dua hal kecil yang tidak bisa dikerjakan CSS sendirian.
+   Berkas ini SENGAJA tidak memakai `.spine`/`.scene` milik glyiv-v2.js: mesin
+   di sana memaksa kelas `.pf` (yang membawa filter hitam-putih) dan aturan
+   prefers-reduced-motion-nya menyalakan SEMUA adegan sekaligus. Di sini
+   pergantian potret ditulis ulang sependek mungkin, tanpa satu pun pendengar
+   `scroll` — hanya IntersectionObserver, karena pemilik menguji di tablet dan
+   gulir tidak boleh tersendat.
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function () {
+  "use strict";
+
+  /* ── 1. Potret mengikuti bab yang sedang dibaca ──────────────────────────── */
+  var spine = document.querySelector("[data-tp-spine]");
+  if (spine) {
+    var bab = [].slice.call(spine.querySelectorAll("[data-tp-chapter]"));
+    var adegan = [].slice.call(spine.querySelectorAll("[data-tp-scene]"));
+    if (bab.length && adegan.length) {
+      var aktif = 0;
+      var pilih = function (i) {
+        if (i === aktif) return;
+        aktif = i;
+        for (var k = 0; k < adegan.length; k++) adegan[k].classList.toggle("is-on", k === i);
+        for (var j = 0; j < bab.length; j++) bab[j].classList.toggle("is-on", j === i);
+      };
+
+      if (!("IntersectionObserver" in window)) {
+        /* Tanpa IO, jangan tinggalkan pembaca dengan satu potret dan lima bab
+           yang semuanya redup: nyalakan seluruh babnya, potret tetap yang
+           pertama. */
+        for (var b = 0; b < bab.length; b++) bab[b].classList.add("is-on");
+      } else {
+        /* Rasio tiap bab disimpan, lalu yang PALING banyak terlihat yang menang.
+           Memakai "yang terakhir memotong" saja tidak cukup: saat menggulir
+           cepat dua bab bisa memotong dalam satu frame dan urutan entri tidak
+           dijamin, sehingga potretnya sempat melompat mundur. */
+        var rasio = [];
+        for (var r = 0; r < bab.length; r++) rasio.push(0);
+        var io = new IntersectionObserver(function (entri) {
+          for (var e = 0; e < entri.length; e++) {
+            var idx = bab.indexOf(entri[e].target);
+            if (idx >= 0) rasio[idx] = entri[e].isIntersecting ? entri[e].intersectionRatio : 0;
+          }
+          var terbaik = 0, pilihan = -1;
+          for (var k = 0; k < rasio.length; k++) if (rasio[k] > terbaik) { terbaik = rasio[k]; pilihan = k; }
+          if (pilihan >= 0) pilih(pilihan);
+        }, {
+          threshold: [0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1],
+          /* Pita baca: 20% teratas dan 30% terbawah layar diabaikan supaya
+             pergantian terjadi saat babnya benar-benar di depan mata. */
+          rootMargin: "-20% 0px -30% 0px",
+        });
+        for (var o = 0; o < bab.length; o++) io.observe(bab[o]);
+      }
+    }
+  }
+
+  /* ── 2. Kamus milik halaman ini sendiri ───────────────────────────────────
+     Mesin i18n bersama (assets/js/i18n.js) menerjemahkan lewat kamus global
+     i18n-en.js / i18n-ar.js — dan kamus itu TIDAK boleh disunting dari halaman
+     ini. Akibatnya dua hal terukur di https://glyiv.io/team?lang=en sebelum
+     perubahan ini (dihitung dari penelusuran simpul teks di dalam `main.tp-page`):
+       · 17 potong teks tetap Bahasa Indonesia di halaman berbahasa Inggris —
+         lima nomor bab, dua judul bab, tiga paragraf bab, dua paragraf kartu,
+         kalimat pembuka, dateline, label peta EROPA, paragraf peta, "Tim inti",
+         "Enam orang, satu misi.", "— TIM GLYIV", dan tombol "Minta Demo";
+       · paragraf Bab 01 justru DITERJEMAHKAN — tapi menjadi "Laode started
+         Glyiv — leading product, strategy, and execution", sebutan yang sudah
+         dicabut pemilik.
+     Jalan keluarnya: terjemahan yang belum ada di kamus global ditulis pada
+     elemennya sendiri, `data-en` / `data-ar` (dan `data-label-en` /
+     `data-label-ar` untuk aria-label). `data-i18n-skip` menahan mesin bersama
+     supaya keduanya tidak berebut simpul yang sama.
+
+     Ini MENGGANTIKAN — bukan menumpuk — pasangan `data-peran-en`/`data-peran-ar`
+     yang dulu hanya melayani satu jabatan; ketiga elemen jabatan itu kini memakai
+     atribut umum yang sama, dan tidak ada lagi kode khusus jabatan di halaman ini.
+
+     Teks Indonesia TIDAK disalin ke atribut: ia tetap tinggal di badan HTML
+     (satu-satunya salinan), dan nilai aslinya dicatat ke `data-id`/`data-label-id`
+     pada jalan pertama supaya kembali ke Bahasa memulihkannya persis. */
+  /* Dicari HANYA di dalam halaman tim, bukan seluruh dokumen: navbar, kaki
+     halaman, dan chatbot dipakai bersama semua halaman dan bukan milik skrip
+     ini — kalau suatu hari salah satunya memakai nama atribut yang sama, ia
+     tidak boleh ikut tertimpa dari sini. */
+  var halaman = document.querySelector(".tp-page") || document;
+  var poliglot = [].slice.call(halaman.querySelectorAll("[data-en],[data-ar],[data-label-en],[data-label-ar]"));
+  if (poliglot.length) {
+    /* `awalan` kosong untuk isi teks, "label-" untuk aria-label — jadi nama
+       atributnya data-id/data-en/data-ar dan data-label-id/-en/-ar. */
+    var pilihNilai = function (el, lang, awalan) {
+      var asli = el.getAttribute("data-" + awalan + "id");
+      var en = el.getAttribute("data-" + awalan + "en");
+      var ar = el.getAttribute("data-" + awalan + "ar");
+      if (lang === "en") return en || asli;
+      /* Arab jatuh ke Inggris kalau belum ada terjemahannya — halaman setengah
+         Indonesia lebih membingungkan daripada halaman campur Inggris. */
+      if (lang === "ar") return ar || en || asli;
+      return asli;
+    };
+    var terapkan = function () {
+      var lang = window.GLYIV_LANG || document.documentElement.getAttribute("lang") || "id";
+      for (var i = 0; i < poliglot.length; i++) {
+        var el = poliglot[i];
+        if (el.hasAttribute("data-en") || el.hasAttribute("data-ar")) {
+          if (el.getAttribute("data-id") == null) el.setAttribute("data-id", el.textContent.trim());
+          var t = pilihNilai(el, lang, "");
+          if (t != null && el.textContent !== t) el.textContent = t;
+        }
+        if (el.hasAttribute("data-label-en") || el.hasAttribute("data-label-ar")) {
+          if (el.getAttribute("data-label-id") == null) el.setAttribute("data-label-id", el.getAttribute("aria-label") || "");
+          var a = pilihNilai(el, lang, "label-");
+          if (a != null && el.getAttribute("aria-label") !== a) el.setAttribute("aria-label", a);
+        }
+      }
+    };
+    terapkan();
+    /* Mesin i18n memancarkan "glyiv:lang" SESUDAH menerapkan kamus, jadi
+       pendengar ini selalu berjalan terakhir dan tidak akan ditimpa. Dua
+       pengulangan bertenggat menutup satu kasus: kamus dimuat asinkron, jadi
+       pada muat pertama skrip ini bisa berjalan sebelum bahasanya diketahui. */
+    document.addEventListener("glyiv:lang", terapkan);
+    setTimeout(terapkan, 500);
+    setTimeout(terapkan, 2000);
+  }
+})();
+</script>
 </body>
 </html>

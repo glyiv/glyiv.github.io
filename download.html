@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unduh Aplikasi Android — Glyiv</title>
+<meta name="description" content="Unduh berkas APK aplikasi Glyiv untuk Android: Aset Hijau, Ukur DBH, Saku, Kabar, dan aplikasi outlet. Belum ada di Play Store — lengkap dengan SHA-256 tiap berkas, langkah pemasangan, dan versi web yang bisa dicoba tanpa memasang apa pun.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<style>
+/* ═══ UNDUH APK (und- scoped) ══════════════════════════════════════════════
+   Merek terang & editorial, sama seperti halaman /lab/apps/*. Tidak ada gaya
+   sebaris untuk tinggi hero — aturan .ga-hero (100dvh) yang berlaku. */
+body{background:var(--paper)}
+
+/* pita keadaan — alasan tombol mati DITULIS di layar, bukan di tooltip */
+.und-pita{border-radius:20px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;border:1px solid;margin:0 0 22px}
+.und-pita svg{width:22px;height:22px;flex:0 0 auto;margin-top:1px}
+.und-pita b{display:block;font-family:var(--l-sans);font-weight:800;font-size:14.5px;margin-bottom:4px}
+.und-pita p{margin:0;font-size:13.5px;line-height:1.6}
+.und-pita--tunggu{background:#fdf6e9;border-color:#e8d5ad;color:#5a4413}
+.und-pita--tunggu b{color:#4a3608}
+.und-pita--siap{background:#eefaf3;border-color:#bfe6d2;color:#154b34}
+.und-pita--siap b{color:#0F2E22}
+
+.und-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.und-grid>*{min-width:0}
+
+.und-kartu{background:#fff;border:1px solid var(--hair);border-radius:20px;box-shadow:var(--sh1);padding:18px;display:flex;flex-direction:column;gap:13px}
+.und-kartu__hd{display:flex;gap:13px;align-items:flex-start}
+.und-kartu__ik{width:52px;height:52px;border-radius:14px;flex:0 0 auto;background:var(--paper2);border:1px solid var(--hair)}
+.und-kartu__n{font-family:var(--l-serif);font-weight:600;font-size:19px;color:var(--pine);line-height:1.15;margin:0 0 4px}
+.und-kartu__m{font-family:var(--l-mono);font-size:10px;color:var(--muted);line-height:1.5;word-break:break-word}
+.und-kartu__d{font-size:13.5px;line-height:1.6;color:var(--slate);margin:0}
+.und-kartu__d b{color:var(--pine)}
+
+.und-aksi{display:flex;flex-wrap:wrap;gap:8px}
+.und-b{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:11px 17px;border-radius:999px;font-family:var(--l-sans);font-weight:700;font-size:13.5px;text-decoration:none;border:1px solid transparent;transition:.18s var(--ease)}
+.und-b svg{width:16px;height:16px;flex:0 0 auto}
+.und-b--utama{background:linear-gradient(120deg,var(--teal),var(--emer-br));color:#fff}
+.und-b--utama:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+/* Keadaan MATI: terlihat mati, tapi sebabnya ditulis di baris di bawahnya. */
+.und-b--mati{background:var(--paper2);color:#6B7280;border-color:var(--hair);cursor:not-allowed}
+.und-b--mati:hover{transform:none;box-shadow:none}
+.und-b--web{background:#fff;color:var(--pine);border-color:var(--hair)}
+.und-b--web:hover{border-color:var(--pine)}
+
+.und-sebab{display:flex;gap:7px;align-items:flex-start;font-size:12.5px;line-height:1.5;color:#6b5a2e;background:#fdf6e9;border:1px solid #ecdcb9;border-radius:12px;padding:9px 11px;margin:0}
+.und-sebab svg{width:15px;height:15px;flex:0 0 auto;margin-top:1px}
+
+.und-sidik{border-top:1px dashed var(--hair);padding-top:12px}
+.und-sidik__k{display:flex;align-items:center;gap:8px;font-family:var(--l-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.und-sidik__v{font-family:var(--l-mono);font-size:10.5px;line-height:1.7;color:var(--pine);background:var(--paper2);border:1px solid var(--hair);border-radius:11px;padding:9px 11px;word-break:break-all;-webkit-user-select:all;user-select:all}
+.und-salin{margin-left:auto;min-height:44px;min-width:44px;padding:6px 13px;border-radius:999px;border:1px solid var(--hair);background:#fff;color:var(--pine);font-family:var(--l-sans);font-weight:700;font-size:12px;cursor:pointer;transition:.18s var(--ease)}
+.und-salin:hover{border-color:var(--teal);color:var(--teal)}
+.und-salin.ok{border-color:var(--teal);color:var(--teal)}
+
+.und-jh{font-family:var(--l-serif);font-weight:600;font-size:clamp(21px,2.6vw,28px);color:var(--pine);letter-spacing:-.01em;margin:0 0 6px}
+.und-jh em{font-style:italic;color:var(--teal)}
+.und-jd{font-size:14px;line-height:1.65;color:var(--slate);max-width:66ch;margin:0 0 18px}
+.und-jd b{color:var(--pine)}
+
+.und-langkah{background:#fff;border:1px solid var(--hair);border-radius:20px;box-shadow:var(--sh1);padding:20px 22px}
+.und-langkah h3{font-family:var(--l-serif);font-weight:600;font-size:17px;color:var(--pine);margin:0 0 10px}
+.und-langkah ol{margin:0;padding-left:20px;color:var(--slate);font-size:13.5px;line-height:1.75}
+.und-langkah ol li{margin-bottom:8px}
+.und-langkah ol li b{color:var(--pine)}
+.und-langkah p{font-size:13.5px;line-height:1.7;color:var(--slate);margin:0 0 10px}
+.und-langkah p b{color:var(--pine)}
+.und-kode{font-family:var(--l-mono);font-size:11.5px;line-height:1.9;color:var(--pine);background:var(--paper2);border:1px solid var(--hair);border-radius:12px;padding:11px 13px;margin:8px 0 0;overflow-x:auto;white-space:pre}
+/* Sidik jari 20 blok heksa: harus MEMBUNGKUS, bukan menggulir ke samping —
+   di 390px baris tunggalnya jauh lebih lebar daripada layar. */
+.und-kode--bungkus{white-space:pre-wrap;word-break:break-word;overflow-x:visible}
+.und-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.und-2>*{min-width:0}
+
+.und-cap{display:inline-flex;align-items:center;gap:7px;font-family:var(--l-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border-radius:999px;padding:5px 11px;margin-bottom:12px}
+.und-cap--umum{color:#155e45;background:#e7f7ee;border:1px solid #bfe6d2}
+.und-cap--staf{color:#7a5a13;background:#fdf6e9;border:1px solid #e8d5ad}
+
+@media (max-width:760px){
+  .und-2{grid-template-columns:1fr}
+  .und-grid{grid-template-columns:1fr}
+}
+/* ⚠︎ Tombol Gly (#glyBot, 84x84, fixed kanan-bawah, z-70) ada di SETIAP halaman.
+   TERUKUR di 390px sebelum aturan ini: FAB menempati x 302–386 / y 756–840
+   sementara pita statistik hero berakhir di x=356 dengan alas y=802 — angka
+   "Dibangun" tertutup separuh. Halaman /lab/apps/* lain tidak terkena karena
+   pita mereka lebih sempit (berakhir x=253), jadi ini cacat milik halaman ini,
+   bukan pola situs. Yang diberikan RUANG, bukan menyembunyikan angkanya. */
+.ga-hero .ga-hero__in{padding-bottom:calc(clamp(28px,5vh,52px) + 88px)}
+/* Jari, bukan lebar layar (RULES §5): tablet pemilik >600px tapi pointer kasar. */
+@media (pointer:coarse){
+  .und-b,.und-salin{min-height:46px}
+}
+  .und-peran{display:grid;gap:8px;grid-template-columns:1fr 1fr;margin:12px 0}
+  @media(max-width:560px){.und-peran{grid-template-columns:1fr}}
+  .und-peran__b{border:1px solid var(--hairline,#E7E9E6);border-radius:12px;padding:10px 12px}
+  .und-peran__n{font-weight:700;font-size:13.5px;margin-bottom:2px}
+</style>
+</head>
+<body>
+<div id="ga-nav"></div>
+
+<section class="ga-hero">
+  <img class="bg" src="/lab/img/scan-belanja.webp" srcset="/lab/img/scan-belanja-600.webp 600w, /lab/img/scan-belanja-900.webp 900w, /lab/img/scan-belanja.webp 1400w" sizes="100vw" width="1400" height="1050" alt="Bedengan sayur berbaris sampai kaki langit">
+  <div class="ga-hero__in">
+    <div>
+      <div class="ga-crumb"><a href="/">Glyiv</a> &rsaquo; <a href="/lab/apps/">Aplikasi</a> &rsaquo; Unduh</div>
+      <span class="ga-badge"><i></i> Android &middot; berkas APK</span>
+      <h1>Unduh aplikasi <em>Android</em></h1>
+      <p>Lima aplikasi Glyiv untuk Android. Kelimanya juga berjalan di peramban, jadi Anda bisa mencobanya lebih dulu tanpa memasang apa pun.</p>
+    </div>
+    <div class="ga-hero__aside">
+      <div><div class="k">Berkas</div><div class="v">6</div></div>
+      <div><div class="k">Total unduhan</div><div class="v g">3728 KB</div></div>
+      <div><div class="k">Android</div><div class="v">7.0+</div></div>
+      <div><div class="k">Dibangun</div><div class="v" data-dibangun>9 Agustus 2026</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="ga-wrap">
+
+  <!-- ═══ KEADAAN: tautan belum dipasang ═══════════════════════════════════ -->
+  <div class="ga-sec" id="daftar">
+
+    
+
+    <div class="und-pita und-pita--siap" data-pita-siap hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+      <div>
+        <b>Berkas APK siap diunduh.</b>
+        <p>Sebelum memasang, cocokkan SHA-256 berkas yang Anda unduh dengan angka di kartunya &mdash; caranya ada di bagian bawah halaman. Dan baca dulu empat hal yang perlu diketahui sebelum memasang berkas dari luar Play Store.</p>
+      </div>
+    </div>
+
+    <!-- Pita ini muncul HANYA selama `driveMutakhir:false` di download-apk.js:
+         berkas sudah dibangun ulang di repo, tapi yang di Drive masih lama, jadi
+         sidik di kartu di bawah belum bisa dicocokkan. Ditulis di layar, bukan
+         disembunyikan — pemilik dan pengunjung memakai layar sentuh. -->
+    
+
+    <span class="und-cap und-cap--umum">Untuk siapa saja</span>
+    <h2 class="und-jh">Empat aplikasi yang bisa langsung <em>Anda pakai</em></h2>
+    <p class="und-jd">Setiap aplikasi punya dua jalan: pasang berkas APK-nya, atau buka versi webnya di peramban. Isinya sama &mdash; versi Android hanya membungkusnya supaya punya ikon sendiri di layar utama dan terbuka layar penuh.</p>
+
+    <div class="und-grid">
+
+      <!-- Glyiv Green Assets -->
+      <div class="und-kartu" data-apk="co.glyiv.greenassets" data-reveal>
+        <div class="und-kartu__hd">
+          <img class="und-kartu__ik" src="/download/icon-green-assets.webp" width="52" height="52" alt="" loading="lazy">
+          <div>
+            <h3 class="und-kartu__n">Glyiv Green Assets</h3>
+            <div class="und-kartu__m" data-i18n-skip>co.glyiv.greenassets &middot; v1.1.0<br>Glyiv-Green-Assets.apk &middot; 28,7 KB</div>
+          </div>
+        </div>
+        <p class="und-kartu__d">Gambar area lahan Anda di peta, tanam pohon virtual di atasnya, kumpulkan poin dari perawatan. <b>Pendaftaran pemilik lahan belum dibuka</b> karena masih menunggu kejelasan regulasi.</p>
+        <div class="und-aksi">
+          <a class="und-b und-b--utama und-b--mati" data-unduh aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span data-label-unduh>Unduh APK &mdash; belum tersedia</span></a>
+          <a class="und-b und-b--web" href="/hijau"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></svg>Buka versi web</a>
+        </div>
+        <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai versi web dulu.</span></p>
+        <div class="und-sidik">
+          <div class="und-sidik__k">SHA-256 berkas<button class="und-salin" type="button" data-salin>Salin</button></div>
+          <div class="und-sidik__v" data-sha>293e84f635aebd61c2c47532ffd386bbfc82813bc075829b5bcc9eb50923c8c9</div>
+        </div>
+      </div>
+
+      <!-- Glyiv DBH -->
+      <div class="und-kartu" data-apk="co.glyiv.dbh" data-reveal data-d="1">
+        <div class="und-kartu__hd">
+          <img class="und-kartu__ik" src="/download/icon-dbh.webp" width="52" height="52" alt="" loading="lazy">
+          <div>
+            <h3 class="und-kartu__n">Glyiv DBH</h3>
+            <div class="und-kartu__m" data-i18n-skip>co.glyiv.dbh &middot; v1.1.0<br>Glyiv-DBH.apk &middot; 32,7 KB</div>
+          </div>
+        </div>
+        <p class="und-kartu__d">Alat lapangan: ukur diameter batang setinggi dada, simpan di perangkat, unggah saat sinyal kembali. <b>Dirancang untuk tetap terbuka tanpa sinyal</b> &mdash; tetapi pemasangan dan pembukaan pertamanya tetap butuh koneksi.</p>
+        <div class="und-aksi">
+          <a class="und-b und-b--utama und-b--mati" data-unduh aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span data-label-unduh>Unduh APK &mdash; belum tersedia</span></a>
+          <a class="und-b und-b--web" href="/ukur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></svg>Buka versi web</a>
+        </div>
+        <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai versi web dulu.</span></p>
+        <div class="und-sidik">
+          <div class="und-sidik__k">SHA-256 berkas<button class="und-salin" type="button" data-salin>Salin</button></div>
+          <div class="und-sidik__v" data-sha>dd5130e1389504c612280175aeb5124f7f46496e4261dd552c28a3eeb60fd8b7</div>
+        </div>
+      </div>
+
+      <!-- Glyiv Pocket -->
+      <div class="und-kartu" data-apk="co.glyiv.pocket" data-reveal data-d="2">
+        <div class="und-kartu__hd">
+          <img class="und-kartu__ik" src="/download/icon-pocket.webp" width="52" height="52" alt="" loading="lazy">
+          <div>
+            <h3 class="und-kartu__n">Glyiv Pocket</h3>
+            <div class="und-kartu__m" data-i18n-skip>co.glyiv.saku &middot; v1.1.0<br>Glyiv-Pocket.apk &middot; 32,7 KB</div>
+          </div>
+        </div>
+        <p class="und-kartu__d">Aplikasi harian: cari barang, hitung IMT, catat kebiasaan. <b>Bukan pratinjau</b> &mdash; angkanya dihitung dari pustaka faktor emisi Glyiv, dan batasnya ditulis di halamannya sendiri.</p>
+        <div class="und-aksi">
+          <a class="und-b und-b--utama und-b--mati" data-unduh aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span data-label-unduh>Unduh APK &mdash; belum tersedia</span></a>
+          <a class="und-b und-b--web" href="/app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></svg>Buka versi web</a>
+        </div>
+        <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai versi web dulu.</span></p>
+        <div class="und-sidik">
+          <div class="und-sidik__k">SHA-256 berkas<button class="und-salin" type="button" data-salin>Salin</button></div>
+          <div class="und-sidik__v" data-sha>9d3d05142e0432b1273ec3439cff7ae24a2aebadb0aed764d9e60915103c6e03</div>
+        </div>
+      </div>
+
+      <!-- Glyiv News -->
+      <div class="und-kartu" data-apk="co.glyiv.news" data-reveal data-d="3">
+        <div class="und-kartu__hd">
+          <img class="und-kartu__ik" src="/download/icon-news.webp" width="52" height="52" alt="" loading="lazy">
+          <div>
+            <h3 class="und-kartu__n">Glyiv News</h3>
+            <div class="und-kartu__m" data-i18n-skip>co.glyiv.kabar &middot; v1.1.0<br>Glyiv-News.apk &middot; 41,1 KB</div>
+          </div>
+        </div>
+        <p class="und-kartu__d">Kabar dan artikel Glyiv, plus <b>widget layar utama</b> yang menampilkan judul terbaru. Butuh koneksi untuk memuat isinya.</p>
+        <div class="und-aksi">
+          <a class="und-b und-b--utama und-b--mati" data-unduh aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span data-label-unduh>Unduh APK &mdash; belum tersedia</span></a>
+          <a class="und-b und-b--web" href="/lab/kabar/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></svg>Buka versi web</a>
+        </div>
+        <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai versi web dulu.</span></p>
+        <div class="und-sidik">
+          <div class="und-sidik__k">SHA-256 berkas<button class="und-salin" type="button" data-salin>Salin</button></div>
+          <div class="und-sidik__v" data-sha>6f9e19f23ecdb8b930afdf852cc00f8fafdf93d781737b81decd2565110db2cf</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ Aplikasi operator outlet ═════════════════════════════════════════ -->
+  <div class="ga-sec">
+    <span class="und-cap und-cap--staf">Untuk operator outlet</span>
+    <h2 class="und-jh">Satu aplikasi untuk <em>seluruh outlet</em></h2>
+    <p class="und-jd">Masuk dengan akun Google, lalu peran Anda yang menentukan tampilannya: petugas titik bayar melihat papan pesanan, pemilik melihat semuanya. Aplikasinya membuka konsol yang sama dengan versi webnya, jadi <b>setiap perbaikan yang kami pasang di web langsung ikut terbawa</b> &mdash; tidak perlu memasang ulang.</p>
+
+    <div class="und-grid">
+
+      <!-- Glyiv GIP Outlet = co.glyiv.outlet, pembungkus KONSOL AWAN.
+           ⚠︎ Kartu ini pernah memakai data-apk="co.glyiv.kasir" sementara
+           judulnya tetap "Glyiv GIP Outlet". Akibatnya nyata: pemilik mengunduh
+           berkas bernama Glyiv GIP Outlet, memasangnya, dan disambut layar
+           "masukkan local DNS" — karena yang terbagikan adalah pembungkus
+           SERVER LOKAL, yang memang tidak pernah bisa mengikuti perubahan web.
+           Nama benar, isi salah.
+           Pembungkus LAN (co.glyiv.kasir & co.glyiv.host) tetap hidup di repo
+           untuk outlet pilot dan outlet yang jaringannya mati, tetapi TIDAK
+           lagi dibagikan di sini. Jangan kembalikan keduanya ke halaman ini. -->
+      <div class="und-kartu" data-apk="co.glyiv.outlet" data-reveal>
+        <div class="und-kartu__hd">
+          <img class="und-kartu__ik" src="/download/icon-outlet.webp" width="52" height="52" alt="" loading="lazy">
+          <div>
+            <h3 class="und-kartu__n">Glyiv GIP Outlet</h3>
+            <div class="und-kartu__m" data-i18n-skip>co.glyiv.outlet &middot; v1.4.0</div>
+          </div>
+        </div>
+        <p class="und-kartu__d">Satu aplikasi untuk seluruh outlet. Masuk dengan akun Google; <b>peran Anda yang menentukan tampilannya</b> &mdash; petugas titik bayar melihat papan pesanan, pemilik melihat menu, bahan, laporan, dan sisanya. Isinya konsol web yang sama, dibungkus supaya punya ikon sendiri di layar utama dan terbuka penuh tanpa bilah peramban.</p>
+        <div class="und-peran">
+          <div class="und-peran__b">
+            <div class="und-peran__n">Butuh internet</div>
+            <div class="und-kartu__m" data-i18n-skip>Konsolnya di awan, jadi bisa dibuka dari mana saja &mdash; bukan hanya dari dalam outlet.</div>
+          </div>
+          <div class="und-peran__b">
+            <div class="und-peran__n">Ikut berubah sendiri</div>
+            <div class="und-kartu__m" data-i18n-skip>Perbaikan yang kami pasang di web langsung terbawa. Tidak perlu memasang ulang.</div>
+          </div>
+        </div>
+        <div class="und-aksi">
+          <a class="und-b und-b--utama und-b--mati" data-unduh aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span data-label-unduh>Unduh APK &mdash; belum tersedia</span></a>
+          <a class="und-b und-b--web" href="/gip/outlet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></svg>Konsol web outlet</a>
+        </div>
+        <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai konsol web dulu.</span></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ Yang perlu diketahui sebelum memasang ════════════════════════════ -->
+  <div class="ga-sec" id="cara">
+    <h2 class="und-jh">Sebelum memasang: <em>empat hal</em> yang sebaiknya Anda tahu</h2>
+    <p class="und-jd">Memasang berkas dari luar toko resmi berarti Anda memutuskan sendiri berkas ini layak dipercaya. Kami menuliskan semua yang Anda butuhkan untuk memutuskan itu &mdash; termasuk bagian yang tidak menguntungkan kami.</p>
+
+    <div class="und-2">
+
+      <div class="und-langkah" data-reveal>
+        <h3>1. Aplikasi ini belum ada di Google Play</h3>
+        <p>Tidak satu pun dari kelima aplikasi ini terbit di Play Store, dan penerbitannya <b>ditunda</b> &mdash; bukan sedang ditinjau, bukan sedang menunggu persetujuan. Karena itu berkas APK-nya kami sediakan langsung di sini.</p>
+        <p>Akibatnya nyata dan perlu Anda tahu: Anda tidak mendapat pemeriksaan otomatis Google, tidak mendapat pembaruan otomatis, dan tidak ada tempat mengadu di dalam Play Store. Yang kami berikan sebagai gantinya adalah <b>sidik jari SHA-256 tiap berkas</b> di kartunya masing-masing.</p>
+      </div>
+
+      <div class="und-langkah" data-reveal data-d="1">
+        <h3>2. Android akan menolaknya dulu &mdash; ini langkahnya</h3>
+        <p>Menolak berkas dari luar Play Store adalah perilaku bawaan Android, dan itu memang seharusnya. Anda perlu mengizinkannya satu kali:</p>
+        <ol>
+          <li>Unduh berkas <b>.apk</b>-nya. Biasanya masuk ke folder <b>Unduhan</b>.</li>
+          <li>Ketuk berkasnya. Android menolak dan menawarkan tombol menuju <b>Setelan</b>.</li>
+          <li>Di layar itu, nyalakan <b>&ldquo;Izinkan dari sumber ini&rdquo;</b>. Izin ini melekat pada aplikasi yang Anda pakai membuka berkasnya (Chrome, Files, atau Drive) &mdash; <b>bukan pada seluruh ponsel</b>.</li>
+          <li>Kembali, ketuk berkasnya lagi, lalu <b>Pasang</b>.</li>
+          <li>Play Protect mungkin memperingatkan karena pemasangnya bukan Play Store. Itu wajar untuk berkas dari luar toko &mdash; pastikan SHA-256-nya cocok sebelum melanjutkan.</li>
+          <li>Sesudah selesai, sebaiknya <b>matikan lagi</b> izin di langkah 3.</li>
+        </ol>
+        <p style="margin-top:10px">Di Android 7 dan yang lebih lama, saklarnya ada satu untuk seluruh ponsel: <b>Setelan &rsaquo; Keamanan &rsaquo; Sumber tidak dikenal</b>.</p>
+      </div>
+
+      <div class="und-langkah" data-reveal>
+        <h3>3. Berkas ini bertanda tangan <b>kunci rilis kami</b></h3>
+        <p>Kelima APK ditandatangani <b>kunci rilis PT WOSU Innovation Technology</b>, bukan kunci debug bawaan Android. Sidik jari sertifikatnya, sama untuk kelimanya:</p>
+        <div class="und-kode und-kode--bungkus" data-sidik-sha1>SHA-1 2A:87:0D:1B:69:D1:46:1C:A8:7E:DD:68:41:68:1C:5B:65:44:67:E7 &middot; pemilik CN=PT WOSU Innovation Technology, OU=Glyiv, O=PT WOSU Innovation Technology, L=Indonesia, C=ID</div>
+        <p style="margin-top:12px">Yang perlu Anda tahu dari fakta itu:</p>
+        <ol>
+          <li><b>Tidak bisa diperbarui lewat Play Store nanti.</b> Android menganggap aplikasi bertanda tangan berbeda sebagai aplikasi yang berbeda. Kalau kami terbit di Play Store kelak, versi ini harus <b>dicopot dulu</b> lalu dipasang ulang dari toko.</li>
+          <li><b>Data di dalam aplikasi ikut hilang</b> saat dicopot. Untuk Glyiv DBH, unggah dulu pengukuran yang tersimpan sebelum mencopotnya.</li>
+          <li>Sebagian ponsel kantor dan perangkat yang dikelola perusahaan <b>menolak</b> aplikasi bertanda tangan kunci debug.</li>
+        </ol>
+      </div>
+
+      <div class="und-langkah" data-reveal data-d="1">
+        <h3>4. Cara memeriksa berkas yang Anda unduh</h3>
+        <p>Cocokkan SHA-256 berkas yang turun ke perangkat Anda dengan angka di kartu aplikasinya. Kalau <b>satu huruf pun berbeda</b>, berkas itu bukan milik kami &mdash; jangan dipasang.</p>
+        <p><b>Windows</b> (Command Prompt, di folder tempat berkasnya berada):</p>
+        <div class="und-kode">certutil -hashfile Glyiv-Pocket.apk SHA256</div>
+        <p style="margin-top:12px"><b>macOS / Linux</b>:</p>
+        <div class="und-kode">shasum -a 256 Glyiv-Pocket.apk</div>
+        <p style="margin-top:12px"><b>Android</b>: pasang aplikasi penghitung hash dari Play Store, atau lewat Termux:</p>
+        <div class="und-kode">sha256sum /sdcard/Download/Glyiv-Pocket.apk</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ Dokumen hukum ═════════════════════════════════════════════════════
+       Play Store MEWAJIBKAN URL kebijakan privasi yang bisa dibuka publik tanpa
+       masuk, dan halaman inilah tempat orang berdiri tepat sebelum memasang
+       aplikasi — jadi tautannya ditaruh di sini, bukan hanya di kaki halaman.
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div class="ga-sec" id="dokumen-hukum">
+    <div class="und-langkah" data-reveal>
+      <h3>Sebelum memasang: dua dokumen yang mengikat</h3>
+      <!-- ⚠︎ TANPA <b> DI TENGAH KALIMAT, DAN ITU DISENGAJA. Mesin i18n situs
+           menerjemahkan per SIMPUL TEKS; satu <b> di tengah kalimat memecahnya
+           jadi tiga potongan (". Keduanya bisa dibaca…", ", dan", …) yang tidak
+           akan pernah punya terjemahan yang masuk akal. Halaman ini diaudit
+           `audit-bahasa.cjs` dengan ratchet 0 — kalimat utuh menjaganya tetap 0. -->
+      <p>Memakai aplikasi Glyiv &mdash; berkas APK maupun versi webnya &mdash; berarti Anda menyetujui kedua dokumen di bawah, termasuk bahwa data Anda kami kelola sebagaimana tertulis di sana. Keduanya bisa dibaca siapa saja tanpa masuk, dan masing-masing punya nomor versi serta tanggal berlaku yang terlihat di layar.</p>
+      <div class="und-aksi" style="margin-top:14px">
+        <a class="und-b und-b--web" href="/ketentuan.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/></svg>Ketentuan Layanan</a>
+        <a class="und-b und-b--web" href="/privasi.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.4 3 8.2 7 9 4-.8 7-4.6 7-9V6Z"/></svg>Kebijakan Privasi</a>
+      </div>
+      <p style="margin:14px 0 0">Dua hal yang paling sering ditanyakan sudah dijawab di sana:</p>
+      <ol style="margin:8px 0 0;padding-left:22px;list-style:decimal;color:var(--slate);font-size:13.5px;line-height:1.75">
+        <li>Foto lapangan Glyiv DBH tidak pernah meninggalkan perangkat Anda.</li>
+        <li>Pengukuran dan area lahan Anda tidak bisa dibaca admin Glyiv &mdash; itu ditegakkan aturan di server, bukan sekadar janji.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ═══ Kenapa berkasnya kecil ════════════════════════════════════════════ -->
+  <div class="ga-sec">
+    <div class="und-langkah" data-reveal>
+      <h3>Kenapa berkasnya hanya puluhan kilobyte?</h3>
+      <p>Karena aplikasi ini <b>membungkus versi webnya</b>, bukan menyalinnya ke dalam berkas. Tampilan dan datanya dimuat dari server Glyiv saat aplikasi dibuka &mdash; jadi yang ada di dalam APK hanyalah pembungkusnya: ikon, nama, dan kode yang membuka jendela. Itulah alasan 20&ndash;29 KB, dan itu bukan tanda berkasnya rusak atau kosong.</p>
+      <p style="margin:10px 0 0">Konsekuensinya jujur juga: <b>pemakaian pertama butuh koneksi</b>, dan aplikasi ini tidak menawarkan apa pun yang tidak bisa Anda dapat dari versi webnya. Yang ia tambahkan adalah ikon di layar utama, tampilan layar penuh tanpa bilah alamat, dan &mdash; khusus Glyiv News &mdash; widget layar utama.</p>
+    </div>
+  </div>
+
+</div>
+
+<section class="lsec tight paper"><div class="lwrap">
+  <p class="lnote" style="margin:0;padding-top:0;border-top:0">&#9888;&#65038; Berkas APK di halaman ini adalah <b>rilis awal bertanda tangan kunci resmi kami</b>, dilayani langsung dari situs ini supaya aplikasinya bisa dicoba sebelum masuk toko resmi. Ia bukan produk bersertifikat, tidak diperiksa Google Play Protect sebelum diunggah, dan tidak menerima pembaruan otomatis. Penerbitan di Play Store &mdash; termasuk penandatanganan dengan kunci rilis &mdash; masih <b>peta jalan</b>. Aplikasi untuk iOS belum ada; untuk sekarang pengguna iPhone dan iPad memakai versi webnya, yang bisa ditambahkan ke layar utama lewat menu Bagikan di Safari.</p>
+</div></section>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/download-apk.js"></script>
+<script>
+/* ═══ UNDUH APK — menyalakan tombol dari /assets/js/download-apk.js ═══════════════
+   Halaman sengaja LAHIR dalam keadaan "belum tersedia" dengan alasannya tertulis
+   di layar. Skrip ini hanya MENAIKKAN keadaan kalau tautannya benar-benar ada.
+   Kalau skrip ini gagal dimuat, yang tampil tetap jujur — bukan tombol menyala
+   yang menuju ke mana-mana.
+
+   Dijalankan ulang tiap halaman dibuka (porter menaruh skrip inline di
+   PAGE_SCRIPTS), jadi ia tidak boleh punya penjaga "sudah pernah jalan". */
+(function () {
+  "use strict";
+  var data = (window.GLYIV_APK || {});
+  var tautan = data.tautan || {};
+
+  var kartu = document.querySelectorAll("[data-apk]");
+  if (!kartu.length) return;
+
+  var siap = 0;
+  Array.prototype.forEach.call(kartu, function (el) {
+    var paket = el.getAttribute("data-apk");
+    var url = String(tautan[paket] || "").trim();
+    var btn = el.querySelector("[data-unduh]");
+    var label = el.querySelector("[data-label-unduh]");
+    var sebab = el.querySelector("[data-sebab]");
+    if (!btn) return;
+
+    if (url) {
+      siap += 1;
+      btn.setAttribute("href", url);
+      btn.setAttribute("rel", "noopener");
+      btn.classList.remove("und-b--mati");
+      btn.removeAttribute("aria-disabled");
+      if (label) label.textContent = "Unduh APK";
+      if (sebab) sebab.hidden = true;
+    } else {
+      /* Idempoten: kalau tautannya DIHAPUS lagi, kartunya kembali jujur. */
+      btn.removeAttribute("href");
+      btn.classList.add("und-b--mati");
+      btn.setAttribute("aria-disabled", "true");
+      if (label) label.textContent = "Unduh APK — belum tersedia";
+      if (sebab) sebab.hidden = false;
+    }
+  });
+
+  var tunggu = document.querySelector("[data-pita-tunggu]");
+  var siapPita = document.querySelector("[data-pita-siap]");
+  var semua = siap === kartu.length;
+  /* Sidik di kartu selalu sidik berkas yang ADA DI REPO. Selama berkas di
+     tautan unduhan belum diganti, kedua angka itu beda — dan pengunjung yang
+     mencocokkannya akan mengira aplikasi kami palsu. Katakan lebih dulu.
+     Ketat `=== false`: kalau medannya belum ada sama sekali (berkas data lama),
+     jangan menakut-nakuti tanpa dasar. */
+  var driveBasi = data.driveMutakhir === false;
+  var pitaDrive = document.querySelector("[data-pita-drive]");
+  if (pitaDrive) pitaDrive.hidden = !(semua && driveBasi);
+
+  if (tunggu) tunggu.hidden = semua;
+  /* ⚠︎ Pita "siap" MENYURUH mencocokkan sidik; pita Drive menyuruh MENUNGGU.
+     Dua-duanya berdiri bersama = pengunjung diberi dua perintah yang berlawanan
+     dalam satu layar, dan yang ia turuti adalah yang pertama ia baca. Selama
+     berkas di Drive masih lama, hanya pita Drive yang boleh berdiri. */
+  if (siapPita) siapPita.hidden = !semua || driveBasi;
+
+  /* Tanggal build dari berkas data — supaya tidak ada dua sumber kebenaran. */
+  if (data.dibangun) {
+    var slotTgl = document.querySelector("[data-dibangun]");
+    if (slotTgl) {
+      var bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli",
+                   "Agustus","September","Oktober","November","Desember"];
+      var p = String(data.dibangun).split("-");
+      if (p.length === 3) slotTgl.textContent = (+p[2]) + " " + bulan[(+p[1]) - 1] + " " + p[0];
+    }
+  }
+
+  /* Sidik jari sertifikat juga dari berkas data. */
+  if (data.sertifikat && data.sertifikat.sha1) {
+    var slotCert = document.querySelector("[data-sidik-sha1]");
+    if (slotCert) {
+      slotCert.textContent = "SHA-1 " + data.sertifikat.sha1 +
+        (data.sertifikat.nama ? " · pemilik " + data.sertifikat.nama : "");
+    }
+  }
+
+  /* Salin SHA-256 — 64 huruf tidak mungkin diblok dengan jari di layar sentuh. */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-salin]"), function (b) {
+    b.addEventListener("click", function () {
+      var kotak = b.closest(".und-sidik");
+      var nilai = kotak && kotak.querySelector("[data-sha]");
+      if (!nilai) return;
+      var teks = (nilai.textContent || "").trim();
+      var pulih = function (ms) {
+        setTimeout(function () { b.textContent = "Salin"; b.classList.remove("ok"); }, ms);
+      };
+      var berhasil = function () { b.textContent = "Tersalin"; b.classList.add("ok"); pulih(1800); };
+      /* ⚠︎ `navigator.clipboard.writeText` BISA DITOLAK walau konteksnya aman dan
+         dokumennya fokus — terukur di Chrome headless: "NotAllowedError: Write
+         permission denied". Peramban dalam aplikasi (WebView) juga sering
+         menolaknya. Kata "Gagal" saja membuat tombolnya terbaca rusak; yang
+         benar adalah MENYOROT teksnya dan mengatakan apa yang harus dilakukan,
+         supaya jalan keluarnya tetap ada tanpa papan klip. */
+      var cadangan = function () {
+        try {
+          var r = document.createRange(); r.selectNodeContents(nilai);
+          var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+          b.textContent = "Disorot — salin";
+        } catch (e) {
+          b.textContent = "Tekan lama teksnya";
+        }
+        b.classList.remove("ok");
+        pulih(3200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(teks).then(berhasil, cadangan);
+      } else {
+        cadangan();
+      }
+    });
+  });
+})();
+</script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+</body>
+</html>

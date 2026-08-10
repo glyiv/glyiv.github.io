@@ -41,24 +41,82 @@
   const navHrefs = [...new Set(navItems.map((a) => a.getAttribute("href")).filter((h) => h && h.startsWith("#")))];
   const sections = navHrefs.map((h) => document.getElementById(h.slice(1))).filter(Boolean);
   const progress = $("#gvProgress");
-  function setActive() {
-    if (!sections.length) return;
-    const line = window.innerHeight * 0.34;
-    let cur = sections[0];
-    for (const s of sections) { if (s.getBoundingClientRect().top <= line) cur = s; }
-    const id = cur.id;
-    navItems.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + id));
+  /* ⛔ DUA PEMBACAAN TATA LETAK PER BINGKAI GULIR — DIHAPUS, BUKAN DIPERCEPAT.
+     Jejak kinerja sungguhan di https://glyiv.web.app (1280x800, CPU 4x, gulir
+     penuh 9.042 px naik-turun) menamai berkas ini penyebab forced reflow kedua
+     terbesar: **1.725 ms**. Dua sumbernya, dan keduanya di jalur gulir:
+       1. `h.scrollHeight` — memaksa tata letak, dibaca SETIAP bingkai gulir,
+          padahal tinggi dokumen hanya berubah saat ukuran/isi berubah;
+       2. `setActive()` memanggil `getBoundingClientRect()` untuk SETIAP seksi,
+          setiap bingkai. Di beranda itu 8+ pembacaan per bingkai.
+
+     Penggantinya tidak membaca tata letak sama sekali:
+       1. `maksGulir` di-cache; dihitung ulang hanya pada `resize` dan saat
+          `ResizeObserver` melihat tinggi dokumen benar-benar berubah
+          (gambar selesai dimuat, seksi terbuka, dsb.);
+       2. seksi aktif ditentukan `IntersectionObserver` dengan `rootMargin`
+          yang membentuk PITA setinggi nol pada 34 % tinggi layar — ambang yang
+          persis sama dengan `window.innerHeight * 0.34` di versi lama, tetapi
+          dihitung oleh peramban di luar jalur utama.
+
+     ⚠︎ Urutan DOM dipakai untuk memilih pemenang saat dua seksi menyentuh pita
+     yang sama; itu meniru perilaku lama (`for` menimpa `cur` sampai yang
+     terakhir yang lolos), jadi seksi yang ditandai tidak berubah. */
+  /* ⛔ `ResizeObserver` PADA `documentElement` SUDAH DICOBA DAN DIBUANG LAGI —
+     ia justru menciptakan putaran umpan-balik: bilah kemajuan menulis
+     `style.width` di dalam rAF → tata letak batal → pengamat menyala →
+     `ukurMaks()` membaca `scrollHeight` → tata letak DIPAKSA, di dalam bingkai
+     gulir yang sama. Terukur di jejak: 79 ms di `ukurMaks` plus 787 ms pada
+     bingkai rAF yang memanggilnya.
+     Penggantinya bendera BASI: pembacaan `scrollHeight` ditunda sampai bingkai
+     berikutnya YANG MEMBUTUHKANNYA, dan hanya sesudah sesuatu yang benar-benar
+     mengubah tinggi dokumen. Gulir biasa tidak pernah menyalakannya. */
+  let maksGulir = 0;
+  let maksBasi = true;
+  function ukurMaks() {
+    const h = document.documentElement;
+    maksGulir = h.scrollHeight - h.clientHeight;
+    maksBasi = false;
   }
+  const tandaiBasi = () => { maksBasi = true; };
+  addEventListener("resize", tandaiBasi, { passive: true });
+  addEventListener("load", tandaiBasi, { passive: true });
+  addEventListener("orientationchange", tandaiBasi, { passive: true });
+  /* Gambar yang selesai dimuat adalah penyebab paling sering tinggi dokumen
+     berubah sesudah cat pertama. `capture:true` karena `load` gambar tidak
+     menggelembung. */
+  addEventListener("load", tandaiBasi, { passive: true, capture: true });
+
+  if (sections.length) {
+    const diPita = new Set();
+    const urut = new Map(sections.map((s, i) => [s, i]));
+    const tandai = () => {
+      let cur = null;
+      for (const s of diPita) if (!cur || urut.get(s) > urut.get(cur)) cur = s;
+      if (!cur) return;                 /* tidak ada yang di pita → biarkan */
+      const id = cur.id;
+      navItems.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === "#" + id));
+    };
+    const io = new IntersectionObserver((entri) => {
+      for (const e of entri) { if (e.isIntersecting) diPita.add(e.target); else diPita.delete(e.target); }
+      tandai();
+    }, { rootMargin: "-34% 0px -66% 0px", threshold: 0 });
+    sections.forEach((s) => io.observe(s));
+  }
+
   let ticking = false;
   function onScroll() {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
-      const h = document.documentElement;
-      const max = h.scrollHeight - h.clientHeight;
-      const pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      /* `scrollY` TIDAK memaksa tata letak (nilai gulir memang sudah dipegang
+         peramban); `scrollHeight` yang memaksanya — dan ia hanya dibaca ulang
+         kalau ada yang benar-benar mengubah tinggi dokumen. Pembacaan itu
+         ditaruh SEBELUM penulisan gaya, jadi urutannya baca-lalu-tulis dan
+         tidak pernah menjadi layout thrashing. */
+      if (maksBasi) ukurMaks();
+      const pct = maksGulir > 0 ? (window.scrollY / maksGulir) * 100 : 0;
       if (progress) progress.style.width = pct.toFixed(2) + "%";
-      setActive();
       ticking = false;
     });
   }
@@ -499,7 +557,8 @@ ATURAN: Jangan mengarang fakta/angka di luar ini. Kalau ditanya hal teknis/bisni
     function setPhase(p) {
       gi = ((p % N) + N) % N;
       gl.setAttribute("data-phase", gi);
-      if (fill) fill.style.width = cover[gi] + "%";
+      /* `--gl-isi` (0–1), bukan `style.width`: lihat .gl-fill di glyiv.css. */
+      if (fill) fill.style.setProperty("--gl-isi", String(cover[gi] / 100));
       terr.forEach((s) => s.classList.toggle("is-on", +s.dataset.t === gi));
       regions.forEach((r) => r.classList.toggle("lit", gi >= (regUnlock[r.dataset.region] || 1)));
       routes.forEach((r) => r.classList.toggle("lit", gi >= +r.dataset.r));

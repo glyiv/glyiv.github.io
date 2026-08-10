@@ -1,0 +1,37 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# glyiv.github.io — PERAYAPAN SENGAJA DIIZINKAN
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# Situs ini sedang DIKELUARKAN dari indeks mesin pencari. Pengunjung manusia
+# tetap dilayani seperti biasa (permintaan pemilik: "tetap berlaku diinternet").
+#
+# ⛔ JANGAN MENAMBAHKAN "Disallow: /" DI BERKAS INI.
+#
+# Itu terasa seperti langkah yang benar dan justru MEMBATALKAN seluruh
+# pekerjaannya. Alasannya:
+#
+#   · "Disallow" melarang PERAYAPAN, bukan PENGINDEKSAN. URL yang dilarang
+#     dirayapi tetap bisa muncul di hasil pencarian — sebagai entri telanjang
+#     tanpa judul dan tanpa cuplikan, dirakit dari teks tautan situs lain.
+#
+#   · Yang benar-benar mengeluarkan halaman dari indeks adalah direktif
+#     <meta name="robots" content="noindex, follow"> di dalam <head> setiap
+#     halaman (62 halaman, dipasang scripts/seo-github-io.cjs).
+#
+#   · Dan di situlah jebakannya: perayap yang TIDAK BOLEH mengambil halaman juga
+#     TIDAK BISA MEMBACA "noindex" di dalamnya. "Disallow: /" berarti perintah
+#     keluar itu tidak akan pernah sampai — halaman yang sudah telanjur
+#     terindeks akan menetap di sana, permanen.
+#
+#   Larangan merayap = larangan menerima perintah keluar.
+#
+# Sesudah seluruh halaman benar-benar hilang dari hasil pencarian (hitungan
+# minggu sampai bulan, dipantau lewat Google Search Console), "Disallow: /"
+# BOLEH ditambahkan sebagai penghematan kuota rayap. Sebelum itu: jangan.
+#
+# Tidak ada baris "Sitemap:" di sini, dan itu disengaja — peta situs adalah
+# undangan untuk mengindeks, dan host ini justru tidak ingin diindeks. Peta
+# situsnya ada di host kanonik (glyiv.io), lihat public/robots.txt.
+
+User-agent: *
+Allow: /

@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scan Karbon — Foto Item, Dapat Estimasi &amp; Kredit — Glyiv</title>
 <meta name="description" content="Scan Karbon Glyiv: foto item yang kamu beli atau ketik namanya, agen AI mengestimasi jejak karbonnya (estimasi terlacak, berjenjang, bersumber), lalu kamu dapat kredit ke Glyiv Dompet.">
@@ -19,9 +20,15 @@
 .sc-view.live video{display:block}.sc-view.live .item{display:none}
 .sc-view.shot canvas{display:block}.sc-view.shot video,.sc-view.shot .item{display:none}
 .sc-camctl{display:flex;gap:8px;margin-top:12px}.sc-camctl .ga-btn{flex:1;margin-top:0}
-.sc-view .scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#33d188,transparent);box-shadow:0 0 12px #33d188;top:0;opacity:0;z-index:3}
+/* ⚠︎ Dulu `top: 6% → 94%` — properti tata letak, dihitung ulang tiap bingkai
+   selama 1,1 detik setiap pemindaian. Persen pada `translateY` mengacu ke kotak
+   ELEMEN SENDIRI, jadi elemennya dijadikan REL setinggi kamera dan garisnya
+   digambar `::before`; 6%/94% pun tetap 6%/94% dari tinggi kamera. */
+.sc-view .scanline{position:absolute;left:0;right:0;top:0;bottom:0;opacity:0;z-index:3;pointer-events:none}
+.sc-view .scanline::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,#33d188,transparent);box-shadow:0 0 12px #33d188}
 .sc-cam.scan .scanline{animation:scScan 1.1s ease-in-out}
-@keyframes scScan{0%{top:6%;opacity:1}100%{top:94%;opacity:0}}
+@keyframes scScan{0%{transform:translateY(6%);opacity:1}100%{transform:translateY(94%);opacity:0}}
+@media (prefers-reduced-motion:reduce){.sc-cam.scan .scanline{animation:none!important;opacity:0!important}}
 .sc-corner{position:absolute;width:26px;height:26px;border:2px solid rgba(138,255,193,.6)}
 .sc-corner.tl{top:14px;left:14px;border-right:0;border-bottom:0;border-radius:6px 0 0 0}
 .sc-corner.tr{top:14px;right:14px;border-left:0;border-bottom:0;border-radius:0 6px 0 0}
@@ -43,6 +50,22 @@
 .sc-comp .tr{flex:1;height:9px;background:var(--hair);border-radius:999px;overflow:hidden}
 .sc-comp .tr i{display:block;height:100%;border-radius:999px}
 .sc-comp .vl{width:52px;text-align:right;font-family:var(--l-mono);font-size:10px;color:var(--muted);flex:0 0 auto}
+.sc-fine{font-family:var(--l-mono);font-size:9.5px;color:var(--muted);line-height:1.6;margin:10px 0 4px}
+.sc-orlbl{font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:16px 0 7px}
+.sc-box{border-radius:12px;padding:12px 13px;font-size:12.5px;line-height:1.6}
+.sc-box b{display:block;margin-bottom:3px}
+.sc-box.warn{background:rgba(176,137,79,.09);border:1px solid rgba(176,137,79,.32);color:var(--ink)}
+.sc-box.stop{background:rgba(201,139,107,.1);border:1px solid rgba(201,139,107,.34);color:var(--ink)}
+.sc-box .why{color:var(--slate);font-size:12px}
+.sc-kands{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.sc-kand{border:1px solid var(--hair);background:#fff;border-radius:10px;padding:7px 11px;font-size:12px;font-weight:600;color:var(--pine);cursor:pointer;text-align:left;line-height:1.35}
+.sc-kand:hover{border-color:var(--teal);background:rgba(31,122,107,.06)}
+.sc-kand small{display:block;font-family:var(--l-mono);font-size:9px;font-weight:400;color:var(--muted)}
+.sc-prov{border-top:1px solid var(--hair);margin-top:14px;padding-top:11px}
+.sc-prov dl{display:grid;grid-template-columns:auto 1fr;gap:5px 11px;margin:0;font-size:12px}
+.sc-prov dt{font-family:var(--l-mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.sc-prov dd{margin:0;color:var(--ink)}
+.sc-prov .warnlist{margin:9px 0 0;padding-left:15px;font-size:11.5px;color:var(--slate);line-height:1.55}
 .sc-login{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .sc-gbtn{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--hair);border-radius:10px;padding:9px 14px;font-weight:600;font-size:13px;color:var(--ink);cursor:pointer}
 .sc-gbtn:hover{border-color:var(--teal)}
@@ -53,13 +76,13 @@
 <div id="ga-nav"></div>
 
 <section class="ga-hero">
-  <img class="bg" src="/lab/img/fnb-ritel.webp" alt="Scan Karbon">
+  <img class="bg" alt="Scan Karbon" width="1600" height="1000" sizes="100vw" src="/lab/img/fnb-ritel.webp" srcset="/lab/img/fnb-ritel-600.webp 600w, /lab/img/fnb-ritel-900.webp 900w, /lab/img/fnb-ritel.webp 1600w">
   <div class="ga-hero__in">
     <div>
       <div class="ga-crumb"><a href="/">Glyiv</a> &rsaquo; <a href="/#ekosistem">Ekosistem</a> &rsaquo; Scan Karbon</div>
       <span class="ga-badge"><i></i> Alat &middot; gamifikasi</span>
       <h1>Glyiv <em>Scan Karbon</em></h1>
-      <p>Foto item, tahu karbonnya. Agen AI Glyiv mengestimasi jejaknya secara berjenjang dan bersumber, lalu <b>kreditnya masuk ke dompet Anda</b>.</p>
+      <p>Foto item, dapat perkiraan karbonnya. Barangnya dikenali model penglihatan, angkanya dihitung dari pustaka faktor emisi bersumber — lalu <b>kreditnya masuk ke dompet Anda</b>.</p>
     </div>
     <div class="ga-hero__aside"><div><div class="k">Kredit</div><div class="v g" data-hcr>◈ 0</div></div><div><div class="k">Di-scan</div><div class="v" data-hn>0</div></div></div>
   </div>
@@ -82,20 +105,29 @@
       <div class="ga-card__b">
         <div class="sc-cam" data-cam>
           <div class="sc-view"><span class="sc-corner tl"></span><span class="sc-corner tr"></span><span class="sc-corner bl"></span><span class="sc-corner br"></span><span class="item" data-camitem>📷</span><video data-camvid autoplay playsinline muted></video><canvas data-camcanvas></canvas><div class="scanline"></div></div>
-          <div class="sc-status" data-status>Aktifkan kamera untuk scan langsung — atau pilih contoh item, atau ketik nama/harga.</div>
+          <!-- ⛔ JANGAN kembalikan kata “harga” ke sini. Baris ini sempat berbunyi
+               “…atau ketik nama/harga”, padahal jalur berbasis harga DIMATIKAN di
+               ronde ini (faktor EEIO/EXIOBASE Indonesia belum ditarik). Halaman
+               yang menawarkan jalan yang tidak ada adalah halaman yang berbohong
+               di kalimat pertama yang dibaca orang. -->
+          <div class="sc-status" data-status>Aktifkan kamera untuk scan langsung — atau ketik nama bahannya di bawah.</div>
         </div>
         <div class="sc-camctl">
           <button class="ga-btn teal" data-camstart>📷 Aktifkan kamera</button>
-          <button class="ga-btn teal" data-scan>📸 Scan item</button>
+          <button class="ga-btn teal" data-scan>📸 Potret &amp; kenali</button>
         </div>
-        <p style="font-family:var(--l-mono);font-size:9.5px;color:var(--muted);line-height:1.5;margin:10px 0 4px">Kamera nyata di browser — foto tak diunggah, diproses di perangkat. Pengenalan objek otomatis (CV) ada di roadmap; untuk pratinjau, konfirmasi item dari contoh di bawah.</p>
-        <div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:8px 0 6px">Pilih / konfirmasi item</div>
+        <p class="sc-fine">Foto <b>dikecilkan di perangkat</b> (sisi terpanjang 640 px, JPEG) lalu <b>dikirim ke server Glyiv</b> untuk dikenali model penglihatan. Model hanya menjawab <i>“ini barang apa, kira-kira berapa gram”</i> — <b>angka karbonnya dihitung di perangkat Anda</b> dari pustaka faktor emisi Glyiv, supaya tiap angka bisa dilacak ke sumbernya. Glyiv tidak menyimpan fotonya; ia diteruskan ke penyedia model hanya untuk dikenali.</p>
+
+        <div class="sc-orlbl">…atau tanpa kamera: ketik bahannya</div>
+        <div style="display:flex;gap:8px;align-items:flex-end">
+          <div class="ga-fld" style="flex:1"><label>nama bahan</label><input data-name placeholder="mis. daging ayam, susu uht, gula pasir"></div>
+          <div class="ga-fld" style="width:82px"><label>jumlah</label><input data-qty type="number" step="any" value="250"></div>
+          <div class="ga-fld" style="width:78px"><label>satuan</label><input data-unit value="g"></div>
+        </div>
+        <button class="ga-btn glass" data-lookup style="width:100%;margin-top:10px">Hitung dari pustaka faktor</button>
+        <div class="sc-orlbl">Contoh input — <b>bukan hasil pindaian</b>, hanya mengisi kolom di atas</div>
         <div class="sc-samples" data-samples></div>
-        <div style="display:flex;gap:8px;align-items:flex-end;margin-top:14px">
-          <div class="ga-fld" style="flex:1"><label>…atau ketik nama produk</label><input data-name placeholder="mis. botol air, kopi, kaos"></div>
-          <div class="ga-fld" style="width:120px"><label>harga (opsional)</label><input data-price type="number" placeholder="Rp"></div>
-        </div>
-        <button class="ga-btn glass" data-lookup style="width:100%;margin-top:10px">Estimasi dari nama/harga</button>
+        <p class="sc-fine" data-unitshelp></p>
       </div>
     </div>
 
@@ -110,16 +142,17 @@
       <span class="ga-kick">Bagaimana agen mengestimasi</span>
       <h2 class="ga-h2" style="margin-bottom:14px">Berjenjang, jujur, <span class="ga-em">selalu berentang.</span></h2>
       <div class="ga-steps">
-        <div class="ga-step"><b>Kenali produk</b><p>Dari foto (computer vision → kategori + material/kemasan) atau dari nama/kategori.</p></div>
-        <div class="ga-step"><b>Urai jadi komponen</b><p>Agen memecah: material, kemasan, transport, fase pakai, akhir-hidup.</p></div>
-        <div class="ga-step"><b>Cocokkan faktor emisi</b><p>Activity-based (ecoinvent, Poore &amp; Nemecek, Agribalyse, DEFRA); fallback spend-based (EXIOBASE) bila hanya ada harga.</p></div>
-        <div class="ga-step"><b>Beri rentang &amp; tier</b><p>Setiap angka membawa rentang ketidakpastian &amp; label tier data (T1 EPD → T4 spend-based).</p></div>
+        <div class="ga-step"><b>Kenali barang (di server)</b><p>Foto dikecilkan di perangkat lalu dikirim ke model penglihatan. Model hanya menjawab <b>nama barang, kategori, perkiraan gram, keyakinan</b> — ia <b>tidak pernah diminta menyebut angka karbon</b>, karena angka karangan model tak terlacak ke apa pun.</p></div>
+        <div class="ga-step"><b>Cocokkan ke pustaka faktor</b><p>Nama barang dicocokkan ke pustaka faktor emisi Glyiv (Poore &amp; Nemecek, ADEME Agribalyse, ESDM/DJK) di perangkat. Skor kecocokan ditampilkan apa adanya.</p></div>
+        <div class="ga-step"><b>Ragu → berhenti, bukan menebak</b><p>Bila keyakinan rendah, bahannya di luar pustaka, atau dua faktor sama kuat dengan nilai berbeda, halaman ini <b>tidak menampilkan angka</b> — ia meminta konfirmasi atau berkata belum bisa diperkirakan.</p></div>
+        <div class="ga-step"><b>Beri rentang &amp; tier</b><p>Setiap angka membawa rentang ketidakpastian &amp; label tier data (T2 faktor nasional → T4 proksi). ⚠︎ Belum ada satu baris pun yang mencapai T1.</p></div>
       </div>
       <details class="im-meth" style="margin-top:14px"><summary style="cursor:pointer;font-weight:700;color:var(--pine);padding:10px 0">Rumus &amp; sumber ↓</summary>
-        <pre style="background:#0c261c;color:#dff3e6;border-radius:12px;padding:14px;overflow:auto;font-family:var(--l-mono);font-size:10px;line-height:1.55">E_total = Σ (Q_i × EF_i) ± U        (kg CO₂e per unit)
-  activity-based: Σ material·EF + kemasan·EF + jarak·EF_transport + E_pakai
-  fallback harga: E ≈ (harga/(1+pajak)/margin) × EF_EEIO(sektor) · k_fx   [BATAS ATAS kasar]
-Rentang (pola ecoinvent pedigree): [EF/GSD^1.645 , EF×GSD^1.645]</pre>
+        <pre style="background:#0c261c;color:#dff3e6;border-radius:12px;padding:14px;overflow:auto;font-family:var(--l-mono);font-size:10px;line-height:1.55">kg CO₂e = jumlah (satuan dasar faktor) × EF        ± rentang tier
+  jalur foto : gram model ÷ 1000 → kg → (jembatan satuan bila faktornya per liter/butir) × EF
+  rentang    : T2 ±20%  ·  T3 ±35%  ·  T4 ±60%     (RENTANG_TIER, pustaka faktor Glyiv)
+  jalur harga: BELUM AKTIF — faktor EEIO/EXIOBASE 3 Indonesia belum ditarik &amp; diverifikasi
+               dari rilis resmi, jadi angka spend-based TIDAK dihitung dari ingatan.</pre>
         <div class="im-src" style="display:grid;gap:8px;margin-top:10px">
           <a href="https://www.science.org/doi/10.1126/science.aaq0216" target="_blank" rel="noopener">Poore &amp; Nemecek (2018), Science ↗<small style="display:block;font-family:var(--l-mono);font-size:10px;color:var(--muted)">Faktor emisi pangan; dampak bisa beda ~50× antar produsen → wajib berentang.</small></a>
           <a href="https://ecoinvent.org/" target="_blank" rel="noopener">ecoinvent — LCI material/energi + pedigree matrix ↗</a>
@@ -131,7 +164,7 @@ Rentang (pola ecoinvent pedigree): [EF/GSD^1.645 , EF×GSD^1.645]</pre>
           <a href="https://www.mdpi.com/1424-8220/24/23/7660" target="_blank" rel="noopener">Food weight estimation via computer vision (Sensors 2024) ↗</a>
         </div>
       </details>
-      <p style="font-family:var(--l-mono);font-size:10px;color:var(--muted);margin-top:12px;line-height:1.6">⚠︎ Estimasi, bukan sertifikasi. Jalur harga (EXIOBASE) paling lemah (sensitif diskon/premium, bisa meleset puluhan %). Berat dari foto rapuh tanpa acuan skala. Database condong Eropa — faktor Indonesia bisa berbeda. Mendukung "kontribusi/jejak terlacak" untuk imbalan Glyiv, bukan klaim netral karbon.</p>
+      <p style="font-family:var(--l-mono);font-size:10px;color:var(--muted);margin-top:12px;line-height:1.6">⚠︎ Estimasi, bukan sertifikasi. Titik terlemahnya: <b>berat dari foto</b> — model menebak massa tanpa acuan skala, dan seluruh angka berskala lurus dengan tebakan itu. Pustaka faktornya condong Eropa/global sehingga faktor Indonesia bisa berbeda, dan sebagian besar barisnya tier T3–T4 (belum ada T1). Jalur berbasis harga <b>sengaja dimatikan</b>: faktor EEIO/EXIOBASE Indonesia belum ditarik dari rilis resmi, jadi angka spend-based tidak dihitung dari ingatan. Mendukung "kontribusi/jejak terlacak" untuk imbalan Glyiv, bukan klaim netral karbon.</p>
     </div>
 
     <div class="ga-card" style="grid-column:1/-1">
@@ -148,101 +181,349 @@ Rentang (pola ecoinvent pedigree): [EF/GSD^1.645 , EF×GSD^1.645]</pre>
 <script src="/lab/apps/apps-shell.js"></script>
 <script src="/assets/js/glyiv-nav.js" defer></script>
 <script src="/assets/js/glyiv-sources.js" defer></script>
+<script src="/assets/js/config.js"></script>
+<script src="/assets/js/faktor-emisi.js"></script>
 <script>
 (function(){
-  var $=GA.$,$$=GA.$$;
-  // sample items: em, name, category, total kg, range lo/hi, tier, components [label,%,color], source
-  var ITEMS=[
-    {em:"💧",nm:"Botol Air PET 600ml",cat:"Minuman",kg:0.08,lo:0.05,hi:0.13,tier:"t2",boundary:"cradle-to-retail",comp:[["Botol PET",58,"#1F7A6B"],["Transport",25,"#B0894F"],["Air &amp; isi",17,"#2f6ea0"]],src:"ecoinvent — PET & botolisasi|https://ecoinvent.org/"},
-    {em:"🥤",nm:"Kaleng Soda Aluminium",cat:"Minuman",kg:0.17,lo:0.11,hi:0.26,tier:"t2",boundary:"cradle-to-retail",comp:[["Aluminium",62,"#1F7A6B"],["Isi &amp; gula",20,"#2f6ea0"],["Transport",18,"#B0894F"]],src:"ecoinvent — aluminium can|https://ecoinvent.org/"},
-    {em:"☕",nm:"Kopi Kemasan Sachet",cat:"Makanan",kg:0.9,lo:0.5,hi:1.4,tier:"t2",boundary:"cradle-to-retail",comp:[["Biji kopi",55,"#1F7A6B"],["Produksi",25,"#B0894F"],["Kemasan",12,"#2f6ea0"],["Transport",8,"#7a5db0"]],src:"Poore & Nemecek 2018|https://www.science.org/doi/10.1126/science.aaq0216"},
-    {em:"🍫",nm:"Cokelat Batang 50g",cat:"Makanan",kg:1.9,lo:1.0,hi:3.5,tier:"t2",boundary:"cradle-to-retail",comp:[["Kakao",64,"#1F7A6B"],["Susu &amp; gula",18,"#2f6ea0"],["Kemasan",10,"#B0894F"],["Transport",8,"#7a5db0"]],src:"Poore & Nemecek 2018|https://www.science.org/doi/10.1126/science.aaq0216"},
-    {em:"👕",nm:"Kaos Katun",cat:"Fashion",kg:2.1,lo:1.3,hi:3.6,tier:"t2",boundary:"cradle-to-gate",comp:[["Kapas",46,"#1F7A6B"],["Produksi",32,"#B0894F"],["Pewarna",12,"#2f6ea0"],["Transport",10,"#7a5db0"]],src:"ecoinvent / DEFRA tekstil|https://ecoinvent.org/"},
-    {em:"🍱",nm:"Nasi Kotak Ayam",cat:"Makanan",kg:1.4,lo:0.8,hi:2.3,tier:"t3",boundary:"cradle-to-retail",comp:[["Ayam",44,"#1F7A6B"],["Nasi",26,"#2f6ea0"],["Kemasan",16,"#B0894F"],["Transport",14,"#7a5db0"]],src:"Poore & Nemecek 2018 / Agribalyse|https://doc.agribalyse.fr/documentation-en/"},
-    {em:"🧼",nm:"Sabun Batang",cat:"Rumah",kg:0.3,lo:0.18,hi:0.5,tier:"t3",boundary:"cradle-to-gate",comp:[["Minyak nabati",50,"#1F7A6B"],["Produksi",28,"#B0894F"],["Kemasan",12,"#2f6ea0"],["Transport",10,"#7a5db0"]],src:"ecoinvent — surfaktan|https://ecoinvent.org/"},
-    {em:"🥛",nm:"Susu UHT 1L",cat:"Makanan",kg:1.3,lo:0.9,hi:2.0,tier:"t2",boundary:"cradle-to-retail",comp:[["Susu (peternakan)",70,"#1F7A6B"],["Kemasan karton",14,"#B0894F"],["Transport",16,"#2f6ea0"]],src:"Poore & Nemecek 2018|https://www.science.org/doi/10.1126/science.aaq0216"}
-  ];
-  var cr=0, scanned=0, sel=ITEMS[0], loggedIn=false, streak=0;
-  var feed=GA.makeFeed("[data-feed]",[
-    ["ai","Agen siap","Pilih item & Scan — agen akan mengurai komponen & memberi estimasi berentang."]
-  ]);
-  function renderSamples(){
-    $("[data-samples]").innerHTML=ITEMS.map(function(it,i){return '<button class="sc-samp'+(it===sel?" on":"")+'" data-s="'+i+'" title="'+it.nm.replace(/&amp;/g,"&")+'">'+it.em+'</button>';}).join("");
-    $$("[data-s]").forEach(function(b){b.addEventListener("click",function(){sel=ITEMS[+b.dataset.s];renderSamples();$("[data-camitem]").textContent=sel.em;$("[data-status]").textContent="Item dipilih: "+sel.nm.replace(/&amp;/g,"&")+" — tekan Scan.";});});
+  "use strict";
+  var $=GA.$;
+  var F=window.GlyivFaktor;
+
+  /* ══ KONTRAK KE WORKER ═════════════════════════════════════════════════════
+     POST { gambar:"data:image/jpeg;base64,…" } ke chat-proxy-worker.js. Worker
+     memilih sendiri model vision yang hidup di akun Groq (nama model TIDAK
+     dipaku — Groq menghentikan model) lalu meneruskan balasan Groq apa adanya.
+     Yang kita pakai: { barang, kategori, gramPerkiraan, keyakinan } di dalam
+     choices[0].message.content.
+
+     ⛔ MODEL TIDAK PERNAH MENYEBUT ANGKA KARBON — sengaja. Karbonnya dihitung
+     DI SINI dari window.GlyivFaktor (dibangkitkan dari src/lib/emissionFactors.ts
+     oleh scripts/bangun-faktor-emisi.cjs), supaya tiap angka terlacak ke faktor
+     rujukan bernama. Angka yang dikarang model tidak terlacak ke apa pun. */
+  var PROXY=(window.GLYIV_CHAT_PROXY||"").trim();
+  var SISI_MAKS=640, MUTU=0.7, BATAS_BADAN=1400000; /* batas worker: 1,4 MB */
+  var AMBANG_KEYAKINAN_FOTO=0.5;
+
+  /* ── util ───────────────────────────────────────────────────────────────── */
+  function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+  function num(n,d){return Number(n).toFixed(d).replace(".",",");}
+  function kgTeks(kg){return kg<0.01?num(kg*1000,1)+" g":num(kg,kg<1?3:2)+" kg";}
+  function satuanFaktor(f){return f.satuanTampil||f.satuanDasar;}
+
+  /* ── 1. MENGECILKAN GAMBAR DI PERANGKAT ──────────────────────────────────
+     Mengirim foto kamera penuh dari ponsel berarti megabita di jaringan seluler
+     untuk pekerjaan yang sama. 640 px sisi terpanjang @ JPEG 0,7 sudah cukup
+     bagi model untuk mengenali barang sehari-hari. */
+  function kecilkan(sumber,sisi,mutu){
+    var w=sumber.width||sumber.videoWidth, h=sumber.height||sumber.videoHeight;
+    var skala=Math.min(1,sisi/Math.max(w,h));
+    var kw=Math.max(1,Math.round(w*skala)), kh=Math.max(1,Math.round(h*skala));
+    var c=document.createElement("canvas"); c.width=kw; c.height=kh;
+    c.getContext("2d").drawImage(sumber,0,0,kw,kh);
+    var url=c.toDataURL("image/jpeg",mutu);
+    /* Jaring pengaman: kalau masih di atas batas worker, kecilkan lagi — supaya
+       413 jadi hal yang hampir mustahil, bukan hal yang dialami pengguna. */
+    var sisiKini=sisi, mutuKini=mutu, putaran=0;
+    while(url.length>BATAS_BADAN&&putaran<4){
+      putaran++; sisiKini=Math.round(sisiKini*0.75); mutuKini=Math.max(0.4,mutuKini-0.1);
+      var s2=Math.min(1,sisiKini/Math.max(w,h));
+      c.width=Math.max(1,Math.round(w*s2)); c.height=Math.max(1,Math.round(h*s2));
+      c.getContext("2d").drawImage(sumber,0,0,c.width,c.height);
+      url=c.toDataURL("image/jpeg",mutuKini); kw=c.width; kh=c.height;
+    }
+    return {dataUrl:url,lebar:kw,tinggi:kh,bytes:url.length,mutu:mutuKini};
   }
-  function sync(){$("[data-hcr]").textContent="◈ "+cr;$("[data-hn]").textContent=scanned;}
-  function showResult(it,fromPrice,priceVal){
-    var tierLabel={t2:"T2 · activity-based",t3:"T3 · rata-rata kategori",t4:"T4 · spend-based (harga)"}[it.tier];
-    $("[data-result]").innerHTML=
-      '<div style="display:flex;gap:13px;align-items:center;margin-bottom:12px"><div style="width:64px;height:64px;border-radius:14px;background:linear-gradient(160deg,#eef7f2,#f6faf7);display:grid;place-items:center;font-size:32px;flex:0 0 auto">'+it.em+'</div>'+
-        '<div><h2 style="font-family:var(--l-serif);font-weight:600;font-size:20px;color:var(--pine);margin:0 0 3px">'+it.nm+'</h2><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="sc-tier '+it.tier+'">'+tierLabel+'</span><span style="font-family:var(--l-mono);font-size:9px;color:var(--muted)">batas: '+it.boundary+'</span></div></div></div>'+
-      '<div style="text-align:center;padding:8px 0 4px"><div class="im-big" style="font-family:var(--l-serif);font-weight:600;font-size:44px;color:var(--teal);line-height:1">'+it.kg.toFixed(2)+' <span style="font-family:var(--l-mono);font-size:13px;color:var(--muted)">kgCO₂e</span></div>'+
-        '<div style="font-family:var(--l-mono);font-size:11px;color:var(--muted);margin-top:6px" data-src="'+it.src+'" data-src-title="Sumber faktor emisi">rentang '+it.lo.toFixed(2)+' – '+it.hi.toFixed(2)+' kg (95%)</div></div>'+
-      (fromPrice?'<div style="font-family:var(--l-mono);font-size:10px;color:#c98b6b;text-align:center;margin:6px 0">⚠︎ dari harga '+GA.money(priceVal)+' → jalur spend-based (EXIOBASE), estimasi kasar/batas-atas.</div>':'')+
-      '<div style="font-family:var(--l-mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px">Rincian komponen (agen)</div>'+
-      '<div class="sc-comp">'+it.comp.map(function(c){return '<div class="r"><span class="lb">'+c[0]+'</span><span class="tr"><i style="width:'+c[1]+'%;background:'+c[2]+'"></i></span><span class="vl">'+c[1]+'%</span></div>';}).join("")+'</div>'+
-      '<div style="margin-top:14px;display:flex;gap:11px;align-items:center;background:linear-gradient(120deg,rgba(31,122,107,.08),rgba(31,122,107,.02));border:1px solid rgba(31,122,107,.2);border-radius:12px;padding:11px 13px"><span style="font-size:18px">⛭</span><div style="font-size:12.5px;color:var(--pine)"><b>Agen Glyiv</b><br><span style="color:var(--slate)">'+agentTip(it)+'</span></div></div>'+
-      '<button class="ga-btn teal" data-claim style="width:100%;margin-top:12px">Klaim kredit literasi (+'+claim(it)+' ◈)</button>';
-    if(window.GlyivSources)window.GlyivSources.scan($("[data-result]"));
+
+  /* ── 2. KEGAGALAN YANG TERBACA MANUSIA ───────────────────────────────────
+     Tiap sebab punya kalimatnya sendiri DAN langkah yang bisa ditindaklanjuti.
+     "Terjadi kesalahan" tidak memberi tahu siapa pun apa yang harus dilakukan. */
+  function pesanGagal(status,badan){
+    if(status===413) return {j:"Fotonya terlalu besar untuk dikirim.",s:"Halaman sudah mencoba mengecilkannya berkali-kali. Potret dari jarak lebih dekat, atau pakai jalur ketik nama bahan di bawah."};
+    if(status===503) return {j:"Pengenalan foto sedang mati: tidak ada model penglihatan aktif di akun Groq Glyiv.",s:"Ini di sisi kami, bukan di perangkat Anda. Jalur “ketik nama bahan” di bawah tetap jalan dan memakai pustaka faktor yang sama."};
+    if(status===403) return {j:"Alamat halaman ini belum diizinkan oleh proxy Glyiv.",s:"Buka lewat glyiv.github.io atau glyiv.web.app. Kalau ini server uji, tambahkan origin-nya ke ALLOW_ORIGINS di chat-proxy-worker.js lalu deploy ulang worker-nya."};
+    if(status===429) return {j:"Terlalu banyak permintaan dalam waktu singkat.",s:"Tunggu ±1 menit, lalu potret lagi."};
+    if(status===401) return {j:"Kunci Groq di worker ditolak.",s:"Perbarui secret GROQ_KEY di Cloudflare (Workers & Pages → glyiv-chat → Settings → Variables and Secrets), lalu deploy ulang."};
+    if(status===400) return {j:"Model menolak permintaannya (400).",s:"Biasanya soal format gambar. Potret ulang; kalau terus berulang, laporkan ke tim Glyiv."};
+    if(status>=500) return {j:"Layanan model sedang bermasalah (HTTP "+status+").",s:"Coba lagi beberapa menit lagi. Jalur ketik nama bahan tetap bisa dipakai."};
+    return {j:"Gagal mengenali foto (HTTP "+status+").",s:badan?("Balasan server: "+String(badan).slice(0,180)):"Potret ulang, atau pakai jalur ketik nama bahan."};
   }
-  function claim(it){return Math.max(2,Math.round(it.kg*3)+2);}
-  function agentTip(it){
-    if(it.cat==="Minuman")return "Bawa botol/tumbler sendiri bisa menghindari jejak kemasan sekali-pakai ini.";
-    if(it.nm.indexOf("Ayam")>=0||it.nm.indexOf("Cokelat")>=0||it.nm.indexOf("Susu")>=0)return "Komponen hewani/kakao mendominasi — porsi nabati menurunkan jejak signifikan.";
-    if(it.cat==="Fashion")return "Rawat & pakai lebih lama; serat daur ulang memangkas jejak produksi.";
-    return "Pilih kemasan minim & produk lokal untuk memangkas transport.";
+
+  function bacaBalasan(j){
+    if(j&&typeof j.barang==="string") return j;
+    var isi=j&&j.choices&&j.choices[0]&&j.choices[0].message&&j.choices[0].message.content;
+    if(typeof isi!=="string") return null;
+    try{return JSON.parse(isi);}catch(e){}
+    var m=isi.match(/\{[\s\S]*\}/);
+    if(m){try{return JSON.parse(m[0]);}catch(e2){}}
+    return null;
   }
+
+  /* ── 3. KARBON DIHITUNG DI SINI, BUKAN OLEH MODEL ────────────────────────── */
+  function hitung(faktor,jumlah,satuanAsal){
+    var jb=F.jembataniKeSatuanFaktor(jumlah,satuanAsal,faktor);
+    if(!jb.ok) return {ok:false,alasan:jb.alasan,saran:jb.saran};
+    var kg=jb.jumlah*faktor.kgCO2ePerSatuan, r=F.RENTANG_TIER[faktor.tier];
+    return {ok:true,kg:kg,lo:kg*(1-r),hi:kg*(1+r),rentang:r,jumlahDasar:jb.jumlah,langkah:jb.langkah||[],asumsi:!!jb.asumsi};
+  }
+
+  /* ── panel hasil ────────────────────────────────────────────────────────── */
+  var hasil=$("[data-result]"), tertunda=null, terakhir=null;
+  function tulis(html){hasil.innerHTML=html;if(window.GlyivSources)window.GlyivSources.scan(hasil);}
+  function kosong(){tulis('<div style="text-align:center;color:var(--muted);padding:30px 0;font-size:14px">Potret barangnya, atau ketik nama bahannya, untuk melihat estimasinya.</div>');}
+  function sibuk(t){tulis('<div style="text-align:center;color:var(--muted);padding:30px 0;font-size:14px">'+esc(t)+'</div>');}
+  function gagal(judul,saran){tulis('<div class="sc-box stop"><b>'+esc(judul)+'</b><span class="why">'+esc(saran)+'</span></div>');}
+  function belumBisa(judul,saran){tulis('<div class="sc-box warn"><b>⚠︎ Belum bisa diperkirakan — '+esc(judul)+'</b><span class="why">'+esc(saran)+'</span></div>');}
+
+  /* Bila dua faktor sama kuat dengan nilai berbeda, atau skornya di bawah ambang
+     yakin, halaman TIDAK menampilkan angka. Ia bertanya. Contoh nyata yang
+     terukur: foto kopi sering dikembalikan model sebagai "coffee", dan pencocok
+     memberi krimer nabati (2,8) skor 0,67 — di bawah ambang yakin 0,70 — jadi
+     baris ini yang muncul, bukan angka yang salah tiga kali lipat. */
+  function mintaKonfirmasi(judul,sebab,kandidat,jumlah,satuanAsal,kepala){
+    tertunda={kandidat:kandidat,jumlah:jumlah,satuanAsal:satuanAsal,kepala:kepala};
+    var h='<div class="sc-box warn"><b>Perlu konfirmasi — '+esc(judul)+'</b><span class="why">'+esc(sebab)+'</span></div>'+
+      '<div class="sc-orlbl">Yang mana yang benar?</div><div class="sc-kands">';
+    for(var i=0;i<kandidat.length;i++){
+      var f=kandidat[i].faktor;
+      h+='<button class="sc-kand" data-pilih="'+i+'">'+esc(f.nama)+
+         '<small>'+num(f.kgCO2ePerSatuan,f.kgCO2ePerSatuan<1?3:2)+' kg CO₂e / '+esc(satuanFaktor(f))+' · '+f.tier+' · skor '+num(kandidat[i].skor,2)+'</small></button>';
+    }
+    h+='<button class="sc-kand" data-pilih="-1">Bukan semuanya<small>tandai belum bisa diperkirakan</small></button></div>';
+    tulis(h);
+  }
+
+  function tampilkanHasil(kand,jumlah,satuanAsal,kepala){
+    var f=kand.faktor, hit=hitung(f,jumlah,satuanAsal);
+    if(!hit.ok){belumBisa("satuan tidak bisa diseberangkan",hit.alasan+" "+(hit.saran||""));return;}
+    terakhir={kg:hit.kg,nama:f.nama};
+    var wr=F.peringatanFaktor(f.id)||[];
+    var kredit=Math.max(2,Math.round(hit.kg*3)+2);
+    var h='<div style="display:flex;gap:13px;align-items:center;margin-bottom:10px">'+
+      '<div style="width:64px;height:64px;border-radius:14px;background:linear-gradient(160deg,#eef7f2,#f6faf7);display:grid;place-items:center;font-size:32px;flex:0 0 auto">'+esc(kepala.em||"◈")+'</div>'+
+      '<div><h2 style="font-family:var(--l-serif);font-weight:600;font-size:20px;color:var(--pine);margin:0 0 3px">'+esc(kepala.judul)+'</h2>'+
+      /* Chip tier HANYA menyebut kode tier + lebar rentangnya. Sempat memuat
+         DESKRIPSI_TIER, dan itu cacat: teks T3 menyebut "Poore & Nemecek;
+         Agribalyse" sehingga gelas plastik PP (yang faktornya dari Defra/DESNZ)
+         dan es batu (dari ESDM) ikut dilabeli sumber yang TIDAK menghasilkannya.
+         Atribusi sumber hanya boleh datang dari f.sumber, di panel di bawah. */
+      '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="sc-tier '+(f.tier==="T2"?"t2":f.tier==="T3"?"t3":"t4")+'" data-i18n-skip>Tier '+f.tier+' · ±'+Math.round(F.RENTANG_TIER[f.tier]*100)+'%</span></div></div></div>'+
+      '<div style="text-align:center;padding:6px 0 2px">'+
+        '<div class="im-big" style="font-family:var(--l-serif);font-weight:600;font-size:44px;color:var(--teal);line-height:1"><span style="font-size:20px;vertical-align:.28em;color:var(--brass)">⚠︎</span> '+num(hit.kg,hit.kg<1?3:2)+' <span style="font-family:var(--l-mono);font-size:13px;color:var(--muted)">kgCO₂e</span></div>'+
+        '<div style="font-family:var(--l-mono);font-size:11px;color:var(--muted);margin-top:6px">rentang '+kgTeks(hit.lo)+' – '+kgTeks(hit.hi)+' (±'+Math.round(hit.rentang*100)+'%, tier '+f.tier+')</div></div>'+
+      '<div class="sc-box warn" style="margin-top:12px"><b>⚠︎ Ini perkiraan, bukan pengukuran.</b><span class="why">'+esc(kepala.disclaimer)+'</span></div>'+
+      '<div class="sc-prov"><div class="sc-orlbl" style="margin-top:0">Faktor yang dipakai — supaya angkanya terlacak</div><dl>'+
+        '<dt>Faktor</dt><dd><b>'+esc(f.nama)+'</b> — '+num(f.kgCO2ePerSatuan,f.kgCO2ePerSatuan<1?3:2)+' kg CO₂e per '+esc(satuanFaktor(f))+'</dd>'+
+        '<dt>Sumber</dt><dd>'+esc(f.sumber)+'</dd>'+
+        '<dt>Cocok</dt><dd>'+esc(kand.alasan)+'</dd>'+
+        '<dt>Hitung</dt><dd>'+esc(num(hit.jumlahDasar,4).replace(/,?0+$/,"")+" "+satuanFaktor(f)+" × "+num(f.kgCO2ePerSatuan,f.kgCO2ePerSatuan<1?3:2)+" = "+num(hit.kg,4).replace(/,?0+$/,"")+" kg CO₂e")+
+          (hit.langkah.length?'<br><span style="color:var(--muted);font-size:11px">'+esc(hit.langkah.join(" · "))+'</span>':'')+'</dd>'+
+      '</dl>'+(wr.length?'<ul class="warnlist"><li>'+wr.map(esc).join("</li><li>")+'</li></ul>':'')+
+      '<p class="sc-fine" style="margin-top:9px">'+esc(f.catatan)+'</p></div>'+
+      '<button class="ga-btn teal" data-claim="'+kredit+'" style="width:100%;margin-top:12px">Klaim kredit literasi (+'+kredit+' ◈)</button>';
+    tulis(h);
+  }
+
+  /* ── penyalur bersama untuk kedua jalur (foto & ketik nama) ──────────────── */
+  function salurkan(nama,jumlah,satuanAsal,kepala){
+    var kand=F.cariFaktor(nama,4);
+    if(!kand.length){
+      belumBisa("“"+nama+"” tidak ada di pustaka faktor Glyiv",
+        "Pustaka Glyiv saat ini berisi bahan pangan, energi, dan kemasan outlet — bukan barang seperti elektronik, pakaian, atau botol kemasan. Kami tidak memaksakan angka untuk sesuatu yang tidak punya faktor bernama. Coba tulis bahan utamanya (mis. “daging ayam”, “susu uht”).");
+      return;
+    }
+    if(kand[0].perluKonfirmasi){
+      mintaKonfirmasi(kepala.judul,kand[0].alasan,kand,jumlah,satuanAsal,kepala);
+      return;
+    }
+    tampilkanHasil(kand[0],jumlah,satuanAsal,kepala);
+  }
+
+  /* ══ KAMERA ════════════════════════════════════════════════════════════════ */
   var busy=false, stream=null, camLive=false;
   var vid=$("[data-camvid]"), canvas=$("[data-camcanvas]"), view=$(".sc-view");
-  function stopCam(){ if(stream){stream.getTracks().forEach(function(t){t.stop();});stream=null;} camLive=false; view.classList.remove("live","shot"); $("[data-camstart]").textContent="📷 Aktifkan kamera"; }
+  var feed=GA.makeFeed("[data-feed]",[["ai","Agen siap","Potret barangnya — foto dikirim ke model penglihatan, karbonnya dihitung di perangkat dari pustaka faktor Glyiv."]]);
+  var cr=0, scanned=0;
+  function sync(){$("[data-hcr]").textContent="◈ "+cr;$("[data-hn]").textContent=scanned;}
+  function stopCam(){if(stream){stream.getTracks().forEach(function(t){t.stop();});stream=null;}camLive=false;view.classList.remove("live","shot");$("[data-camstart]").textContent="📷 Aktifkan kamera";}
+
   $("[data-camstart]").addEventListener("click",function(){
     var btn=this;
     if(camLive){stopCam();$("[data-status]").textContent="Kamera dimatikan.";return;}
-    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){GA.toast("Browser ini tak mendukung kamera — pakai contoh item di bawah.");return;}
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+      $("[data-status]").textContent="Peramban ini tidak mendukung kamera.";
+      gagal("Peramban ini tidak mendukung kamera.","Pakai Chrome/Safari terbaru, atau ketik nama bahannya di bawah — hasilnya dari pustaka faktor yang sama.");return;
+    }
+    if(!window.isSecureContext){
+      $("[data-status]").textContent="Kamera butuh HTTPS.";
+      gagal("Kamera hanya bisa dipakai lewat HTTPS.","Halaman ini sedang dibuka lewat koneksi tidak aman. Buka versi https-nya, lalu coba lagi.");return;
+    }
     navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false}).then(function(s){
       stream=s;vid.srcObject=s;camLive=true;view.classList.add("live");view.classList.remove("shot");
-      btn.textContent="⏹ Matikan kamera";$("[data-status]").textContent="Kamera aktif — arahkan ke item, lalu tekan Scan.";
-    }).catch(function(){GA.toast("Izin kamera ditolak / tak tersedia — pakai contoh item di bawah.");});
+      btn.textContent="⏹ Matikan kamera";$("[data-status]").textContent="Kamera aktif — arahkan ke barangnya, lalu tekan Potret & kenali.";
+    }).catch(function(e){
+      var n=e&&e.name;
+      var p=n==="NotAllowedError"?{j:"Izin kamera ditolak.",s:"Buka ikon gembok di bilah alamat → Izin situs → Kamera → Izinkan, lalu tekan Aktifkan kamera lagi."}
+        :n==="NotFoundError"?{j:"Tidak ada kamera yang terdeteksi di perangkat ini.",s:"Pakai perangkat berkamera, atau ketik nama bahannya di bawah."}
+        :n==="NotReadableError"?{j:"Kamera sedang dipakai aplikasi lain.",s:"Tutup aplikasi kamera/konferensi video yang sedang berjalan, lalu coba lagi."}
+        :{j:"Kamera tidak bisa dinyalakan ("+(n||"sebab tidak diketahui")+").",s:"Coba muat ulang halaman, atau ketik nama bahannya di bawah."};
+      $("[data-status]").textContent=p.j; gagal(p.j,p.s);
+    });
   });
   window.addEventListener("pagehide",stopCam);
+
   $("[data-scan]").addEventListener("click",function(){
-    if(busy)return;busy=true;
-    if(camLive){ var w=vid.videoWidth||640,h=vid.videoHeight||480; canvas.width=w;canvas.height=h; try{canvas.getContext("2d").drawImage(vid,0,0,w,h);}catch(e){} view.classList.add("shot"); }
+    if(busy) return;
+    if(!camLive){$("[data-status]").textContent="Kamera belum aktif.";gagal("Kamera belum aktif.","Tekan “Aktifkan kamera” dulu, atau ketik nama bahannya di bawah.");return;}
+    if(!PROXY){gagal("Alamat server pengenalan belum disetel.","window.GLYIV_CHAT_PROXY kosong di /assets/js/config.js. Isi dengan URL worker Glyiv, lalu muat ulang halaman.");return;}
+    busy=true;
+
+    /* Memotret: bingkai penuh ke kanvas pratinjau… */
+    var w=vid.videoWidth||640,h=vid.videoHeight||480;
+    canvas.width=w;canvas.height=h;
+    try{canvas.getContext("2d").drawImage(vid,0,0,w,h);}catch(e){}
+    view.classList.add("shot");
     var cam=$("[data-cam]");cam.classList.remove("scan");void cam.offsetWidth;cam.classList.add("scan");
-    $("[data-camitem]").textContent=sel.em;
-    $("[data-status]").textContent=camLive?"Foto diambil di perangkat… menyiapkan estimasi":"Menganalisis citra… mengklasifikasi produk";
-    setTimeout(function(){
-      $("[data-status]").innerHTML=(camLive?"Foto tersimpan · estimasi untuk ":"Terdeteksi: ")+"<b style=\"color:#fff\">"+sel.nm.replace(/&amp;/g,"&")+"</b>"+(camLive?" — ganti pilihan bila item berbeda":" · keyakinan "+Math.round(GA.rnd(88,97))+"%");
-      scanned++;streak++;sync();
-      feed.push("ai",camLive?"Foto diambil (kamera web)":"Item dikenali (CV)",sel.nm.replace(/&amp;/g,"&")+" → mengurai komponen & mencocokkan faktor emisi ("+sel.tier.toUpperCase()+")");
-      showResult(sel,false,0);busy=false;
-      if(camLive){setTimeout(function(){view.classList.remove("shot");},1600);}
-    },1150);
+
+    /* …lalu dikecilkan sebelum dikirim. */
+    var kecil=kecilkan(canvas,SISI_MAKS,MUTU);
+    var kb=(kecil.bytes/1024).toFixed(0);
+    $("[data-status]").textContent="Mengirim "+kecil.lebar+"×"+kecil.tinggi+" px (~"+kb+" kB) ke model penglihatan…";
+    sibuk("Mengenali barang di foto…");
+    feed.push("ai","Foto dikecilkan di perangkat",w+"×"+h+" px → "+kecil.lebar+"×"+kecil.tinggi+" px, JPEG q"+kecil.mutu+" ≈ "+kb+" kB dikirim ke proxy");
+
+    fetch(PROXY,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({gambar:kecil.dataUrl})})
+      .then(function(r){return r.text().then(function(t){return {status:r.status,teks:t};});})
+      .then(function(res){
+        busy=false; setTimeout(function(){view.classList.remove("shot");},1200);
+        if(res.status<200||res.status>=300){
+          var p=pesanGagal(res.status,res.teks);
+          $("[data-status]").textContent=p.j; gagal(p.j,p.s);
+          feed.push("ai","Pengenalan gagal","HTTP "+res.status+" — "+p.j);return;
+        }
+        var j=null; try{j=JSON.parse(res.teks);}catch(e){}
+        var d=bacaBalasan(j);
+        if(!d||typeof d.barang!=="string"){
+          $("[data-status]").textContent="Balasan model tidak terbaca.";
+          gagal("Balasan model tidak bisa dibaca.","Model tidak mengembalikan JSON yang diharapkan. Potret ulang; kalau berulang, laporkan ke tim Glyiv.");return;
+        }
+        var barang=String(d.barang||"").trim();
+        var keyakinan=typeof d.keyakinan==="number"?d.keyakinan:0;
+        var gram=typeof d.gramPerkiraan==="number"?d.gramPerkiraan:0;
+        scanned++;sync();
+        feed.push("ai","Barang dikenali",esc(barang)+" · keyakinan "+num(keyakinan,2)+" · ⚠︎ perkiraan massa "+gram+" g (model, bukan timbangan)");
+        $("[data-status]").innerHTML='Terbaca: <b style="color:#fff">'+esc(barang)+'</b> · keyakinan '+num(keyakinan,2);
+
+        /* ⛔ DUA SEBAB, DUA KALIMAT — jangan digabung lagi.
+           Sempat digabung, dan hasilnya kalimat yang MEMBANTAH DIRINYA SENDIRI:
+           balasan {barang:"unknown", keyakinan:0.9} membuat layar berbunyi
+           “Keyakinan model 0,90 (di bawah ambang 0,50)”. Di produk iklim yang
+           seluruh posisinya bertumpu pada angka yang jujur, satu angka yang
+           terbaca salah di layar merusak lebih banyak daripada fitur yang mati. */
+        if(!barang||barang.toLowerCase()==="unknown"){
+          belumBisa("model tidak bisa menyebut barang ini apa",
+            "Model menjawab “unknown” — ia melihat sesuatu tetapi tidak mengenalinya, jadi tidak ada nama yang bisa dicari di pustaka faktor. Potret satu barang saja, lebih dekat dan dengan cahaya lebih baik, atau ketik nama bahannya di bawah.");
+          return;
+        }
+        if(keyakinan<AMBANG_KEYAKINAN_FOTO){
+          belumBisa("model tidak cukup yakin barang ini apa",
+            "Model menebak “"+barang+"” dengan keyakinan "+num(keyakinan,2)+", di bawah ambang "+num(AMBANG_KEYAKINAN_FOTO,2)+". Memaksakan angka karbon dari tebakan foto akan membuat angka yang tidak terlacak. Potret lebih dekat dengan cahaya lebih baik, atau ketik nama bahannya di bawah.");
+          return;
+        }
+        if(!(gram>0)){
+          belumBisa("model tidak memberi perkiraan massa",
+            "Barang terbaca “"+barang+"”, tetapi tanpa massa tidak ada yang bisa dikalikan dengan faktor emisi. Isi jumlah dan satuannya di kolom bawah.");
+          return;
+        }
+        salurkan(barang,gram/1000,"kg",{
+          em:"📷", judul:barang,
+          disclaimer:"Barang dikenali dari satu foto oleh model penglihatan, dan massanya (⚠︎ "+gram+" g) adalah perkiraan model, bukan hasil timbangan. Faktor emisinya rata-rata kelas produk, bukan produk spesifik ini. Angka ini mendukung klaim jejak “terlacak”, bukan “terukur” atau “terverifikasi”."
+        });
+      })
+      .catch(function(e){
+        busy=false; setTimeout(function(){view.classList.remove("shot");},1200);
+        $("[data-status]").textContent="Tidak bisa menghubungi server Glyiv.";
+        gagal("Tidak bisa menghubungi server Glyiv.","Periksa koneksi (mode pesawat / sinyal / Wi-Fi), lalu potret lagi. Jalur “ketik nama bahan” di bawah tetap jalan tanpa jaringan — pustaka faktornya ada di perangkat.");
+        feed.push("ai","Jaringan gagal",String((e&&e.message)||e).slice(0,110));
+      });
   });
+
+  /* ══ JALUR TANPA KAMERA ════════════════════════════════════════════════════
+     Dulu di sini ada daftar 8 "contoh item" dengan angka kg yang DIKETIK TANGAN
+     di halaman, plus jalur harga × 0,00035 kg/IDR yang tidak punya sumber sama
+     sekali. Keduanya DIHAPUS, bukan ditumpuk: angka kg di halaman adalah sumber
+     kebenaran kedua yang bisa berbeda dari pustaka faktor, dan pustaka itu
+     sendiri menyatakan faktor EEIO/EXIOBASE Indonesia BELUM ditarik sehingga
+     angka spend-based tidak boleh dihitung dari ingatan (hitungFallbackBelanja
+     mengembalikan tersedia:false). Yang tersisa adalah satu jalur jujur: nama
+     bahan + jumlah → pustaka faktor yang sama dengan jalur foto. */
+  var CONTOH=[
+    {em:"🍗",nm:"daging ayam",q:250,u:"g"},
+    {em:"🥛",nm:"susu uht",q:200,u:"ml"},
+    {em:"☕",nm:"kopi arabika",q:18,u:"g"},
+    {em:"🍚",nm:"beras",q:100,u:"g"},
+    {em:"🥚",nm:"telur",q:2,u:"butir"},
+    {em:"🧊",nm:"es batu",q:150,u:"g"},
+    {em:"🫘",nm:"tempe",q:100,u:"g"},
+    {em:"🍌",nm:"pisang",q:120,u:"g"},
+    {em:"🧴",nm:"minyak goreng",q:50,u:"ml"},
+    {em:"🥤",nm:"gelas plastik pp 16oz",q:1,u:"buah"}
+  ];
+  $("[data-samples]").innerHTML=CONTOH.map(function(c,i){
+    return '<button class="sc-samp" data-c="'+i+'" title="'+esc(c.nm+" — "+c.q+" "+c.u)+'">'+c.em+'</button>';
+  }).join("");
+  $("[data-samples]").addEventListener("click",function(e){
+    var b=e.target.closest("[data-c]"); if(!b) return;
+    var c=CONTOH[+b.dataset.c];
+    $("[data-name]").value=c.nm; $("[data-qty]").value=c.q; $("[data-unit]").value=c.u;
+    $("[data-status]").textContent="Contoh diisi: "+c.nm+" "+c.q+" "+c.u+" — tekan “Hitung dari pustaka faktor”. Ini contoh input, bukan hasil pindaian.";
+  });
+  $("[data-unitshelp]").textContent="Satuan yang diterima: "+F.CONTOH_SATUAN_DITERIMA.join(" · ")+". Satuan ambigu (“pon”, “botol”, “tabung”) sengaja ditolak, bukan ditebak.";
+
   $("[data-lookup]").addEventListener("click",function(){
-    var q=($("[data-name]").value||"").toLowerCase().trim(), price=parseFloat($("[data-price]").value)||0;
-    var found=ITEMS.filter(function(it){return q&&it.nm.toLowerCase().indexOf(q)>=0;})[0]||ITEMS.filter(function(it){return q&&(it.cat.toLowerCase().indexOf(q)>=0);})[0];
-    if(found){scanned++;sync();feed.push("ai","Cocok dari nama","'"+q+"' → "+found.nm.replace(/&amp;/g,"&")+" (activity-based)");showResult(found,false,0);GA.toast("Ditemukan: "+found.nm.replace(/&amp;/g,"&"));return;}
-    if(price>0){ // spend-based fallback (EXIOBASE-style, rough) ~0.00035 kg/IDR ⚠︎
-      var kg=+(price*0.00035).toFixed(2), it={em:"🧾",nm:(q||"Produk")+" (dari harga)",cat:"Umum",kg:kg,lo:+(kg*0.6).toFixed(2),hi:+(kg*1.6).toFixed(2),tier:"t4",boundary:"spend-based",comp:[["Estimasi sektor",100,"#c98b6b"]],src:"EXIOBASE — EEIO (spend-based)|https://www.climatiq.io/docs/guides/emission-factor-database/data-sources/exiobase"};
-      scanned++;sync();feed.push("ai","Fallback spend-based","Tak ada data material → estimasi dari harga (EXIOBASE) · ⚠︎ kasar");showResult(it,true,price);GA.toast("Estimasi kasar dari harga");return;
-    }
-    GA.toast("Ketik nama produk (atau isi harga untuk estimasi kasar)");
+    var nama=($("[data-name]").value||"").trim();
+    var q=parseFloat($("[data-qty]").value), u=($("[data-unit]").value||"").trim();
+    if(!nama){gagal("Nama bahannya belum diisi.","Tulis bahan utamanya, mis. “daging ayam”, “susu uht”, “gula pasir”.");return;}
+    if(!(q>0)){gagal("Jumlahnya belum diisi.","Isi angka yang lebih besar dari nol, mis. 250.");return;}
+    var kv=F.konversiKeSatuanDasar(q,u);
+    if(!kv.ok){gagal("Satuan “"+u+"” tidak dipakai.",kv.alasan+" Satuan yang diterima: "+(kv.contohSatuan||F.CONTOH_SATUAN_DITERIMA).join(" · ")+".");return;}
+    scanned++;sync();
+    feed.push("ai","Dihitung dari nama bahan",esc(nama)+" · "+kv.langkah);
+    salurkan(nama,kv.jumlah,kv.satuan,{
+      em:"◈", judul:nama+" — "+q+" "+u,
+      disclaimer:"Jumlahnya Anda yang menyatakan, faktornya rata-rata kelas produk dari sumber di bawah — bukan produk spesifik dan bukan hasil pengukuran. Konversi satuan: "+kv.langkah+"."
+    });
   });
-  $("[data-result]").addEventListener("click",function(e){
-    if(e.target.closest("[data-claim]")){
+
+  /* ── interaksi panel hasil ──────────────────────────────────────────────── */
+  var loggedIn=false, streak=0;
+  hasil.addEventListener("click",function(e){
+    var pilih=e.target.closest("[data-pilih]");
+    if(pilih&&tertunda){
+      var i=+pilih.dataset.pilih;
+      if(i<0){belumBisa("tidak ada faktor yang cocok",
+        "Anda menandai bahwa tidak satu pun kandidat benar, jadi tidak ada angka yang ditampilkan. Itu jawaban yang jujur. Tulis nama bahan yang lebih spesifik di kolom bawah bila ada.");tertunda=null;return;}
+      var t=tertunda; tertunda=null;
+      tampilkanHasil(t.kandidat[i],t.jumlah,t.satuanAsal,t.kepala);
+      feed.push("chain","Faktor dikonfirmasi pengguna",t.kandidat[i].faktor.nama+" dipilih dari "+t.kandidat.length+" kandidat");
+      return;
+    }
+    var klaim=e.target.closest("[data-claim]");
+    if(klaim){
       if(!loggedIn){GA.toast("Masuk dengan Google untuk menyimpan kredit");return;}
-      var amt=parseInt(e.target.closest("[data-claim]").textContent.match(/\+(\d+)/)[1],10)||2;cr+=amt;sync();
+      var amt=parseInt(klaim.dataset.claim,10)||2; cr+=amt; streak++; sync();
       feed.push("chain","Kredit literasi diklaim","+"+amt+" ◈ ke Glyiv Dompet · streak "+streak+" · tx "+GA.short());
       GA.toast("+"+amt+" ◈ kredit — mantap!");
     }
   });
-  $("[data-login]").addEventListener("click",function(){loggedIn=!loggedIn;
+
+  $("[data-login]").addEventListener("click",function(){
+    loggedIn=!loggedIn;
     if(loggedIn){this.innerHTML='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#33d188"/><path d="M7 12l3 3 7-7" stroke="#04160e" stroke-width="2" fill="none"/></svg>Masuk sebagai Kamu';$("[data-userinfo]").textContent="Masuk (simulasi) — kredit & scan akan tersimpan.";feed.push("chain","Akun terhubung","Google sign-in (simulasi) · profil karbon dibuat");GA.toast("Masuk berhasil (simulasi)");}
     else{this.innerHTML='<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-1.9 3.2-4.8 3.2-7.8z"/><path fill="#34A853" d="M12 23c2.9 0 5.4-1 7.2-2.6l-3.6-2.7c-1 .7-2.3 1.1-3.6 1.1-2.8 0-5.1-1.9-6-4.4H2.3v2.8A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M6 14.4a6.6 6.6 0 0 1 0-4.2V7.4H2.3a11 11 0 0 0 0 9.8L6 14.4z"/><path fill="#EA4335" d="M12 5.5c1.6 0 3 .5 4.1 1.6l3.1-3.1A11 11 0 0 0 2.3 7.4L6 10.2C6.9 7.7 9.2 5.5 12 5.5z"/></svg>Masuk dengan Google';$("[data-userinfo]").textContent="Masuk untuk menyimpan kredit & riwayat scan.";}
   });
-  $("[data-apk]").addEventListener("click",function(e){e.preventDefault();GA.toast("APK Android sedang disiapkan (roadmap). Sekarang kamu bisa scan langsung dari browser — tekan 'Aktifkan kamera'.");});
-  renderSamples();sync();
+  $("[data-apk]").addEventListener("click",function(e){e.preventDefault();GA.toast("APK Android sedang disiapkan (roadmap). Sekarang kamu bisa memotret langsung dari peramban — tekan “Aktifkan kamera”.");});
+
+  kosong(); sync();
 })();
 </script>
 </body>

@@ -6,9 +6,38 @@
    Behaviour: /assets/js/glyiv-nav.js (scroll state, burger, active page)
    ============================================================= */
 /* --n-* prefixed so they can never collide with a page's own token names */
+/* ⛔ JANGAN memakai fungsi CSS `url` di berkas ini — bahkan di dalam komentar,
+   supaya pemeriksaan sesederhana `grep` tetap bisa menjawab "nol". `glyiv-nav.js`
+   menyisipkan ulang isi berkas ini sebagai <style> sebaris ketika mendeteksi
+   salinan basi, dan itu hanya aman selama tidak ada satu pun alamat relatif di
+   dalamnya: sebagai <style> sebaris, alamat relatif akan diukur dari alamat
+   HALAMAN, bukan dari alamat berkas gaya. Ornamen SVG kanvas karena itu tinggal
+   di `lab/css/lab.css`, yang selalu dimuat sebagai berkas. */
 :root{
-  --n-pine:#0F2E22; --n-teal:#1F7A6B; --n-brass:#B0894F; --n-slate:#46524B; --n-muted:#6B7772;
-  --n-hair:#E6EAE6; --n-paper:#F5F7F5;
+  --n-pine:#0F2E22; --n-teal:#1F7A6B; --n-brass:#B0894F; --n-slate:#46524B; --n-muted:#65706B;
+  --n-hair:#E6EAE6; --n-paper:#EEF2ED;
+  /* Kanvas & kartu — cermin `--white`/`--card` di lab.css, ditulis ulang di
+     sini karena berkas ini sengaja berdiri sendiri (lihat kepala berkas).
+     ⚠︎ Kalau nilainya berubah di lab.css, ubah DI SINI JUGA: bilah yang tidak
+     sewarna dengan kanvas halaman terbaca sebagai pita abu yang menggantung. */
+  /* ⚠︎ #F7F9F6 → #F9F8F3 (ronde 59). Token `--white` / `--paper` di lab.css dan
+     glyiv-v2.css pindah ke KERTAS HANGAT atas permintaan pemilik ("cari warna
+     putih yang… bukan neon putih, tapi seperti smooth dan enak di mata").
+     Peringatan di atas baris ini bukan hiasan: bilah yang tertinggal di kanvas
+     LAMA akan terbaca sebagai pita abu yang menggantung tepat di y=68 saat laci
+     ponsel terbuka — persis keluhan yang melahirkan aturan itu. Nilai di sini
+     harus SAMA PERSIS dengan `--white` di lab.css baris 71, dan warna
+     `.lnav.scrolled` di bawah adalah rgba dari nilai yang sama. */
+  --n-canvas:#F9F8F3; --n-card:#FFFFFF;
+  /* Isian "kaca glossy" untuk pilihan DI DALAM LACI PONSEL. Di desktop pilihan
+     bilah sudah TIDAK berkotak lagi (lihat blok "PILIHAN BILAH ADALAH TEKS"),
+     jadi token ini kini hanya dipakai di `@media (max-width:900px)` — di layar
+     sentuh isyarat kotak memang dibutuhkan, karena tidak ada tetikus yang bisa
+     menyentuh butirnya lebih dulu untuk membuktikan ia bisa diketuk.
+     ⚠︎ `--n-gloss-dark` DIHAPUS bersama kotak kaca desktopnya: ia hanya pernah
+     dipakai di satu tempat (`.lnav:not(.scrolled) .lnav__links>a`), dan tempat
+     itu sudah tidak ada. */
+  --n-gloss:linear-gradient(180deg,#FFFFFF,#F2F5F1);
   --n-serif:"Newsreader",Georgia,serif;
   --n-sans:"Hanken Grotesk","Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,sans-serif;
   --n-mono:"IBM Plex Mono",ui-monospace,monospace;
@@ -16,26 +45,341 @@
   --n-sh2:0 2px 8px rgba(15,26,20,.05),0 16px 36px -12px rgba(15,26,20,.13);
   --n-sh3:0 10px 28px -8px rgba(15,26,20,.14),0 40px 80px -30px rgba(15,46,34,.28);
 }
-.lnav{position:fixed;top:0;left:0;right:0;z-index:80;border-bottom:1px solid transparent;
-  transition:background .3s,backdrop-filter .3s,border-color .3s,box-shadow .3s}
+/* ⛔ `max-width:100vw` BUKAN hiasan — ia yang menjaga tombol burger tetap ada di
+   layar. Pemilik: "di beberapa halaman, tombol yang menampilkan menu navbar itu
+   tidak bisa tertekan."
+
+   Sebab keduanya (yang pertama ada di glyiv-nav.js): pada 3 dari 62 halaman dist
+   — /demo-kasir.html, /lab/kabar/index.html, /team.html — `glyiv-gly.js`
+   menyuntik peluncur `.liv-fab`, tetapi halaman-halaman itu TIDAK memuat
+   `lab/css/lab.css` yang memberinya ukuran. Tanpa ukuran, kanvas peluncurnya
+   tumbuh berumpan-balik. Terukur di /team.html, 412x915, pointer kasar:
+     .liv-fab               : position:static, 22.369.600 px persegi
+     #botLauncherCanvas     : atribut width 29.080.509
+     window.innerWidth      : 1648  (documentElement.clientWidth tetap 412)
+     .lnav__burger          : x=1379 — 967 px DI LUAR layar, mustahil diketuk
+   Meluapnya melebarkan viewport tata letak, dan `.lnav` yang `left:0;right:0`
+   ikut melebar bersamanya sampai 1648 px; `.lnav__in` yang `max-width:1240px`
+   lalu menempatkan burger di luar layar.
+
+   Akar masalahnya ada di halaman/`glyiv-gly.js` dan HARUS diperbaiki di sana.
+   Baris ini pertahanan bilahnya sendiri: bilah tetap tidak boleh menaruh
+   kontrolnya di luar layar, apa pun yang meluap di halaman. Terukur sesudah:
+   lebar `.lnav` 412 px, burger x=347 (44x44) — di dalam layar.
+   Aman di halaman normal: unit `vw` MENYERTAKAN lebar bilah gulir sedangkan
+   blok penampung `position:fixed` TIDAK, jadi di halaman yang tidak meluap
+   `max-width` ini selalu lebih besar dari lebar sebenarnya dan tidak pernah
+   mengikat. */
+.lnav{position:fixed;top:0;left:0;right:0;max-width:100vw;z-index:80;border-bottom:1px solid transparent;
+  transition:background .3s,backdrop-filter .3s,border-color .3s,box-shadow .3s;
+  /* ── EMPAT WARNA YANG BERGANTUNG PADA KEADAAN BILAH ──────────────────────
+     Bilah punya dua latar (hero gelap · kertas terang) dan empat hiasan yang
+     harus berpindah warna bersamanya: pemisah antar butir, sorot hover, garis
+     bawah hover, dan kilau sambutan. Ditokenkan DI SINI, sekali, supaya tidak
+     ada empat pasang aturan `.lnav:not(.scrolled) …` yang bisa berbeda diam-diam
+     — dan supaya seluruhnya ikut berpindah dengan MENURUN, termasuk ke
+     `.ldrop__btn` yang bersarang satu tingkat lebih dalam.
+     ⛔ JANGAN dipakai teal tua (#1F7A6B) untuk keadaan gelap: teks/garis teal
+     tua di atas latar gelap adalah cacat yang sudah berkali-kali dikeluhkan
+     pemilik. Di atas hero, aksen selalu mint. */
+  /* ⚠︎ Pemisah TIDAK memakai `--n-hair` (#E6EAE6), dan itu hasil pengukuran,
+     bukan selera. Terukur dari piksel yang benar-benar tergambar di /index.html
+     1440px pada bilah tergulir (latar rgb(247,250,246)):
+       --n-hair  #E6EAE6 → kontras 1,15:1   ← praktis tidak terlihat
+       #DCE2DD           → kontras 1,25:1   ← masih meragukan
+       #C7D0C9           → kontras 1,50:1   ← terbaca, tetap sehalus rambut
+     Pemisah yang tidak terlihat tidak mengerjakan apa pun, dan pemilik meminta
+     pemisah justru supaya "orang tau setiap text itemnya itu bisa ditekan".
+     Garis bawah bilah sendiri tetap `--n-hair`: ia memisahkan bilah dari halaman
+     (bidang besar), sedangkan yang ini memisahkan dua butir sejauh 36px. */
+  --n-divc:#C7D0C9;                    /* pemisah — bilah terang            */
+  --n-hl:var(--n-paper);               /* sorot hover — bilah terang        */
+  --n-ul:var(--n-teal);                /* garis bawah hover — bilah terang  */
+  --n-kilau-c:rgba(15,46,34,.13);      /* kilau sambutan — bilah terang     */
+}
+.lnav:not(.scrolled){
+  --n-divc:rgba(255,255,255,.22);
+  --n-hl:rgba(255,255,255,.16);
+  --n-ul:#33d188;
+  --n-kilau-c:rgba(255,255,255,.55);
+}
 .lnav *{box-sizing:border-box}
-.lnav.scrolled{background:rgba(255,255,255,.82);-webkit-backdrop-filter: saturate(1.4) blur(16px); backdrop-filter: saturate(1.4) blur(16px);-webkit-backdrop-filter:saturate(1.4) blur(16px);border-bottom-color:var(--n-hair);box-shadow:0 6px 24px -18px rgba(15,26,20,.3)}
+/* Bilah tergulir memakai KANVAS, bukan putih murni, dan opasitasnya .88 (bukan
+   .82): sorot hover `--n-paper` dan pemisah `--n-divc` keduanya hairline, dan
+   isi halaman yang terbaca menembus bilah akan menelan keduanya. */
+.lnav.scrolled{background:rgba(249,248,243,.88);-webkit-backdrop-filter: saturate(1.4) blur(16px); backdrop-filter: saturate(1.4) blur(16px);-webkit-backdrop-filter:saturate(1.4) blur(16px);border-bottom-color:var(--n-hair);box-shadow:0 6px 24px -18px rgba(15,26,20,.3)}
+/* ══ PANEL DROPDOWN TERBUKA → BILAH JADI SATU LEMBAR DENGAN PANELNYA ═════════
+   Sejak panel melebar SELEBAR LAYAR (lihat blok "PANEL SELEBAR LAYAR" di
+   bawah), keadaan lama tidak bisa dipertahankan: di beranda bilah TEMBUS
+   PANDANG di puncak halaman, jadi panel putih selebar layar akan menggantung
+   dari bilah yang masih memperlihatkan foto hero — persis bentuk cacat yang
+   sudah pernah dikeluhkan pemilik untuk laci ponsel ("navbarnya masih
+   transparan padahal lacinya sudah terbuka"). Selama panelnya cuma kartu
+   920 px yang mengambang, hal itu terbaca sebagai kartu; selebar layar, ia
+   terbaca sebagai bilah yang rusak.
+
+   ⚠︎ DUA KELAS, BUKAN SATU, dan pembagiannya disengaja:
+     · `.scrolled`     — dipasang `glyiv-nav.js` (`terapkanGulir`) begitu ada
+       panel terbuka. Ia membawa SELURUH pasangan warna bilah terang (latar,
+       merek, butir, pemicu bahasa, burger) yang sudah ada sejak dulu, jadi
+       latar dan warna huruf TIDAK MUNGKIN berpisah — tidak ada jalan menuju
+       putih-di-atas-putih, cacat yang sudah pernah terukur 1,00:1 di sini.
+     · `.lnav--drop`   — hanya menaikkan latarnya dari 88% + blur menjadi PEKAT
+       dan sewarna panel. 88% di atas hero terukur rgb(220,224,218) sementara
+       panel rgb(255,255,255): dua warna yang bersambung di y=68 sepanjang
+       seluruh lebar layar. Dengan aturan ini keduanya #FFFFFF.
+   Kalau berkas ini kebetulan lebih tua daripada skripnya, yang hilang hanya
+   baris kedua — bilah tetap terbaca (88% + blur), tidak pernah rusak. */
+@media (min-width:901px){
+  .lnav.lnav--drop{background-color:var(--n-card);-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom-color:transparent;box-shadow:none}
+}
 .lnav__in{display:flex;align-items:center;gap:18px;max-width:1240px;margin:0 auto;height:68px;padding:0 clamp(20px,5vw,48px)}
 .lnav a{text-decoration:none}
 .lbrand{display:flex;align-items:center;gap:9px;color:var(--n-pine)}
+/* ⛔ LANTAI TATA LETAK MEREK — jangan dihapus sebagai "duplikat".
+   `.lbrand` di atas berspesifisitas (0,1,0). Aturan konteks yang menyasar
+   tautan biasa — `.lfoot a{display:block}` di `lab/css/lab.css` — berspesifisitas
+   (0,1,1), jadi ia MENGALAHKAN aturan komponennya sendiri. Akibatnya terukur di
+   PRODUKSI hari ini, di kedua situs, pada 390/768/1280 px:
+     bilah atas : display:flex  · lambang→wordmark MENDATAR  9,0 px
+     kaki       : display:block · lambang→wordmark VERTIKAL  0,0 px  ← menempel
+   Itulah kalimat pemilik "peletakan logo glyiv dan tulisan glyiv terlalu dekat".
+   Baris di bawah menaikkannya ke (0,2,0) untuk kedua tempat merek berdiri, jadi
+   ia menang TANPA bergantung pada urutan berkas gaya (terukur: 17/17 halaman
+   ber-kaki memuat lab.css lebih dulu — benar hari ini, tidak dijamin besok).
+   Ini BUKAN pasangan ganda dari `:not(.lbrand)` di lab.css: yang di sana menjaga
+   `padding` dan geser `:hover`, yang di sini menjaga SUSUNAN. Gejala berbeda,
+   properti berbeda. */
+.lnav .lbrand,.lfoot .lbrand{display:flex;align-items:center;gap:9px}
 .lbrand svg{width:28px;height:28px;display:block}
 .lbrand img.lbrand__mark,.lbrand__mark{width:28px;height:28px;display:block;border-radius:8px}
 .lbrand b{font-family:var(--n-serif);font-weight:600;font-size:22px;line-height:1}
 .lbrand b i{color:var(--n-teal);font-style:normal}
-.lnav__links{display:flex;align-items:center;gap:3px;margin-left:14px}
-.lnav__links a,.ldrop__btn{font-family:var(--n-sans);font-size:14px;font-weight:600;color:var(--n-slate);padding:9px 12px;border-radius:9px;background:none;border:none;display:inline-flex;align-items:center;gap:5px;cursor:pointer;transition:color .18s,background .18s}
-.lnav__links a:hover,.ldrop__btn:hover{color:var(--n-pine);background:var(--n-paper)}
+/* `gap:0` — BUKAN kelalaian. Pemisah antar butir digambar sebagai lapisan latar
+   di tepi KIRI tiap butir (lihat blok di bawah), jadi dengan celah nol garis itu
+   jatuh persis di batas dua kotak butir: 18px dari huruf terakhir butir kiri dan
+   18px dari huruf pertama butir kanan. Begitu ada `gap`, garisnya bergeser
+   setengah celah ke kanan dan pemisahnya tidak lagi di tengah. */
+.lnav__links{display:flex;align-items:center;gap:0;margin-left:14px}
+/* ⚠︎ `background` SENGAJA TIDAK ADA DI SINI LAGI. Aturan lamanya berbunyi
+   `.lnav__links a:hover{color:…;background:var(--n-paper)}` — shorthand,
+   berspesifisitas (0,3,0), dan karena itu ia MENGALAHKAN setiap `background-image`
+   yang dipasang aturan butir (0,2,0) di bawah, tepat pada saat butirnya di-hover.
+   Yang usang karenanya: latar hover itu sendiri, yang sekarang digambar pseudo
+   `::before` supaya bisa MELEBAR, bukan sekadar muncul.
+   Efek sampingannya satu cacat lama ikut hilang: (0,3,0) itu juga mengalahkan
+   `.ldrop__mega-foot a:hover{background:var(--n-teal)}` (0,2,1), sehingga tombol
+   "Lihat semua aplikasi" di kaki mega-menu selama ini berubah jadi KERTAS saat
+   di-hover, bukan teal. Latar hover untuk tautan DI DALAM panel dipindahkan ke
+   `.ldrop__grp a:hover`, tempat ia memang dimaksudkan. */
+.lnav__links a,.ldrop__btn{font-family:var(--n-sans);font-size:15px;font-weight:600;color:var(--n-slate);padding:9px 12px;border-radius:9px;background:none;border:none;display:inline-flex;align-items:center;gap:5px;cursor:pointer;transition:color .18s}
+.lnav__links a:hover,.ldrop__btn:hover{color:var(--n-pine)}
+
+/* ══ PILIHAN BILAH ADALAH TEKS + PEMISAH — BUKAN KOTAK ═══════════════════════
+   Pemilik, ronde ini, verbatim: *"untuk navbarnya bukan seperti itu sebenarnya
+   yang saya maksud, ubah seperti semula dulu jangan seperti gambar 1. Tapi
+   setiap nav itemnya berikan semacam divider tipis, agar orang tau setiap text
+   itemnya itu bisa ditekan… setiap navbar item seperti tidak ada padding kanan
+   kirinya, harusnya diberikan itu. Dan hover animation untuk setiap navbar item
+   harusnya ada, yang akan memunculkan warna highlight berbeda ketika di hover."*
+
+   ⛔ YANG DIBUANG (bukan ditimpa): seluruh perlakuan kotak/pil ronde sebelumnya
+   — `background:var(--n-gloss)`, `border:1px solid var(--n-hair)`, `box-shadow`
+   sorot-dalam, dan varian kacanya `.lnav:not(.scrolled) .lnav__links>a`. Itulah
+   "gambar 1" yang ditolak. Meninggalkannya sebagai aturan mati yang ditimpa akan
+   membuat berkas ini mustahil dibaca ronde berikutnya.
+   ⚠︎ Kotak di DALAM laci ponsel TETAP ADA — keluhan pemilik soal tampilan
+   desktop, dan di layar sentuh kotak itu satu-satunya isyarat "bisa diketuk"
+   yang datang sebelum jari menyentuh. Lihat `@media (max-width:900px)`.
+
+   Isyarat penggantinya, dan pekerjaan masing-masing supaya tidak ada dua yang
+   mengerjakan hal sama (PRINSIP-UIUX §1 — mengganti, bukan menumpuk):
+     · PEMISAH  → "di sini butir berakhir, di sana butir lain mulai" (permanen)
+     · SOROT    → "yang ini sedang di bawah kursormu"                (hover)
+     · GARIS    → "dan ia bisa ditekan"                              (hover)
+     · KILAU    → "seluruh baris ini bisa ditekan"                   (sekali)
+     · BRASS    → "halaman inilah yang sedang kamu buka"             (aktif)
+
+   ── KENAPA PEMISAH DIGAMBAR SEBAGAI LAPISAN LATAR, BUKAN `::before` ────────
+   Tiap butir hanya punya DUA pseudo-element, dan keduanya sudah habis untuk
+   gerak: `::before` sorot yang melebar, `::after` garis yang tumbuh. Pemisah dan
+   kilau karena itu digambar sebagai LAPISAN LATAR (`background-image` berlapis),
+   yang jumlahnya tidak dibatasi. Warna & bentuknya masuk lewat custom property
+   supaya `.ldrop` — yang bukan elemen interaktifnya, melainkan pembungkusnya —
+   bisa menyalakan pemisah untuk `.ldrop__btn` di dalamnya lewat PEWARISAN, tanpa
+   satu pun selektor `+` yang harus tahu isi bilah.
+   ⛔ Urutan lapisannya (kilau · pemisah · alas) HARUS sama di setiap tempat yang
+   menulis `background-size`/`-position`/`-repeat`, termasuk di dalam
+   `@keyframes` — daftar itu dipetakan per-lapisan, bukan per-nama. */
+.lnav__links>a,.ldrop__btn{
+  position:relative;isolation:isolate;
+  /* 14px → 18px. Permintaan pemilik: butirnya "seperti tidak ada padding kanan
+     kirinya". Terukur di 1440px, lebar bilah tetap satu baris; angkanya ada di
+     laporan ronde ini untuk 1024 / 1280 / 1440. */
+  padding:9px 18px;border-radius:11px;border:0;box-shadow:none;
+  /* ⚠︎ `line-height` DITULIS TEGAS, dan itu bukan kerapian. `<button>` memakai
+     `line-height:normal` dari gaya bawaan peramban sementara `<a>` mewarisi
+     tinggi baris halaman — terukur di /index.html 1440px SEBELUM baris ini:
+     tombol dropdown 38,0px, tautan biasa 42,0px. Selama butirnya berupa kotak
+     berbingkai, selisih 4px itu hanya terlihat sebagai kotak yang tidak sama
+     tinggi. Sejak garis bawah hover diletakkan pada `bottom:5px` dari MASING-
+     MASING butir, selisih itu menggeser garisnya 2px naik-turun di sepanjang
+     bilah. 24px menyamakan keduanya di 42,0px. */
+  line-height:24px;
+  background-color:transparent;
+  background-image:var(--n-l-kilau,none),var(--n-l-div,none),var(--n-l-alas,none);
+  background-repeat:no-repeat,no-repeat,no-repeat;
+  background-size:200% 100%,1px 18px,auto;
+  background-position:190% center,left center,0 0;
+}
+/* SOROT — melebar dari tengah. `z-index:-1` + `isolation:isolate` pada butirnya:
+   pseudo bernomor negatif digambar SESUDAH latar elemen tetapi SEBELUM teksnya,
+   jadi sorot tidak pernah menutupi huruf dan tidak pernah bocor ke belakang
+   bilah. `left/right:2px` menyisakan tepi tempat pemisah berdiri, supaya garis
+   pemisah tidak ikut tertelan saat butir tetangganya di-hover. */
+.lnav__links>a::before,.ldrop__btn::before{
+  content:"";position:absolute;z-index:-1;top:0;bottom:0;left:2px;right:2px;
+  border-radius:10px;background:var(--n-hl);
+  opacity:0;transform:scaleX(.34);transform-origin:50% 50%;
+  transition:transform .18s cubic-bezier(.4,0,.2,1),opacity .18s ease;
+}
+/* GARIS BAWAH — tumbuh dari kiri. `left/right:18px` = padding butirnya, jadi
+   garisnya persis selebar tulisannya. */
+.lnav__links>a::after,.ldrop__btn::after{
+  content:"";position:absolute;left:18px;right:18px;bottom:5px;height:2px;border-radius:2px;
+  background:var(--n-ul);
+  opacity:0;transform:scaleX(0);transform-origin:0 50%;
+  transition:transform .19s cubic-bezier(.4,0,.2,1),opacity .19s ease,background-color .18s ease;
+}
+.lnav__links>a:hover::before,.ldrop__btn:hover::before,
+.lnav__links>a:focus-visible::before,.ldrop__btn:focus-visible::before,
+.ldrop:hover>.ldrop__btn::before,.ldrop:focus-within>.ldrop__btn::before{opacity:1;transform:scaleX(1)}
+.lnav__links>a:hover::after,.ldrop__btn:hover::after,
+.lnav__links>a:focus-visible::after,.ldrop__btn:focus-visible::after,
+.ldrop:hover>.ldrop__btn::after,.ldrop:focus-within>.ldrop__btn::after{opacity:1;transform:scaleX(1)}
+.ldrop:hover>.ldrop__btn,.ldrop:focus-within>.ldrop__btn{color:var(--n-pine)}
+.lnav:not(.scrolled) .lnav__links>a:hover,.lnav:not(.scrolled) .ldrop__btn:hover,
+.lnav:not(.scrolled) .ldrop:hover>.ldrop__btn,.lnav:not(.scrolled) .ldrop:focus-within>.ldrop__btn{color:#fff}
+
+/* ── PEMISAH TIPIS ANTAR BUTIR (permintaan utama ronde ini) ─────────────────
+   `> * + *` — jadi TIDAK PERNAH ada garis sebelum butir pertama, apa pun isi
+   bilahnya. `.lnav__admin` yang `display:none` tidak menyisakan celah maupun
+   garis; begitu ia tampil (html[data-admin]) ia ikut mendapat pemisahnya sendiri.
+   Nilainya diwariskan ke dalam: pada `.ldrop` yang menerima custom property ini,
+   yang benar-benar menggambar garisnya adalah `.ldrop__btn` di dalamnya — dan
+   tepi kiri keduanya berimpit karena tombol itu satu-satunya anak in-flow.
+   ⛔ HANYA di ≥901px. Di laci ponsel tiap butir sudah berupa kotak; memberi
+   pemisah DI SANA berarti memagari satu butir dua kali. */
+/* ⛔ DICABUT RONDE 60 — permintaan pemilik: *"Untuk di navbarnya hilangkan
+   saja itu divider peritem yang garis yang pisahkan antar navbar item"*.
+   Isyarat "bisa diklik" untuk butir tingkat pertama sekarang datang dari HOVER
+   saja (sorot melebar + garis bawah mint), dan itu memang cukup: pemilik
+   sendiri yang mengoreksi ronde 59 bahwa isyarat permanen yang ia maksud ada
+   di butir DROPDOWN, bukan di bilahnya.
+   ⚠︎ Token --n-divc SENGAJA DIPERTAHANKAN — ia masih dipakai pemisah butir
+   di dalam panel dropdown (--n-drop-div). Jangan ikut dihapus.
+@media (min-width:901px){
+  .lnav__links>*+*{--n-l-div:linear-gradient(var(--n-divc),var(--n-divc))}
+} */
+
+/* ══ KILAU SAMBUTAN — SEKALI, LALU TIDAK PERNAH LAGI ════════════════════════
+   Pemilik: *"Mungkin ketika user buka navbarnya pertama kali, setiap navbar item
+   itu ada animasi glossy sesaat."*
+
+   Kilau menyapu tiap butir BERURUTAN — jadi yang diberitahukan bukan "butir ini
+   berkilau", melainkan "SEMUA yang berkilau di baris ini bisa ditekan". Itu
+   pekerjaan yang tidak bisa dilakukan hover (butuh kursor) maupun pemisah
+   (statis), jadi ia tidak menumpuk pekerjaan siapa pun.
+
+   Total: jeda terpanjang butir kelima 340ms + 660ms = 1,00 detik — di bawah
+   batas 1,2 detik. `animation-iteration-count:1` + `animation-fill-mode:forwards`
+   memarkir gradasinya di luar butir (`-110%`) dan MENINGGALKANNYA di sana, jadi
+   ia tidak pernah berulang walau kelasnya tertinggal terpasang.
+
+   Kelas `.lnav--masuk` dipasang `glyiv-nav.js`, bukan `:root` atau `@media`,
+   karena "pertama kali" punya DUA arti yang berbeda: di desktop artinya bilahnya
+   muncul; di ponsel artinya burger ditekan. Satu kelas melayani keduanya, dan
+   JS-lah satu-satunya pihak yang tahu bedanya.
+
+   ⚠︎ Yang dianimasikan `background-position`, bukan `transform`. Sebabnya bukan
+   selera: kilau harus TERPOTONG di tepi butir, dan memotong lewat
+   `overflow:hidden` mustahil di sini — `.ldrop` yang membungkus tombolnya juga
+   membungkus panel dropdown yang menggantung KELUAR, jadi memotongnya berarti
+   memotong seluruh menu Ekosistem. Sebagai lapisan latar, gradasinya terpotong
+   oleh kotak butirnya sendiri tanpa satu pun aturan pemotong. Biayanya cat-ulang
+   4 elemen kecil selama 1 detik SEKALI, di luar jalur gulir — bukan jenis beban
+   yang membuat gulir tablet tersendat, dan ia mati total di bawah
+   `prefers-reduced-motion`. */
+@keyframes lnavKilau{
+  from{background-position:190% center,left center,0 0}
+  to{background-position:-110% center,left center,0 0}
+}
+.lnav--masuk .lnav__links>a,.lnav--masuk .ldrop__btn{
+  --n-l-kilau:linear-gradient(115deg,transparent 30%,var(--n-kilau-c) 50%,transparent 70%);
+  animation-name:lnavKilau;
+  animation-duration:.66s;
+  animation-timing-function:cubic-bezier(.35,0,.25,1);
+  animation-iteration-count:1;
+  animation-fill-mode:forwards;
+  animation-delay:var(--n-kilau-t,0ms);
+}
+/* Jeda berundak ±70ms. Dipasang pada ANAK LANGSUNG lalu diwariskan ke dalam,
+   supaya `.ldrop__btn` yang bersarang ikut mendapat gilirannya tanpa selektor
+   `:nth-child` kedua yang harus tahu bentuk markupnya. */
+.lnav__links>:nth-child(1){--n-kilau-t:60ms}
+.lnav__links>:nth-child(2){--n-kilau-t:130ms}
+.lnav__links>:nth-child(3){--n-kilau-t:200ms}
+.lnav__links>:nth-child(4){--n-kilau-t:270ms}
+.lnav__links>:nth-child(5){--n-kilau-t:340ms}
+.lnav__links>:nth-child(n+6){--n-kilau-t:410ms}
+
+/* ══ TAGLINE DI DALAM BILAH ═════════════════════════════════════════════════
+   Pemilik: *"saya juga tagline itu bisa muat di navbar, bebas anda mau letakkan
+   di mana. Dan kalau di tampilan mobile, navbarnya itu ada tagline itu, ntah itu
+   di bagian tengahnya atau bebas di mana."*
+
+   Markupnya satu `<span class="lnav__tag">` tepat sesudah `<a class="lbrand">`.
+   Tiga perlakuan, karena ruang yang tersedia memang tiga macam:
+     ≥1180px  tampil di samping merek, dipisah garis rambut tegak. `nowrap` +
+              `flex:0 0 auto` supaya ia tidak pernah membungkus dan tidak pernah
+              mendorong butir navbar ke baris kedua.
+     901-1179 SEMBUNYI. Di lebar itu bilah sudah berisi 4 butir ber-padding 18px
+              + pemilih bahasa + tombol Login; tagline apa pun akan mendorong
+              salah satunya keluar. Menyembunyikan lebih jujur daripada
+              mengecilkan sampai tak terbaca.
+     ≤900px   BARIS KEDUA, rata tengah — dan TANPA menaikkan tinggi bilah.
+   ⚠︎ `.lnav__in` tetap 68px di ≤900px, dan itu SYARAT, bukan kebetulan:
+   `.lnav__links` (laci) memakai `top:68px` + `max-height:calc(100dvh - 76px)`
+   dan `.ldrop__menu` memakai `calc(100dvh - 92px)`; menaikkan tinggi bilah tanpa
+   memperbarui ketiganya membuat laci meleset atau keluar layar. Ruangnya ada
+   tanpa perlu itu: baris pertama 44px (merek/burger pada pointer kasar) + 2px
+   + baris tagline 13px = 59px di dalam 68px. Angka terukurnya di laporan ronde.
+   `align-content:center` WAJIB menyertai `flex-wrap:wrap` — tanpanya kedua baris
+   diregangkan memenuhi 68px dan taglinenya menempel di tepi bawah bilah. */
+.lnav__tag{
+  display:none;flex:0 0 auto;
+  font-family:var(--n-mono);font-size:9.5px;font-weight:500;line-height:1.25;
+  letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;
+  color:var(--n-muted);
+  padding-inline-start:14px;
+  border-inline-start:1px solid var(--n-hair);
+  transition:color .3s,border-color .3s;
+}
+@media (min-width:1180px){.lnav__tag{display:inline-block}}
+.lnav:not(.scrolled) .lnav__tag{color:rgba(255,255,255,.62);border-inline-start-color:rgba(255,255,255,.26)}
 /* transparent over a hero: white text until scrolled */
 .lnav:not(.scrolled) .lbrand{color:#fff}
 /* the "yiv" accent is teal (great on white) but muddy on a dark hero — brighten it there */
 .lnav:not(.scrolled) .lbrand b i{color:#33d188}
+/* Di atas hero yang TERSISA dari perlakuan kaca lama hanyalah WARNA HURUFnya.
+   ⛔ Isian `--n-gloss-dark`, `border-color`, `box-shadow` sorot-dalam, dan
+   `backdrop-filter:blur(6px)` DIHAPUS bersama kotak desktopnya — bukan ditimpa.
+   Yang menggantikan pekerjaannya: pemisah `rgba(255,255,255,.22)`, sorot hover
+   `rgba(255,255,255,.16)`, dan garis mint `#33d188`, ketiganya dideklarasikan
+   satu kali sebagai token di `.lnav:not(.scrolled)` di kepala berkas.
+   Ikut hilang biayanya: empat `backdrop-filter` blur yang setiap saat menempel
+   di bilah — persis jenis efek yang memberati gulir di tablet pemilik. */
 .lnav:not(.scrolled) .lnav__links>a,.lnav:not(.scrolled) .ldrop__btn{color:rgba(255,255,255,.86)}
-.lnav:not(.scrolled) .lnav__links>a:hover,.lnav:not(.scrolled) .ldrop__btn:hover{color:#fff;background:rgba(255,255,255,.12)}
 /* dropdown links sit on a white panel — always dark regardless of nav state */
 .ldrop__menu a{color:var(--n-slate)!important}
 .ldrop__menu a:hover{color:var(--n-teal)!important}
@@ -46,53 +390,610 @@
 .ldrop{position:relative}
 .ldrop__btn svg{width:12px;height:12px;transition:transform .2s}
 .ldrop:hover .ldrop__btn svg,.ldrop:focus-within .ldrop__btn svg{transform:rotate(180deg)}
-.ldrop__menu{position:absolute;top:calc(100% + 8px);left:0;transform:translateY(6px);width:min(720px,86vw);max-width:calc(100vw - 28px);
-  background:#fff;border:1px solid var(--n-hair);border-radius:18px;box-shadow:var(--n-sh3);padding:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px 20px;opacity:0;visibility:hidden;transition:opacity .2s,transform .2s,visibility .2s;z-index:90}
+/* ══ PANEL DROPDOWN TIDAK PERNAH LEBIH TINGGI DARI LAYAR ═════════════════════
+   Pemilik, ronde ini: *"dropdown Ecosystem = satu layar (jangan lebih tinggi
+   dari viewport)."*
+
+   Sebelum ronde ini panel ini TIDAK punya batas tinggi sama sekali (terukur di
+   glyiv.io: `max-height:none`, `overflow-y:visible`). Selama isinya kebetulan
+   pendek hal itu tak kelihatan — terukur 427,1 px di 1440x800, muat. Tetapi
+   "kebetulan muat" bukan jaminan: tinggi panel tumbuh mengikuti jumlah butir,
+   panjang terjemahan, dan aturan target-sentuh 44 px, sementara tinggi layar
+   ditentukan perangkat. Begitu keduanya berpapasan, isi panel terpotong di
+   luar layar TANPA cara apa pun untuk menggapainya.
+
+   Batas di bawah membuatnya mustahil secara aritmetika, bukan secara kebetulan:
+   panel mulai di `100% + 8px` dari bilah setinggi 68 px (terukur: tepi atas
+   68,2 px), jadi tinggi maksimumnya `100dvh - 92px` menaruh tepi bawahnya di
+   `100dvh - 23,8px` — selalu di dalam layar, dengan sisa napas ~24 px.
+   `dvh`, bukan `vh`: di peramban ponsel `vh` mengabaikan bilah alamat yang
+   sedang tampil dan akan menjanjikan ruang yang tidak ada.
+   `overscroll-behavior:contain` menahan gulir agar tidak menembus ke halaman
+   di belakangnya begitu panel mencapai ujungnya. */
+/* ══ PANEL SELEBAR LAYAR — DITAMBATKAN KE BILAH, BUKAN KE TOMBOLNYA ══════════
+   Pemilik, ronde ini: *"setiap navbar item kan ada dropdownnya, nah modal
+   dropdownnya di lebarkan jadi satu width screen full."*
+
+   ── KENAPA `.ldrop` DILEPAS DARI `position:relative`, BUKAN PANELNYA DIBUAT
+      `position:fixed` ────────────────────────────────────────────────────────
+   Dua jalan bisa menghasilkan lebar penuh, dan yang dipilih jalan KEDUA:
+     (a) `position:fixed;left:0;right:0;top:<tinggi bilah>`
+     (b) tetap `absolute`, tetapi terhadap `.lnav` — dicapai dengan menihilkan
+         `position:relative` pada `.ldrop` di ≥901px (blok di bawah).
+   (a) DITOLAK karena dua alasan terukur, bukan selera:
+     1. `.lnav.scrolled` memasang `backdrop-filter`. Elemen ber-`backdrop-filter`
+        MENJADI blok penampung bagi keturunan `fixed` MAUPUN `absolute`. Jadi
+        dengan (a) penampung panel akan BERPINDAH-PINDAH — viewport saat bilah
+        tembus pandang, `.lnav` saat bilah tergulir — dan `top` yang benar di
+        satu keadaan salah di keadaan lain.
+     2. (a) menuntut tinggi bilah ditulis sebagai ANGKA (`top:68px`). Berkas ini
+        sudah punya empat angka yang mengasumsikan 68px dan satu lagi di
+        `glyiv-team.css`; menambah yang keenam berarti menambah satu tempat lagi
+        yang bisa lupa diperbarui.
+   Dengan (b), `top:100%` berarti "tepat di bawah bilah" berapa pun tingginya,
+   dan `left:0;right:0` mengambil lebar `.lnav` — yang `position:fixed` dengan
+   `left:0;right:0`, jadi lebarnya PERSIS `documentElement.clientWidth`.
+   ⛔ Karena itu JANGAN memakai `100vw` di sini: `vw` MENYERTAKAN lebar bilah
+   gulir sedangkan blok penampung tidak, jadi `width:100vw` akan melebihi lebar
+   halaman dan menimbulkan gulir mendatar di setiap halaman yang punya bilah
+   gulir. Terukur sesudah aturan ini, 1440/1280/2560 px:
+   `scrollWidth === clientWidth` — nol gulir mendatar.
+
+   ── ISI TETAP RATA DENGAN KISI HALAMAN ─────────────────────────────────────
+   Panel selebar layar dengan kolom yang menempel di tepi akan terbaca kacau di
+   layar 2560 px. `--n-drop-x` menghitung ulang inset yang SAMA PERSIS dengan
+   `.lnav__in` (`max-width:1240px;margin:0 auto;padding:0 clamp(20px,5vw,48px)`),
+   memakai `100%` — bukan `100vw` — supaya perhitungannya memakai lebar yang
+   sama dengan yang dipakai bilah, tanpa bilah gulir. Lalu dikurangi
+   `--n-drop-i` supaya yang jatuh di garis kisi adalah TEKSnya, bukan tepi kotak
+   sorotnya. Terukur: teks butir pertama dan tepi kiri `.lnav__in` sama x pada
+   1280/1440/2560.
+
+   ── TINGGI: TETAP TIDAK PERNAH LEBIH DARI SATU LAYAR ───────────────────────
+   Pemilik, ronde sebelumnya: *"dropdown Ecosystem = satu layar (jangan lebih
+   tinggi dari viewport)."* Panel kini mulai di `100%` (68 px) alih-alih 63 px,
+   jadi `max-height:calc(100dvh - 92px)` menaruh tepi bawahnya di
+   `100dvh - 24px` — masih di dalam layar, dengan sisa napas 24 px. `dvh` bukan
+   `vh`, supaya bilah alamat peramban ponsel ikut terhitung. Lebar penuh ikut
+   MEMENDEKKAN panelnya sedikit (kolom 201 px → 266 px, jadi lebih sedikit
+   keterangan yang membungkus). Terukur, mega-menu:
+     1440x900 : 379,9 px → 372,9 px  (tepi bawah 440,9 · layar 900)
+     1280x720 : 261,0 px → 252,0 px  (tepi bawah 320,0 · layar 720)
+   dan pada keduanya `scrollHeight === clientHeight`: panel tidak menggulir. */
+.ldrop__menu{
+  --n-drop-x:calc(max(0px,(100% - 1240px)/2) + clamp(20px,5vw,48px));
+  --n-drop-i:14px;
+  --n-drop-div:#DDE4DE;
+  position:absolute;top:100%;left:0;right:0;width:auto;max-width:none;
+  max-height:calc(100dvh - 92px);overflow-y:auto;overscroll-behavior:contain;
+  background:var(--n-card);border:0;border-bottom:1px solid var(--n-hair);border-radius:0;
+  box-shadow:0 20px 40px -26px rgba(15,26,20,.32);
+  padding:20px calc(var(--n-drop-x) - var(--n-drop-i)) 18px;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 36px;align-content:start;
+  opacity:0;visibility:hidden;transform:translateY(-10px);
+  transition:opacity .2s,transform .2s,visibility .2s;z-index:90}
 .ldrop:hover .ldrop__menu,.ldrop:focus-within .ldrop__menu{opacity:1;visibility:visible;transform:translateY(0)}
 .ldrop__grp{min-width:0}
-.ldrop__grp h4{font-family:var(--n-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--n-brass);margin:2px 0 8px}
-.ldrop__grp a{display:block;font-family:var(--n-sans);font-size:13px;color:var(--n-slate);padding:5px 0;overflow-wrap:break-word;transition:padding .15s,color .15s}
-.ldrop__grp a:hover{color:var(--n-teal);padding-left:3px}
+.ldrop__grp h4{font-family:var(--n-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--n-brass);margin:2px 0 8px;padding-inline:var(--n-drop-i,0px)}
+
+/* ══ BUTIR DROPDOWN — TEKS YANG TERBACA SEBAGAI BARIS YANG BISA DIKLIK ═══════
+   Pemilik, ronde ini, verbatim: *"setiap item di dalam dropdownnya itu diberikan
+   padding kiri kanan. Lalu coba pelajari bagaimana caranya agar orang lihat itu,
+   langsung berpikir setiap textnya itu bisa diklik (saya pikir bisa diberikan
+   animasi glowing kiri ke kanan untuk sementara, setiap kali dropdownnya dibuka)
+   akan bagus, atau berikan shadow bottom saja untuk setiap dropdpwon item atau
+   berikan divider bottom juga boleh, atau border bottom, terserah anda."*
+
+   ── APA YANG DIPILIH, DAN KENAPA ───────────────────────────────────────────
+   Ia menawarkan EMPAT gagasan dan menyerahkan pilihannya. Yang dipakai DUA —
+   kilau + pemisah — karena keduanya menjawab pertanyaan yang BERBEDA, sedangkan
+   sisanya menjawab pertanyaan yang sama dua kali (PRINSIP-UIUX §1):
+     · PEMISAH (hairline bawah) → "daftar ini terdiri atas baris-baris terpisah"
+       — permanen, terbaca tanpa gerak apa pun, tanpa kursor, dan tetap ada bagi
+       pengguna `prefers-reduced-motion`.
+     · KILAU sekali per bukaan  → "SELURUH baris ini bisa ditekan" — pekerjaan
+       yang tidak bisa dilakukan pemisah (statis) maupun hover (butuh kursor,
+       dan hanya menerangi SATU baris).
+     · SOROT + PANAH saat hover → "yang ini sedang di bawah kursormu, dan ia
+       menuju ke suatu tempat".
+   ⛔ BAYANGAN BAWAH TIDAK DIPAKAI. Ia mengerjakan persis pekerjaan pemisah
+   (memagari baris) dengan tinta lebih banyak; memakai keduanya berarti memagari
+   satu butir dua kali — kesalahan yang sudah tercatat di berkas ini untuk laci
+   ponsel ("kotak dan pemisah mengerjakan pekerjaan yang sama").
+
+   ── KENAPA PEMISAH DIGAMBAR `::before`, BUKAN `border-bottom` ──────────────
+   Butirnya ber-`border-radius` (supaya sorot hover punya bentuk). Sebuah
+   `border-bottom` pada kotak berpojok bulat ikut melengkung ke atas di kedua
+   ujungnya — garis dengan dua ekor. `::before` yang di-inset sejauh padding
+   membuat pemisah persis selebar TEKSnya, lurus, dan ia bisa MENGHILANG saat
+   sorot hover datang menggantikannya.
+
+   ⚠︎ `--n-drop-i` (inset mendatar) SENGAJA ber-default 0 dan hanya diisi di
+   ≥901px. Di dalam laci ponsel butir induknya sudah berupa kotak ber-padding
+   sendiri, dan menambah 14px lagi ke sub-tautannya hanya memakan lebar kolom.
+   ⛔ Kalau nilainya diubah, TIDAK ADA angka lain yang perlu ikut diubah: padding
+   butir, inset pemisah, dan padding judul kolom semuanya membaca variabel yang
+   sama. Itu sebabnya ia variabel dan bukan tiga angka. */
+.ldrop__grp a{position:relative;display:block;font-family:var(--n-sans);font-size:13px;color:var(--n-slate);
+  padding:6px var(--n-drop-i,0px);border-radius:10px;overflow-wrap:break-word;
+  background-color:transparent;
+  background-image:var(--n-l-kilau,none);
+  background-repeat:no-repeat;background-size:200% 100%;background-position:190% center;
+  transition:color .15s ease,background-color .16s ease}
+.ldrop__grp a::before{content:"";position:absolute;left:var(--n-drop-i,0px);right:var(--n-drop-i,0px);bottom:0;height:1px;
+  background:var(--n-drop-div,#DDE4DE);transition:opacity .16s ease}
+/* Butir terakhir tiap kolom tidak diberi pemisah: garis yang tidak memisahkan
+   apa pun terbaca sebagai daftar yang terpotong. */
+.ldrop__grp a:last-child::before{content:none}
+/* `background` PINDAH KE SINI dari `.lnav__links a:hover`. Tautan di dalam panel
+   memang sudah punya latar kertas saat di-hover; yang berubah hanya SIAPA yang
+   memasangnya, supaya aturan (0,3,0) itu berhenti mengalahkan latar butir bilah
+   dan tombol kaki mega-menu. Terlihat identik, tanpa kerusakan sampingan.
+   ⛔ `background-color`, BUKAN shorthand `background`: shorthand akan menihilkan
+   `background-image`, dan lapisan itulah yang membawa kilau sambutan panel.
+   ⛔ `padding-left:3px` saat hover DIHAPUS — itu animasi properti TATA LETAK
+   (dilarang di proyek ini; pemilik menguji di tablet dan gulir tersendat sudah
+   berkali-kali jadi keluhan). Geraknya dipindahkan ke panah `::after`, yang
+   hanya `transform`+`opacity`. */
+.ldrop__grp a:hover,.ldrop__grp a:focus-visible{color:var(--n-teal);background-color:var(--n-paper)}
+/* Sorot MENGGANTIKAN pemisah, tidak menumpukinya: pada baris yang sedang
+   di-hover, kotak sorotlah yang menyatakan batas butir. */
+.ldrop__grp a:hover::before,.ldrop__grp a:focus-visible::before{opacity:0}
+/* Panah kecil yang muncul sambil menggeser — satu-satunya gerak pada hover, dan
+   ia `transform`+`opacity` saja. `inset-inline-end` supaya ikut berpindah sisi
+   pada dir="rtl" tanpa aturan tersendiri; bentuk panahnya sendiri dibalik di
+   bawah, karena "›" menunjuk ke arah yang salah dalam tulisan kanan-ke-kiri. */
+.ldrop__grp a::after{content:"\203A";position:absolute;top:50%;inset-inline-end:5px;
+  font-family:var(--n-sans);font-size:15px;line-height:1;color:var(--n-brass);
+  opacity:0;transform:translateY(-50%) translateX(-5px);
+  transition:opacity .16s ease,transform .16s cubic-bezier(.4,0,.2,1)}
+.ldrop__grp a:hover::after,.ldrop__grp a:focus-visible::after{opacity:1;transform:translateY(-50%) translateX(0)}
+[dir="rtl"] .ldrop__grp a::after{content:"\2039";transform:translateY(-50%) translateX(5px)}
+[dir="rtl"] .ldrop__grp a:hover::after,[dir="rtl"] .ldrop__grp a:focus-visible::after{transform:translateY(-50%) translateX(0)}
 .ldrop__menu a small{display:block;font-family:var(--n-mono);font-size:9px;color:var(--n-muted);margin-top:1px;letter-spacing:.02em}
-/* right-anchored dropdown (last nav item) — must not overflow the viewport */
-.ldrop--r .ldrop__menu{left:auto;right:0;width:min(360px,86vw);grid-template-columns:1fr 1fr;gap:8px 16px}
-/* ECOSYSTEM MEGA-MENU — wider, richer, with a bottom CTA row */
-.ldrop--mega .ldrop__menu{left:0;transform:translateX(-24px) translateY(6px);width:min(920px,94vw);grid-template-columns:repeat(4,1fr);gap:14px 22px;padding:22px 24px 18px}
-.ldrop--mega:hover .ldrop__menu,.ldrop--mega:focus-within .ldrop__menu{transform:translateX(-24px) translateY(0)}
-.ldrop--mega .ldrop__grp a{padding:6px 0}
+
+/* ══ KILAU MENYAPU PANEL — SEKALI SETIAP PANEL DIBUKA ════════════════════════
+   Pemilik: *"saya pikir bisa diberikan animasi glowing kiri ke kanan untuk
+   sementara, setiap kali dropdownnya dibuka."*
+
+   "SETIAP KALI dibuka" — bukan sekali seumur halaman. CSS sendirian tidak bisa
+   menyatakan itu: panel dibuka `:hover`/`:focus-within`, dan animasi yang
+   dipasang pada keadaan hover akan berjalan ULANG-ULANG selama kursor diam di
+   atas panel. Karena itu pemicunya kelas `.ldrop--kilau` yang dipasang lalu
+   DICABUT `glyiv-nav.js` (fungsi `panelBuka`/`panelTutup`) — pencabutan itulah
+   yang membuat sapuan berikutnya benar-benar berjalan dari awal.
+
+   ⚠︎ Yang dianimasikan `background-position`, alasannya sama persis dengan kilau
+   bilah di atas: sapuan harus TERPOTONG di tepi butir, dan memotong dengan
+   `overflow:hidden` mustahil karena panelnya sendiri wadah yang menggulir.
+   Sebagai lapisan latar, gradasinya terpotong kotak butirnya sendiri.
+   ⚠︎ Butir dropdown sengaja punya SATU lapisan latar saja (`--n-l-kilau`) —
+   pemisahnya digambar `::before`, bukan lapisan kedua. Itu yang membuat
+   `@keyframes` di bawah tidak perlu mendaftar posisi lapisan lain; daftar
+   `background-position` dipetakan PER LAPISAN, dan satu lapisan yang lupa
+   ditulis akan menggeser lapisan lainnya (jebakan yang sudah tercatat pada
+   kilau bilah).
+
+   ── ARAH & WAKTU ───────────────────────────────────────────────────────────
+   Sapuan berundak KIRI→KANAN mengikuti KOLOM lebih dulu (70ms per kolom), lalu
+   baris di dalam kolom (32ms per butir) — jadi yang terbaca mata adalah satu
+   sapuan yang menyeberangi panel, bukan 15 kilau acak. Jeda terpanjang:
+   kolom ke-4 (210ms) + butir ke-5 (128ms) = 338ms, ditambah durasi 520ms →
+   858ms, di bawah pagu 900ms yang ditetapkan ronde ini.
+   `animation-iteration-count:1` + `fill-mode:forwards` memarkir gradasinya di
+   luar butir dan meninggalkannya di sana, jadi kelas yang telat dicabut pun
+   tidak pernah membuatnya berulang. */
+@keyframes ldropKilau{
+  from{background-position:190% center}
+  to{background-position:-110% center}
+}
+.ldrop--kilau .ldrop__grp a{
+  --n-l-kilau:linear-gradient(115deg,transparent 32%,rgba(15,46,34,.11) 50%,transparent 68%);
+  animation-name:ldropKilau;
+  animation-duration:.52s;
+  animation-timing-function:cubic-bezier(.35,0,.25,1);
+  animation-iteration-count:1;
+  animation-fill-mode:forwards;
+  animation-delay:calc(var(--n-kilau-kol,0ms) + var(--n-kilau-brs,0ms));
+}
+.ldrop--kilau .ldrop__grp:nth-child(1) a{--n-kilau-kol:0ms}
+.ldrop--kilau .ldrop__grp:nth-child(2) a{--n-kilau-kol:70ms}
+.ldrop--kilau .ldrop__grp:nth-child(3) a{--n-kilau-kol:140ms}
+.ldrop--kilau .ldrop__grp:nth-child(n+4) a{--n-kilau-kol:210ms}
+/* `h4` selalu anak pertama grup, jadi tautan pertama adalah anak KEDUA. */
+.ldrop--kilau .ldrop__grp a:nth-child(3){--n-kilau-brs:32ms}
+.ldrop--kilau .ldrop__grp a:nth-child(4){--n-kilau-brs:64ms}
+.ldrop--kilau .ldrop__grp a:nth-child(5){--n-kilau-brs:96ms}
+.ldrop--kilau .ldrop__grp a:nth-child(n+6){--n-kilau-brs:128ms}
+/* ⛔ YANG DIBUANG BERSAMA PANEL MENGAMBANG (bukan ditimpa, supaya berkas ini
+   masih bisa dibaca ronde berikutnya):
+     · `.ldrop--r .ldrop__menu{left:auto;right:0;width:min(244px,86vw)}` — panel
+       "Perusahaan" ditambatkan ke kanan supaya tidak keluar layar. Panel selebar
+       layar tidak bisa keluar layar, jadi penambatan itu tidak menjaga apa pun.
+     · `.ldrop--mega .ldrop__menu{transform:translateX(-24px);width:min(920px,94vw)}`
+       plus pasangan `:hover`/`:focus-within`-nya — geseran 24px itu ada supaya
+       kartu mega tidak terlihat menggantung dari tombolnya. Tidak ada lagi
+       kartu yang menggantung.
+   Yang TERSISA dari keduanya hanyalah bentuk kolomnya, di bawah. */
+/* Panel "Perusahaan" hanya berisi SATU grup berisi tiga tautan. Dalam panel
+   selebar layar, satu grup dalam kisi 4 kolom akan meninggalkan tiga kolom
+   kosong melompong. Jadi grupnya sendiri yang dijadikan baris: judulnya
+   membentang penuh, tautannya mengisi kolom 1-3 pada RITME KISI YANG SAMA
+   dengan mega-menu — jadi kedua panel terbaca sebagai satu sistem, dan panel
+   pendek tetap terbaca sebagai pita pendek, bukan kotak kosong. */
+@media (min-width:901px){
+  /* Zona hover HARUS bersambung dengan panelnya. Terukur, `.ldrop` hanya
+     setinggi tombolnya — y=13, tinggi 42, jadi tepi bawahnya 55 — di dalam bilah
+     68 px. Selama panel mulai di 63 px, pita matinya cuma 8 px dan kursor cepat
+     sering melompatinya; sejak panel ditambatkan ke `.lnav` di `top:100%`
+     (y=68), pita itu jadi 13 px dan menu menutup di tengah jalan menuju isinya.
+     Merentangkan `.ldrop` sampai dasar bilah membuat tombol dan panel
+     bersentuhan tepat di y=68 — terukur celah 0,0 px, dan sepanjang 23 titik uji
+     dari tengah tombol turun 90 px panelnya tidak pernah sekali pun tersembunyi. */
+  .lnav__links{align-self:stretch}
+  .ldrop{position:static;align-self:stretch;display:flex;align-items:center}
+  .ldrop--r .ldrop__grp{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:36px;align-content:start}
+  .ldrop--r .ldrop__grp h4{grid-column:1/-1}
+}
+.ldrop--mega .ldrop__grp a{padding:6px var(--n-drop-i,0px)}
 .ldrop--mega .ldrop__grp a b{display:block;font-family:var(--n-sans);font-size:13px;font-weight:600;color:var(--n-slate)}
 .ldrop--mega .ldrop__grp a:hover b{color:var(--n-teal)}
 .ldrop--mega .ldrop__grp a small{display:block;font-family:var(--n-mono);font-size:9px;color:var(--n-muted);margin-top:1px;letter-spacing:.01em}
-.ldrop__mega-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px;padding-top:14px;border-top:1px solid var(--n-hair)}
+/* `padding-inline:var(--n-drop-i)` — kaki mega-menu duduk di dalam kotak panel
+   yang sengaja di-inset 14px ke luar garis kisi (lihat `--n-drop-x`), jadi tanpa
+   baris ini teks kakinya berdiri 14px di sebelah kiri kolom di atasnya. */
+.ldrop__mega-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:6px;padding-top:14px;padding-inline:var(--n-drop-i,0px);border-top:1px solid var(--n-hair)}
 .ldrop__mega-foot span{font-family:var(--n-mono);font-size:10px;color:var(--n-muted)}
 .ldrop__mega-foot a{font-family:var(--n-sans);font-weight:700;font-size:12.5px;color:#fff!important;background:var(--n-pine);border-radius:999px;padding:8px 15px}
 .ldrop__mega-foot a:hover{background:var(--n-teal);color:#fff!important}
-/* current page */
-.lnav__links>a,.ldrop__btn{position:relative}
-.lnav__links a.is-active,.ldrop__btn.is-active{color:var(--n-pine);background:var(--n-paper)}
-.lnav__links>a.is-active::after,.ldrop__btn.is-active::after{content:"";position:absolute;left:12px;right:12px;bottom:3px;height:2px;border-radius:2px;background:var(--n-brass)}
-.lnav:not(.scrolled) .lnav__links>a.is-active,.lnav:not(.scrolled) .ldrop__btn.is-active{color:#fff;background:rgba(255,255,255,.14)}
-.ldrop__grp a.is-active{color:var(--n-teal)!important;font-weight:700}
-.ldrop__grp a.is-active::before{content:"› ";color:var(--n-brass)}
+/* ── LAYAR PENDEK: PANEL DIRAMPINGKAN, BUKAN DIGULIR ─────────────────────────
+   `max-height` di atas menjamin panel tidak pernah keluar layar, tapi jaminan
+   itu dibayar dengan gulir di dalam panel — dan menggulir di dalam menu adalah
+   pengalaman yang buruk. Jadi sebelum sampai ke sana, panelnya dirampingkan
+   dulu: pada layar rendah, keterangan kecil di bawah tiap butir disembunyikan
+   dan jarak antar butir dirapatkan. Judul butir (yang membawa arti) tetap utuh.
+   Terukur di 1440x800: menu Ekosistem 427,1px (tanpa aturan ini) → 300,1px.
+   Ambang 820px dipilih karena di bawah itulah 427px + bilah 76px + napas 24px
+   mulai berdesakan. */
+@media (min-width:901px) and (max-height:820px){
+  .ldrop--mega .ldrop__grp a small,.ldrop__menu a small{display:none}
+  /* ⚠︎ `var(--n-drop-i)`, BUKAN `0` seperti sebelum ronde ini. Aturan ini datang
+     SESUDAH aturan butir, jadi `padding:4px 0` di sini akan menihilkan padding
+     mendatar yang baru saja diminta pemilik — persis di layar rendah, yaitu
+     tablet mendatar tempat ia menguji. Yang boleh dirampingkan tingginya saja. */
+  .ldrop--mega .ldrop__grp a,.ldrop__grp a{padding:4px var(--n-drop-i,0px)}
+  .ldrop__menu{padding-block:14px 12px;gap:6px 36px}
+  .ldrop__mega-foot{margin-top:2px;padding-top:10px}
+}
+/* ══ HALAMAN YANG SEDANG DIBUKA — BRASS, DAN HANYA BRASS ════════════════════
+   Aktif dan hover TIDAK BOLEH tertukar, dan cara paling aman adalah memberi
+   keduanya BENDA yang berbeda, bukan sekadar nuansa berbeda dari benda yang sama:
+     hover : sorot melebar + garis teal/mint  — datang & pergi bersama kursor
+     aktif : garis BRASS penuh, permanen      — tidak pernah pergi
+   Garis brass memakai `::after` YANG SAMA dengan garis hover, jadi tidak ada dua
+   garis yang bisa saling menutupi; yang berubah hanya warna dan keadaan diamnya.
+   Hover di atas butir yang sedang aktif karena itu tetap memunculkan sorot,
+   tetapi garisnya TETAP brass — spesifisitas `.is-active::after` (0,2,2) menang
+   atas `:hover::after` (0,2,2) lewat urutan, dan warna `--n-ul` tidak pernah
+   ditulis oleh aturan hover mana pun.
+   ⛔ Isian/tepi/bayangan "kotak tertekan" ronde lalu DIHAPUS — bukan ditimpa.
+   Ia hanya masuk akal selama pilihan bilah berbentuk kotak, dan kotak itulah
+   yang ditolak pemilik. */
+.lnav__links a.is-active,.ldrop__btn.is-active{color:var(--n-pine)}
+.lnav__links>a.is-active::after,.ldrop__btn.is-active::after{
+  opacity:1;transform:scaleX(1);background:var(--n-brass);
+}
+.lnav:not(.scrolled) .lnav__links>a.is-active,.lnav:not(.scrolled) .ldrop__btn.is-active{color:#fff}
+/* ⚠︎ PENANDA HALAMAN AKTIF PINDAH DARI `::before` KE `::after` — bukan gaya
+   penulisan, melainkan keharusan. `::before` sekarang menggambar PEMISAH butir
+   (lihat blok "BUTIR DROPDOWN"), dan satu elemen hanya punya satu `::before`;
+   aturan lama `content:"› "` akan MENGHAPUS pemisah pada butir yang sedang
+   aktif. Penandanya karena itu memakai panah `::after` yang sama dengan hover,
+   dikunci ke keadaan "sudah muncul" dan diberi latar tetap — jadi tidak ada dua
+   tanda berbeda yang harus dipelajari pembaca, dan tidak ada pseudo yang
+   diperebutkan dua pekerjaan. */
+.ldrop__grp a.is-active{color:var(--n-teal)!important;font-weight:700;background-color:var(--n-paper)}
+.ldrop__grp a.is-active::after{opacity:1;transform:translateY(-50%) translateX(0)}
+.ldrop__grp a.is-active::before{opacity:0}
 /* admin-only nav items (e.g. Landing directory) — hidden until glyiv-admin.js
    confirms the Glyiv admin is signed in, then sets html[data-admin] */
 .lnav__admin{display:none!important}
 html[data-admin] .lnav__admin{display:inline-flex!important}
-.lnav__burger{display:none;margin-left:auto;background:none;border:1px solid rgba(255,255,255,.4);border-radius:9px;padding:8px 10px;color:#fff;font-family:inherit;cursor:pointer}
+/* ⛔ `margin-left:auto` DIHAPUS DARI SINI — dan itu perbaikan, bukan kelalaian.
+   Ruang sisa bilah sudah didorong oleh `.lnav__sp{margin-left:auto}`, yang ada
+   di 25/25 halaman ber-`.lnav` (diperiksa; lihat blok margin di akhir berkas).
+   Auto-margin KEDUA di sini berarti ruang sisanya DIBAGI DUA di antara keduanya
+   — persis cacat "pemicu bahasa terapung di tengah" yang sudah terukur (celah
+   88px di 412px), dan yang selama ini ditambal oleh aturan penihil ketiga.
+   Dengan baris ini hilang, tinggal DUA aturan margin, bukan tiga, dan yang satu
+   itu tugasnya cuma melawan `glyiv-rtl.css` yang disuntik belakangan. */
+.lnav__burger{display:none;background:none;border:1px solid rgba(255,255,255,.4);border-radius:9px;padding:8px 10px;color:#fff;font-family:inherit;cursor:pointer}
 .lnav.scrolled .lnav__burger{border-color:var(--n-hair);color:var(--n-pine)}
 @media (max-width:900px){
-  .lnav__links{position:fixed;top:68px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;margin:0;background:#fff;border-bottom:1px solid var(--n-hair);box-shadow:var(--n-sh2);padding:10px 20px 18px;transform:translateY(-8px);opacity:0;visibility:hidden;pointer-events:none;transition:.22s;max-height:82vh;overflow:auto}
-  /* closed menu must not capture taps: child .ldrop__menu set visibility:visible would
-     otherwise stay interactive under an opacity:0 parent — pointer-events:none kills that */
+  /* ⚠︎ `max-height` DIUBAH 82vh → calc(100dvh - 76px). Dua sebab, keduanya
+     terukur. (1) Laci mulai di y=68 px, jadi 82vh menyisakan 68px+82vh yang di
+     412x915 berarti tepi bawahnya 818px — 97px ruang layar terbuang percuma
+     sementara isinya menggulir. (2) Pilihan di dalam laci sekarang berupa kotak
+     (lihat blok di bawah), yang menambah ~7 px per butir; dengan 82vh laci akan
+     mulai menggulir persis pada beranda. `100dvh - 76px` menaruh tepi bawahnya
+     di 100dvh - 8px: tetap di dalam layar — syarat "satu layar" — tapi dengan
+     ruang 88 px lebih banyak. `dvh` bukan `vh`, supaya bilah alamat peramban
+     ponsel ikut diperhitungkan. */
+  .lnav__links{position:fixed;top:68px;left:0;right:0;max-width:100vw;flex-direction:column;align-items:stretch;gap:0;margin:0;background-color:var(--n-canvas);border-bottom:1px solid var(--n-hair);box-shadow:var(--n-sh2);padding:10px 20px 18px;transform:translateY(-8px);opacity:0;visibility:hidden;pointer-events:none;transition:.22s;max-height:calc(100dvh - 76px);overflow:auto;overscroll-behavior:contain}
+  /* closed menu must not capture taps: pointer-events:none kills interaction under
+     an opacity:0 parent. Sejak grup bisa dilipat, submenu yang tertutup juga
+     `display:none` — jadi tautannya tidak lagi bocor ke urutan tab & pohon
+     aksesibilitas seperti sebelumnya. Terukur di /index.html 412px dengan laci
+     TERTUTUP: 23 dari 25 tautan laci masih ter-render (dan terdaftar di snapshot
+     a11y); sekarang 3 — hanya tautan tingkat pertama. */
   body.lnav-open .lnav__links{transform:none;opacity:1;visibility:visible;pointer-events:auto}
-  .lnav__links>a,.ldrop__btn{width:100%!important;justify-content:space-between;padding:12px 4px;border-bottom:1px solid var(--n-hair);color:var(--n-slate)!important;background:none!important}
-  .lnav__links>a.is-active::after,.ldrop__btn.is-active::after{display:none}
-  .lnav__links>a.is-active,.ldrop__btn.is-active{color:var(--n-teal)!important}
+  /* ── LACI TERBUKA → BILAHNYA IKUT SOLID ───────────────────────────────────
+     Pemilik, ronde ini: "di homepage, navbar background colornya transparan,
+     tapi saat ditekan tombol 3 bar untuk tampilkan item navbar, itu malah tidak
+     berubah warna navbarnya menjadi tidak transparan, dan masih transparan."
+
+     Terukur SEBELUM, /index.html 412x915 pointer kasar, laci dibuka dengan
+     ketukan sungguhan di puncak halaman: `.lnav` background rgba(0, 0, 0, 0)
+     dan mereknya rgb(255, 255, 255), sementara `.lnav__links` tepat di bawahnya
+     rgb(255, 255, 255) pekat mulai y=68 — panel putih menggantung dari bilah
+     tembus pandang, dengan merek & burger putih melayang di atas foto hero.
+
+     ⛔ SELURUHNYA DI CSS, DIKUNCI KE `body.lnav-open` — JANGAN dipindahkan
+     menjadi "pasang kelas .scrolled dari JS". Percobaan pertama ronde ini
+     melakukan persis itu dan tampak rapi (satu kelas, tanpa aturan kembar),
+     tetapi `body.lnav-open` TIDAK dimiliki satu pihak: selain `setLaci()` di
+     glyiv-nav.js, `src/layout/AppShell.tsx` menyalakannya SENDIRI langsung dari
+     React. Begitu latar di sini bergantung pada kelas yang hanya dipasang salah
+     satu pihak, warnanya bisa berlaku tanpa warna teksnya ikut. Terukur saat
+     CSS ronde ini berpasangan dengan glyiv-nav.js versi lama (persis yang
+     terjadi kalau salah satu berkas tertahan cache peramban — jebakan yang
+     sudah tercatat di CLAUDE.md): latar bilah rgb(255, 255, 255) dengan merek
+     rgb(255, 255, 255). Putih di atas putih, kontras 1,00:1.
+     Aturan di bawah karena itu tidak menuntut apa pun dari JavaScript.
+
+     ⚠︎ ARAH SEBALIKNYA — CSS LAMA berpasangan dengan JS BARU — tidak bisa
+     ditutup dari sini, dan justru itu yang benar-benar terjadi. Terukur di
+     glyiv.web.app/app-store, 412x915: peramban memakai salinan berkas ini yang
+     MENDAHULUI kelima baris di bawah (lembar terpasang 56 aturan, blok <=900px
+     beranak 12; berkas di URL yang sama 80 aturan, beranak 20), sehingga bilah
+     tetap rgba(0, 0, 0, 0) saat laci terbuka walau server sudah menyajikan
+     berkas yang benar. Penjaganya di `glyiv-nav.js`, blok "LEMBAR GAYA
+     PASANGANNYA": ia menanyakan apakah lembar yang TERPASANG punya aturan latar
+     bilah untuk laci terbuka, lalu mengambil ulang berkasnya bila tidak.
+     ⛔ Kalau selektor di bawah diubah, perbarui deteksi di sana — ia mencari
+     selektor yang mengandung `lnav-open` DAN berakhir `.lnav`.
+
+     Kenapa putih PEKAT dan bukan sekadar meminjam `.scrolled` yang 82% + blur:
+     82% memang disengaja untuk keadaan menggulir supaya isi halaman terbaca
+     samar lewat bilah — tetapi saat laci terbuka yang ada di belakang bilah
+     bukan isi halaman, melainkan hero, dan hasilnya jalur abu. Terukur dari
+     piksel yang benar-benar tergambar di /index.html:
+       bilah (82% di atas hero) : rgb(220, 224, 218)
+       panel laci tepat di bawah: rgb(255, 255, 255)
+     Dua warna berbeda yang bersambung di y=68 — itu yang terbaca sebagai
+     "masih transparan". Sesudah aturan ini, keduanya rgb(255, 255, 255)
+     (terukur: 100% piksel pada kedua potongan), jadi bilah dan panelnya satu
+     lembar. Garis bawah bilah ditiadakan karena alasan yang sama.
+
+     Yang jadi USANG karenanya (PRINSIP-UIUX §1): perlakuan teks putih
+     `.lnav:not(.scrolled)` tidak pernah lagi tercapai selagi laci terbuka —
+     empat aturan WARNA di bawah (merek, aksen "yiv", burger, pemicu bahasa)
+     itulah yang menggantikannya di keadaan itu; aturan kelimanya soal latar.
+     Spesifisitasnya sengaja satu elemen lebih tinggi (`body` di depan) supaya
+     menang atas `.lnav:not(.scrolled) …` (0,3,0) TANPA bergantung urutan
+     berkas, dan tanpa satu pun `!important`. */
+  /* ⚠︎ `#fff` → `var(--n-canvas)` (#F7F9F6) MENGIKUTI panel laci di atas, yang
+     ikut pindah ke warna kanvas pada ronde yang sama. Yang harus dijaga bukan
+     nilai "putih", melainkan SAMA: bilah dan panel yang berbeda satu tingkat
+     saja akan terbaca sebagai jalur abu di y=68 — persis keluhan yang melahirkan
+     blok ini. Terukur sesudah perubahan: keduanya rgb(247, 249, 246).
+     ⛔ `background-color:` — LONGHAND, dan itu WAJIB, bukan gaya penulisan.
+     `glyiv-nav.js` mengenali salinan gaya yang sezaman dengan menanyakan
+     `r.style.getPropertyValue("background-color")` pada aturan ini. Sebuah
+     SHORTHAND yang isinya `var()` tidak bisa diurai CSSOM menjadi longhand-nya
+     (nilainya "pending substitution"), jadi pertanyaan itu dijawab dengan
+     STRING KOSONG. Terukur di harness ronde ini, versi `background:var(--n-canvas)`:
+       selector `body.lnav-open .lnav` ditemukan · background = "var(--n-canvas)"
+       · background-color = ""  → aturan yang cocok detektor: 0 dari 1
+     Artinya setiap muat halaman akan menganggap berkas ini BASI dan mengambilnya
+     ulang lewat `fetch`. Dengan longhand, jawabannya "var(--n-canvas)" yang
+     benilai benar, dan berkasnya tidak pernah diambil ulang percuma.
+     Juga tetap harus WARNA, bukan gradasi, karena alasan yang sama. */
+  body.lnav-open .lnav{background-color:var(--n-canvas);-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom-color:transparent;box-shadow:none}
+  body.lnav-open .lnav .lbrand{color:var(--n-pine)}
+  body.lnav-open .lnav .lbrand b i{color:var(--n-teal)}
+  body.lnav-open .lnav .lnav__burger{border-color:var(--n-hair);color:var(--n-pine)}
+  body.lnav-open .lnav .lnav__lang__now{background:#fff;border-color:var(--n-hair);color:var(--n-slate)}
+  /* ══ DI LACI PUN, TIAP PILIHAN ADALAH KOTAK ════════════════════════════════
+     Sebelum ronde ini butir laci adalah baris teks yang dipisah garis bawah:
+     `padding:12px 4px;border-bottom:1px solid;background:none`. Di layar sentuh
+     itu justru tempat isyarat "bisa diketuk" paling dibutuhkan — tidak ada
+     tetikus yang bisa menyentuhnya lebih dulu untuk membuktikannya.
+
+     Garis bawah DIBUANG, bukan ditambahi kotak di atasnya: pemisah dan kotak
+     mengerjakan pekerjaan yang sama (memecah daftar jadi butir), dan memakai
+     keduanya membuat tiap butir terlihat berpagar dua kali.
+
+     ⛔ ISIAN KOTAK MASUK LEWAT `--n-l-alas`, BUKAN `background:…!important`.
+     Shorthand `background` MENIHILKAN seluruh daftar `background-image`, dan
+     daftar itulah yang membawa lapisan KILAU sambutan. Ronde ini pemilik minta
+     kilau itu juga muncul "ketika user buka navbarnya pertama kali" — dan di
+     ponsel "membuka navbar" berarti menekan tombol burger, yaitu tepat di dalam
+     laci ini. Satu shorthand di sini akan mematikannya tanpa jejak.
+     `--n-l-alas` mengisi lapisan latar KETIGA (urutan: kilau · pemisah · alas),
+     jadi kotaknya tergambar seperti dulu sementara kilaunya tetap punya tempat.
+     `--n-l-div:none` menegaskan: di laci TIDAK ADA pemisah — kotak dan pemisah
+     mengerjakan pekerjaan yang sama, dan memakai keduanya memagari satu butir
+     dua kali (PRINSIP-UIUX §1). Aturan pemisahnya sendiri sudah dikurung di
+     `@media (min-width:901px)`; baris ini pagar keduanya, bukan pengganti.
+     `!important` yang tersisa hanya untuk properti yang memang masih diperebutkan
+     dengan aturan `.lnav:not(.scrolled) …` (0,3,0) — warna huruf. */
+  /* ⛔ KOTAK DICABUT RONDE 60 — pemilik: *"Kenapa navbar item tampilan di mobile
+     masih pakai yang kotak2 itu ya? hapus itu?"*
+     Tepi, isian gloss, dan bayangan sorot-dalam DIBUANG. Yang tersisa: baris
+     teks yang dipisahkan garis rambut BAWAH — bentuk daftar yang sama dengan
+     butir di dalam panel dropdown, jadi bilah dan panelnya kini satu bahasa.
+     Tinggi 48px dan target sentuh 44px TIDAK berubah; yang hilang cuma
+     kotaknya, bukan area ketuknya. */
+  .lnav__links>a,.ldrop__btn{
+    width:100%!important;justify-content:space-between;
+    padding:13px 4px;margin-bottom:0;border-radius:0;
+    border:0;
+    color:var(--n-slate)!important;
+    --n-l-div:none;
+    --n-l-alas:none;
+    box-shadow:none;
+  }
+  /* Garis rambut BAWAH, bukan kotak — dan tidak pada butir terakhir, supaya
+     daftarnya tidak berakhir dengan garis menggantung. */
+  .lnav__links>a,.lnav__links>.ldrop{
+    border-bottom:1px solid var(--n-hair);
+  }
+  .lnav__links>.ldrop:last-of-type,
+  .lnav__links>a:last-of-type{border-bottom:0}
+  /* Sorot & garis hover dimatikan di dalam laci: di layar sentuh `:hover`
+     menempel sesudah ketukan, dan kotaknya sendiri sudah membawa isyarat. */
+  .lnav__links>a::before,.ldrop__btn::before,
+  .lnav__links>a::after,.ldrop__btn::after{display:none}
+  /* Kotak halaman aktif dibedakan lewat TEPI + isian, bukan lagi hanya warna
+     huruf — pada kotak, tepi adalah isyarat yang paling dulu terbaca. */
+  /* Halaman aktif: sejak kotaknya dicabut, penandanya kembali ke WARNA teks
+     + garis brass tipis di kiri baris — isyarat yang tidak butuh kotak. */
+  .lnav__links>a.is-active,.ldrop__btn.is-active{color:var(--n-teal)!important;
+    box-shadow:inset 3px 0 0 var(--n-brass)}
+  /* Di laci, bilah dan kotaknya sama-sama TERANG walau `.lnav` mungkin masih
+     `:not(.scrolled)`. Kilau putih .55 di atas kotak putih tidak terlihat sama
+     sekali, jadi warnanya dikembalikan ke nuansa pine — sejalan dengan keempat
+     aturan warna `body.lnav-open` di atas, yang lahir dari sebab yang sama. */
+  body.lnav-open .lnav{--n-kilau-c:rgba(15,46,34,.13)}
   .ldrop{width:100%}
-  .ldrop__menu,.ldrop--r .ldrop__menu,.ldrop--mega .ldrop__menu{position:static;transform:none!important;opacity:1;visibility:visible;width:auto;max-width:none;box-shadow:none;border:none;grid-template-columns:1fr 1fr;padding:6px 0 6px 8px;gap:2px 12px}
+  /* ⛔ GRUP TERLIPAT ADALAH KEADAAN BAWAAN — jangan kembalikan ke `display:grid`.
+     Sebelum ronde ini baris ini memaksa setiap submenu terbuka tanpa syarat, dan
+     karena tidak ada kelas/atribut yang bisa menutupnya, tombol "Ekosistem" di
+     dalam laci memang tidak bisa dilipat sama sekali — persis keluhan pemilik.
+     `visibility` sengaja `inherit`, bukan `visible`: dengan `visible` submenu
+     tetap terbaca pembaca layar walau lacinya tersembunyi.
+     Yang membuka/menutup: kelas `is-open` dari glyiv-nav.js. */
+  /* ⛔ `max-height:none;overflow:visible` WAJIB di sini. Di desktop panel ini
+     dibatasi `calc(100dvh - 92px)` agar tak pernah keluar layar; di dalam laci
+     panel itu bukan lagi lapisan mengambang melainkan bagian dari daftar yang
+     digulir lacinya. Kalau batas desktopnya dibiarkan, akan ada DUA wadah
+     bergulir bersarang — jari yang menggulir daftar Ekosistem akan menggerakkan
+     yang salah. Yang menjaga "satu layar" di lebar ini adalah `max-height`
+     milik `.lnav__links` sendiri. */
+  /* ⚠︎ `--n-drop-i:0px` — inset mendatar butir dropdown DIMATIKAN di dalam laci.
+     Di desktop 14px itu memberi badan pada sorot hover; di laci, butir induknya
+     sudah berupa kotak ber-padding sendiri dan kolomnya hanya separuh lebar
+     layar, jadi 14px lagi hanya memakan tempat teks. Pemisah `::before` ikut
+     membaca variabel yang sama, jadi di sini ia membentang penuh — dan justru
+     itu yang benar untuk daftar satu kolom yang diketuk jari. */
+  .ldrop__menu,.ldrop--r .ldrop__menu,.ldrop--mega .ldrop__menu{--n-drop-i:0px;display:none;position:static;transform:none!important;opacity:1;visibility:inherit;width:auto;max-width:none;max-height:none;overflow:visible;background:none;box-shadow:none;border:none;grid-template-columns:1fr 1fr;padding:6px 0 6px 8px;gap:2px 12px}
+  .ldrop.is-open>.ldrop__menu{display:grid}
+  /* Panah mengikuti keadaan LIPATAN, bukan `:hover`. Di layar sentuh `:hover`
+     menempel sesudah ketukan, jadi tanpa penihilan ini panah bisa menunjuk ke
+     atas pada grup yang sebenarnya tertutup. */
+  .ldrop:hover .ldrop__btn svg,.ldrop:focus-within .ldrop__btn svg{transform:none}
+  .ldrop.is-open>.ldrop__btn svg{transform:rotate(180deg)}
   .ldrop--mega .ldrop__grp a b{font-size:13px}.ldrop--mega .ldrop__grp a small{display:none}
   .ldrop__mega-foot{display:none}
+  /* ══ TAGLINE PINDAH KE BARIS YANG SAMA — DI ANTARA MEREK DAN TOMBOL ════════
+     Pemilik, ronde ini: *"navbar yang tampilan hp itu menurut saya kurang cocok
+     penempatan tagline glyiv, terlalu maksa… coba muat tagline kita di
+     tengah2nya (setelah logo glyiv sebaris dengan tombol en dan tombol 3 bar).
+     Kalau tidak muat satu baris, coba buat jadi 2 baris, baris pertama itu
+     'Your Green Industry' lalu baris kedua itu 'Intelligence Platform'."*
+
+     ⛔ YANG DIBUANG (bukan ditimpa): `order:9`, `flex:0 0 100%`,
+     `text-align:center`, dan `flex-wrap:wrap;row-gap:2px;align-content:center`
+     pada `.lnav__in`. Seluruh perlakuan "baris kedua selebar bilah" itulah yang
+     pemilik sebut terlalu maksa — 8,5px huruf mono rata tengah yang menempel di
+     dasar bilah, terpisah 2px dari baris di atasnya (terukur y=50,5 di dalam
+     bilah 68px). Menyisakannya sebagai aturan mati akan membuat blok ini
+     mustahil dibaca ronde berikutnya.
+
+     ── SATU BARIS ATAU DUA — DIPUTUSKAN LEBAR LAYAR, BUKAN OLEH ATURAN ───────
+     Urutan pilihan pemilik dicoba dan DIUKUR, bukan ditebak (angka lengkapnya
+     di laporan ronde ini). Teks penuh 41 karakter:
+       satu baris, 8,5px/.12em  : 250,9 px
+       ruang yang tersedia 412px: 186,9 px  ← MUSTAHIL, bahkan sesudah tombolnya
+       ruang yang tersedia 360px: 135,9 px     dikecilkan dan celahnya dirapatkan
+       baris terpanjang bila dipecah dua ("Intelligence Platform"), 8px/.07em
+                                : 112,6 px  ← muat di 360px, dengan sisa 14 px
+     Jadi: dua baris di ponsel, SATU baris begitu ruangnya ada — tablet potret
+     800px punya 575,9 px, jauh lebih dari cukup. Pergantiannya tidak diatur
+     `@media` sama sekali: `flex:0 1 auto` membuat kotaknya selebar teks selama
+     muat, dan membiarkannya membungkus begitu tidak.
+     `text-wrap:balance` yang memastikan pecahannya jatuh PERSIS di tempat yang
+     pemilik minta: dari tiga titik pecah yang mungkin, ia memilih yang paling
+     seimbang — "Your Green Industry" (19) / "Intelligence Platform" (21).
+     Tanpa itu peramban memecah di titik terakhir yang muat, yaitu
+     "…Industry Intelligence" / "Platform". Diverifikasi dengan mengukur kotak
+     baris sungguhan, bukan dengan percaya nama propertinya.
+
+     ⚠︎ `max-height:22px;overflow:hidden` adalah PAGAR, bukan hiasan: bilah
+     setinggi 68px dipatok mati (`.lnav__links{top:68px}` dan dua `calc` lain
+     membaca angka itu), jadi tagline yang membungkus jadi TIGA baris harus
+     terpotong, bukan menumbuhkan bilahnya. Di bawah 350px ia disembunyikan
+     sekalian — di sana kotaknya tinggal 115px dan dua baris pun tidak muat.
+     ⚠︎ `flex:0 1 auto;min-width:0` menjadikan tagline SATU-SATUNYA benda yang
+     menyusut saat bilah sempit; merek, pemilih bahasa, dan burger `flex:none`.
+     Itu yang menjamin burger tidak pernah lagi terdorong keluar layar. */
+  .lnav__in{flex-wrap:nowrap;gap:8px}
+  .lbrand,.lnav__lang,.lnav__burger{flex:0 0 auto}
+  /* `.lnav__sp` (pendorong ruang sisa) dimatikan di lebar ini: sebagai flex item
+     berlebar nol ia tetap memakan DUA celah — 16px yang lebih berguna diberikan
+     kepada tagline. Dorongannya diambil alih pemilih bahasa, lewat aturan
+     margin di akhir berkas yang memang sudah memegang margin elemen itu (jadi
+     tidak ada aturan margin keempat yang lahir di sini). */
+  .lnav__sp{display:none}
+  .lnav__tag{
+    display:block;flex:0 1 auto;width:auto;min-width:0;
+    text-align:start;white-space:normal;text-wrap:balance;
+    font-size:clamp(8px,2.1vw,9px);letter-spacing:.07em;line-height:11px;
+    max-height:22px;overflow:hidden;
+    padding-inline-start:8px;
+    border-inline-start:1px solid var(--n-hair);
+  }
+  body.lnav-open .lnav .lnav__tag{color:var(--n-muted)}
   .lnav__burger{display:inline-flex}
+
+  /* ══ TOMBOL LEBIH KECIL DI MATA, TETAP 44px DI JARI ════════════════════════
+     Pemilik: *"jarak antara tombol bahasa dan tombol 3 bar show navbar item itu
+     terlalu jauh. Dan tombolnya juga terlalu besar. Coba perkecil sedikit."*
+
+     Terukur SEBELUM, 412x915: pemicu bahasa 46,2x44 · burger 44x44 · celah
+     mendatar di antara keduanya 22,0 px.
+
+     ⛔ 44px TIDAK BOLEH dikorbankan — pemilik memakai tablet, dan target sentuh
+     di bawah 44px sudah berkali-kali jadi keluhan. Jadi yang dikecilkan hanya
+     yang TERLIHAT (padding, ukuran ikon, tinggi minimum), sementara kotak
+     sentuhnya dipertahankan sebagai `::after` transparan yang MELUAP keluar
+     tombolnya. Pseudo-element ikut menerima ketukan atas nama elemen induknya,
+     jadi ia kotak sentuh sungguhan, bukan tipuan visual.
+     Terukur SESUDAH, 412/390/360/800 px — sama di keempatnya:
+       pemicu bahasa 38,9x30 · burger 32x32 · celah mendatar 10,0 px
+       kotak sentuh keduanya 44x44 (diuji dengan `elementFromPoint` pada empat
+       titik ±21 px dari pusat: 4/4 kena, di keempat lebar)
+     ⚠︎ Celahnya tidak boleh kurang dari jumlah luapan kedua tombol:
+     bahasa (44-38,9)/2 = 2,55px + burger (44-32)/2 = 6px = 8,55px. Celah
+     nyatanya 10px, jadi kedua kotak sentuh berjarak 1,45px — bersentuhan hampir
+     rapat tanpa pernah bertindih, dan ketukan tidak pernah jatuh ke tombol yang
+     salah (terukur: bertindih 0,0 px). Kalau celah itu dirapatkan lagi,
+     kecilkan luapannya dulu. */
+  /* ⚠︎ `.lnav .lnav__lang__now` — SATU KELAS LEBIH TINGGI, DAN ITU WAJIB.
+     Aturan dasar pemicu bahasa (`min-height:28px;padding:0 8px;font-size:10px`)
+     berdiri di blok "PEMILIH BAHASA" JAUH DI BAWAH blok ini, jadi pada
+     spesifisitas yang sama ia menang lewat urutan. Terukur saat baris ini masih
+     (0,1,0), 412x915: pemicu 44,2x28 px — padding, ukuran huruf, dan celah
+     ikonnya seluruhnya masih milik aturan dasar. Dengan (0,2,0): 38,9x30 px.
+     Selektor burger tidak butuh perlakuan ini karena aturan dasarnya berdiri
+     LEBIH DULU di berkas. */
+  .lnav .lnav__lang__now{position:relative;min-width:0;min-height:30px;padding:0 7px;gap:3px;font-size:9px}
+  .lnav .lnav__lang__now svg{width:8px;height:8px}
+  .lnav__burger{position:relative;min-width:0;min-height:0;padding:6px;border-radius:8px}
+  .lnav__burger svg{width:18px;height:18px}
+  .lnav__lang__now::after,.lnav__burger::after{content:"";position:absolute;top:50%;left:50%;
+    width:44px;height:44px;transform:translate(-50%,-50%)}
   /* CTA navbar sengaja disembunyikan di bawah 900px: ruangnya tidak ada, dan
      memaksanya masuk akan mendesak logo. Konsekuensinya harus ditutup di tempat
      lain, dan itu memang dilakukan — pita aksi `.lstick` di lab.css bagian 8
@@ -105,34 +1006,142 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
 }
 
 /* ── TARGET SENTUH DI PERANGKAT SENTUH ──────────────────────────────────────
-   Terukur di 390px: pil bahasa 30x26px, tombol burger 42x38px, dan tiap tautan
-   di dalam laci 34px — semuanya di bawah 44px, padahal pemilik memakai tablet
-   Android dan ini kontrol navigasi utamanya. Digating `pointer:coarse` sehingga
-   tata letak desktop (tetikus) sama sekali tidak berubah. */
+   Terukur di 390px: tombol burger 42x38px dan tiap tautan di dalam laci 34px —
+   di bawah 44px, padahal pemilik memakai tablet Android dan ini kontrol
+   navigasi utamanya. Digating `pointer:coarse` sehingga tata letak desktop
+   (tetikus) sama sekali tidak berubah.
+   (Pil bahasa dulu juga ada di daftar ini; ia sudah tidak berbentuk pil lagi —
+   aturannya pindah ke blok pemilih bahasa di bawah.) */
 @media (pointer:coarse){
-  .lnav__lang button{min-width:44px;min-height:44px}
-  .lnav__lang{padding:2px}
-  .lnav__burger{min-width:44px;min-height:44px;align-items:center;justify-content:center}
+  /* ⛔ `.lnav__burger` DIHAPUS DARI DAFTAR INI — bukan diubah. Aturan yang sama
+     persis (`min-width:44px;min-height:44px`) berdiri sekali lagi di blok
+     "TARGET SENTUH" kedua di bawah, jadi selama ini ada DUA aturan yang saling
+     menimpa untuk satu tombol, dan ronde ini keduanya harus dikalahkan sekaligus
+     supaya tombolnya bisa mengecil di ponsel. Satu tempat, satu aturan. */
   .lnav__links>a,.ldrop__btn{min-height:48px}
-  .ldrop__grp a{min-height:44px;display:flex;flex-direction:column;justify-content:center;padding:7px 0}
-  .ldrop--mega .ldrop__grp a{padding:8px 0}
+  /* ⚠︎ `var(--n-drop-i)`, BUKAN `0`. Blok ini datang SESUDAH aturan butir
+     dropdown, jadi `padding:7px 0` di sini akan menihilkan padding mendatar yang
+     baru saja diminta pemilik — dan justru pada perangkat sentuh, yaitu tablet
+     tempat pemilik menguji. Yang diatur blok ini tinggi sentuhnya, bukan
+     lebarnya. */
+  .ldrop__grp a{min-height:44px;display:flex;flex-direction:column;justify-content:center;padding:7px var(--n-drop-i,0px)}
+  .ldrop--mega .ldrop__grp a{padding:8px var(--n-drop-i,0px)}
 }
-/* Pemilih bahasa di navbar situs (disuntik site-lang.js). Pil kecil id/en/ar,
-   selaras dengan gaya navbar homepage. */
-.lnav__lang{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:999px;border:1px solid var(--n-hair);background:#fff;box-shadow:var(--n-sh1);margin-right:4px}
-.lnav__lang button{font-family:var(--n-mono);font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--n-muted);min-width:30px;min-height:26px;padding:0 7px;border:0;border-radius:999px;background:none;cursor:pointer;transition:color .15s,background .15s}
-.lnav__lang button:hover{color:var(--n-pine)}
-.lnav__lang button.is-on{background:var(--n-pine);color:#fff}
-.lnav:not(.scrolled) .lnav__lang{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.34)}
-.lnav:not(.scrolled) .lnav__lang button{color:rgba(255,255,255,.82)}
-.lnav:not(.scrolled) .lnav__lang button:hover{color:#fff}
-.lnav:not(.scrolled) .lnav__lang button.is-on{background:#fff;color:var(--n-pine)}
+
+/* ══ PEMILIH BAHASA — SATU tombol ringkas + panel, bukan tiga pil ════════════
+   Pemilik, ronde ini: "tombol ganti bahasa terlalu besar, kebesaran itu
+   tombolnya, kecilkan… mending pakai dropdown untuk ganti bahasa. Lebih
+   menghemat tempat."
+
+   Terukur di /index.html, 412px, `(pointer:coarse)`:
+     SEBELUM  wadah `.lnav__lang` 143x51 px  (tiga pil 44x44 berjajar)
+     SESUDAH  pemicu `.lnav__lang__now` 46x44 px — 68% lebih sempit
+
+   Tiga pil itu DIBUANG dari bilah, bukan disembunyikan: `glyiv-nav.js`
+   MEMINDAHKAN tombol yang sama ke dalam panel, jadi tidak ada kontrol kembar
+   dan pendengar klik milik `site-lang.js` tetap yang menjalankan pergantian.
+   Seluruh gaya `.lnav__lang button` lama ikut dihapus — termasuk penimpa
+   cascade di akhir berkas yang dulu ada hanya untuk menaikkan pil 26px ke 44px.
+
+   Nama asli bahasa di dalam panel diambil dari atribut `title` yang sudah
+   ditulis `site-lang.js` (`Bahasa Indonesia` · `English` · `العربية`), jadi
+   tidak ada daftar nama kedua di sini yang bisa basi. */
+.lnav__lang{position:relative;display:inline-flex;align-items:center;margin-inline-end:4px}
+.lnav__lang__now{display:inline-flex;align-items:center;justify-content:center;gap:4px;
+  font-family:var(--n-mono);font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--n-slate);
+  background:var(--n-card);border:1px solid var(--n-hair);border-radius:999px;box-shadow:var(--n-sh1);
+  min-height:28px;padding:0 8px;cursor:pointer;transition:color .15s,background .15s,border-color .15s}
+.lnav__lang__now svg{width:9px;height:9px;flex:none;transition:transform .2s}
+.lnav__lang.is-open .lnav__lang__now svg{transform:rotate(180deg)}
+.lnav__lang__now:hover{color:var(--n-pine)}
+/* Di atas hero gelap bilahnya belum solid — pemicunya ikut jadi kaca tembus,
+   sama persis dengan `.lnav__cta` di keadaan yang sama. */
+.lnav:not(.scrolled) .lnav__lang__now{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.34);color:rgba(255,255,255,.86)}
+.lnav:not(.scrolled) .lnav__lang__now:hover{color:#fff}
+/* Panel selalu kartu PUTIH dengan teks gelap — sama dengan `.ldrop__menu`, jadi
+   tidak pernah ada teks terang di atas latar terang. `inset-inline-end` supaya
+   panelnya ikut berpindah sisi pada dir="rtl" tanpa aturan RTL tersendiri. */
+.lnav__lang__list{position:absolute;top:calc(100% + 8px);inset-inline-end:0;min-width:190px;
+  background:var(--n-card);border:1px solid var(--n-hair);border-radius:14px;box-shadow:var(--n-sh3);
+  padding:6px;display:none;z-index:90}
+.lnav__lang.is-open .lnav__lang__list{display:block}
+.lnav__lang__list button{display:flex;align-items:center;gap:9px;width:100%;min-height:44px;
+  padding:0 10px;border:0;border-radius:10px;background:none;cursor:pointer;text-align:start;
+  font-family:var(--n-mono);font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--n-muted);
+  transition:color .15s,background .15s}
+.lnav__lang__list button::after{content:attr(title);font-family:var(--n-sans);font-size:13px;
+  font-weight:600;letter-spacing:0;color:var(--n-slate)}
+.lnav__lang__list button:hover{background:var(--n-paper)}
+.lnav__lang__list button:hover::after{color:var(--n-pine)}
+.lnav__lang__list button.is-on{background:var(--n-pine);color:rgba(255,255,255,.72)}
+.lnav__lang__list button.is-on::after{color:#fff}
+/* Ringkas di mata, tetap 44px di jari.
+   ⚠︎ `and (min-width:901px)` DITAMBAHKAN RONDE INI, dan itu syarat, bukan
+   kerapian: di lebar laci, 44px yang sama dijamin oleh kotak sentuh `::after`
+   yang MELUAP dari tombol kecil (lihat blok "TOMBOL LEBIH KECIL DI MATA"), dan
+   `min-width/min-height` di sini — yang datang jauh lebih belakang di berkas —
+   akan mengembalikan tombolnya ke ukuran lama tanpa jejak. Jaminan 44px-nya
+   tidak hilang, hanya berpindah cara. */
+@media (pointer:coarse) and (min-width:901px){
+  .lnav__lang__now{min-width:44px;min-height:44px;padding:0 9px}
+}
+/* Di bawah 350px kotak tagline tinggal ~115px sementara dua barisnya butuh
+   ~119px — ia akan membungkus jadi tiga baris dan terpotong. Disembunyikan
+   sekalian: bilah yang rapi tanpa tagline lebih baik daripada tagline yang
+   terpenggal. Merek, pemilih bahasa, dan burger tetap utuh di lebar itu. */
+@media (max-width:349px){ .lnav__tag{display:none} }
+/* `.lnav__sp` DAN `.lnav__burger` sama-sama membawa `margin-left:auto`, jadi
+   ruang sisa bilah dibagi DUA di antara keduanya. Selama pemilih bahasa berada
+   di dalam laci hal itu tak kelihatan; begitu ia kembali ke bilah, ia terapung
+   di tengah — terukur di 412px: pemicu berhenti di x=213 sementara burger di
+   x=347, menyisakan celah 88 px. Auto-margin burger dinihilkan HANYA bila ada
+   pemilih bahasa di depannya, jadi bilah tanpa pemilih bahasa tidak berubah.
+   Diperiksa: 25/25 halaman ber-`.lnav`, apps-shell.js, dan kedua navbar React
+   semuanya punya `.lnav__sp`, jadi dorongan ke kanan tidak pernah hilang.
+   Kedua sisi dinihilkan, dan spesifisitasnya sengaja (0,3,0): `glyiv-rtl.css`
+   memasang `[dir="rtl"] .lnav__burger{margin-inline-start:auto}` (0,2,0) dan
+   ia DISUNTIK i18n.js sesudah berkas ini, jadi tanpa kenaikan itu celah yang
+   sama muncul lagi di bahasa Arab (terukur 104 px). */
+.lnav .lnav__lang ~ .lnav__burger{margin-left:0;margin-right:0;margin-inline-start:0;margin-inline-end:0}
+/* Sisa yang sama dari sisi Arab: `glyiv-rtl.css` baris 137 masih memasang
+   `[dir="rtl"] .lnav__lang{margin-inline-start:auto;margin-inline-end:8px}` —
+   cermin dari aturan `@media (max-width:900px){.lnav__lang{margin-left:auto}}`
+   yang DIHAPUS dari berkas ini bersama pil lamanya. Selama baris itu masih ada,
+   ruang sisa bilah dibagi antara `.lnav__sp` dan `.lnav__lang`, dan celah
+   pemicu→burger terukur 83 px pada 412px dir=rtl; sesudah baris di bawah, 18 px
+   (LTR 22 px — bedanya `margin-inline-end` yang di RTL menghadap ke sisi lain).
+   Spesifisitas (0,3,0) supaya menang tanpa bergantung urutan berkas — sheet RTL
+   disuntik i18n.js SESUDAH berkas ini. Perbaikan yang sebenarnya: hapus baris
+   137 itu di glyiv-rtl.css, lalu blok ini boleh ikut hilang. */
+.lnav .lnav__in .lnav__lang{margin-inline-start:0;margin-inline-end:4px}
+/* Di lebar laci, `.lnav__sp` dimatikan (ia memakan dua celah untuk lebar nol),
+   jadi dorongan ke kanan diambil alih di SINI — pada aturan yang memang sudah
+   memegang margin elemen ini, bukan sebagai aturan margin keempat. Ditulis tepat
+   sesudahnya, jadi spesifisitasnya sama dan urutannya yang menentukan; `2px`
+   merapatkan celah pemicu→burger dari 22px menjadi 10px, sesuai permintaan
+   pemilik, dan itu tetap ≥ 9,5px yang dibutuhkan agar kedua kotak sentuh 44px
+   tidak bertindih. */
 @media (max-width:900px){
-  /* Di mobile, pil bahasa tetap terlihat di bar atas (CTA disembunyikan). */
-  .lnav__lang{margin-left:auto;margin-right:8px}
+  .lnav .lnav__in .lnav__lang{margin-inline-start:auto;margin-inline-end:2px}
 }
+/* ⛔ PAGAR GERAK — DIPERLUAS RONDE INI, DAN DUA BARIS KEDUANYA PERLU.
+   `.lnav *` TIDAK menjaring pseudo-element: selektor universal hanya cocok
+   dengan elemen sungguhan, jadi sorot `::before` dan garis `::after` akan tetap
+   beranimasi walau pengguna meminta gerak dikurangi. Baris kedua yang
+   menutupnya. `animation` ikut dinihilkan karena kilau sambutan adalah
+   `animation`, bukan `transition` — aturan lama hanya mematikan yang kedua. */
 @media (prefers-reduced-motion:reduce){
-  .lnav,.lnav *{transition:none!important}
+  .lnav,.lnav *{transition:none!important;animation:none!important}
+  .lnav__links>a::before,.lnav__links>a::after,
+  .ldrop__btn::before,.ldrop__btn::after,
+  /* Ditambahkan ronde ini bersama isyarat butir dropdown: pemisah `::before`
+     (yang memudar saat sorot datang) dan panah `::after` (yang menggeser).
+     Keduanya pseudo, jadi `.lnav *` tidak menjangkaunya. Yang mati hanya
+     GERAKnya — pemisah, panah, dan sorotnya sendiri tetap tergambar, jadi
+     isyarat "bisa diklik" tidak ikut hilang bagi yang meminta gerak dikurangi.
+     Kilau sapuan panel memang hilang seluruhnya; `glyiv-nav.js` pun sudah
+     menolak memasang kelasnya pada keadaan ini, jadi dua pagar, bukan satu. */
+  .ldrop__grp a::before,.ldrop__grp a::after{transition:none!important;animation:none!important}
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
@@ -167,22 +1176,54 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
   .lbrand {
     min-height: 44px;
   }
+  /* ⚠︎ SATU-SATUNYA aturan ukuran burger yang tersisa (kembarannya di blok
+     "TARGET SENTUH DI PERANGKAT SENTUH" sudah dihapus ronde ini). `min-*` hanya
+     berlaku ≥901px — di lebar laci kotak sentuh 44px datang dari `::after` yang
+     meluap, supaya tombolnya boleh terlihat lebih kecil seperti diminta pemilik.
+     `justify-content` tetap tanpa syarat: ia meratakan ikon, bukan mengukurnya. */
   .lnav__burger {
-    min-width: 44px;
-    min-height: 44px;
     justify-content: center;
   }
 }
+@media (pointer: coarse) and (min-width: 901px) {
+  .lnav__burger { min-width: 44px; min-height: 44px; }
+}
 
-/* Penimpa yang HARUS berada di akhir berkas.
-   Blok `pointer:coarse` di baris ~113 sudah menyetel tombol bahasa ke 44px,
-   tetapi aturan DASAR `.lnav__lang button{…min-height:26px}` ada di baris ~123 —
-   LEBIH BELAKANG di berkas yang sama, spesifisitas sama, jadi yang belakangan
-   menang dan tombolnya tetap 26px. Terukur: `min-height` terhitung 26px padahal
-   `(pointer: coarse)` cocok. Diletakkan di sini supaya urutan cascade-nya benar. */
-@media (pointer: coarse) {
-  .lnav__lang button {
-    min-width: 44px;
-    min-height: 44px;
+/* (Penimpa cascade `.lnav__lang button{min-*:44px}` yang dulu berdiri di sini
+   sudah DIHAPUS bersama pil bahasanya. Aturan pengganti ada satu tempat saja,
+   di blok "PEMILIH BAHASA" di atas, dan tidak butuh penimpa karena tidak ada
+   lagi aturan dasar yang menyusul di belakangnya.) */
+
+/* ══ RONDE 44 · butir 3 — tombol Login di dalam laci ponsel ═══════════════════
+   Salinan `.lnav__cta` yang disisipkan `glyiv-nav.js` ke dalam `.lnav__links`.
+   Tampil HANYA di lebar laci (≤900px); di desktop ia tidak pernah dirender
+   sebagai apa pun karena lacinya sendiri tidak ada.
+   ⚠︎ Aturan `.lnav__cta{display:none}` di blok ≤900px di atas berlaku juga untuk
+   salinan ini, jadi ia harus dikalahkan secara eksplisit — dan spesifisitasnya
+   dinaikkan lewat `.lnav__links` (0,2,0 vs 0,1,0), bukan lewat `!important`. */
+@media (max-width:900px){
+  /* ⚠︎ `color:#fff!important` — CACAT LAMA, ketemu saat memotret laci ronde ini.
+     Salinan ini juga cocok dengan `.lnav__links>a` di blok laci di atas, dan
+     baris itu berbunyi `color:var(--n-slate)!important`. `!important` menang atas
+     spesifisitas, jadi tulisan "Login" selama ini tergambar slate #46524B di atas
+     pine #0F2E22 — kontras 2,0:1 pada satu-satunya jalan masuk akun di ponsel.
+     Terlihat di tangkapan layar 412x915 sebagai tombol hijau bertulisan abu.
+     Bukan bagian dari tujuh butir ronde ini, tapi ia ada DI BERKAS INI dan
+     memperbaikinya satu kata. */
+  .lnav .lnav__links .lnav__cta--laci{
+    display:flex;align-items:center;justify-content:center;
+    width:100%;margin-top:14px;min-height:48px;
+    background:var(--n-pine);color:#fff!important;border:0;border-radius:12px;
+    font-weight:700;font-size:15px;text-decoration:none;
+  }
+  /* Bilah belum tergulir memakai gaya kaca tembus; di dalam laci berlatar PUTIH
+     gaya itu membuat tombol nyaris tak terlihat. Kembalikan ke pine padat. */
+  .lnav:not(.scrolled) .lnav__links .lnav__cta--laci{
+    background:var(--n-pine);border:0;-webkit-backdrop-filter:none;backdrop-filter:none;color:#fff;
   }
 }
+/* ⚠︎ Salinan laci HARUS mati di desktop. `.lnav__links` adalah navbar itu
+   sendiri di atas 900px, jadi tanpa aturan ini salinannya ikut tergambar di
+   bilah — terukur: DUA tombol "Login" berdampingan di 1440px. Ditulis SESUDAH
+   blok media di atas supaya urutan kaskadenya jelas dibaca. */
+@media (min-width:901px){ .lnav .lnav__cta--laci{display:none} }

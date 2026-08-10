@@ -115,8 +115,12 @@ body{background:var(--white)}
 /* buttons + fields (light) */
 .ga-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--l-sans);font-weight:700;font-size:13.5px;padding:11px 18px;border-radius:999px;border:1px solid transparent;cursor:pointer;transition:.18s var(--ease)}
 .ga-btn.solid{background:var(--pine);color:#fff}.ga-btn.solid:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
-.ga-btn.teal{background:linear-gradient(120deg,var(--teal),var(--emer-br));color:#fff}
-.ga-btn.gold{background:linear-gradient(120deg,var(--brass),var(--brass2));color:#1c1405}
+/* Isian hijau PEKAT: gradien lama berakhir di hijau neon dan putih di atasnya hanya 2,87:1.
+   Aturan pemilik + WCAG AA — dijaga scripts/uji-kontras-tombol.cjs. */
+.ga-btn.teal{background:linear-gradient(120deg,#11804F,#0A6B41);color:#fff}
+/* Brass DIPEKATKAN: #a27c42 tidak sanggup memikul teks apa pun pada 4,5:1 —
+   putih 3,21:1, #1c1405 hanya 3,98:1. #8A6730 + putih = 5,17:1. */
+.ga-btn.gold{background:linear-gradient(120deg,#8A6730,#6F5124);color:#fff}
 .ga-btn.glass{background:#fff;color:var(--pine);border-color:var(--hair)}.ga-btn.glass:hover{border-color:var(--pine)}
 
 /* ── TOMBOL DI DALAM HERO GELAP (.ga-hero) ──────────────────────────────────
@@ -126,7 +130,7 @@ body{background:var(--white)}
    sebagai hijau kusam di atas foto gelap. Di dalam hero saja, samakan dengan
    perlakuan beranda: emerald terang + kaca tembus pandang. Varian di luar hero
    TIDAK berubah. */
-.ga-hero .ga-btn.solid{background:linear-gradient(135deg,var(--emer-br),var(--emer));color:#04160e;box-shadow:0 14px 40px -14px rgba(28,174,107,.6)}
+.ga-hero .ga-btn.solid{background:linear-gradient(135deg,#11804F,#0A6B41);color:#fff;box-shadow:0 14px 40px -14px rgba(17,128,79,.55)}
 .ga-hero .ga-btn.solid:hover{transform:translateY(-2px)}
 .ga-hero .ga-btn.glass{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.28);-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)}
 .ga-hero .ga-btn.glass:hover{border-color:#fff;background:rgba(255,255,255,.16)}
@@ -167,4 +171,25 @@ body{background:var(--white)}
   .ga-ribbon{grid-template-columns:1fr 1fr}
   .ga-grid,.ga-grid-2,.ga-grid-3,.ga-steps{grid-template-columns:1fr}
   .ga-steps{grid-template-columns:1fr 1fr}
+}
+
+/* ══ HEMAT GERAK ═════════════════════════════════════════════════════════════
+   Lembar ini 175 baris tanpa SATU pun blok `prefers-reduced-motion`, dan ia
+   dipakai oleh /download.html, /unduh.html, /ketentuan.html, /privasi.html dan
+   SELURUH /lab/apps/* — 17 halaman. Sapuan peramban (`scripts/sapu-gerak.cjs`)
+   menemukan Ken-Burns `.ga-hero img.bg` dan denyut `.ga-badge i` berjalan terus
+   di setiap halaman itu walau pengguna sudah meminta gerak dikurangi.
+
+   Ken-Burns dimatikan dengan `animation:none` DAN `transform:scale(1.05)`
+   dikembalikan — kalau hanya animasinya yang dimatikan, gambarnya tetap
+   membesar 5% dan memotong tepinya. Titik badge tetap TERGAMBAR (hanya kedipnya
+   yang hilang), supaya isyarat "langsung" tidak ikut lenyap.
+   `.ga-pane.on` memakai `gaFade` tanpa `forwards`, jadi mematikannya aman:
+   keadaan dasarnya sudah terlihat penuh. */
+@media (prefers-reduced-motion:reduce){
+  .ga-hero img.bg{animation:none!important;transform:scale(1.05)!important}
+  .ga-badge i{animation:none!important}
+  .ga-pane.on{animation:none!important}
+  .ga-tab,.ga-btn,.ga-row,.ga-toast,.ga-fld input,.ga-fld select,.ga-card{transition:none!important}
+  .ga-row:hover,.ga-btn.solid:hover,.ga-hero .ga-btn.solid:hover{transform:none!important}
 }

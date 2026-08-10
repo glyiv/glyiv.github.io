@@ -5,11 +5,92 @@
    JS engines reused: /assets/js/glyiv.js (reveal/counter/spore),
    /assets/js/scenes.js (3D globe in a dark stage), lab/js/lab.js.
    ============================================================= */
+/* ══ KANVAS HALAMAN — PUTIH LEMBUT, BUKAN PUTIH LAYAR ═══════════════════════
+   Pemilik, ronde ini: *"Latar putih terlalu menyakiti mata. Pakai putih yang
+   lebih lembut (bukan neon), tambahkan ornamen SVG halus atau gradasi."*
+
+   Diubah di TOKEN, bukan ditambal per halaman: `--white` dipakai `body`,
+   `.gv-bg-root`, `.gv-splash`, dan `.lsec` — empat tempat itu saja yang
+   melukis kanvas seluruh situs, jadi satu nilai di sini mengubah semuanya.
+
+   Terukur (luminansi relatif WCAG, `node .kerja/ukur-kontras-kanvas.cjs`):
+     #FFFFFF  Y=1,0000   ← sebelum
+     #F7F9F6  Y=0,9418   ← sesudah, turun 5,8 %
+   Cukup untuk melunakkan silau bidang besar, masih jelas "kertas terang" —
+   bukan abu-abu. KARTU tetap `#FFFFFF` (lihat `--card`), jadi sekarang ada
+   dua lapis: kartu putih murni MENGAMBANG di atas kanvas lembut. Sebelumnya
+   kartu dan halaman sama-sama #FFFFFF dan hanya dibedakan garis rambut.
+
+   ⚠︎ KONTRAS DIUKUR, TIDAK DIKIRA. Latar yang menggelap MENURUNKAN rasio teks
+   gelap. Yang terukur di atas kanvas baru:
+     ink   #0F1A14  16,84:1  ✔
+     pine  #0F2E22  13,83:1  ✔
+     slate #46524B   7,72:1  ✔
+     teal  #1F7A6B   4,89:1  ✔
+     muted #6B7772   4,40:1  ✘ ← JATUH DI BAWAH AA karena perubahan ini
+   Karena itu `--muted` ikut dipekatkan ke #65706B: 4,86:1 di atas kanvas dan
+   4,55:1 di atas pita `.paper` — keduanya lulus AA, dan keduanya LEBIH BAIK
+   daripada sebelum ronde ini (4,66:1 / 4,12:1 di atas putih & #F5F7F5).
+
+   ⚠︎ Yang TIDAK diperbaiki di sini, dan disebut apa adanya: `--brass` sebagai
+   TEKS (mis. `.lkick`, 12px) adalah 3,21:1 di atas #FFFFFF dan 3,03:1 di atas
+   kanvas baru — sudah di bawah AA SEBELUM ronde ini, dan tetap di bawahnya
+   sesudahnya. Ia tidak dipekatkan dari sini karena `.lkick` yang sama juga
+   berdiri di atas hero GELAP (`.vhero`/`.ind-hero`/`.ga-hero`) tanpa penimpa,
+   sehingga memekatkannya secara global justru merusak keterbacaan di sana.
+   Perbaikannya butuh token teks-brass tersendiri + penimpa hero — pekerjaan
+   tersendiri, bukan efek samping diam-diam dari ronde kanvas. */
 :root{
-  --white:#FFFFFF; --paper:#FFFFFF; --paper2:#F5F7F5; --paper3:#EEF2EE;
-  --ink:#0F1A14; --slate:#46524B; --muted:#6B7772; --hair:#E6EAE6; --hair2:#EEF1EE;
+  /* ══ RONDE 59 · TANGGA KERTAS HANGAT ═════════════════════════════════════
+     Pemilik: *"Coba cari warna putih yang menunjukkan warna putih tapi tidak
+     yang buat sakit mata, putih yang bukan neon putih, tapi seperti smooth dan
+     enak di mata begitu."*
+
+     Kanvas ronde 57 (#F7F9F6) SUDAH lebih lembut dari #FFFFFF, tapi arah
+     lembutnya SALAH: hijau-dingin (H≈100°). Putih dingin adalah putih yang
+     paling menyilaukan — kanal biru yang tinggi persis yang membuat mata cepat
+     lelah. Yang dipakai penerbit dan situs matang adalah kertas HANGAT.
+
+     Ronde ini memutar rona ke kuning-netral tanpa menggelapkan bidangnya:
+       #F7F9F6  Y=0,9418  H=100°  ← ronde 57 (dingin)
+       #F9F8F3  Y=0,9375  H=50°   ← ronde 59 (hangat)
+     Turun 0,46 % saja, jadi TIDAK ada satu pun rasio kontras yang bergeser
+     berarti; yang berubah adalah SUHUnya. Masih jelas terbaca "kertas putih",
+     bukan krem: jarak R-B cuma 6 poin (kertas krem ≥ 20).
+
+     TANGGA NADA — tiga nada netral + tiga rona seksi yang duduk di ANAK TANGGA
+     YANG SAMA. Itu sengaja: satu langkah terang, tiga rona. Peralihan antar
+     seksi dikerjakan GRADASI (`.lsec--seam`), bukan beda terang yang menyentak.
+       nada 0  --card    #FFFFFF  Y 1,0000  permukaan mengambang (kartu/panel)
+       nada 1  --white   #F9F8F3  Y 0,9375  kanvas halaman
+       nada 2  --paper2  #F4F2EA  Y 0,8868  pita halus + rona seksi
+       nada 3  --paper3  #F2F0E8  Y 0,8702  alas gambar
+     Lantai keras tangga ini adalah `--muted` #65706B (Y 0,1542): pada latar
+     Y=0,867 ia tepat 4,50:1. Karena itu TIDAK ADA nada latar di bawah 0,870 —
+     itu bukan selera, itu batas WCAG AA yang dihitung, bukan dikira. */
+  --white:#F9F8F3; --paper:#F9F8F3; --paper2:#F4F2EA; --paper3:#F2F0E8;
+  /* Putih MURNI, khusus permukaan yang harus mengambang di atas kanvas
+     (kartu, panel dropdown, gelembung chat). Sebelum ronde ini nilai ini
+     bernama `--paper` dan identik dengan kanvas, jadi tidak ada beda lapis.
+     Yang jadi USANG karenanya: 20 tulisan `background:#fff` yang tersebar di
+     berkas ini — semuanya kartu/kontrol di atas terang, dan semuanya sudah
+     ditukar ke `var(--card)` (terhitung: 20 ditemukan, 20 diganti; tidak ada
+     `#ffffff` panjang yang bisa ikut tergunting separuh — terhitung: 0).
+     Warnanya persis sama seperti sebelumnya, jadi tidak ada satu piksel pun
+     yang berubah karena penggantian ini; yang berubah adalah tempat untuk
+     mengubahnya lain kali. `color:#fff` SENGAJA tidak ikut — itu teks di atas
+     permukaan gelap, urusan yang sama sekali lain. */
+  --card:#FFFFFF;
+  --ink:#0F1A14; --slate:#46524B; --muted:#65706B; --hair:#E6EAE6; --hair2:#EEF1EE;
   --pine:#0F2E22; --pine2:#123c2c; --navy:#0B2471; --brass:#B0894F; --brass2:#946f34;
   --teal:#1F7A6B; --emer:#159a5f; --emer-br:#1cae6b; --pos:#1F7A6B;
+  /* ⛔ ISIAN TOMBOL HIJAU — hijau PEKAT yang sanggup memikul teks putih.
+     Aturan pemilik: "kalau tombol hijau itu fontnya harus putih". Hijau neon
+     `--emer-br` TIDAK BISA memenuhinya (putih di atasnya hanya 2,87:1), jadi
+     isian tombol punya tokennya sendiri. `--emer*` tetap dipakai apa adanya
+     untuk GARIS & TITIK dekoratif, yang memang boleh terang.
+     Dijaga `node scripts/uji-kontras-tombol.cjs`. */
+  --emer-btn:#11804F; --emer-btn-2:#0A6B41; --brass-btn:#8A6730;
   --l-serif:"Newsreader",Georgia,serif;
   --l-sans:"Hanken Grotesk","Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,sans-serif;
   --l-mono:"IBM Plex Mono","Space Mono",ui-monospace,monospace;
@@ -18,11 +99,28 @@
   --sh2:0 2px 8px rgba(15,26,20,.05),0 16px 36px -12px rgba(15,26,20,.13);
   --sh3:0 10px 28px -8px rgba(15,26,20,.14),0 40px 80px -30px rgba(15,46,34,.28);
   --shdev:0 30px 70px -30px rgba(15,46,34,.5),0 0 0 1px rgba(15,46,34,.06);
+  /* ── ORNAMEN KANVAS ────────────────────────────────────────────────────────
+     Ubin SVG 88x88 px: dua silang rambut pinus + dua titik teal, masing-masing
+     di bawah 8 % opasitas. Tujuannya BUKAN pola yang terbaca — melainkan
+     memecah bidang rata supaya mata punya pegangan; pada jarak baca normal ia
+     terbaca sebagai serat kertas, bukan wallpaper. Kerapatannya satu tanda per
+     ~44 px, jadi tetap "halus, bukan ramai" seperti yang diminta.
+
+     ⚠︎ UBIN, bukan gradasi raksasa: karena berulang mulus (88 px), ia boleh
+     dipasang di SETIAP `.lsec` tanpa memunculkan sambungan di batas seksi —
+     gradasi radial per-seksi akan mengulang sorotannya di tiap bagian dan
+     itulah yang terlihat sebagai belang.
+
+     ⚠︎ `background-attachment` sengaja dibiarkan `scroll` (bawaan). `fixed`
+     memaksa peramban melukis ulang lapisan latar tiap bingkai gulir — persis
+     jenis penyendat yang dikeluhkan di tablet. Dengan `scroll`, latar ikut
+     ter-komposit bersama seksinya dan tidak ada biaya per-bingkai. */
+  --canvas-art:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'%3E%3Cg fill='none' stroke='%230F2E22' stroke-opacity='.055' stroke-width='1' stroke-linecap='round'%3E%3Cpath d='M22 18.5v7M18.5 22h7M66 62.5v7M62.5 66h7'/%3E%3C/g%3E%3Cg fill='%231F7A6B' fill-opacity='.07'%3E%3Ccircle cx='66' cy='22' r='1.1'/%3E%3Ccircle cx='22' cy='66' r='1.1'/%3E%3C/g%3E%3C/svg%3E");
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth;overflow-x:hidden}
 html,body{margin:0;padding:0;max-width:100%}
-body{font-family:var(--l-sans);color:var(--ink);background:var(--white);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:var(--l-sans);color:var(--ink);background-color:var(--white);background-image:var(--canvas-art);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer}
@@ -36,9 +134,14 @@ button{font-family:inherit;cursor:pointer}
 .lwrap{width:100%;max-width:1240px;margin:0 auto;padding:0 var(--l-pad)}
 
 /* soft ambient wash (subtle, static) */
+/* Lapisan kanvas tetap (ada di 36 dari 47 halaman dist). Ia OPAK dan berada di
+   z-index -1, jadi ia MENUTUP latar `body`; ubin ornamen karena itu harus ikut
+   dipasang di sini juga — kalau tidak, halaman yang punya elemen ini kehilangan
+   ornamennya di sela-sela antar seksi. */
 .gv-bg-root{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
   radial-gradient(60vw 40vw at 90% -6%,rgba(31,122,107,.06),transparent 60%),
-  radial-gradient(46vw 40vw at 4% 12%,rgba(176,137,79,.05),transparent 62%),var(--white)}
+  radial-gradient(46vw 40vw at 4% 12%,rgba(176,137,79,.05),transparent 62%),
+  var(--canvas-art) var(--white)}
 .gv-grain{display:none}
 /* ambient specks (glyiv.js creates .gv-spore) — faint on white */
 .gv-spore{position:fixed;border-radius:50%;background:rgba(31,122,107,.35);opacity:0;z-index:0;pointer-events:none;animation:sporeDrift linear infinite}
@@ -46,13 +149,37 @@ button{font-family:inherit;cursor:pointer}
 
 /* SPLASH (white) */
 .gv-splash{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:var(--white);transition:opacity .7s var(--ease),visibility .7s}
-body.is-ready .gv-splash{opacity:0;visibility:hidden}
+body.is-ready .gv-splash{opacity:0;visibility:hidden;pointer-events:none}
+/* ⛔ TIRAI TAK-TERLIHAT YANG MASIH MENELAN KETUKAN — ini berkas gaya yang
+   BENAR-BENAR dipakai beranda (`/` memuat lab.css, BUKAN glyiv.css; memperbaiki
+   glyiv.css saja tidak mengubah apa pun di sana, dan itu terukur: /auth /hijau
+   /akun sembuh sementara `/` tetap 609 ms).
+   Terukur audit ronde 46 (CPU x4, 390 px): sesudah opasitas tirai turun di
+   bawah 0,5 — yaitu sesudah layar TERLIHAT bersih — `elementFromPoint` di tengah
+   layar masih mengembalikan `.gv-splash` selama 611 ms di `/`. `visibility`
+   sengaja ikut ditransisikan supaya pudarnya utuh, dan properti diskret baru
+   beralih di AKHIR transisi. `pointer-events` tidak ditransisikan, jadi aturan
+   ini berlaku seketika tanpa mengorbankan animasi. */
+.gv-splash[aria-hidden="true"]{pointer-events:none}
 .gv-splash__inner{display:flex;flex-direction:column;align-items:center;gap:18px}
 .gv-splash__word{font-family:var(--l-serif);font-weight:600;font-size:34px;letter-spacing:.01em;color:var(--pine)}
 .gv-splash__word b{color:var(--teal)}
 .gv-splash__tag{font-family:var(--l-mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
 .gv-splash__bar{width:180px;height:2px;background:var(--hair);border-radius:99px;overflow:hidden;position:relative}
 .gv-splash__bar i{position:absolute;inset:0;width:40%;background:linear-gradient(90deg,transparent,var(--teal),var(--brass));border-radius:99px;animation:splashBar 1.1s var(--ease) infinite}
+/* ⛔ ANIMASI TIDAK BERHENTI HANYA KARENA ELEMENNYA TIDAK TERLIHAT.
+   Baris 125 memadamkan tirai dengan `opacity:0;visibility:hidden` — dan menurut
+   spesifikasi CSS, `visibility:hidden` TIDAK menghentikan animasi; hanya
+   `display:none` yang menghentikannya. Akibatnya bilah ini terus berdenyut
+   1,1 detik sekali, SELAMANYA, di setiap halaman, di belakang tirai yang sudah
+   padam. Ditemukan pembantah ronde 58 lewat `document.getAnimations()`, bukan
+   lewat mata — ia memang mustahil dilihat.
+   ⚠︎ `display:none` SENGAJA TIDAK dipakai untuk memperbaikinya: komentar di
+   baris 132 mencatat bahwa tangkapan layar masih mengembalikan `.gv-splash`
+   selama 611 ms sesudah `is-ready`, jadi transisi opasitasnya memang dipakai.
+   Yang dimatikan cukup animasinya. */
+body.is-ready .gv-splash__bar i{animation:none}
+@media (prefers-reduced-motion:reduce){ .gv-splash__bar i{animation:none} }
 @keyframes splashBar{0%{transform:translateX(-120%)}100%{transform:translateX(320%)}}
 
 /* type */
@@ -69,9 +196,18 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .vhero .lserif-accent,.ind-hero .lserif-accent,.ga-hero .lserif-accent,.tmx-hero .lserif-accent,.imgband .lserif-accent,
 .vhero .lemph,.ind-hero .lemph,.ga-hero .lemph,.tmx-hero .lemph,.imgband .lemph{color:#8affc1}
 
-.lsec{position:relative;z-index:1;padding:clamp(60px,9vh,116px) 0;background:var(--white)}
+.lsec{position:relative;z-index:1;padding:clamp(60px,9vh,116px) 0;background-color:var(--white);background-image:var(--canvas-art)}
 .lsec.tight{padding:clamp(44px,6vh,80px) 0}
-.lsec.paper{background:var(--paper2)}
+/* ── PITA `.paper` — GRADASI, BUKAN BLOK RATA ────────────────────────────────
+   Sebelumnya pita ini `background:var(--paper2)` rata, jadi batasnya dengan
+   `.lsec` biasa adalah GARIS keras selebar layar. Sekarang ia memudar dari
+   warna kanvas di kedua ujungnya, sehingga peralihan antar-seksi jadi gradasi.
+   Nilai 0 % dan 100 % SENGAJA persis `--white`: itu yang membuatnya menyatu
+   dengan seksi tetangganya tanpa sambungan, berapa pun tinggi seksinya.
+   Inventaris kelas terukur di seluruh situs: hanya `lsec`, `lsec tight`,
+   `lsec paper`, `lsec tight paper`, dan satu `lsec lp-hero` — tidak ada varian
+   gelap, jadi ubin ornamen tidak pernah jatuh di atas latar gelap. */
+.lsec.paper{background-color:var(--white);background-image:var(--canvas-art),linear-gradient(180deg,var(--white) 0,var(--paper2) 12%,var(--paper2) 88%,var(--white) 100%)}
 .lhead{max-width:64ch;margin-bottom:34px}
 .lhead .lkick{display:block;margin-bottom:14px}
 .split2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,60px);align-items:center}
@@ -85,7 +221,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .lbtn svg{width:17px;height:17px}
 .lbtn--solid{background:var(--pine);color:#fff;box-shadow:var(--sh1)}
 .lbtn--solid:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
-.lbtn--glass{background:#fff;color:var(--pine);border-color:var(--hair)}
+.lbtn--glass{background:var(--card);color:var(--pine);border-color:var(--hair)}
 .lbtn--glass:hover{border-color:var(--pine);background:var(--paper2)}
 /* on-dark button variant (inside dark bands/hero) */
 /* ── TOMBOL DI ATAS HERO GELAP ────────────────────────────────────────────
@@ -99,7 +235,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
    di bawah — jangan membuat aturan tombol sendiri. */
 .on-dark .lbtn--glass,.vhero .lbtn--glass,.ind-hero .lbtn--glass,.ga-hero .lbtn--glass,.tmx-hero .lbtn--glass,.imgband .lbtn--glass{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.28);-webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)}
 .on-dark .lbtn--glass:hover,.vhero .lbtn--glass:hover,.ind-hero .lbtn--glass:hover,.ga-hero .lbtn--glass:hover,.tmx-hero .lbtn--glass:hover,.imgband .lbtn--glass:hover{border-color:#fff;background:rgba(255,255,255,.16)}
-.vhero .lbtn--solid,.ind-hero .lbtn--solid,.ga-hero .lbtn--solid,.tmx-hero .lbtn--solid,.imgband .lbtn--solid{background:linear-gradient(135deg,var(--emer-br),var(--emer));color:#04160e;box-shadow:0 14px 40px -14px rgba(28,174,107,.6)}
+.vhero .lbtn--solid,.ind-hero .lbtn--solid,.ga-hero .lbtn--solid,.tmx-hero .lbtn--solid,.imgband .lbtn--solid{background:linear-gradient(135deg,var(--emer-btn),var(--emer-btn-2));color:#fff;box-shadow:0 14px 40px -14px rgba(17,128,79,.55)}
 
 /* MOTION: reveal */
 [data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
@@ -126,12 +262,12 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .vhero__trust b{color:#bff0d5;font-weight:500}
 .vhero__scroll{position:absolute;left:50%;bottom:20px;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:7px;font-family:var(--l-mono);font-size:9px;letter-spacing:.2em;color:rgba(255,255,255,.6);text-transform:uppercase}
 .vhero__scroll i{width:1px;height:28px;background:linear-gradient(#fff,transparent);position:relative;overflow:hidden}
-.vhero__scroll i::after{content:"";position:absolute;top:-12px;left:0;width:1px;height:12px;background:#fff;animation:scrollcue 1.8s var(--ease) infinite}
+.vhero__scroll i::after{content:"";position:absolute;top:-12px;left:0;width:1px;height:12px;background:var(--card);animation:scrollcue 1.8s var(--ease) infinite}
 @keyframes scrollcue{0%{transform:translateY(0)}100%{transform:translateY(40px)}}
 
 /* ============================ EVIDENCE TILES ============================ */
 .ev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.ev{border:1px solid var(--hair);border-radius:16px;padding:24px;background:#fff;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s}
+.ev{border:1px solid var(--hair);border-radius:16px;padding:24px;background:var(--card);box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s}
 .ev:hover{transform:translateY(-5px);box-shadow:var(--sh3)}
 .ev__n{font-family:var(--l-serif);font-weight:600;font-size:clamp(30px,3.4vw,44px);color:var(--teal);line-height:1;letter-spacing:-.01em}
 .ev__n.gold{color:var(--brass)}.ev__n.white{color:var(--navy)}
@@ -140,7 +276,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 
 /* standards row */
 .stdrow{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center}
-.std{font-family:var(--l-mono);font-size:12px;color:var(--pine);border:1px solid var(--hair);border-radius:8px;padding:8px 13px;background:#fff}
+.std{font-family:var(--l-mono);font-size:12px;color:var(--pine);border:1px solid var(--hair);border-radius:8px;padding:8px 13px;background:var(--card)}
 .on-dark .std{color:#bff0d5;border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.05)}
 
 /* ============================ CINEMATIC IMAGE TREATMENTS ============================ */
@@ -200,7 +336,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 
 /* ============================ VISUAL STEP CARDS (3-verb spine) ============================ */
 .vcards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.vcard{position:relative;border:1px solid var(--hair);border-radius:18px;overflow:hidden;background:#fff;box-shadow:var(--sh1);transition:transform .32s var(--ease),box-shadow .32s}
+.vcard{position:relative;border:1px solid var(--hair);border-radius:18px;overflow:hidden;background:var(--card);box-shadow:var(--sh1);transition:transform .32s var(--ease),box-shadow .32s}
 .vcard:hover{transform:translateY(-6px);box-shadow:var(--sh3)}
 .vcard__img{position:relative;height:150px;overflow:hidden}
 .vcard__img img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
@@ -262,7 +398,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 @keyframes tapPulse{50%{transform:rotateY(8deg) scale(.975);box-shadow:0 40px 90px -40px rgba(31,122,107,.6),0 0 0 2px rgba(51,209,136,.4)}}
 /* feature tabs driving the phone */
 .dtabs{display:flex;flex-direction:column;gap:10px}
-.dtab{text-align:left;background:#fff;border:1px solid var(--hair);border-radius:14px;padding:16px 18px;cursor:pointer;transition:border-color .25s,box-shadow .25s,transform .2s;position:relative;overflow:hidden}
+.dtab{text-align:left;background:var(--card);border:1px solid var(--hair);border-radius:14px;padding:16px 18px;cursor:pointer;transition:border-color .25s,box-shadow .25s,transform .2s;position:relative;overflow:hidden}
 .dtab:hover{border-color:var(--teal)}
 .dtab.on{border-color:var(--teal);box-shadow:var(--sh2)}
 .dtab .dt-n{font-family:var(--l-mono);font-size:11px;letter-spacing:.1em;color:var(--brass);font-weight:600}
@@ -358,7 +494,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 
 /* cost-drain spotlight */
 .spot{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.spot__i{display:flex;gap:15px;align-items:flex-start;border:1px solid var(--hair);border-left:3px solid var(--brass);border-radius:0 14px 14px 0;padding:18px 20px;background:#fff;box-shadow:var(--sh1)}
+.spot__i{display:flex;gap:15px;align-items:flex-start;border:1px solid var(--hair);border-left:3px solid var(--brass);border-radius:0 14px 14px 0;padding:18px 20px;background:var(--card);box-shadow:var(--sh1)}
 .spot__ic{font-size:22px;flex:0 0 auto}
 .spot__i b{font-family:var(--l-sans);color:var(--ink);font-weight:700;display:block;margin-bottom:4px;font-size:15px}
 .spot__i p{font-size:13.5px;color:var(--slate);margin:0;line-height:1.5}
@@ -378,7 +514,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 
 /* apply steps */
 .applyrow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:step}
-.applystep{position:relative;border:1px solid var(--hair);border-radius:16px;padding:24px 20px 20px;background:#fff;box-shadow:var(--sh1)}
+.applystep{position:relative;border:1px solid var(--hair);border-radius:16px;padding:24px 20px 20px;background:var(--card);box-shadow:var(--sh1)}
 .applystep::before{counter-increment:step;content:"0" counter(step);font-family:var(--l-serif);font-size:34px;color:var(--teal);line-height:1;display:block;margin-bottom:12px}
 .applystep b{font-family:var(--l-sans);color:var(--ink);font-weight:700;font-size:15px;display:block;margin-bottom:7px}
 .applystep p{font-size:13.5px;color:var(--slate);margin:0;line-height:1.5}
@@ -397,8 +533,28 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .lfoot__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:26px}
 .lfoot__grid>*{min-width:0}
 .lfoot h4{font-family:var(--l-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8affc1;margin:0 0 14px}
-.lfoot a{display:block;color:rgba(255,255,255,.72);font-size:14px;padding:6px 0;transition:color .18s,padding .18s}
-.lfoot a:hover{color:#fff;padding-left:3px}
+/* ⚠︎ `:not(.lbrand)` BUKAN kerapian — ia perbaikan cacat yang dikeluhkan pemilik:
+   "peletakan logo glyiv dan tulisan glyiv terlalu dekat" di kaki halaman.
+   Sebabnya cascade, bukan markup. Markup merek di kaki halaman SAMA PERSIS
+   dengan yang di bilah atas (`<a class="lbrand"><img class="lbrand__mark"><b>`),
+   tetapi `.lfoot a` (spesifisitas 0,1,1) mengalahkan `.lbrand{display:flex;
+   gap:9px}` di glyiv-nav.css (0,1,0). Jadi di kaki halaman wadahnya jatuh ke
+   `display:block`, `gap` tidak berlaku sama sekali, dan karena `.lbrand__mark`
+   sendiri `display:block`, lambang dan wordmark turun ke DUA baris yang saling
+   menempel. Terukur di 390/768/1280 px — ketiganya identik:
+     bilah atas : display:flex  · jarak mendatar lambang→wordmark  9,0 px
+     kaki       : display:block · SUSUNAN VERTIKAL · jarak         0,0 px
+   Ditambah `padding:6px 0` dan `:hover{padding-left:3px}` yang ikut mengenai
+   merek, jadi seluruh merek bergeser saat disentuh.
+   Mengecualikan `.lbrand` mengembalikan perlakuan bilah atas apa adanya — satu
+   standar, tanpa varian — tanpa menulis ulang nilai gap di dua tempat. */
+.lfoot a:not(.lbrand){display:block;color:rgba(255,255,255,.72);font-size:14px;padding:6px 0;transition:color .18s,padding .18s}
+.lfoot a:not(.lbrand):hover{color:#fff;padding-left:3px}
+/* Kotaknya dibatasi selebar isinya: dengan `display:flex` warisan bilah atas ia
+   akan selebar kolom (≈332 px di 390 px), jadi 44 px target sentuh di bawah
+   berubah jadi pita selebar layar yang menavigasi ke beranda kalau tersenggol —
+   pemilik menguji dengan jari di tablet. */
+.lfoot .lbrand{width:max-content;max-width:100%}
 .lfoot__about{color:rgba(255,255,255,.66);font-size:13.5px;max-width:34ch;line-height:1.55;margin:14px 0}
 .lfoot__legal{border-top:1px solid rgba(255,255,255,.14);margin-top:30px;padding-top:20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--l-mono);font-size:10.5px;color:rgba(255,255,255,.5)}
 
@@ -423,7 +579,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .comm__stat span{font-size:13px;color:rgba(255,255,255,.7)}
 /* community movement (shared: light role-cards + dark-card faces/pills) */
 .mvmt{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:8px 0 30px}
-.mvcard{background:#fff;border:1px solid var(--hair);border-radius:18px;padding:22px 20px;box-shadow:var(--sh1);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
+.mvcard{background:var(--card);border:1px solid var(--hair);border-radius:18px;padding:22px 20px;box-shadow:var(--sh1);transition:transform .25s var(--ease),box-shadow .25s var(--ease)}
 .mvcard:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
 .mvcard__ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--paper2);color:var(--teal);margin-bottom:14px}
 .mvcard__ic svg{width:22px;height:22px}
@@ -442,7 +598,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 @media(max-width:760px){.mvmt{grid-template-columns:1fr}}
 
 /* ============================ COMPARISON TABLE (Outlet vs others) ============================ */
-.cmp{border:1px solid var(--hair);border-radius:18px;overflow:hidden;background:#fff;box-shadow:var(--sh1)}
+.cmp{border:1px solid var(--hair);border-radius:18px;overflow:hidden;background:var(--card);box-shadow:var(--sh1)}
 .cmp__row{display:grid;grid-template-columns:1.5fr 1fr 1fr;align-items:center}
 .cmp__row+.cmp__row{border-top:1px solid var(--hair-2)}
 .cmp__row>div{padding:15px 18px;font-size:14px}
@@ -456,7 +612,7 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 
 /* feature highlight cards */
 .feat{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.fcard2{border:1px solid var(--hair);border-radius:16px;padding:24px;background:#fff;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s}
+.fcard2{border:1px solid var(--hair);border-radius:16px;padding:24px;background:var(--card);box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s}
 .fcard2:hover{transform:translateY(-5px);box-shadow:var(--sh2)}
 .fcard2 .ic{width:46px;height:46px;border-radius:12px;background:var(--pine-tint,#edf3ef);display:grid;place-items:center;color:var(--pine);margin-bottom:15px;font-size:22px}
 .fcard2 h3{margin:0 0 8px}.fcard2 p{font-size:14px;color:var(--slate);margin:0;line-height:1.55}
@@ -474,10 +630,16 @@ body.is-ready .gv-splash{opacity:0;visibility:hidden}
 .liv-fab__ping{position:absolute;right:8px;bottom:8px;pointer-events:none;font-family:var(--l-mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);
   display:flex;align-items:center;gap:5px;white-space:nowrap;opacity:.9}
 .liv-fab__ping::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--emer-br);box-shadow:0 0 0 0 rgba(28,174,107,.5);animation:livPing 2.6s var(--ease) infinite}
-.liv-fab__ping::after{content:"Tanya Gly"}
+/* ⛔ TEKS DICABUT DARI CSS. `content:"Tanya Gly"` tidak bisa dijangkau kamus
+   i18n, jadi keterangan Indonesia itu bertahan di halaman EN dan AR — di SETIAP
+   halaman, tepat di bawah model 3D Gly. Terukur pembantah dengan lang="en":
+   ::after content = "Tanya Gly" sementara aria-label tombolnya sudah "Ask Gly".
+   Teksnya sekarang datang dari markup (glyiv-gly.js menulis <i> di dalam
+   .liv-fab__ping), sehingga ia simpul teks biasa yang bisa diterjemahkan. */
+.liv-fab__ping i{font-style:normal}
 @keyframes livPing{0%{box-shadow:0 0 0 0 rgba(28,174,107,.5)}70%,100%{box-shadow:0 0 0 7px rgba(28,174,107,0)}}
 body.livchat-open .liv-fab{opacity:0;pointer-events:none;transform:scale(.4)}
-.liv-chat{position:fixed;right:20px;bottom:20px;z-index:71;width:min(374px,92vw);max-height:min(660px,86vh);background:#fff;border:1px solid var(--hair);border-radius:22px;box-shadow:var(--sh3);display:flex;flex-direction:column;overflow:hidden;opacity:0;visibility:hidden;transform:translateY(16px) scale(.96);transform-origin:bottom right;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility .25s}
+.liv-chat{position:fixed;right:20px;bottom:20px;z-index:71;width:min(374px,92vw);max-height:min(660px,86vh);background:var(--card);border:1px solid var(--hair);border-radius:22px;box-shadow:var(--sh3);display:flex;flex-direction:column;overflow:hidden;opacity:0;visibility:hidden;transform:translateY(16px) scale(.96);transform-origin:bottom right;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility .25s}
 body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 .liv-chat__hd{display:flex;align-items:center;gap:11px;padding:13px 16px;background:var(--pine);color:#fff;flex:0 0 auto}
 .liv-chat__hd .av{width:9px;height:9px;border-radius:50%;background:var(--emer-br);box-shadow:0 0 0 0 rgba(28,174,107,.55);animation:livPing 2.6s var(--ease) infinite;flex:0 0 auto}
@@ -499,18 +661,18 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 .liv-chat__hd .cls:hover{opacity:1}
 .liv-chat__msgs{padding:14px;display:flex;flex-direction:column;gap:8px;max-height:min(46vh,320px);overflow:auto;background:var(--paper2)}
 .liv-bub{max-width:84%;padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.46}
-.liv-bub.bot{background:#fff;border:1px solid var(--hair);color:var(--ink);align-self:flex-start;border-bottom-left-radius:5px}
+.liv-bub.bot{background:var(--card);border:1px solid var(--hair);color:var(--ink);align-self:flex-start;border-bottom-left-radius:5px}
 .liv-bub.me{background:var(--pine);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
 .liv-chat__chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 14px 10px;background:var(--paper2)}
-.liv-chip{font-size:11.5px;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:5px 11px;cursor:pointer;background:#fff;transition:.15s}
+.liv-chip{font-size:11.5px;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:5px 11px;cursor:pointer;background:var(--card);transition:.15s}
 .liv-chip:hover{background:var(--teal);color:#fff}
-.liv-chat__in{display:flex;gap:8px;padding:11px 13px;border-top:1px solid var(--hair);background:#fff}
+.liv-chat__in{display:flex;gap:8px;padding:11px 13px;border-top:1px solid var(--hair);background:var(--card)}
 .liv-chat__in input{flex:1;min-height:44px;border:1px solid var(--hair);border-radius:999px;padding:9px 14px;font-family:inherit;font-size:16px;outline:none}
 .liv-chat__in input:focus{border-color:var(--teal)}
 .liv-chat__in button{background:var(--pine);color:#fff;border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;flex:0 0 auto;font-size:17px}
 
 /* ============================ COST-LEAK SCANNER (why-carbon) ============================ */
-.leak{position:relative;background:#fff;border:1px solid var(--hair);border-radius:20px;padding:20px 20px 18px;box-shadow:var(--sh2);overflow:visible}
+.leak{position:relative;background:var(--card);border:1px solid var(--hair);border-radius:20px;padding:20px 20px 18px;box-shadow:var(--sh2);overflow:visible}
 .leak::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(80% 60% at 80% 0%,rgba(176,137,79,.06),transparent 62%)}
 .leak__hd{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;position:relative}
 .leak__hd b{font-family:var(--l-serif);font-weight:600;font-size:17px;color:var(--pine);display:block;line-height:1.2}
@@ -537,9 +699,15 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 .leak__x{position:absolute;left:0;right:0;bottom:0;display:flex;gap:clamp(3px,1vw,7px);font-family:var(--l-mono);font-size:7.5px;color:var(--muted)}
 .leak__x span{flex:1;text-align:center}
 /* the scan sweep that "finds" the leaks */
-.leak__scan{position:absolute;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--teal),transparent);box-shadow:0 0 16px 3px rgba(31,122,107,.4);opacity:0;pointer-events:none;z-index:3}
+/* ⚠︎ Sapuan ini dulu berjalan dengan `left:0 → 100%` — 1,15 detik penuh
+   perhitungan layout tiap bingkai. Persen pada `translateX` mengacu ke kotak
+   ELEMEN SENDIRI, jadi elemennya dijadikan REL selebar wadah (tembus pandang)
+   dan garis 2px-nya digambar `::before`. translateX(100%) kini = selebar wadah,
+   persis sejauh dulu, tanpa satu pun perhitungan layout. */
+.leak__scan{position:absolute;top:0;bottom:0;left:0;width:100%;opacity:0;pointer-events:none;z-index:3}
+.leak__scan::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--teal),transparent);box-shadow:0 0 16px 3px rgba(31,122,107,.4)}
 .leak[data-mode="1"].in .leak__scan{animation:leakScan 1.15s var(--ease) forwards}
-@keyframes leakScan{0%{left:0;opacity:0}12%{opacity:1}88%{opacity:1}100%{left:100%;opacity:0}}
+@keyframes leakScan{0%{transform:translateX(0);opacity:0}12%{opacity:1}88%{opacity:1}100%{transform:translateX(100%);opacity:0}}
 /* tooltip on each bar */
 .leak__tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);width:max-content;max-width:170px;
   background:var(--pine);color:#fff;font-family:var(--l-sans);font-size:11px;line-height:1.35;padding:7px 10px;border-radius:8px;
@@ -645,22 +813,65 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .vhero{min-height:100vh;min-height:100dvh}
   .liv-fab{width:84px;height:84px;right:4px;bottom:4px}
   .liv-fab__ping{display:none}
-  .leak__hd{flex-wrap:wrap}.leak__sw{margin-left:0;width:100%}.leak__sw button{flex:1}
+  /* ⚠︎ TINGGI 44px WAJIB, bukan lebar saja. Terukur di 390px dengan emulasi
+     pointer kasar yang benar (CDP mobile:true): kedua tombol ini 150×30 —
+     satu-satunya kontrol di halaman GIP yang di bawah target sentuh, dan ia
+     justru kontrol yang mengubah seluruh grafiknya. Lebar penuh sudah diberi
+     `flex:1` sejak dulu; tingginya tidak pernah ikut. */
+  .leak__hd{flex-wrap:wrap}.leak__sw{margin-left:0;width:100%}
+  .leak__sw button{flex:1;min-height:44px;padding-top:0;padding-bottom:0}
   .leak__chart{height:158px}
   .leak__x{font-size:6.5px}
   .liv-chat__bot{height:126px}
 }
+/* Tablet (Galaxy Tab, layar pemilik) berjari kasar TAPI lebar >600px, jadi
+   aturan di `max-width:600px` di atas tidak menyentuhnya. Target sentuh
+   ditentukan JARI, bukan lebar layar — karena itu aturannya diulang di sini.
+   Tetulis di berkas gaya, bukan `style={{}}`: penjaga hanya memindai berkas. */
+@media (pointer:coarse){
+  .leak__sw button{min-height:44px;padding-top:0;padding-bottom:0}
+}
+/* ══ HEMAT GERAK — JARING PENGAMAN LEBIH DULU, DAFTAR NAMA SESUDAHNYA ════════
+   Daftar selektor di bawah sudah ada sejak lama dan SELALU tertinggal: tiap
+   halaman baru membawa animasi baru yang tidak ada namanya di sini. Sapuan 62
+   halaman (`node scripts/sapu-gerak.cjs`) menemukan 43 halaman masih bergerak
+   saat pengguna meminta gerak dikurangi — beranda kebetulan bersih, dan beranda
+   itulah satu-satunya halaman yang pernah diperiksa gerbang.
+
+   Karena itu aturan pertamanya sekarang MENYAPU SEMUA, termasuk pseudo-element
+   (`*` sendirian TIDAK menjaring `::before`/`::after` — jebakan yang sudah
+   memakan waktu di `glyiv-nav.css` dan `kabar.css`).
+
+   ⚠︎ Kenapa `.001ms`, bukan `animation:none`: banyak animasi di sini
+   ber-`fill:forwards/both` dan BERANGKAT dari keadaan tak terlihat
+   (`opacity:0`, `scaleY(0)`). `animation:none` meninggalkan isinya di keadaan
+   berangkat itu — bilah kosong, teks hilang. Durasi .001ms + satu putaran
+   membuatnya mendarat seketika di keadaan AKHIR.
+   ⚠︎ `animation-delay` WAJIB ikut dinolkan: selama masa tunda `playState`
+   sebuah animasi tetap `"running"`. Tanpa baris ini, animasi ber-`delay 9s`
+   tercatat berjalan sembilan detik penuh walau durasinya sudah .001ms. */
 @media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms!important;animation-delay:0s!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;transition-delay:0s!important;
+    scroll-behavior:auto!important;
+  }
   html{scroll-behavior:auto}
   [data-reveal]{opacity:1!important;transform:none!important;transition:none!important}
   .vhero__media video,.vhero__media img,.imgband__media img,.ind-hero__media img,.img-kb img{animation:none!important;transform:none!important}
   .img-reveal{clip-path:none!important;transition:none!important}
   .scr__bars i{animation:none!important;transform:scaleY(1)!important}
-  .vhero__scroll i::after,.scr__top .live b,.gv-spore{animation:none!important}
+  /* `pulse2` dipakai DUA kali — `.scr__top .live b` dan `.d-src .st b` 132 baris
+     di bawahnya. Dulu hanya yang pertama disebut, jadi 8 titik tetap berkedip
+     di /lab/green-intelligence dan /lab/carbon-intelligence. */
+  .vhero__scroll i::after,.scr__top .live b,.d-src .st b,.gv-spore{animation:none!important}
   .mq__track{animation:none!important;flex-wrap:wrap;width:auto}
   .leak__scan{display:none!important}
   .leak__bar{transform:scaleY(1)!important;transition:none!important}
   .liv-fab__ping::before,.liv-chat__hd .av{animation:none!important}
+  .dtab.on .dt-bar{animation:none!important;transform:scaleX(1)!important}
+  .gcar__dot,.gcar__dot::before{transition:none!important}
 }
 
 
@@ -676,7 +887,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
    tidak ada pembacaan layout per frame (penting agar mulus di tablet). */
 .tcard{
   position:relative; display:flex; flex-direction:column; overflow:hidden;
-  background:#fff; border:1px solid var(--hair); border-radius:18px;
+  background:var(--card); border:1px solid var(--hair); border-radius:18px;
   box-shadow:var(--sh1); text-decoration:none; color:inherit;
   transform-style:preserve-3d; will-change:transform;
   transition:transform .45s var(--ease), box-shadow .45s var(--ease), border-color .3s var(--ease);
@@ -759,15 +970,22 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 .gcar__nav{ display:flex; gap:8px; justify-content:flex-end; margin-top:2px }
 .gcar__btn{
   width:38px; height:38px; border-radius:50%; display:grid; place-items:center;
-  background:#fff; border:1px solid var(--hair); color:var(--pine); cursor:pointer;
+  background:var(--card); border:1px solid var(--hair); color:var(--pine); cursor:pointer;
   transition:border-color .2s var(--ease), transform .2s var(--ease), opacity .2s
 }
 .gcar__btn:hover:not(:disabled){ border-color:var(--pine); transform:translateY(-1px) }
 .gcar__btn:disabled{ opacity:.35; cursor:default }
 .gcar__btn:focus-visible{ outline:2px solid var(--teal); outline-offset:2px }
 .gcar__dots{ display:flex; gap:6px; align-items:center; margin-right:auto }
+/* ⚠︎ Titik carousel dulu MELEBAR lewat `transition:width .2s`. Melebar itu
+   memang bagian bahasanya, tapi `width` adalah properti TATA LETAK: seluruh
+   baris titik diukur ulang tiap bingkai selama transisi, di setiap pergantian
+   slide, di halaman yang paling sering dibuka (beranda, /lab, /vision).
+   Lebarnya sekarang berpindah SEKETIKA — keadaan diamnya sama persis seperti
+   dulu (7px / 20px), tidak ada satu piksel pun yang berubah tampilannya — dan
+   yang tetap beranimasi hanya WARNA, yang murni pekerjaan cat. */
 .gcar__dot{ width:7px; height:7px; border-radius:50%; background:var(--hair2);
-  border:1px solid var(--hair); padding:0; cursor:pointer; transition:background .2s, width .2s }
+  border:1px solid var(--hair); padding:0; cursor:pointer; transition:background-color .2s }
 .gcar__dot[aria-current="true"]{ background:var(--teal); width:20px; border-radius:999px }
 
 @media (prefers-reduced-motion: reduce){
@@ -777,53 +995,16 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 }
 
 /* ============================================================================
-   DEMO STRUK -> KARBON (#kenapa)
-   Menggantikan grafik batang menanjak yang dulu ada di sini. Grafik itu punya
-   masalah makna: batang naik di sebelah kata "jejak karbon" terbaca sebagai
-   "emisi kami naik" — kebalikan dari pesan kami. Diganti demo konkret yang
-   sekaligus memamerkan pembeda utama: RENTANG ketidakpastian dan TIER data,
-   dua hal yang pesaing sembunyikan di balik satu angka telanjang.
+   DEMO STRUK -> KARBON (#kenapa) — DICABUT ronde ini.
+   Aturan `.rcp*` berdiri di sini untuk satu blok di beranda: satu baris struk
+   diurai jadi jejak karbonnya. Beranda sekarang menceritakan EKONOMI HIJAU,
+   bukan karbon satu gelas, jadi bloknya diganti adegan iklim yang bisa digeser
+   (`.gvis*`, aturannya lokal di index.html karena hanya satu halaman memakainya).
+   Aturan lama ikut dicabut, bukan ditinggal menganggur: lembar ini dimuat 54
+   halaman, dan tak satu pun dari mereka yang masih memakai `.rcp` (diperiksa
+   dengan grep sebelum dihapus). Menumpuk CSS mati di lembar bersama persis
+   kebiasaan yang dilarang PRINSIP-UIUX §1.
    ============================================================================ */
-.rcp{background:var(--paper2);border:1px solid var(--hair);border-radius:16px;padding:16px 16px 14px}
-.rcp__top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
-  padding-bottom:11px;border-bottom:1px dashed var(--hair)}
-.rcp__ttl{font-family:var(--l-serif);font-weight:600;font-size:16.5px;color:var(--pine)}
-.rcp__price{font-family:var(--l-mono);font-size:13px;color:var(--slate)}
-.rcp__rows{display:flex;flex-direction:column;gap:7px;margin:12px 0 14px}
-.rcp__row{display:grid;grid-template-columns:1fr 84px 42px;align-items:center;gap:10px;
-  font-size:12.5px;color:var(--slate)}
-.rcp__row i{height:6px;border-radius:999px;background:var(--hair2);position:relative;overflow:hidden}
-.rcp__row i::after{content:"";position:absolute;inset:0 auto 0 0;width:var(--w,0%);
-  background:linear-gradient(90deg,var(--teal),#3fa38f);border-radius:999px;
-  transform-origin:left;transform:scaleX(0);transition:transform .9s var(--ease)}
-[data-reveal].is-in .rcp__row i::after{transform:scaleX(1)}
-.rcp__row b{font-family:var(--l-mono);font-size:12px;color:var(--pine);text-align:right}
-.rcp__total{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;
-  padding-top:12px;border-top:1px solid var(--hair)}
-.rcp__tl{font-family:var(--l-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.rcp__tv{display:flex;align-items:baseline;gap:6px}
-.rcp__tv b{font-family:var(--l-serif);font-weight:600;font-size:30px;color:var(--pine);line-height:1}
-.rcp__tv span{font-family:var(--l-mono);font-size:11px;color:var(--slate)}
-
-/* Pita rentang — elemen tanda tangan Glyiv. */
-.rcp__band{margin-top:12px}
-.rcp__bar{position:relative;height:8px;border-radius:999px;background:var(--hair2);overflow:hidden}
-.rcp__fill{position:absolute;top:0;bottom:0;left:18%;right:22%;border-radius:999px;
-  background:linear-gradient(90deg,rgba(31,122,107,.25),rgba(31,122,107,.55),rgba(31,122,107,.25));
-  transform:scaleX(0);transform-origin:center;transition:transform .9s var(--ease) .25s}
-[data-reveal].is-in .rcp__fill{transform:scaleX(1)}
-.rcp__dot{position:absolute;top:50%;left:47%;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;
-  border-radius:50%;background:var(--pine);border:2px solid #fff;box-shadow:0 1px 4px rgba(15,46,34,.35);
-  opacity:0;transition:opacity .5s var(--ease) .8s}
-[data-reveal].is-in .rcp__dot{opacity:1}
-.rcp__bl{display:flex;justify-content:space-between;align-items:center;margin-top:6px;
-  font-family:var(--l-mono);font-size:10.5px;color:var(--muted)}
-.rcp__bl em{font-style:normal;letter-spacing:.1em;text-transform:uppercase;font-size:9.5px}
-.rcp__foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px}
-.rcp__tier{font-family:var(--l-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--brass);border:1px solid rgba(176,137,79,.4);border-radius:999px;padding:3px 9px}
-.rcp__src{font-family:var(--l-mono);font-size:10.5px;color:var(--teal);cursor:pointer}
-.rcp__note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:12px 0 0}
 
 /* ============================================================================
    AJAKAN IKUT (#gabung) — menggantikan blok "ikuti kanal kami" yang memaksa
@@ -832,18 +1013,41 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 .joinx{margin-top:34px;background:var(--paper2);border:1px solid var(--hair);
   border-radius:22px;padding:clamp(22px,3.4vw,38px)}
 .joinx__head{max-width:62ch}
-.joinx__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0 22px}
-@media(max-width:860px){.joinx__grid{grid-template-columns:1fr}}
-.joinx__c{position:relative;display:flex;flex-direction:column;gap:7px;background:#fff;
-  border:1px solid var(--hair);border-radius:16px;padding:20px;text-decoration:none;color:inherit;
+
+/* ── KISI APLIKASI (.appx) ────────────────────────────────────────────────────
+   MENGGANTIKAN `.joinx__grid` + `.joinx__c/__n/__go`, yang sudah dihapus dari
+   berkas ini pada ronde yang sama — tiga kartu prosa "cara ikut sekarang" kini
+   enam kartu aplikasi. Kelasnya tidak ditinggalkan sebagai "kalau-kalau": CSS
+   yang tidak dipakai siapa pun adalah cara termurah membuat ronde berikutnya
+   percaya sebuah komponen masih hidup.
+
+   Bentuknya SENGAJA berbeda dari `.tcard`/`.indcard`: kartu-kartu itu adalah
+   kartu FOTO yang mengundang dibaca; ini daftar peluncur — ikon 40px + nama +
+   satu baris. Beranda ini sudah punya lima kisi kartu bergambar; yang keenam
+   akan terbaca sebagai lebih banyak hal yang sama.
+
+   TIDAK dijadikan rel geser di ponsel (berbeda dari `.mrail`/`.indgrid`):
+   isinya cuma enam dan seluruhnya harus terlihat sekaligus — separuh aplikasi
+   yang bersembunyi di balik geseran adalah separuh aplikasi yang tidak
+   diketahui ada. Kartunya pendek, jadi menumpuk tidak mahal. */
+.appx{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}
+@media(max-width:900px){.appx{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.appx{grid-template-columns:1fr}}
+.appx__c{display:flex;align-items:flex-start;gap:12px;background:var(--card);
+  border:1px solid var(--hair);border-radius:16px;padding:14px;text-decoration:none;color:inherit;
   transition:border-color .25s var(--ease),transform .25s var(--ease),box-shadow .25s var(--ease)}
-.joinx__c:hover{border-color:var(--pine);transform:translateY(-3px);box-shadow:var(--sh2)}
-.joinx__c:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
-.joinx__n{font-family:var(--l-mono);font-size:11px;letter-spacing:.14em;color:var(--brass)}
-.joinx__c h3{font-family:var(--l-serif);font-weight:600;font-size:18px;color:var(--pine);margin:2px 0 0}
-.joinx__c p{font-size:13.5px;color:var(--slate);line-height:1.6;margin:0}
-.joinx__go{margin-top:auto;padding-top:10px;font-family:var(--l-mono);font-size:11.5px;color:var(--teal)}
-.joinx__foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+.appx__c:hover{border-color:var(--pine);transform:translateY(-3px);box-shadow:var(--sh2)}
+.appx__c:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.appx__ik{width:40px;height:40px;flex:0 0 40px;border-radius:11px;display:block}
+.appx__b{min-width:0}
+.appx__n{font-family:var(--l-serif);font-weight:600;font-size:16.5px;line-height:1.25;
+  color:var(--pine);margin:0 0 4px}
+.appx__d{font-size:13px;color:var(--slate);line-height:1.5;margin:0}
+/* Baris "→" TERLIHAT selalu, tidak hanya saat hover — `.indcard__go` pernah
+   membuat kesalahan itu dan bagian 5 di bawah berkas ini menghapusnya. */
+.appx__go{display:block;margin-top:8px;font-family:var(--l-mono);font-size:11px;
+  letter-spacing:.05em;color:var(--teal)}
+.joinx__foot{display:flex;align-items:center;gap:12px;flex-wrap:wrap;
   padding-top:18px;border-top:1px solid var(--hair)}
 .joinx__note{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0;flex:1 1 320px}
 
@@ -910,11 +1114,13 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
    garis penghubung `.flowrail::before` menyala, jadi rel dan garis itu tidak
    pernah aktif bersamaan. */
 @media (max-width:900px){
+  /* `.joinx__grid` DIHAPUS dari keempat daftar di blok ini: markup-nya sudah
+     tidak ada lagi di beranda (diganti kisi `.appx`), dan `.appx` sengaja BUKAN
+     rel — alasannya ditulis di definisinya. */
   .mrail.mrail,
   .indgrid.indgrid,
   .applyrow.applyrow,
-  .feat.feat,
-  .joinx__grid.joinx__grid{
+  .feat.feat{
     display:grid;
     grid-auto-flow:column;
     /* `none` wajib: tanpa ini jejak `grid-template-columns` desktop bertahan
@@ -946,14 +1152,12 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .mrail.mrail::-webkit-scrollbar,
   .indgrid.indgrid::-webkit-scrollbar,
   .applyrow.applyrow::-webkit-scrollbar,
-  .feat.feat::-webkit-scrollbar,
-  .joinx__grid.joinx__grid::-webkit-scrollbar{display:none}
+  .feat.feat::-webkit-scrollbar{display:none}
 
   .mrail.mrail>*,
   .indgrid.indgrid>*,
   .applyrow.applyrow>*,
-  .feat.feat>*,
-  .joinx__grid.joinx__grid>*{scroll-snap-align:start;min-width:0}
+  .feat.feat>*{scroll-snap-align:start;min-width:0}
 
   /* Kartu ekosistem lebih sempit: ia hanya foto + dua baris teks, jadi 13 kartu
      tidak perlu 78vw masing-masing. */
@@ -970,8 +1174,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .mrail [data-reveal],
   .indgrid [data-reveal],
   .applyrow [data-reveal],
-  .feat [data-reveal],
-  .joinx__grid [data-reveal]{opacity:1;transform:none;transition:none}
+  .feat [data-reveal]{opacity:1;transform:none;transition:none}
 }
 
 /* Pengubah `.applyrow--2`: dua kolom di desktop, bukan empat.
@@ -999,7 +1202,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
     grid-template-columns:1fr 1fr;
     grid-template-areas:"f f" "o g";
     align-items:stretch;
-    background:#fff;
+    background:var(--card);
     border:1px solid var(--hair);
     border-radius:14px;
     overflow:hidden;
@@ -1048,13 +1251,20 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .llead{font-size:16.5px;line-height:1.66}
   .lnote{font-size:13.5px;line-height:1.65}
   /* Isi kartu — inilah "kecil" yang sebenarnya dikeluhkan. */
-  .tcard__body h3,.mvcard h3,.rmc h3,.joinx__c h3{font-size:20.5px;line-height:1.2}
-  .tcard__body p,.mvcard p,.rmc p,.joinx__c p{font-size:14.8px;line-height:1.55}
+  .tcard__body h3,.mvcard h3,.rmc h3{font-size:20.5px;line-height:1.2}
+  .tcard__body p,.mvcard p,.rmc p{font-size:14.8px;line-height:1.55}
   .indcard__t{font-size:20px}
   .indcard__grp{font-size:10.5px}
   .rmc__phase,.rmc__foot{font-size:10.5px}
   .mvcard__get{font-size:11px}
-  .joinx__n,.joinx__go{font-size:11.5px}
+  /* Kartu `.appx` SENGAJA tidak ikut dibesarkan. Pembesaran di blok ini lahir
+     dari keluhan "teks kartu terlalu kecil" atas kartu FOTO yang isinya satu
+     paragraf; kartu peluncur ini satu baris, dan 20,5px membuat enam kartu
+     mendorong tombol unduh jauh ke bawah lipatan. Nama & baris keterangannya
+     sudah 16,5/13px — di atas ambang 12px yang dilarang berkas ini. */
+  .appx__n{font-size:17.5px}
+  .appx__d{font-size:14px;line-height:1.5}
+  .appx__go{font-size:11.5px}
 }
 
 /* --- 5. ISI YANG HANYA MUNCUL SAAT HOVER = CACAT DI LAYAR SENTUH ------------
@@ -1074,7 +1284,10 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
    pil bahasa 30x26px (diperbaiki di glyiv-nav.css). Digating `pointer:coarse`
    supaya tata letak desktop tidak tersentuh sama sekali. */
 @media (pointer:coarse){
-  .lfoot a{padding:11px 0}
+  /* `:not(.lbrand)` sama alasannya dengan blok kaki halaman di atas: tanpa itu
+     `padding:11px 0` menambah 22 px ke merek yang sudah 44 px, dan merek jadi
+     satu-satunya elemen kaki yang tingginya 66 px. */
+  .lfoot a:not(.lbrand){padding:11px 0}
   .lfoot .lbrand{min-height:44px}
   .lfoot__legal a{display:inline-flex;align-items:center;min-height:44px}
   .rmc__foot a.demo{display:inline-flex;align-items:center;min-height:44px}
@@ -1224,4 +1437,446 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
     padding: 15px 2px;
     margin: -15px 0;
   }
+}
+
+/* ══ RONDE 44 · baris media sosial di footer (butir 5) ════════════════════════
+   Footer berlatar gelap, jadi ikon memakai mint — BUKAN teal gelap. Aturan tetap
+   merek: "aksen di atas gelap adalah #8affc1 / #33d188, tidak pernah teal gelap
+   di atas gelap" (sudah pernah jadi cacat nyata di 13 halaman).
+   Kotak sentuh 40 px: di bawah 44 px yang ideal, tapi ini deretan ikon sekunder
+   di kaki halaman — bukan aksi utama — dan 44 px membuat barisnya membungkus di
+   360 px. Celah 10 px menjaga jarak antar-target tetap cukup. */
+.lfoot__sos{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;margin-bottom:22px}
+.lfoot .lfoot__sos .lsos{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:40px;height:40px;border-radius:999px;
+  border:1px solid rgba(138,255,193,.22);
+  color:#8affc1;background:rgba(138,255,193,.06);
+  transition:background .18s ease,border-color .18s ease,transform .18s ease;
+}
+.lfoot .lfoot__sos .lsos:hover{background:rgba(138,255,193,.14);border-color:rgba(138,255,193,.45);transform:translateY(-2px)}
+.lfoot .lfoot__sos .lsos:focus-visible{outline:2px solid #8affc1;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.lfoot .lfoot__sos .lsos{transition:none}.lfoot .lfoot__sos .lsos:hover{transform:none}}
+
+/* ══ WARNA MEREK SOSIAL ═══════════════════════════════════════════════
+   Sebelumnya seluruh ikon memakai satu warna mint — pemilik menyebutnya
+   "polosan". Sekarang tiap platform memakai warnanya sendiri.
+   Selektornya lewat href supaya tidak ada satu pun berkas markup yang perlu
+   disunting; menambah kelas berarti menyunting 19+ salinan footer.
+   Empat kelas pada selektor (.lfoot .lfoot__sos .lsos[href]) sengaja lebih
+   spesifik daripada aturan warna dasar di atas, yang pernah dikalahkan
+   `.lfoot a:not(.lbrand)` di ronde sebelumnya. */
+.lfoot .lfoot__sos .lsos[href*="instagram"]{color:#F05C9B;border-color:rgba(240,92,155,.34);background:rgba(240,92,155,.10)}
+.lfoot .lfoot__sos .lsos[href*="instagram"]:hover{background:rgba(240,92,155,.20);border-color:rgba(240,92,155,.60)}
+.lfoot .lfoot__sos .lsos[href*="instagram"]:focus-visible{outline-color:#F05C9B}
+.lfoot .lfoot__sos .lsos[href*="tiktok"]{color:#25F4EE;border-color:rgba(37,244,238,.34);background:rgba(37,244,238,.10)}
+.lfoot .lfoot__sos .lsos[href*="tiktok"]:hover{background:rgba(37,244,238,.20);border-color:rgba(37,244,238,.60)}
+.lfoot .lfoot__sos .lsos[href*="tiktok"]:focus-visible{outline-color:#25F4EE}
+.lfoot .lfoot__sos .lsos[href*="youtube"]{color:#FF4A4A;border-color:rgba(255,74,74,.34);background:rgba(255,74,74,.10)}
+.lfoot .lfoot__sos .lsos[href*="youtube"]:hover{background:rgba(255,74,74,.20);border-color:rgba(255,74,74,.60)}
+.lfoot .lfoot__sos .lsos[href*="youtube"]:focus-visible{outline-color:#FF4A4A}
+.lfoot .lfoot__sos .lsos[href*="x.com"]{color:#FFFFFF;border-color:rgba(255,255,255,.34);background:rgba(255,255,255,.10)}
+.lfoot .lfoot__sos .lsos[href*="x.com"]:hover{background:rgba(255,255,255,.20);border-color:rgba(255,255,255,.60)}
+.lfoot .lfoot__sos .lsos[href*="x.com"]:focus-visible{outline-color:#FFFFFF}
+.lfoot .lfoot__sos .lsos[href*="facebook"]{color:#4C9AFF;border-color:rgba(76,154,255,.34);background:rgba(76,154,255,.10)}
+.lfoot .lfoot__sos .lsos[href*="facebook"]:hover{background:rgba(76,154,255,.20);border-color:rgba(76,154,255,.60)}
+.lfoot .lfoot__sos .lsos[href*="facebook"]:focus-visible{outline-color:#4C9AFF}
+.lfoot .lfoot__sos .lsos[href*="linkedin"]{color:#4AA3E0;border-color:rgba(74,163,224,.34);background:rgba(74,163,224,.10)}
+.lfoot .lfoot__sos .lsos[href*="linkedin"]:hover{background:rgba(74,163,224,.20);border-color:rgba(74,163,224,.60)}
+.lfoot .lfoot__sos .lsos[href*="linkedin"]:focus-visible{outline-color:#4AA3E0}
+
+/* ══ RONDE 44 · butir 17 — navigasi bagian di rel kanan ══════════════════════
+   Bentuknya mengikuti rujukan yang pemilik sebut (void.gt.tc/koios): butirnya
+   GARIS PENDEK yang memanjang saat aktif, bukan titik; label monospace bernomor
+   yang muncul hanya saat aktif atau di-hover.
+
+   ⛔ DUA WARNA, BUKAN SATU. Rel ini position:fixed, jadi satu halaman yang
+   punya seksi terang DAN seksi .on-dark akan melewatkan rel yang sama di atas
+   keduanya. Teal gelap di atas latar gelap adalah cacat yang sudah pernah
+   memakan 13 halaman; karena itu JS-nya menempelkan .lsecnav--gelap saat
+   seksi aktif berlatar gelap, dan di situ warnanya berganti ke mint. */
+.lsecnav{
+  position:fixed; right:18px; top:46%; transform:translateY(-50%);
+  z-index:45; display:none; flex-direction:column; align-items:flex-end; gap:9px;
+  pointer-events:auto;
+}
+@media (min-width:1100px){ .lsecnav{display:flex} }
+@media print{ .lsecnav{display:none !important} }
+
+.lsecnav__b{
+  display:flex; align-items:center; gap:12px;
+  background:none; border:0; padding:2px 0; margin:0; cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.lsecnav__t{
+  font-family:var(--l-mono,"IBM Plex Mono",ui-monospace,monospace);
+  font-size:8.5px; letter-spacing:.15em; text-transform:uppercase; white-space:nowrap;
+  color:var(--slate,#48524B); opacity:0; transform:translateX(8px);
+  transition:opacity .3s ease, transform .3s ease, color .3s ease;
+}
+.lsecnav__t i{ font-style:normal; margin-right:8px; opacity:.5 }
+.lsecnav__g{
+  display:block; height:2px; width:16px; border-radius:999px;
+  background:color-mix(in oklab, var(--ink,#12211B) 30%, transparent);
+  transition:width .3s ease, background .3s ease, box-shadow .3s ease;
+}
+.lsecnav__b:hover .lsecnav__t,
+.lsecnav__b:focus-visible .lsecnav__t{ opacity:1; transform:translateX(0) }
+.lsecnav__b:hover .lsecnav__g{ width:24px }
+.lsecnav__b:focus-visible{ outline:2px solid var(--teal,#1F7A6B); outline-offset:6px; border-radius:4px }
+
+.lsecnav__b[aria-current="true"] .lsecnav__t{ opacity:1; transform:translateX(0); color:var(--teal,#1F7A6B) }
+.lsecnav__b[aria-current="true"] .lsecnav__g{
+  width:30px; background:var(--teal,#1F7A6B);
+  box-shadow:0 0 10px color-mix(in oklab, var(--teal,#1F7A6B) 60%, transparent);
+}
+
+/* Seksi aktif berlatar gelap → mint, tidak pernah teal gelap. */
+.lsecnav--gelap .lsecnav__t{ color:rgba(234,255,244,.62) }
+.lsecnav--gelap .lsecnav__g{ background:rgba(234,255,244,.32) }
+.lsecnav--gelap .lsecnav__b[aria-current="true"] .lsecnav__t{ color:#8affc1 }
+.lsecnav--gelap .lsecnav__b[aria-current="true"] .lsecnav__g{ background:#8affc1; box-shadow:0 0 10px rgba(138,255,193,.6) }
+.lsecnav--gelap .lsecnav__b:focus-visible{ outline-color:#8affc1 }
+
+@media (prefers-reduced-motion:reduce){
+  .lsecnav__t,.lsecnav__g{ transition:none }
+}
+
+/* Seksi yang difokuskan lewat rel tidak boleh menampilkan cincin fokus raksasa
+   — fokusnya untuk pembaca layar, bukan untuk dilihat. */
+.lsec:focus,.wsec:focus,section:focus{ outline:none }
+
+/* ══ RONDE 57 · BUTIR 11 & 12 — LEBAR KEPALA SEKSI + WAJAH TIAP SEKSI ════════
+   Dua keluhan pemilik yang dijawab blok ini:
+
+   (11) "…itu kan seperti tertahan di kiri saja, harusnya itu dibiarkan panjang
+        ke kanan, jadi tulisannya makan satu width nya sama seperti card di
+        bawahnya."
+   (12) "…antara satu section dan section lain itu harus dibedakan
+        backgroundnya… ornamen2 svg animated juga bisa digunakan… saya tidak
+        mau latarnya itu kebanyakan polos."
+
+   ⚠︎ AKAR BUTIR 11 — BUKAN GAYA SEBARISNYA. Gaya `max-width:64ch` pada
+   `<p class="llead">` di beranda terhitung 680,96 px, tetapi lebar terukur
+   paragrafnya hanya 573,4 px. Yang benar-benar menahan adalah aturan BERSAMA
+   `.lhead{max-width:64ch}` (baris 171) — pada font-size 16 px, 64ch = 573,44 px
+   persis. Membuang gaya sebaris saja TIDAK akan mengubah satu piksel pun.
+   Karena `.lhead` dipakai 40+ halaman lain, aturan itu TIDAK diubah; yang
+   dibuat kelas pengubah `.lhead--wide`, dipasang pada kepala seksi beranda
+   yang berdiri di atas kisi/rel selebar `.lwrap`.
+
+   ⚠︎ KENAPA DUA KOLOM, BUKAN SATU BARIS PANJANG. Pada 1440 px lebar isi
+   `.lwrap` = 1144 px. Satu baris paragraf 19 px di lebar itu terukur ±118
+   karakter — jauh di atas ambang keterbacaan ±110 yang dipakai ronde ini.
+   Mengecilkan `max-width` kembali DITOLAK pemilik, jadi paragrafnya tetap
+   selebar kisi (elemennya 1144 px, sama dengan `.indgrid`) tetapi ISINYA
+   dipecah dua kolom mulai 1200 px.
+   ⛔ Di bawah 1200 px tetap satu kolom — di sana lebarnya memang sudah aman. */
+
+/* Token tint. Ketiganya SUDAH ada di `dist/assets/css/glyiv-v2.css`, tetapi
+   beranda TIDAK memuat berkas itu (hanya lab.css + glyiv-nav.css — terukur:
+   `grep -c pine-tint dist/assets/css/glyiv-nav.css` → 0). Nilainya disalin
+   persis supaya tidak ada dua sumber kebenaran warna.
+
+   RONDE 59 — ketiganya ikut dihangatkan dan didudukkan di ANAK TANGGA YANG
+   SAMA dengan `--paper2` (nada 2). Sebelumnya ketiganya kebetulan juga
+   seterang itu (Y 0,880-0,884) tetapi tanpa niat, dan justru itu sebabnya
+   ronde 58 merasa perlu MENGGAMBAR tepi robek di tiap batas: bedanya tidak
+   pernah cukup terbaca sendiri. Sekarang perbedaannya RONA, dan peralihannya
+   gradasi — bukan bentuk.
+     --brass-tint #F7F2E6  Y 0,8899   hangat  (#cara)
+     --pine-tint  #EFF4EF  Y 0,8928   hijau   (#ekonomi)
+     --navy-tint  #EDF1F9  Y 0,8776   biru    (#teknologi)  ← nada terdalam
+   Yang terdalam (navy) memikul `--muted` pada 4,54:1 — di atas AA, terhitung. */
+:root{
+  --pine-tint:#EFF4EF;
+  --navy-tint:#EDF1F9;
+  --brass-tint:#F7F2E6;
+}
+
+/* ── BUTIR 11 · kepala seksi selebar kisinya ──────────────────────────────── */
+.lhead--wide{max-width:none}
+@media (min-width:1200px){
+  /* ⛔ `columns:2` DICABUT — pemilik menolaknya dua kali, dan kedua kalinya
+     dengan tangkapan layar: *"kenapa kayak terpotong gitu tulisannya… Kan saya
+     sudah bilang untuk jangan pisahkan itu kolomnya. Textnya harus punya full
+     width."* Dua kolom memang MEMENUHI lebar, tapi yang ia minta adalah satu
+     aliran teks yang panjang ke kanan — dan mata membaca kolom kedua sebagai
+     kalimat yang terpotong.
+     Keterbacaan pada baris panjang dijaga dengan cara lain: ukuran & tinggi
+     baris paragraf kepala dinaikkan sedikit di layar lebar (di bawah), bukan
+     dengan memecah alirannya. */
+  .lhead--wide .llead{font-size:clamp(16.5px,1.12vw,18px);line-height:1.72}
+  /* Kepala yang dipusatkan (#gabung) TIDAK ikut — lihat catatan keputusan di
+     laporan ronde. Aturan ini sengaja tidak menyentuhnya sama sekali. */
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RONDE 59 · ORNAMEN KECIL · PEMISAH TANPA BENTUK · KERTAS HANGAT
+   ══════════════════════════════════════════════════════════════════════════════
+   Pemilik, verbatim, menunjuk beranda:
+     *"di homepage bagian 'why glyiv' itu sebenarnya ornamennya terlalu besar…
+      Rata2 itu ornamen tidak sepenuhnya menjadi background. Hanya sebagian
+      besar saja… di homepage di section lain saya sering sekali lihat divider
+      wavy begitu, saya pikir itu jadi menghilangkan kesan professionalitasnya…
+      Ornamen2 itu rata dipakai kecil saja, dan kadang bentuknya sederhana,
+      seperti donut shape, atau rectangle glossy atau semacamnya, itupun di
+      animasikan… Tidak maukah anda coba gradasi warna begitu."*
+
+   Blok ini MENGGANTIKAN blok ronde 58 (`.secart--kontur/spora/arus/kisi/orbit/
+   garis`, `.secedge`, `.secseam`) — bukan menumpukinya. Yang dicabut dan
+   kenapa, per keluhan:
+
+   1. `.secart*` — SEMUANYA `position:absolute;inset:0`, jadi tiap ornamen
+      MEMANG seluruh latar seksinya. Terukur ronde ini di 1440 px, sebelum:
+        #kenapa kontur 100 % · #ekosistem spora 100 % · #cara arus 100 %
+        #ekonomi kisi 100 % · #teknologi orbit 100 % · #roadmap garis 100 %
+      Enam dari enam. Keluhannya bukan selera; itu angka.
+   2. `.secedge` (3×) — tepi kontur ROBEK. Itulah "divider wavy" yang disebut
+      pemilik. Riset pendukung di laporan ronde; ringkasnya: bentuk bergelombang
+      di batas seksi adalah tanda tema siap-pakai, bukan situs matang.
+   3. `.secseam` (1×) — jahitan brass selebar LAYAR. Tugasnya (menandai kepala
+      seksi) dipindahkan ke `.lhead--rule`, yang duduk selebar KISI.
+   4. `.gv-spore` — 14 titik `position:fixed` melayang di seluruh viewport,
+      sepanjang waktu, di setiap halaman. Itu bentuk paling murni dari
+      "ornamen yang menjadi seluruh latar", dan ia lolos ronde 58 karena
+      lahirnya jauh lebih dulu. Dipadamkan di sini.
+
+   ── ATURAN YANG BISA DIPERIKSA, BUKAN SELERA ────────────────────────────────
+   · tiap ornamen ≤ 38 % luas seksinya  (terukur sesudah: 1,0-4,6 %);
+   · ≤ 2 ornamen per seksi, selalu di SUDUT/TEPI, tidak pernah `inset:0`;
+   · gerak HANYA `transform`; tanpa `filter`, tanpa `stroke-dashoffset`, tanpa
+     properti tata letak, tanpa WebGL, tanpa `requestAnimationFrame`;
+   · durasi ≥ 18 detik, opasitas LAPISAN ≤ 0,085 (satu angka, satu
+     `getComputedStyle` — bukan alfa yang berserak di tiap simpul);
+   · berhenti TOTAL pada `prefers-reduced-motion:reduce`;
+   · padam total ≤ 700 px, dan ornamen KEDUA tiap seksi padam pada penunjuk
+     kasar (tablet pemilik dipakai mendatar ±1280 px — ambang lebar saja tidak
+     pernah menolongnya);
+   · jumlah simpul beranimasi beranda: 88 sebelum → 39 sesudah (target ≤ 45).
+   ══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ── 1 · NADA LATAR SEKSI — WARNA ADALAH PEMISAHNYA ───────────────────────────
+   Urutan beranda sesudah ronde ini (terukur `getComputedStyle`):
+     #kenapa     --white       #F9F8F3  Y 0,9375
+     #ekosistem  --paper2      #F4F2EA  Y 0,8868
+     #cara       --brass-tint  #F7F2E6  Y 0,8899
+     #ekonomi    --pine-tint   #EFF4EF  Y 0,8928
+     #teknologi  --navy-tint   #EDF1F9  Y 0,8776
+     #roadmap    --paper2      #F4F2EA  Y 0,8868
+     #enterprise .imgband      gelap (foto + scrim) — tidak disentuh
+     #gabung     --white       #F9F8F3  Y 0,9375
+   Lima nada tengah sengaja duduk di anak tangga yang SAMA (ΔY ≤ 0,016): yang
+   membedakan mereka RONA, bukan terang. Beda terang yang besar akan terbaca
+   sebagai pita abu; beda rona terbaca sebagai bab.
+
+   ⛔ MENGGANTI, BUKAN MENUMPUK — apa yang jadi USANG:
+   · Kelas `.paper` DICABUT dari #ekosistem dan #roadmap. Pita `--paper2` yang
+     memudar di KEDUA ujungnya dulu jadi pembeda seksi itu; sekarang seksi
+     berwarna PENUH dan peralihannya dikerjakan `.lsec--seam` di SATU batas.
+     Memudarkan di dua ujung DAN menggambar tepi = tiga peralihan untuk satu
+     batas.
+   · `.lsec--art` (pencabut ubin kanvas) DICABUT seluruhnya. Ia ada karena ubin
+     `--canvas-art` dan lapisan ornamen ronde 58 sama-sama "memecah bidang
+     rata". Ornamen ronde 59 adalah BENDA DI SUDUT, bukan bidang — jadi ubinnya
+     tidak lagi bertabrakan dan boleh kembali di semua seksi. */
+.lsec--n1{background-color:var(--white)}
+.lsec--n2{background-color:var(--paper2)}
+.lsec--brass{background-color:var(--brass-tint)}
+.lsec--pine{background-color:var(--pine-tint)}
+.lsec--navy{background-color:var(--navy-tint)}
+
+
+/* ── 2 · JAHITAN GRADASI — PEMISAH YANG TIDAK PUNYA GARIS SAMA SEKALI ─────────
+   Yang dipakai situs matang di batas seksi, menurut riset ronde ini, ada dua:
+   pergantian latar yang tegas, dan ruang kosong. Yang TIDAK dipakai: bentuk.
+   Di sini keduanya digabung jadi satu: seksi berikutnya membawa GRADASI
+   VERTIKAL dari warna seksi SEBELUMNYA ke warnanya sendiri, sepanjang
+   88-180 px. Hasilnya batas yang tidak punya satu piksel pun garis — mata
+   membaca "bab baru" tanpa pernah melihat pemisah.
+
+   ⚠︎ `transparent` di perhentian akhir, BUKAN warna tujuan yang ditulis ulang.
+   Gradien CSS diinterpolasi dalam alfa ter-pramultiplikasi, jadi `transparent`
+   tidak lagi menyeret abu; dan dengan begitu warna tujuan hidup di SATU tempat
+   (`background-color`), tidak dua.
+   ⚠︎ Gradiennya berhenti pada ukuran PIKSEL, jadi tingginya tidak ikut mulur
+   pada seksi tinggi — perbatasan 1200 px dan 700 px terlihat sama tebal.
+   ⚠︎ Ubin `--canvas-art` tetap jadi lapisan KEDUA di bawah gradien; kalau ia
+   ditinggalkan di sini, seksi ber-seam kehilangan seratnya dan kelihatan
+   seperti CSS rata di sebelah seksi yang masih punya. */
+.lsec--seam{
+  --seam-h:clamp(88px,10vw,180px);
+  background-image:
+    linear-gradient(180deg,var(--seam-dari,var(--white)) 0,transparent var(--seam-h)),
+    var(--canvas-art);
+}
+.seam-n1{--seam-dari:var(--white)}
+.seam-n2{--seam-dari:var(--paper2)}
+.seam-brass{--seam-dari:var(--brass-tint)}
+.seam-pine{--seam-dari:var(--pine-tint)}
+.seam-navy{--seam-dari:var(--navy-tint)}
+
+
+/* ── 3 · GARIS RAMBUT KEPALA SEKSI — SELEBAR KISI, BUKAN SELEBAR LAYAR ────────
+   Ini BUKAN pemisah kedua. Tugasnya lain: menambatkan kepala seksi ke kisi isi
+   dan memberi label mono (`.lkick`) sesuatu untuk didudukinya. Yang jadi USANG
+   karenanya: `.secseam` — jahitan brass selebar layar yang mencoba tugas yang
+   sama di tempat yang salah (di BATAS seksi, selebar viewport), sehingga ia
+   justru menarik mata ke sambungan.
+   Satu piksel, mulai penuh di tepi kiri kisi dan padam sebelum tepi kanan —
+   bentuk yang sudah dipakai `.tp-rule.brass` di berkas ini, dibuat lebih
+   tenang. Statis: nol biaya per bingkai. */
+.lhead--rule{position:relative;padding-top:30px}
+.lhead--rule::before{
+  content:"";position:absolute;inset:0 0 auto;height:1px;
+  background:linear-gradient(90deg,
+    rgba(15,46,34,.17) 0,rgba(15,46,34,.075) 44%,rgba(15,46,34,0) 82%);
+}
+
+/* ── 3b · HUTANG KONTRAS YANG DIBAYAR DI SINI: `.lkick` BRASS ────────────────
+   Catatan di kepala berkas ini (ronde 57) menuliskan hutangnya apa adanya:
+     *"`--brass` sebagai TEKS (mis. `.lkick`, 12px) adalah 3,21:1 di atas
+      #FFFFFF dan 3,03:1 di atas kanvas baru — sudah di bawah AA SEBELUM ronde
+      ini… Perbaikannya butuh token teks-brass tersendiri + penimpa hero."*
+   Ronde 59 memindahkan `.lkick` ke latar yang sedikit lebih pekat (nada 2),
+   jadi angkanya turun lagi: terukur 3,03 → 2,87. Membiarkannya berarti ronde
+   warna ini MEMPERBURUK teks — persis yang dilarang. Jadi hutangnya dibayar,
+   dengan bentuk yang sudah diresepkan catatan itu sendiri:
+
+   `--brass-btn` (#8A6730) sudah ada di berkas ini sejak gerbang tombol; ia
+   brass yang cukup pekat untuk memikul teks. Dipakai ulang di sini supaya
+   tidak lahir token keempat untuk warna yang sama. Terukur di atas SEMUA nada
+   ronde 59: 4,86 (kanvas) · 4,61 (nada 2) · 4,63 (brass) · 4,64 (pine) ·
+   4,57 (navy) · 5,17 (kartu #fff). Semuanya lulus AA.
+
+   ⛔ Lingkupnya `.lsec .lkick` — SENGAJA, bukan global. `.lkick` yang sama
+   juga berdiri di atas hero GELAP (`.vhero`/`.ind-hero`/`.ga-hero`/`.imgband`)
+   yang BUKAN `.lsec`; memekatkannya di sana justru merusak keterbacaan, dan
+   itulah alasan ronde 57 tidak berani menyentuhnya. Terhitung di seluruh
+   dist: varian kelas `.lsec` hanya `lsec`, `lsec tight`, `lsec paper`,
+   `lsec tight paper`, `lsec lp-hero`, dan enam varian ronde 59 — tidak satu
+   pun gelap (`lp-hero` cuma menambah padding). */
+/* ⛔ :not() UNTUK TIGA WADAH GELAP — tanpa ini aturan ini MENIMPA tiga penimpa
+   yang berdiri JAUH DI ATASNYA dengan spesifisitas SAMA (0,2,0), sehingga yang
+   belakangan menang lewat urutan: baris 296 .imgband .lkick{#bff0d5}, 524
+   .iproof .lkick{#8affc1}, 565 .comm .lkick{#8affc1}.
+   Terukur sub-agen pembantah di 11 dari 12 halaman /lab/industri/*: kicker
+   rgb(138,103,48) di atas rgb(15,46,34) = 2,83:1, jauh di bawah WCAG AA 4,5:1.
+   Yang dimaksudkan (#8affc1 di atas pine) = 11,6:1.
+   Aturan merek: aksen di atas gelap WAJIB mint, tidak pernah brass/teal tua. */
+.lsec:not(.imgband):not(.iproof):not(.comm) .lkick{color:var(--brass-btn)}
+.lsec.imgband .lkick,.lsec .imgband .lkick,
+.lsec.iproof .lkick,.lsec .iproof .lkick,
+.lsec.comm .lkick,.lsec .comm .lkick{color:#8affc1}
+
+
+/* ── 4 · ORNAMEN — BENDA KECIL DI SUDUT, EMPAT BENTUK SEDERHANA ───────────────
+   Bentuknya persis yang disebut pemilik: cincin (donat), persegi/kapsul glossy,
+   satu titik yang mengorbit, dan satu garis diagonal halus. Semuanya HTML +
+   CSS — tidak ada satu pun SVG di sini, dan itu disengaja: `transform` pada
+   elemen HTML ter-komposit di GPU, sementara `transform` pada simpul SVG
+   memaksa peramban melukis ulang gambarnya. Di tablet pemilik itu bedanya
+   antara gulir mulus dan gulir tersendat.
+
+   Warna lewat `color` + `currentColor`, opasitas di LAPISAN — jadi seluruh
+   klaim "≤ 0,085" bisa dibuktikan dengan satu `getComputedStyle(el).opacity`,
+   bukan dengan menjumlahkan alfa yang berserak. */
+.orn{position:absolute;z-index:-1;pointer-events:none;line-height:0;
+  opacity:.085;color:var(--pine)}
+.orn--teal{color:var(--teal)}
+.orn--brass{color:var(--brass)}
+.orn--navy{color:var(--navy)}
+
+/* Penempatan. SELALU salah satu sudut — tidak pernah `inset:0`. Nilainya
+   `clamp()` supaya ornamen ikut merapat ke tepi pada layar sempit, dan tidak
+   pernah keluar dari seksinya. */
+.orn--ka{right:clamp(10px,4vw,88px);top:clamp(28px,6vw,88px)}
+.orn--ki{left:clamp(10px,4vw,88px);top:clamp(28px,6vw,88px)}
+.orn--kb{right:clamp(10px,5vw,112px);bottom:clamp(28px,6vw,92px)}
+.orn--kib{left:clamp(10px,5vw,112px);bottom:clamp(28px,6vw,92px)}
+
+/* (a) CINCIN / DONAT. Lingkaran rambut yang diam; satu BUSUR seperempat
+       menyapu kelilingnya dalam 26 detik. Cincin utuh yang berputar tidak
+       terlihat berputar sama sekali — busurnyalah yang membuat gerak itu ada,
+       dan hanya satu simpul yang beranimasi. */
+.orn-ring{position:relative;display:block;
+  width:var(--d,236px);height:var(--d,236px);
+  border:1px solid currentColor;border-radius:50%}
+.orn-ring>b{position:absolute;inset:-1px;border-radius:50%;
+  border:1.6px solid transparent;border-top-color:currentColor;
+  animation:ornPutar 26s linear infinite}
+/* Cincin kedua di dalamnya — statis, menambah kedalaman tanpa menambah gerak. */
+.orn-ring--dalam::after{content:"";position:absolute;inset:23%;
+  border:1px solid currentColor;border-radius:50%;opacity:.6}
+
+/* (b) KAPSUL / PERSEGI GLOSSY. Bidang tipis berisi `currentColor` 30 %, dengan
+       satu pita kilau yang menyapu melintasinya lalu ISTIRAHAT — 18 detik
+       sekali, dan 45 % dari waktunya benar-benar diam. Kilaunya PEKAT, bukan
+       putih: di atas kertas terang, sapuan putih tidak akan terlihat, sedangkan
+       sapuan warna yang menebal terbaca sebagai kilau. */
+.orn-caps{position:relative;display:block;overflow:hidden;
+  width:var(--w,336px);height:var(--h,62px);border-radius:999px}
+.orn-caps::before{content:"";position:absolute;inset:0;background:currentColor;opacity:.3}
+.orn-caps>b{position:absolute;top:0;bottom:0;left:0;width:52%;
+  background:linear-gradient(100deg,transparent 0,currentColor 50%,transparent 100%);
+  transform:translate3d(-120%,0,0);
+  animation:ornKilau 18s cubic-bezier(.45,0,.55,1) infinite}
+.orn-caps--kotak{border-radius:20px}
+
+/* (c) TITIK ORBIT. Cincin putus statis + SATU titik yang mengelilinginya dalam
+       38 detik — nyaris tak tertangkap mata, dan itu memang maunya. */
+.orn-orbit{position:relative;display:block;width:var(--d,172px);height:var(--d,172px)}
+.orn-orbit::before{content:"";position:absolute;inset:0;border-radius:50%;
+  border:1px dashed currentColor;opacity:.5}
+.orn-orbit>b{position:absolute;inset:0;animation:ornPutar 38s linear infinite}
+.orn-orbit>b::after{content:"";position:absolute;left:50%;top:-4px;
+  width:8px;height:8px;margin-left:-4px;border-radius:50%;background:currentColor}
+
+/* (d) GARIS DIAGONAL. Satu goresan memudar di kedua ujungnya, bergeser 32 px
+       bolak-balik dalam 22 detik. Putarannya IKUT ditulis di tiap perhentian
+       keyframe: `transform` adalah satu properti, jadi menulis `translate3d`
+       saja akan MEMBUANG rotasinya di bingkai pertama. */
+.orn-garis{display:block;width:var(--w,262px);height:1px;
+  background:linear-gradient(90deg,transparent 0,currentColor 46%,transparent 100%);
+  transform:rotate(-24deg);
+  animation:ornGeser 22s ease-in-out infinite alternate}
+
+@keyframes ornPutar{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes ornKilau{0%{transform:translate3d(-120%,0,0)}55%,100%{transform:translate3d(320%,0,0)}}
+@keyframes ornGeser{
+  from{transform:rotate(-24deg) translate3d(-16px,0,0)}
+  to{transform:rotate(-24deg) translate3d(16px,0,0)}
+}
+
+
+/* ── 5 · PAGAR ────────────────────────────────────────────────────────────────
+   1. Gerak dikurangi → SEMUA berhenti. Diuji dengan `document.getAnimations()`
+      POLOS (tanpa saringan selektor) → harus 0 berjalan di SELURUH halaman.
+   2. ≤ 700 px → ornamen HILANG sama sekali. Di lebar itu ia tidak pernah
+      terbaca, jadi ia murni biaya. Nada latar dan jahitan gradasi TETAP ADA:
+      keduanya statis, nol biaya per bingkai, dan justru di ponsel pembeda
+      antar-seksi paling dibutuhkan.
+   3. Penunjuk kasar (tablet pemilik) → ornamen KEDUA tiap seksi padam, dan
+      cincin dalam ikut padam. 11 simpul beranimasi → 6.
+   4. `.gv-spore` — 14 titik `position:fixed` yang melayang di seluruh viewport
+      di SETIAP halaman, dibuat `glyiv.js`. Ia persis "ornamen yang menjadi
+      seluruh latar" yang dikeluhkan, hanya saja ia lahir jauh sebelum ronde 58
+      sehingga tidak pernah ikut dihitung. Dipadamkan di sini, bukan dikecilkan:
+      tugasnya (memberi halaman denyut hidup) sekarang dipegang ornamen sudut
+      per seksi, dan dua-duanya berdiri bersama berarti dua bahasa untuk satu
+      tugas. Elemen ber-`display:none` tidak menjalankan animasi sama sekali,
+      jadi 14 simpul itu benar-benar hilang dari anggaran — bukan sekadar tak
+      terlihat. */
+.gv-spore{display:none}
+
+@media (prefers-reduced-motion:reduce){
+  .orn,.orn *{animation:none!important}
+}
+@media (max-width:700px){
+  .orn{display:none}
+}
+@media (pointer:coarse){
+  .orn--sekunder{display:none}
+  .orn-ring--dalam::after{display:none}
 }

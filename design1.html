@@ -2,12 +2,13 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8" />
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Glyiv — Carbon Intelligence Platform (arsip desain awal)</title>
+<title>Glyiv — Green Intelligence Platform (arsip desain awal)</title>
 <meta name="description" content="Glyiv mengubah setiap transaksi menjadi data karbon level-item yang bisa diaudit — lalu menumbuhkannya menjadi green wallet, dashboard ESG, dan marketplace pohon & karbon untuk retail hingga korporasi. Dibangun untuk standar global." />
 <meta name="theme-color" content="#FFFFFF" />
-<link rel="icon" type="image/svg+xml" href="logo.svg" />
-<meta property="og:title" content="Glyiv — Carbon Intelligence Platform" />
+<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+<meta property="og:title" content="Glyiv — Green Intelligence Platform" />
 <meta property="og:description" content="Setiap transaksi, dapat dipertanggungjawabkan ke Bumi. Dari lini operasi, ke infrastruktur data karbon dunia." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://glyiv.github.io" />
@@ -28,22 +29,44 @@
 <body>
 <div class="gv-archivebar">
   <a class="back" href="/lab/industri/fnb-ritel.html">&larr; Kembali ke Glyiv Outlet</a>
-  <span class="tag">Arsip &middot; halaman Carbon Intelligence generasi awal</span>
+  <span class="tag">Arsip &middot; halaman Green Intelligence generasi awal</span>
 </div>
 
 <!-- SPLASH -->
 <div class="gv-splash" aria-hidden="true">
   <div class="gv-splash__inner">
     <div class="gv-splash__mark">
+      <!-- LAMBANG RESMI — Glyiv Pendant, geometri sama persis dengan /logo.svg.
+           Sebelumnya layar pembuka ini menggambar bentuk TETES AIR (gradien
+           `#spl`) — lambang yang PERTAMA dilihat pengunjung, dan bukan lambang
+           Glyiv. Sengaja disalin sebaris, BUKAN `<use href="#glyivmark">`:
+           `<defs>` simbol itu berada SESUDAH blok ini di dokumen, sedangkan
+           layar pembuka harus tergambar sejak bingkai pertama. Id gradiennya
+           diberi awalan `spl` supaya tidak bentrok dengan milik simbol. -->
       <svg viewBox="0 0 100 100" width="100%" height="100%">
-        <defs><linearGradient id="spl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8affc1"/><stop offset=".55" stop-color="#1fae6b"/><stop offset="1" stop-color="#0d3526"/></linearGradient></defs>
-        <path d="M50 6C50 6 86 34 86 64C86 84 66 95 50 95C34 95 14 84 14 64C14 34 50 6 50 6Z" fill="url(#spl)"/>
-        <path d="M50 34C50 34 66 54 66 70C66 82 56 88 50 88C44 88 34 82 34 70C34 54 50 34 50 34Z" fill="#04150d" opacity=".55"/>
-        <circle cx="50" cy="66" r="6" fill="#baffe0"/>
+        <defs>
+          <linearGradient id="splUbin" x1="18" y1="8" x2="86" y2="94" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#134C38"/><stop offset="0.55" stop-color="#12402D"/><stop offset="1" stop-color="#0C2A1D"/>
+          </linearGradient>
+          <radialGradient id="splKilau" cx="0.74" cy="0.16" r="0.9" gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#33D188" stop-opacity="0.4"/><stop offset="0.5" stop-color="#1F7A6B" stop-opacity="0.1"/><stop offset="1" stop-color="#0C2A1D" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#splUbin)"/>
+        <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#splKilau)"/>
+        <rect x="6.75" y="6.75" width="86.5" height="86.5" rx="25.25" stroke="#8AFFC1" stroke-opacity="0.16" stroke-width="1.5"/>
+        <g transform="translate(31.126 14) scale(0.3899)">
+          <path d="M0 44.8214L44.8214 0V89.6428L0 44.8214Z" fill="#B6FFD4"/>
+          <path d="M44.8213 89.6427L0 44.8213V134.464L44.8213 89.6427Z" fill="#B6FFD4"/>
+          <path d="M96.8145 44.8214L51.993 0V89.6428L96.8145 44.8214Z" fill="#1FA870"/>
+          <path d="M51.9932 89.6427L96.8146 44.8213V134.464L51.9932 89.6427Z" fill="#33D188"/>
+          <path d="M93.2285 139.843L48.4071 95.0215V184.664L93.2285 139.843Z" fill="#4FE0A2"/>
+          <path d="M3.58594 139.843L48.4074 95.0215V184.664L3.58594 139.843Z" fill="#8AFFC1"/>
+        </g>
       </svg>
     </div>
     <div class="gv-splash__word">GL<b>Y</b>IV</div>
-    <div class="gv-splash__tag">Carbon Intelligence Platform</div>
+    <div class="gv-splash__tag">Green Intelligence Platform</div>
     <div class="gv-splash__bar"><i></i></div>
   </div>
 </div>
@@ -55,7 +78,7 @@
 <header class="gv-topbar2">
   <a class="gv-brand" href="index.html">
     <svg class="gv-brand__logo" viewBox="0 0 100 100"><use href="#glyivmark"/></svg>
-    <div class="gv-brand__txt"><b>Glyiv</b><span>Carbon Intelligence Platform</span></div>
+    <div class="gv-brand__txt"><b>Glyiv</b><span>Green Intelligence Platform</span></div>
   </a>
   <div style="display:flex;align-items:center;gap:8px">
     <nav class="gv-topnav" aria-label="Tautan">
@@ -69,13 +92,32 @@
 <div class="gv-progress"><i id="gvProgress"></i></div>
 <div class="gv-scrim" id="gvScrim"></div>
 
-<!-- reusable logo symbol -->
+<!-- LAMBANG RESMI — Glyiv Pendant.
+     Isi simbol ini disalin APA ADANYA dari /logo.svg (viewBox 0 0 100 100 yang
+     sama), jadi `<use href="#glyivmark">` menggambar lambang yang identik dengan
+     yang dipakai 25 halaman lain lewat <img src="/logo.svg">.
+     Sebelumnya di sini ada bentuk TETES AIR + lingkaran (gradien `id="lg"`) yang
+     bukan lambang Glyiv sama sekali. Bentuk itu dan gradien `lg` dibuang, bukan
+     ditumpuk — `url(#lg)` tidak dipakai di tempat lain pada berkas ini. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-  <linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8affc1"/><stop offset=".55" stop-color="#1fae6b"/><stop offset="1" stop-color="#0d3526"/></linearGradient>
+  <linearGradient id="glyivUbin" x1="18" y1="8" x2="86" y2="94" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#134C38"/><stop offset="0.55" stop-color="#12402D"/><stop offset="1" stop-color="#0C2A1D"/>
+  </linearGradient>
+  <radialGradient id="glyivKilau" cx="0.74" cy="0.16" r="0.9" gradientUnits="objectBoundingBox">
+    <stop offset="0" stop-color="#33D188" stop-opacity="0.4"/><stop offset="0.5" stop-color="#1F7A6B" stop-opacity="0.1"/><stop offset="1" stop-color="#0C2A1D" stop-opacity="0"/>
+  </radialGradient>
   <symbol id="glyivmark" viewBox="0 0 100 100">
-    <path d="M50 6C50 6 86 34 86 64C86 84 66 95 50 95C34 95 14 84 14 64C14 34 50 6 50 6Z" fill="url(#lg)"/>
-    <path d="M50 34C50 34 66 54 66 70C66 82 56 88 50 88C44 88 34 82 34 70C34 54 50 34 50 34Z" fill="#04150d" opacity=".5"/>
-    <circle cx="50" cy="66" r="5.5" fill="#baffe0"/>
+    <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#glyivUbin)"/>
+    <rect x="6" y="6" width="88" height="88" rx="26" fill="url(#glyivKilau)"/>
+    <rect x="6.75" y="6.75" width="86.5" height="86.5" rx="25.25" stroke="#8AFFC1" stroke-opacity="0.16" stroke-width="1.5"/>
+    <g transform="translate(31.126 14) scale(0.3899)">
+      <path d="M0 44.8214L44.8214 0V89.6428L0 44.8214Z" fill="#B6FFD4"/>
+      <path d="M44.8213 89.6427L0 44.8213V134.464L44.8213 89.6427Z" fill="#B6FFD4"/>
+      <path d="M96.8145 44.8214L51.993 0V89.6428L96.8145 44.8214Z" fill="#1FA870"/>
+      <path d="M51.9932 89.6427L96.8146 44.8213V134.464L51.9932 89.6427Z" fill="#33D188"/>
+      <path d="M93.2285 139.843L48.4071 95.0215V184.664L93.2285 139.843Z" fill="#4FE0A2"/>
+      <path d="M3.58594 139.843L48.4074 95.0215V184.664L3.58594 139.843Z" fill="#8AFFC1"/>
+    </g>
   </symbol>
 </defs></svg>
 
@@ -103,7 +145,7 @@
       <div class="gv-inner">
         <div class="gv-hero__grid">
           <div class="gv-hero__copy">
-            <div class="gv-eyebrow" data-reveal>Carbon Intelligence Platform</div>
+            <div class="gv-eyebrow" data-reveal>Green Intelligence Platform</div>
             <h1 class="gv-h1" data-reveal data-d="1">Setiap transaksi,<br><span class="gv-grad">dapat dipertanggungjawabkan</span> ke Bumi.</h1>
             <p class="gv-lead" data-reveal data-d="2">Glyiv mengubah tiap transaksi menjadi <b style="color:var(--mint)">data karbon level-item</b> yang bisa diaudit — lalu menumbuhkannya jadi dompet hijau, dashboard ESG, dan <b style="color:var(--mint)">marketplace pohon &amp; karbon</b> untuk retail hingga korporasi. Bukan sekadar aplikasi. Sebuah infrastruktur.</p>
             <div class="gv-hero__cta" data-reveal data-d="3">
@@ -120,7 +162,7 @@
           <div class="gv-hero__stage" data-reveal data-d="2">
             <canvas class="gv-hero__canvas" id="globeCanvas"></canvas>
             <div class="gv-hero__ring r2"></div>
-            <div class="hero-badge gv-mono">VISI 2035 · Carbon Intelligence OS</div>
+            <div class="hero-badge gv-mono">VISI 2035 · Green Intelligence OS</div>
             <div class="liv-name" style="position:absolute;bottom:2%;left:50%;transform:translateX(-50%);display:flex;gap:7px;align-items:center;font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;color:var(--bio);text-transform:uppercase"><span style="width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)"></span> operasi → registri dunia</div>
           </div>
         </div>
@@ -408,7 +450,7 @@
           <div class="rmap__stop"><span class="rmap__dot">🇮🇩</span><b>Indonesia</b><small>ribuan merchant · dashboard karbon</small></div>
           <div class="rmap__stop"><span class="rmap__dot">🌏</span><b>ASEAN</b><small>ekspansi regional · data lintas negara</small></div>
           <div class="rmap__stop"><span class="rmap__dot">💱</span><b>Marketplace Karbon</b><small>Tree RWA · procurement korporasi</small></div>
-          <div class="rmap__stop is-far"><span class="rmap__dot">🪐</span><b>Carbon Intelligence OS</b><small>infrastruktur data karbon global</small></div>
+          <div class="rmap__stop is-far"><span class="rmap__dot">🪐</span><b>Green Intelligence OS</b><small>infrastruktur data karbon global</small></div>
         </div>
       </div>
     </section>
@@ -460,7 +502,7 @@
             <div class="gv-eyebrow is-center">Tim Dasar</div>
             <div class="gv-grp-cards">
               <div class="gv-tcard"><div class="gv-tcard__ph"><img src="founder.webp" alt="Laode Muhamad Fitrah Ramadhan" loading="lazy"></div><div class="gv-tcard__b"><b>Laode Muhamad Fitrah Ramadhan</b><span>Founder &amp; CEO</span><p>Memimpin produk, strategi, dan eksekusi Glyiv.</p><a class="gv-tcard__li" href="https://www.linkedin.com/in/laodefitrah/" target="_blank" rel="noopener" aria-label="LinkedIn Laode"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3 0-2.95-1.8-2.95s-2.08 1.4-2.08 2.85V21h-4z"/></svg> LinkedIn</a></div></div>
-              <div class="gv-tcard"><div class="gv-tcard__ph"><img src="syun.webp" alt="Khairul Miftah Sumardin" loading="lazy"></div><div class="gv-tcard__b"><b>Khairul Miftah Sumardin</b><span>Co-Founder</span><p>Mempertajam strategi, inovasi, dan daya saing Glyiv.</p><a class="gv-tcard__li" href="https://www.linkedin.com/in/khairulms/" target="_blank" rel="noopener" aria-label="LinkedIn Khairul"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3 0-2.95-1.8-2.95s-2.08 1.4-2.08 2.85V21h-4z"/></svg> LinkedIn</a></div></div>
+              <div class="gv-tcard"><div class="gv-tcard__ph"><img src="syun.webp" width="900" height="1350" alt="Khairul Miftah Sumardin" loading="lazy"></div><div class="gv-tcard__b"><b>Khairul Miftah Sumardin</b><span>Co-Founder</span><p>Mempertajam strategi, inovasi, dan daya saing Glyiv.</p><a class="gv-tcard__li" href="https://www.linkedin.com/in/khairulms/" target="_blank" rel="noopener" aria-label="LinkedIn Khairul"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3 0-2.95-1.8-2.95s-2.08 1.4-2.08 2.85V21h-4z"/></svg> LinkedIn</a></div></div>
             </div>
           </div>
           <div class="gv-teamdiv"></div>
@@ -502,14 +544,14 @@
     <footer class="gv-footer">
       <div class="gv-footer__grid">
         <div>
-          <div class="gv-brand" style="padding:0 0 12px"><svg class="gv-brand__logo" viewBox="0 0 100 100"><use href="#glyivmark"/></svg><div class="gv-brand__txt"><b>Glyiv</b><span>Carbon Intelligence Platform</span></div></div>
+          <div class="gv-brand" style="padding:0 0 12px"><svg class="gv-brand__logo" viewBox="0 0 100 100"><use href="#glyivmark"/></svg><div class="gv-brand__txt"><b>Glyiv</b><span>Green Intelligence Platform</span></div></div>
           <p class="gv-muted" style="font-size:.88rem;max-width:34ch">Setiap transaksi menghasilkan dampak. Dari lini operasi, ke infrastruktur data karbon dunia.</p>
         </div>
         <div><h5>Platform</h5><a href="#platform">Empat Lapisan</a><a href="#alur">Alur Karbon</a><a href="#fokus">Fokus</a><a href="#unggul">Keunggulan</a></div>
         <div><h5>Produk</h5><a href="pos.html">Aplikasi POS</a><a href="demo.html">Coba Demo</a><a href="#fokus">Green Wallet</a><a href="#fokus">Marketplace</a></div>
         <div><h5>Investor</h5><a href="mailto:glyiv.archourium@gmail.com?subject=Permintaan%20Dokumen%20Investor%20Glyiv">Minta Dokumen</a><a href="mailto:glyiv.archourium@gmail.com?subject=Glyiv%20Investasi">Hubungi Kami</a><a href="https://github.com/glyiv" target="_blank" rel="noopener">GitHub</a></div>
       </div>
-      <div class="gv-footer__bottom"><span>© <span data-year>2026</span> Glyiv · Archourium 🌿</span><span class="gv-mono">Carbon Intelligence · Horizon 2035</span></div>
+      <div class="gv-footer__bottom"><span>© <span data-year>2026</span> Glyiv · Archourium 🌿</span><span class="gv-mono">Green Intelligence · Horizon 2035</span></div>
     </footer>
 
   </main>
@@ -526,7 +568,7 @@
   <div class="gv-chat__bot"><canvas id="botPanelCanvas"></canvas></div>
   <div class="gv-chat__msgs" id="gvChatMsgs"></div>
   <div class="gv-chat__quick">
-    <button class="gv-qchip" data-q="Apa itu Carbon Intelligence Platform?">Apa itu Glyiv?</button>
+    <button class="gv-qchip" data-q="Apa itu Green Intelligence Platform?">Apa itu Glyiv?</button>
     <button class="gv-qchip" data-q="Gimana data karbon level-item bekerja?">Data karbon</button>
     <button class="gv-qchip" data-q="Apa itu Tree & Carbon Marketplace?">Marketplace</button>
   </div>

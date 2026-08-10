@@ -59,18 +59,19 @@
   var urlGayaRtl = function () { return DIR_JS.replace(/js\/$/, "css/") + "glyiv-rtl.css" + VERSI; };
 
   /* ── bahasa terpilih ───────────────────────────────────────────────────────
-     Urutan: pilihan tersimpan → ?lang= → lokal peramban / zona waktu → id. */
+     Urutan: pilihan tersimpan → ?lang= → lokal peramban → en.
+     Zona waktu SENGAJA tidak dipakai: ia menandakan di mana seseorang berada,
+     bukan bahasa apa yang ia baca (butir 15, ronde 44). */
   function resolveLang() {
     try { var s = localStorage.getItem(STORE); if (BAHASA[s]) return s; } catch (e) {}
     try { var q = new URLSearchParams(location.search).get("lang"); if (BAHASA[q]) return q; } catch (e) {}
     var langs = ((navigator.languages && navigator.languages.join(",")) || navigator.language || "").toLowerCase();
     var tz = "";
     try { tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "").toLowerCase(); } catch (e) {}
-    if (/jakarta|makassar|pontianak|jayapura|ujung_pandang/.test(tz)) return "id";
     if (/(^|,)(id|in)\b/.test(langs)) return "id";
     if (/(^|,)ar\b/.test(langs)) return "ar";
     if (langs) return "en";
-    return "id"; // cadangan terakhir: bahasa asal situs
+    return "en"; // cadangan terakhir: Inggris — target internasional (butir 15, ronde 44)
   }
 
   var LANG = resolveLang();
@@ -161,6 +162,34 @@
     p.setAttribute("data-i18n-ltr", "");
   }
 
+  /* ── SATUAN DI TENGAH KALIMAT ARAB — cacat yang `tandaiAngka` TIDAK bisa lihat.
+     Fungsi di atas hanya menolong DAUN yang isinya murni angka/latin; ia keluar
+     lebih awal begitu simpulnya juga memuat huruf Arab. Tetapi justru simpul
+     campur itulah yang salah gambar, dan ini terukur di layar, bukan diduga:
+     `/ukur/antrean` AR menampilkan **«MB 7.6 من MB 10247.6»** untuk kalimat
+     "…المساحة المستخدمة 7.6 MB من 10247.6 MB." — angka dan satuannya bertukar
+     tempat. Sebabnya algoritma bidi Unicode: angka Eropa (kelas EN) diperlakukan
+     sebagai R saat menyelesaikan karakter netral, jadi spasi antara "7.6" dan
+     "MB" jatuh ke arah paragraf (RTL) dan memisahkan keduanya menjadi dua
+     potongan yang lalu diurutkan kanan-ke-kiri.
+     Perbaikannya adalah alat yang memang dibuat Unicode untuk kasus ini:
+     ISOLASI (U+2066 LRI … U+2069 PDI) di sekeliling "angka + satuan". Ia
+     karakter teks, jadi tidak menyentuh struktur DOM sama sekali — penting,
+     karena membungkus simpul teks milik React memicu removeChild yang gagal
+     (catatan di atas). Perubahannya dicatat lewat `ingat()` supaya kembali ke
+     ID/EN memulihkan teks aslinya persis.
+     Contoh yang ikut benar: "82 m²", "0,0082 ha", "18,2 tCO₂e", "5 MB". */
+  var RE_SATUAN = /\d[\d.,٫٬]*(?:\s*[A-Za-z][A-Za-z0-9²³₂/·%^-]*)+/g;
+  function isolasiSatuan(node) {
+    var t = node.nodeValue;
+    if (!t || !ANGKA.test(t) || !ARAB.test(t)) return;
+    if (t.indexOf("⁦") >= 0) return; /* sudah diisolasi */
+    var baru = t.replace(RE_SATUAN, function (m) { return "⁦" + m + "⁩"; });
+    if (baru === t) return;
+    ingat({ n: node, v: t, w: baru });
+    node.nodeValue = baru;
+  }
+
   /* ── penelusur simpul teks ─────────────────────────────────────────────────── */
   function terjemahkanTeks(root) {
     if (!root) return;
@@ -197,7 +226,7 @@
       var baru = raw.slice(0, raw.length - raw.replace(/^\s+/, "").length) + val + raw.slice(raw.replace(/\s+$/, "").length);
       if (baru !== raw) { ingat({ n: node, v: raw, w: baru }); node.nodeValue = baru; }
     }
-    if (RTL[LANG]) tandaiAngka(node);
+    if (RTL[LANG]) { tandaiAngka(node); isolasiSatuan(node); }
   }
 
   var ATTRS = ["placeholder", "aria-label", "title", "alt"];

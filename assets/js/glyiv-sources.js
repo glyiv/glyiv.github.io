@@ -11,7 +11,9 @@
   css.textContent =
     ".gsrc-btn{display:inline-flex;align-items:center;gap:4px;margin-left:8px;vertical-align:middle;" +
     "font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:9px;letter-spacing:.04em;text-transform:uppercase;" +
-    "color:#6B7772;background:rgba(31,122,107,.07);border:1px solid rgba(31,122,107,.18);border-radius:999px;" +
+    /* #6B7772 di atas cip pucat hanya 4,25:1 — di bawah WCAG AA untuk teks 9px.
+       #46524B (slate merek) memberi 7,46:1 tanpa mengubah warnanya sama sekali. */
+    "color:#46524B;background:rgba(31,122,107,.07);border:1px solid rgba(31,122,107,.18);border-radius:999px;" +
     "padding:2px 8px;cursor:pointer;transition:.16s;line-height:1.6;white-space:nowrap}" +
     ".gsrc-btn:hover{color:#1F7A6B;background:rgba(31,122,107,.13);border-color:rgba(31,122,107,.4)}" +
     ".gsrc-btn.on-dark{color:#bff0d5;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}" +

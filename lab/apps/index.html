@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Aplikasi Ekosistem Glyiv — Semua Business Tree</title>
 <meta name="description" content="Jelajahi seluruh aplikasi ekosistem Glyiv: Saku (aplikasi konsumen yang sudah berjalan), Aset, Outlet, Pasar, Dompet, IoT, Dana, Bank Sampah, Sehat, dan Belajar. Pratinjau interaktif tiap business tree.">
@@ -11,46 +12,73 @@
 <link rel="stylesheet" href="/lab/css/lab.css">
 <link rel="stylesheet" href="/assets/css/glyiv-nav.css">
 <link rel="stylesheet" href="/lab/apps/app.css">
+<style>
+/* Pita "ada versi Android-nya" — pintu masuk ke /unduh. */
+.und-hub{display:flex;align-items:center;gap:16px;flex-wrap:wrap;text-decoration:none;margin-bottom:20px;transition:.18s var(--ease)}
+.und-hub:hover{border-color:var(--teal);box-shadow:var(--sh2);transform:translateY(-2px)}
+.und-hub__ik{width:46px;height:46px;flex:0 0 auto;border-radius:14px;background:var(--pine);color:#8affc1;display:flex;align-items:center;justify-content:center}
+.und-hub__ik svg{width:22px;height:22px}
+.und-hub__t{flex:1 1 320px;min-width:0}
+.und-hub__t b{display:block;font-family:var(--l-serif);font-weight:600;font-size:18px;color:var(--pine);margin-bottom:3px}
+.und-hub__t small{display:block;font-size:13px;line-height:1.6;color:var(--slate)}
+.und-hub__go{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:11px 18px;border-radius:999px;background:var(--pine);color:#fff;font-family:var(--l-sans);font-weight:700;font-size:13.5px}
+.und-hub:hover .und-hub__go{background:var(--teal)}
+@media (max-width:600px){.und-hub__go{width:100%;justify-content:center}}
+</style>
 </head>
 <body>
 <div id="ga-nav"></div>
 
 <section class="ga-hero">
-  <img class="bg" src="/lab/img/forest.webp" alt="Ekosistem Glyiv">
+  <img class="bg" alt="Ekosistem Glyiv" width="1600" height="1066" sizes="100vw" src="/lab/img/forest.webp" srcset="/lab/img/forest-600.webp 600w, /lab/img/forest-900.webp 900w, /lab/img/forest.webp 1600w">
   <div class="ga-hero__in">
     <div>
       <div class="ga-crumb"><a href="/">Glyiv</a> &rsaquo; <a href="/#ekosistem">Ekosistem</a> &rsaquo; Aplikasi</div>
       <span class="ga-badge"><i></i> Pratinjau interaktif</span>
       <h1>Aplikasi <em>Ekosistem Glyiv</em></h1>
-      <p>Satu ekosistem, banyak aplikasi. Tiap business tree punya pratinjau yang bisa Anda buka dan klik sekarang — <b>tanpa mendaftar</b>. Satu di antaranya, Glyiv Saku, bukan pratinjau: ia aplikasi yang sudah berjalan.</p>
+      <p>Satu ekosistem, banyak aplikasi. Tiap business tree punya pratinjau yang bisa Anda buka dan klik sekarang — <b>tanpa mendaftar</b>. Satu di antaranya, Glyiv Pocket, bukan pratinjau: ia aplikasi yang sudah berjalan.</p>
     </div>
   </div>
 </section>
 
 <div class="ga-wrap">
   <div class="ga-sec">
+
+    <!-- Pintu masuk halaman unduh APK. Ditaruh di SINI karena ini satu-satunya
+         halaman yang sudah berarti "daftar aplikasi kami" bagi pengunjung, dan
+         ia ditautkan dari kaki mega-menu di setiap halaman. -->
+    <a class="ga-card pad und-hub" href="/download.html">
+      <span class="und-hub__ik"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>
+      <span class="und-hub__t">
+        <b>Ada versi Android-nya</b>
+        <small>Enam berkas APK &mdash; Aset Hijau, Ukur DBH, Saku, Kabar, dan dua aplikasi outlet. Belum ada di Play Store; halamannya memuat sidik jari SHA-256 tiap berkas dan langkah pemasangannya.</small>
+      </span>
+      <span class="und-hub__go">Buka halaman unduh &rarr;</span>
+    </a>
+
     <div class="indgrid">
-      <a class="indcard" href="/app"><span class="indcard__st live">Aplikasi nyata</span><img src="/lab/img/scan-belanja.webp" alt="Glyiv Saku"><div class="indcard__body"><div class="indcard__grp">Aplikasi Konsumen &middot; bukan pratinjau</div><div class="indcard__t">Glyiv Saku</div><span class="indcard__go">Cari barang, IMT &amp; catatan harian &rarr;</span></div></a>
-      <a class="indcard" href="/lab/apps/tree-marketplace/"><span class="indcard__st live">Live</span><img src="/lab/img/reforestation.webp" alt="Glyiv Tree Marketplace"><div class="indcard__body"><div class="indcard__grp">Green Assets</div><div class="indcard__t">Tree Marketplace</div><span class="indcard__go">Konsol pemantauan &amp; kepemilikan →</span></div></a>
-      <a class="indcard" href="/lab/apps/peta/"><span class="indcard__st live">Live</span><img src="/lab/img/satellite.jpg" alt="Glyiv Green Asset Maps"><div class="indcard__body"><div class="indcard__grp">Green Assets &middot; Peta</div><div class="indcard__t">Green Asset Maps</div><span class="indcard__go">Peta petak hijau terpantau &rarr;</span></div></a>
-      <a class="indcard" href="/lab/apps/kebun/"><span class="indcard__st live">Live</span><img src="/lab/img/forest.webp" alt="Kebun Virtual"><div class="indcard__body"><div class="indcard__grp">Green Assets · Game</div><div class="indcard__t">Kebun Virtual</div><span class="indcard__go">Rawat pohonmu, panen imbalan →</span></div></a>
-      <a class="indcard" href="/lab/industri/fnb-ritel.html"><span class="indcard__st live">Live</span><img src="/lab/img/fnb-ritel.webp" alt="Glyiv Outlet"><div class="indcard__body"><div class="indcard__grp">Outlet &amp; POS</div><div class="indcard__t">Glyiv Outlet</div><span class="indcard__go">Operasi outlet berdata karbon →</span></div></a>
-      <a class="indcard" href="/lab/apps/pasar/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/logistik-transport.webp" alt="Glyiv Pasar"><div class="indcard__body"><div class="indcard__grp">Marketplace</div><div class="indcard__t">Glyiv Pasar</div><span class="indcard__go">Belanja berdata karbon →</span></div></a>
-      <a class="indcard" href="/lab/ekosistem/pangan.html"><span class="indcard__st soon">Roadmap</span><img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&amp;fit=crop&amp;w=900&amp;q=70" alt="Glyiv Pangan" loading="lazy" onerror="this.onerror=null;this.src='/lab/img/sawit-agri.jpg'"><div class="indcard__body"><div class="indcard__grp">Pangan Hub</div><div class="indcard__t">Glyiv Pangan</div><span class="indcard__go">Label kalori, emisi &amp; tebus →</span></div></a>
-      <a class="indcard" href="/lab/apps/dompet/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/finance.jpg" alt="Glyiv Dompet"><div class="indcard__body"><div class="indcard__grp">Wallet</div><div class="indcard__t">Glyiv Dompet</div><span class="indcard__go">Carbon wallet &amp; kustodi →</span></div></a>
-      <a class="indcard" href="/lab/apps/iot/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/data-center.jpg" alt="Glyiv IoT"><div class="indcard__body"><div class="indcard__grp">IoT</div><div class="indcard__t">Glyiv IoT</div><span class="indcard__go">Rumah pintar &amp; AI trash-bin →</span></div></a>
-      <a class="indcard" href="/lab/apps/dana/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/investor-aset-manajemen.webp" alt="Glyiv Dana"><div class="indcard__body"><div class="indcard__grp">Investment</div><div class="indcard__t">Glyiv Dana</div><span class="indcard__go">Manajer investasi aset hijau →</span></div></a>
-      <a class="indcard" href="/lab/apps/bank-sampah/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/pemerintah.webp" alt="Glyiv Bank Sampah"><div class="indcard__body"><div class="indcard__grp">Bank Sampah</div><div class="indcard__t">Glyiv Bank Sampah</div><span class="indcard__go">Setor sampah, dapat imbalan →</span></div></a>
-      <a class="indcard" href="/lab/apps/sehat/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/rumah-sakit.webp" alt="Glyiv Sehat"><div class="indcard__body"><div class="indcard__grp">Health</div><div class="indcard__t">Glyiv Sehat</div><span class="indcard__go">Kebiasaan sehat &amp; hijau →</span></div></a>
-      <a class="indcard" href="/lab/apps/belajar/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/tree-planting.webp" alt="Glyiv Belajar"><div class="indcard__body"><div class="indcard__grp">Edukasi</div><div class="indcard__t">Glyiv Belajar</div><span class="indcard__go">Literasi hijau &amp; game →</span></div></a>
-      <a class="indcard" href="/lab/apps/scanner/"><span class="indcard__st live">Live</span><img src="/lab/img/sawit-agri.jpg" alt="Scan Karbon"><div class="indcard__body"><div class="indcard__grp">Alat Konsumen &middot; fitur peta jalan</div><div class="indcard__t">Scan Karbon</div><span class="indcard__go">Pratinjau: foto item → estimasi CO₂e →</span></div></a>
-      <a class="indcard" href="/lab/apps/imt/"><span class="indcard__st live">Live</span><img src="/lab/img/rumah-sakit.webp" alt="Kalkulator IMT"><div class="indcard__body"><div class="indcard__grp">Glyiv Sehat</div><div class="indcard__t">Kalkulator IMT</div><span class="indcard__go">Jejak karbon per orang →</span></div></a>
+      <a class="indcard" href="/app"><span class="indcard__st live">Aplikasi nyata</span><img alt="Glyiv Pocket" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/scan-belanja.webp" srcset="/lab/img/scan-belanja-600.webp 600w, /lab/img/scan-belanja-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Aplikasi Konsumen &middot; bukan pratinjau</div><div class="indcard__t">Glyiv Pocket</div><span class="indcard__go">Cari barang, IMT &amp; catatan harian &rarr;</span></div></a>
+      <a class="indcard" href="/akun/gip/outlet"><span class="indcard__st live">Aplikasi nyata</span><img alt="Glyiv GIP Outlet" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/fnb-ritel.webp" srcset="/lab/img/fnb-ritel-600.webp 600w, /lab/img/fnb-ritel-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Bisnis &middot; F&amp;B, ritel &amp; jasa</div><div class="indcard__t">Glyiv GIP Outlet</div><span class="indcard__go">Terima pesanan, stok &amp; jejak karbonnya &rarr;</span></div></a>
+      <a class="indcard" href="/lab/apps/tree-marketplace/"><span class="indcard__st live">Live</span><img alt="Glyiv Tree Marketplace" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/reforestation.webp" srcset="/lab/img/reforestation-600.webp 600w, /lab/img/reforestation-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Green Assets</div><div class="indcard__t">Tree Marketplace</div><span class="indcard__go">Konsol pemantauan &amp; kepemilikan →</span></div></a>
+      <a class="indcard" href="/lab/apps/peta/"><span class="indcard__st live">Live</span><img src="/lab/img/satellite.webp" alt="Glyiv Green Asset Maps"><div class="indcard__body"><div class="indcard__grp">Green Assets &middot; Peta</div><div class="indcard__t">Green Asset Maps</div><span class="indcard__go">Peta petak hijau terpantau &rarr;</span></div></a>
+      <a class="indcard" href="/lab/apps/kebun/"><span class="indcard__st live">Live</span><img alt="Kebun Virtual" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/forest.webp" srcset="/lab/img/forest-600.webp 600w, /lab/img/forest-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Green Assets · Game</div><div class="indcard__t">Kebun Virtual</div><span class="indcard__go">Rawat pohonmu, panen imbalan →</span></div></a>
+      
+      <a class="indcard" href="/lab/apps/pasar/"><span class="indcard__st soon">Roadmap</span><img alt="Glyiv Pasar" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/logistik-transport.webp" srcset="/lab/img/logistik-transport-600.webp 600w, /lab/img/logistik-transport-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Marketplace</div><div class="indcard__t">Glyiv Pasar</div><span class="indcard__go">Belanja berdata karbon →</span></div></a>
+      <a class="indcard" href="/lab/ekosistem/pangan.html"><span class="indcard__st soon">Roadmap</span><img alt="Glyiv Pangan" loading="lazy" width="1600" height="1067" sizes="(max-width:900px) 100vw, 900px" src="/lab/img/eko-pangan.webp" srcset="/lab/img/eko-pangan-600.webp 600w, /lab/img/eko-pangan-900.webp 900w, /lab/img/eko-pangan.webp 1600w"><div class="indcard__body"><div class="indcard__grp">Pangan Hub</div><div class="indcard__t">Glyiv Pangan</div><span class="indcard__go">Label kalori, emisi &amp; tebus →</span></div></a>
+      <a class="indcard" href="/lab/apps/dompet/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/finance.webp" alt="Glyiv Dompet"><div class="indcard__body"><div class="indcard__grp">Wallet</div><div class="indcard__t">Glyiv Dompet</div><span class="indcard__go">Carbon wallet &amp; kustodi →</span></div></a>
+      <a class="indcard" href="/lab/apps/iot/"><span class="indcard__st soon">Roadmap</span><img src="/lab/img/data-center.webp" alt="Glyiv IoT"><div class="indcard__body"><div class="indcard__grp">IoT</div><div class="indcard__t">Glyiv IoT</div><span class="indcard__go">Rumah pintar &amp; AI trash-bin →</span></div></a>
+      <a class="indcard" href="/lab/apps/dana/"><span class="indcard__st soon">Roadmap</span><img alt="Glyiv Dana" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/investor-aset-manajemen.webp" srcset="/lab/img/investor-aset-manajemen-600.webp 600w, /lab/img/investor-aset-manajemen-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Investment</div><div class="indcard__t">Glyiv Dana</div><span class="indcard__go">Manajer investasi aset hijau →</span></div></a>
+      <a class="indcard" href="/lab/apps/bank-sampah/"><span class="indcard__st soon">Roadmap</span><img alt="Glyiv Bank Sampah" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/pemerintah.webp" srcset="/lab/img/pemerintah-600.webp 600w, /lab/img/pemerintah-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Bank Sampah</div><div class="indcard__t">Glyiv Bank Sampah</div><span class="indcard__go">Setor sampah, dapat imbalan →</span></div></a>
+      <a class="indcard" href="/lab/apps/sehat/"><span class="indcard__st soon">Roadmap</span><img alt="Glyiv Sehat" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/rumah-sakit.webp" srcset="/lab/img/rumah-sakit-600.webp 600w, /lab/img/rumah-sakit-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Health</div><div class="indcard__t">Glyiv Sehat</div><span class="indcard__go">Kebiasaan sehat &amp; hijau →</span></div></a>
+      <a class="indcard" href="/lab/apps/belajar/"><span class="indcard__st soon">Roadmap</span><img alt="Glyiv Belajar" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/tree-planting.webp" srcset="/lab/img/tree-planting-600.webp 600w, /lab/img/tree-planting-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Edukasi</div><div class="indcard__t">Glyiv Belajar</div><span class="indcard__go">Literasi hijau &amp; game →</span></div></a>
+      <a class="indcard" href="/lab/apps/scanner/"><span class="indcard__st live">Live</span><img src="/lab/img/sawit-agri.webp" alt="Scan Karbon"><div class="indcard__body"><div class="indcard__grp">Alat Konsumen &middot; fitur peta jalan</div><div class="indcard__t">Scan Karbon</div><span class="indcard__go">Pratinjau: foto item → estimasi CO₂e →</span></div></a>
+      <a class="indcard" href="/lab/apps/imt/"><span class="indcard__st live">Live</span><img alt="Kalkulator IMT" sizes="(max-width:900px) 100vw, 900px" loading="lazy" src="/lab/img/rumah-sakit.webp" srcset="/lab/img/rumah-sakit-600.webp 600w, /lab/img/rumah-sakit-900.webp 900w"><div class="indcard__body"><div class="indcard__grp">Glyiv Sehat</div><div class="indcard__t">Kalkulator IMT</div><span class="indcard__go">Jejak karbon per orang →</span></div></a>
     </div>
-    <p class="ga-note" style="margin-top:22px"><b>Glyiv Saku bukan pratinjau</b> &mdash; ia aplikasi yang sudah berjalan, dan angkanya dihitung dari pustaka faktor emisi Glyiv, bukan dikarang untuk peragaan. Di luar itu, semua angka &amp; transaksi di pratinjau bersifat ilustrasi. Kolaborasi high-tech (agen AI, blockchain/ERC-3643, oracle, DePIN) ditampilkan sebagai arah desain sistem Glyiv.</p>
+    <p class="ga-note" style="margin-top:22px"><b>Glyiv Pocket bukan pratinjau</b> &mdash; ia aplikasi yang sudah berjalan, dan angkanya dihitung dari pustaka faktor emisi Glyiv, bukan dikarang untuk peragaan. Di luar itu, semua angka &amp; transaksi di pratinjau bersifat ilustrasi. Kolaborasi high-tech (agen AI, blockchain/ERC-3643, oracle, DePIN) ditampilkan sebagai arah desain sistem Glyiv.</p>
   </div>
 </div>
 
-<section class="lsec tight paper"><div class="lwrap"><p class="lnote" style="margin:0;padding-top:0;border-top:0">Badge <b>Aplikasi nyata</b> = produk yang sudah berjalan dan bisa Anda pakai sendiri, bukan peragaan &mdash; sejauh ini hanya <a href="/lab/ekosistem/saku.html">Glyiv Saku</a>, dan batasnya ditulis di halamannya. <b>Live</b> = pratinjau yang sudah bisa dijelajah, isinya ilustrasi; fitur yang diperagakan di dalamnya belum tentu sudah jadi. <b>Roadmap</b> masih dibangun bertahap. &#9888;&#65038; Semua angka di dalam pratinjau bersifat ilustrasi.</p></div></section>
+<section class="lsec tight paper"><div class="lwrap"><p class="lnote" style="margin:0;padding-top:0;border-top:0">Badge <b>Aplikasi nyata</b> = produk yang sudah berjalan dan bisa Anda pakai sendiri, bukan peragaan &mdash; sejauh ini hanya <a href="/lab/ekosistem/saku.html">Glyiv Pocket</a>, dan batasnya ditulis di halamannya. <b>Live</b> = pratinjau yang sudah bisa dijelajah, isinya ilustrasi; fitur yang diperagakan di dalamnya belum tentu sudah jadi. <b>Roadmap</b> masih dibangun bertahap. &#9888;&#65038; Semua angka di dalam pratinjau bersifat ilustrasi.</p></div></section>
 <div id="ga-foot"></div>
 <script src="/lab/apps/apps-shell.js"></script>
 <script src="/assets/js/glyiv-nav.js" defer></script>

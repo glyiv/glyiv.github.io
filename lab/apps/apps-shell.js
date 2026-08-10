@@ -4,13 +4,21 @@
 (function () {
   "use strict";
   var NAV = '<header class="lnav" data-solid><div class="lnav__in">' +
-    '<a class="lbrand" href="/"><svg viewBox="0 0 24 24" fill="none"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z" fill="#33d188"/><path d="M6.4 20C8 14 12.5 9.5 17 7" stroke="#0a2a1d" stroke-width="1.5" stroke-linecap="round"/></svg><b>Gl<i>yiv</i></b></a>' +
+    /* ⚠︎ Lambang WAJIB `/logo.svg` — aset resmi (Glyiv Pendant), bukan SVG sebaris.
+       Berkas ini menyuntik nav+kaki ke 29 halaman, jadi satu kunci merek yang salah
+       di sini muncul 29 kali; ronde penyeragaman lambang menyisir *.html dan tidak
+       melihat yang di dalam string JS ini. Markup ini SAMA PERSIS dengan 42 kunci
+       merek di 25 berkas HTML lain supaya ukuran & jarak
+       datang dari CSS yang sudah ada — glyiv-nav.css:67 mengunci 28×28 px dan
+       .lbrand{gap:9px}; jangan tulis ulang nilainya di sini. */
+    '<a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>' +
+    '<span class="lnav__tag">Your Green Industry Intelligence Platform</span>' +
     '<nav class="lnav__links">' +
       '<div class="ldrop ldrop--mega"><button class="ldrop__btn">Ekosistem <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button><div class="ldrop__menu">' +
-        '<div class="ldrop__grp"><h4>Inti platform</h4><a href="/lab/carbon-intelligence.html"><b>Carbon Intelligence</b><small>Lacak &middot; hitung &middot; offset</small></a><a href="/lab/tree.html"><b>Glyiv Green Assets</b><small>Pohon &amp; lahan (RWA)</small></a><a href="/lab/apps/kebun/"><b>Kebun Virtual</b><small>Rawat pohonmu, panen imbalan</small></a><a href="/lab/outlet.html"><b>Glyiv Outlet</b><small>POS berdata karbon</small></a></div>' +
-        '<div class="ldrop__grp"><h4>Ekonomi hijau</h4><a href="/lab/ekosistem/pasar.html"><b>Glyiv Pasar</b><small>Marketplace</small></a><a href="/lab/ekosistem/pangan.html"><b>Glyiv Pangan</b><small>Hub pangan berdata karbon</small></a><a href="/lab/ekosistem/dompet.html"><b>Glyiv Dompet</b><small>Carbon wallet</small></a><a href="/lab/ekosistem/dana.html"><b>Glyiv Dana</b><small>Investasi hijau</small></a><a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Sampah jadi imbalan</small></a></div>' +
-        '<div class="ldrop__grp"><h4>Gaya hidup</h4><a href="/lab/ekosistem/saku.html"><b>Glyiv Saku</b><small>Aplikasi harian &middot; sudah jalan</small></a><a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a><a href="/lab/ekosistem/sehat.html"><b>Glyiv Sehat</b><small>Habit sehat &amp; hijau</small></a><a href="/lab/ekosistem/belajar.html"><b>Glyiv Belajar</b><small>Literasi &amp; game</small></a></div>' +
-        '<div class="ldrop__grp"><h4>Riset &amp; alat</h4><a href="/lab/ekosistem/lab-rnd.html"><b>Glyiv Lab</b><small>Material rendah-karbon</small></a><a href="/lab/apps/scanner/"><b>Scan Karbon</b><small>Foto item &rarr; estimasi</small></a><a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a></div>' +
+        '<div class="ldrop__grp"><h4>Inti platform</h4><a href="/lab/green-intelligence.html"><b>Green Intelligence</b><small>Lacak &middot; hitung &middot; offset</small></a><a href="/lab/tree.html"><b>Glyiv Green Assets</b><small>Pohon &amp; lahan (RWA)</small></a><a href="/lab/apps/kebun/"><b>Kebun Virtual</b><small>Rawat pohonmu, panen imbalan</small></a><a href="/lab/outlet.html"><b>Glyiv Outlet</b><small>POS berdata karbon</small></a></div>' +
+        '<div class="ldrop__grp"><h4>Ekonomi hijau</h4><a href="/lab/ekosistem/pasar.html"><b>Glyiv Pasar</b><small>Marketplace</small></a><a href="/lab/ekosistem/pangan.html"><b>Glyiv Pangan</b><small>Hub pangan berdata karbon</small></a><a href="/lab/ekosistem/dana.html"><b>Glyiv Dana</b><small>Investasi hijau</small></a><a href="/lab/ekosistem/bank-sampah.html"><b>Bank Sampah</b><small>Setor di titik komunitas</small></a><a href="/lab/ekosistem/recycle.html"><b>Glyiv Recycle</b><small>Komposter &amp; jemput terjadwal</small></a></div>' +
+        '<div class="ldrop__grp"><h4>Gaya hidup</h4><a href="/lab/ekosistem/saku.html"><b>Glyiv Pocket</b><small>Scan &amp; catat harian &middot; sudah jalan</small></a><a href="/lab/ekosistem/iot.html"><b>Glyiv IoT</b><small>Rumah pintar &amp; trash-bin</small></a><a href="/lab/ekosistem/sehat.html"><b>Glyiv Sehat</b><small>Habit sehat &amp; hijau</small></a><a href="/lab/ekosistem/belajar.html"><b>Glyiv Belajar</b><small>Literasi &amp; game</small></a></div>' +
+        '<div class="ldrop__grp"><h4>Riset &amp; alat</h4><a href="/lab/ekosistem/lab-rnd.html"><b>Glyiv Lab</b><small>Material rendah-karbon</small></a><a href="/lab/kalkulator.html"><b>Kalkulator Karbon</b><small>Individu &amp; per-item</small></a><a href="/download.html"><b>Unduh Aplikasi</b><small>APK Android &middot; di luar Play Store</small></a></div>' +
         '<div class="ldrop__mega-foot"><span>Business tree tumbuh bertahap &middot; Live &amp; Roadmap</span><a href="/lab/apps/">Lihat semua aplikasi &rarr;</a></div>' +
       '</div></div>' +
       '<div class="ldrop"><button class="ldrop__btn">Solusi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button><div class="ldrop__menu">' +
@@ -19,26 +27,77 @@
         '<div class="ldrop__grp"><h4>Operasional</h4><a href="/lab/industri/sawit-agri.html">Sawit &amp; Agribisnis</a><a href="/lab/industri/logistik-transport.html">Logistik &amp; Transport</a><a href="/lab/industri/fnb-ritel.html">F&amp;B &amp; Ritel</a><a href="/lab/industri/retailer.html">Retailer (Toko/UMKM)</a></div>' +
         '<div class="ldrop__grp"><h4>Publik &amp; Teknologi</h4><a href="/lab/industri/rumah-sakit.html">Rumah Sakit</a><a href="/lab/industri/data-center.html">Data Center</a><a href="/lab/industri/pemerintah.html">Pemerintah</a></div>' +
       '</div></div>' +
-      '<a href="/lab/kabar/index.html">Kabar</a><a href="/lab/landing/index.html" class="lnav__admin">Landing</a>' +
+      '<a href="/lab/kabar/index.html">Kabar</a><a href="/download.html">Store</a><a href="/lab/landing/index.html" class="lnav__admin">Landing</a>' +
       '<div class="ldrop ldrop--r"><button class="ldrop__btn">Perusahaan <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></button><div class="ldrop__menu">' +
         '<div class="ldrop__grp"><h4>Glyiv</h4><a href="/visi-misi.html">Visi &amp; Misi</a><a href="/team.html">Tim &amp; Manifesto</a><a href="/lab/kabar/index.html">Kabar</a></div>' +
-        '<div class="ldrop__grp"><h4>Induk perusahaan</h4><a href="/wosu/index.html">PT WOSU Innovation Technology<small>Perusahaan induk</small></a></div>' +
+        /* Pintu masuk PT WOSU di laci "Perusahaan" DICABUT atas permintaan pemilik;
+           /wosu tetap ada dan tetap tertaut dari kaki halaman. Sama persis dengan
+           25 salinan navbar di dist/*.html. */
       '</div></div>' +
     '</nav>' +
     '<span class="lnav__sp"></span>' +
-    '<a class="lnav__cta" href="/#gabung">Gabung</a>' +
+    '<a class="lnav__cta" href="/auth">Login</a>' +
     '<button class="lnav__burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>' +
     '</div></header>';
 
   var FOOT = '<footer class="lfoot"><div class="lwrap"><div class="lfoot__grid">' +
-    '<div><a class="lbrand" href="/"><b>Gl<i>yiv</i></b></a>' +
-    '<p class="lfoot__about">Platform ekonomi hijau dengan fondasi intelijen karbon. Aset, marketplace, wallet, IoT, dan lainnya — tumbuh bertahap.</p></div>' +
-    '<div><h4>Ekosistem</h4><a href="/lab/tree.html">Glyiv Green Assets</a><a href="/lab/outlet.html">Glyiv Outlet</a><a href="/lab/ekosistem/saku.html">Glyiv Saku</a><a href="/lab/apps/">Semua aplikasi</a></div>' +
-    '<div><h4>Platform</h4><a href="/lab/carbon-intelligence.html#platform">Carbon Accounting</a><a href="/lab/carbon-intelligence.html#tour">Cara Kerja</a><a href="/#ekosistem">Ekosistem</a></div>' +
-    '<div><h4>Perusahaan</h4><a href="/team.html">Tim</a><a href="/wosu/index.html">PT WOSU</a><a href="/lab/carbon-intelligence.html#komunitas">Komunitas</a></div>' +
-    '</div><div class="lfoot__legal"><span>© <span data-yr>2026</span> Glyiv</span><span>Produk dari <a href="/wosu/index.html" style="color:#8affc1">PT WOSU Innovation Technology</a> &middot; pratinjau produk &middot; angka ilustrasi</span></div></div></footer>';
+    /* Kunci merek kaki halaman: markup identik dengan bilah atas — itu memang yang
+       diandalkan lab.css:433 (`.lfoot a:not(.lbrand)`) — pengecualian itu menjaga
+       merek tetap mewarisi flex+gap bilah atas dan tidak jatuh ke dua baris, dan
+       lab.css:439 membatasi lebarnya ke `max-content` demi target sentuh. */
+    '<div><a class="lbrand" href="/"><img src="/logo.svg" width="28" height="28" alt="" class="lbrand__mark"><b>Gl<i>yiv</i></b></a>' +
+    '<p class="lfoot__about">Platform ekonomi hijau dengan fondasi intelijen karbon. Aset, marketplace, wallet, IoT, dan lainnya — tumbuh bertahap.</p>' +
+    '<div class="lfoot__sos" data-i18n-skip="sosial"><a class="lsos" href="https://www.instagram.com/glyiv.io" target="_blank" rel="noopener noreferrer" aria-label="Instagram Glyiv" title="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a class="lsos" href="https://www.tiktok.com/@glyiv.io" target="_blank" rel="noopener noreferrer" aria-label="TikTok Glyiv" title="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M16 3c.3 2 1.5 3.6 3.5 4v3c-1.4 0-2.7-.4-3.8-1.1V15a5.5 5.5 0 1 1-5.5-5.5c.3 0 .6 0 .9.1v3.1a2.5 2.5 0 1 0 1.7 2.4V3H16z"/></svg></a><a class="lsos" href="https://www.youtube.com/@glyiv_io" target="_blank" rel="noopener noreferrer" aria-label="YouTube Glyiv" title="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="M11 9.5l4 2.5-4 2.5z" fill="currentColor"/></svg></a><a class="lsos" href="https://x.com/glyiv_io" target="_blank" rel="noopener noreferrer" aria-label="X Glyiv" title="X"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M4 4l7.6 9.8L4.4 20h2.1l6-6.5L17 20h3l-8-10.3L19.4 4h-2.1l-5.6 6.1L7 4H4z"/></svg></a><a class="lsos" href="https://www.facebook.com/profile.php?id=61592151959052" target="_blank" rel="noopener noreferrer" aria-label="Facebook Glyiv" title="Facebook"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3h-3.1V8.2c0-.9.3-1.5 1.5-1.5h1.7V4.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H7.8v3h2.2v8h3.5z"/></svg></a><a class="lsos" href="https://www.linkedin.com/company/glyivio/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Glyiv" title="LinkedIn"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><path d="M4.5 3.5A2 2 0 1 1 4 7a2 2 0 0 1 .5-3.5zM3 9h3v12H3zM9 9h3v1.7c.5-.9 1.7-1.9 3.5-1.9 3 0 4.5 2 4.5 5.4V21h-3v-6c0-1.7-.6-2.8-2.1-2.8-1.2 0-1.9.8-2.2 1.6-.1.3-.1.7-.1 1V21H9z"/></svg></a></div>' +
+    '</div>' +
+    '<div><h4>Ekosistem</h4><a href="/lab/tree.html">Glyiv Green Assets</a><a href="/lab/outlet.html">Glyiv Outlet</a><a href="/lab/ekosistem/saku.html">Glyiv Pocket</a><a href="/lab/apps/">Semua aplikasi</a><a href="/download.html">Unduh aplikasi Android</a></div>' +
+    '<div><h4>Platform</h4><a href="/lab/green-intelligence.html#platform">Carbon Accounting</a><a href="/lab/green-intelligence.html#tour">Cara Kerja</a><a href="/#ekosistem">Ekosistem</a></div>' +
+    '<div><h4>Perusahaan</h4><a href="/team.html">Tim</a><a href="/wosu/index.html">PT WOSU</a><a href="/lab/green-intelligence.html#komunitas">Komunitas</a>' +
+    /* ⛔ DOKUMEN HUKUM WAJIB TERJANGKAU DARI SETIAP HALAMAN. Dua alasan yang
+       keduanya nyata: (a) Play Store menuntut URL kebijakan privasi yang bisa
+       dibuka publik tanpa masuk; (b) rekaman persetujuan outlet menyimpan nomor
+       versi dokumen ini, dan persetujuan yang menunjuk ke halaman yang sulit
+       ditemukan tidak berarti apa-apa. */
+    '<a href="/ketentuan.html">Ketentuan Layanan</a><a href="/privasi.html">Kebijakan Privasi</a></div>' +
+    '</div><div class="lfoot__legal"><span>© <span data-yr>2026</span> Glyiv</span>' +
+    '<span><a href="/ketentuan.html" style="color:#8affc1">Ketentuan Layanan</a> &middot; <a href="/privasi.html" style="color:#8affc1">Kebijakan Privasi</a></span>' +
+    '<span>Produk dari <a href="/wosu/index.html" style="color:#8affc1">PT WOSU Innovation Technology</a> &middot; pratinjau produk &middot; angka ilustrasi</span></div></div></footer>';
 
-  function mount(id, html) { var el = document.getElementById(id); if (el) el.outerHTML = html; }
+  /* ⛔ SATU BARIS INI DULU MENINGGALKAN NAVBAR & FOOTER DI DOM SELAMANYA.
+
+     Versi lamanya berbunyi `el.outerHTML = html`, dan itu MENGGANTI elemen
+     penampung yang dibuat React dengan simpul baru hasil parse string. Simpul
+     baru itu tidak punya kunci fiber (`__reactFiber$…`), jadi React tidak
+     mengenalinya sama sekali. Saat rutenya dilepas, React memanggil
+     `removeChild` pada PENAMPUNG — yang sudah tidak ada di DOM — sehingga
+     navbar dan footer penggantinya tidak pernah ikut terlepas.
+
+     Terukur di halaman live, dari /app-store menekan lambang merek ke "/":
+       anak #root : HEADER.lnav · FOOTER.lfoot · STYLE · DIV.gv-bg-root ·
+                    HEADER.lnav · SECTION.vhero · … · FOOTER.lfoot · DIV.lstick
+       navbar LAMA (Inggris) menumpuk navbar BARU (Indonesia) → label dobel,
+       dan footer lama berdiri di y=0 sementara hero halaman baru di y=435.
+     Itulah "footernya tiba-tiba di atas" yang pemilik laporkan dua ronde
+     berturut-turut — dan yang dua kali salah saya duga sebagai cacat gulir.
+     Kunci yang membedakannya: simpul yang tertinggal TIDAK punya kunci fiber,
+     sementara simpul halaman baru punya. React tidak kehilangan simpulnya;
+     simpulnya yang dicabut dari bawah kaki React.
+
+     ⛔ JANGAN mengembalikan `outerHTML` di sini, dan jangan memakainya pada
+     elemen mana pun yang dibuat React. Yang benar: isi PENAMPUNGNYA. React
+     tetap memiliki penampung itu, jadi ia melepasnya berikut seluruh isinya.
+     `.lnav` `position:fixed` dan `.lfoot` blok biasa — keduanya tidak
+     terpengaruh oleh satu pembungkus tambahan (diperiksa: nol selektor CSS
+     yang menuntut keduanya jadi anak LANGSUNG dari induknya).
+
+     Penjaga `innerHTML.trim()`: skrip ini bisa dijalankan dua kali dalam satu
+     sesi SPA (halaman yang sama dibuka lagi), dan tanpa penjaga itu navbar
+     kedua akan disuntikkan ke dalam penampung yang sama. */
+  function mount(id, html) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (el.innerHTML.trim()) return;
+    el.innerHTML = html;
+  }
   mount("ga-nav", NAV);
   mount("ga-foot", FOOT);
   var yr = document.querySelector("[data-yr]"); if (yr) yr.textContent = new Date().getFullYear();

@@ -3,10 +3,10 @@
 Static site published via GitHub Pages at **https://glyiv.github.io/**.
 
 > Glyiv — *"The carbon-intelligent operating system for commerce."* Café-ordering POS (QR + AI host "Liv")
-> as the wedge in Makassar, scaling into item-level carbon-data infrastructure across Indonesia.
+> as the wedge, scaling into item-level carbon-data infrastructure across Indonesia.
 
 ## Pages
-- `index.html` — **home**: Glyiv as a Carbon Intelligence Platform (thesis + holographic globe, why-now,
+- `index.html` — **home**: Glyiv as a Green Intelligence Platform (thesis + holographic globe, why-now,
   4-layer platform, carbon-flow signature, focus areas, market, competitive edge, roadmap, "Mulai dari mana?"
   bridge → POS app, investor CTA). Carbon-first positioning for investors.
 - `pos.html` — **the POS product page** (formerly the landing): Glyiv POS, Liv, Green Membership, Carbon Engine,

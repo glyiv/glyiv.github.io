@@ -12,10 +12,20 @@ and admin publishing, connect Firestore on project **glyiv-28711**.
    collections you already have), then **Publish**.
    *(Or with the CLI: `firebase deploy --only firestore:rules`.)*
 
-2. **Enable Google sign-in** — Console → *Authentication* → *Sign-in method* →
+2. **Create the composite index** — Console → *Firestore Database* → *Indexes* →
+   *Composite* → *Add index*: collection **`kabar_articles`**, fields
+   **`status` Ascending** + **`publishAt` Descending**.
+   (Or deploy [`firestore.indexes.json`](./firestore.indexes.json).)
+   *Measured 2026-07-31:* without this index the ordered feed query answers
+   **HTTP 400 `FAILED_PRECONDITION`**, not an empty list. The web feed and the
+   Android widget both fall back to an unordered query and sort on the device,
+   so nothing visibly breaks — which is exactly why this step gets skipped and
+   then quietly costs one read per published article on every refresh.
+
+3. **Enable Google sign-in** — Console → *Authentication* → *Sign-in method* →
    enable **Google**.
 
-3. **Authorize domains** — Console → *Authentication* → *Settings* →
+4. **Authorize domains** — Console → *Authentication* → *Settings* →
    *Authorized domains* → add **`glyiv.github.io`**, **`localhost`**, and
    **`127.0.0.1`**.
 

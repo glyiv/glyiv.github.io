@@ -92,7 +92,24 @@ button{font-family:inherit;cursor:pointer}
   background:radial-gradient(800px 600px at 50% 40%,#0b3122,#04150d 70%),#03110b;
   transition:opacity .8s var(--ease), visibility .8s;
 }
-body.is-ready .gv-splash{opacity:0;visibility:hidden}
+body.is-ready .gv-splash{opacity:0;visibility:hidden;pointer-events:none}
+/* ⛔ TIRAI YANG SUDAH TIDAK TERLIHAT TETAP MENELAN KETUKAN SELAMA 0,6 DETIK.
+   Terukur (audit ronde 46, CPU x4, 390 px): sesudah opasitasnya turun di bawah
+   0,5 — yaitu sesudah pemakai melihat layarnya bersih — `elementFromPoint` di
+   tengah layar MASIH mengembalikan `.gv-splash` selama 608 ms di /auth, 611 ms
+   di /, 609 ms di /hijau, dan 611 ms di /akun. Ketukan sungguhan di titik itu
+   mendarat di DIV.gv-splash, bukan di tautannya.
+   Sebabnya: `visibility` ikut ditransisikan 0,8 dtk (disengaja, supaya pudarnya
+   terlihat utuh) dan properti diskret baru beralih di AKHIR transisi — jadi
+   selama pudar itu tirainya tetap ada, tetap penuh layar, tetap bisa ditembak.
+   `pointer-events` TIDAK ditransisikan, jadi aturan ini berlaku seketika tanpa
+   mengorbankan animasi pudarnya. Kelas cacat yang sama sudah tercatat di
+   RULES.md untuk lembar Pengaturan; ia terulang di sini karena tirai ini tidak
+   pernah diuji dengan ketukan, hanya dengan "apakah simpulnya dibuang".
+   Cangkang React memakai gaya SEBARIS (bukan `body.is-ready`), jadi selektor
+   `[aria-hidden="true"]` di bawah wajib ada — tanpanya /auth, /, /hijau, /akun
+   tidak tersentuh aturan mana pun. */
+.gv-splash[aria-hidden="true"]{pointer-events:none}
 .gv-splash__inner{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center;padding:24px}
 .gv-splash__mark{width:118px;height:118px;position:relative;filter:drop-shadow(0 12px 40px rgba(51,209,136,.55))}
 .gv-splash__word{font-family:var(--f-disp);font-weight:800;font-size:30px;letter-spacing:.18em;color:var(--mint);
@@ -210,7 +227,18 @@ section[id]{scroll-margin-top:84px}
   padding:13px 22px;font-weight:700;font-size:14px;transition:.2s var(--ease);white-space:nowrap;line-height:1
 }
 .gv-btn svg{width:17px;height:17px}
-.gv-btn.is-primary{background:linear-gradient(120deg,var(--emerald-bright),var(--emerald) 60%,var(--moss-600));color:#04150d;box-shadow:0 14px 36px -14px rgba(51,209,136,.7)}
+/* ⛔ TEKS PUTIH + HIJAU YANG CUKUP GELAP UNTUK MENAMPUNGNYA.
+   Dua langkah, dan langkah kedua baru terlihat SESUDAH langkah pertama:
+   memutihkan teks di atas gradien emerald lama memberi 2,87:1 — masih di
+   bawah WCAG AA. Jadi gradiennya ikut digelapkan ke teal merek (#1F7A6B →
+   #0F4A3C), yang memberi 5,19:1 pada perhentian TERTERANGnya.
+   Pelajarannya: "tombol hijau berteks putih" belum tentu terbaca — hijaunya
+   harus dipilih untuk menampung putih, bukan sebaliknya.
+   Asal mula: #04150d. Aturan keras pemilik: tombol hijau WAJIB
+   berteks putih. Terukur ronde 55 oleh scripts/uji-kontras-tombol.cjs:
+   latar #1e8b6b + teks #04150d = 3,63:1 — di bawah WCAG AA 4,5:1, dan
+   satu-satunya pelanggaran dari 1.070 tombol di 67 rute. */
+.gv-btn.is-primary{background:linear-gradient(120deg,#1F7A6B,#176355 60%,#0F4A3C);color:#fff;box-shadow:0 14px 36px -14px rgba(51,209,136,.7)}
 .gv-btn.is-primary:hover{transform:translateY(-2px);box-shadow:0 20px 44px -14px rgba(51,209,136,.85)}
 .gv-btn.is-ghost{background:rgba(138,255,193,.05);border-color:var(--line-2);color:var(--mint)}
 .gv-btn.is-ghost:hover{background:rgba(138,255,193,.12);transform:translateY(-2px)}
@@ -376,9 +404,13 @@ a.gv-btn.mm{display:inline-flex}
 /* slide 3 — tracking stepper */
 .cf-track-steps{position:relative;padding:22px 0 6px 6px}
 .cf-trun{position:absolute;left:13px;top:30px;bottom:34px;width:2px;background:var(--line)}
-.cf-tfill{position:absolute;left:13px;top:30px;width:2px;background:linear-gradient(var(--bio),var(--emerald));height:0}
+/* ⚠︎ Isian rel ini dulu menganimasikan `height` selama 6 detik TANPA HENTI —
+   artinya layout dihitung ulang tiap bingkai, selamanya, di tablet pemilik.
+   Sekarang tingginya TETAP (setinggi rel) dan yang bergerak `scaleY` dengan
+   titik jangkar di atas: sama persis di mata, nol pekerjaan layout. */
+.cf-tfill{position:absolute;left:13px;top:30px;width:2px;background:linear-gradient(var(--bio),var(--emerald));height:calc(100% - 64px);transform-origin:top center;transform:scaleY(0)}
 .cf-slide.is-on .cf-tfill{animation:cfFill 6s ease-in-out infinite}
-@keyframes cfFill{0%{height:0}14%{height:0}40%{height:30%}64%{height:60%}86%,100%{height:calc(100% - 64px)}}
+@keyframes cfFill{0%,14%{transform:scaleY(0)}40%{transform:scaleY(.35)}64%{transform:scaleY(.68)}86%,100%{transform:scaleY(1)}}
 .cf-tstep{display:flex;gap:13px;align-items:flex-start;margin-bottom:18px;position:relative}
 .cf-tstep i{width:16px;height:16px;border-radius:50%;border:2px solid var(--line);background:#04140d;flex:0 0 auto;margin-top:1px;z-index:1}
 .cf-tstep b{display:block;color:#fff;font-size:13px;line-height:1.1}
@@ -573,7 +605,14 @@ a.gv-btn.mm{display:inline-flex}
 .gl-cover{display:flex;align-items:center;gap:14px;margin-bottom:18px}
 .gl-cover-lbl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint);flex:0 0 auto}
 .gl-track{flex:1;height:3px;border-radius:3px;background:rgba(51,209,136,.12);overflow:hidden}
-.gl-fill{display:block;height:100%;width:8%;border-radius:3px;background:linear-gradient(90deg,var(--bio),#f5c451);transition:width .7s var(--ease);box-shadow:0 0 12px rgba(51,209,136,.6)}
+/* ⛔ width → transform:scaleX. `transition:width` memaksa TATA LETAK tiap
+   bingkai selama 700 ms setiap fase berganti — satu-satunya sisa animasi
+   properti tata letak di seluruh situs sesudah sapuan ronde 59, dan ia lolos
+   sapuan pertama karena transisi hanya "berjalan" sesaat (intermiten).
+   Bilahnya kini selebar penuh dan diperkecil dengan `scaleX(var(--gl-isi))`;
+   `transform-origin:left` menjaga ia tetap tumbuh dari kiri. JS menyetel
+   `--gl-isi` (0–1), bukan `style.width`. */
+.gl-fill{display:block;height:100%;width:100%;transform:scaleX(var(--gl-isi,.08));transform-origin:left center;border-radius:3px;background:linear-gradient(90deg,var(--bio),#f5c451);transition:transform .7s var(--ease);box-shadow:0 0 12px rgba(51,209,136,.6)}
 .gl-terr{position:relative;flex:0 0 auto;min-width:160px;height:18px;text-align:right}
 .gl-terr span{position:absolute;right:0;top:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#fff;opacity:0;transform:translateY(4px);transition:opacity .4s var(--ease),transform .4s var(--ease);white-space:nowrap}
 .gl-terr span.is-on{opacity:1;transform:none}
@@ -692,8 +731,14 @@ a.gv-btn.mm{display:inline-flex}
 
 .vi-pipe{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-top:24px}
 .vi-pipe-rail{position:absolute;left:8%;right:8%;top:11px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(51,209,136,.4),rgba(245,196,81,.4))}
-.vi-packet{position:absolute;top:-4px;left:0;width:9px;height:9px;border-radius:50%;background:#eafff4;box-shadow:0 0 14px 2px #33d188;animation:viPacket 5s ease-in-out infinite}
-@keyframes viPacket{0%{left:0}100%{left:100%}}
+/* ⚠︎ Paket ini dulu berjalan dengan `left:0 → 100%`, tanpa henti. `translateX`
+   dalam persen mengacu ke kotak ELEMEN SENDIRI, bukan wadahnya — jadi elemennya
+   dijadikan REL selebar wadah (transparan) dan titik cahayanya digambar
+   `::before`. translateX(100%) sekarang = selebar wadah, persis seperti dulu,
+   tapi tanpa satu pun perhitungan layout. */
+.vi-packet{position:absolute;top:-4px;left:0;width:100%;height:9px;pointer-events:none;animation:viPacket 5s ease-in-out infinite}
+.vi-packet::before{content:"";position:absolute;left:0;top:0;width:9px;height:9px;border-radius:50%;background:#eafff4;box-shadow:0 0 14px 2px #33d188}
+@keyframes viPacket{0%{transform:translateX(0)}100%{transform:translateX(100%)}}
 .vi-stage{position:relative;background:linear-gradient(180deg,rgba(11,44,30,.7),rgba(6,22,14,.78));border:1px solid var(--line);border-radius:15px;padding:18px 12px 14px;text-align:center;animation:viStage 5s ease-in-out infinite}
 .vi-stage:nth-child(3){animation-delay:1.25s}.vi-stage:nth-child(4){animation-delay:2.5s}.vi-stage:nth-child(5){animation-delay:3.75s}
 @keyframes viStage{0%,8%,100%{border-color:var(--line)}3%{border-color:rgba(51,209,136,.6);box-shadow:0 0 22px -6px rgba(51,209,136,.5)}}
@@ -959,9 +1004,21 @@ a.gv-btn.mm{display:inline-flex}
   .gv-section{padding-left:18px;padding-right:18px}
 }
 
-/* ============================ REDUCED MOTION ============================ */
+/* ============================ REDUCED MOTION ============================
+   ⚠︎ KENAPA `.001ms` DAN BUKAN `animation:none` — jangan diganti tanpa membaca:
+   Banyak animasi di sini ber-`fill:forwards`/`both` dan BERANGKAT dari keadaan
+   tak terlihat (`opacity:0`, `transform:scaleY(0)`). `animation:none` membuat
+   isinya tertinggal di keadaan berangkat itu — teks hilang, bilah kosong.
+   Durasi .001ms + satu putaran membuatnya LANGSUNG mendarat di keadaan akhir.
+
+   ⚠︎ DAN KENAPA `animation-delay` HARUS IKUT DINOLKAN — ini cacat nyata yang
+   ditemukan ronde ini: selama masa TUNDA, `playState` sebuah animasi tetap
+   `"running"`. `.cflow__r.r4{animation-delay:9s}` karena itu masih tercatat
+   BERJALAN sembilan detik penuh walau durasinya sudah .001ms. Menyapu 62
+   halaman menunjukkan design1.html & pos.html "bergerak" persis karena ini.
+   Tunda dinolkan → animasinya benar-benar selesai seketika. */
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  *,*::before,*::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.001ms!important;transition-delay:0s!important;scroll-behavior:auto!important}
   [data-reveal]{opacity:1;transform:none}
   .gv-spore{display:none}
 }
@@ -1014,8 +1071,12 @@ a.gv-btn.mm{display:inline-flex}
 @keyframes cflowRead{0%{opacity:0;transform:translateY(6px)}4%{opacity:1;transform:none}21%{opacity:1}25%{opacity:0;transform:translateY(-6px)}100%{opacity:0}}
 .cflow__belt{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding-top:14px;min-width:520px}
 .cflow__rail{position:absolute;left:6%;right:6%;top:8px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(51,209,136,.35),rgba(245,196,81,.55))}
-.cflow__spark{position:absolute;top:3px;left:6%;width:11px;height:11px;border-radius:50%;background:#eafff4;box-shadow:0 0 16px 3px #33d188;animation:cflowSpark 6s ease-in-out infinite}
-@keyframes cflowSpark{0%{left:6%;opacity:0}6%{opacity:1}94%{opacity:1}100%{left:94%;opacity:0}}
+/* ⚠︎ Sama seperti `.vi-packet`: dulu `left:6% → 94%` tanpa henti. Elemennya kini
+   rel selebar wadah, percikannya `::before`, geraknya `translateX` — persen
+   translate mengacu ke lebar rel yang = lebar wadah, jadi jaraknya identik. */
+.cflow__spark{position:absolute;top:3px;left:0;width:100%;height:11px;pointer-events:none;animation:cflowSpark 6s ease-in-out infinite}
+.cflow__spark::before{content:"";position:absolute;left:0;top:0;width:11px;height:11px;border-radius:50%;background:#eafff4;box-shadow:0 0 16px 3px #33d188}
+@keyframes cflowSpark{0%{transform:translateX(6%);opacity:0}6%{opacity:1}94%{opacity:1}100%{transform:translateX(94%);opacity:0}}
 .cflow__stage{position:relative;background:linear-gradient(180deg,rgba(11,44,30,.7),rgba(6,22,14,.78));border:1px solid var(--line);border-radius:14px;padding:20px 8px 12px;text-align:center}
 .cflow__n{position:absolute;left:50%;top:-11px;transform:translateX(-50%);width:22px;height:22px;border-radius:50%;background:#0e3a28;border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--f-mono);font-size:10px;color:var(--bio)}
 .cflow__ic{font-size:26px;display:block;margin-top:4px;animation:cflowPulse 6s ease-in-out infinite}

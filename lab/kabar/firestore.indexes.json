@@ -1,0 +1,36 @@
+{
+  "_catatan": [
+    "GLYIV KABAR — indeks gabungan untuk koleksi `kabar_articles` (proyek glyiv-28711).",
+    "",
+    "KENAPA BERKAS INI ADA. Kueri kanonis feed & widget adalah:",
+    "  status == 'published'  AND  publishAt <= <sekarang>  ORDER BY publishAt DESC",
+    "Firestore MEWAJIBKAN indeks gabungan untuk itu. Tanpa indeksnya jawabannya",
+    "bukan 'kosong' melainkan HTTP 400 FAILED_PRECONDITION — dan itu bukan teori:",
+    "diukur 2026-07-31 lewat runQuery langsung ke firestore.googleapis.com,",
+    "  kueri berurut   → 400 FAILED_PRECONDITION 'The query requires an index'",
+    "  kueri tanpa urut → 200 (koleksi memang kosong)",
+    "Widget Android (news/android/.../KabarSumber.java) sengaja mundur ke kueri",
+    "tanpa urutan lalu mengurutkan di perangkat, jadi ia tidak PECAH — tapi ia",
+    "membaca hingga 80 dokumen setiap penyegaran, dan itu tumbuh selamanya.",
+    "",
+    "CARA MEMASANG (pilih satu):",
+    "  A) Firebase Console → Firestore → Indexes → Composite → Add index:",
+    "       Collection: kabar_articles · status Ascending · publishAt Descending",
+    "  B) firebase deploy --only firestore:indexes --project glyiv-28711",
+    "     (arahkan `firestore.indexes` di firebase.json ke berkas ini)",
+    "",
+    "⚠︎ Ini proyek glyiv-28711 (Kabar), BUKAN glyiv-5cb33 (situs & aplikasi).",
+    "   Jangan menggabungkannya dengan /firestore.indexes.json di akar repo."
+  ],
+  "indexes": [
+    {
+      "collectionGroup": "kabar_articles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "publishAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
