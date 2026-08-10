@@ -118,24 +118,27 @@
 }
 .tp-scene.is-on { opacity: 1; transform: none; pointer-events: auto; }
 
-/* Pelat potret. Rasionya WAJIB sama persis dengan rasio berkas hasil
-   normalisasi — hari ini 1024×1229 (lihat `scripts/bingkai-foto-tim.cjs`) —
-   supaya `object-fit:cover` tidak memotong apa pun; yang disusun di berkas
-   gambar persis yang terlihat di layar.
+/* Pelat potret.
 
-   ⚠︎ DITULIS `1024 / 1229`, BUKAN `5 / 6`. Keduanya beda 0,016 % (0,83320 vs
-   0,83333), dan pada pelat setinggi 620 px selisih itu 0,08 px — cukup untuk
-   membuat `cover` memotong sepersekian piksel dan memunculkan garis rambut abu
-   di tepi. Menyalin angka berkasnya apa adanya menutup celah itu tanpa berpikir.
+   ⛔ TIDAK ADA LAGI PEMOTONGAN DI HALAMAN INI. Sampai ronde sebelumnya pelatnya
+   memakai `object-fit:cover` pada bingkai 1024/1229, dan seluruh komentar
+   panjang di sini berisi upaya menyamakan rasio kotak dengan rasio berkas
+   sepersekian piksel supaya `cover` "kebetulan" tidak memakan apa pun. Itu
+   pertahanan yang salah tempat: `cover` SELALU memotong begitu kedua rasio
+   meleset sedikit saja, dan meleset itu terjadi tiga kali — dua kali dilaporkan
+   pemilik ("masih terpotong kanan kirinya … bahunya seperti terpotong").
 
-   ⚠︎ 3/4 → 1024/1229 pada ronde ini. Sebabnya keluhan pemilik yang KEDUA
-   ("masih terpotong kanan kirinya … bahunya seperti terpotong"): pada bingkai
-   3:4, memberi napas 10 % di kiri-kanan memaksa ruang kosong di atas kepala
-   naik ke 26,7 %, dan potretnya terbaca kecil & terapung. Bingkai yang sedikit
-   lebih gempal menutup keduanya sekaligus — margin 6,0 % → 10,0 % sementara
-   ruang atas justru TURUN 19,4 % → 18,9 %. Aritmatika lengkapnya ada di
-   `scripts/bingkai-foto-tim.cjs`. Kalau angka di skrip itu berubah, DUA tempat
-   di berkas ini dan atribut `height=` di `dist/team.html` ikut berubah. */
+   Potret sekarang datang dari `/team/portrait/` (960×1200 = 4:5) dan sudah
+   DIPADDING di dalam berkasnya sendiri dengan latar kertas `#F5F7F5`
+   — lihat `dist/team/portrait/manifest.json`, medan `catatan`: "fit=contain —
+   foto UTUH, tidak ada pemotongan." Jadi pemotongan tidak boleh diulang oleh
+   CSS: kotaknya 4/5 dan gambarnya `object-fit:contain`. Kalaupun suatu hari
+   rasio kotak bergeser, `contain` hanya menyisakan pita kosong — dan pita itu
+   sewarna padding di berkasnya, jadi tak terlihat. Wajahnya TIDAK bisa hilang.
+
+   ⚠︎ Kalau angka di manifest berubah, TIGA tempat di berkas ini (dua `.tp-plate`
+   + `.tp-card__pf`) dan atribut `width=`/`height=` di `dist/team.html` ikut
+   berubah. */
 /* ⚠︎ `margin:0` BUKAN kosmetik. Pelatnya `<figure>`, dan gaya bawaan peramban
    memberinya `margin:1em 40px`. Terukur di 1440px: pelat ganda menyusut jadi
    213,5 px alih-alih 293,5 px — persis 80 px margin yang dimakan tiap pelat —
@@ -148,8 +151,10 @@
    `height:100%` mengunci tinggi ke tinggi panggung, `aspect-ratio` menghitung
    lebar 516,6 px, lalu `max-width:100%` MEMOTONGNYA ke lebar kolom 510,2 px —
    tinggi tidak ikut menyusut, jadi kotaknya jadi lebih jangkung daripada
-   berkasnya dan `object-fit:cover` memakan 1,2 % di KANAN dan KIRI. Persis
-   keluhan pemilik, dilahirkan kembali oleh CSS alih-alih oleh berkas.
+   berkasnya. Dulu itu berarti 1,2 % dimakan di KANAN dan KIRI — persis keluhan
+   pemilik, dilahirkan kembali oleh CSS alih-alih oleh berkas. Sekarang
+   pemotongannya sudah dicabut, tetapi aturannya TETAP dipakai: kotak yang
+   rasionya meleset membuat potret duduk tidak rata di antara enam kartu.
    ⚠︎ Cacat ini TIDAK terlihat di tangkapan layar 1440 px maupun 412 px — hanya
    di lebar tengah, ketika kolomnya lebih sempit daripada lebar yang muat di
    tinggi panggung. Ukur di beberapa lebar, jangan satu.
@@ -159,10 +164,17 @@
    diturunkan `aspect-ratio`, jadi rasionya tidak bisa meleset di lebar mana pun. */
 .tp-plate {
   position: relative; margin: 0;
-  width: min(100%, calc(var(--tp-h) * 1024 / 1229));
-  height: auto; aspect-ratio: 1024 / 1229;
+  width: min(100%, calc(var(--tp-h) * 4 / 5));
+  height: auto; aspect-ratio: 4 / 5;
   border-radius: var(--r-xl); overflow: hidden;
-  background: #fff; box-shadow: var(--sh-3);
+  /* ⚠︎ Heksa mentah, DISENGAJA — bukan `var(--paper-2)`. Warna ini harus sama
+     PERSIS dengan padding yang sudah dipanggang ke dalam berkas potret, dan
+     nilainya dikunci di `dist/team/portrait/manifest.json` medan `latar`:
+     #F5F7F5. Token terdekat `--paper-2` bernilai #F4F2EA — nada hangat yang
+     BEDA, jadi memakainya akan memunculkan kotak sewarna beda di sekeliling
+     foto begitu `contain` menyisakan pita sepersekian piksel. Kalau `latar` di
+     manifest berubah, DUA tempat di berkas ini ikut berubah. */
+  background: #F5F7F5; box-shadow: var(--sh-3);
 }
 /* Dua orang dalam satu adegan (International Relations): ukurannya ditentukan
    LEBAR, bukan tinggi, supaya dua pelat selalu muat di kolomnya. Konsekuensinya
@@ -173,11 +185,13 @@
 /* ⚠︎ Batas kedua (`var(--tp-h)`) BUKAN hiasan: tanpa itu, terukur di 1440 px,
    pelat ganda tergambar 627,4 px tinggi di panggung 620 px — meluber 7,4 px ke
    luar panggung sticky. */
-.tp-scene--duo .tp-plate { height: auto; width: min(calc(50% - 7px), calc(var(--tp-h) * 1024 / 1229)); }
+.tp-scene--duo .tp-plate { height: auto; width: min(calc(50% - 7px), calc(var(--tp-h) * 4 / 5)); }
 .tp-scene--duo .tp-plate:first-child { align-self: flex-start; }
 .tp-scene--duo .tp-plate:last-child  { align-self: flex-end; }
 .tp-plate img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+  /* ⛔ BUKAN `cover`. Foto tim di halaman ini TIDAK BOLEH dipotong CSS —
+     paddingnya sudah ada di dalam berkasnya. Lihat catatan panjang di atas. */
+  width: 100%; height: 100%; object-fit: contain; display: block;
   /* WARNA ASLI — permintaan (3). Foto tim TIDAK PERNAH hitam-putih lagi. */
   filter: none;
 }
@@ -201,19 +215,47 @@
   gap: clamp(18px, 2.4vw, 30px) clamp(16px, 2vw, 26px);
   margin-top: 42px;
 }
-.tp-card { min-width: 0; text-align: start; }
-/* Rasio kartu roster DIKUNCI ke rasio berkas yang sama dengan `.tp-plate`.
-   Kalau salah satunya saja diubah, halaman tetap TAMPIL wajar — yang berubah
-   diam-diam cuma potongan `cover` di kanan-kiri, persis cacat yang dikeluhkan. */
+/* Kartunya kini `<a href="/team/<slug>">`, bukan `<article>` — SELURUH kartu
+   adalah sasaran tekan, bukan hanya nama atau fotonya. `display:block` wajib:
+   `<a>` bawaan sebaris, dan kotak sebaris mengabaikan `min-height` sehingga
+   jaminan 44 px di bawah tidak akan berlaku. Warna & garis bawah diambil alih
+   supaya kartunya tidak berubah jadi blok tautan biru. */
+.tp-card {
+  display: block; min-width: 0; text-align: start;
+  min-height: 44px;                 /* lantai sasaran tekan; nyatanya jauh lebih tinggi */
+  color: inherit; text-decoration: none;
+  border-radius: var(--r-lg);
+}
+.tp-card:focus-visible {
+  outline: 2px solid var(--brass); outline-offset: 6px;
+}
+/* Rasio kartu roster DIKUNCI ke rasio berkas yang sama dengan `.tp-plate`
+   (4:5 = 960×1200). Beda rasio tidak lagi memotong wajah — `contain` yang
+   dipakai — tetapi tetap membuat enam potret duduk tidak sejajar. */
 .tp-card__pf {
-  position: relative; aspect-ratio: 1024 / 1229; overflow: hidden;
-  border-radius: var(--r-lg); background: #fff;
+  position: relative; aspect-ratio: 4 / 5; overflow: hidden;
+  border-radius: var(--r-lg); background: #F5F7F5; /* = `latar` di manifest potret */
   border: 1px solid var(--hairline); box-shadow: var(--sh-1);
   transition: box-shadow .3s var(--ease), transform .3s var(--ease);
 }
-.tp-card__pf img { width: 100%; height: 100%; object-fit: cover; display: block; filter: none; }
+/* ⛔ BUKAN `cover` — sama alasannya dengan `.tp-plate img`. */
+.tp-card__pf img { width: 100%; height: 100%; object-fit: contain; display: block; filter: none; }
+/* Tanda bahwa kartunya bisa ditekan. Ditulis apa adanya (bukan hanya muncul
+   saat hover): pemilik menguji di tablet, dan di layar sentuh hover tidak
+   pernah terjadi — petunjuk yang hanya hidup saat hover sama dengan tidak ada. */
+.tp-card__go {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 12px;
+  font-family: var(--f-mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; font-weight: 600; color: var(--teal);
+}
+.tp-card__go svg {
+  width: 14px; height: 14px; flex: none;
+  transition: transform .3s var(--ease);
+}
 @media (hover: hover) {
   .tp-card:hover .tp-card__pf { box-shadow: var(--sh-2); transform: translateY(-3px); }
+  .tp-card:hover .tp-card__go { color: var(--pine); }
+  .tp-card:hover .tp-card__go svg { transform: translateX(4px); }
 }
 .tp-card__nama {
   display: block; margin-top: 15px;
@@ -251,7 +293,7 @@
   .tp-chapter { min-height: auto; opacity: 1; padding: 20px 0 24px; padding-inline-start: 20px; }
   .tp-chapter::before { top: 22px; bottom: 22px; }
   .tp-chapter.is-on::before { background: var(--brass); }
-  .tp-scene--duo .tp-plate { width: min(calc(50% - 7px), calc(var(--tp-h) * 1024 / 1229)); }
+  .tp-scene--duo .tp-plate { width: min(calc(50% - 7px), calc(var(--tp-h) * 4 / 5)); }
 }
 
 /* SATU FOTO PER LAYAR (permintaan 8). `svh` dipakai supaya bilah alamat
@@ -270,7 +312,30 @@
   .tp-card__pf { width: min(70vw, 300px); margin: 0 auto; }
   .tp-card p { max-width: 40ch; margin-inline: auto; }
   .tp-card__nama { font-size: 21px; }
+  /* Di ponsel kartunya flex-column, jadi `.tp-card__go` menjadi FLEX ITEM dan
+     `text-align:center` tidak lagi mengurusnya — ia harus memusatkan dirinya
+     sendiri, kalau tidak petunjuk teknannya menempel ke tepi kiri. */
+  .tp-card__go { align-self: center; }
 }
+
+/* ── 6b. GLOBE 3D — pengganti peta datar SVG ────────────────────────────────
+   Wadahnya HARUS punya tinggi nyata: modulnya menaruh sebuah kanvas
+   `width:100%;height:100%` di dalam sini, dan kanvas setinggi nol tidak
+   menggambar apa pun (tanpa galat — jadi cacatnya sunyi). Tinggi dinyatakan
+   lewat `aspect-ratio` + batas atas, bukan `vh`: bilah alamat peramban ponsel
+   yang muncul-hilang akan membuat `vh` melompat dan memicu resize berulang di
+   modulnya.
+   `touch-action` diurus modulnya sendiri pada kanvas: gerakan jari ke atas-bawah
+   tetap menggulir halaman, hanya gerakan mendatar yang diambil globe. */
+.tp-globe {
+  width: 100%; max-width: 760px; margin: 26px auto 0;
+  aspect-ratio: 16 / 10; max-height: 460px;
+  /* Tanpa WebGL modulnya memberi `data-globe="gagal"` dan tidak ada kanvas.
+     Wadah kosong setinggi 460 px akan terbaca seperti halaman rusak, jadi ia
+     dikempiskan — kalimat di bawahnya yang membawa isinya. */
+  transition: none;
+}
+.tp-globe[data-globe="gagal"] { display: none; }
 
 /* ── 7. GERAK MINIMAL ────────────────────────────────────────────────────────
    Yang dimatikan hanya GERAKNYA: peralihan, skala, dan angkat-saat-hover.
@@ -280,8 +345,9 @@
    kotak — terukur di sini: opasitas adegan [0,0,1,0,0], bukan [1,1,1,1,1]).
    Sticky tidak dimatikan: ia justru MENGURANGI gerak, bukan menambahnya. */
 @media (prefers-reduced-motion: reduce) {
-  .tp-chapter, .tp-scene, .tp-card__pf { transition: none !important; }
+  .tp-chapter, .tp-scene, .tp-card__pf, .tp-card__go svg { transition: none !important; }
   .tp-scene { transform: none !important; }
   .tp-chapter { opacity: 1 !important; }
   .tp-card:hover .tp-card__pf { transform: none !important; }
+  .tp-card:hover .tp-card__go svg { transform: none !important; }
 }

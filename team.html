@@ -19,6 +19,12 @@
        kurawal dari komentar HTML, jadi contoh kode di sini akan berubah bunyi
        begitu halamannya diport. -->
   <link rel="stylesheet" href="/assets/css/glyiv-team.css">
+  <!-- Importmap untuk globe 3D halaman ini (assets/js/globe-tim.js). WAJIB ada
+       SEBELUM modul apa pun dimuat, jadi ditulis statis di kepala — pola yang
+       sama dengan index.html. Konverter React sengaja MEMBUANG blok ini
+       (port-dist-page.cjs baris 410); padanannya sudah tinggal statis di
+       index.html akar, jadi halaman hasil port tetap menemukan "three". -->
+  <script type="importmap">{"imports":{"three":"/assets/vendor/three.module.js"}}</script>
 </head>
 <body>
 <div class="glow-root" aria-hidden="true"></div>
@@ -98,6 +104,14 @@
      letaknya jadi block dan urutan itulah yang menaruh potret di atas teks. -->
 <section class="section"><div class="wrap"><div class="tp-spine" data-tp-spine>
 
+  <!-- ⚠︎ URUTAN ADEGAN TERIKAT URUTAN BAB. Skrip di kaki halaman memasangkan
+       adegan ke-i dengan bab ke-i lewat INDEKS, bukan nama. Kalau salah satu
+       daftar disusun ulang tanpa yang lain, halaman tetap TAMPIL wajar — yang
+       berubah diam-diam hanya: potret yang salah menemani babnya. Urutan yang
+       berlaku sejak ronde ini (permintaan pemilik) mengikuti kisi tim:
+         01 Ode · 02 Khairul · 03 Yahya · 04 Syahril · 05 Julius+Tobi
+       Potretnya /team/portrait/ — sudah dipadding ke 4:5 dengan latar kertas,
+       jadi TIDAK boleh dipotong lagi oleh CSS (lihat `.tp-plate img`). -->
   <div class="tp-spine__stage">
     <div class="tp-scene is-on" data-tp-scene>
       <figure class="tp-plate">
@@ -105,35 +119,35 @@
              elemen LCP halaman. `fetchpriority` sengaja TIDAK dipakai — React
              mengenalinya sebagai `fetchPriority` dan menolak ejaan kecilnya
              dengan galat konsol di halaman hasil port. -->
-        <img src="/team/seragam/ode.webp" width="1024" height="1229" alt="Laode Muhamad Fitrah Ramadhan" decoding="async">
+        <img src="/team/portrait/ode.webp" srcset="/team/portrait/ode-480.webp 480w, /team/portrait/ode.webp 960w" sizes="(max-width:900px) 60vw, 34vw" width="960" height="1200" alt="Laode Muhamad Fitrah Ramadhan" decoding="async">
         <figcaption class="tp-plate__cap"><b>Laode M. Fitrah R.</b><span>Direktur Utama</span></figcaption>
       </figure>
     </div>
     <div class="tp-scene" data-tp-scene>
       <figure class="tp-plate">
-        <img src="/team/seragam/khairul.webp" width="1024" height="1229" alt="Khairul Miftah Sumardin" loading="lazy" decoding="async">
+        <img src="/team/portrait/khairul.webp" srcset="/team/portrait/khairul-480.webp 480w, /team/portrait/khairul.webp 960w" sizes="(max-width:900px) 60vw, 34vw" width="960" height="1200" alt="Khairul Miftah Sumardin" loading="lazy" decoding="async">
         <figcaption class="tp-plate__cap"><b>Khairul Miftah S.</b><span>Direktur</span></figcaption>
       </figure>
     </div>
     <div class="tp-scene" data-tp-scene>
       <figure class="tp-plate">
-        <img src="/team/seragam/syahril.webp" width="1024" height="1229" alt="Syahril Syam" loading="lazy" decoding="async">
-        <figcaption class="tp-plate__cap"><b>Syahril Syam</b><span>Komisaris</span></figcaption>
+        <img src="/team/portrait/yahya.webp" srcset="/team/portrait/yahya-480.webp 480w, /team/portrait/yahya.webp 960w" sizes="(max-width:900px) 60vw, 34vw" width="960" height="1200" alt="Muhammad Yahya Abdillah" loading="lazy" decoding="async">
+        <figcaption class="tp-plate__cap"><b>Muhammad Yahya A.</b><span data-i18n-skip="tp" data-en="Operations Manager" data-ar="مدير العمليات">Manajer Operasional</span></figcaption>
       </figure>
     </div>
     <div class="tp-scene" data-tp-scene>
       <figure class="tp-plate">
-        <img src="/team/seragam/yahya.webp" width="1024" height="1229" alt="Muhammad Yahya Abdillah" loading="lazy" decoding="async">
-        <figcaption class="tp-plate__cap"><b>Muhammad Yahya A.</b><span data-i18n-skip="tp" data-en="Operations Manager" data-ar="مدير العمليات">Manajer Operasional</span></figcaption>
+        <img src="/team/portrait/syahril.webp" srcset="/team/portrait/syahril-480.webp 480w, /team/portrait/syahril.webp 960w" sizes="(max-width:900px) 60vw, 34vw" width="960" height="1200" alt="Syahril Syam" loading="lazy" decoding="async">
+        <figcaption class="tp-plate__cap"><b>Syahril Syam</b><span>Komisaris</span></figcaption>
       </figure>
     </div>
     <div class="tp-scene tp-scene--duo" data-tp-scene>
       <figure class="tp-plate">
-        <img src="/team/seragam/julius.webp" width="1024" height="1229" alt="Julius Voigt" loading="lazy" decoding="async">
+        <img src="/team/portrait/julius.webp" srcset="/team/portrait/julius-480.webp 480w, /team/portrait/julius.webp 960w" sizes="(max-width:900px) 30vw, 17vw" width="960" height="1200" alt="Julius Voigt" loading="lazy" decoding="async">
         <figcaption class="tp-plate__cap"><b>Julius Voigt</b><span data-i18n-skip="tp" data-ar="العلاقات الدولية">International Relations</span></figcaption>
       </figure>
       <figure class="tp-plate">
-        <img src="/team/seragam/tobi.webp" width="1024" height="1229" alt="Tobias Burkert" loading="lazy" decoding="async">
+        <img src="/team/portrait/tobi.webp" srcset="/team/portrait/tobi-480.webp 480w, /team/portrait/tobi.webp 960w" sizes="(max-width:900px) 30vw, 17vw" width="960" height="1200" alt="Tobias Burkert" loading="lazy" decoding="async">
         <figcaption class="tp-plate__cap"><b>Tobias Burkert</b><span data-i18n-skip="tp" data-ar="العلاقات الدولية">International Relations</span></figcaption>
       </figure>
     </div>
@@ -165,21 +179,27 @@
          data-ar="يشغل Khairul مقعد المدير — ويشحذ الاستراتيجية والابتكار والقدرة التنافسية. ومعًا حوّلا تلك القناعة إلى منتج حقيقي: نظام نقاط بيع يُستخدم لأنه مُجدٍ، مع بيانات كربون على مستوى الصنف تولد مع كل معاملة.">Khairul memegang kursi Direktur — mempertajam strategi, inovasi, dan daya saing. Bersama, mereka mengubah keyakinan itu menjadi produk nyata: POS yang dipakai karena untung, dengan data karbon level-item yang lahir sendiri tiap transaksi.</p>
       <div class="tp-who"><b>Khairul Miftah S.</b><span>Direktur</span></div>
     </div>
+    <!-- ⚠︎ Bab 03 dan Bab 04 DITUKAR pada ronde ini (Operasi naik, Pengawasan
+         turun) supaya narasi berjalan dalam urutan yang sama dengan kisi tim di
+         bawah: Ode · Khairul · Yahya · Syahril · Julius+Tobi. Nomor babnya ikut
+         berpindah — yang dipakai NOMOR URUT BACA, bukan nomor lama yang menempel
+         pada orangnya. Adegan potret di panggung atas sudah ditukar seiring;
+         keduanya dipasangkan lewat indeks, jadi jangan menukar satu saja. -->
     <div class="tp-chapter" data-tp-chapter>
-      <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 03 · Oversight" data-ar="الفصل 03 · الإشراف">Bab 03 · Pengawasan</div>
-      <h2 data-i18n-skip="tp" data-en="Overseen, not left to chance." data-ar="تحت إشراف، لا متروكة للصدفة.">Diawasi, bukan dibiarkan.</h2>
-      <p data-i18n-skip="tp"
-         data-en="Syahril Syam sits as Commissioner — overseeing how the company is run and advising on the big decisions. Climate claims stretch easily; oversight that stands outside the line of execution is how we hold them in check."
-         data-ar="يجلس Syahril Syam بصفته عضو مجلس المفوّضين — يشرف على سير الشركة ويقدّم المشورة في القرارات الكبرى. ادعاءات المناخ تتمدد بسهولة؛ والإشراف الذي يقف خارج خط التنفيذ هو وسيلتنا لكبحها.">Syahril Syam duduk sebagai Komisaris — mengawasi jalannya perusahaan dan menjadi penasihat pada keputusan besar. Klaim iklim gampang melar; pengawasan yang berdiri di luar garis eksekusi adalah cara kami menahannya.</p>
-      <div class="tp-who"><b>Syahril Syam</b><span>Komisaris</span></div>
-    </div>
-    <div class="tp-chapter" data-tp-chapter>
-      <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 04 · Operations" data-ar="الفصل 04 · العمليات">Bab 04 · Operasi</div>
+      <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 03 · Operations" data-ar="الفصل 03 · العمليات">Bab 03 · Operasi</div>
       <h2 data-i18n-skip="tp" data-en="What has to run every day." data-ar="ما يجب أن يعمل كل يوم.">Yang harus jalan setiap hari.</h2>
       <p data-i18n-skip="tp"
          data-en="Muhammad Yahya Abdillah holds operations — making sure what is promised on screen actually runs at the outlet: installation, user onboarding, and the quality of the daily data reaching the platform."
          data-ar="يتولى Muhammad Yahya Abdillah العمليات — ويتأكد أن ما يُوعد به على الشاشة يعمل فعلًا في المنفذ: التركيب، ومرافقة المستخدمين، وجودة البيانات اليومية التي تصل إلى المنصة.">Muhammad Yahya Abdillah memegang operasional — memastikan yang dijanjikan di layar benar-benar berjalan di outlet: pemasangan, pendampingan pengguna, dan mutu data harian yang masuk ke platform.</p>
       <div class="tp-who"><b>Muhammad Yahya A.</b><span data-i18n-skip="tp" data-en="Operations Manager" data-ar="مدير العمليات">Manajer Operasional</span></div>
+    </div>
+    <div class="tp-chapter" data-tp-chapter>
+      <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 04 · Oversight" data-ar="الفصل 04 · الإشراف">Bab 04 · Pengawasan</div>
+      <h2 data-i18n-skip="tp" data-en="Overseen, not left to chance." data-ar="تحت إشراف، لا متروكة للصدفة.">Diawasi, bukan dibiarkan.</h2>
+      <p data-i18n-skip="tp"
+         data-en="Syahril Syam sits as Commissioner — overseeing how the company is run and advising on the big decisions. Climate claims stretch easily; oversight that stands outside the line of execution is how we hold them in check."
+         data-ar="يجلس Syahril Syam بصفته عضو مجلس المفوّضين — يشرف على سير الشركة ويقدّم المشورة في القرارات الكبرى. ادعاءات المناخ تتمدد بسهولة؛ والإشراف الذي يقف خارج خط التنفيذ هو وسيلتنا لكبحها.">Syahril Syam duduk sebagai Komisaris — mengawasi jalannya perusahaan dan menjadi penasihat pada keputusan besar. Klaim iklim gampang melar; pengawasan yang berdiri di luar garis eksekusi adalah cara kami menahannya.</p>
+      <div class="tp-who"><b>Syahril Syam</b><span>Komisaris</span></div>
     </div>
     <div class="tp-chapter" data-tp-chapter>
       <div class="tp-chapter__no" data-i18n-skip="tp" data-en="Chapter 05 · Bridge" data-ar="الفصل 05 · الجسر">Bab 05 · Jembatan</div>
@@ -195,29 +215,23 @@
 <section class="section tight" style="background:var(--paper-2);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)"><div class="wrap mapwrap">
   <span class="eyebrow" data-reveal>Jangkauan</span>
   <h2 data-reveal data-d="1" style="max-width:20ch;margin:12px auto 0"><span data-i18n-skip="tp" data-en="One point of origin." data-ar="نقطة انطلاق واحدة.">Satu titik asal.</span> <em class="brassed" data-i18n-skip="tp" data-en="Global ambition." data-ar="طموح عالمي.">Ambisi global.</em></h2>
-  <svg class="map" viewBox="0 0 960 420" data-reveal aria-label="Peta jangkauan Glyiv ke Eropa dan dunia" data-label-en="Map of Glyiv reach toward Europe and the world" data-label-ar="خريطة انتشار Glyiv نحو أوروبا والعالم">
-    <!-- stylized globe grid -->
-    <g opacity="0.5">
-      <ellipse class="land" cx="480" cy="210" rx="430" ry="180" fill="none"></ellipse>
-      <ellipse class="land" cx="480" cy="210" rx="300" ry="180" fill="none"></ellipse>
-      <ellipse class="land" cx="480" cy="210" rx="150" ry="180" fill="none"></ellipse>
-      <line class="land" x1="50" y1="210" x2="910" y2="210"></line>
-      <path class="land" d="M480,30 C300,110 300,310 480,390" fill="none"></path>
-      <path class="land" d="M480,30 C660,110 660,310 480,390" fill="none"></path>
-    </g>
-    <!-- arcs: hub (right) -> Europe (left) + global node -->
-    <path class="arc" data-draw d="M760,268 C560,120 380,120 210,150"></path>
-    <path class="arc t" data-draw d="M760,268 C580,150 420,140 250,120"></path>
-    <path class="arc t" data-draw d="M760,268 C620,320 380,340 190,270"></path>
-    <!-- pins -->
-    <circle class="pin home" cx="760" cy="268" r="7"></circle>
-    <text class="lbl home" x="748" y="296" text-anchor="middle" data-i18n-skip="tp" data-ar="إندونيسيا">INDONESIA</text>
-    <circle class="pin" cx="210" cy="150" r="5.5"></circle>
-    <text class="lbl" x="210" y="138" text-anchor="middle" data-i18n-skip="tp" data-en="EUROPE" data-ar="أوروبا">EROPA</text>
-    <circle class="pin" cx="250" cy="120" r="4.5"></circle>
-    <circle class="pin" cx="190" cy="270" r="5"></circle>
-    <text class="lbl" x="190" y="290" text-anchor="middle" data-i18n-skip="tp" data-ar="عالمي">GLOBAL</text>
-  </svg>
+  <!-- ⛔ MENGGANTI, BUKAN MENUMPUK. Peta datar SVG (tiga titik mati: INDONESIA /
+       EROPA / GLOBAL, tiga busur, dan kisi elips) DIHAPUS dari berkas ini pada
+       ronde ini — bukan disembunyikan, bukan dikomentari: tidak ada satu pun
+       simpul SVG peta yang tersisa di DOM. Penggantinya globe 3D yang berputar,
+       dipasang otomatis oleh /assets/js/globe-tim.js begitu wadah ini mendekati
+       layar. Kalau modulnya gagal (tanpa WebGL), wadahnya diberi
+       `data-globe="gagal"` oleh modul dan yang tampak hanya ruang kosong dengan
+       kalimat di bawahnya — kalimat itulah yang membawa isinya, jadi halaman
+       tetap utuh tanpa 3D.
+       Wadah ini SENGAJA tidak memakai `data-en`/`data-ar`: skrip kamus halaman
+       ini mengganti `textContent` elemen ber-atribut itu, dan textContent wadah
+       ini adalah kanvasnya. Hanya `data-label-*` yang dipakai — itu menyentuh
+       aria-label saja. -->
+  <div id="team-globe" class="tp-globe" data-reveal role="img"
+       aria-label="Globe berputar: jalur dari Indonesia menuju negara-negara tujuan Glyiv"
+       data-label-en="Rotating globe: routes from Indonesia toward Glyiv's destination countries"
+       data-label-ar="كرة أرضية دوّارة: مسارات من إندونيسيا نحو الدول التي تستهدفها Glyiv"></div>
   <p class="lead" data-reveal data-d="2" style="max-width:56ch;margin:22px auto 0;text-align:center" data-i18n-skip="tp"
      data-en="Glyiv is built Indonesia-first — then bridged to international standards &amp; markets. The 4+2 team structure is strategy, not coincidence: the Indonesian team builds and runs it, the European team connects it to the world."
      data-ar="تُبنى Glyiv بمنهج إندونيسيا أولًا — ثم يُمدّ الجسر نحو المعايير والأسواق الدولية. وبنية الفريق 4+2 استراتيجية لا مصادفة: الفريق الإندونيسي يبني ويشغّل، والفريق الأوروبي يصله بالعالم.">Glyiv dibangun Indonesia-first — lalu dijembatani ke standar &amp; pasar internasional. Struktur tim 4+2 adalah strategi, bukan kebetulan: tim Indonesia membangun dan menjalankannya, tim Eropa menghubungkannya ke dunia.</p>
@@ -227,53 +241,69 @@
 <section class="section"><div class="wrap">
   <span class="eyebrow" data-reveal data-i18n-skip="tp" data-en="Core team" data-ar="الفريق الأساسي">Tim inti</span>
   <h2 data-reveal data-d="1" data-i18n-skip="tp" data-en="Six people, one mission." data-ar="ستة أشخاص، مهمة واحدة.">Enam orang, satu misi.</h2>
+  <!-- ⚠︎ URUTAN KARTU adalah permintaan langsung pemilik dan BUKAN abjad, bukan
+       urutan lama, bukan urutan berkas: baris 1 Ode · Khairul · Yahya, baris 2
+       Syahril (Komisaris) · Julius · Tobi. Kisinya 3 kolom, jadi urutan DOM
+       inilah yang menentukan baris — jangan disusun ulang tanpa perintah.
+       ⚠︎ Suwanto TIDAK ada di sini dan itu DISENGAJA. Halaman profilnya ada
+       (/team/suwanto) dan QR-nya dibangkitkan untuk kartu nama, tetapi ia tidak
+       ditautkan dari halaman tim. Menambahkannya juga akan mematahkan judul
+       "Enam orang, satu misi." di atas. Jangan "diperbaiki".
+       Tiap kartu kini <a>, bukan <article>: seluruh kartu jadi sasaran tekan —
+       jauh di atas 44px di semua lebar — dengan penanda "Lihat profil". -->
   <div class="tp-roster">
 
-    <article class="tp-card" data-reveal data-d="1">
-      <div class="tp-card__pf"><img src="/team/seragam/ode.webp" width="1024" height="1229" alt="Laode Muhamad Fitrah Ramadhan" loading="lazy" decoding="async"></div>
+    <a class="tp-card" href="/team/ode" data-reveal data-d="1">
+      <div class="tp-card__pf"><img src="/team/portrait/ode.webp" srcset="/team/portrait/ode-480.webp 480w, /team/portrait/ode.webp 960w" sizes="(max-width:640px) 70vw, (max-width:1040px) 44vw, 30vw" width="960" height="1200" alt="Laode Muhamad Fitrah Ramadhan" loading="lazy" decoding="async"></div>
       <b class="tp-card__nama">Laode M. Fitrah R.</b>
       <div class="tp-card__peran">Direktur Utama</div>
       <p>Memimpin produk, strategi, dan eksekusi Glyiv — dengan keyakinan bahwa data karbon paling jujur lahir di titik transaksi.</p>
-    </article>
+      <span class="tp-card__go"><span data-i18n-skip="tp" data-en="View profile" data-ar="عرض الملف الشخصي">Lihat profil</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a>
 
-    <article class="tp-card" data-reveal data-d="2">
-      <div class="tp-card__pf"><img src="/team/seragam/khairul.webp" width="1024" height="1229" alt="Khairul Miftah Sumardin" loading="lazy" decoding="async"></div>
+    <a class="tp-card" href="/team/khairul" data-reveal data-d="2">
+      <div class="tp-card__pf"><img src="/team/portrait/khairul.webp" srcset="/team/portrait/khairul-480.webp 480w, /team/portrait/khairul.webp 960w" sizes="(max-width:640px) 70vw, (max-width:1040px) 44vw, 30vw" width="960" height="1200" alt="Khairul Miftah Sumardin" loading="lazy" decoding="async"></div>
       <b class="tp-card__nama">Khairul Miftah S.</b>
       <div class="tp-card__peran">Direktur</div>
       <p>Mempertajam strategi, inovasi, dan daya saing — memastikan setiap keputusan produk berpijak pada data dan kebutuhan nyata pengguna.</p>
-    </article>
+      <span class="tp-card__go"><span data-i18n-skip="tp" data-en="View profile" data-ar="عرض الملف الشخصي">Lihat profil</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a>
 
-    <article class="tp-card" data-reveal data-d="3">
-      <div class="tp-card__pf"><img src="/team/seragam/syahril.webp" width="1024" height="1229" alt="Syahril Syam" loading="lazy" decoding="async"></div>
-      <b class="tp-card__nama">Syahril Syam</b>
-      <div class="tp-card__peran">Komisaris</div>
-      <p data-i18n-skip="tp"
-         data-en="Overseeing how the company is run and advising on the big decisions — keeping every claim proportionate to its evidence."
-         data-ar="الإشراف على سير الشركة وتقديم المشورة في القرارات الكبرى — مع إبقاء كل ادعاء متناسبًا مع دليله.">Mengawasi jalannya perusahaan dan menjadi penasihat pada keputusan besar — menjaga agar klaim tetap sepadan dengan buktinya.</p>
-    </article>
-
-    <article class="tp-card" data-reveal data-d="1">
-      <div class="tp-card__pf"><img src="/team/seragam/yahya.webp" width="1024" height="1229" alt="Muhammad Yahya Abdillah" loading="lazy" decoding="async"></div>
+    <a class="tp-card" href="/team/yahya" data-reveal data-d="3">
+      <div class="tp-card__pf"><img src="/team/portrait/yahya.webp" srcset="/team/portrait/yahya-480.webp 480w, /team/portrait/yahya.webp 960w" sizes="(max-width:640px) 70vw, (max-width:1040px) 44vw, 30vw" width="960" height="1200" alt="Muhammad Yahya Abdillah" loading="lazy" decoding="async"></div>
       <b class="tp-card__nama">Muhammad Yahya A.</b>
       <div class="tp-card__peran" data-i18n-skip="tp" data-en="Operations Manager" data-ar="مدير العمليات">Manajer Operasional</div>
       <p data-i18n-skip="tp"
          data-en="Keeping daily operations running: installation at outlets, user onboarding, and the quality of the data that reaches the platform."
          data-ar="الحفاظ على العمليات اليومية: التركيب في المنافذ، ومرافقة المستخدمين، وجودة البيانات التي تصل إلى المنصة.">Menjaga operasional harian: pemasangan di outlet, pendampingan pengguna, dan mutu data yang masuk ke platform.</p>
-    </article>
+      <span class="tp-card__go"><span data-i18n-skip="tp" data-en="View profile" data-ar="عرض الملف الشخصي">Lihat profil</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a>
 
-    <article class="tp-card" data-reveal data-d="2">
-      <div class="tp-card__pf"><img src="/team/seragam/julius.webp" width="1024" height="1229" alt="Julius Voigt" loading="lazy" decoding="async"></div>
+    <a class="tp-card" href="/team/syahril" data-reveal data-d="1">
+      <div class="tp-card__pf"><img src="/team/portrait/syahril.webp" srcset="/team/portrait/syahril-480.webp 480w, /team/portrait/syahril.webp 960w" sizes="(max-width:640px) 70vw, (max-width:1040px) 44vw, 30vw" width="960" height="1200" alt="Syahril Syam" loading="lazy" decoding="async"></div>
+      <b class="tp-card__nama">Syahril Syam</b>
+      <div class="tp-card__peran">Komisaris</div>
+      <p data-i18n-skip="tp"
+         data-en="Overseeing how the company is run and advising on the big decisions — keeping every claim proportionate to its evidence."
+         data-ar="الإشراف على سير الشركة وتقديم المشورة في القرارات الكبرى — مع إبقاء كل ادعاء متناسبًا مع دليله.">Mengawasi jalannya perusahaan dan menjadi penasihat pada keputusan besar — menjaga agar klaim tetap sepadan dengan buktinya.</p>
+      <span class="tp-card__go"><span data-i18n-skip="tp" data-en="View profile" data-ar="عرض الملف الشخصي">Lihat profil</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="tp-card" href="/team/julius" data-reveal data-d="2">
+      <div class="tp-card__pf"><img src="/team/portrait/julius.webp" srcset="/team/portrait/julius-480.webp 480w, /team/portrait/julius.webp 960w" sizes="(max-width:640px) 70vw, (max-width:1040px) 44vw, 30vw" width="960" height="1200" alt="Julius Voigt" loading="lazy" decoding="async"></div>
       <b class="tp-card__nama">Julius Voigt</b>
       <div class="tp-card__peran" data-i18n-skip="tp" data-ar="العلاقات الدولية">International Relations</div>
       <p>Membuka percakapan awal dengan jaringan &amp; calon mitra strategis di Eropa — menjembatani metodologi Glyiv ke standar dan pasar global.</p>
-    </article>
+      <span class="tp-card__go"><span data-i18n-skip="tp" data-en="View profile" data-ar="عرض الملف الشخصي">Lihat profil</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a>
 
-    <article class="tp-card" data-reveal data-d="3">
-      <div class="tp-card__pf"><img src="/team/seragam/tobi.webp" width="1024" height="1229" alt="Tobias Burkert" loading="lazy" decoding="async"></div>
+    <a class="tp-card" href="/team/tobi" data-reveal data-d="3">
+      <div class="tp-card__pf"><img src="/team/portrait/tobi.webp" srcset="/team/portrait/tobi-480.webp 480w, /team/portrait/tobi.webp 960w" sizes="(max-width:640px) 70vw, (max-width:1040px) 44vw, 30vw" width="960" height="1200" alt="Tobias Burkert" loading="lazy" decoding="async"></div>
       <b class="tp-card__nama">Tobias Burkert</b>
       <div class="tp-card__peran" data-i18n-skip="tp" data-ar="العلاقات الدولية">International Relations</div>
       <p>Merintis kemitraan institusi &amp; peluang lintas-negara — agar Glyiv relevan di panggung internasional sejak hari pertama.</p>
-    </article>
+      <span class="tp-card__go"><span data-i18n-skip="tp" data-en="View profile" data-ar="عرض الملف الشخصي">Lihat profil</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+    </a>
 
   </div>
 </div></section>
@@ -303,7 +333,7 @@
       <p class="foot__about">Green Intelligence &amp; Offset Platform. Dibangun untuk dunia. Kerangka &amp; standar yang kami rujuk:</p>
       <div class="foot__badges"><span>GHG Protocol</span><span>ISO 14064</span><span>IFRS S2</span><span>IDXCarbon (pasar)</span><span>ERC-3643</span></div>
     </div>
-    <div class="foot__col"><h5>Platform</h5><a href="index.html#produk">Carbon Accounting</a><a href="lab/green-intelligence.html#platform">Metodologi &amp; dMRV</a><a href="index.html#produk">Tree Marketplace</a></div>
+    <div class="foot__col"><h5>Platform</h5><a href="index.html#product">Carbon Accounting</a><a href="lab/green-intelligence.html#platform">Metodologi &amp; dMRV</a><a href="index.html#product">Tree Marketplace</a></div>
     <div class="foot__col"><h5>Solusi</h5><a href="index.html#verticals">Keuangan</a><a href="index.html#verticals">Industri Berat</a><a href="index.html#verticals">Operasional</a></div>
     <div class="foot__col"><h5>Perusahaan</h5><a href="team.html">Tim</a><a href="index.html#why">Kenapa Karbon</a><a href="mailto:glyiv.archourium@gmail.com">Kontak</a></div>
   </div>
@@ -315,6 +345,12 @@
 
 <script src="assets/js/glyiv-v2.js"></script>
 <script src="/assets/js/glyiv-nav.js" defer></script>
+<!-- Globe 3D (#team-globe). Modul: ia mengimpor "three" lewat importmap di
+     kepala halaman. Memuatnya sebagai skrip biasa akan mati dengan
+     "Cannot use import statement outside a module". Modul selalu ditunda
+     sendirinya, jadi `defer` tidak perlu ditulis. Kalau #team-globe tidak ada
+     (mis. varian halaman lain), modulnya diam total — tanpa konteks WebGL. -->
+<script type="module" src="/assets/js/globe-tim.js"></script>
 <script>
 /* ═══════════════════════════════════════════════════════════════════════════
    Halaman tim — dua hal kecil yang tidak bisa dikerjakan CSS sendirian.

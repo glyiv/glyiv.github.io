@@ -1278,3 +1278,55 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", segarkan);
   else segarkan();
 })();
+
+/* ⟦ANCHOR-SHIM⟧ mulai — dibuat scripts/anchor-inggris.cjs */
+/* Tautan #cara, #ekosistem, #poin dst. sudah tersebar di luar sana (WhatsApp,
+   tangkapan layar, dokumen). Sesudah id-nya jadi Inggris, fragmen lama itu
+   tidak lagi menemukan apa pun dan halaman berhenti di puncak — TANPA pesan.
+   Shim ini memetakan fragmen lama ke id baru, memperbaiki batang alamat, lalu
+   menggulir ke sana. Ia diam saja kalau id lamanya memang masih ada. */
+(function () {
+  var PETA = {"akun":["account"],"alur":["flow"],"aman":["security"],"anak":["children"],"apa":["what"],"aplikasi":["apps"],"atas":["top"],"batas":["limits"],"cara":["how"],"cerita":["story"],"coba":["try","trial"],"daftar":["register","apps"],"dampak":["impact"],"dasar":["legal-basis"],"data-outlet":["outlet-data"],"dewan":["board"],"dokumen-hukum":["legal-documents"],"ekonomi":["economy"],"ekosistem":["ecosystem"],"fokus":["focus"],"gabung":["join"],"hak":["rights"],"henti":["termination"],"hukum":["governing-law"],"hutan3d":["forest-3d"],"identitas":["identity"],"karbon":["carbon"],"kenapa":["why"],"komunitas":["community"],"kontak":["contact"],"larangan":["prohibitions"],"layanan":["services"],"lokasi":["location"],"masalah":["problem"],"misi":["mission"],"mulai":["start"],"nilai":["values"],"pasar":["market"],"pemilik-lahan":["landowner"],"peta":["roadmap"],"pihak-ketiga":["third-parties"],"poin":["points"],"portofolio":["portfolio"],"produk":["product"],"siapa":["who"],"siapa-baca":["who-can-read"],"skala":["scale"],"solusi":["solution"],"teknologi":["technology"],"tentang":["about"],"tim":["team"],"traksi":["traction"],"ubah":["changes"],"ukur-dbh":["measure-dbh"],"unggul":["advantage"]};
+  function target(frag) {
+    if (document.getElementById(frag)) return null;      /* id lama masih hidup */
+    var kandidat = PETA[frag];
+    if (!kandidat) return null;
+    for (var i = 0; i < kandidat.length; i++) {
+      var el = document.getElementById(kandidat[i]);
+      if (el) return el;
+    }
+    return null;
+  }
+  function pindah() {
+    var h = location.hash.slice(1);
+    if (!h) return;
+    try { h = decodeURIComponent(h); } catch (e) {}
+    var el = target(h);
+    if (!el) return;
+    try { history.replaceState(null, "", location.pathname + location.search + "#" + el.id); } catch (e) {}
+    var halus = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: halus ? "smooth" : "auto", block: "start" });
+  }
+  /* Tautan lama yang MASIH ada di dalam halaman (mis. dirakit skrip lain)
+     ditangkap saat diklik, supaya tidak perlu menunggu hashchange. */
+  document.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href*="#"]') : null;
+    if (!a) return;
+    var h = (a.getAttribute("href") || "");
+    var i = h.indexOf("#");
+    if (i < 0) return;
+    var jalur = h.slice(0, i);
+    if (jalur && jalur !== location.pathname) return;    /* tautan antar-halaman: biar hashchange */
+    var el = target(h.slice(i + 1));
+    if (!el) return;
+    e.preventDefault();
+    location.hash = "#" + el.id;
+  }, true);
+  addEventListener("hashchange", pindah);
+  if (document.readyState === "loading") addEventListener("DOMContentLoaded", pindah);
+  else pindah();
+  /* Sebagian isi halaman dirakit belakangan (nav, seksi ekosistem). Satu
+     percobaan ulang menutup celah itu tanpa polling terus-menerus. */
+  addEventListener("load", function () { setTimeout(pindah, 400); });
+})();
+/* ⟦ANCHOR-SHIM⟧ selesai */

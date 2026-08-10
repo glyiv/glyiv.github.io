@@ -160,7 +160,7 @@
 .mvfaces .stk i{width:36px;height:36px;border-radius:50%;border:2.5px solid #fff;margin-left:-11px;box-shadow:0 2px 8px rgba(15,26,20,.14);display:grid;place-items:center;font-family:var(--l-mono);font-size:11px;font-weight:600;color:#fff}
 .mvfaces .stk i:first-child{margin-left:0}
 .mvfaces b{font-size:13.5px;color:rgba(255,255,255,.85)}.mvfaces b em{color:#8affc1;font-style:normal;font-weight:700}
-#gabung .comm__note{font-family:var(--l-sans);font-size:12.5px;letter-spacing:0;color:rgba(255,255,255,.6);line-height:1.5}
+#join .comm__note{font-family:var(--l-sans);font-size:12.5px;letter-spacing:0;color:rgba(255,255,255,.6);line-height:1.5}
 .mvpills{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .mvpills span{font-size:12px;font-weight:600;color:var(--pine);background:var(--paper2);border:1px solid var(--hair);border-radius:999px;padding:6px 13px}
 /* roadmap teknologi */
@@ -732,8 +732,8 @@
       <li><b>Untuk perusahaan</b><span>Jejak terlacak dari aktivitas nyata di titik bayar, dapur produksi, dan rantai pasok.</span></li>
     </ul>
     <div class="vhero__cta" data-reveal data-d="3">
-      <a class="lbtn lbtn--solid" href="#ekosistem" data-magnetic><span>Jelajahi Ekosistem</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="lbtn lbtn--glass" href="#gabung">Gabung Komunitas</a>
+      <a class="lbtn lbtn--solid" href="#ecosystem" data-magnetic><span>Jelajahi Ekosistem</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="lbtn lbtn--glass" href="#join">Gabung Komunitas</a>
     </div>
     <!-- Dua APK yang benar-benar bisa diunduh hari ini. TERUKUR di
          https://glyiv.io: /download/Glyiv-Pocket.apk → HTTP 200 (33.490 byte),
@@ -790,7 +790,7 @@
            <button class="vcar__dot" type="button" aria-label="Langkah 02 — Process" aria-current="false"><i></i></button>
            <button class="vcar__dot" type="button" aria-label="Langkah 03 — Reward" aria-current="false"><i></i></button>
          </div>
-         <a class="vside__more" href="#cara">Lihat langkah lengkapnya &rarr;</a>
+         <a class="vside__more" href="#how">Lihat langkah lengkapnya &rarr;</a>
        </div>
      </div>
      <!-- ⛔ PITA "Fondasi terbuka" DICABUT DARI HERO — permintaan pemilik ronde 59:
@@ -807,7 +807,7 @@
 </section>
 
 <!-- WHY (ekonomi hijau) -->
-<section class="lsec lsec--n1" id="kenapa">
+<section class="lsec lsec--n1" id="why">
   <!-- ORNAMEN 1 · CINCIN (ronde 59). Yang berdiri di sini sebelumnya adalah
        lapisan kontur `inset:0` — terukur MENUTUP 100 % luas seksi, dan itulah
        yang pemilik sebut "ornamennya terlalu besar". Gantinya satu donat tipis
@@ -960,7 +960,7 @@
 </div></section>
 
 <!-- ECOSYSTEM GRID (centerpiece) -->
-<section class="lsec lsec--n2 lsec--seam seam-n1" id="ekosistem">
+<section class="lsec lsec--n2 lsec--seam seam-n1" id="ecosystem">
   <!-- PEMISAH · JAHITAN GRADASI (ronde 59). Batas ini dulu dikerjakan kelas
        `paper`: pita `--paper2` yang memudar di KEDUA ujung seksi. Sekarang
        seksi berwarna PENUH (`lsec--n2`) dan hanya batas ATASnya yang membawa
@@ -1004,7 +1004,7 @@
 </div></section>
 
 <!-- HOW THE ECOSYSTEM CONNECTS -->
-<section class="lsec lsec--brass lsec--seam seam-n2" id="cara">
+<section class="lsec lsec--brass lsec--seam seam-n2" id="how">
   <!-- ⛔ DIBUANG DI SINI · `.secedge secedge--white` — TEPI KONTUR ROBEK.
        Inilah "divider wavy" yang pemilik sebut menghilangkan kesan
        profesional, dan ia benar: bentuk bergelombang di batas seksi adalah
@@ -1055,7 +1055,7 @@
 </div></section>
 
 <!-- ECONOMY FOR EVERYONE (Gojek-style) -->
-<section class="lsec lsec--pine lsec--seam seam-brass" id="ekonomi">
+<section class="lsec lsec--pine lsec--seam seam-brass" id="economy">
   <!-- ⛔ DIBUANG · `.secedge secedge--brass` (tepi robek kedua) DAN lapisan
        `secart--kisi` — 18 titik berkilau yang menutup 100 % luas seksi, ornamen
        terbanyak simpulnya di seluruh beranda. Gantinya gradasi brass→pine di
@@ -1106,7 +1106,7 @@
 </div></section>
 
 <!-- TECH -->
-<section class="lsec lsec--navy lsec--seam seam-pine" id="teknologi">
+<section class="lsec lsec--navy lsec--seam seam-pine" id="technology">
   <!-- ⛔ DIBUANG · `.secseam` (jahitan brass selebar LAYAR, menunggangi batas).
        Tugasnya — menandai kepala seksi — dipindahkan ke `.lhead--rule` di
        bawah, yang duduk selebar KISI, bukan selebar viewport. Batasnya sendiri
@@ -1276,7 +1276,7 @@
 </section>
 
 <!-- KOMUNITAS / GABUNG -->
-<section class="lsec tight lsec--n1" id="gabung">
+<section class="lsec tight lsec--n1" id="join">
   <!-- ORNAMEN 7 · CINCIN. Seksi ini sengaja yang paling polos di beranda (ia
        menutup halaman), jadi cukup satu benda di sudut kanan bawah — dan tidak
        ada jahitan gradasi di atasnya: batasnya adalah tepi keras pita gambar
@@ -1344,7 +1344,7 @@
          /download.html → /app-store
        Jadi glyiv.web.app dapat nama Inggris, glyiv.github.io tetap hidup.
        Aturan yang sama ditulis di kepala `scripts/peta-rute.cjs` catatan #1. -->
-  <div class="joinx" id="aplikasi" data-reveal>
+  <div class="joinx" id="apps" data-reveal>
     <div class="joinx__head">
       <span class="lkick">Aplikasi Glyiv</span>
       <h2 class="lh2" style="margin-top:10px">Lima aplikasi, <span class="lserif-accent">satu halaman unduh.</span></h2>
@@ -1445,7 +1445,7 @@
     </div>
     <div><h4>Ekosistem</h4><a href="/lab/green-intelligence.html">Glyiv GIP · Green Intelligence</a><a href="/lab/industri/fnb-ritel.html" style="padding-left:14px;opacity:.9">↳ Solusi F&amp;B &amp; Ritel</a><a href="/auth?next=/gip/outlet/register" style="padding-left:14px;opacity:.9">↳ Coba gratis (outlet)</a><a href="/lab/tree.html">Glyiv Green Assets</a><a href="/lab/ekosistem/saku.html">Glyiv Pocket · aplikasi konsumen</a><a href="/lab/apps/">Semua aplikasi</a></div>
     <div><h4>Ekonomi Hijau</h4><a href="/lab/ekosistem/pasar.html">Pasar</a><a href="/lab/ekosistem/pangan.html">Pangan</a><a href="/lab/ekosistem/dompet.html">Dompet</a><a href="/lab/ekosistem/bank-sampah.html">Bank Sampah</a><a href="/lab/ekosistem/dana.html">Dana</a></div>
-    <div><h4>Perusahaan</h4><a href="/team.html">Tim &amp; Manifesto</a><a href="/wosu/index.html">PT WOSU Innovation Technology</a><a href="/lab/kabar/index.html">Kabar</a><a href="/#gabung">Gabung</a></div>
+    <div><h4>Perusahaan</h4><a href="/team.html">Tim &amp; Manifesto</a><a href="/wosu/index.html">PT WOSU Innovation Technology</a><a href="/lab/kabar/index.html">Kabar</a><a href="/#join">Gabung</a></div>
   </div>
   <div class="lfoot__legal"><span><a href="/ketentuan.html" style="color:#8affc1">Ketentuan Layanan</a> &middot; <a href="/privasi.html" style="color:#8affc1">Kebijakan Privasi</a></span>
     <span>© <span data-yr>2026</span> Glyiv · Platform Ekonomi Hijau</span>
@@ -1462,7 +1462,7 @@
      Di desktop `display:none`; navbar kembali jadi pemilik tunggal CTA. -->
 <div class="lstick">
   <span class="lstick__t"><b>Mulai dari yang paling dekat</b>Gratis 30 hari untuk outlet &middot; tanpa perangkat baru</span>
-  <a class="lbtn lbtn--solid" href="#gabung">Cara ikut</a>
+  <a class="lbtn lbtn--solid" href="#join">Cara ikut</a>
 </div>
 
 <!-- GLY BOT — widget Gly dipasang seragam di SETIAP halaman oleh

@@ -719,7 +719,7 @@
 
       '<div class="pt-acts">' +
       '<button type="button" class="ga-btn solid" data-zoom>Zoom ke petak</button>' +
-      '<a class="ga-btn glass" href="#hutan3d">Lihat hutan 3D ↓</a>' +
+      '<a class="ga-btn glass" href="#forest-3d">Lihat hutan 3D ↓</a>' +
       '</div>';
 
     if (window.GlyivSources && GlyivSources.scan) GlyivSources.scan(panel);
