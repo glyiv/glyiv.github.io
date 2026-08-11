@@ -44,7 +44,7 @@
 /* ⛔ object-fit:contain, TIDAK PERNAH cover. Keluhan "bahu terpotong" sudah tiga
    ronde; potretnya sudah dipadding ke rasio 4:5 oleh siapkan-foto-tim.cjs, jadi
    bingkai di sini tinggal memuatnya utuh. */
-.pd-photo{position:relative;margin:0;aspect-ratio:4/5;border-radius:20px;border:1px solid var(--hair);background:var(--paper2);overflow:hidden;display:grid;place-items:center;
+.pd-photo{position:relative;margin:0;aspect-ratio:2/3;border-radius:20px;border:1px solid var(--hair);background:var(--paper2);overflow:hidden;display:grid;place-items:center;
   transition:transform .38s var(--ease),box-shadow .38s var(--ease);
   animation:pd-in .72s var(--ease) .12s backwards}
 .pd-photo:hover{transform:translateY(-5px);box-shadow:var(--sh2)}
@@ -156,14 +156,14 @@
 
     <article class="pd-card">
       <!-- Potret dibangkitkan scripts/siapkan-foto-tim.cjs ke
-           /team/portrait/<slug>.webp 960x1200 dan -480.webp 480x600.
+           /team/portrait/<slug>.webp 960x1200 dan -512.webp 480x600.
            Tanpa loading="lazy": ia elemen terbesar yang pertama terlihat.
            Atribut fetchpriority sengaja TIDAK dipakai — React menolak ejaan
            kecilnya dengan galat konsol di halaman hasil port. -->
       <figure class="pd-photo" data-pd-foto data-slug="syahril">
         <span class="pd-photo__ini" aria-hidden="true">S</span>
         <img src="/team/portrait/syahril.webp"
-             srcset="/team/portrait/syahril-480.webp 480w, /team/portrait/syahril.webp 960w"
+             srcset="/team/portrait/syahril-512.webp 512w, /team/portrait/syahril.webp 1024w"
              sizes="(max-width:719px) 88vw, 300px"
              width="960" height="1200" alt="Potret Syahril Syam"
              data-alt-en="Portrait of Syahril Syam" data-alt-ar="صورة Syahril Syam" decoding="async">

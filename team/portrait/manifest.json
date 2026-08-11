@@ -1,63 +1,92 @@
 {
-  "rasio": "4:5",
-  "latar": "#F5F7F5",
-  "catatan": "fit=contain — foto UTUH, tidak ada pemotongan. Pasang dengan width:100%;height:auto atau aspect-ratio:4/5 + object-fit:contain.",
-  "foto": [
+  "catatan": "Rasio 2:3 mengikuti berkas Figma pemilik (1024x1536). Kotak di CSS WAJIB memakai aspect-ratio 2/3 — kalau berbeda, pilar kosong atau potongan pasti muncul lagi. Sumber: E:/Work/wosu/glyiv/img-test/for_web",
+  "rasio": "2:3",
+  "lebar": 1024,
+  "tinggi": 1536,
+  "berkas": [
     {
-      "slug": "ode",
-      "sumber": "1810x2413",
-      "utama": "ode.webp",
-      "kecil": "ode-480.webp",
-      "lebar": 960,
-      "tinggi": 1200
+      "berkas": "ode.webp",
+      "w": 1024,
+      "h": 1536,
+      "kb": 61
     },
     {
-      "slug": "khairul",
-      "sumber": "1455x2183",
-      "utama": "khairul.webp",
-      "kecil": "khairul-480.webp",
-      "lebar": 960,
-      "tinggi": 1200
+      "berkas": "ode-512.webp",
+      "w": 512,
+      "h": 768,
+      "kb": 24
     },
     {
-      "slug": "yahya",
-      "sumber": "1491x2237",
-      "utama": "yahya.webp",
-      "kecil": "yahya-480.webp",
-      "lebar": 960,
-      "tinggi": 1200
+      "berkas": "khairul.webp",
+      "w": 1024,
+      "h": 1536,
+      "kb": 53
     },
     {
-      "slug": "syahril",
-      "sumber": "2024x3041",
-      "utama": "syahril.webp",
-      "kecil": "syahril-480.webp",
-      "lebar": 960,
-      "tinggi": 1200
+      "berkas": "khairul-512.webp",
+      "w": 512,
+      "h": 768,
+      "kb": 20
     },
     {
-      "slug": "julius",
-      "sumber": "1024x1536",
-      "utama": "julius.webp",
-      "kecil": "julius-480.webp",
-      "lebar": 960,
-      "tinggi": 1200
+      "berkas": "yahya.webp",
+      "w": 1024,
+      "h": 1536,
+      "kb": 48
     },
     {
-      "slug": "tobi",
-      "sumber": "1024x1536",
-      "utama": "tobi.webp",
-      "kecil": "tobi-480.webp",
-      "lebar": 960,
-      "tinggi": 1200
+      "berkas": "yahya-512.webp",
+      "w": 512,
+      "h": 768,
+      "kb": 19
     },
     {
-      "slug": "suwanto",
-      "sumber": "1479x1972",
-      "utama": "suwanto.webp",
-      "kecil": "suwanto-480.webp",
-      "lebar": 960,
-      "tinggi": 1200
+      "berkas": "syahril.webp",
+      "w": 1024,
+      "h": 1536,
+      "kb": 45
+    },
+    {
+      "berkas": "syahril-512.webp",
+      "w": 512,
+      "h": 768,
+      "kb": 16
+    },
+    {
+      "berkas": "julius.webp",
+      "w": 1024,
+      "h": 1536,
+      "kb": 89
+    },
+    {
+      "berkas": "julius-512.webp",
+      "w": 512,
+      "h": 768,
+      "kb": 24
+    },
+    {
+      "berkas": "tobi.webp",
+      "w": 1024,
+      "h": 1536,
+      "kb": 53
+    },
+    {
+      "berkas": "tobi-512.webp",
+      "w": 512,
+      "h": 768,
+      "kb": 21
+    },
+    {
+      "berkas": "suwanto.webp",
+      "w": 1024,
+      "h": 1536,
+      "kb": 57
+    },
+    {
+      "berkas": "suwanto-512.webp",
+      "w": 512,
+      "h": 768,
+      "kb": 21
     }
   ]
 }

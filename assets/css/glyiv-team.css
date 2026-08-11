@@ -132,7 +132,7 @@
    DIPADDING di dalam berkasnya sendiri dengan latar kertas `#F5F7F5`
    — lihat `dist/team/portrait/manifest.json`, medan `catatan`: "fit=contain —
    foto UTUH, tidak ada pemotongan." Jadi pemotongan tidak boleh diulang oleh
-   CSS: kotaknya 4/5 dan gambarnya `object-fit:contain`. Kalaupun suatu hari
+   CSS: kotaknya 2/3 dan gambarnya `object-fit:contain`. Kalaupun suatu hari
    rasio kotak bergeser, `contain` hanya menyisakan pita kosong — dan pita itu
    sewarna padding di berkasnya, jadi tak terlihat. Wajahnya TIDAK bisa hilang.
 
@@ -164,8 +164,8 @@
    diturunkan `aspect-ratio`, jadi rasionya tidak bisa meleset di lebar mana pun. */
 .tp-plate {
   position: relative; margin: 0;
-  width: min(100%, calc(var(--tp-h) * 4 / 5));
-  height: auto; aspect-ratio: 4 / 5;
+  width: min(100%, calc(var(--tp-h) * 2 / 3));
+  height: auto; aspect-ratio: 2 / 3;
   border-radius: var(--r-xl); overflow: hidden;
   /* ⚠︎ Heksa mentah, DISENGAJA — bukan `var(--paper-2)`. Warna ini harus sama
      PERSIS dengan padding yang sudah dipanggang ke dalam berkas potret, dan
@@ -185,7 +185,7 @@
 /* ⚠︎ Batas kedua (`var(--tp-h)`) BUKAN hiasan: tanpa itu, terukur di 1440 px,
    pelat ganda tergambar 627,4 px tinggi di panggung 620 px — meluber 7,4 px ke
    luar panggung sticky. */
-.tp-scene--duo .tp-plate { height: auto; width: min(calc(50% - 7px), calc(var(--tp-h) * 4 / 5)); }
+.tp-scene--duo .tp-plate { height: auto; width: min(calc(50% - 7px), calc(var(--tp-h) * 2 / 3)); }
 .tp-scene--duo .tp-plate:first-child { align-self: flex-start; }
 .tp-scene--duo .tp-plate:last-child  { align-self: flex-end; }
 .tp-plate img {
@@ -233,7 +233,7 @@
    (4:5 = 960×1200). Beda rasio tidak lagi memotong wajah — `contain` yang
    dipakai — tetapi tetap membuat enam potret duduk tidak sejajar. */
 .tp-card__pf {
-  position: relative; aspect-ratio: 4 / 5; overflow: hidden;
+  position: relative; aspect-ratio: 2 / 3; overflow: hidden;
   border-radius: var(--r-lg); background: #F5F7F5; /* = `latar` di manifest potret */
   border: 1px solid var(--hairline); box-shadow: var(--sh-1);
   transition: box-shadow .3s var(--ease), transform .3s var(--ease);
@@ -293,7 +293,7 @@
   .tp-chapter { min-height: auto; opacity: 1; padding: 20px 0 24px; padding-inline-start: 20px; }
   .tp-chapter::before { top: 22px; bottom: 22px; }
   .tp-chapter.is-on::before { background: var(--brass); }
-  .tp-scene--duo .tp-plate { width: min(calc(50% - 7px), calc(var(--tp-h) * 4 / 5)); }
+  .tp-scene--duo .tp-plate { width: min(calc(50% - 7px), calc(var(--tp-h) * 2 / 3)); }
 }
 
 /* SATU FOTO PER LAYAR (permintaan 8). `svh` dipakai supaya bilah alamat
