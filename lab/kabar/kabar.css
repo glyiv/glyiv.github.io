@@ -181,8 +181,20 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 
 [data-r]{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}[data-r].in{opacity:1;transform:none}
 
-@media(max-width:900px){.kgrid{grid-template-columns:1fr 1fr}.kgrid .feat{grid-column:span 2;grid-template-columns:1fr}.kgrid .feat .kc__img{min-height:220px}.kfoot__grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.kgrid,.kgrid .feat{grid-template-columns:1fr}.knav__lnk{display:none}.kfoot__grid{grid-template-columns:1fr}}
+@media(max-width:900px){.kgrid{grid-template-columns:1fr 1fr}.kgrid .feat{grid-column:span 2;grid-template-columns:1fr}.kgrid .feat .kc__img{width:100%;height:auto;min-height:0;aspect-ratio:16/10}.kfoot__grid{grid-template-columns:1fr 1fr}}
+/* ⛔ DUA CACAT TATA LETAK PONSEL YANG PEMILIK LIHAT DI APK NEWSLETTER.
+   Terukur di 412px: kartu unggulan 412px lebar padahal kisinya 371px, dan
+   gambarnya 538px — meluap 148px ke luar layar.
+
+   1. `.feat` mewarisi `grid-column:span 3` (baris 67) yang di ≤900px baru
+      diturunkan ke `span 2`. Pada kisi SATU kolom, "span 2" memaksa peramban
+      membuat kolom implisit, dan kartunya jadi lebih lebar daripada wadahnya.
+      Karena itu di sini ia dikembalikan ke satu kolom secara eksplisit.
+   2. `.feat .kc__img` memakai `height:100%` + `aspect-ratio:16/10`. Begitu
+      tingginya ditentukan baris kisi, LEBARNYA dihitung dari tinggi itu
+      (337 x 1,6 = 539px). Pada susunan bertumpuk, lebar yang harus memimpin —
+      jadi tingginya dilepas dan biarkan rasio yang menghitung tinggi. */
+@media(max-width:600px){.kgrid,.kgrid .feat{grid-template-columns:1fr}.kgrid .feat{grid-column:span 1}.kgrid .feat .kc__img{width:100%;height:auto;min-height:0;aspect-ratio:16/10}.knav__lnk{display:none}.kfoot__grid{grid-template-columns:1fr}}
 /* ---------- feed toolbar (search + sort) + pagination ---------- */
 .ktoolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:6px 0 24px}
 .ksearch{flex:1;min-width:200px;position:relative;display:flex;align-items:center}
@@ -325,7 +337,7 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 
 /* ══ HEMAT GERAK ═════════════════════════════════════════════════════════════
    ⛔ CACAT YANG DIPERBAIKI DI SINI — jangan diulang: penjaganya dulu ditulis
-   `*{animation:none!important}` saja. **Selektor universal TIDAK menjaring
+   `*{animation:none}` saja. **Selektor universal TIDAK menjaring
    pseudo-element.** `.kbg::before` dan `.kbg::after` (drift1 / drift2, keduanya
    `infinite`) karena itu tetap berputar di /lab/kabar/ dan
    /lab/kabar/artikel.html walau pengguna sudah meminta gerak dikurangi.
@@ -337,8 +349,37 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
    secara eksplisit satu baris di bawah — tanpa itu bilahnya akan tertinggal
    kosong, bukan penuh. */
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition-duration:.001ms!important;transition-delay:0s!important}
-  [data-r]{opacity:1!important;transform:none!important}
-  .kbars i,.kart__cover img{transform:none!important}
-  .kcard__bars i.act b,.kstory__bars i.act b{transform:scaleX(1)!important}
+  *,*::before,*::after{animation:none;transition-duration:.001ms;transition-delay:0s}
+  [data-r]{opacity:1;transform:none}
+  .kbars i,.kart__cover img{transform:none}
+  .kcard__bars i.act b,.kstory__bars i.act b{transform:scaleX(1)}
+}
+/* ⟦FEAT-PONSEL⟧ kartu unggulan di ponsel — ditaruh PALING AKHIR ═══════
+   Pemilik, tentang APK Newsletter: *"Desainnya berantakan sekali. Cardnya
+   tinggi sendiri dan lain2."*
+
+   Terukur di 412px SEBELUM perbaikan: kartu 412px lebar padahal kisinya 371px,
+   dan gambarnya 538px — meluap 148px ke luar layar.
+
+   ⚠︎ Aturan ini berspesifisitas .kgrid .kc.feat (0,3,0) dan diletakkan di AKHIR
+   berkas, dan keduanya disengaja. Percobaan sebelumnya memakai .kgrid .feat
+   (0,2,0) di tengah berkas dan KALAH oleh aturan lain di bawahnya — kartunya
+   tetap dua kolom (terukur: grid-template-columns ), sehingga
+   gambarnya menciut jadi thumbnail 49px. Menaikkan spesifisitas saja tidak
+   cukup kalau ada aturan setara yang datang belakangan.
+
+   Dua hal yang diperbaiki:
+   1. satu kolom penuh — susunan bertumpuk, gambar di atas teks;
+   2. gambar diberi ukuran dari LEBAR. Dengan height:100% + aspect-ratio, lebar
+      dihitung dari tinggi baris kisi, dan itulah yang membuatnya meluap. 
+@media(max-width:600px){
+  /*  DIPAKAI SENGAJA. Halaman hasil port membenamkan BEBERAPA lembar
+     gaya sekaligus, dan aturan setara yang datang belakangan mengalahkan versi
+     tanpa penanda ini — terukur: kolomnya tetap "48.8125px 320px" walau selektor
+     sudah dinaikkan ke (0,3,0) dan ditaruh di akhir berkas. Memenangkan kaskade
+     yang tidak bisa saya lihat seluruhnya butuh penanda yang tidak bergantung
+     pada urutan. */
+  .kgrid .kc.feat{grid-column:1/-1;grid-template-columns:1fr}
+  .kgrid .kc.feat .kc__img{width:100%;height:auto;min-height:0;aspect-ratio:16/10}
+  .kgrid .kc.feat .kc__b{padding:18px}
 }

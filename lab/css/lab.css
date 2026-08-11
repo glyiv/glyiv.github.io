@@ -1112,7 +1112,24 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
    Ambang 900px, bukan 600px: Galaxy Tab S10 tegak sekitar 800px, dan di 800px
    kartu yang menumpuk satu kolom sama salahnya. 900px juga persis titik tempat
    garis penghubung `.flowrail::before` menyala, jadi rel dan garis itu tidak
-   pernah aktif bersamaan. */
+   pernah aktif bersamaan.
+
+   ⛔ KENAPA ADA `:not(.kc)` PADA `.feat.feat` DI BAWAH — tabrakan nama kelas.
+   `.feat` di blok ini berarti REL GESER MENDATAR pada halaman lab. Tetapi Kabar
+   memakai kelas yang SAMA untuk kartu artikel unggulannya (`a.kc.feat`): dua
+   komponen berbeda, satu nama.
+
+   Akibatnya kartu artikel di ponsel ikut diubah menjadi rel — `grid-auto-flow:
+   column` dengan `grid-auto-columns:min(78vw,320px)` — sehingga gambarnya
+   menciut jadi 49px dan kartunya melebar 412px di dalam kisi 371px. Pemilik
+   melihatnya di APK Newsletter: *"Desainnya berantakan sekali. Cardnya tinggi
+   sendiri dan lain2."*
+
+   ⚠︎ PENIMPAAN DARI SISI KABAR TIDAK BISA MENYELESAIKANNYA, dan itu sudah
+   dicoba sampai `grid-template-columns:1fr!important` — tetap kalah. Sebabnya
+   yang menentukan bukan lebar kolomnya melainkan ARAH ALIRANNYA: selama
+   `grid-auto-flow:column` menyala, peramban tetap membuat kolom implisit.
+   Pengecualiannya karena itu harus di sini, di sumbernya. */
 @media (max-width:900px){
   /* `.joinx__grid` DIHAPUS dari keempat daftar di blok ini: markup-nya sudah
      tidak ada lagi di beranda (diganti kisi `.appx`), dan `.appx` sengaja BUKAN
@@ -1120,7 +1137,7 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .mrail.mrail,
   .indgrid.indgrid,
   .applyrow.applyrow,
-  .feat.feat{
+  .feat.feat:not(.kc){
     display:grid;
     grid-auto-flow:column;
     /* `none` wajib: tanpa ini jejak `grid-template-columns` desktop bertahan
@@ -1152,12 +1169,12 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .mrail.mrail::-webkit-scrollbar,
   .indgrid.indgrid::-webkit-scrollbar,
   .applyrow.applyrow::-webkit-scrollbar,
-  .feat.feat::-webkit-scrollbar{display:none}
+  .feat.feat:not(.kc)::-webkit-scrollbar{display:none}
 
   .mrail.mrail>*,
   .indgrid.indgrid>*,
   .applyrow.applyrow>*,
-  .feat.feat>*{scroll-snap-align:start;min-width:0}
+  .feat.feat:not(.kc)>*{scroll-snap-align:start;min-width:0}
 
   /* Kartu ekosistem lebih sempit: ia hanya foto + dua baris teks, jadi 13 kartu
      tidak perlu 78vw masing-masing. */

@@ -1330,3 +1330,71 @@
   addEventListener("load", function () { setTimeout(pindah, 400); });
 })();
 /* ⟦ANCHOR-SHIM⟧ selesai */
+
+/* ⟦APK-NAVBAR⟧ Mode APK: navbar tinggal lambang, tagline, dan pemilih bahasa ══
+   Pemilik, 11 Agustus 2026: *"di APK itu sepertinya tidak perlu tampilkan
+   navbar. Karena jatuhnya seperti web app nanti. Misalnya newsletter APK, itu
+   tidak perlu ada 3 bar iconnya. Hilangkan saja itu, jadi navbarnya isinya
+   hanya logo glyiv, tagline, dan dropdown untuk pemilihan bahasa."*
+
+   Di dalam APK, menu situs adalah jalan KELUAR dari aplikasinya: ia membawa
+   orang ke halaman pemasaran yang tidak berhubungan dengan aplikasi yang sedang
+   dibuka, dan aplikasinya jadi terasa seperti peramban. Karena itu burger,
+   daftar tautan, pemisah, dan tombol Login DILEPAS DARI POHON — bukan
+   disembunyikan CSS. Elemen display:none masih ada di urutan Tab dan masih bisa
+   ditekan pembaca layar, jadi "tidak boleh ada" akan tetap bisa ditekan.
+
+   ⚠︎ Pemilih bahasa TETAP. Ia mengubah isi aplikasinya sendiri, bukan membawa
+   orang keluar darinya — dan pemilik menyebutnya sendiri sebagai yang harus ada.
+
+   Deteksinya disamakan dengan src/layout/apk.ts (jembatan Java berpola
+   Glyiv*Native, User-Agent, atau saklar uji glyiv-uji-apk) supaya kedua sisi
+   tidak bisa berbeda pendapat tentang "sedang di dalam APK atau tidak". */
+(function () {
+  var POLA_UA = /\bGlyiv[A-Za-z]*\/\d/;
+  var POLA_JEMBATAN = /^Glyiv[A-Za-z]*Native$/;
+
+  function diApk() {
+    try {
+      var paksa = window.localStorage.getItem("glyiv-uji-apk");
+      if (paksa === "1") return true;
+      if (paksa === "0") return false;
+    } catch (e) { /* penyimpanan dimatikan — lanjut ke penanda sungguhan */ }
+    if (POLA_UA.test(navigator.userAgent || "")) return true;
+    for (var k in window) { if (POLA_JEMBATAN.test(k)) return true; }
+    return false;
+  }
+
+  var BUANG = [".lnav__burger", ".lnav__links", ".lnav__cta", ".lnav__sp"];
+
+  function rapikan() {
+    if (!diApk()) return;
+    var nav = document.querySelector("header.lnav");
+    if (!nav || nav.getAttribute("data-apk-rapi") === "1") return;
+    nav.setAttribute("data-apk-rapi", "1");
+    nav.classList.add("lnav--apk");
+    for (var i = 0; i < BUANG.length; i++) {
+      var simpul = nav.querySelectorAll(BUANG[i]);
+      for (var j = 0; j < simpul.length; j++) simpul[j].remove();
+    }
+    /* Pemilih bahasa didorong ke ujung kanan: sesudah tetangganya hilang ia akan
+       menggantung di tengah, dan navbar dengan satu kendali mengambang di
+       tengah terlihat seperti sesuatu yang rusak. */
+    var lang = nav.querySelector(".lnav__lang");
+    if (lang) { lang.style.marginInlineStart = "auto"; }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", rapikan);
+  } else {
+    rapikan();
+  }
+
+  /* Navbar dirakit skrip ini sendiri dan dipasang ULANG setiap rute SPA
+     berganti. Tanpa pengamat, pembersihan ini hanya berlaku pada navbar
+     pertama dan burger muncul lagi begitu orang berpindah halaman. */
+  try {
+    var pengamat = new MutationObserver(function () { rapikan(); });
+    pengamat.observe(document.documentElement, { childList: true, subtree: true });
+  } catch (e) { /* peramban tanpa MutationObserver — navbar pertama tetap rapi */ }
+})();
