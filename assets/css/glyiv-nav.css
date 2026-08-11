@@ -835,9 +835,19 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
      butir di dalam panel dropdown, jadi bilah dan panelnya kini satu bahasa.
      Tinggi 48px dan target sentuh 44px TIDAK berubah; yang hilang cuma
      kotaknya, bukan area ketuknya. */
+  /* ⛔ `padding-inline:12px`, BUKAN 4px. Pemilik, 11 Agustus 2026: *"di navbar,
+     itu berikan padding sedikit untuk navbar itemnya. Karena saya lihat kadang
+     bar vertikal goldnya itu nempel dengan tulisan text navbar itemnya."*
+     Terukur di 390×844 (dan 360/412/800, semuanya masih memakai laci): bilah
+     brass baris aktif menempati x 20,00–23,00 sementara kotak teks mulai 24,00
+     — JARAK 1,00 px. Diperiksa piksel demi piksel pada tangkapan dpr 3: tinta
+     pertama huruf ada di x=25,0, jadi tinta-ke-tinta cuma 2,00 px.
+     12px bukan angka baru: itu padding dasar desktop `.lnav__links a{padding:9px 12px}`.
+     Terukur sesudahnya 9,00 px di keempat lebar, dan lebar baris (l=20, w=350)
+     TIDAK berubah — `box-sizing` di sini `border-box`. */
   .lnav__links>a,.ldrop__btn{
     width:100%!important;justify-content:space-between;
-    padding:13px 4px;margin-bottom:0;border-radius:0;
+    padding-block:13px;padding-inline:12px;margin-bottom:0;border-radius:0;
     border:0;
     color:var(--n-slate)!important;
     --n-l-div:none;
@@ -859,8 +869,24 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
      huruf — pada kotak, tepi adalah isyarat yang paling dulu terbaca. */
   /* Halaman aktif: sejak kotaknya dicabut, penandanya kembali ke WARNA teks
      + garis brass tipis di kiri baris — isyarat yang tidak butuh kotak. */
+  /* ⛔ TEPI LOGIS, bukan `box-shadow:inset 3px 0 0`. Dua sebab, keduanya terukur:
+
+     1. `box-shadow` inset menggambar DI DALAM kotak, jadi ia memakan padding
+        alih-alih menambah ruangnya sendiri — itulah kenapa bilahnya menempel
+        teks. `border-inline-start` mendorong isinya.
+     2. `inset 3px 0 0` itu FISIK-KIRI dan tidak ikut membalik di RTL, sementara
+        `glyiv-rtl.css` tidak punya cerminannya. Terukur pada bahasa Arab di
+        390px: bilahnya tetap di kiri sementara teks mulai dari kanan — jarak
+        292,67 px. Jadi versi Arab sudah rusak SEBELUM ronde ini, dan perbaikan
+        yang cuma menambah `padding-left` akan meninggalkannya rusak.
+
+     `padding-inline-start:9px` menjaga teks baris AKTIF tetap segaris dengan
+     baris non-aktif: 3px tepi + 9px = 12px, sama dengan `padding-inline` di
+     atas. Tanpa itu, teks melompat 3px setiap kali halaman berganti. */
   .lnav__links>a.is-active,.ldrop__btn.is-active{color:var(--n-teal)!important;
-    box-shadow:inset 3px 0 0 var(--n-brass)}
+    box-shadow:none;
+    border-inline-start:3px solid var(--n-brass);
+    padding-inline-start:9px}
   /* Di laci, bilah dan kotaknya sama-sama TERANG walau `.lnav` mungkin masih
      `:not(.scrolled)`. Kilau putih .55 di atas kotak putih tidak terlihat sama
      sekali, jadi warnanya dikembalikan ke nuansa pine — sejalan dengan keempat
@@ -1024,7 +1050,30 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
      baru saja diminta pemilik — dan justru pada perangkat sentuh, yaitu tablet
      tempat pemilik menguji. Yang diatur blok ini tinggi sentuhnya, bukan
      lebarnya. */
-  .ldrop__grp a{min-height:44px;display:flex;flex-direction:column;justify-content:center;padding:7px var(--n-drop-i,0px)}
+  /* ⛔ `align-items:start` WAJIB ADA di sini — tanpa itu butir dropdown TERPUSAT
+     mendatar, bukan rata kiri.
+     Sebabnya persilangan dua aturan yang masing-masing benar sendirian:
+       · baris ini menyetel `flex-direction:column` (supaya tinggi sentuhnya 44px),
+         sehingga sumbu SILANG-nya jadi MENDATAR;
+       · blok TARGET SENTUH di bawah menyetel `.lnav__links a{align-items:center}`
+         yang dimaksudkan memusatkan secara TEGAK.
+     Digabung, `center` memusatkan mendatar. Terukur: "F&B & Retail" @390 celah
+     kiri 45,97 px == celah kanan 45,97; "Vision & Mission" @1280 pada perangkat
+     SENTUH 85,09 / 85,11.
+     ⚠︎ Dan blok ini `@media (pointer:coarse)` TANPA batas lebar, jadi cacatnya
+     muncul di tablet Galaxy Tab pemilik pada 1280px MENDATAR — bukan hanya di
+     laci ponsel. `start`, bukan `flex-start`, supaya ikut membalik di RTL. */
+  /* ⚠︎ RUANG UNTUK PANAH "›" DICADANGKAN, bukan dibiarkan bertabrakan.
+     Panah brass `.ldrop__grp a::after` duduk di `inset-inline-end:5px` dan hanya
+     muncul saat `:hover`/`:focus-visible` — tetapi di layar sentuh `:hover`
+     MENEMPEL sesudah ketukan, jadi ia praktis selalu terlihat. Terukur @390 di
+     dalam laci: "Palm Oil & Agribusiness" teks berakhir 179,86 dan panah mulai
+     183,94 → 4,08 px; "Retailers (Shops/SMEs)" 5,94 px. Ini bilah brass kedua
+     yang menempel teks, dan ia terlewat pada pengukuran pertama karena butir
+     aktif yang labelnya pendek ("News") memberi 57,34 px dan terlihat aman.
+     24px = 5px offset + lebar glyph + sela yang nyaman. */
+  .ldrop__grp a{min-height:44px;display:flex;flex-direction:column;justify-content:center;align-items:start;
+    padding:7px var(--n-drop-i,0px);padding-inline-end:calc(var(--n-drop-i,0px) + 24px)}
   .ldrop--mega .ldrop__grp a{padding:8px var(--n-drop-i,0px)}
 }
 
@@ -1171,6 +1220,21 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
     display: flex;
     align-items: center;
   }
+  /* ⛔ PENGEMBALIAN untuk butir dropdown — HARUS di sini, bukan di blok
+     `pointer:coarse` yang lebih awal (baris 1041).
+     `align-items:center` di atas dimaksudkan memusatkan secara TEGAK, dan itu
+     benar untuk baris yang sumbu utamanya mendatar. Tetapi `.ldrop__grp a`
+     disetel `flex-direction:column` di blok sebelumnya, sehingga sumbu SILANG-nya
+     jadi MENDATAR dan `center` memusatkan teksnya ke tengah baris.
+     `.lnav__links a` (0,1,1) dan `.ldrop__grp a` (0,1,1) BERSPESIFISITAS SAMA,
+     jadi yang menang adalah yang DITULIS BELAKANGAN — perbaikan di baris 1075
+     terukur tidak berlaku sama sekali di situs hidup.
+     Terukur di glyiv.web.app pada 1280 SENTUH: celah kiri 79,75 == celah kanan
+     79,75 pada "Green Intelligence", dan tiga butir lain sama. Blok ini tidak
+     punya batas lebar, jadi cacatnya muncul di Galaxy Tab pemilik saat MENDATAR
+     — bukan hanya di laci ponsel.
+     `start`, bukan `flex-start`, supaya ikut membalik pada tampilan Arab. */
+  .ldrop__grp a { align-items: start; }
   /* Merek di bilah atas: kotak sentuhnya dilebarkan tanpa menggeser tata letak
      (ia sudah `display:flex`). */
   .lbrand {
