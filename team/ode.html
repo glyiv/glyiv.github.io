@@ -240,7 +240,7 @@
     var img = bingkai.querySelector("img");
     if (img) {
       var slug = bingkai.getAttribute("data-slug") || "";
-      var cadangan = [];
+      var cadangan = ["/team/seragam/" + slug + ".webp"];
       var mundur = function () {
         if (cadangan.length) { img.removeAttribute("srcset"); img.src = cadangan.shift(); return; }
         bingkai.classList.add("pd-photo--kosong");

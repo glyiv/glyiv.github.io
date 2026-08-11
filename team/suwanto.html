@@ -6,8 +6,8 @@
      juga sengaja tidak masuk peta situs. -->
 <meta name="robots" content="noindex, follow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Suwanto — Tim Glyiv · Glyiv</title>
-<meta name="description" content="Profil digital Suwanto, Tim Glyiv di Glyiv.">
+<title>Suwanto — Komisaris Utama · Glyiv</title>
+<meta name="description" content="Profil digital Suwanto, Komisaris Utama di Glyiv.">
 <link rel="icon" href="/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -172,9 +172,9 @@
         <div class="pd-kick" data-i18n-skip="pd" data-en="Digital profile · Glyiv" data-ar="ملف رقمي · Glyiv">Profil digital &middot; Glyiv</div>
         <!-- Nama diri tidak boleh disentuh mesin i18n bersama. -->
         <h1 class="pd-nama" data-i18n-skip="pd-nama">Suwanto</h1>
-        <div class="pd-peran" data-i18n-skip="pd" data-en="Glyiv team" data-ar="فريق Glyiv">Tim Glyiv</div>
+        <div class="pd-peran" data-i18n-skip="pd" data-en="President Commissioner" data-ar="رئيس مجلس المفوضين">Komisaris Utama</div>
         <div class="pd-rule"></div>
-        <p class="pd-desc" data-i18n-skip="pd" data-en="Part of the Glyiv team — building a green-economy platform founded on carbon intelligence, from Indonesia for the global market." data-ar="جزء من فريق Glyiv — يبني منصة اقتصاد أخضر قائمة على ذكاء الكربون، من إندونيسيا إلى السوق العالمية.">Bagian dari tim Glyiv — membangun platform ekonomi hijau berfondasi intelijen karbon, dari Indonesia untuk pasar global.</p>
+        <p class="pd-desc" data-i18n-skip="pd" data-en="Chairs the board of commissioners — safeguarding Glyiv’s long-term direction and governance, so growth stays grounded in evidence." data-ar="يرأس مجلس المفوضين — يصون التوجه طويل المدى لـ Glyiv وحوكمتها، ليظل النمو مستنداً إلى الأدلة.">Memimpin dewan komisaris — menjaga arah jangka panjang dan tata kelola Glyiv, agar pertumbuhannya tetap berpijak pada bukti.</p>
       </div>
     </article>
 
@@ -240,7 +240,7 @@
     var img = bingkai.querySelector("img");
     if (img) {
       var slug = bingkai.getAttribute("data-slug") || "";
-      var cadangan = [];
+      var cadangan = ["/team/seragam/" + slug + ".webp"];
       var mundur = function () {
         if (cadangan.length) { img.removeAttribute("srcset"); img.src = cadangan.shift(); return; }
         bingkai.classList.add("pd-photo--kosong");
