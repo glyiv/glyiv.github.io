@@ -1,0 +1,199 @@
+{
+ "_catatan": "Dibangkitkan scripts/buat-feed-newsletter.cjs dari dist/lab/kabar/content-pack.js. Jangan disunting tangan. publishAt sintetis: menjaga urutan, bukan tanggal terbit sungguhan.",
+ "dibangkitkan": "2026-08-11T12:20:18.480Z",
+ "jumlah": 24,
+ "artikel": [
+  {
+   "slug": "pajak-karbon-indonesia-kemana",
+   "title": "Pajak karbon Rp30 per kilogram: janji yang terus tertunda.",
+   "dek": "UU HPP 2021 menetapkan tarif pajak karbon minimal Rp30.000 per ton untuk PLTU batu bara. Tapi tanggal berlakunya terus digeser — dan hingga kini ⚠︎ belum efektif berjalan.",
+   "topic": "Regulasi",
+   "publishAt": "2026-08-11T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=pajak-karbon-indonesia-kemana"
+  },
+  {
+   "slug": "idxcarbon-dua-tahun",
+   "title": "Bursa Karbon Indonesia: dua tahun setelah lonceng pertama.",
+   "dek": "IDXCarbon dibuka 26 September 2023 dengan lonceng dan optimisme; dua tahun kemudian sekitar 1,6 juta ton CO2e tercatat berpindah tangan — angka nyata, tapi sebagian besar terjadi hanya dalam hitungan hari, dan likuiditas hariannya masih tipis.",
+   "topic": "Regulasi",
+   "publishAt": "2026-08-10T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=idxcarbon-dua-tahun"
+  },
+  {
+   "slug": "perpres-nek-spe-grk",
+   "title": "Perpres NEK dan SPE-GRK: tulang punggung pasar karbon kita.",
+   "dek": "Perpres 98/2021 tentang Nilai Ekonomi Karbon adalah dasar hukum yang membuat sebuah pengurangan emisi bisa menjadi sertifikat SPE-GRK yang diakui negara — kami runut alurnya, dari lahan sampai registri, tanpa jargon.",
+   "topic": "Regulasi",
+   "publishAt": "2026-08-09T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=perpres-nek-spe-grk"
+  },
+  {
+   "slug": "cbam-nilai-default-mahal",
+   "title": "Kenapa 'nilai default' CBAM bisa jadi jebakan tarif.",
+   "dek": "Sejak CBAM masuk fase bayar pada 2026, eksportir yang tak menyertakan data emisi terverifikasi dihitung memakai nilai default yang sengaja dibuat tinggi — dan karbon yang tertelusur bisa memangkas selisih tagihan itu.",
+   "topic": "Regulasi",
+   "publishAt": "2026-08-08T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=cbam-nilai-default-mahal"
+  },
+  {
+   "slug": "eudr-sawit-kopi-karet",
+   "title": "EUDR: bebas-deforestasi jadi syarat masuk pasar Eropa.",
+   "dek": "Regulasi Anti-Deforestasi UE mewajibkan uji tuntas geolokasi untuk sawit, kopi, kakao, karet, dan kayu — \"bebas deforestasi\" berubah dari nilai tambah menjadi tiket masuk. Pemberlakuan penuh bagi pelaku besar ditunda hingga akhir 2025 ⚠︎.",
+   "topic": "Regulasi",
+   "publishAt": "2026-08-07T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=eudr-sawit-kopi-karet"
+  },
+  {
+   "slug": "ifrs-s2-laporan-iklim",
+   "title": "IFRS S2: laporan iklim yang mulai diminta investor.",
+   "dek": "Standar iklim ISSB (IFRS S1 & S2) membuat risiko iklim dan emisi Scope 1–3 dibaca sekritis neraca — dan investor global mulai memintanya sebagai syarat, bukan bonus.",
+   "topic": "Regulasi",
+   "publishAt": "2026-08-06T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=ifrs-s2-laporan-iklim"
+  },
+  {
+   "slug": "pcaf-emisi-yang-dibiayai",
+   "title": "Emisi yang dibiayai: jejak karbon tersembunyi di balik pinjaman bank.",
+   "dek": "Standar PCAF menghitung emisi dari setiap pinjaman dan investasi sebuah bank. Hasilnya kerap ratusan kali lebih besar dari emisi kantor, listrik, dan perjalanan dinasnya — dan selama ini jarang masuk laporan.",
+   "topic": "Sektor",
+   "publishAt": "2026-08-05T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=pcaf-emisi-yang-dibiayai"
+  },
+  {
+   "slug": "pasal-6-paris-perdagangan",
+   "title": "Pasal 6 Paris: bagaimana Indonesia menjual kredit karbon lintas negara",
+   "dek": "Perjanjian Paris membuka jalan agar satu ton pengurangan emisi bisa berpindah tangan antarnegara — tapi hanya jika 'corresponding adjustment' memastikan ton itu tidak diklaim dua kali.",
+   "topic": "Global",
+   "publishAt": "2026-08-04T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=pasal-6-paris-perdagangan"
+  },
+  {
+   "slug": "idxcarbon-pembeli-internasional",
+   "title": "Bursa Karbon Indonesia kini terbuka bagi pembeli internasional.",
+   "dek": "Sejak 20 Januari 2025, IDXCarbon membuka perdagangan unit karbon bagi pembeli luar negeri — langkah yang bisa menebalkan permintaan, sekaligus menaikkan taruhan atas kejujuran setiap kredit.",
+   "topic": "Regulasi",
+   "publishAt": "2026-08-03T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=idxcarbon-pembeli-internasional"
+  },
+  {
+   "slug": "icvcm-core-carbon-principles",
+   "title": "Menyaring kredit 'zombie': apa itu Core Carbon Principles.",
+   "dek": "Pasar karbon sukarela dibanjiri kredit yang tak jelas asalnya; ICVCM dan VCMI memasang dua rambu — satu menyaring mutu kredit, satu menjaga kejujuran klaim — untuk memisahkan offset bermakna dari sekadar label.",
+   "topic": "Offset",
+   "publishAt": "2026-08-02T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=icvcm-core-carbon-principles"
+  },
+  {
+   "slug": "ndc-kedua-indonesia",
+   "title": "NDC kedua Indonesia: dari target ke bukti penurunan.",
+   "dek": "Indonesia sudah menaruh angkanya di atas meja — 31,89% mandiri, hingga 43,20% bersyarat pada 2030 — tapi pencapaiannya nyaris seluruhnya bergantung pada dua sektor: hutan-lahan dan energi.",
+   "topic": "Regulasi",
+   "publishAt": "2026-08-01T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=ndc-kedua-indonesia"
+  },
+  {
+   "slug": "net-zero-2060-realistis",
+   "title": "Net zero 2060: seberapa realistis peta jalan kita?",
+   "dek": "Indonesia berjanji nol bersih pada 2060 atau lebih cepat. Satu tumpuannya — hutan sebagai penyerap — bisa berbalik dalam hitungan tahun; tumpuan lain, listrik yang masih ~60% batu bara, terkunci dalam aset berumur puluhan tahun.",
+   "topic": "Ekonomi",
+   "publishAt": "2026-07-31T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=net-zero-2060-realistis"
+  },
+  {
+   "slug": "folu-net-sink-2030",
+   "title": "FOLU Net Sink 2030: saat hutan menyerap lebih dari yang dilepas.",
+   "dek": "Untuk pertama kalinya, target iklim Indonesia bertumpu pada satu janji besar: pada 2030, hutan dan lahan kita harus menyerap lebih banyak karbon daripada yang dilepas — dan sektor inilah pilar terbesar NDC.",
+   "topic": "Regulasi",
+   "publishAt": "2026-07-30T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=folu-net-sink-2030"
+  },
+  {
+   "slug": "uk-cbam-2027",
+   "title": "Bukan hanya Eropa: Inggris siapkan CBAM sendiri.",
+   "dek": "Inggris mengonfirmasi CBAM-nya sendiri mulai 2027 untuk lima sektor padat karbon — pertanda bahwa harga karbon di perbatasan sedang bergeser dari pengecualian menjadi norma, dan komoditas Indonesia berada tepat di jalurnya.",
+   "topic": "Global",
+   "publishAt": "2026-07-29T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=uk-cbam-2027"
+  },
+  {
+   "slug": "sbti-target-berbasis-sains",
+   "title": "Target berbasis sains: apa bedanya dengan janji hijau biasa.",
+   "dek": "Ribuan perusahaan berjanji \"hijau\", tapi hanya sebagian yang targetnya benar-benar diuji terhadap ilmu iklim — dan di situlah SBTi menarik garis antara komitmen berbasis sains dan klaim pemasaran.",
+   "topic": "Regulasi",
+   "publishAt": "2026-07-28T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=sbti-target-berbasis-sains"
+  },
+  {
+   "slug": "mangrove-modal-biru-indonesia",
+   "title": "3,3 juta hektar mangrove: modal biru terbesar dunia ada di sini.",
+   "dek": "Indonesia menyimpan sekitar seperlima mangrove dunia — hutan pesisir yang, hektar per hektar, mengunci karbon beberapa kali lipat lebih banyak daripada hutan daratan, sebagian besar terkubur diam di lumpurnya.",
+   "topic": "Offset",
+   "publishAt": "2026-07-27T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=mangrove-modal-biru-indonesia"
+  },
+  {
+   "slug": "gambut-bom-karbon",
+   "title": "Gambut: 'bom karbon' yang lebih baik dibiarkan basah.",
+   "dek": "Lahan gambut Indonesia mengunci karbon dalam jumlah masif selama ribuan tahun. Saat dikeringkan dan terbakar — seperti pada 2015 — ia melepasnya sekaligus. Membiarkannya basah mungkin salah satu langkah iklim termurah yang kita punya.",
+   "topic": "Offset",
+   "publishAt": "2026-07-26T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=gambut-bom-karbon"
+  },
+  {
+   "slug": "redd-plus-pembayaran-hasil",
+   "title": "REDD+: saat menjaga hutan benar-benar dibayar.",
+   "dek": "Indonesia sudah menerima imbalan nyata dari Green Climate Fund dan Norwegia karena menekan deforestasi — model 'hasil dulu, bayar kemudian' yang membayar bukan janji, melainkan penurunan emisi yang bisa diverifikasi.",
+   "topic": "Offset",
+   "publishAt": "2026-07-25T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=redd-plus-pembayaran-hasil"
+  },
+  {
+   "slug": "deforestasi-indonesia-menurun",
+   "title": "Kabar baik yang jarang dibaca: laju deforestasi kita menurun.",
+   "dek": "Data satelit dan catatan pemerintah menunjukkan hal yang jarang jadi berita utama: laju kehilangan hutan primer Indonesia menurun beberapa tahun terakhir — capaian nyata yang masih rapuh terhadap harga komoditas.",
+   "topic": "Offset",
+   "publishAt": "2026-07-24T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=deforestasi-indonesia-menurun"
+  },
+  {
+   "slug": "blue-carbon-lamun-terlupakan",
+   "title": "Padang lamun: penyimpan karbon biru yang selalu terlupakan.",
+   "dek": "Semua mata tertuju pada mangrove, tapi padang lamun menyimpan 'karbon biru' per hektar yang setara — dan justru paling sedikit dipetakan serta dilindungi di perairan kita.",
+   "topic": "Offset",
+   "publishAt": "2026-07-23T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=blue-carbon-lamun-terlupakan"
+  },
+  {
+   "slug": "dmrv-dari-klaim-ke-bukti",
+   "title": "dMRV: mengubah janji offset jadi data yang bisa diaudit.",
+   "dek": "Pasar offset lama berjalan di atas kepercayaan; dMRV menggantinya dengan satelit, sensor, dan buku besar yang membuktikan pohonnya benar-benar hidup — dan hanya dihitung sekali.",
+   "topic": "Teknologi",
+   "publishAt": "2026-07-22T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=dmrv-dari-klaim-ke-bukti"
+  },
+  {
+   "slug": "reforestasi-bukan-sekadar-menanam",
+   "title": "Menanam sejuta pohon itu mudah; menjaganya yang sulit.",
+   "dek": "Banyak proyek reforestasi gagal diam-diam karena bibitnya tak bertahan; karbon yang nyata datang dari pohon yang hidup bertahun-tahun, bukan dari seremoni tanam yang difoto.",
+   "topic": "Offset",
+   "publishAt": "2026-07-21T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=reforestasi-bukan-sekadar-menanam"
+  },
+  {
+   "slug": "keanekaragaman-hayati-30x30",
+   "title": "Target 30x30: Melindungi Sepertiga Bumi pada 2030",
+   "dek": "Kerangka Kunming-Montreal menyepakati perlindungan 30% daratan dan lautan pada 2030 — dan kini kredit karbon makin dituntut ikut menjaga keanekaragaman hayati, bukan sekadar menyimpan karbon.",
+   "topic": "Global",
+   "publishAt": "2026-07-20T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=keanekaragaman-hayati-30x30"
+  },
+  {
+   "slug": "brgm-restorasi-gambut-mangrove",
+   "title": "BRGM: badan yang bertugas 'membasahi' kembali Indonesia.",
+   "dek": "Selama sembilan tahun, Badan Restorasi Gambut dan Mangrove ditugasi mengembalikan air ke jutaan hektar lahan yang sengaja dikeringkan — kerja lambat, penting, dan nyaris tanpa sorotan, yang kini dibubarkan sebelum benar-benar tuntas.",
+   "topic": "Offset",
+   "publishAt": "2026-07-19T12:20:18.480Z",
+   "url": "https://glyiv.io/news/article?a=brgm-restorasi-gambut-mangrove"
+  }
+ ]
+}

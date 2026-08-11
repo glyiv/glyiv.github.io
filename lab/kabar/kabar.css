@@ -171,7 +171,13 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .korb:hover .korb__tip{opacity:1;transform:none}
 .korb__tip b{color:#8affc1;font-family:var(--mono);font-size:9px;display:block;letter-spacing:.06em}
 
-.kfoot{background:var(--pine);color:#fff;padding:clamp(40px,6vh,64px) 0 26px;margin-top:40px}
+/* ⛔ Padding bawah 26px → 104px. Tombol Gly ber-`position:fixed` setinggi 84px
+   duduk permanen di pita bawah layar, sehingga baris legal `.kfoot__legal`
+   tertutup di SEMBILAN halaman Newsletter sekaligus (terukur 11 Agu 2026 di
+   390×844 MODE APK: tumpang 66×33 px di setiap artikel). Karena pelampungnya
+   ikut bergerak saat digulir, tidak ada posisi gulir mana pun yang bisa
+   memperlihatkan baris itu — jadi ruangnya harus dicadangkan, bukan dicari. */
+.kfoot{background:var(--pine);color:#fff;padding:clamp(40px,6vh,64px) 0 calc(104px + env(safe-area-inset-bottom,0px));margin-top:40px}
 .kfoot .kbrand{color:#fff}.kfoot .kbrand b i{color:#33d188}
 .kfoot__grid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:26px}
 .kfoot p{color:rgba(255,255,255,.62);font-size:13.5px;max-width:34ch;margin:14px 0}

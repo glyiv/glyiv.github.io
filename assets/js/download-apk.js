@@ -70,7 +70,7 @@
 
   window.GLYIV_APK = {
     /* Tanggal berkas APK ini dibangun. Ditampilkan di layar. */
-    dibangun: "2026-08-09",
+    dibangun: "2026-08-11",
 
     /* ⛔ SAKLAR KEJUJURAN — jangan dihapus, dan jangan disetel `true` sambil
        menebak.

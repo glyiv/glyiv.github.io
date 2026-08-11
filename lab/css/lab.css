@@ -528,7 +528,13 @@ body.is-ready .gv-splash__bar i{animation:none}
 .iproofgrid .s{font-family:var(--l-mono);font-size:9px;color:rgba(255,255,255,.5);margin-top:8px}
 
 /* footer */
-.lfoot{background:var(--pine);color:#fff;padding:clamp(48px,7vh,72px) 0 28px}
+/* ⛔ Padding bawah 28px → 104px, TANPA syarat `.lstick`.
+   Aturan di §responsif hanya memberi ruang `body:has(.lstick) .lfoot`, jadi
+   halaman tanpa pita ajakan tetap kehabisan ruang — padahal tombol Gly
+   ber-`position:fixed` setinggi 84px ADA DI SETIAP HALAMAN, bukan hanya yang
+   ber-`.lstick`. Terukur 11 Agu 2026 di 390×844 MODE APK: baris
+   `.lfoot__legal` tertutup di /lab/green-intelligence dan /lab/green-assets. */
+.lfoot{background:var(--pine);color:#fff;padding:clamp(48px,7vh,72px) 0 calc(104px + env(safe-area-inset-bottom,0px))}
 .lfoot .lbrand{color:#fff}.lfoot .lbrand b i{color:#33d188}
 .lfoot__grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:26px}
 .lfoot__grid>*{min-width:0}
@@ -1389,8 +1395,16 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .lstick__t{flex:1 1 auto;min-width:0;font-size:12px;line-height:1.35;color:var(--muted)}
   .lstick__t b{display:block;color:var(--pine);font-size:13.5px;font-weight:700;font-family:var(--l-sans)}
   .lstick .lbtn{flex:0 0 auto;min-height:46px;padding:12px 18px;font-size:14px}
-  /* Ruang supaya baris terakhir halaman & pita disclaimer tidak tertutup pita. */
-  body:has(.lstick) .lfoot{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+  /* Ruang supaya baris terakhir halaman & pita disclaimer tidak tertutup pita.
+     ⛔ 84px → 168px. Angka lama hanya memperhitungkan pita `.lstick` (72px) dan
+     MENGABAIKAN tombol Gly, padahal dua baris di bawah ini justru MENAIKKAN
+     tombol itu ke `bottom:72px` — sehingga ia setinggi 84px menempati pita
+     72–156px dari dasar layar, jauh melewati ruang yang dicadangkan. Terukur
+     11 Agu 2026 di /lab/green-assets (390×844): baris `.lfoot__legal`
+     tertutup 33×44 px. Dan karena aturan ini menang atas `.lfoot` dasar yang
+     baru diberi 104px, angka yang kecil di sini justru MEMBATALKAN perbaikan
+     itu pada halaman yang paling membutuhkannya. */
+  body:has(.lstick) .lfoot{padding-bottom:calc(168px + env(safe-area-inset-bottom))}
   body:has(.lstick) .liv-fab{bottom:calc(72px + env(safe-area-inset-bottom))}
   body:has(.lstick) .liv-chat{bottom:calc(72px + env(safe-area-inset-bottom))}
 }
