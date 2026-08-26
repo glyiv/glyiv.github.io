@@ -51,7 +51,7 @@
    berkas ini "untuk memperbarui sidik" akan mengira pekerjaannya selesai
    sementara halaman tetap memajang angka basi — persis kegagalan yang sidik itu
    ada untuk mencegah.
-   Yang benar: `node scripts/kumpulkan-apk.cjs` — ia membangun, mengukur ulang,
+   Yang benar: `node scripts/collect-apk.cjs` — ia membangun, mengukur ulang,
    dan menulis sidik ke `dist/download.html` PLUS menyetel `driveMutakhir: true` di
    sini, dalam satu perintah. Jangan mengetik sidik dengan tangan.
       PowerShell : Get-FileHash -Algorithm SHA256 .\Glyiv-Pocket.apk
@@ -82,7 +82,7 @@
        orang paling teliti — orang yang paling ingin kita yakinkan — yang
        pertama kena.
        Karena itu halaman menampilkan pita peringatan selama nilainya `false`.
-       `node scripts/kumpulkan-apk.cjs` MENYETELNYA KE `false` setiap kali ia
+       `node scripts/collect-apk.cjs` MENYETELNYA KE `false` setiap kali ia
        membangun ulang; setel `true` HANYA sesudah keenam berkas benar-benar
        diganti di Drive dan salah satunya ditarik ulang untuk dicocokkan. */
     driveMutakhir: true,

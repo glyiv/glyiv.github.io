@@ -1,6 +1,6 @@
 {
- "_catatan": "Dibangkitkan scripts/buat-feed-newsletter.cjs dari dist/lab/kabar/content-pack.js. Jangan disunting tangan. publishAt = tanggal terbit SUNGGUHAN artikel, dan hanya artikel yang sudah tayang yang masuk — kartu widget tidak boleh membuka artikel yang belum terbit.",
- "dibangkitkan": "2026-08-26T17:27:21.963Z",
+ "_catatan": "Dibangkitkan scripts/build-feed-newsletter.cjs dari dist/lab/kabar/content-pack.js. Jangan disunting tangan. publishAt = tanggal terbit SUNGGUHAN artikel, dan hanya artikel yang sudah tayang yang masuk — kartu widget tidak boleh membuka artikel yang belum terbit.",
+ "dibangkitkan": "2026-08-26T18:19:41.570Z",
  "jumlah": 11,
  "artikel": [
   {

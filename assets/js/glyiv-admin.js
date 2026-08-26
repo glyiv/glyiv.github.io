@@ -61,7 +61,7 @@
        Layar tunggu ini dulu berupa kartu putih di atas gradien hijau tua dengan
        lingkaran berputar `agspin`. Dua hal salah sekaligus: wajahnya bukan
        Glyiv, dan gerakannya putaran 360° generik — bentuk yang secara eksplisit
-       ditolak sumber splash (`scripts/potongan/splash-glyiv.html`): *"gerak
+       ditolak sumber splash (`scripts/snippets/splash-glyiv.html`): *"gerak
        generik yang bisa ditempel ke logo mana pun bukan identitas."*
 
        Ia terlihat oleh admin di `/lab/landing/*` dan pada `#admin` di halaman
@@ -111,7 +111,7 @@
     if (state === "checking") {
       gate.className = "is-cek";
       /* Lambang Glyiv SEBARIS, enam segitiga, sama persis dengan
-         `scripts/potongan/splash-glyiv.html`. Sebaris karena alasan yang sama:
+         `scripts/snippets/splash-glyiv.html`. Sebaris karena alasan yang sama:
          layar tunggu yang menunggu satu permintaan jaringan akan tersendat
          tepat pada detik ia harus paling mulus. Kalimat statusnya turun jadi
          `aria-label` — yang dilihat orang adalah mereknya, bukan jargon sistem;
