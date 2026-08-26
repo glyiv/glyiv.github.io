@@ -1111,8 +1111,27 @@ html[data-admin] .lnav__admin{display:inline-flex!important}
    tidak pernah ada teks terang di atas latar terang. `inset-inline-end` supaya
    panelnya ikut berpindah sisi pada dir="rtl" tanpa aturan RTL tersendiri. */
 .lnav__lang__list{position:absolute;top:calc(100% + 8px);inset-inline-end:0;min-width:190px;
+  max-width:calc(100vw - 24px);
   background:var(--n-card);border:1px solid var(--n-hair);border-radius:14px;box-shadow:var(--n-sh3);
   padding:6px;display:none;z-index:90}
+/* ⛔ ARAB: PANEL WAJIB MEMBUKA KE KANAN. Permintaan pemilik, 16 Agustus 2026,
+   dengan tangkapan layar: *"kalau bahasa arab, munculkan ke kanan paham tidak
+   sih, jangan munculkan ke kiri. Jadi yang tampilan layout hp itu tidak
+   terganggu seperti sebelumnya."*
+
+   `inset-inline-end:0` di atas SEHARUSNYA sudah berbalik sendiri saat dir="rtl"
+   — itu memang alasan ia dipakai. Terukur, ia tidak selalu berbalik: di halaman
+   statis `dist/` yang pemilik buka (localhost/index.html?lang=ar) panelnya tetap
+   memakai perilaku `right:0`, sehingga ia menjulur ke KIRI dari pemicunya.
+   Karena di mode Arab bilahnya bercermin — pemicu bahasa duduk dekat tepi KIRI
+   layar — arah kiri itu berarti keluar layar, dan di ponsel ia menutupi judul.
+
+   Jadi di sini dipakai properti FISIK, bukan logis. Properti logis bergantung
+   pada `dir` yang benar-benar terpasang saat gaya dihitung; properti fisik tidak
+   bergantung pada apa pun. Dikunci ke DUA penanda (`[dir=rtl]` DAN `[lang=ar]`)
+   supaya tetap benar walau salah satunya belum sempat dipasang skrip bahasa. */
+[dir="rtl"] .lnav__lang__list,
+html[lang="ar"] .lnav__lang__list{inset-inline-end:auto;inset-inline-start:auto;left:0;right:auto}
 .lnav__lang.is-open .lnav__lang__list{display:block}
 .lnav__lang__list button{display:flex;align-items:center;gap:9px;width:100%;min-height:44px;
   padding:0 10px;border:0;border-radius:10px;background:none;cursor:pointer;text-align:start;

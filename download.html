@@ -118,9 +118,17 @@ body{background:var(--paper)}
     </div>
     <div class="ga-hero__aside">
       <div><div class="k">Berkas</div><div class="v">6</div></div>
-      <div><div class="k">Total unduhan</div><div class="v g">18088 KB</div></div>
+      <div><div class="k">Total unduhan</div><div class="v g">31239 KB</div></div>
       <div><div class="k">Android</div><div class="v">7.0+</div></div>
-      <div><div class="k">Dibangun</div><div class="v" data-dibangun>13 Agustus 2026</div></div>
+      <!-- ⛔ `data-i18n-skip` WAJIB, dan bukan kerapian. Isi slot ini DIHITUNG
+           saat jalan dari `data.dibangun` (lihat renderer di bawah), jadi kalau
+           mesin kamus boleh menyentuhnya, `panen-bahasa.cjs` akan MEMOTRET
+           tanggal hari itu jadi kunci harfiah — dan besok kuncinya meleset.
+           Buktinya sudah ada di kamus: "31 Juli 2026", "1 Agustus 2026",
+           "3 Agustus 2026", "9 Agustus 2026" — empat foto tanggal build yang
+           sudah mati, satu per hari rilis. Terjemahannya kini disusun renderer
+           yang tahu bahasanya, sama seperti label paginasi di lab/kabar. -->
+      <div><div class="k">Dibangun</div><div class="v" data-i18n-skip data-dibangun>13 Agustus 2026</div></div>
     </div>
   </div>
 </section>
@@ -158,7 +166,7 @@ body{background:var(--paper)}
           <img class="und-kartu__ik" src="/download/icon-green-assets.webp" width="52" height="52" alt="" loading="lazy">
           <div>
             <h3 class="und-kartu__n">Glyiv Green Assets</h3>
-            <div class="und-kartu__m" data-i18n-skip>co.glyiv.greenassets &middot; v1.2.0<br>Glyiv-Green-Assets.apk &middot; 3,5 MB</div>
+            <div class="und-kartu__m" data-i18n-skip>co.glyiv.greenassets &middot; v1.2.0<br>Glyiv-Green-Assets.apk &middot; 7,8 MB</div>
           </div>
         </div>
         <p class="und-kartu__d">Gambar area lahan Anda di peta, tanam pohon virtual di atasnya, kumpulkan poin dari perawatan. <b>Pendaftaran pemilik lahan belum dibuka</b> karena masih menunggu kejelasan regulasi.</p>
@@ -169,7 +177,7 @@ body{background:var(--paper)}
         <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai versi web dulu.</span></p>
         <div class="und-sidik">
           <div class="und-sidik__k">SHA-256 berkas<button class="und-salin" type="button" data-salin>Salin</button></div>
-          <div class="und-sidik__v" data-sha>26df0220d32efbc48dc0ddaf74c5be48820be4cf3a568fb6d3f7903de13078a4</div>
+          <div class="und-sidik__v" data-sha>4da49fbe193fd5589b08bcc0d2adb13a04e9e66ba2ca22147e330893c2ccedb0</div>
         </div>
       </div>
 
@@ -190,7 +198,7 @@ body{background:var(--paper)}
         <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai versi web dulu.</span></p>
         <div class="und-sidik">
           <div class="und-sidik__k">SHA-256 berkas<button class="und-salin" type="button" data-salin>Salin</button></div>
-          <div class="und-sidik__v" data-sha>9bf20eca82d0105f4063f2a66eb27c7c0bb89187087393cc64732a9f208ef217</div>
+          <div class="und-sidik__v" data-sha>d5ef13772f75f38de3f73719875b35dc52d533f441b1fd81252f8bcfac6d822f</div>
         </div>
       </div>
 
@@ -200,7 +208,7 @@ body{background:var(--paper)}
           <img class="und-kartu__ik" src="/download/icon-pocket.webp" width="52" height="52" alt="" loading="lazy">
           <div>
             <h3 class="und-kartu__n">Glyiv Pocket</h3>
-            <div class="und-kartu__m" data-i18n-skip>co.glyiv.pocket &middot; v1.2.0<br>Glyiv-Pocket.apk &middot; 3,5 MB</div>
+            <div class="und-kartu__m" data-i18n-skip>co.glyiv.pocket &middot; v1.2.0<br>Glyiv-Pocket.apk &middot; 7,8 MB</div>
           </div>
         </div>
         <p class="und-kartu__d">Aplikasi harian: cari barang, hitung IMT, catat kebiasaan. <b>Bukan pratinjau</b> &mdash; angkanya dihitung dari pustaka faktor emisi Glyiv, dan batasnya ditulis di halamannya sendiri.</p>
@@ -211,7 +219,7 @@ body{background:var(--paper)}
         <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai versi web dulu.</span></p>
         <div class="und-sidik">
           <div class="und-sidik__k">SHA-256 berkas<button class="und-salin" type="button" data-salin>Salin</button></div>
-          <div class="und-sidik__v" data-sha>794cd715a96bbc9c51d0884db9806bbcef4200535d6996579ba6ba826112b7e0</div>
+          <div class="und-sidik__v" data-sha>bf28469dc6fa108214bdc56989145f099557c71ba4bab6475410e8b723c30b9d</div>
         </div>
       </div>
 
@@ -221,7 +229,7 @@ body{background:var(--paper)}
           <img class="und-kartu__ik" src="/download/icon-news.webp" width="52" height="52" alt="" loading="lazy">
           <div>
             <h3 class="und-kartu__n">Glyiv News</h3>
-            <div class="und-kartu__m" data-i18n-skip>co.glyiv.news &middot; v1.2.0<br>Glyiv-News.apk &middot; 3,6 MB</div>
+            <div class="und-kartu__m" data-i18n-skip>co.glyiv.news &middot; v1.5.1<br>Glyiv-News.apk &middot; 7,8 MB</div>
           </div>
         </div>
         <p class="und-kartu__d">Kabar dan artikel Glyiv, plus <b>widget layar utama</b> yang menampilkan judul terbaru. Butuh koneksi untuk memuat isinya.</p>
@@ -232,7 +240,7 @@ body{background:var(--paper)}
         <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai versi web dulu.</span></p>
         <div class="und-sidik">
           <div class="und-sidik__k">SHA-256 berkas<button class="und-salin" type="button" data-salin>Salin</button></div>
-          <div class="und-sidik__v" data-sha>c42ee0259282cbf173e9dc031ca14ece7fdec38fe7639d2048c3437a23505eaf</div>
+          <div class="und-sidik__v" data-sha>908603aaf5d3d53bb5c2861bef2bd89e5c6cabcf333562e416bbe7168a52a80e</div>
         </div>
       </div>
 
@@ -262,7 +270,7 @@ body{background:var(--paper)}
           <img class="und-kartu__ik" src="/download/icon-outlet.webp" width="52" height="52" alt="" loading="lazy">
           <div>
             <h3 class="und-kartu__n">Glyiv GIP Outlet</h3>
-            <div class="und-kartu__m" data-i18n-skip>co.glyiv.outlet &middot; v1.4.0</div>
+            <div class="und-kartu__m" data-i18n-skip>co.glyiv.outlet &middot; v1.4.0<br>Glyiv-GIP-Outlet.apk &middot; 3,5 MB</div>
           </div>
         </div>
         <p class="und-kartu__d">Satu aplikasi untuk seluruh outlet. Masuk dengan akun Google; <b>peran Anda yang menentukan tampilannya</b> &mdash; petugas titik bayar melihat papan pesanan, pemilik melihat menu, bahan, laporan, dan sisanya. Isinya konsol web yang sama, dibungkus supaya punya ikon sendiri di layar utama dan terbuka penuh tanpa bilah peramban.</p>
@@ -281,6 +289,19 @@ body{background:var(--paper)}
           <a class="und-b und-b--web" href="/gip/outlet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></svg>Konsol web outlet</a>
         </div>
         <p class="und-sebab" data-sebab><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg><span>Berkasnya sudah jadi, tapi belum diunggah ke tautan umum. Pakai konsol web dulu.</span></p>
+        <!-- ⛔ Blok ini SEMPAT TIDAK ADA di kartu ini saja, sampai 16 Agustus 2026.
+             Halaman ini menjanjikan, dengan kalimatnya sendiri di bagian "Sebelum
+             memasang", "sidik jari SHA-256 tiap berkas di kartunya masing-masing"
+             — dan satu-satunya kartu tanpa sidik adalah aplikasi yang dipakai
+             outlet sungguhan. Pengunjung yang paling teliti justru yang paling
+             dirugikan: ia diminta memverifikasi, lalu tidak diberi pembandingnya.
+             `data-sha` WAJIB ada, karena itulah kait yang dipakai
+             `scripts/kumpulkan-apk.cjs` untuk memperbarui sidik tiap kali APK
+             dibangun ulang. Tanpa kait itu, sidiknya membeku diam-diam. -->
+        <div class="und-sidik">
+          <div class="und-sidik__k">SHA-256 berkas<button class="und-salin" type="button" data-salin>Salin</button></div>
+          <div class="und-sidik__v" data-sha>c98c82488a8c81960705b6e0f62dfde1b3fcd336c2896e75fb33dc200681459c</div>
+        </div>
       </div>
 
     </div>
@@ -446,15 +467,47 @@ body{background:var(--paper)}
      berkas di Drive masih lama, hanya pita Drive yang boleh berdiri. */
   if (siapPita) siapPita.hidden = !semua || driveBasi;
 
-  /* Tanggal build dari berkas data — supaya tidak ada dua sumber kebenaran. */
-  if (data.dibangun) {
+  /* Tanggal build dari berkas data — supaya tidak ada dua sumber kebenaran.
+
+     ⛔ NAMA BULANNYA DISUSUN PER BAHASA DI SINI, bukan diserahkan ke kamus.
+     Slotnya ber-`data-i18n-skip` (lihat markupnya di atas) karena isinya
+     dihitung saat jalan: menyerahkannya ke kamus berarti setiap hari rilis
+     mencetak satu kunci harfiah baru dan mematikan kunci kemarin. Kamus masih
+     memuat sisa-sisanya — "31 Juli 2026", "1 Agustus 2026", "3 Agustus 2026",
+     "9 Agustus 2026" — bukti bahwa pergeserannya sudah terjadi berkali-kali.
+     Pola yang sama dipakai label paginasi di `lab/kabar/kabar.js`. */
+  var BULAN = {
+    id: ["Januari","Februari","Maret","April","Mei","Juni","Juli",
+         "Agustus","September","Oktober","November","Desember"],
+    en: ["January","February","March","April","May","June","July",
+         "August","September","October","November","December"],
+    ar: ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو",
+         "أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"],
+  };
+  /* Sengaja membaca `window.GLYIV_APK` sendiri, BUKAN `data` dari closure di
+     atas: pendengar di bawah dipasang sekali dan harus tetap benar untuk simpul
+     halaman berikutnya, sementara closure ini mati bersama larian IIFE-nya. */
+  function gambarTanggalBuild() {
+    var d = (window.GLYIV_APK || {}).dibangun;
+    if (!d) return;
     var slotTgl = document.querySelector("[data-dibangun]");
-    if (slotTgl) {
-      var bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli",
-                   "Agustus","September","Oktober","November","Desember"];
-      var p = String(data.dibangun).split("-");
-      if (p.length === 3) slotTgl.textContent = (+p[2]) + " " + bulan[(+p[1]) - 1] + " " + p[0];
-    }
+    if (!slotTgl) return;
+    var lang;
+    try { lang = (window.GlyivI18n && window.GlyivI18n.lang) || window.GLYIV_LANG; } catch (e) {}
+    var bulan = BULAN[lang] || BULAN.id;
+    var p = String(d).split("-");
+    if (p.length === 3) slotTgl.textContent = (+p[2]) + " " + bulan[(+p[1]) - 1] + " " + p[0];
+  }
+  gambarTanggalBuild();
+  /* Konsekuensi wajib dari `data-i18n-skip`: mesin kamus tidak akan menyentuh
+     slot ini lagi, jadi pergantian bahasa harus digambar ulang dari sini.
+     ⚠︎ Penjaga SEKALI-PASANG. IIFE ini sengaja tanpa penjaga "sudah pernah
+     jalan" (lihat komentar di atasnya) karena porter menjalankannya ulang tiap
+     halaman dibuka — tanpa penjaga di sini, satu pendengar menumpuk per
+     kunjungan dan tidak pernah dilepas. */
+  if (!window.__glyivTglBuild) {
+    window.__glyivTglBuild = true;
+    document.addEventListener("glyiv:lang", gambarTanggalBuild);
   }
 
   /* Sidik jari sertifikat juga dari berkas data. */

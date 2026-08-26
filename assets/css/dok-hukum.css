@@ -27,6 +27,87 @@ body { background: var(--paper); }
 .dok-grid { display: grid; grid-template-columns: 244px minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: start; padding: clamp(30px, 5vh, 56px) 0 clamp(44px, 7vh, 80px); }
 .dok-grid > * { min-width: 0; }
 
+/* ── kerangka KEDUA: hero + badan, tanpa rel daftar isi ────────────────────────
+   ⛔ KELIMA KELAS DI BAWAH SEBELUMNYA TIDAK ADA SAMA SEKALI, dan itu tidak
+   pernah memunculkan galat. `delete-account.html` — halaman yang SUDAH
+   diserahkan ke Google sebagai "Delete account URL" — memakai `.dok-hero`,
+   `.dok-hero__k`, `.dok-hero__d`, `.dok-hero__meta`, dan `.dok-body` sejak
+   17 Agustus 2026, sementara berkas ini hanya mengenal kerangka `.dok-grid`.
+   CSS tidak mengeluh untuk kelas yang tidak dikenal: elemennya cuma jatuh ke
+   gaya bawaan, halaman tetap "tampil", dan tidak ada yang tahu.
+
+   Terukur di https://glyiv.web.app/delete-account (18 Agustus 2026):
+     getComputedStyle('.dok-hero__meta').display → "block"   (bukan grid)
+     ketiga kotaknya di y = 137 / 193 / 249                  (menumpuk, bukan sebaris)
+     aturan CSS yang cocok `.dok-hero|.dok-body` di SELURUH lembar → 0
+   Sementara `.dok-sec`, `.dok-ring`, `.dok-pasal`, `.dok-tabel` semuanya
+   bergaya normal — itulah sebabnya cacatnya lolos: halamannya terlihat
+   sembilan-per-sepuluh benar, dan yang salah justru bagian paling atas.
+
+   Dipakai oleh halaman dokumen yang TIDAK punya daftar isi panjang
+   (delete-account, masthead). Halaman berpasal seperti privasi & ketentuan
+   tetap memakai `.dok-versi` + `.dok-grid` + `.dok-toc`. */
+/* ⛔ PADDING ATAS HARUS MELEWATI NAVBAR — INI BUKAN SELERA, INI TERUKUR.
+   `.lnav` adalah `position: fixed` setinggi 69 px dengan `z-index: 80`, jadi ia
+   TIDAK menyisihkan ruang untuk dirinya sendiri. Nilai lama
+   `clamp(28px, 5vh, 52px)` menghasilkan padding efektif 45 px — lebih pendek
+   daripada navbarnya sendiri.
+
+   Terukur di https://glyiv.io/masthead, 1440×900, 18 Agustus 2026:
+       jarak dasar navbar → puncak <h1>            2 px
+       .dok-hero__k ("Glyiv News") di y = 45       TERTUTUP PENUH
+       elementFromPoint di tengah kicker           .ldrop--mega  (milik navbar)
+   Jadi bukan hanya "mepet": eyebrow yang menyebut nama terbitannya HILANG dari
+   layar sepenuhnya, dan tidak ada galat apa pun yang memberitahukannya.
+
+   96 px = 69 navbar + 27 napas. Sama besarnya dengan `padding-top: 88px` yang
+   sudah dipakai `.ga-hero`, jadi ia mengikuti kebiasaan yang ada, bukan angka
+   baru. `12vh` membuatnya tumbuh di layar tinggi. */
+.dok-hero { padding: clamp(96px, 12vh, 132px) 0 clamp(24px, 3.5vh, 36px); border-bottom: 1px solid var(--hair); }
+.dok-hero__k { font-family: var(--l-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--brass); font-weight: 600; }
+.dok-hero h1 { font-family: var(--l-serif); font-weight: 600; font-size: clamp(27px, 4.6vw, 44px); line-height: 1.1; letter-spacing: -.015em; color: var(--pine); margin: 10px 0 0; }
+.dok-hero__d { font-size: clamp(14.5px, 1.6vw, 16px); line-height: 1.72; color: var(--slate); margin: 12px 0 0; max-width: 62ch; }
+
+/* Baris keterangan: kartu-kartu sejajar yang MELIPAT sendiri di layar sempit.
+   `auto-fit` + `minmax` dipilih alih-alih jumlah kolom tetap karena halaman ini
+   dibaca di tablet pemilik dan di ponsel peninjau Play; kolom tetap akan
+   memaksa gulir mendatar pada salah satunya. */
+.dok-hero__meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 10px; margin: 20px 0 0; }
+.dok-hero__meta > div { background: #fff; border: 1px solid var(--hair); border-radius: 14px; padding: 11px 14px; box-shadow: var(--sh1); }
+.dok-hero__meta .k { font-family: var(--l-mono); font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.dok-hero__meta .v { font-size: 14px; line-height: 1.45; color: var(--pine); font-weight: 700; margin-top: 4px; }
+/* `.v.g` = nilai yang ingin ditonjolkan (nama aplikasi, penanggung jawab).
+   Teal di atas kartu PUTIH — bukan di atas latar gelap. */
+.dok-hero__meta .v.g { color: var(--teal); }
+
+/* Lebar baca dibatasi: `.dok-wrap` 1180px terlalu lebar untuk paragraf, dan
+   halaman ini hampir seluruhnya paragraf. Tabelnya tetap bisa lebih lebar
+   sebab `.dok-tabelw` menggulir sendiri. */
+/* ⛔ `.dok-body` KINI MEMAKAI KERANGKA `.dok-grid` — SATU POLA UNTUK KEEMPAT
+   HALAMAN DOKUMEN, bukan dua.
+
+   Versi lama menaruh `<main>` selebar 860 px di dalam `.dok-wrap` selebar
+   1180 px TANPA `margin: auto`. Terukur di /masthead 1440×900:
+       main   x = 165, lebar 860
+       wrap   x = 125, lebar 1180
+       sisa kosong di kanan          280 px
+   Delapan puluh persen halaman rapat di kiri, dan 280 px di kanan tidak
+   mengerjakan apa pun — sementara `privasi.html` dan `ketentuan.html` memakai
+   ruang yang sama persis itu untuk daftar isi yang melekat. Dua tampilan untuk
+   satu keluarga halaman = varian yang dilarang prinsip #6.
+
+   Sekarang `.dok-body` cukup membungkus; kerangkanya `.dok-grid` yang sudah ada
+   di atas, dengan `.dok-toc` di kolom kiri. Tidak ada CSS kerangka baru yang
+   ditemukan di sini — yang lama dipakai ulang.
+
+   ⚠︎ `> main` tidak lagi dibatasi 860 px: lebar kolomnya kini datang dari
+   `minmax(0, 1fr)` milik `.dok-grid`, dan membatasinya lagi akan menyisakan
+   lubang kedua di sisi kanan. */
+.dok-body { padding: 0 0 clamp(44px, 7vh, 80px); }
+.dok-body .dok-grid { padding-top: clamp(24px, 4vh, 40px); }
+/* Rel daftar isi menempel di bawah navbar tetap (69 px), bukan di puncak layar. */
+.dok-body .dok-toc { top: 92px; }
+
 /* ── pita versi ───────────────────────────────────────────────────────────── */
 .dok-versi { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; background: #fff; border: 1px solid var(--hair); border-radius: 18px; box-shadow: var(--sh1); padding: 14px 18px; margin-bottom: 22px; }
 .dok-versi__b { font-family: var(--l-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--brass); font-weight: 600; }

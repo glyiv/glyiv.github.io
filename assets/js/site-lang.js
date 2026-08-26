@@ -337,7 +337,10 @@
        kamusnya; berkas ini hanya menyusul untuk navbar + hero (lewat event
        "glyiv:lang" di bawah). Satu sumber kebenaran, bukan dua. */
     window.glyivSetLang = function (code) {
-      try { localStorage.setItem("glyiv-lang", code); } catch (e) {}
+      /* Penanda pilihan MANUSIA — dibaca pengecualian alur tamu outlet di
+         resolveLang() (assets/js/i18n.js). Ditulis di sini juga karena fungsi
+         ini menyimpan sendiri saat mesin i18n belum/gagal dimuat. */
+      try { localStorage.setItem("glyiv-lang", code); localStorage.setItem("glyiv-lang-pilih", "1"); } catch (e) {}
       if (window.GlyivI18n) { try { window.GlyivI18n.setLang(code); return; } catch (e) {} }
       try { apply(code); } catch (e) {}
     };
@@ -346,15 +349,29 @@
        ramah-privasi). DEFAULT tetap Bahasa Indonesia. Hanya dipakai saat pengguna
        BELUM pernah memilih sendiri — pilihan eksplisit selalu menang & disimpan.
        Kalau mesin sudah ada, deteksinya milik mesin supaya tidak ada dua jawaban. */
+    /* ⛔ SALINAN KETIGA dari algoritma yang sama. Sengaja disalin, bukan
+       di-import: berkas ini dimuat sebagai skrip klasik oleh halaman statis
+       `dist/` yang TIDAK punya bundler, jadi tidak ada jalan berbagi modul.
+       Yang menjaga keempat salinan tetap sepakat adalah gerbang yang
+       menjalankan keempatnya berdampingan: `scripts/gerbang-bahasa-sepakat.cjs`.
+
+       Cocoknya pada SUBTAG UTAMA, bukan `indexOf(...) === 0`. Yang lama membaca
+       awalan mentah, sehingga tag apa pun yang kebetulan diawali "in"/"id"/"ar"
+       ikut tertangkap. Dan seperti tiga salinan lain: entri PERTAMA yang
+       dikenali yang menang — `navigator.languages` memang daftar terurut
+       menurut preferensi. Tabel kasus + sebab lengkapnya di resolveLang()
+       pada assets/js/i18n.js. */
     function detect() {
       if (window.GlyivI18n && window.GlyivI18n.lang) return window.GlyivI18n.lang;
+      var BAHASA = { id: 1, en: 1, ar: 1 };
       try {
-        var list = navigator.languages || [navigator.language || "en"];
+        var list = (navigator.languages && navigator.languages.length)
+          ? navigator.languages
+          : (navigator.language ? [navigator.language] : []);
         for (var i = 0; i < list.length; i++) {
-          var c = (list[i] || "").toLowerCase();
-          if (c.indexOf("id") === 0 || c.indexOf("in") === 0) return "id";
-          if (c.indexOf("ar") === 0) return "ar";
-          if (c.indexOf("en") === 0) return "en";
+          var utama = String(list[i] || "").toLowerCase().split(/[-_]/)[0];
+          if (utama === "in") utama = "id"; // kode Indonesia lawas (Android lama)
+          if (Object.prototype.hasOwnProperty.call(BAHASA, utama)) return utama;
         }
       } catch (e) {}
       return "en"; // butir 15 — Inggris default

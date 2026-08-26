@@ -212,6 +212,24 @@ Ke-11 foto berbeda di sana sudah **dilihat satu per satu** pada ronde 48; sembil
 di antaranya hanya alam (ombak, turbin angin, panel surya, bumi malam, tunas
 jagung, hutan, bawah laut, danau, hutan musim gugur) dan aman.
 
+> ⛔ **DUA KALIMAT DI ATAS TERNYATA TIDAK BENAR — lihat bagian F.** Sampul Kabar
+> memakai **17** foto Unsplash berbeda, bukan 11, dan pemeriksaan ulang pada
+> 14 Agustus 2026 menemukan tiga yang TIDAK aman lolos ronde 48: sebuah kastel
+> Jerman yang dikenali (12 artikel), sebuah layar berisi antarmuka perangkat
+> lunak pihak ketiga dengan nama produk terbaca (13 artikel), dan sebuah interior
+> ruang server milik pihak lain (2 artikel). Dua foto lagi **tidak bisa dilacak
+> sama sekali** ke laman Unsplash mana pun, jadi kalimat "asalnya jelas" juga
+> tidak berlaku untuk semuanya.
+>
+> Dan angka 11 itu **bukan** jadi usang karena artikelnya bertambah. Itu sempat
+> diduga, lalu diukur: `content-pack.js` dengan 99 artikel — persis cakupan yang
+> paragraf di atas maksud — sudah memuat **17** foto Unsplash unik. Ketiga
+> artikel tambahan di `kabar-data.js` tidak membawa satu pun foto Unsplash baru.
+> Jadi angkanya **salah sejak ditulis**: yang diperiksa ronde 48 hanya sebagian,
+> tetapi dicatat seolah seluruhnya. **Klaim "sudah dilihat satu per satu" wajib
+> menyebutkan berapa banyak yang dilihat dan bagaimana jumlah itu diperoleh** —
+> tanpa itu, pemeriksaan sebagian tidak bisa dibedakan dari pemeriksaan penuh.
+
 **Dua yang tidak aman sudah diganti pada ronde ini**, dan penggantinya berkas
 lokal yang sudah tercatat di A2:
 
@@ -242,3 +260,172 @@ tersendiri yang bisa dijadwalkan; yang tidak boleh adalah menganggapnya selesai.
    catatan yang tidak pernah ditulis — dan itulah asal mula seluruh masalah ini.
 6. **Kalau `alt`-nya menggambarkan isi gambar, `alt`-nya ikut diganti** — dan
    kalimat barunya masuk kamus EN + AR pada ronde yang sama.
+
+---
+
+## F. Gambar ARTIKEL KABAR — 102 artikel, 22 gambar
+
+Bagian A1–A3 mencatat gambar **halaman** (industri, ekosistem, beranda). Bagian
+ini mencatat gambar **artikel Kabar**, yang datang lewat jalur berbeda: medan
+`cover` di `dist/lab/kabar/content-pack.js` dan `kabar-data.js`. Sampai ronde
+ini tidak ada satu baris pun di repositori yang menyebut foto Unsplash mana yang
+dipakai 102 artikel itu, siapa fotografernya, atau di bawah lisensi apa —
+keadaan yang persis sama dengan yang melahirkan berkas ini pada 3 Agustus 2026,
+terulang di jalur yang tidak ikut diperiksa ronde 48.
+
+**22 gambar melayani 102 artikel**: 17 hotlink `images.unsplash.com`
+(87 artikel) dan 5 berkas lokal `/lab/img/`
+(15 artikel). Yang terbanyak dipakai ulang: satu gambar
+menjadi sampul **13 artikel** yang topiknya berbeda-beda.
+
+### F1. Unsplash — hotlink, di bawah [Unsplash License](https://unsplash.com/license)
+
+Lisensi Unsplash: gratis, boleh komersial, **tanpa kewajiban** mencantumkan nama.
+Kredit tetap dipasang — bukan karena diwajibkan, melainkan supaya tiap gambar
+bisa dilacak balik ke laman aslinya saat ada yang bertanya. Tidak satu pun dari
+gambar ini berasal dari `plus.unsplash.com` (Unsplash+), yang lisensinya berbeda
+— itu diperiksa, bukan diasumsikan.
+
+| ID foto (nama berkas CDN) | Fotografer | Isinya — hasil MELIHAT | Artikel | Risiko |
+|---|---|---|---|---|
+| `photo-1460925895917-afdab827c52f` | [Carlos Muza](https://unsplash.com/photos/laptop-computer-on-glass-top-table-hpjSkU2UYSU) | laptop menampilkan **antarmuka tema admin pihak ketiga "Gentelella"** — nama produk terbaca | 13 | ⛔ ganti |
+| `photo-1611974789855-9c2a0a7236a3` | [Maxim Hopman](https://unsplash.com/photos/stock-market-candlestick-chart-on-dark-screen-fiXLQXAhCfk) | grafik lilin pasar saham di layar gelap | 12 | aman |
+| `photo-1518709268805-4e9042af9f23` | [Tim Rebkavets](https://unsplash.com/photos/reflection-of-a-castle-surrounded-with-fogs-B5PNmw5XSpk) | **Burg Eltz** — kastel Jerman yang dikenali, berkabut | 12 | ⛔ ganti |
+| `photo-1466692476868-aef1dfb1e735` | [Markus Spiske](https://unsplash.com/photos/selective-focus-photo-of-plant-spouts-vrbZVyX2k4I) | tunas semai di baki tanam | 7 | aman |
+| `photo-1505142468610-359e7d316be0` | [Shifaaz shamoon](https://unsplash.com/photos/aerial-photo-of-seashore-sLAk1guBG90) | garis pantai & ombak dari udara | 6 | aman |
+| `photo-1509391366360-2e959784a276` | [American Public Power Association](https://unsplash.com/photos/solar-panels-on-green-field-513dBrMJ_5w) | deretan panel surya di padang rumput | 5 | aman |
+| `photo-1451187580459-43490279c0fa` | [NASA](https://unsplash.com/photos/photo-of-outer-space-Q1p7bh3SHj8) | bumi malam dari orbit | 5 | aman |
+| `photo-1532601224476-15c79f2f7a51` | **TIDAK TERVERIFIKASI** | turbin angin di bukit hijau | 5 | ⛔ ganti |
+| `photo-1532996122724-e3c354a0b15b` | [Pawel Czerwinski](https://unsplash.com/photos/four-assorted-color-trash-bins-beside-gray-wall-RkIsyD_AVvc) | empat tong sampah terpilah | 4 | aman |
+| `photo-1625246333195-78d9c38ad449` | [Steven Weeks](https://unsplash.com/photos/green-plant-on-brown-soil-DUPFowqI6oI) | barisan jagung muda | 3 | aman |
+| `photo-1425913397330-cf8af2ff40a1` | [Steven Kamenar](https://unsplash.com/photos/photography-of-tall-trees-at-daytime-MMJx78V7xS8) | hutan pinus ditembus cahaya | 3 | aman |
+| `photo-1511497584788-876760111969` | **TIDAK TERVERIFIKASI** | danau gunung & konifer saat senja | 3 | ⛔ ganti |
+| `photo-1441974231531-c6227db76b6e` | [Lukasz Szmigiel](https://unsplash.com/photos/forest-trees-jFCViYFYcus) | jalan setapak di hutan | 2 | aman |
+| `photo-1470071459604-3b5ec3a7fe05` | [v2osk](https://unsplash.com/photos/foggy-mountain-summit-1Z2niiBPg5A) | punggungan berkabut (Quiraing, Skye) — bentukan **alam** | 2 | aman |
+| `photo-1558494949-ef010cbdcc31` | [Taylor Vick](https://unsplash.com/photos/cable-network-M5tzZtFCOfs) | rak server berkabel — **interior fasilitas pihak ketiga** | 2 | ⛔ ganti |
+| `photo-1512621776951-a57141f2eefd` | [Anna Pelzer](https://unsplash.com/photos/bowl-of-vegetable-salads-IGfIGP5ONV0) | mangkuk sayur di meja kayu | 2 | aman |
+| `photo-1559825481-12a05cc00344` | [Silas Baisch](https://unsplash.com/photos/blue-and-clear-body-of-water-K785Da4A_JA) | dasar pasir & permukaan air dari bawah | 1 | aman |
+
+### F2. Pexels — berkas lokal, sudah tercatat di A2
+
+Kelimanya berkas kita sendiri di `dist/lab/img/`, di bawah
+[Pexels License](https://www.pexels.com/license/): gratis, boleh komersial, tanpa
+kewajiban atribusi. Barisnya sudah ada di A2; diulang di sini supaya daftar
+Kabar bisa dibaca utuh tanpa melompat.
+
+| Berkas | ID foto Pexels | Isinya | Artikel | Risiko |
+|---|---|---|---|---|
+| `pemerintah.webp` | [9923607](https://www.pexels.com/photo/9923607/) | punggungan berhutan berlapis kabut | 8 | aman |
+| `logistik-transport.webp` | [8412505](https://www.pexels.com/photo/8412505/) | jalan lurus menembus hutan pinus | 4 | aman |
+| `tambang-dan-logam.webp` | [32649163](https://www.pexels.com/photo/32649163/) | pohon muda di lereng bekas gali | 1 | aman |
+| `reforestation.webp` | [18142907](https://www.pexels.com/photo/18142907/) | tegakan muda yang dirawat | 1 | aman |
+| `satellite.webp` | [26078108](https://www.pexels.com/photo/26078108/) | ⚠︎ lahan KERING dari udara — **bukan** "lahan hijau" seperti tertulis di A2 | 1 | aman |
+
+### F3. ⛔ Yang harus diganti — 5 gambar, 35 artikel
+
+Standarnya sama dengan yang dipakai ronde 48, dan alasannya juga sama: **lisensi
+Unsplash/Pexels menutupi FOTONYA, bukan orang, merek, karya, dan properti pihak
+ketiga yang ada DI DALAM foto itu** — lisensinya sendiri menyatakan itu.
+
+| Gambar | Yang benar-benar ada di dalamnya | Kenapa harus diganti | Artikel |
+|---|---|---|---|
+| `photo-1518709268805-4e9042af9f23` | **Burg Eltz**, kastel abad ke-12 milik keluarga von Eltz, obyek wisata berbayar | Bangunan yang dikenali — kategori yang aturan E butir 4 larang, dan alasan `pemerintah` lama dibuang (Big Ben). Risikonya sedang, bukan tinggi: Jerman mengenal *Panoramafreiheit*. Yang menentukan justru **nol relevansi** — kastel Jerman untuk 12 artikel karbon Indonesia | 12 |
+| `photo-1460925895917-afdab827c52f` | **antarmuka tema admin "Gentelella Alela!"** dengan nama produk terbaca | Tata letak & nama perangkat lunak pihak ketiga adalah karya orang lain; lisensi foto tidak mencakupnya. Cacat yang PERSIS SAMA membuat `analitik` lama diganti ronde 48 | 13 |
+| `photo-1532601224476-15c79f2f7a51` | turbin angin di bukit hijau — isinya aman | **Asalnya tidak bisa dibuktikan.** Tidak muncul di katalog publik Unsplash lewat empat cara terpisah, sementara CDN-nya masih menyajikannya | 5 |
+| `photo-1511497584788-876760111969` | danau gunung — isinya aman | Sama: asal & lisensinya tidak bisa ditunjukkan | 3 |
+| `photo-1558494949-ef010cbdcc31` | interior ruang server pihak ketiga | Risiko hukum rendah (tidak ada merek terbaca), tetapi ronde 48 membuang `data-center` lama dengan alasan yang sama persis. Dua standar untuk satu cacat | 2 |
+
+⚠︎ **Dua di antaranya bukan soal isi, melainkan soal BUKTI.**
+`photo-1532601224476-…` dan `photo-1511497584788-…` isinya bersih — sudah
+dilihat. Yang tidak ada adalah laman lisensinya: keduanya dicari lewat pencarian
+teks (±30 kueri), frasa alt otomatis Unsplash, penelusuran graf `related`
+sedalam 90 simpul, dan laman pencarian publik — nihil, sementara CDN-nya tetap
+menyajikan berkasnya. Foto yang ditarik dari katalog tetapi masih hidup di CDN
+adalah keadaan terburuk bagi kita: **kalau ada yang menuntut, kita tidak punya
+apa pun untuk ditunjukkan.** Jangan mengarang nama fotografernya.
+
+### F4. Yang ditemukan pada catatan LAMA saat memeriksa
+
+Pemeriksaan ini memakai gambar yang sebagian sudah terdaftar di A1, jadi
+klaimnya ikut teruji. Tiga baris A1/A2 ternyata tidak akurat:
+
+| Baris | Yang tertulis | Yang sebenarnya |
+|---|---|---|
+| A1 `eko-lab-rnd.webp` | "Wajah / merek? **tidak**" | Berkasnya **Burg Eltz** — bangunan yang dikenali. Benar bahwa tidak ada wajah/merek, tetapi kolom itu tidak menanyakan bangunan, padahal aturan E butir 4 melarangnya |
+| A1 `eko-dana.webp` | "Wajah / merek? **tidak**" | Layarnya memuat **nama produk "Gentelella" yang terbaca** — sebuah merek, di dalam kolom yang menanyakan merek |
+| A2 `satellite.webp` | "sungai berkelok di antara **lahan hijau**, dari udara" | Lahan **kering**: pasir kecokelatan bertabur semak gelap. Isinya tetap aman; keterangannya yang keliru |
+
+Ketiganya diperiksa dengan **membuka berkasnya**, bukan membaca ulang catatannya.
+Pelajarannya: kolom "wajah / merek?" terlalu sempit — ia tidak menangkap
+bangunan yang dikenali maupun antarmuka perangkat lunak, padahal keduanya sudah
+pernah memaksa penggantian. **Kolom itu sebaiknya jadi "wajah / merek /
+bangunan / layar pihak ketiga?".**
+
+### F5. Hotlink: risikonya nyata, tetapi mengunduh BUKAN otomatis lebih aman
+
+87 dari 102 artikel memanggil `images.unsplash.com` langsung. Aturan E butir 1
+berbunyi "unduh, jangan hotlink", dan untuk performa itu benar. Untuk **risiko
+hukum**, arahnya justru berlawanan, dan itu perlu dikatakan sebelum ada yang
+menjalankan aturan E secara buta:
+
+| | Hotlink (sekarang) | Diunduh & dilayani sendiri |
+|---|---|---|
+| Foto ditarik karena sengketa hak | ikut hilang dari halaman kita **dengan sendirinya** | **kita masih menyebarkannya** — dan kita yang jadi penerbitnya |
+| Ketersediaan | bergantung CDN pihak lain; sampulnya bisa lenyap kapan saja | milik kita, stabil |
+| `srcset` / `width` / `height` | tidak bisa dipasang → halaman melompat | bisa |
+| Berat | 3.666 KB dari CDN luar (`node scripts/audit-aset.cjs`) | masuk anggaran byte kita |
+
+Renderer-nya sudah menangani hilangnya gambar dengan rapi: `kabar.js` memasang
+`onerror="this.style.display='none'"` pada sampul kartu maupun artikel, jadi
+sampul yang lenyap menjadi ruang kosong, bukan ikon rusak.
+
+**Usulan — jangan diunduh borongan.** Ke-5 gambar di F3 diganti dulu; sesudah itu
+barulah sisanya diunduh, karena mengunduh gambar bermasalah berarti memindahkan
+masalahnya ke server kita sendiri. Mengunduh 17 berkas sebelum F3 selesai
+adalah pekerjaan yang harus diulang.
+
+### F6. Cara ini dibuktikan — supaya bisa diperiksa ulang
+
+Yang dilakukan, dan yang TIDAK dilakukan:
+
+1. **Daftar URL** diambil dengan memuat `content-pack.js` + `kabar-data.js` di
+   dalam `vm` dan membaca medan `cover` — bukan regex atas teks berkasnya.
+   Hasilnya 102 artikel, 22 URL unik.
+2. **Nama fotografer TIDAK diketik dari ingatan atau dari ringkasan mesin
+   pencari.** Tiap nama datang dari pencocokan **persis** nama berkas CDN di
+   dalam `urls.raw` pada hasil `unsplash.com/napi/search` — satu gambar, satu
+   laman foto. Sebuah pencarian web sempat "menjawab" bahwa
+   `photo-1441974231531-…` adalah karya "Sarah Williams" berjudul "Autumn
+   Leaves"; itu **karangan** — tidak satu pun laman yang dirujuknya memuat nama
+   itu, dan pencocokan CDN menunjukkan fotografernya **Lukasz Szmigiel**. Nama
+   yang tidak lolos pencocokan ditulis **TIDAK TERVERIFIKASI**, bukan ditebak.
+3. **Isi gambar diperiksa dengan MELIHAT** ke-17 berkas Unsplash dan tiga berkas
+   lokal, bukan menebak dari nama berkas atau kata kunci. Semua unduhan
+   pemeriksaan ditulis ke luar repositori dan dihapus setelah dilihat.
+4. Data lengkapnya — termasuk daftar slug artikel per gambar dan objek
+   `coverCredit` yang siap dipasang — ada di `kredit-gambar.json` hasil ronde ini.
+
+### F7. Kredit dipasang di medan `coverCredit`, **bukan** di dalam `blocks`
+
+`kabar.js` sudah punya mesinnya (baris 200–254 dan 733–753): medan
+`coverCredit: { by, on, url }`, dengan nama + alamat lisensi **diturunkan
+otomatis** dari platform supaya tidak perlu diketik 87 kali. Barisnya digambar
+sesudah daftar sumber, sesuai permintaan pemilik ("sertakan atribusi gambar
+mungkin setelah source").
+
+⛔ **Jangan menaruh kredit di dalam `blocks`.** `blocks` adalah badan artikel: ia
+ikut diringkas `deriveStory()`, ikut dibongkar-pasang komposer Studio, dan ikut
+disunting siapa pun yang mengedit narasinya — satu suntingan salah menghapus
+catatan asal-usul gambar tanpa ada yang tahu. Kredit adalah **metadata aset**;
+umurnya sama dengan `cover`, jadi ia tinggal bersebelahan dengan `cover`.
+
+⚠︎ **Mesinnya sudah ada, datanya belum**: per ronde ini **0 dari 102** artikel
+memuat `coverCredit`, jadi tidak ada satu baris kredit pun yang benar-benar
+tampil. `kredit-gambar.json` menyediakan objek siap-pasang untuk **79 dari 102**
+artikel; sisanya adalah 5 artikel bergambar tak terverifikasi (F3) dan 18 artikel
+bergambar Pexels lokal, yang lisensinya tidak menuntut atribusi.
+
+⚠︎ Sesudah `content-pack.js` disentuh, jalankan `node scripts/port-all.cjs` —
+`public/lab/kabar/content-pack.js` adalah salinan turunan, dan itulah yang
+disajikan glyiv.web.app. Berkas KREDIT-GAMBAR.md ini sendiri tidak ikut diport
+(ia dokumentasi, bukan aset yang disajikan).

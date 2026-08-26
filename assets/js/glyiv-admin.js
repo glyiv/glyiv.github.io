@@ -1,21 +1,37 @@
 /* GLYIV — admin gate (classic script, loaded site-wide by glyiv-nav.js).
    - Reveals nav items marked .lnav__admin only when the Glyiv admin is signed in.
-   - Gates /lab/landing/* pages behind Google sign-in (glyiv.archourium@gmail.com).
-   Uses Firebase Auth via dynamic import (project glyiv-28711); the auth session
-   persists across the whole glyiv.github.io domain (shared with Kabar Studio),
-   so signing in once reveals the Landing directory everywhere. */
+   - Gates /lab/landing/* pages behind Google sign-in (kedua surel pendiri).
+   Uses Firebase Auth via dynamic import (project glyiv-5cb33); the auth session
+   is then the SAME session the React app uses, so signing in once reveals the
+   Landing directory everywhere — di glyiv.github.io MAUPUN di glyiv.web.app.
+
+   ⛔ PROYEKNYA DIPINDAH 13 Agustus 2026, dari `glyiv-28711` ke `glyiv-5cb33`.
+   Dua sebab, keduanya terukur:
+     1. `glyiv-28711` authorizedDomains = [localhost, glyiv-28711.firebaseapp.com,
+        glyiv-28711.web.app, glyiv.github.io]. `glyiv.web.app` TIDAK ada di sana,
+        jadi setiap `signInWithPopup` dari situs yang pemilik uji ditolak
+        `auth/unauthorized-domain` — sebelum surel siapa pun sempat dibaca.
+     2. Berkas ini mengaku "shared with Kabar Studio". Kabar kini di `glyiv-5cb33`;
+        kalau berkas ini tertinggal, klaim itu jadi bohong dan admin harus login
+        dua kali dengan dua sesi berbeda di satu situs. */
 (function () {
   "use strict";
   if (window.__glyivAdmin) return; window.__glyivAdmin = true;
-  var ADMIN = "glyiv.archourium@gmail.com";
+  /* ⛔ DAFTAR, BUKAN SATU EMAIL — sama persis dengan `src/config/adminAllowlist.ts`
+     dan `isAdminEmail()` di firestore.rules. Sebelumnya dipaku ke satu surel, jadi
+     pendiri yang login dengan archourium@gmail.com — yang server IZINKAN — tidak
+     pernah melihat menu admin muncul. */
+  var ADMIN_EMAILS = ["archourium@gmail.com", "glyiv.archourium@gmail.com"];
+  function isAdminEmail(e) { return ADMIN_EMAILS.indexOf(String(e || "").trim().toLowerCase()) !== -1; }
   var V = "12.16.0";
+  /* Disalin apa adanya dari `.env` (VITE_FIREBASE_*). */
   var CFG = {
-    apiKey: "AIzaSyAB7BEYrSueFTi0GDg3GSySIceNJfN5aG8",
-    authDomain: "glyiv-28711.firebaseapp.com",
-    projectId: "glyiv-28711",
-    storageBucket: "glyiv-28711.firebasestorage.app",
-    messagingSenderId: "429607082737",
-    appId: "1:429607082737:web:4890b9fab47f6b242aa750",
+    apiKey: "AIzaSyDD-qemp0Y9A3nDUg_x3mKDCoDc450hC-E",
+    authDomain: "glyiv-5cb33.firebaseapp.com",
+    projectId: "glyiv-5cb33",
+    storageBucket: "glyiv-5cb33.firebasestorage.app",
+    messagingSenderId: "537596927094",
+    appId: "1:537596927094:web:ef434f813b8a3aa0015357",
   };
   var isLanding = /\/lab\/landing\//.test(location.pathname);
   // universal admin login trigger: add #admin (or ?admin) to ANY url to open the sign-in.
@@ -161,7 +177,7 @@
       signInFn = authM.signInWithPopup; signOutFn = authM.signOut;
       authM.onAuthStateChanged(authRef, function (user) {
         resolved = true;
-        var admin = !!(user && user.email === ADMIN);
+        var admin = !!(user && isAdminEmail(user.email));
         setAdmin(admin);
         if (admin) hideGate();
         else if (isLanding) showGate(user ? "denied" : "login", false);

@@ -1,36 +1,28 @@
 {
   "_catatan": [
-    "GLYIV KABAR — indeks gabungan untuk koleksi `kabar_articles` (proyek glyiv-28711).",
+    "⛔ BERKAS INI SUDAH TIDAK DIPAKAI — JANGAN DI-DEPLOY DARI SINI.",
     "",
-    "KENAPA BERKAS INI ADA. Kueri kanonis feed & widget adalah:",
-    "  status == 'published'  AND  publishAt <= <sekarang>  ORDER BY publishAt DESC",
-    "Firestore MEWAJIBKAN indeks gabungan untuk itu. Tanpa indeksnya jawabannya",
-    "bukan 'kosong' melainkan HTTP 400 FAILED_PRECONDITION — dan itu bukan teori:",
-    "diukur 2026-07-31 lewat runQuery langsung ke firestore.googleapis.com,",
-    "  kueri berurut   → 400 FAILED_PRECONDITION 'The query requires an index'",
-    "  kueri tanpa urut → 200 (koleksi memang kosong)",
-    "Widget Android (news/android/.../KabarSumber.java) sengaja mundur ke kueri",
-    "tanpa urutan lalu mengurutkan di perangkat, jadi ia tidak PECAH — tapi ia",
-    "membaca hingga 80 dokumen setiap penyegaran, dan itu tumbuh selamanya.",
+    "Indeks `kabar_articles` sekarang tinggal di /firestore.indexes.json di AKAR",
+    "repo, bersama seluruh indeks proyek `glyiv-5cb33`, dan ikut terbit lewat",
+    "  firebase deploy --only firestore:indexes",
+    "yang sudah menunjuk berkas akar itu lewat firebase.json.",
     "",
-    "CARA MEMASANG (pilih satu):",
-    "  A) Firebase Console → Firestore → Indexes → Composite → Add index:",
-    "       Collection: kabar_articles · status Ascending · publishAt Descending",
-    "  B) firebase deploy --only firestore:indexes --project glyiv-28711",
-    "     (arahkan `firestore.indexes` di firebase.json ke berkas ini)",
+    "KENAPA BERKAS INI PERNAH TERPISAH. Kabar lahir sebagai fitur glyiv.github.io",
+    "dan diletakkan di proyek Firebase sendiri, `glyiv-28711`. Akun deploy Glyiv",
+    "tidak punya akses ke proyek itu, jadi indeksnya memang tidak bisa dibuat dari",
+    "sini — dan catatan itu benar, selama premisnya benar.",
     "",
-    "⚠︎ Ini proyek glyiv-28711 (Kabar), BUKAN glyiv-5cb33 (situs & aplikasi).",
-    "   Jangan menggabungkannya dengan /firestore.indexes.json di akar repo."
+    "13 Agustus 2026 premisnya runtuh. Diukur dengan runQuery tanpa token:",
+    "  status=='published' @glyiv-28711 → 200, NOL dokumen",
+    "  status=='published' @glyiv-5cb33 → 200, 87 dokumen",
+    "Seluruh artikel ternyata ada di `glyiv-5cb33`; `glyiv-28711` kosong. Kabar",
+    "karena itu dipindahkan ke proyek yang memang memuat datanya, dan indeksnya",
+    "ikut pindah ke berkas akar.",
+    "",
+    "Berkas ini sengaja DIKOSONGKAN, bukan dihapus: dua salinan spesifikasi indeks",
+    "yang saling bertentangan adalah persis cara cacat kemarin lahir. Yang tersisa",
+    "hanya penunjuk arah."
   ],
-  "indexes": [
-    {
-      "collectionGroup": "kabar_articles",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "publishAt", "order": "DESCENDING" }
-      ]
-    }
-  ],
+  "indexes": [],
   "fieldOverrides": []
 }

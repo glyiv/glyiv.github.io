@@ -958,11 +958,39 @@ function initLivBot(canvas, framing) {
      ronde ini perbaiki. ±0,20 rad masih 11,5°, tatapannya tetap terasa. */
   const onMove = (e) => { const nx = Math.max(-1, Math.min(1, (e.clientX - (rect.left + rect.width / 2)) / 420)); const ny = Math.max(-1, Math.min(1, (e.clientY - (rect.top + rect.height / 2)) / 420)); tRY = nx * 0.2; tRX = ny * 0.16; };
   if (!REDUCE) {
-    window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("scroll", invalidate, { passive: true });
-    window.addEventListener("resize", invalidate);
+    /* ⛔ TATAPAN MENGIKUTI TETIKUS TIDAK DIPASANG DI PERANGKAT SENTUH, DAN ITU
+       BUKAN PENGHEMATAN KOSMETIK. `rect` HANYA dibaca `onMove`; di perangkat
+       `(hover:none) and (pointer:coarse)` `mousemove` tidak pernah datang, jadi
+       seluruh rantai `scroll → invalidate → rAF → getBoundingClientRect` bekerja
+       demi nilai yang tak pernah dipakai siapa pun — dan tiap
+       `getBoundingClientRect` di dalam bingkai gulir MEMAKSA tata letak sinkron.
+       Terukur di beranda, 412 px, satu sapuan gulir (`scripts/profil-gulir.cjs`):
+       **113 dari 115 pembacaan tata letak** selama gulir berasal dari
+       `refreshRect` di berkas ini. Di tablet pemilik semuanya sia-sia.
+       `removeEventListener` atas pendengar yang tidak pernah dipasang adalah
+       no-op, jadi `__teardown()` tetap benar apa adanya. */
+    if (!COARSE) {
+      window.addEventListener("mousemove", onMove, { passive: true });
+      window.addEventListener("scroll", invalidate, { passive: true });
+      window.addEventListener("resize", invalidate);
+    }
     const blinkLoop = () => timers.push(setTimeout(() => { blinkT = 0.08; timers.push(setTimeout(() => (blinkT = 1), 120)); blinkLoop(); }, 2600 + Math.random() * 3600));
-    const behav = () => timers.push(setTimeout(() => { if (!action) { const pool = ["pulse", "pulse", "nod", "nod", "spin"]; play(pool[Math.floor(Math.random() * pool.length)]); } behav(); }, 4200 + Math.random() * 4400));
+    /* ── CADENSI DIAM BEDA UNTUK PELUNCUR DAN PANEL ────────────────────────
+       Permintaan pemilik: bot di sudut layar harus lebih sering bergerak supaya
+       lebih mengundang ditekan. Yang TIDAK ikut dipercepat adalah bot di dalam
+       panel obrolan (`framing === "full"`): di sana pengunjung sedang MEMBACA
+       jawaban, dan sesuatu yang menyentak tiap tiga detik di atas teks yang
+       sedang dibaca bukan "hidup", itu mengganggu.
+         peluncur ("bust") : 2,4-5,0 dtk   (dulu 4,2-8,6 — sama seperti panel)
+         panel    ("full") : 4,2-8,6 dtk   TIDAK BERUBAH
+       Kolamnya juga dipisah: peluncur tidak pernah "spin" (putaran penuh 1,7
+       dtk di petak 88 px terbaca seperti galat render), panel tetap boleh. */
+    const idleMin = framing === "full" ? 4200 : 2400;
+    const idleVar = framing === "full" ? 4400 : 2600;
+    const idlePool = framing === "full"
+      ? ["pulse", "pulse", "nod", "nod", "spin"]
+      : ["pulse", "pulse", "nod", "nod", "pulse"];
+    const behav = () => timers.push(setTimeout(() => { if (!action) { play(idlePool[Math.floor(Math.random() * idlePool.length)]); } behav(); }, idleMin + Math.random() * idleVar));
     blinkLoop(); behav(); timers.push(setTimeout(() => play("pulse"), 420));
   } else { head.rotation.set(-0.02, -0.05, 0); }   // kemiringan volumenya sudah di `emb`, jangan ditambah banyak
 
@@ -1375,9 +1403,22 @@ function initLivHost(canvas) {
   };
   function doWave() { if (waving) return; waving = true; waveT = 0; }
   if (!REDUCE) {
-    window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("scroll", invalidate, { passive: true });
-    window.addEventListener("resize", invalidate);
+    /* ⛔ TATAPAN MENGIKUTI TETIKUS TIDAK DIPASANG DI PERANGKAT SENTUH, DAN ITU
+       BUKAN PENGHEMATAN KOSMETIK. `rect` HANYA dibaca `onMove`; di perangkat
+       `(hover:none) and (pointer:coarse)` `mousemove` tidak pernah datang, jadi
+       seluruh rantai `scroll → invalidate → rAF → getBoundingClientRect` bekerja
+       demi nilai yang tak pernah dipakai siapa pun — dan tiap
+       `getBoundingClientRect` di dalam bingkai gulir MEMAKSA tata letak sinkron.
+       Terukur di beranda, 412 px, satu sapuan gulir (`scripts/profil-gulir.cjs`):
+       **113 dari 115 pembacaan tata letak** selama gulir berasal dari
+       `refreshRect` di berkas ini. Di tablet pemilik semuanya sia-sia.
+       `removeEventListener` atas pendengar yang tidak pernah dipasang adalah
+       no-op, jadi `__teardown()` tetap benar apa adanya. */
+    if (!COARSE) {
+      window.addEventListener("mousemove", onMove, { passive: true });
+      window.addEventListener("scroll", invalidate, { passive: true });
+      window.addEventListener("resize", invalidate);
+    }
     const blinkLoop = () => timers.push(setTimeout(() => { blinkT = 0.08; timers.push(setTimeout(() => (blinkT = 1), 110)); blinkLoop(); }, 2400 + Math.random() * 3400));
     const waveLoop = () => timers.push(setTimeout(() => { doWave(); waveLoop(); }, 6000 + Math.random() * 6000));
     blinkLoop(); timers.push(setTimeout(doWave, 900)); waveLoop();

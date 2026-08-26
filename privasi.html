@@ -30,8 +30,16 @@
       <p>Apa yang benar-benar kami simpan, siapa yang boleh membacanya, dan apa yang bahkan admin Glyiv tidak bisa lihat.</p>
     </div>
     <div class="ga-hero__aside">
-      <div><div class="k">Versi</div><div class="v g">1.0</div></div>
-      <div><div class="k">Berlaku</div><div class="v">1 Agu 2026</div></div>
+      <!-- ⛔ ANGKA INI HARUS SAMA DENGAN PITA VERSI DI BAWAH (`dok-versi`).
+           Sampai 16 Agustus 2026 hero berbunyi "1.0 · 1 Agu 2026" sementara
+           pita tepat di bawahnya berbunyi "Versi 1.1 · berlaku sejak 3 Agustus
+           2026" — satu halaman kebijakan privasi yang MENYANGKAL DIRINYA
+           SENDIRI, di dokumen yang justru diserahkan ke Google sebagai
+           kebijakan resmi dan dibaca orang saat mempersoalkan data mereka.
+           Dokumen hukum yang menyebut dua tanggal berlaku tidak bisa
+           dipertahankan; yang mana yang mengikat? -->
+      <div><div class="k">Versi</div><div class="v g">1.3</div></div>
+      <div><div class="k">Berlaku</div><div class="v">23 Agu 2026</div></div>
       <div><div class="k">Bagian</div><div class="v">11</div></div>
     </div>
   </div>
@@ -41,8 +49,8 @@
 
   <div class="dok-versi">
     <span class="dok-versi__b">Pengenal versi</span>
-    <span class="dok-versi__v">privasi-2026-08-03</span>
-    <span class="dok-versi__t"><b>Versi 1.1</b> &middot; berlaku sejak <b>3 Agustus 2026</b> &middot; Pengendali Data Pribadi: <b>PT WOSU Innovation Technology</b></span>
+    <span class="dok-versi__v">privasi-2026-08-23</span>
+    <span class="dok-versi__t"><b>Versi 1.3</b> &middot; berlaku sejak <b>23 Agustus 2026</b> &middot; Pengendali Data Pribadi: <b>PT WOSU Innovation Technology</b></span>
   </div>
 
   <div class="dok-grid">
@@ -140,7 +148,7 @@
             <p><b>2.2</b> Profil Anda di basis data kami memuat: <b>peran</b> (pengguna biasa atau admin), <b>nama tampilan</b>, dan &mdash; hanya bila Anda mengisinya sendiri &mdash; <b>alamat dompet pembayaran</b> beserta waktu terakhir diubah. Tidak ada medan lain.</p>
             <p><b>2.3</b> Bila Anda menyalakan notifikasi di ponsel, kami menyimpan <b>langganan notifikasi peramban</b> Anda (alamat titik-kirim dan kuncinya), beserta pengenal akun dan alamat surel Anda, supaya notifikasi pesanan bisa sampai. Anda bisa mematikannya kapan saja, dan langganannya dihapus.</p>
             <p><b>2.4</b> Pelanggan yang memindai QR meja memakai <b>sesi tamu</b> tanpa akun. Sesi itu tidak punya profil dan tidak menyimpan identitas apa pun; ia hilang bersama penyimpanan peramban. Aturan server kami secara tegas melarang sesi tamu menulis profil, catatan harian, area lahan, maupun pengukuran pohon &mdash; justru karena data yang tersimpan ke sesi tamu tidak akan bisa dipulihkan siapa pun.</p>
-            <p><b>2.5</b> Di peramban Anda, kami menyimpan: pilihan bahasa, penanda bahwa Anda pernah masuk sebagai admin, dan sesi masuk Firebase. <b>Kami tidak memasang cookie pelacak</b>, tidak memakai Google Analytics, dan tidak menanam piksel iklan siapa pun. Ini bukan janji longgar &mdash; tidak ada satu pun pemanggilan analitik di dalam kode situs ini.</p>
+            <p><b>2.5</b> Di peramban Anda, kami menyimpan: pilihan bahasa, penanda bahwa Anda pernah masuk sebagai admin, dan sesi masuk Firebase. <b>Kami tidak memasang cookie pelacak</b>, tidak memakai Google Analytics, dan tidak menanam piksel iklan siapa pun. Ini bukan janji longgar &mdash; tidak ada satu pun pemanggilan analitik di dalam kode situs ini. <b>Pasal ini berbicara tentang peramban.</b> Aplikasi Android yang Anda pasang dari Play Store adalah hal berbeda: di sana ada iklan Google AdMob, dan penjelasan lengkapnya di <b>Pasal 12.4</b>.</p>
           </div>
         </details>
 
@@ -201,7 +209,8 @@
         <details class="dok-pasal" open>
           <summary>Pasal 7 &mdash; Glyiv News &amp; asisten Gly <svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></summary>
           <div class="dok-pasal__isi">
-            <p><b>7.1 Glyiv News berjalan di proyek Firebase yang TERPISAH</b> dari produk lainnya, bernama <code>glyiv-28711</code>. Membaca Kabar tidak menyentuh basis data tempat akun dan catatan Anda berada, dan sebaliknya. Membaca artikel <b>tidak memerlukan akun</b> dan tidak kami catat per pembaca.</p>
+            <p><b>7.1 Membaca Glyiv News tidak memerlukan akun</b> dan tidak kami catat per pembaca. Yang tersimpan hanyalah penghitung gabungan di tingkat artikel — jumlah tayangan, suka, dan bagikan — tanpa identitas, tanpa profil, dan tanpa riwayat bacaan siapa pun. Penanda "sudah pernah dibaca" dan "sudah pernah disukai" tinggal di peramban Anda sendiri, bukan di server kami.</p>
+            <p>Sampai 13 Agustus 2026 bagian ini menyatakan Glyiv News berjalan di proyek Firebase terpisah bernama <code>glyiv-28711</code>. Sejak tanggal itu artikel Glyiv News berada di proyek yang sama dengan produk Glyiv lainnya, <code>glyiv-5cb33</code>. Kami menuliskannya apa adanya alih-alih diam-diam mengganti kalimatnya: pemisahan itu pernah kami sebut sebagai jaminan, dan jaminan yang berubah harus disebut. Yang <b>tidak berubah</b> adalah isinya — membaca artikel tetap tidak butuh akun, tetap tidak dicatat per pembaca, dan penghitung artikel tetap tidak dikaitkan dengan akun mana pun.</p>
             <p><b>7.2</b> Saat ini Glyiv News <b>tidak memiliki formulir langganan surel</b>. Bila kelak dibuka, kebijakan ini diperbarui lebih dulu dan diberi nomor versi baru.</p>
             <p><b>7.3 Asisten Gly.</b> Saat Anda mengirim pesan kepada Gly, yang dikirim keluar adalah: teks yang Anda ketik, sampai sepuluh giliran terakhir percakapan di tab itu, dan <b>konteks halaman</b> berupa judul halaman, judul besarnya, ringkasan meta, dan alamat halamannya. Tidak ada pengenal akun, alamat surel, atau isi dokumen Anda yang ikut.</p>
             <p><b>7.4</b> Percakapan itu melewati proksi kami di Cloudflare lalu diteruskan ke penyedia model bahasa <b>Groq</b>. <b>Glyiv tidak menyimpan percakapan Gly di basis datanya</b>; riwayat percakapan hidup di memori tab Anda dan hilang saat tab ditutup. Yang tidak bisa kami janjikan adalah pencatatan di sisi Cloudflare dan Groq &mdash; itu tunduk pada kebijakan mereka, dan karena itu <b>jangan mengetik data pribadi atau rahasia usaha ke dalam kotak obrolan</b>.</p>
@@ -298,7 +307,7 @@
                 <tr><td>Berkas: foto menu, QRIS, KTP, NIB</td><td>Cloud Storage</td><td><b>asia-southeast2</b> &mdash; Jakarta, Indonesia</td></tr>
                 <tr><td>Pengiriman notifikasi pesanan</td><td>Cloud Functions</td><td><b>asia-southeast2</b> &mdash; Jakarta, Indonesia</td></tr>
                 <tr><td>Halaman situs &amp; aplikasi web</td><td>Firebase Hosting</td><td>Jaringan pengiriman global Google</td></tr>
-                <tr><td>Artikel Glyiv News</td><td>Proyek terpisah <code>glyiv-28711</code></td><td>Infrastruktur Google</td></tr>
+                <tr><td>Artikel Glyiv News (tanpa data pembaca)</td><td>Cloud Firestore <code>(default)</code>, koleksi <code>kabar_articles</code></td><td><b>nam5</b> &mdash; wilayah gabungan Amerika Serikat</td></tr>
                 <tr><td>Foto lapangan Ukur DBH, antrean luring</td><td>Penyimpanan lokal perangkat</td><td><b>Perangkat Anda</b> &mdash; tidak pernah dikirim</td></tr>
               </tbody>
             </table></div>
@@ -358,11 +367,23 @@
                 <tr><td><b>OpenStreetMap Foundation</b></td><td>Permintaan ubin peta jalan, dengan konsekuensi yang sama seperti di atas.</td><td>Lapisan peta jalan sebagai alternatif citra satelit.</td></tr>
                 <tr><td><b>Unpkg</b> (jaringan pengiriman paket npm)</td><td>Alamat IP Anda saat pustaka peta dimuat.</td><td>Pustaka peta Leaflet diambil dari sana.</td></tr>
                 <tr><td><b>Unsplash</b></td><td>Alamat IP Anda saat halaman memuat foto ilustrasi.</td><td>Sebagian foto ilustrasi di halaman pemasaran berasal dari sana.</td></tr>
+                <tr><td><b>Google LLC</b> &mdash; Google AdMob<br><i>Hanya di aplikasi Android dari Play Store.</i></td><td><b>Advertising ID</b> perangkat Anda, alamat IP, jenis perangkat, dan kejadian &ldquo;iklan ditampilkan/ditutup&rdquo;. <b>Tidak menerima nama, surel, dokumen, poligon, tinggi/berat, maupun isi percakapan Anda dengan Gly.</b></td><td>Iklan sela yang membiayai aplikasi versi gratis. Lihat Pasal 12.4.</td></tr>
+                <tr><td><b>Google LLC</b> &mdash; Google Play Billing</td><td>Token pembelian, ID produk, dan status langganan Anda. Kami kirimkan token itu ke server kami untuk diperiksa keasliannya ke Google.</td><td>Memproses langganan, dan mematikan iklan di seluruh aplikasi Glyiv untuk akun yang sama.</td></tr>
               </tbody>
             </table></div>
             <p><b>12.1</b> Batas kejujurannya: <b>poligon yang Anda gambar tidak pernah kami kirimkan ke Esri atau OpenStreetMap</b>. Yang mereka terima adalah permintaan gambar petak peta &mdash; sama seperti aplikasi peta mana pun. Tetapi permintaan itu tetap mengungkap kira-kira di mana Anda sedang melihat, dan itu wajib Anda ketahui.</p>
-            <p><b>12.2</b> <b>Kami tidak memakai</b> jaringan iklan, alat analitik pihak ketiga, alat rekam sesi, maupun alat pengujian A/B.</p>
+            <p><b>12.2</b> <b>Kami tidak memakai</b> alat analitik pihak ketiga, alat rekam sesi, maupun alat pengujian A/B. Jaringan iklan <b>kami pakai</b>, tetapi terbatas: hanya <b>Google AdMob</b>, hanya di dalam <b>aplikasi Android</b> yang Anda pasang dari Play Store. <b>Situs web glyiv.io tidak memuat jaringan iklan apa pun</b> &mdash; membuka Glyiv News lewat peramban tidak menampilkan satu pun iklan dan tidak memanggil AdMob.</p>
             <p><b>12.3</b> Bila kami menambah pihak ketiga baru yang menerima data pribadi, kebijakan ini diperbarui dan nomor versinya dinaikkan sebelum layanannya menyala.</p>
+            <p><b>12.4 Iklan, Advertising ID, dan cara mematikannya.</b> Tiga aplikasi memuat iklan sela: <b>Glyiv News</b>, <b>Glyiv Green Assets</b>, dan <b>Glyiv Pocket</b>. <b>(a)</b> Yang dipakai adalah <b>Advertising ID</b> &mdash; pengenal milik perangkat, bukan milik akun Glyiv Anda; aplikasi meminta izin <code>com.google.android.gms.permission.AD_ID</code>, dan Anda bisa melihatnya sendiri di daftar izin aplikasi. <b>(b)</b> Kami <b>tidak mengirimkan</b> data Glyiv Anda ke AdMob: bukan nama, bukan surel, bukan dokumen KYC, bukan poligon lahan, bukan tinggi/berat badan, bukan isi percakapan dengan Gly. Yang mengalir ke sana adalah apa yang tercantum di tabel di atas. <b>(c)</b> Anda dapat <b>mengatur ulang atau menghapus</b> Advertising ID kapan saja lewat <i>Setelan Android &rarr; Privasi &rarr; Iklan</i>; menghapusnya membuat iklan menjadi tidak dipersonalisasi, dan aplikasinya tetap berjalan. <b>(d)</b> <b>Berlangganan menghilangkan iklan</b> di seluruh aplikasi Glyiv untuk akun yang sama &mdash; sesudah itu AdMob tidak lagi dipanggil. <b>(e)</b> Iklan <b>tidak pernah ditampilkan</b> di halaman yang meminta data sensitif (unggah KYC, sertifikat lahan, atau data tinggi/berat).</p>
+            <p><b>12.5 Batas kejujuran soal langganan.</b> Yang membuat Anda bebas iklan adalah <b>hak akses yang tersimpan pada akun Glyiv Anda</b>, bukan pembelian di satu aplikasi. Akibatnya dua: langganan yang dibeli lewat aplikasi mana pun berlaku di aplikasi Glyiv lain begitu Anda masuk dengan akun yang sama &mdash; dan sebaliknya, <b>selama Anda belum pernah masuk</b>, kami tidak punya tempat menyimpan hak itu, sehingga iklannya masih muncul. Pembayaran, pembatalan, dan pengembalian dana ditangani Google Play, bukan kami; kami hanya menerima jawaban Google atas keaslian pembelian Anda.</p>
+            <!-- ⛔ 12.6 DITAMBAHKAN 23 Agustus 2026. Sampai versi 1.2 dokumen ini
+                 hanya menjelaskan pemberitahuan lewat PERAMBAN (Pasal 11), sementara
+                 aplikasi Android yang benar-benar dikirim melakukan dua hal lain yang
+                 tidak disebut di mana pun: widget layar utamanya menarik `news-feed.json`
+                 di LATAR lewat `JobKabar`/`LayananKabar`, dan notifikasi artikel baru
+                 dikirim oleh aplikasi itu sendiri, bukan oleh peramban.
+                 Formulir Data Safety Play menanyakan persis dua hal ini. -->
+            <p><b>12.6 Widget layar utama dan notifikasi aplikasi.</b> Bila Anda memasang widget Glyiv News di layar utama, aplikasi <b>menarik daftar artikel terbaru di latar belakang</b> secara berkala dari <code>glyiv.io</code> supaya kartunya tetap terisi &mdash; termasuk saat aplikasi tidak sedang Anda buka. <b>(a)</b> Yang diambil hanya <b>berkas umpan publik</b> berisi judul, dek, tanggal terbit, dan alamat gambar sampul; ia sama bagi semua orang dan <b>tidak memuat apa pun tentang Anda</b>. <b>(b)</b> Permintaan itu, seperti setiap permintaan internet, membawa <b>alamat IP</b> dan jenis perangkat Anda ke penyedia hosting kami; kami tidak menyimpannya dalam bentuk yang terkait dengan identitas Anda. <b>(c)</b> Aplikasi juga dapat menampilkan <b>satu notifikasi</b> saat artikel baru terbit &mdash; paling banyak sekali sehari, dan tidak pernah dua kali untuk artikel yang sama. Izin notifikasi diminta di layar, dan menolaknya tidak mematikan fungsi lain aplikasi. <b>(d)</b> Widget dan notifikasi keduanya bisa Anda matikan: lepas widget dari layar utama, dan cabut izin notifikasi lewat <i>Setelan Android &rarr; Aplikasi &rarr; Glyiv News &rarr; Notifikasi</i>.</p>
           </div>
         </details>
       </section>
@@ -494,7 +515,7 @@
         <details class="dok-pasal" open>
           <summary>Pasal 18 &mdash; Versi &amp; pemberitahuan <svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></summary>
           <div class="dok-pasal__isi">
-            <p><b>18.1</b> Dokumen ini adalah <b>versi 1.1</b>, pengenal <code>privasi-2026-08-03</code>, berlaku sejak <b>3 Agustus 2026</b>. Nomor versi dan tanggal berlaku selalu tertulis di bagian atas halaman ini. Perubahan dari versi 1.0: penambahan <b>Pasal 5.6</b> tentang berkas sertifikat lahan yang Anda unggah sendiri di Glyiv Green Assets.</p>
+            <p><b>18.1</b> Dokumen ini adalah <b>versi 1.3</b>, pengenal <code>privasi-2026-08-23</code>, berlaku sejak <b>23 Agustus 2026</b>. Nomor versi dan tanggal berlaku selalu tertulis di bagian atas halaman ini. Riwayatnya: <b>versi 1.1</b> (3 Agustus 2026) menambahkan <b>Pasal 5.6</b> tentang berkas sertifikat lahan yang Anda unggah sendiri di Glyiv Green Assets; <b>versi 1.2</b> mencatat masuknya <b>iklan Google AdMob dan langganan Google Play Billing</b> di aplikasi Android &mdash; <b>Pasal 12.4 dan 12.5</b>, ditambah dua baris baru pada daftar penerima di Pasal 12. Sampai versi 1.1, Pasal 12.2 berbunyi bahwa kami tidak memakai jaringan iklan; kalimat itu tidak lagi benar sejak aplikasi beriklan terbit, dan diperbaiki di sini alih-alih dibiarkan. <b>Versi 1.3</b> (23 Agustus 2026) menambahkan <b>Pasal 12.6</b> tentang widget layar utama yang menarik umpan artikel di latar belakang dan notifikasi yang dikirim oleh aplikasi &mdash; dua jalur jaringan yang sebelumnya tidak dijelaskan pasal mana pun.</p>
             <p><b>18.2</b> Perubahan yang menambah jenis data yang kami simpan, menambah pihak ketiga yang menerimanya, atau memperluas siapa yang boleh membacanya, kami <b>beri tahu lebih dulu</b> melalui surel ke alamat akun Anda dan/atau pemberitahuan di dalam aplikasi, paling lambat 14 hari sebelum berlaku.</p>
             <p><b>18.3</b> Perbaikan bahasa, penomoran, dan penjelasan yang tidak mengubah makna dapat kami lakukan tanpa pemberitahuan, tetapi tetap menaikkan nomor versi.</p>
             <p><b>18.4</b> Bila sebuah perubahan menuntut persetujuan baru dari Anda, kami memintanya secara terpisah &mdash; melanjutkan memakai aplikasi tidak dianggap sebagai persetujuan atas perubahan semacam itu.</p>
@@ -528,7 +549,7 @@
         </div>
 
         <p class="dok-kaki">
-          Kebijakan Privasi Glyiv &middot; versi 1.1 &middot; pengenal <code>privasi-2026-08-03</code> &middot; berlaku 3 Agustus 2026<br>
+          Kebijakan Privasi Glyiv &middot; versi 1.3 &middot; pengenal <code>privasi-2026-08-23</code> &middot; berlaku 23 Agustus 2026<br>
           Naskah yang mengikat adalah versi Bahasa Indonesia. Terjemahan Inggris dan Arab disediakan untuk kemudahan membaca.<br>
           Dokumen terkait: <a href="/ketentuan.html">Ketentuan Layanan</a> &middot; <a href="/download.html">Unduh aplikasi Android</a>
         </p>

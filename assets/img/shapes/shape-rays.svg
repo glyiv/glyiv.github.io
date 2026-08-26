@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 336 336" fill="none">
+<g>
+<path d="M164.5 0 L164.5 116 L171.5 116 L171.5 0Z" fill="currentColor"/>
+<path d="M193.72 1.94 L173.58 116.18 L180.47 117.4 L200.62 3.16Z" fill="currentColor"/>
+<path d="M222.17 8.93 L182.49 117.94 L189.07 120.34 L228.74 11.33Z" fill="currentColor"/>
+<path d="M248.97 20.76 L190.97 121.22 L197.03 124.72 L255.03 24.26Z" fill="currentColor"/>
+<path d="M273.3 37.05 L198.74 125.92 L204.1 130.42 L278.67 41.55Z" fill="currentColor"/>
+<path d="M294.44 57.33 L205.58 131.9 L210.08 137.26 L298.94 62.69Z" fill="currentColor"/>
+<path d="M311.74 80.97 L211.28 138.97 L214.78 145.03 L315.24 87.03Z" fill="currentColor"/>
+<path d="M324.67 107.25 L215.67 146.92 L218.06 153.5 L327.06 113.83Z" fill="currentColor"/>
+<path d="M332.84 135.38 L218.6 155.52 L219.81 162.42 L334.05 142.28Z" fill="currentColor"/>
+<path d="M336 164.5 L220 164.5 L220 171.5 L336 171.5Z" fill="currentColor"/>
+<path d="M334.05 193.72 L219.81 173.58 L218.6 180.48 L332.84 200.62Z" fill="currentColor"/>
+<path d="M327.06 222.17 L218.06 182.5 L215.67 189.08 L324.67 228.75Z" fill="currentColor"/>
+<path d="M315.24 248.97 L214.78 190.97 L211.28 197.03 L311.74 255.03Z" fill="currentColor"/>
+<path d="M298.94 273.31 L210.08 198.74 L205.58 204.1 L294.44 278.67Z" fill="currentColor"/>
+<path d="M278.67 294.45 L204.1 205.58 L198.74 210.08 L273.3 298.95Z" fill="currentColor"/>
+<path d="M255.03 311.74 L197.03 211.28 L190.97 214.78 L248.97 315.24Z" fill="currentColor"/>
+<path d="M228.74 324.67 L189.07 215.66 L182.49 218.06 L222.17 327.07Z" fill="currentColor"/>
+<path d="M200.62 332.84 L180.47 218.6 L173.58 219.82 L193.72 334.06Z" fill="currentColor"/>
+<path d="M171.5 336 L171.5 220 L164.5 220 L164.5 336Z" fill="currentColor"/>
+<path d="M142.27 334.06 L162.41 219.82 L155.52 218.6 L135.38 332.84Z" fill="currentColor"/>
+<path d="M113.83 327.07 L153.5 218.06 L146.92 215.66 L107.25 324.67Z" fill="currentColor"/>
+<path d="M87.03 315.24 L145.03 214.78 L138.97 211.28 L80.97 311.74Z" fill="currentColor"/>
+<path d="M62.69 298.95 L137.25 210.08 L131.89 205.58 L57.33 294.45Z" fill="currentColor"/>
+<path d="M41.55 278.67 L130.41 204.1 L125.91 198.74 L37.05 273.31Z" fill="currentColor"/>
+<path d="M24.25 255.03 L124.71 197.03 L121.21 190.97 L20.76 248.97Z" fill="currentColor"/>
+<path d="M11.32 228.75 L120.33 189.08 L117.94 182.5 L8.93 222.17Z" fill="currentColor"/>
+<path d="M3.16 200.62 L117.4 180.48 L116.18 173.58 L1.94 193.72Z" fill="currentColor"/>
+<path d="M0 171.5 L116 171.5 L116 164.5 L0 164.5Z" fill="currentColor"/>
+<path d="M1.94 142.28 L116.18 162.42 L117.4 155.52 L3.16 135.38Z" fill="currentColor"/>
+<path d="M8.93 113.83 L117.94 153.5 L120.33 146.92 L11.32 107.25Z" fill="currentColor"/>
+<path d="M20.76 87.03 L121.21 145.03 L124.71 138.97 L24.25 80.97Z" fill="currentColor"/>
+<path d="M37.05 62.69 L125.91 137.26 L130.41 131.9 L41.55 57.33Z" fill="currentColor"/>
+<path d="M57.33 41.55 L131.89 130.42 L137.25 125.92 L62.69 37.05Z" fill="currentColor"/>
+<path d="M80.97 24.26 L138.97 124.72 L145.03 121.22 L87.03 20.76Z" fill="currentColor"/>
+<path d="M107.25 11.33 L146.92 120.34 L153.5 117.94 L113.83 8.93Z" fill="currentColor"/>
+<path d="M135.38 3.16 L155.52 117.4 L162.41 116.18 L142.27 1.94Z" fill="currentColor"/>
+</g>
+</svg>

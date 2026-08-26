@@ -3,3 +3,13 @@
 # Lokal saja — 22 MB dan tidak dilayani situs. Kalau sebuah konversi terlihat
 # lebih buruk, kembalikan dari sini lalu jalankan ulang porter.
 _asli-gambar/
+
+# ── APK: dilayani Firebase Hosting, bukan dari sini ────────────────────
+# Ditambahkan 27 Agustus 2026. Sejak 8 Agustus 2026 `kumpulkan-apk.cjs`
+# menyalin tiap APK ke `public/download/` supaya tersaji di
+# glyiv.web.app/download/<nama>.apk. Salinan di repo PUBLIK ini tidak
+# dilayani siapa pun dan hanya menambah 8 MB biner ke riwayat yang tidak
+# bisa dibuang tanpa menulis ulang seluruhnya. `.gitignore` repo induk
+# sudah memblokir `*.apk` sejak commit pertamanya, dengan alasan yang sama.
+*.apk
+*.aab

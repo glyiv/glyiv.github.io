@@ -9,10 +9,22 @@
 (function () {
   "use strict";
   if (window.__glyivGly) return;
-  // jangan dobel di halaman yang sudah membawa widget chat sendiri
+  /* ── MUNDUR HANYA KALAU ADA *CHAT* LAIN, BUKAN SEKADAR TOMBOL ────────────
+     Versi lama juga mundur begitu menemukan `.liv-fab` atau `.korb--3d` di
+     halaman. Satu-satunya halaman yang punya keduanya adalah artikel Kabar
+     (`dist/lab/kabar/artikel.html:99`) — dan TERUKUR: tidak ada satu pun
+     pendengar untuk `#glyBot` atau `.korb--3d` di seluruh dist/, public/ dan
+     src/. Jadi selama ini orb Gly di halaman artikel adalah tombol HIASAN:
+     ditekan, tidak terjadi apa-apa. Justru di halaman yang paling butuh —
+     pembaca sedang menatap satu artikel dan ingin bertanya tentangnya.
+
+     Sekarang: yang membuat berkas ini mundur hanya keberadaan panel obrolan
+     milik widget lain (`#gvChat` di design1.html, `#livLauncher`, atau
+     `#glyChat` yang sudah dipasang berkas ini sendiri). Tombol yang sudah ada
+     TIDAK membuatnya mundur — ia DIPAKAI apa adanya (lihat `mount()`), lengkap
+     dengan halo mood dan label per-artikelnya. */
   if (document.getElementById("gvChat") || document.getElementById("livLauncher") ||
-      document.getElementById("glyChat") || document.querySelector(".liv-fab") ||
-      document.querySelector(".korb--3d")) return;
+      document.getElementById("glyChat")) return;
   window.__glyivGly = true;
 
   var PROXY = (window.GLYIV_CHAT_PROXY || "https://glyiv-chat.archourium.workers.dev").trim();
@@ -114,15 +126,34 @@
   function mount() {
     if (!document.body) return setTimeout(mount, 30);
 
-    var fab = document.createElement("button");
-    fab.className = "liv-fab"; fab.id = "glyBot"; fab.setAttribute("aria-label", "Tanya Gly");
+    /* Tombol yang SUDAH ADA di markup halaman dipakai apa adanya — jangan
+       ditimpa. Di halaman artikel Kabar ia membawa halo mood dan label
+       `.korb__tip` yang sudah berbunyi tentang artikel yang sedang dibuka;
+       menggantinya dengan tombol generik justru membuang konteks yang sudah
+       benar. Yang dipastikan hanya dua hal: ada kanvas 3D di dalamnya, dan
+       tombolnya punya nama yang bisa dibaca pembaca layar. */
+    var fab = document.querySelector(".liv-fab");
+    if (!fab) {
+      fab = document.createElement("button");
+      fab.className = "liv-fab"; fab.id = "glyBot"; fab.setAttribute("aria-label", "Tanya Gly");
     /* ⚠︎ Keterangan "Tanya Gly" ditulis sebagai SIMPUL TEKS di dalam <i>, bukan
        lewat CSS `content:`. Isi `content:` tidak bisa dijangkau kamus i18n, jadi
        versi lamanya bertahan Bahasa Indonesia di halaman EN dan AR — di setiap
        halaman, tepat di bawah model 3D. Sebagai simpul teks ia diterjemahkan
        kamus seperti teks lain di situs. */
-    fab.innerHTML = '<span class="liv-fab__ping"><i>Tanya Gly</i></span><canvas id="botLauncherCanvas"></canvas>';
-    document.body.appendChild(fab);
+      fab.innerHTML = '<span class="liv-fab__bubble"><i>Tanya Gly</i></span><canvas id="botLauncherCanvas"></canvas>';
+      document.body.appendChild(fab);
+    } else {
+      /* Gelembung TIDAK ditambahkan ke tombol adopsi: halaman artikel sudah
+         punya `.korb__tip`, dan dua label untuk satu tombol adalah dua kali
+         kalimat yang sama di satu sudut layar. */
+      if (!fab.querySelector("canvas")) {
+        var cv = document.createElement("canvas"); cv.id = "botLauncherCanvas"; fab.appendChild(cv);
+      } else if (!fab.querySelector("#botLauncherCanvas")) {
+        fab.querySelector("canvas").id = "botLauncherCanvas";
+      }
+      if (!fab.getAttribute("aria-label")) fab.setAttribute("aria-label", "Tanya Gly");
+    }
 
     var chat = document.createElement("div");
     chat.className = "liv-chat"; chat.id = "glyChat"; chat.setAttribute("role", "dialog"); chat.setAttribute("aria-label", "Chat dengan Gly");
@@ -150,6 +181,32 @@
          Gelembung "me" DIKECUALIKAN: itu kata-kata pengunjung sendiri, dan
          menuliskan ulang kalimat orang bukan tugas mesin bahasa. */
       if ((who || "bot") !== "me") terjemahkan(b);
+
+      /* ⛔ TOMBOL LAPOR DI SETIAP JAWABAN — SYARAT PLAY, BUKAN HIASAN.
+         Kebijakan "AI-Generated Content" menuntut cara melaporkan isi yang
+         menyinggung tanpa keluar dari aplikasi. Jawaban Gly dirakit LLM saat
+         itu juga: tidak ada peninjau di antaranya, jadi kalimat yang tidak
+         pantas HANYA bisa ketahuan dari pembacanya.
+
+         Ia dipasang per gelembung, bukan satu di kepala panel, karena yang
+         dilaporkan adalah SATU kalimat tertentu — dan `excerpt` di bawah
+         membawa kalimat itu apa adanya ke laporan, sehingga redaksi tidak
+         perlu menebak jawaban mana yang dimaksud.
+
+         Gelembung "typing" dan gelembung "me" dikecualikan: yang pertama
+         bukan jawaban, yang kedua kata-kata pelapornya sendiri. */
+      if ((who || "bot") === "bot" && window.GlyivReport) {
+        var kaki = document.createElement("div");
+        kaki.className = "liv-bub__rep";
+        kaki.appendChild(window.GlyivReport.button({
+          kind: "ai-chat",
+          ref: "gly" + location.pathname,
+          excerpt: text,
+        }));
+        msgs.appendChild(kaki);
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+
       // gerakkan mulut bot 3D saat "bicara"
       if ((who || "bot") === "bot" && window.glyivBot && window.glyivBot.speak) {
         window.glyivBot.speak(true);
@@ -170,8 +227,36 @@
       "Bagaimana cara dapat reward-nya?",
       "Apa saja langkahnya?",
     ];
+    /* Apakah halaman ini SATU artikel, bukan daftarnya? Dua penanda, dan
+       keduanya harus setuju supaya /news (daftar) tidak ikut terjaring:
+       rutenya artikel DAN ada badan artikel yang benar-benar tergambar. */
+    function halamanArtikel() {
+      var p = location.pathname;
+      if (!/\/news\/article|\/lab\/kabar\/artikel/.test(p)) return false;
+      return !!document.querySelector(".kart__body, .kart, article");
+    }
     function daftarChip() {
       var p = location.pathname;
+      /* ── ARTIKEL: pertanyaan tentang YANG SEDANG DIBACA ────────────────────
+         Kalimatnya sengaja TIDAK menyisipkan judul artikel. Kunci kamus i18n
+         adalah kalimat Indonesia apa adanya, jadi chip yang menempelkan judul
+         akan menghasilkan kunci baru untuk setiap artikel — 95 artikel × 4 chip
+         = 380 kunci yang tidak akan pernah diterjemahkan.
+         Judulnya tidak hilang: `pageContext()` sudah mengirim judul, heading,
+         bagian dan ringkasan halaman ke dalam prompt sistem, jadi jawabannya
+         tetap tentang artikel INI. Chip yang tetap + konteks yang bergerak. */
+      if (halamanArtikel()) return [
+        "Ringkas artikel ini dalam tiga poin",
+        "Apa sumber datanya?",
+        "Apa kaitannya dengan Glyiv?",
+        "Apa artinya buat perusahaan saya?",
+      ];
+      if (/\/news|\/lab\/kabar/.test(p)) return [
+        "Apa isi kabar terbaru?",
+        "Bagaimana Glyiv memilih topiknya?",
+        "Apakah artikelnya dibantu AI?",
+        "Apa itu Glyiv?",
+      ];
       if (/\/industri\//.test(p)) return ["Apa solusi Glyiv untuk sektor ini?", "Bagaimana jejaknya dilacak?", "Apa itu CBAM & kenapa penting?"];
       if (/\/ekosistem\/pangan/.test(p)) return ["Bagaimana label pangan dihitung?", "Apa itu hari-pohon?", "Kenapa daging lebih tinggi emisinya?"];
       if (/\/ekosistem\//.test(p) || /\/apps\//.test(p)) return ["Apa fungsi business tree ini?", "Bagaimana ini terhubung ke ekosistem?", "Apa itu Glyiv?"];
@@ -204,9 +289,37 @@
        React, ?lang=), jadi tidak ada jalur yang terlewat. */
     document.addEventListener("glyiv:lang", function () { if (opened) chips(); });
 
+    /* ── SEKALI MENGAJAK, SESUDAH ITU DIAM ────────────────────────────────
+       Gelembung "Tanya Gly" berdenyut tiap 14 detik supaya bot 3D di sudut
+       layar terbaca sebagai sesuatu yang BISA DITEKAN — itu masalah nyata:
+       tanpa kata, ia hanya hiasan. Tetapi ajakan yang tidak pernah berhenti
+       berubah jadi gangguan pada kunjungan kedua.
+
+       Karena itu, begitu pengunjung SEKALI membuka obrolan, `body.gly-met`
+       mematikan siklusnya dan gelembungnya hanya keluar saat disorot atau
+       difokus (lihat lab.css). Ditandai di localStorage, jadi ia tetap diam
+       di kunjungan berikutnya.
+
+       `try/catch` bukan hiasan: localStorage MELEMPAR di jendela penyamaran
+       dan saat penyimpanan situs diblokir, dan lemparan di sini akan
+       mematikan seluruh pemasangan bot. */
+    function tandaiKenal() {
+      document.body.classList.add("gly-met");
+      try { localStorage.setItem("glyivGlyMet", "1"); } catch (e) {}
+    }
+    try { if (localStorage.getItem("glyivGlyMet") === "1") document.body.classList.add("gly-met"); } catch (e) {}
+
     function open() {
       document.body.classList.add("livchat-open");
-      if (!opened) { opened = true; chips(); setTimeout(function () { bub("Hai! Saya Gly, asisten Glyiv 🌿 Di sini 'green' berarti terlacak — tanya apa itu Glyiv, apa untungnya buat kamu atau perusahaanmu, dan apa saja langkahnya."); }, 220); }
+      tandaiKenal();
+      /* ⛔ `chips()` DI LUAR penjaga `!opened`, dan itu perbaikan cacat.
+         Dulu chip hanya dirender pada pembukaan PERTAMA. Di aplikasi React
+         halamannya berganti tanpa memuat ulang, jadi pengunjung yang membuka
+         Gly di beranda lalu pindah ke sebuah artikel dan membukanya lagi tetap
+         melihat chip beranda — persis kebalikan dari "saran sesuai halaman".
+         Merender ulang itu murah: lima <span> dan satu panggilan kamus. */
+      chips();
+      if (!opened) { opened = true; setTimeout(function () { bub("Hai! Saya Gly, asisten Glyiv 🌿 Di sini 'green' berarti terlacak — tanya apa itu Glyiv, apa untungnya buat kamu atau perusahaanmu, dan apa saja langkahnya."); }, 220); }
       setTimeout(function () { input.focus(); }, 300);
     }
     function close() { document.body.classList.remove("livchat-open"); }

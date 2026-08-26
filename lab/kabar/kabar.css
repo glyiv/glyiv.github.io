@@ -62,10 +62,69 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .khero h1 em{font-style:italic;color:var(--teal)}
 .khero p{font-size:clamp(16px,1.5vw,19px);color:var(--slate);max-width:56ch}
 
+/* ⛔ LANTAI TINGGI SELAGI ISINYA BELUM DIGAMBAR — pagar untuk "footer paling atas"
+   ═══════════════════════════════════════════════════════════════════════════
+   Pemilik, verbatim: *"tidak ada muncul splash screen kita yang glyiv, malah
+   yang muncul itu footer paling atas."*
+
+   `#kart` (artikel) dan `#kgrid` (indeks) LAHIR KOSONG di markup — isinya baru
+   digambar `kabar.js` sesudah empat skrip vanilla terunduh dan `kabar-live.js`
+   menjawab. Selama jendela itu dokumennya hanya setinggi bilah merek + kaki
+   halaman: terukur di glyiv.web.app pada 412 px / 1,6 Mbps / CPU 4×,
+   `document.scrollHeight` = 955 px dan `footer.getBoundingClientRect().top` =
+   **40 px** — kaki halaman tepat di bawah navbar, 1,6 detik lamanya.
+
+   Penjaga UTAMA-nya ada di React (`TiraiIsiSitus` di `src/App.tsx`): tirai
+   Glyiv ditahan sampai `.kart__cover` benar-benar tergambar. Aturan CSS ini
+   adalah pagar KEDUA, untuk jendela yang tidak bisa dijangkau tirai itu —
+   batas kerasnya lewat, skripnya gagal diunduh, atau halaman ini dibuka
+   langsung di glyiv.github.io yang tidak punya React sama sekali.
+
+   `:empty` dipilih dengan sengaja: ia berhenti berlaku SENDIRI pada mutasi yang
+   sama yang mengisi simpulnya, jadi tidak ada satu pun keadaan di mana lantai
+   ini menyisakan ruang kosong di bawah isi yang sudah jadi. `svh` disebut
+   SESUDAH `vh` supaya peramban yang tidak mengenalnya tetap mendapat lantai. */
+#kart:empty,#kgrid:empty{display:block;min-height:100vh;min-height:100svh}
+/* Keadaan KEDUA yang sama buruknya: slug-nya belum ada di content-pack, jadi
+   `kabar.js` mengisi `#kart` dengan plakat "Memuat artikel…" — satu `.wrap`
+   sendirian. `:empty` sudah tidak berlaku di sana, tetapi dokumennya masih
+   pendek. `:only-child` aman: artikel yang benar-benar tergambar selalu punya
+   `header.kart__cover` DAN `article.kbody`, jadi tidak pernah satu anak saja. */
+/* ⛔ LANTAINYA SETINGGI LAYAR PENUH, bukan dikurangi tinggi kepala.
+   Versi pertama memakai `100vh - 340px`, dan terukur pada 400 kbps kaki halaman
+   tetap masuk layar pertama: `footer.top = 815px` pada viewport 915px. Lantai
+   yang menyisakan 100px berarti kaki halaman NAIK 100px — cukup untuk terlihat,
+   dan "terlihat sedikit" tidak berbeda dari "terlihat" bagi orang yang sedang
+   menunggu artikelnya.
+   `100svh` disebut sesudah `100vh` supaya peramban tanpa satuan dinamis tetap
+   mendapat lantai; `svh` dipilih (bukan `lvh`) agar lantainya tidak melebihi
+   layar saat bilah alamat terlihat. */
+#kart > .wrap:only-child{min-height:100vh;min-height:100svh}
+
 /* article grid */
 .kgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-bottom:clamp(50px,8vh,90px)}
 .kgrid .feat{grid-column:span 3;display:grid;grid-template-columns:1.15fr .85fr;gap:0;border-radius:22px;overflow:hidden;border:1px solid var(--hair);box-shadow:var(--sh2);background:#fff}
-.kgrid .feat .kc__img{height:100%;min-height:320px}
+/* ⛔ `width:100%` + `aspect-ratio:auto` WAJIB — dan ini cacat yang PERSIS SAMA
+   dengan yang sudah diperbaiki untuk ponsel di `@media(max-width:900px)` dan
+   `600px` di bawah, tetapi tidak pernah diperbaiki untuk susunan DUA KOLOM.
+
+   `.kc__img` mewarisi `aspect-ratio:16/10` dari aturan dasarnya. Digabung
+   `height:100%`, lebarnya dihitung DARI TINGGI baris kisi — bukan dari kolomnya.
+   Hasilnya gambar meluap ke kolom teks, dan yang dimakan justru padding kirinya.
+
+   Terukur di halaman hidup SEBELUM perbaikan ini (jarak tepi gambar ke huruf
+   pertama judul, padahal `padding-left` badan 26–40px):
+     1440px →   3px
+     1280px →  12px
+     1024px → −50px   (teksnya masuk KE DALAM gambar)
+   Pemilik melihatnya sendiri di tablet dan menulis: *"padding kirinya dari text
+   ke gambar itu kecil sekali."*
+
+   `overflow:hidden` pada `.feat` menyembunyikan luapannya sehingga tidak pernah
+   terlihat sebagai gambar yang terpotong — hanya sebagai teks yang terlalu
+   mepet. Itu sebabnya ia bertahan lama: gejalanya menyamar jadi soal spasi,
+   padahal akarnya soal ukuran. */
+.kgrid .feat .kc__img{width:100%;height:100%;min-height:320px;aspect-ratio:auto}
 .kc{border:1px solid var(--hair);border-radius:18px;overflow:hidden;background:#fff;box-shadow:var(--sh1);transition:transform .3s var(--ease),box-shadow .3s;display:flex;flex-direction:column}
 .kc:hover{transform:translateY(-6px);box-shadow:var(--sh3)}
 .kc__img{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--paper2)}
@@ -82,6 +141,25 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kc__meta .eng{margin-left:auto;display:flex;gap:12px}
 .kc__meta .eng span{display:inline-flex;align-items:center;gap:4px}
 .kc__meta .eng svg{width:13px;height:13px}
+
+/* ══ TANGGAL TERBIT ═══════════════════════════════════════════════════════════
+   Syarat Google Play "News and Magazines": umur isi harus bisa diperiksa. Karena
+   itu tanggal dibuat LEBIH TEGAS daripada tetangganya di baris meta — warna ink,
+   bukan muted, dan bobot 600 — supaya ia terbaca sebagai tanggal terbit dan
+   bukan sebagai keterangan kecil di samping waktu baca.
+   ⚠︎ `.kart__date` hidup di atas hero GELAP; di sana warnanya harus terang,
+   bukan teal (aturan merek: jangan pernah teal gelap di latar gelap). */
+.kc__date{color:var(--ink);font-weight:600;letter-spacing:.02em;white-space:nowrap}
+.kart__date{color:#fff;font-weight:600;letter-spacing:.02em;white-space:nowrap}
+
+/* Cap kesegaran daftar. Ia duduk di ujung bilah alat dan menjawab pertanyaan
+   pertama seorang peninjau: kapan terakhir kali tempat ini bergerak. */
+.kfresh{margin-inline-start:auto;font-family:var(--mono);font-size:11px;color:var(--slate);
+  background:var(--paper2);border:1px solid var(--hair);border-radius:999px;padding:7px 13px;white-space:nowrap}
+.kfresh:empty{display:none}
+@media(max-width:640px){
+  .kfresh{margin-inline-start:0;width:100%;text-align:center}
+}
 
 /* ARTICLE PAGE */
 /* HERO ARTIKEL — SATU LAYAR PENUH.
@@ -112,7 +190,26 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kart__topic{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:5px 12px;display:inline-block;margin-bottom:16px}
 .kart__cover h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,5vw,56px);line-height:1.06;letter-spacing:-.02em;margin:0 0 16px;max-width:20ch}
 .kart__dek{font-size:clamp(16px,1.6vw,20px);color:rgba(255,255,255,.9);max-width:56ch;line-height:1.5}
-.kart__by{display:flex;align-items:center;gap:12px;margin-top:22px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.75)}
+/* ⛔ BARIS BYLINE REMUK DI 412px — `display:flex` TANPA `flex-wrap`, padahal
+   tiga baris tetangganya di berkas ini (`.kart__storyrow`, `.kfoot__legal`,
+   `.ktoolbar`) sudah memakai `flex-wrap:wrap`.
+
+   Kenapa cacat ini TIDAK terlihat sebagai "meluap": terukur di 412px, isinya
+   minta 372px sedangkan wadahnya 371px — lewat SATU piksel. Flex tidak meluap
+   karena satu piksel itu; ia MEMERAS anak-anaknya sampai `min-content`, dan
+   `min-content` sebuah kalimat adalah kata terpanjangnya. Jadi `scrollWidth`
+   tetap sama dengan `clientWidth` (luapan 0 px — gerbang mana pun lolos)
+   sementara mata melihat "6 mnt baca" pecah jadi TIGA baris satu-kata.
+   Terukur SEBELUM, 412px: barisTeks "6 mnt baca" = 3, penulis = 3,
+   `.klive` = 3, tinggi baris 54,4px (di 1440px hanya 34px).
+
+   ⚠︎ Karena itu yang dipakai sebagai bukti adalah JUMLAH BARIS TEKS PER ANAK,
+   bukan `scrollWidth - clientWidth`. Ukuran luapan tidak pernah bisa melihat
+   cacat ini.
+
+   `gap:6px 12px` — jaraknya melar ke samping seperti dulu, tapi baris kedua
+   tidak menganga 12px. */
+.kart__by{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:22px;font-family:var(--mono);font-size:11px;color:rgba(255,255,255,.75)}
 .kart__by .av{width:34px;height:34px;border-radius:50%;background:var(--mood);display:grid;place-items:center;color:#fff;font-family:var(--serif);font-size:15px}
 /* "Lihat sebagai Story" — clean frosted pill with a solid play chip */
 .kart__storyrow{margin-top:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
@@ -144,6 +241,15 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kstat .s{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:8px}
 /* inline bar chart */
 .kbars{display:flex;align-items:flex-end;gap:8px;height:120px;margin:8px 0}
+/* ⛔ KETERANGAN GRAFIK BUTUH JARAK BAWAH — dan sebelumnya TIDAK punya.
+   `blockHTML()` di kabar.js menempelkan keterangan sebagai <div> bergaya
+   sebaris `margin-top:6px` tanpa margin bawah, sehingga paragraf berikutnya
+   menempel langsung ke bawahnya. Pemilik melihatnya sendiri: "jarak antara
+   posisi text di bawah tabel itu dengan text di bawahnya lagi terlalu dekat."
+   22px menyamai `margin-bottom` paragraf (`.kbody p`), jadi ritme vertikalnya
+   seragam alih-alih memakai angka baru yang kebetulan enak dilihat. */
+.kbars__cap{font-family:var(--mono);font-size:11px;line-height:1.55;
+  color:var(--muted);margin:8px 0 22px}
 .kbars i{flex:1;height:100%;border-radius:4px 4px 2px 2px;background:var(--mood);transform:scaleY(0);transform-origin:bottom;transition:transform .8s var(--ease)}
 .kbars.in i{transform:scaleY(var(--h,.7))}
 .kbars i:nth-child(2){transition-delay:.06s}.kbars i:nth-child(3){transition-delay:.12s}.kbars i:nth-child(4){transition-delay:.18s}.kbars i:nth-child(5){transition-delay:.24s}.kbars i:nth-child(6){transition-delay:.3s}
@@ -154,7 +260,27 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .ksrc ol{margin:0;padding-left:20px}.ksrc li{font-size:13px;color:var(--slate);margin-bottom:8px;line-height:1.5}
 .ksrc a{color:var(--mood)}
 
+/* kredit gambar sampul — DUA KEADAAN, karena tetangganya tidak selalu sama.
+   Sesudah daftar sumber ia hanya baris lanjutan: 14px, tanpa garis kedua di
+   bawah garis .ksrc. Tanpa daftar sumber ia berdiri langsung di bawah prosa,
+   dan di situ ia butuh garis + jarak sendiri supaya tidak terbaca sebagai
+   kalimat terakhir artikel. Ukurannya ikut .kfig figcaption / .kpager__info
+   (mono 11px, --muted): ini keterangan aset, bukan bagian tulisan. */
+.kcred{border-top:1px solid var(--hair);margin-top:36px;padding-top:18px;font-family:var(--mono);font-size:11px;line-height:1.8;color:var(--muted)}
+.ksrc+.kcred{border-top:0;margin-top:14px;padding-top:0}
+.kcred a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--hair);transition:.15s}
+.kcred a:hover{color:var(--mood);text-decoration-color:currentColor}
+
 /* engagement bar (likes / views / share) — floating */
+/* Pengungkapan AI + tombol lapor (syarat kebijakan AI Google Play).
+   Sengaja bersuara pelan — ia keterangan tentang naskah, bukan ajakan
+   bertindak — tapi tetap terbaca: 12.5px di atas latar kertas, bukan abu muda
+   di atas putih. `margin-bottom` memberi jarak dari bilah suka/bagikan yang
+   melekat (`position:sticky`), supaya keduanya tidak pernah bertumpuk. */
+.kai{border-top:1px solid var(--hair);margin-top:28px;padding-top:16px;margin-bottom:8px}
+.kai p{margin:0 0 6px;font-size:12.5px;line-height:1.6;color:var(--slate)}
+.kai a{color:var(--mood);text-underline-offset:2px}
+.kai__rep{display:block;min-height:44px}
 .keng{position:sticky;bottom:24px;margin:30px auto 0;width:fit-content;display:flex;gap:6px;background:#fff;border:1px solid var(--hair);border-radius:999px;box-shadow:var(--sh2);padding:7px}
 .keng button{display:inline-flex;align-items:center;gap:7px;border:none;background:none;padding:9px 15px;border-radius:999px;font-family:var(--mono);font-size:12.5px;color:var(--slate);transition:.15s}
 .keng button:hover{background:var(--paper2);color:var(--pine)}
@@ -183,7 +309,13 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kfoot p{color:rgba(255,255,255,.62);font-size:13.5px;max-width:34ch;margin:14px 0}
 .kfoot h4{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8affc1;margin:0 0 12px}
 .kfoot a{display:block;color:rgba(255,255,255,.7);font-size:14px;padding:5px 0}.kfoot a:hover{color:#fff}
-.kfoot__legal{border-top:1px solid rgba(255,255,255,.12);margin-top:26px;padding-top:18px;font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.45);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+/* ⚠︎ Alfa .45 → .55. Ditemukan sewaktu menyisir latar gelap lain di halaman ini
+   (bukan cacat yang dilaporkan, tetapi sekelas dan terukur): putih .45 di atas
+   `--pine` #0F2E22 hanya 4,14:1 pada 10,5px — di bawah AA 4,5:1, dan muncul di
+   KEDUA halaman Kabar pada kedua lebar. .55 memberi 5,45:1 dan tetap lebih
+   redup daripada `.kfoot p` (.62 → 6,51:1) dan `.kfoot a` (.7), jadi tingkatan
+   bacanya tidak berubah. */
+.kfoot__legal{border-top:1px solid rgba(255,255,255,.12);margin-top:26px;padding-top:18px;font-family:var(--mono);font-size:10.5px;color:rgba(255,255,255,.55);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 
 [data-r]{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}[data-r].in{opacity:1;transform:none}
 
@@ -283,7 +415,33 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kstory__bg{position:absolute;inset:0;z-index:0}
 .kstory__bg img{width:100%;height:100%;object-fit:cover;opacity:.5}
 .kstory__bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,20,13,.4),rgba(6,20,13,.2) 40%,rgba(6,20,13,.92)),linear-gradient(140deg,var(--mood) -10%,transparent 60%);opacity:.9}
-.kstory__scene{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;padding:64px clamp(22px,6vw,34px) clamp(40px,8vh,64px);color:#fff}
+/* ⛔ RUANG BAWAH. Pemilik, 16 Agustus 2026: *"jangan terlalu mepet ke bawah itu
+   textnya."* Terukur pada versi lama: padding bawah `clamp(40px,8vh,64px)`,
+   sementara baris kontrol (`.kstory__share` dan `.kstory__pause`) duduk di
+   `bottom:14px` dengan tinggi 34px — jadi kontrolnya memakan 48px pertama dari
+   bawah. Di layar 640px, 8vh = 51px: teks berhenti 3px DI ATAS tombol. Itulah
+   yang terlihat berdesakan di tangkapan layar.
+
+   Angkanya sekarang: 48px terpakai kontrol + 28px napas = 76px minimum, naik
+   sampai 104px di layar tinggi, DITAMBAH `safe-area-inset-bottom` untuk ponsel
+   berbilah gestur — di sana 14px dari bawah jatuh di bawah bilah sistem, dan
+   tanpa inset itu tombolnya sendiri yang tertutup. */
+/* ⛔ ZONA KETUK. Terukur di halaman hidup 16 Agustus 2026: tombol ajakan terakhir
+   ("Baca lengkap →") **81% tertutup zona ketuk MUNDUR**, dan
+   `document.elementFromPoint()` di pusat tombol itu mengembalikan `div.prev`.
+   Artinya satu-satunya tindakan yang dituju seluruh Story — membuka artikelnya —
+   TIDAK BISA DITEKAN; menekannya justru memundurkan satu adegan.
+   Sebabnya `.kstory__nav` (z5, `inset:0`) menutupi adegan di z2, sehingga
+   pendengar klik pada tombol itu tidak pernah menyala.
+
+   Adegan karena itu dinaikkan ke z6 — DI ATAS nav (5), DI BAWAH kontrol (7) —
+   lalu dibuat `pointer-events:none` supaya seluruh teksnya tetap TEMBUS ke zona
+   maju/mundur. Hanya tombolnya yang menangkap ketukan (lihat `.go`).
+   ⚠︎ Menaikkan `z-index` pada `.go` saja TIDAK bisa bekerja: adegan ini
+   `position:absolute` + `z-index`, jadi ia membentuk stacking context dan tidak
+   ada keturunannya yang bisa naik melewati nav. Yang harus naik adegannya. */
+.kstory__scene{position:absolute;inset:0;z-index:6;pointer-events:none;display:flex;flex-direction:column;justify-content:flex-end;
+  padding:64px clamp(22px,6vw,34px) calc(clamp(76px,12vh,104px) + env(safe-area-inset-bottom,0px));color:#fff}
 .kstory__scene.cover{justify-content:center;text-align:center}
 .kstory__scene .lab{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8affc1;margin-bottom:14px}
 .kstory__scene h2{font-family:var(--serif);font-weight:600;font-size:clamp(26px,6vw,38px);line-height:1.12;margin:0}
@@ -292,19 +450,40 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .kstory__scene .src{font-family:var(--mono);font-size:10px;color:rgba(255,255,255,.6);margin-top:14px}
 .kstory__scene.quote h2{font-style:italic}
 .kstory__scene.quote h2::before{content:"“";color:#8affc1}
-.kstory__scene .go{margin-top:22px;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--pine);font-weight:700;font-size:14px;border-radius:999px;padding:12px 20px;border:0;cursor:pointer;text-decoration:none}
-.kstory__bars{position:absolute;top:14px;left:14px;right:14px;z-index:6;display:flex;gap:5px}
+/* Satu-satunya bagian adegan yang boleh menangkap ketukan. `min-height:48px`
+   menaikkan targetnya dari 47px ke lantai 48dp yang dipakai pedoman Android. */
+.kstory__scene .go{pointer-events:auto;min-height:48px;margin-top:22px;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--pine);font-weight:700;font-size:14px;border-radius:999px;padding:12px 20px;border:0;cursor:pointer;text-decoration:none}
+/* z6 → z8 WAJIB ikut naik: adegan kini juga z6 dan datang lebih belakang di DOM,
+   jadi pada nilai yang seri adegan menang dan bilah kemajuan tertutup olehnya.
+   `pointer-events:none` membebaskan pita mati 3px di puncak layar. */
+.kstory__bars{position:absolute;top:14px;left:14px;right:14px;z-index:8;pointer-events:none;display:flex;gap:5px}
 .kstory__bars i{flex:1;height:3px;border-radius:2px;background:rgba(255,255,255,.3);overflow:hidden}
 .kstory__bars i b{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left center;background:#fff;border-radius:2px}
 .kstory__bars i.done b{transform:scaleX(1)}
 .kstory__bars i.act b{animation:kcfill var(--sdur,5s) linear forwards}
-.kstory__top{position:absolute;top:26px;left:16px;right:16px;z-index:7;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:#fff}
+/* Pita 32px berisi avatar + nama topik: tidak punya pendengar apa pun, tapi
+   memblokir zona maju/mundur di puncak layar. Dibuat tembus; tombol tutup di
+   dalamnya dikembalikan sendiri. */
+.kstory__top{position:absolute;top:26px;left:16px;right:16px;z-index:8;pointer-events:none;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:#fff}
+.kstory__date{font-weight:600;letter-spacing:.02em;white-space:nowrap;color:#fff}
 .kstory__top .av{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);display:grid;place-items:center;font-family:var(--serif)}
-.kstory__x{margin-left:auto;background:rgba(255,255,255,.16);border:0;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;line-height:1}
+/* Tombol lapor di bilah atas Story. `margin-left:auto` PINDAH KE SINI: ia
+   sekarang elemen pertama di sisi kanan, dan kalau keduanya memakainya, tombol
+   × terdorong keluar dari layar sempit.
+   ⛔ Warnanya PUTIH, bukan `--muted` bawaan `.grep-trig`. Latar Story gelap dan
+   berganti-ganti mengikuti `--mood` artikel; abu-abu #6B7280 di atasnya adalah
+   teks gelap di latar gelap — persis kesalahan kontras yang sudah dicatat
+   sebagai aturan tetap merek. `pointer-events:auto` juga wajib, sebab induknya
+   `.kstory__top` mematikannya supaya sentuhan lewat ke area geser. */
+.kstory__rep{margin-left:auto;pointer-events:auto;display:inline-flex;align-items:center}
+.kstory__rep .grep-trig{color:rgba(255,255,255,.82);opacity:1;padding:0 8px;min-height:44px;font-family:var(--mono);font-size:11px}
+.kstory__rep .grep-trig:hover,.kstory__rep .grep-trig:focus-visible{color:#fff}
+.kstory__x{pointer-events:auto;background:rgba(255,255,255,.16);border:0;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;line-height:1}
 .kstory__nav{position:absolute;inset:0;z-index:5;display:flex}
 .kstory__nav .prev{width:32%}.kstory__nav .next{flex:1}
-.kstory__pause{position:absolute;bottom:14px;right:16px;z-index:7;background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:999px;padding:6px 12px;font-family:var(--mono);font-size:10px;cursor:pointer}
-.kstory__share{position:absolute;bottom:14px;left:16px;z-index:7;display:flex;gap:8px}
+/* Kontrol ikut naik di atas bilah gestur — lihat catatan di `.kstory__scene`. */
+.kstory__pause{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));right:16px;z-index:7;background:rgba(255,255,255,.16);border:0;color:#fff;border-radius:999px;padding:6px 12px;font-family:var(--mono);font-size:10px;cursor:pointer}
+.kstory__share{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:16px;z-index:7;display:flex;gap:8px}
 .kstory__share button{background:rgba(255,255,255,.16);border:0;color:#fff;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;cursor:pointer}
 .kstory__share button svg{width:16px;height:16px}
 
@@ -337,8 +516,31 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
 .korb--3d:hover .korb__tip{opacity:1;transform:none}
 @media(max-width:600px){.korb--3d{width:74px;height:74px;right:12px;bottom:12px}.korb--3d .korb__tip{display:none}}
 
-.klive{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--teal)}
-.klive i{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);animation:kblink 1.8s infinite}
+/* ⛔ TEAL GELAP DI ATAS LATAR GELAP — pelanggaran aturan merek, terukur.
+   `.klive` dipakai di DUA tempat dengan latar yang berlawanan:
+     · /news  → paragraf hero di atas kertas terang  (teal sah)
+     · /news/article → di dalam `.kart__by`, yaitu DI DALAM `.kart__cover`
+       yang memasang `color:#fff` di atas scrim `rgba(6,20,13,.88)` (teal HARAM)
+   Terukur dengan pembacaan piksel di bangunan lokal (14 Agu 2026):
+       teks  `.klive`      2,60:1 @412px · 2,64:1 @1440px   (syarat AA 4,5:1)
+       angka `<b>` di dalamnya 2,30:1 @412px · 2,99:1 @1440px
+       titik `.klive i`    2,54:1 @412px · 2,84:1 @1440px   (syarat non-teks 3:1)
+   10px adalah teks KECIL, jadi keringanan 3:1 untuk teks besar tidak berlaku.
+
+   ⚠︎ Yang diperbaiki BUKAN dengan menukar `--teal` jadi mint begitu saja —
+   itu akan merusak versi terangnya. Warnanya dipindah ke satu kenop,
+   `--klive-c`, dan wadah GELAP mana pun menyetel kenop itu ke mint. Dengan
+   begitu tempat pakai baru di atas latar gelap ikut benar tanpa harus ingat.
+
+   Kenapa mint `#8affc1` dan bukan `#33d188`: mood artikel bebas dipilih penulis
+   dan gradien `linear-gradient(120deg,var(--mood) …)` ikut menerangi scrim, jadi
+   latarnya bisa jauh lebih terang daripada pine. Terukur di enam latar nyata
+   halaman ini, `#8affc1` memberi 9,69–12,64:1 dan tetap 4,81:1 bahkan pada
+   scrim seterang #6b6450 — sementara `#33d188` sudah turun ke 6,00:1 dan terus
+   menipis. Mint dipilih supaya aman untuk SEMUA mood, bukan hanya yang sekarang. */
+.klive{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:10px;color:var(--klive-c,var(--teal))}
+.klive i{width:6px;height:6px;border-radius:50%;background:var(--klive-c,var(--teal));box-shadow:0 0 6px var(--klive-c,var(--teal));animation:kblink 1.8s infinite}
+.kart__cover,.kcard,.kstory,.kfoot,.korb__tip{--klive-c:#8affc1}
 @keyframes kblink{0%,100%{opacity:1}50%{opacity:.35}}
 
 /* ══ HEMAT GERAK ═════════════════════════════════════════════════════════════
@@ -377,7 +579,29 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
    Dua hal yang diperbaiki:
    1. satu kolom penuh — susunan bertumpuk, gambar di atas teks;
    2. gambar diberi ukuran dari LEBAR. Dengan height:100% + aspect-ratio, lebar
-      dihitung dari tinggi baris kisi, dan itulah yang membuatnya meluap. 
+      dihitung dari tinggi baris kisi, dan itulah yang membuatnya meluap.
+
+   ⛔ PENUTUP KOMENTAR DI BAWAH INI PERNAH HILANG, DAN AKIBATNYA TIDAK KELIHATAN
+   SEBAGAI GALAT. Tanpa penutup itu, blok @media di bawah ikut tertelan komentar,
+   aturan kartu unggulan berlaku di SEMUA lebar, dan kartunya bertumpuk setinggi
+   902px di desktop (terukur di 1440×900) alih-alih berdampingan 1,15fr/0,85fr.
+   CSS tidak melempar galat untuk komentar yang tidak ditutup; ia diam-diam
+   menelan apa pun sampai penutup berikutnya.
+
+   ⛔⛔ DAN 16 AGUSTUS 2026 KOMENTAR INI MERUSAK BERKASNYA SENDIRI.
+   Versi sebelumnya menulis dua karakter penutup komentar APA ADANYA di dalam
+   prosa, dikira aman karena diapit backtick. CSS tidak mengenal backtick:
+   komentarnya tertutup TEPAT DI SITU, dan kalimat prosa sesudahnya — yang
+   kebetulan mengutip pembuka blok @media lengkap dengan kurung kurawal —
+   dibaca sebagai KODE. Kurung itu membuka blok liar yang tidak pernah ditutup,
+   sehingga ±75 baris terakhir berkas ini (daftar berbutir badan artikel, label
+   KONTEN MITRA, tombol langganan, kartu penjelasan iklan) TIDAK PERNAH BERLAKU.
+   Gejalanya yang sampai ke pemilik: ukuran font paragraf tidak konsisten —
+   `<p>` 17,5px sementara `<li>` jatuh ke 16px warisan.
+
+   ATURANNYA SEKARANG: di dalam komentar, JANGAN pernah menulis bintang dan
+   garis-miring berdempetan, dan jangan mengutip kurung kurawal pembuka blok.
+   Dijaga otomatis oleh `scripts/periksa-css.cjs`. */
 @media(max-width:600px){
   /*  DIPAKAI SENGAJA. Halaman hasil port membenamkan BEBERAPA lembar
      gaya sekaligus, dan aturan setara yang datang belakangan mengalahkan versi
@@ -389,3 +613,109 @@ a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer}i
   .kgrid .kc.feat .kc__img{width:100%;height:auto;min-height:0;aspect-ratio:16/10}
   .kgrid .kc.feat .kc__b{padding:18px}
 }
+
+/* ✓ DIPERBAIKI 14 Agustus 2026. Catatan di sini dulu berbunyi bahwa blok
+   komentar ⟦FEAT-PONSEL⟧ tidak pernah ditutup sehingga aturan kartu unggulan
+   berlaku di semua lebar, dan sengaja DIBIARKAN karena "di luar lingkup".
+   Cacatnya nyata dan terukur (kartu 1092×902 bertumpuk di 1440px), jadi ia
+   ditutup:  dibubuhkan tepat sebelum @media di atas. Aturan .kgrid .kc.feat
+   kini benar-benar hanya berlaku ≤600px. */
+
+/* ══ KONTEN MITRA ═══════════════════════════════════════════════════════════
+   Label pembeda artikel mitra dari artikel redaksi. Digambar dari `jenis`
+   (enum tertutup), bukan dari teks yang diketik penulis — lihat mitraHTML()
+   di kabar.js. Warnanya BRASS, bukan mood artikel: pengungkapan harus terbaca
+   sebagai suara Glyiv yang tetap, bukan bagian dari desain artikelnya. */
+.kc__mitra{position:absolute;right:14px;top:14px;z-index:2;font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:rgba(176,137,79,.94);border-radius:999px;padding:5px 11px}
+.kmitra{display:flex;flex-direction:column;gap:3px;background:rgba(176,137,79,.09);border:1px solid rgba(176,137,79,.32);border-left:3px solid var(--brass);border-radius:12px;padding:14px 16px;margin:0 0 26px}
+.kmitra b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8a6a37}
+.kmitra span{font-size:13.5px;line-height:1.55;color:var(--slate)}
+
+/* Daftar berbutir di badan artikel (blok `ul`) — lihat blockHTML() di kabar.js. */
+/* ⛔ `list-style:disc` WAJIB DITULIS, bukan mengandalkan bawaan peramban.
+   Terukur di glyiv.io: `getComputedStyle(ul).listStyleType` = **"none"**, sebab
+   preflight Tailwind menyetel `list-style:none` untuk `ol, ul, menu`. Akibatnya
+   butirnya hilang dan aturan warna `::marker` di bawah tidak mewarnai apa pun.
+   `padding-inline-start` menggantikan `padding-left` supaya inden butir berpindah
+   sisi pada bahasa Arab; dengan `padding-left`, daftar RTL menjorok ke sisi yang
+   salah. */
+.kbody ul.klist{margin:0 0 22px;padding-inline-start:22px;list-style:disc}
+.kbody ul.klist li{font-size:17.5px;line-height:1.7;color:#25302a;margin-bottom:9px}
+.kbody ul.klist li::marker{color:var(--mood)}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BLOK PENUTUP ARTIKEL · TOMBOL LANGGANAN · LAYAR PENJELASAN IKLAN
+   ══════════════════════════════════════════════════════════════════════════
+   Lihat `blokPenutupHTML()` / `kartuPenjelasan()` di kabar.js.
+
+   ⚠︎ Lebar `.kdone__in` sengaja SAMA dengan `.kbody` (720px): blok ini berdiri
+   tepat di bawah kolom prosa, dan kolom yang melebar sedikit di ujung terbaca
+   sebagai halaman yang "pecah" di bagian paling akhir — justru pada momen yang
+   ingin terasa selesai. */
+.kdone{border-top:1px solid var(--hair);background:var(--paper2)}
+.kdone__in{max-width:720px;margin:0 auto;padding:clamp(32px,5vh,52px) clamp(20px,5vw,44px);
+  opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
+.kdone.on .kdone__in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.kdone__in{transition:none;transform:none}}
+.kdone__mark{width:34px;height:34px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+  background:var(--mood,#1F7A6B);color:#fff;font-size:17px;line-height:1;margin-bottom:14px}
+.kdone h3{font-family:var(--serif);font-weight:600;font-size:24px;color:var(--pine);margin:0 0 4px}
+.kdone__sub{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted);margin:0 0 22px}
+.kdone__go{display:inline-flex;align-items:center;gap:8px;background:var(--pine);color:#fff;
+  font-weight:700;font-size:15px;border-radius:999px;padding:14px 24px;text-decoration:none;border:0;cursor:pointer}
+.kdone__go:hover{background:var(--mood,#1F7A6B)}
+.kdone__alt{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.kdone__alt button,.kdone__alt a{background:#fff;border:1px solid var(--hair);border-radius:999px;
+  padding:11px 18px;font-size:13.5px;font-weight:600;color:var(--slate);text-decoration:none;cursor:pointer}
+.kdone__alt button:hover,.kdone__alt a:hover{border-color:var(--mood,#1F7A6B);color:var(--pine)}
+
+/* Tombol langganan. Ia TIDAK PERNAH digambar di peramban biasa — lihat
+   `pasangTombolLangganan()`. Harganya (`<b>`) datang dari Play, bukan dari CSS
+   dan bukan dari HTML. */
+.klang{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.klang__btn{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--brass,#B0894F);
+  color:var(--pine);border-radius:999px;padding:11px 18px;font-size:13.5px;font-weight:700;cursor:pointer}
+.klang__btn b{font-family:var(--mono);font-weight:600;font-size:12.5px;color:var(--brass,#B0894F)}
+.klang__btn:hover{background:#FBF7F0}
+.klang__btn[disabled]{opacity:.6;cursor:default}
+
+/* Layar penjelasan — sekali seumur akun, sebelum iklan PERTAMA. */
+.kjelas{position:fixed;inset:0;z-index:150;background:rgba(15,46,34,.42);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .2s}
+.kjelas.on{opacity:1;pointer-events:auto}
+.kjelas__panel{background:#fff;border-radius:20px;box-shadow:var(--sh3);padding:26px 24px;
+  max-width:420px;width:100%;transform:translateY(12px);transition:transform .25s}
+.kjelas.on .kjelas__panel{transform:none}
+.kjelas__panel h4{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--pine);margin:0 0 10px}
+.kjelas__panel p{font-size:14.5px;line-height:1.6;color:var(--slate);margin:0 0 20px}
+.kjelas__ok{width:100%;background:var(--pine);color:#fff;border:0;border-radius:999px;
+  padding:14px;font-size:15px;font-weight:700;cursor:pointer}
+.kjelas__ok:hover{background:var(--mood,#1F7A6B)}
+.kjelas .klang{margin-top:10px}
+.kjelas .klang__btn{width:100%;justify-content:center}
+
+/* ── Story yang menampilkan KARTU MEDIA SOSIAL yang sudah jadi ──────────────
+   Permintaan pemilik 20 Agustus 2026: *"Harusnya story di artikel itu tampilkan
+   card yang sama saja dengan yang ditampilkan di sosial media."*
+
+   ⛔ `contain`, BUKAN `cover`. Kartunya 1:1; layar Story hampir selalu lebih
+   tinggi daripada lebar. `cover` akan memotong sisi kiri-kanan kartu — persis
+   cacat yang sudah dibayar mahal di sisi Instagram, di mana teks harus ditarik
+   masuk 84 px supaya selamat dari potongan kisi. Memotongnya lagi di sini akan
+   membuang kerja itu di kanal yang justru kita kendalikan sepenuhnya.
+
+   ⛔ PADDING DIBATALKAN. `.kstory__scene` memberi padding untuk TEKS; sebuah
+   kartu adalah gambar utuh dan tidak boleh dikurung di dalamnya. */
+.kstory__scene--kartu{padding:0;justify-content:center;align-items:center}
+.kstory__scene--kartu img{
+  width:100%;height:100%;object-fit:contain;object-position:center;
+  display:block;pointer-events:none;user-select:none;-webkit-user-drag:none}
+/* Ajakan penutup tetap MENGAPUNG di atas gambar, dan tetap bisa diketuk.
+   Ditaruh di atas zona ketuk (`z-index` lebih tinggi dari `.kstory__nav`) supaya
+   ia tidak tertelan zona "mundur" — cacat yang sudah pernah terjadi di layar ini
+   dan membuat satu-satunya tindakan Story tidak bisa ditekan. */
+.kstory__scene--kartu .go{
+  position:absolute;left:50%;transform:translateX(-50%);
+  bottom:calc(clamp(76px,12vh,104px) + env(safe-area-inset-bottom,0px));
+  align-self:auto;margin:0;z-index:9}

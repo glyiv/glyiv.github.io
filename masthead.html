@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redaksi &amp; Kebijakan Editorial — Glyiv News</title>
+<meta name="description" content="Siapa yang bertanggung jawab atas Glyiv News, bagaimana artikelnya dibuat, peran AI di dalamnya, dari mana angkanya datang, dan bagaimana meminta ralat.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<link rel="stylesheet" href="/assets/css/dok-hukum.css">
+</head>
+<body>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MASTHEAD / KEBIJAKAN REDAKSI — dibuat 18 Agustus 2026.
+
+     ⛔ KENAPA HALAMAN INI ADA. Play Console menggolongkan Glyiv News sebagai
+     aplikasi kategori "News and magazine", dan deklarasi kategori itu menuntut
+     TIGA hal yang tidak dimiliki proyek ini sampai hari itu:
+       1. tautan publik ke susunan redaksi / penanggung jawab;
+       2. pengungkapan kepemilikan & pendanaan penerbitnya;
+       3. cara pembaca meminta ralat atau melaporkan isi.
+     Tanpa halaman ini, deklarasinya tidak bisa dijawab jujur — dan menjawabnya
+     tidak jujur adalah cara tercepat kehilangan akun pengembang.
+
+     ⛔ HALAMAN INI JUGA TEMPAT PENGUNGKAPAN AI BERLABUH. Blok `.kai` di setiap
+     artikel (lihat `lab/kabar/kabar.js`) menautkan ke sini. Kalau alur kerja
+     redaksi berubah — misalnya artikel terbit otomatis tanpa disunting — bagian
+     "Bagaimana artikel ini dibuat" WAJIB ikut berubah, sebab pengungkapan yang
+     tidak lagi benar lebih berbahaya daripada tidak ada pengungkapan.
+
+     ⛔ NAMA-NAMA DI BAWAH SUDAH PUBLIK di `/team.html` beserta jabatannya. Tidak
+     ada nama baru yang dikarang di sini, dan tidak ada jabatan redaksi yang
+     diberikan kepada siapa pun yang belum memegangnya. Penanggung jawab =
+     Direktur Utama, yang merupakan susunan bawaan bagi terbitan sebuah badan
+     hukum; kalau pemilik ingin orang lain, satu baris di bagian "Penanggung
+     jawab" yang diubah.
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<div class="gv-bg-root" aria-hidden="true"></div>
+<div id="ga-nav"></div>
+
+<!-- ⛔ `data-i18n-skip` DICABUT 18 Agustus 2026 — JANGAN DIPASANG LAGI.
+     Versi pertama halaman ini mematikan mesin bahasa untuk SELURUH halaman,
+     dengan alasan "satu bahasa utuh lebih baik daripada setengah Arab setengah
+     Indonesia". Alasan itu menyelesaikan masalah yang salah. Akibatnya terlihat
+     pemilik di layar: navbar, tombol, dan seluruh situs berbahasa Inggris,
+     sementara isi halaman ini tetap Bahasa Indonesia — persis campuran yang
+     ingin dihindari, hanya dipindahkan tempatnya.
+     Yang benar: terjemahkan halamannya PENUH. Ke-186 simpul teksnya dipanen ke
+     kamus (`i18n/tugas-91.json`), dan blok "In English" yang dulu ditanam
+     manual DIBUANG karena halaman yang menerjemahkan diri membuatnya mubazir
+     (prinsip #1: mengganti, bukan menumpuk). -->
+<div class="dok-wrap">
+  <div class="dok-hero">
+    <div class="dok-hero__k">Glyiv News</div>
+    <h1>Redaksi &amp; kebijakan editorial</h1>
+    <p class="dok-hero__d">
+      Siapa yang bertanggung jawab atas apa yang Anda baca di Glyiv News, bagaimana
+      artikelnya dibuat, apa persisnya peran AI di dalamnya, dari mana angka-angkanya
+      datang, dan bagaimana meminta ralat bila kami keliru.
+    </p>
+    <div class="dok-hero__meta">
+      <div><div class="k">Penerbit</div><div class="v">PT WOSU Innovation Technology</div></div>
+      <div><div class="k">Penanggung jawab</div><div class="v g">Laode M. Fitrah R.</div></div>
+      <div><div class="k">Ralat dijawab dalam</div><div class="v">3 hari kerja</div></div>
+    </div>
+  </div>
+
+  <div class="dok-body">
+    <!-- ⛔ KERANGKA `.dok-grid` — SAMA DENGAN privasi.html & ketentuan.html.
+         Versi pertama halaman ini menaruh <main> 860 px di dalam pembungkus
+         1180 px tanpa `margin:auto`, menyisakan 280 px kosong di kanan (terukur
+         di 1440×900) sementara dua halaman hukum lain memakai ruang yang sama
+         untuk daftar isi melekat. Itu varian yang dilarang prinsip #6
+         `project-docs/PRINCIPLES-UIUX.md`, dan ruang yang tidak mengerjakan apa
+         pun pada halaman setinggi ~5.900 px.
+
+         Daftar isinya DUA KALI dengan sengaja — `<details>` untuk layar sempit,
+         `<ol>` untuk desktop — persis pola `privasi.html`. Bukan duplikasi yang
+         lolos: `dok-hukum.css` menyembunyikan salah satunya per lebar layar,
+         dan `dok-hukum.js` menyorot butir yang sedang dibaca lewat
+         `[data-dok-toc]`. -->
+    <div class="dok-grid">
+
+      <aside class="dok-toc" data-dok-toc>
+        <p class="dok-toc__k">Daftar isi</p>
+        <details class="dok-toc__lipat">
+          <summary>Daftar isi <svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <div class="dok-toc__isi"><ol>
+            <li><a href="#penerbit">Siapa yang menerbitkan</a></li>
+            <li><a href="#bagaimana">Cara artikel dibuat &amp; peran AI</a></li>
+            <li><a href="#jadwal">Kapan artikel terbit</a></li>
+            <li><a href="#angka">Aturan bahasa untuk klaim iklim</a></li>
+            <li><a href="#mitra">Konten mitra</a></li>
+            <li><a href="#ralat">Kalau kami keliru</a></li>
+            <li><a href="#tidak">Yang tidak kami lakukan</a></li>
+            <li><a href="#hubungi">Alamat redaksi</a></li>
+          </ol></div>
+        </details>
+        <ol class="dok-toc__daftar">
+          <li><a href="#penerbit">Siapa yang menerbitkan</a></li>
+          <li><a href="#bagaimana">Cara artikel dibuat &amp; peran AI</a></li>
+          <li><a href="#jadwal">Kapan artikel terbit</a></li>
+            <li><a href="#angka">Aturan bahasa untuk klaim iklim</a></li>
+          <li><a href="#mitra">Konten mitra</a></li>
+          <li><a href="#ralat">Kalau kami keliru</a></li>
+          <li><a href="#tidak">Yang tidak kami lakukan</a></li>
+          <li><a href="#hubungi">Alamat redaksi</a></li>
+        </ol>
+      </aside>
+
+    <main>
+
+      
+
+      <section class="dok-sec" id="penerbit">
+        <span class="dok-sec__n">Penerbit</span>
+        <h2>Siapa yang menerbitkan Glyiv News</h2>
+
+        <div class="dok-ring">
+          <span class="dok-ring__k">Ringkasnya</span>
+          <p>Glyiv News diterbitkan oleh <b>perusahaan yang sama</b> yang membangun
+          platform Glyiv. Kami tidak berpura-pura independen darinya &mdash; justru
+          karena itulah batas-batas di halaman ini ditulis, bukan diandaikan.</p>
+        </div>
+
+        <div class="dok-tabelw"><table class="dok-tabel">
+          <thead><tr><th>Hal</th><th>Keterangan</th></tr></thead>
+          <tbody>
+            <tr><td><b>Nama terbitan</b></td><td>Glyiv News (di dalam aplikasi &amp; di glyiv.io)</td></tr>
+            <tr><td><b>Badan hukum penerbit</b></td><td>PT WOSU Innovation Technology, badan hukum Indonesia</td></tr>
+            <tr><td><b>Penanggung jawab</b></td><td>Laode M. Fitrah R., Direktur Utama</td></tr>
+            <tr><td><b>Susunan perusahaan</b></td><td>Selengkapnya di <a href="/team.html">halaman tim</a></td></tr>
+            <tr><td><b>Alamat surel redaksi</b></td><td>glyiv.archourium@gmail.com</td></tr>
+            <tr><td><b>Sumber dana</b></td><td>Dibiayai perusahaan penerbitnya sendiri. Bukan dari donor, bukan dari dana negara, bukan dari partai atau organisasi politik mana pun.</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="dok-nota dok-nota--awas">
+          <div>
+            <b>Benturan kepentingan yang kami akui terbuka.</b> Glyiv News menulis
+            tentang karbon, energi, dan ekonomi hijau &mdash; bidang tempat penerbitnya
+            sendiri berjualan. Artinya kami <b>bukan</b> pengamat netral atas pasar itu.
+            Yang bisa kami janjikan bukan ketiadaan kepentingan, melainkan tiga hal yang
+            bisa Anda periksa sendiri: setiap angka menyebut sumbernya, setiap artikel
+            berbayar diberi label, dan setiap kekeliruan diralat secara terbuka pada
+            artikelnya. Kalau Anda menemukan artikel yang melanggar salah satunya,
+            tombol <b>Laporkan</b> di artikel itu adalah cara tercepat memberitahu kami.
+          </div>
+        </div>
+      </section>
+
+      <section class="dok-sec" id="bagaimana">
+        <span class="dok-sec__n">Cara kerja</span>
+        <h2>Bagaimana sebuah artikel dibuat &mdash; dan apa peran AI</h2>
+
+        <div class="dok-ring">
+          <span class="dok-ring__k">Ringkasnya</span>
+          <p>Draf disusun <b>dengan bantuan AI</b> dari sumber publik yang disebutkan
+          namanya, lalu <b>diperiksa dan disunting manusia</b> sebelum terbit. AI tidak
+          diizinkan mengarang angka, kutipan, atau sumber.</p>
+        </div>
+
+        <details class="dok-pasal" open>
+          <summary>Langkah 1 &mdash; Bahan dikumpulkan dari sumber yang disebutkan</summary>
+          <div class="dok-pasal__isi">
+            <p>Bahan artikel diambil dari dokumen publik: laporan lembaga, peraturan,
+            rilis resmi, jurnal, dan pemberitaan media lain. Sumbernya dicatat sejak
+            awal dan ikut terbit di kaki artikel pada bagian <b>Sumber</b> &mdash;
+            bukan disusulkan belakangan.</p>
+          </div>
+        </details>
+
+        <details class="dok-pasal" open>
+          <summary>Langkah 2 &mdash; Draf disusun dengan bantuan AI</summary>
+          <div class="dok-pasal__isi">
+            <p>Model bahasa membantu menyusun draf dari bahan tersebut: merangkum,
+            menata urutan, dan menuliskannya dalam bahasa yang bisa dibaca orang di luar
+            bidang ini. Ini kami katakan terus terang di setiap artikel, bukan hanya di
+            halaman ini.</p>
+            <p><b>Yang tidak boleh dilakukan AI di sini, tanpa perkecualian:</b></p>
+            <ul>
+              <li>mengarang angka, tanggal, atau nama lembaga;</li>
+              <li>mengarang kutipan atau menyebutkan ucapan seseorang yang tak bisa dilacak;</li>
+              <li>menambahkan sumber yang tidak dibaca manusia;</li>
+              <li>menghasilkan foto atau ilustrasi yang bisa dikira dokumentasi peristiwa nyata.</li>
+            </ul>
+            <p>Apa pun yang tidak bisa ditelusuri kembali ke daftar sumber
+            <b>dibuang</b>, bukan diterbitkan dengan catatan kaki.</p>
+          </div>
+        </details>
+
+        <details class="dok-pasal" open>
+          <summary>Langkah 3 &mdash; Diperiksa dan disunting manusia</summary>
+          <div class="dok-pasal__isi">
+            <p>Sebelum terbit, seorang penyunting membaca draf itu utuh dan memeriksa
+            tiga hal: apakah setiap angka benar-benar ada di sumbernya, apakah
+            kalimatnya tidak mengklaim lebih daripada yang dibuktikan sumber itu, dan
+            apakah judulnya masih sepadan dengan isinya. Artikel yang tidak lolos tidak
+            diterbitkan.</p>
+            <p>Tidak ada artikel yang terbit otomatis tanpa dibaca manusia.</p>
+          </div>
+        </details>
+
+        <details class="dok-pasal" open>
+          <summary>Gambar sampul &mdash; seluruhnya buatan AI, dan diberi label</summary>
+          <div class="dok-pasal__isi">
+            <!-- ⚠︎ Kalimat lamanya berbunyi "99 dari 99 artikel yang terbit saat
+                 halaman ini ditulis", dan itu terbaca sebagai KLAIM bahwa 99
+                 artikel sedang tayang. Ia tidak pernah bermaksud begitu — 99 adalah
+                 besar KORPUSNYA, sementara yang tayang bertambah satu per hari.
+                 Bagi peninjau Play yang membuka feed dan menghitung kartunya,
+                 selisih itu terbaca sebagai kebohongan. Diperbaiki 23 Agu 2026. -->
+            <p><b>Semua gambar sampul artikel Glyiv News dibangkitkan AI.</b> Bukan
+            sebagian &mdash; seluruh korpus kami, tanpa kecuali. Setiap sampul membawa
+            label <b>&ldquo;Ilustrasi AI&rdquo;</b> pada artikelnya sendiri, jadi Anda
+            tidak perlu menebak.</p>
+            <p>Kami menyebutnya di sini karena menyebut peran AI pada naskah saja
+            sementara diam soal gambarnya adalah pengungkapan yang setengah.</p>
+            <p><b>Batasnya:</b> sampul kami adalah <b>ilustrasi</b>, bukan foto
+            peristiwa. Kami tidak membangkitkan gambar yang bisa dikira dokumentasi
+            kejadian nyata, tidak menampilkan wajah orang sungguhan, dan tidak
+            menggambarkan peristiwa seolah-olah terekam kamera. Kalau sebuah artikel
+            memakai foto nyata, asalnya ditulis di bagian kredit gambar &mdash;
+            terpisah, dan tidak berlabel AI.</p>
+          </div>
+        </details>
+
+        <details class="dok-pasal" open>
+          <summary>Asisten Gly &mdash; jawaban yang dirakit saat itu juga</summary>
+          <div class="dok-pasal__isi">
+            <p>Selain artikel, Glyiv punya asisten bernama <b>Gly</b> yang menjawab
+            pertanyaan Anda di halaman mana pun. Jawaban Gly <b>dirakit model bahasa
+            saat itu juga</b> &mdash; tidak ada penyunting di antaranya, dan karena itu
+            jawabannya bisa keliru.</p>
+            <p>Perlakukan jawaban Gly sebagai titik awal, bukan sebagai rujukan. Untuk
+            hal yang menyangkut uang, hukum, atau kesehatan, periksa ke sumber
+            resminya. Setiap jawaban Gly membawa tombol <b>Laporkan</b> di bawahnya.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- ⛔ BAGIAN INI LAHIR DARI PENOLAKAN GOOGLE PLAY, 19 Agustus 2026.
+           Salah satu alasannya berbunyi *"Content's age cannot be verified either
+           in-app or website"* dan *"Update regularly its content (no static
+           content)"*. Halaman ini adalah tempat pertama yang dibuka peninjau kalau
+           ia ingin tahu bagaimana sebuah terbitan bekerja — jadi jadwal terbitnya
+           dinyatakan di sini, bukan hanya disimpulkan dari feed.
+           ⚠︎ ANGKA JANGAN DITULIS DI SINI. Menyebut "N artikel" akan basi pada hari
+           berikutnya dan melahirkan kembali persis cacat yang baru diperbaiki di
+           bagian sampul AI di atas. Yang ditulis adalah IRAMANYA. -->
+      <section class="dok-sec" id="jadwal">
+        <span class="dok-sec__n">Jadwal</span>
+        <h2>Kapan artikel terbit, dan bagaimana Anda memeriksanya</h2>
+        <div class="dok-pasal__isi">
+          <p><b>Satu artikel baru setiap hari, pukul 07:00 waktu setempat Anda.</b>
+          Bukan 07:00 di zona kami lalu Anda hitung sendiri selisihnya &mdash; halaman
+          menghitung ulang jam terbitnya di peramban tiap pembaca, sehingga artikel
+          bertanggal 23 Agustus muncul pukul tujuh pagi tanggal 23 Agustus di mana pun
+          Anda berada.</p>
+          <p><b>Tanggal terbitnya tercetak, bukan disembunyikan.</b> Tiap kartu di
+          daftar artikel dan tiap kepala artikel membawa tanggal terbitnya, dan bilah
+          alat di halaman daftar menyebut kapan terakhir kali arsip ini bertambah.
+          Tanggal yang sama juga tertanam sebagai data yang bisa dibaca mesin
+          (<code>article:published_time</code> dan penanda <code>NewsArticle</code>),
+          jadi umur sebuah artikel bisa diperiksa tanpa memercayai kata-kata kami.</p>
+          <p><b>Arsipnya bertambah, tidak berputar.</b> Artikel lama tidak dihapus saat
+          artikel baru terbit; ia turun ke halaman berikutnya dan tetap bisa dibuka
+          lewat alamatnya. Kalau sebuah artikel pernah kami turunkan, alasannya dicatat
+          di bagian <a href="#ralat">Kalau kami keliru</a>.</p>
+        </div>
+      </section>
+
+      <section class="dok-sec" id="angka">
+        <span class="dok-sec__n">Angka</span>
+        <h2>Aturan bahasa yang kami pakai untuk klaim iklim</h2>
+        <div class="dok-pasal__isi">
+          <p>Ini bidang yang mudah dilebih-lebihkan, dan melebih-lebihkannya merugikan
+          orang sungguhan. Karena itu diksi berikut berlaku di seluruh terbitan Glyiv,
+          bukan hanya sebagai anjuran:</p>
+        </div>
+
+        <div class="dok-tabelw"><table class="dok-tabel">
+          <thead><tr><th>Kami menulis</th><th>Yang kami hindari</th><th>Kenapa</th></tr></thead>
+          <tbody>
+            <tr><td><b>terlacak</b></td><td>terukur / terverifikasi</td><td>Angka kami adalah estimasi dari aktivitas nyata, bukan hasil pengukuran alat atau audit pihak ketiga.</td></tr>
+            <tr><td><b>kontribusi</b></td><td>netral karbon</td><td>Menyalurkan dana ke aset hijau tidak membatalkan emisi yang sudah terjadi. Menyebutnya &ldquo;netral&rdquo; adalah klaim yang tidak bisa kami buktikan.</td></tr>
+            <tr><td><b>imbalan</b></td><td>penghasilan</td><td>Imbalan bukan pendapatan yang dijanjikan, dan tidak boleh dibaca sebagai tawaran investasi.</td></tr>
+            <tr><td><b>⚠︎ pada angka</b></td><td>angka polos</td><td>Angka yang ilustratif atau masih berupa perkiraan diberi tanda ⚠︎, supaya tidak terbaca sebagai temuan.</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="dok-pasal__isi">
+          <p>Sertifikasi, MRV, dan pencatatan registri <b>belum menjadi kemampuan</b>
+          yang berjalan &mdash; keduanya ada di peta jalan, dan kami menyebutnya begitu
+          apa adanya setiap kali disinggung.</p>
+        </div>
+      </section>
+
+      <section class="dok-sec" id="mitra">
+        <span class="dok-sec__n">Konten mitra</span>
+        <h2>Artikel berbayar selalu diberi label</h2>
+        <div class="dok-pasal__isi">
+          <p>Sebagian artikel bisa berasal dari mitra yang membayar. Artikel semacam
+          itu diberi label <b>&ldquo;Konten mitra&rdquo;</b> beserta nama mitranya,
+          dan labelnya ikut di <b>tiga tempat</b>: di kartu artikel pada daftar, di
+          kepala artikel, dan di mode Story &mdash; sebab Story-lah yang paling sering
+          dibagikan ulang tanpa halamannya.</p>
+          <p>Isi artikel mitra adalah <b>klaim mitra tersebut</b>, dan belum
+          diverifikasi Glyiv. Kalimat itu tertulis pada artikelnya sendiri, bukan hanya
+          di sini.</p>
+          <p><b>Liputan redaksi tidak dijual.</b> Tidak ada mitra yang bisa membeli
+          artikel redaksi, mengubah isinya, membatalkannya, atau menentukan artikel
+          mana yang tidak boleh terbit.</p>
+        </div>
+      </section>
+
+      <section class="dok-sec" id="ralat">
+        <span class="dok-sec__n">Ralat</span>
+        <h2>Kalau kami keliru</h2>
+
+        <div class="dok-ring">
+          <span class="dok-ring__k">Ringkasnya</span>
+          <p>Tekan tombol <b>Laporkan</b> di artikel atau di jawaban Gly. Tidak perlu
+          punya akun, dan Anda tidak keluar dari aplikasi. Kami menjawab dalam
+          <b>3 hari kerja</b>.</p>
+        </div>
+
+        <details class="dok-pasal" open>
+          <summary>Cara melapor &mdash; tiga jalur</summary>
+          <div class="dok-pasal__isi">
+            <ul>
+              <li><b>Tombol Laporkan di artikel</b> &mdash; ada di kaki setiap artikel,
+              tepat di bawah pengungkapan AI, dan di bilah atas mode Story.</li>
+              <li><b>Tombol Laporkan di jawaban Gly</b> &mdash; ada di bawah setiap
+              jawaban asisten.</li>
+              <li><b>Kirim surel ke</b> <b data-i18n-skip="alamat">glyiv.archourium@gmail.com</b>, bila Anda lebih
+              suka menulis panjang atau ingin melampirkan berkas.</li>
+            </ul>
+            <p>Setiap laporan lewat tombol mendapat <b>nomor laporan</b> yang muncul di
+            layar. Simpan nomor itu bila Anda ingin menanyakannya kembali.</p>
+          </div>
+        </details>
+
+        <details class="dok-pasal" open>
+          <summary>Apa yang kami lakukan sesudahnya</summary>
+          <div class="dok-pasal__isi">
+            <p>Kekeliruan yang terbukti <b>diperbaiki pada artikelnya sendiri</b>, dan
+            perbaikannya disebutkan di artikel itu &mdash; bukan diperbaiki diam-diam.
+            Artikel yang keliru <b>tidak kami hapus</b> untuk menghilangkan jejak
+            kesalahan; menghapus artikel hanya dilakukan bila mempertahankannya
+            merugikan seseorang, dan alasannya tetap dicatat.</p>
+            <p>Kalau laporan Anda ternyata tidak kami setujui, Anda tetap mendapat
+            jawaban yang menyebutkan alasannya.</p>
+          </div>
+        </details>
+
+        <details class="dok-pasal">
+          <summary>Yang bisa dilaporkan</summary>
+          <div class="dok-pasal__isi">
+            <ul>
+              <li>kebencian, pelecehan, atau kekerasan;</li>
+              <li>isi seksual atau tidak pantas;</li>
+              <li>isi yang keliru atau menyesatkan;</li>
+              <li>klaim lingkungan yang berlebihan;</li>
+              <li>data pribadi Anda yang muncul tanpa izin;</li>
+              <li>hal lain yang menurut Anda tidak pada tempatnya.</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <section class="dok-sec" id="tidak">
+        <span class="dok-sec__n">Batas</span>
+        <h2>Yang tidak kami lakukan</h2>
+        <div class="dok-pasal__isi">
+          <ul>
+            <li>Kami tidak menerbitkan artikel yang tidak dibaca manusia lebih dahulu.</li>
+            <li>Kami tidak menjual liputan redaksi, dan tidak menerima bayaran untuk
+            menghilangkan sebuah artikel.</li>
+            <li>Kami tidak memuat gambar buatan AI yang bisa dikira dokumentasi
+            peristiwa nyata. Sampul artikel kami memang dibangkitkan AI &mdash;
+            seluruhnya &mdash; tetapi ia <b>ilustrasi berlabel</b>, bukan foto
+            kejadian, dan tidak menampilkan wajah orang sungguhan.</li>
+            <li>Kami tidak berafiliasi dengan partai atau organisasi politik mana pun,
+            dan tidak menerima dana negara.</li>
+            <li>Kami tidak menyebut nama individu pihak ketiga dalam dokumen yang keluar
+            dari perusahaan tanpa persetujuan mereka.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="dok-sec" id="hubungi">
+        <span class="dok-sec__n">Hubungi</span>
+        <h2>Alamat redaksi</h2>
+        <div class="dok-pasal__isi">
+          <p><b>glyiv.archourium@gmail.com</b></p>
+          <p>Penerbit: <b>PT WOSU Innovation Technology</b>. Penanggung jawab:
+          <b>Laode M. Fitrah R.</b>, Direktur Utama.</p>
+        </div>
+
+        <p class="dok-kaki">
+          Dokumen terkait:
+          <a href="/privasi.html">Kebijakan Privasi</a> &middot;
+          <a href="/ketentuan.html">Ketentuan Layanan</a> &middot;
+          <a href="/delete-account.html">Menghapus akun</a> &middot;
+          <a href="/contact.html">Hubungi kami</a> &middot;
+          <a href="/team.html">Tim</a>
+        </p>
+      </section>
+
+    </main>
+    </div>
+  </div>
+</div>
+
+<div id="ga-foot"></div>
+
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/dok-hukum.js" defer></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+</body>
+</html>

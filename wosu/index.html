@@ -253,6 +253,19 @@ body{margin:0;overflow-x:hidden}
 .whero__tag::before{content:"";position:absolute;top:0;left:0;width:44px;height:2px;background:var(--w-300)}
 .whero__lead{max-width:52ch;margin-bottom:36px}
 .whero__cta{display:flex;gap:12px;flex-wrap:wrap}
+/* Baris kontak hero — lihat komentar panjang di markup-nya. Bersuara pelan
+   (mono kecil, seperti label lain di halaman ini) tetapi TERBACA sejak piksel
+   pertama, dan tidak bergantung pada animasi gulir mana pun.
+   `--w-100` di atas latar gelap hero: teks TERANG di latar gelap, bukan
+   sebaliknya. Melipat sendiri di ponsel lewat `flex-wrap`. */
+.whero__kontak{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;
+  margin:26px 0 0;font-size:12.5px;line-height:1.5;color:var(--w-200)}
+.whero__kontak .k{font-family:var(--w-mono,ui-monospace,monospace);font-size:9.5px;
+  letter-spacing:.14em;text-transform:uppercase;opacity:.72}
+.whero__kontak b{color:var(--w-w);font-weight:600}
+.whero__kontak a{color:var(--w-100);text-decoration:underline;text-underline-offset:3px;
+  display:inline-flex;align-items:center;min-height:44px}
+.whero__kontak a:hover{color:var(--w-w)}
 .wstats{display:flex;gap:clamp(22px,5vw,54px);flex-wrap:wrap;margin-top:56px;
   border-top:1px solid var(--w-hair-d);padding-top:28px}
 .wstat b{display:block;font-size:clamp(21px,2.6vw,28px);font-weight:700;line-height:1;color:var(--w-w)}
@@ -559,6 +572,36 @@ body{margin:0;overflow-x:hidden}
       <a class="wbtn wbtn--isi" href="#portfolio">Lihat portofolio</a>
       <a class="wbtn wbtn--garis" href="#board">Kenali dewan</a>
     </div>
+    <!-- ⛔ BARIS KONTAK DI HERO — SYARAT PLAY, DAN SENGAJA TANPA `data-r`.
+         Medan "Contact Information" pada deklarasi "News and magazine apps"
+         menuntut URL yang memuat kontak entitas dan berbunyi persis:
+         *"The URL must link to a website with contact information, which is
+         easy to access, such as an email or phone number."*
+
+         Sebelum baris ini, satu-satunya surel di halaman ini ada di bagian
+         KONTAK paling bawah. Terukur di https://glyiv.io/wosu (18 Agu 2026):
+             posisi surel      y = 5.024 px
+             tinggi dokumen        5.473 px
+             opacity efektif           0     ← animasi `data-r` belum terpicu
+         Artinya peninjau yang membuka tautan itu melihat hero, dan kontaknya
+         tidak terlihat sama sekali sampai ia menggulir hampir ke ujung. Itu
+         kebalikan dari "easy to access", dan ia tidak akan memunculkan galat
+         apa pun — halamannya tampil sempurna.
+
+         ⚠︎ `data-r` SENGAJA TIDAK dipakai di sini. Seluruh isi hero lain
+         memakainya, tetapi elemen inilah yang harus terbaca pada piksel
+         pertama — termasuk oleh perayap yang tidak pernah menggulir dan tidak
+         menjalankan IntersectionObserver.
+
+         Ketiga labelnya memakai kunci kamus yang SUDAH ada (`Badan hukum`,
+         `Kontak`), jadi ia ikut berbahasa Inggris & Arab tanpa menambah
+         kalimat baru. Surel tidak diterjemahkan — ia bukan kalimat. -->
+    <p class="whero__kontak">
+      <span class="k">Badan hukum</span>
+      <b>PT WOSU Innovation Technology</b>
+      <span class="k">Kontak</span>
+      <a href="mailto:wosu.archourium@gmail.com" data-i18n-skip>wosu.archourium@gmail.com</a>
+    </p>
     <div class="wstats" data-r data-d="4">
       <div class="wstat"><b>2026</b><span>Didirikan</span></div>
       <div class="wstat"><b>Indonesia</b><span>Berkedudukan</span></div>

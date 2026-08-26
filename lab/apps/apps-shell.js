@@ -57,9 +57,23 @@
        dibuka publik tanpa masuk; (b) rekaman persetujuan outlet menyimpan nomor
        versi dokumen ini, dan persetujuan yang menunjuk ke halaman yang sulit
        ditemukan tidak berarti apa-apa. */
-    '<a href="/ketentuan.html">Ketentuan Layanan</a><a href="/privasi.html">Kebijakan Privasi</a></div>' +
+    /* ⛔ `masthead` & `delete-account` IKUT DI SINI, bukan hanya "ada di server".
+       Keduanya dituntut Play sebagai halaman yang bisa DITEMUKAN publik:
+       masthead menjawab deklarasi kategori "News and magazine" (susunan redaksi,
+       kepemilikan, ralat), delete-account menjawab medan "Delete account URL" di
+       Data safety. Sampai 18 Agustus 2026 keduanya hidup tetapi TIDAK DITAUTKAN
+       dari mana pun — peninjau yang tidak diberi tautan langsung tidak akan
+       menemukannya, dan "tidak ditemukan" dinilai sama dengan "tidak ada". */
+    '<a href="/ketentuan.html">Ketentuan Layanan</a><a href="/privasi.html">Kebijakan Privasi</a>' +
+    '<a href="/masthead.html">Redaksi &amp; Kebijakan Editorial</a><a href="/delete-account.html">Menghapus akun</a>' +
+    /* ⛔ "Hubungi kami" DITAMBAHKAN 23 Agustus 2026 dan TIDAK BOLEH DICABUT.
+       Google Play menolak co.glyiv.news pada 19 Agustus 2026; butir pertama
+       perbaikan yang Google tulis sendiri adalah halaman kontak yang bisa
+       ditemukan di situs DAN di dalam aplikasi. Aplikasinya pembungkus WebView
+       ke situs ini, jadi kaki inilah permukaan "in-app"-nya. */
+    '<a href="/contact.html">Hubungi kami</a></div>' +
     '</div><div class="lfoot__legal"><span>© <span data-yr>2026</span> Glyiv</span>' +
-    '<span><a href="/ketentuan.html" style="color:#8affc1">Ketentuan Layanan</a> &middot; <a href="/privasi.html" style="color:#8affc1">Kebijakan Privasi</a></span>' +
+    '<span><a href="/ketentuan.html" style="color:#8affc1">Ketentuan Layanan</a> &middot; <a href="/privasi.html" style="color:#8affc1">Kebijakan Privasi</a> &middot; <a href="/contact.html" style="color:#8affc1">Hubungi kami</a></span>' +
     '<span>Produk dari <a href="/wosu/index.html" style="color:#8affc1">PT WOSU Innovation Technology</a> &middot; pratinjau produk &middot; angka ilustrasi</span></div></div></footer>';
 
   /* ⛔ SATU BARIS INI DULU MENINGGALKAN NAVBAR & FOOTER DI DOM SELAMANYA.

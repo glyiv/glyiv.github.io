@@ -213,7 +213,25 @@ html[dir="rtl"] .lh1, html[dir="rtl"] h1, html[dir="rtl"] h2 { letter-spacing: n
 
 /* ── PANEL MENGAMBANG (chatbot Gly) ──────────────────────────────────────────── */
 [dir="rtl"] .liv-fab { right: auto; left: 10px; }
-[dir="rtl"] .liv-fab__ping { right: auto; left: 8px; }
+/* ⚠︎ GELEMBUNG GLY WAJIB DICERMINKAN — dan versi pertama aturan ini SALAH.
+   Komentar yang berdiri di sini sebelumnya berbunyi "`.liv-fab` sendiri TIDAK
+   dicerminkan (tidak ada aturan RTL untuknya di berkas ini)". Itu keliru: baris
+   TEPAT DI ATAS komentar ini mencerminkannya (`left: 10px`), dan blok ≤640px di
+   bawah mencerminkannya sekali lagi. Kekeliruannya lahir dari pencarian yang
+   terlalu sempit — `grep liv-fab__ping`, bukan `grep liv-fab`.
+   Akibatnya kalau dibiarkan: di halaman Arab bot duduk di sudut KIRI bawah,
+   sedangkan gelembung ber-`right:100%` melayang ke KIRI dari situ — yakni ke
+   luar layar, tidak pernah terlihat oleh satu pun pembaca Arab.
+   Karena bot pindah ke kiri, gelembungnya pindah ke KANAN bot, dan ekornya
+   ikut pindah: tepi yang digambar dan sudut yang dibulatkan dicerminkan juga,
+   kalau tidak ekornya menunjuk ke arah yang salah. `transform-origin` ikut
+   dibalik karena keyframes-nya memakai `transform`. */
+[dir="rtl"] .liv-fab__bubble { right: auto; left: 100%; margin-right: 0; margin-left: -4px; transform-origin: bottom left; }
+[dir="rtl"] .liv-fab__bubble::after {
+  right: auto; left: 14px;
+  border-right: 0; border-left: 1px solid var(--hair);
+  border-bottom-right-radius: 0; border-bottom-left-radius: 3px;
+}
 [dir="rtl"] .liv-chat { right: auto; left: 20px; transform-origin: bottom left; }
 @media (max-width: 640px) {
   [dir="rtl"] .liv-fab { right: auto; left: 4px; }

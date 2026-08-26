@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="index, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hapus Akun Glyiv — Glyiv</title>
+<meta name="description" content="Cara meminta penghapusan akun Glyiv dan data yang menyertainya: langkahnya, data apa yang dihapus, data apa yang tetap disimpan, dan berapa lama.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<link rel="stylesheet" href="/lab/apps/app.css">
+<link rel="stylesheet" href="/assets/css/dok-hukum.css">
+</head>
+<body>
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     HALAMAN HAPUS AKUN — dibuat 17 Agustus 2026 untuk medan "Delete account URL"
+     di formulir Data safety Play Console.
+
+     ⛔ KENAPA `/privacy#contact` TIDAK CUKUP. Play menuntut tiga hal dari
+     tautan ini, dan jangkar di tengah dokumen hukum sepanjang 31.775 karakter
+     tidak memenuhi satu pun dengan layak:
+       1. menyebut nama aplikasi ATAU nama pengembang yang tampil di store listing;
+       2. MENONJOLKAN langkah-langkah yang harus ditempuh pengguna;
+       3. menyebut jenis data yang dihapus, yang tetap disimpan, dan masa simpannya.
+     Halaman ini menjawab ketiganya di layar pertama, tanpa perlu menggulir.
+
+     ⛔ ISI HALAMAN INI TIDAK BOLEH BERTENTANGAN DENGAN KEBIJAKAN PRIVASI.
+     Semua angka & batasan di bawah disalin dari `dist/privasi.html` yang HIDUP:
+       · 14 hari kerja  → Pasal 14.1
+       · verifikasi dari alamat surel akun → Pasal 14.2
+       · yang tidak bisa dihapus (pesanan outlet) → Pasal 14.3
+       · versi dokumen tersimpan satu jam → Pasal 11.1
+       · belum ada jadwal penghapusan otomatis → Pasal 11.2
+     Kalau salah satu pasal itu berubah, halaman ini WAJIB ikut berubah.
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<div class="gv-bg-root" aria-hidden="true"></div>
+<div id="ga-nav"></div>
+
+<!-- ⛔ `data-i18n-skip` DI SELURUH HALAMAN — DISENGAJA, JANGAN DIBUANG.
+     Terukur 17 Agustus 2026 di halaman hidup dengan antarmuka berbahasa Arab:
+     mesin i18n menerjemahkan HANYA kalimat yang kebetulan cocok dengan kunci
+     kamus yang sudah ada, sehingga satu kalimat keluar separuh Arab separuh
+     Indonesia — *"أرسل بريدًا إلكترونيًا إلى glyiv.archourium@gmail.com dari
+     alamat surel yang Anda pakai masuk"*. Untuk halaman prosedur penghapusan
+     data yang dibaca peninjau Google dan dipakai orang sungguhan menuntut
+     haknya, kalimat setengah jadi lebih buruk daripada satu bahasa yang utuh.
+     Ringkasan Inggris disediakan terpisah di bagian atas, jadi peninjau tetap
+     bisa membacanya tanpa bergantung pada mesin terjemahan. -->
+<div class="dok-wrap">
+  <div class="dok-hero">
+    <div class="dok-hero__k">Glyiv News · Glyiv Green Assets · Glyiv Pocket · Glyiv GIP Outlet · Glyiv DBH</div>
+    <h1>Menghapus akun Glyiv Anda</h1>
+    <p class="dok-hero__d">
+      Halaman ini menjelaskan cara meminta penghapusan akun Glyiv beserta data yang
+      menyertainya — langkahnya, data apa yang benar-benar hilang, data apa yang
+      tetap kami simpan, dan berapa lama. Berlaku untuk seluruh aplikasi Glyiv,
+      karena semuanya memakai satu akun yang sama.
+    </p>
+    <div class="dok-hero__meta">
+      <div><div class="k">Aplikasi</div><div class="v g">Glyiv News</div></div>
+      <div><div class="k">Pengembang</div><div class="v">PT WOSU Innovation Technology</div></div>
+      <div><div class="k">Dijawab dalam</div><div class="v">14 hari kerja</div></div>
+    </div>
+  </div>
+
+  <div class="dok-body">
+    <!-- Kerangka `.dok-grid` — sama dengan masthead, privasi, dan ketentuan.
+         Alasan lengkap ada di kepala `dist/masthead.html`: <main> 860 px di
+         dalam pembungkus 1180 px tanpa `margin:auto` menyisakan 280 px kosong
+         di kanan, sementara halaman hukum lain memakai ruang itu untuk daftar
+         isi. Satu keluarga halaman, satu kerangka. -->
+    <div class="dok-grid">
+
+      <aside class="dok-toc" data-dok-toc>
+        <p class="dok-toc__k">Daftar isi</p>
+        <details class="dok-toc__lipat">
+          <summary>Daftar isi <svg class="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <div class="dok-toc__isi"><ol>
+            <li><a href="#langkah">Tiga langkah, lewat surel</a></li>
+            <li><a href="#dihapus">Data yang benar-benar hilang</a></li>
+            <li><a href="#disimpan">Yang tidak bisa kami hapus</a></li>
+            <li><a href="#sebagian">Menghapus sebagian data</a></li>
+            <li><a href="#hubungi">Alamat surel</a></li>
+          </ol></div>
+        </details>
+        <ol class="dok-toc__daftar">
+          <li><a href="#langkah">Tiga langkah, lewat surel</a></li>
+          <li><a href="#dihapus">Data yang benar-benar hilang</a></li>
+          <li><a href="#disimpan">Yang tidak bisa kami hapus</a></li>
+          <li><a href="#sebagian">Menghapus sebagian data</a></li>
+          <li><a href="#hubungi">Alamat surel</a></li>
+        </ol>
+      </aside>
+
+    <main>
+
+      
+
+      <section class="dok-sec" id="langkah">
+        <span class="dok-sec__n">Langkah</span>
+        <h2>Tiga langkah, lewat surel</h2>
+
+        <div class="dok-ring">
+          <span class="dok-ring__k">Ringkasnya</span>
+          <p>Kirim surel ke <b>glyiv.archourium@gmail.com</b> dari alamat surel yang
+          Anda pakai masuk ke Glyiv, dengan subjek <b data-i18n-skip="subjek-surel">Hapus akun</b>. Kami menjawab
+          dalam <b>14 hari kerja</b>.</p>
+        </div>
+
+        <details class="dok-pasal" open>
+          <summary>Langkah 1 &mdash; Kirim permintaan</summary>
+          <div class="dok-pasal__isi">
+            <p>Kirim surel ke <b>glyiv.archourium@gmail.com</b> dengan subjek
+            <b data-i18n-skip="subjek-surel">Hapus akun</b>. Sebutkan bahwa Anda ingin akun Glyiv Anda dihapus.
+            Anda tidak perlu menyertakan alasan.</p>
+          </div>
+        </details>
+
+        <details class="dok-pasal" open>
+          <summary>Langkah 2 &mdash; Kirim dari alamat surel akun Anda</summary>
+          <div class="dok-pasal__isi">
+            <p>Permintaan harus datang dari <b>alamat surel yang Anda pakai masuk</b>.
+            Ini pengaman untuk Anda sendiri: tanpa itu, siapa pun bisa meminta akun
+            orang lain dihapus. Bila Anda mengirim dari alamat lain, kami akan
+            bertanya lebih dulu untuk memastikan permintaan itu benar dari Anda.</p>
+          </div>
+        </details>
+
+        <details class="dok-pasal" open>
+          <summary>Langkah 3 &mdash; Tunggu konfirmasi</summary>
+          <div class="dok-pasal__isi">
+            <p>Kami menjawab dalam <b>14 hari kerja</b> sejak permintaan diterima.
+            Bila permintaan Anda rumit dan butuh lebih lama, kami memberitahu Anda
+            <b>sebelum</b> tenggat itu lewat, beserta alasannya. Anda menerima
+            konfirmasi tertulis ketika penghapusan selesai.</p>
+          </div>
+        </details>
+      </section>
+
+      <section class="dok-sec" id="dihapus">
+        <span class="dok-sec__n">Yang dihapus</span>
+        <h2>Data yang benar-benar hilang</h2>
+
+        <div class="dok-tabelw"><table class="dok-tabel">
+          <thead><tr><th>Data</th><th>Keterangan</th></tr></thead>
+          <tbody>
+            <tr><td><b>Akun Glyiv</b></td><td>Pengenal akun (<code>uid</code>), alamat surel, dan nama yang diambil dari akun Google saat Anda memilih masuk.</td></tr>
+            <tr><td><b>Hak bebas iklan</b></td><td>Penanda langganan yang tersimpan pada akun Anda. ⚠︎ Ini <b>bukan</b> pembatalan langganan &mdash; lihat bagian di bawah.</td></tr>
+            <tr><td><b>Profil &amp; catatan pribadi</b></td><td>Isi yang Anda buat sendiri di aplikasi Glyiv lain: catatan harian, pengukuran, dan preferensi.</td></tr>
+            <tr><td><b>Area lahan &amp; pohon virtual</b></td><td>Poligon yang Anda gambar di Glyiv Green Assets beserta jejak perawatannya.</td></tr>
+            <tr><td><b>Berkas yang Anda unggah</b></td><td>Dokumen KYC dan berkas sertifikat lahan, bila ada. &#9888;&#65038; Kecuali berkas KTP/NIB yang masih menjadi dasar persetujuan usaha yang berlaku: berkas itu baru dihapus saat hubungan usaha berakhir (Kebijakan Privasi Pasal 14.3).</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="dok-sec" id="disimpan">
+        <span class="dok-sec__n">Yang tetap disimpan</span>
+        <h2>Yang tidak bisa kami hapus, dan alasannya</h2>
+
+        <div class="dok-ring">
+          <span class="dok-ring__k">Ringkasnya</span>
+          <p>Sebagian kecil data tetap ada sesudah akun dihapus &mdash; bukan karena
+          kami ingin menyimpannya, tetapi karena ia juga milik pihak lain atau
+          dituntut hukum. Semuanya disebutkan di bawah, tanpa dihaluskan.</p>
+        </div>
+
+        <div class="dok-tabelw"><table class="dok-tabel">
+          <thead><tr><th>Data</th><th>Kenapa tetap disimpan</th><th>Berapa lama</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Pesanan di sebuah outlet</b></td>
+              <td>Pesanan bukan hanya milik Anda &mdash; ia juga catatan usaha outlet tempat Anda bertransaksi, dan dasar hitungan tagihan kami kepada outlet itu. Nama Anda dapat dilepaskan dari pesanan itu atas permintaan, sehingga yang tersisa adalah catatan tanpa identitas.</td>
+              <td>Selama outlet tersebut menyimpan catatan usahanya.</td>
+            </tr>
+            <tr>
+              <td><b>Catatan pembayaran langganan</b></td>
+              <td>Berada di <b>Google Play</b>, bukan di sistem kami. Kami tidak pernah menerima data kartu Anda dan tidak bisa menghapus riwayat pembelian di sana.</td>
+              <td>Mengikuti kebijakan Google Play.</td>
+            </tr>
+            <tr>
+              <td><b>Versi dokumen sebelumnya</b></td>
+              <td>Basis data menyimpan versi terdahulu sebuah dokumen untuk pemulihan teknis bila terjadi kesalahan tulis.</td>
+              <td><b>Satu jam</b>, lalu perubahan bersifat final.</td>
+            </tr>
+            <tr>
+              <td><b>Penghitung baca &amp; bagikan</b></td>
+              <td>Angka agregat pada artikel Glyiv News. Ia <b>tidak menyimpan identitas siapa pun</b>, jadi tidak ada yang bisa dikaitkan kembali kepada Anda.</td>
+              <td>Tidak dihapus &mdash; tidak ada data pribadi di dalamnya.</td>
+            </tr>
+          </tbody>
+        </table></div>
+
+        <div class="dok-nota dok-nota--awas">
+          <div>
+            <b>Menghapus akun tidak membatalkan langganan.</b> Langganan Glyiv
+            ditagih oleh Google Play, bukan oleh kami, sehingga kami tidak dapat
+            menghentikannya atas nama Anda. Batalkan lebih dulu lewat
+            <b>Play Store &rarr; Menu &rarr; Payments &amp; subscriptions &rarr;
+            Subscriptions</b>, baru minta akun dihapus. Kalau urutannya terbalik,
+            tagihan bisa tetap berjalan meski akun Glyiv Anda sudah tidak ada.
+          </div>
+        </div>
+      </section>
+
+      <section class="dok-sec" id="sebagian">
+        <span class="dok-sec__n">Sebagian saja</span>
+        <h2>Menghapus sebagian data tanpa menghapus akun</h2>
+        <div class="dok-pasal__isi">
+          <p>Anda tidak harus menghapus seluruh akun untuk menghapus sebagian data.
+          Kirim surel ke alamat yang sama dengan subjek <b data-i18n-skip="subjek-surel">Hapus data</b> dan
+          sebutkan bagian mana yang Anda maksud &mdash; misalnya area lahan tertentu,
+          berkas yang pernah diunggah, atau catatan harian. Tenggat jawabannya sama:
+          <b>14 hari kerja</b>.</p>
+          <p>Sebagian hal juga bisa Anda hapus sendiri langsung di dalam aplikasi
+          tanpa menghubungi siapa pun &mdash; itu jalur yang paling cepat.</p>
+        </div>
+      </section>
+
+      <section class="dok-sec" id="hubungi">
+        <span class="dok-sec__n">Hubungi</span>
+        <h2>Alamat surel</h2>
+        <div class="dok-pasal__isi">
+          <p><b>glyiv.archourium@gmail.com</b></p>
+          <p>Pengendali data pribadi: <b>PT WOSU Innovation Technology</b>.
+          Bila Anda tidak puas dengan jawaban kami, Anda berhak mengadu kepada
+          lembaga yang berwenang di bidang pelindungan data pribadi, dan berhak
+          menempuh jalur hukum.</p>
+        </div>
+
+        <p class="dok-kaki">
+          Halaman ini melengkapi <a href="/privasi.html">Kebijakan Privasi</a>
+          (Pasal 11, 13, dan 14). Bila keduanya terbaca berbeda, yang mengikat
+          adalah Kebijakan Privasi.<br>
+          Dokumen terkait: <a href="/ketentuan.html">Ketentuan Layanan</a>
+        </p>
+      </section>
+
+    </main>
+    </div>
+  </div>
+</div>
+
+<div id="ga-foot"></div>
+
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/dok-hukum.js" defer></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+</body>
+</html>

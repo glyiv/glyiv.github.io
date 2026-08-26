@@ -187,6 +187,118 @@
     }
   }
 
+  /* ══════════════════════════════════════════════════════════════════════════
+     GERAK HANYA DI DALAM LAYAR
+     ══════════════════════════════════════════════════════════════════════════
+
+     ── APA YANG DIUKUR, BUKAN APA YANG DIDUGA ────────────────────────────────
+     Jejak sungguhan satu sapuan gulir di beranda, 412 px, CPU throttle 6×
+     (`node scripts/profil-gulir.cjs`), lalu ablasi satu-per-satu di halaman
+     yang sama — mematikan tersangka, mengukur lagi pada throttle yang sama:
+
+         apa yang dimatikan                     p50 bingkai   longtask
+         ─────────────────────────────────────  ───────────   ──────────────
+         (tidak ada — keadaan awal)              36,5 ms      59 · 3.530 ms
+         seluruh loop 3D (`canvas.__dead`)       30,3 ms      41 · 3.396 ms
+         bilah kemajuan (#gvProgress dibuang)    42,4 ms      55 · 3.569 ms
+         `[data-reveal]` dilepas                 42,4 ms      49 · 2.955 ms
+         `transition:none` saja                  36,4 ms      41 · 2.687 ms
+         **`animation:none`**                   **6,1 ms**   **24 · 1.777 ms**
+         `animation:none` + `transition:none`     6,1 ms       6 ·   334 ms
+
+     Jadi yang memaku bingkai di ~36 ms BUKAN JavaScript, bukan 3D, bukan bilah
+     kemajuan, dan bukan `[data-reveal]` — melainkan animasi keyframe CSS yang
+     berjalan TANPA HENTI. Beranda punya ~37 di antaranya (adegan SVG `vsc*`,
+     ken-burns hero, marquee, ornamen, titik `rv*`, denyut Gly), semuanya
+     `infinite`, semuanya hidup sepanjang 9.000 px halaman — termasuk yang
+     jaraknya delapan layar dari mata siapa pun.
+
+     ⛔ MENJEDA TIDAK CUKUP, DAN ITU JUGA TERUKUR. Dua percobaan:
+         `animation-play-state:paused` (CSS)      24,2 ms      50 · 4.143 ms
+         `.pause()` lewat Web Animations API      30,2 ms      56 · 4.188 ms
+     Animasi yang dijeda BERHENTI BERDETAK tetapi LAPISAN KOMPOSITORNYA TETAP
+     ADA, jadi `Layerize` (979 ms) dan `Paint` (904 ms) hampir tidak bergerak.
+     Yang membebaskan lapisannya hanya `animation:none`. Karena itu gerbang ini
+     MENCABUT animasinya, bukan menjedanya.
+
+     ── KENAPA "DI LUAR LAYAR", BUKAN "SAAT MENGGULIR" ────────────────────────
+     Mencabut animasi selama jari bergerak akan MENYENTAK: elemen yang sedang di
+     tengah transform melompat ke gaya dasarnya, lalu melompat balik saat gulir
+     berhenti — di beranda ini artinya hero ken-burns berkedut dan marquee
+     kembali ke awal setiap kali orang menggulir. Di luar layar tidak ada yang
+     melihat lompatannya, jadi harganya nol.
+
+     Prinsipnya bukan baru — `dist/index.html` sudah menuliskannya untuk carousel
+     langkah: *"ADEGAN: hanya yang TAMPIL yang bergerak"* — tetapi penerapannya
+     berhenti di tiga slide itu, sementara 34 animasi lain lahir sesudahnya dan
+     tidak pernah ikut dijaga. Ini menyelesaikan aturan yang sudah ada, bukan
+     menambah aturan kedua.
+
+     ⚠︎ Hanya `infinite` yang digerbang. Animasi sekali-jalan (mis. `rvUp` 0,5 dtk)
+     bisa berakhir dengan elemen dalam keadaan yang MEMANG dibutuhkan; mencabut
+     yang seperti itu berisiko meninggalkan isi tersembunyi. Yang abadi tidak
+     punya keadaan akhir untuk dilindungi. */
+  if (!reduce && "IntersectionObserver" in window) {
+    const DIAM = "gv-gerak-diam";
+    /* Aturannya disuntik dari sini, BUKAN dari sebuah berkas CSS. Beranda memuat
+       `/lab/css/lab.css` + `/assets/css/glyiv-nav.css` + gaya sebaris halaman —
+       `/assets/css/glyiv.css` TIDAK ikut (dibuktikan dengan membaca
+       `document.styleSheets` di peramban). Aturan yang ditaruh di sana akan
+       diam-diam tidak berlaku justru di halaman yang paling butuh. */
+    const gaya = document.createElement("style");
+    gaya.textContent =
+      `.${DIAM},.${DIAM} *,.${DIAM}::before,.${DIAM}::after,` +
+      `.${DIAM} *::before,.${DIAM} *::after{animation:none!important}`;
+    document.head.appendChild(gaya);
+
+    /* Gerbangnya dipasang di WADAH, bukan di simpul yang beranimasi. Satu adegan
+       SVG punya 14 simpul bergerak; mengamati keempat belasnya berarti 14 entri
+       IntersectionObserver dan 14 pergantian kelas untuk satu keputusan yang
+       sama. `closest("svg")` bekerja pada elemen SVG juga. */
+    const inang = (el) => (el && el.closest && el.closest("svg")) || el;
+    const sudah = new WeakSet();
+    const io = new IntersectionObserver(
+      (es) => { for (const e of es) e.target.classList.toggle(DIAM, !e.isIntersecting); },
+      /* Ambang longgar: gerak dinyalakan satu setengah layar SEBELUM terlihat,
+         jadi tidak ada adegan yang "baru mulai bergerak setelah dipandangi".
+         Sekaligus meredam getar gerbang saat gulir cepat melewati batasnya. */
+      { rootMargin: "60% 0px 60% 0px", threshold: 0 }
+    );
+    const daftarkan = (el, pseudo) => {
+      const t = inang(el);
+      if (!t || t.nodeType !== 1 || sudah.has(t)) return;
+      let ulang = "";
+      try { ulang = getComputedStyle(el, pseudo || null).animationIterationCount || ""; } catch (e) { return; }
+      if (ulang.indexOf("infinite") < 0) return;
+      sudah.add(t);
+      io.observe(t);
+    };
+    /* `animationstart` MENGGELEMBUNG, jadi satu pendengar di dokumen menangkap
+       setiap animasi yang lahir belakangan — slide carousel yang baru aktif,
+       bagian yang baru dirender React — tanpa satu pun penyisiran berkala.
+       Penyisiran berkala akan memanggil `document.getAnimations()` berulang kali
+       di tengah gulir, yaitu menambah biaya persis di tempat yang sedang
+       dikurangi. */
+    document.addEventListener("animationstart", (e) => daftarkan(e.target, e.pseudoElement), { passive: true, capture: true });
+    /* Yang SUDAH berjalan sebelum pendengar di atas terpasang tidak akan pernah
+       memancarkan `animationstart` lagi — itu mayoritas animasi beranda. */
+    if (typeof document.getAnimations === "function") {
+      for (const a of document.getAnimations()) {
+        if (typeof a.animationName !== "string") continue;   // transisi, bukan animasi
+        const ef = a.effect;
+        const t = ef && ef.target;
+        if (!t || t.nodeType !== 1) continue;
+        let tim = null;
+        try { tim = ef.getTiming(); } catch (e) { continue; }
+        if (!tim || tim.iterations !== Infinity) continue;
+        const host = inang(t);
+        if (sudah.has(host)) continue;
+        sudah.add(host);
+        io.observe(host);
+      }
+    }
+  }
+
   /* -------------------- TEAM CARD TILT -------------------- */
   if (!reduce && window.matchMedia("(pointer:fine)").matches) {
     $$(".gv-tcard").forEach((c) => {

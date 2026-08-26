@@ -632,17 +632,68 @@ body.is-ready .gv-splash__bar i{animation:none}
 .liv-fab canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 14px 24px rgba(15,46,34,.24))}
 .liv-fab:hover{transform:scale(1.06) translateY(-2px)}
 .liv-fab:focus-visible{outline:2px solid var(--teal);outline-offset:8px;border-radius:20px}
-/* brand caption rides under the bot instead of a ring */
-.liv-fab__ping{position:absolute;right:8px;bottom:8px;pointer-events:none;font-family:var(--l-mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);
-  display:flex;align-items:center;gap:5px;white-space:nowrap;opacity:.9}
-.liv-fab__ping::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--emer-br);box-shadow:0 0 0 0 rgba(28,174,107,.5);animation:livPing 2.6s var(--ease) infinite}
+/* ══ GELEMBUNG "TANYA GLY" ══════════════════════════════════════════════════
+   MENGGANTI keterangan lama, bukan menumpuk di atasnya. Yang berdiri di sini
+   sebelumnya `.liv-fab__ping`: teks mono 8 px + satu titik berdenyut, menempel
+   di sudut kanan bawah tombol — dan di bawah 900 px ia `display:none`, jadi
+   pengguna ponsel tidak pernah melihat satu kata pun tentang apa benda itu.
+   Tugasnya ("ini Gly, ia bisa ditanya") dikerjakan gelembung ini, lebih jelas,
+   di semua lebar layar. Karena tugasnya sama, yang lama DIBUANG.
+
+   Siklusnya 14 detik: muncul ±0,8 dtk, bertahan ±5 dtk, lalu pergi. Bukan
+   selamanya menyala — pita yang selalu ada berhenti terbaca dalam semenit.
+   Sesudah pengunjung sekali membuka obrolan, `body.gly-met` mematikan siklus
+   itu dan gelembungnya hanya keluar saat disorot/difokus: ajakan sekali,
+   sesudah itu keterangan biasa. */
+.liv-fab__bubble{position:absolute;right:100%;bottom:52%;margin-right:-4px;pointer-events:none;
+  display:flex;align-items:center;gap:7px;white-space:nowrap;
+  font-family:var(--l-mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--pine);background:#fff;border:1px solid var(--hair);
+  padding:8px 12px;border-radius:14px;box-shadow:0 10px 24px -12px rgba(15,46,34,.55);
+  opacity:0;transform:translateY(6px) scale(.86);transform-origin:bottom right;
+  animation:glyBubblePop 14s var(--ease) infinite}
+/* Titik "online" pindah KE DALAM gelembung — ia keterangan yang sama, dan satu
+   titik yang berdiri sendiri tanpa kata di sebelahnya tidak menjelaskan apa pun. */
+.liv-fab__bubble::before{content:"";width:6px;height:6px;border-radius:50%;flex:0 0 auto;
+  background:var(--emer-br);box-shadow:0 0 0 0 rgba(28,174,107,.5);animation:livPing 2.6s var(--ease) infinite}
+/* Ekor gelembung: satu kotak diputar, menunjuk turun ke arah bot. */
+.liv-fab__bubble::after{content:"";position:absolute;right:14px;bottom:-5px;width:10px;height:10px;
+  background:#fff;border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  transform:rotate(45deg);border-bottom-right-radius:3px}
 /* ⛔ TEKS DICABUT DARI CSS. `content:"Tanya Gly"` tidak bisa dijangkau kamus
    i18n, jadi keterangan Indonesia itu bertahan di halaman EN dan AR — di SETIAP
-   halaman, tepat di bawah model 3D Gly. Terukur pembantah dengan lang="en":
-   ::after content = "Tanya Gly" sementara aria-label tombolnya sudah "Ask Gly".
-   Teksnya sekarang datang dari markup (glyiv-gly.js menulis <i> di dalam
-   .liv-fab__ping), sehingga ia simpul teks biasa yang bisa diterjemahkan. */
-.liv-fab__ping i{font-style:normal}
+   halaman, tepat di bawah model 3D Gly. Teksnya datang dari markup
+   (glyiv-gly.js menulis <i> di dalam .liv-fab__bubble), jadi ia simpul teks
+   biasa yang diterjemahkan seperti teks lain. Jangan dikembalikan ke CSS. */
+.liv-fab__bubble i{font-style:normal}
+@keyframes glyBubblePop{
+  0%{opacity:0;transform:translateY(6px) scale(.86)}
+  5%{opacity:1;transform:translateY(0) scale(1.07)}
+  9%{transform:translateY(0) scale(1)}
+  38%{opacity:1;transform:none}
+  44%,100%{opacity:0;transform:translateY(5px) scale(.93)}
+}
+/* Sesudah obrolan pernah dibuka: tidak ada siklus, hanya saat disorot/difokus. */
+body.gly-met .liv-fab__bubble{animation:none;opacity:0;transform:translateY(5px) scale(.93);
+  transition:opacity .22s var(--ease),transform .22s var(--ease)}
+body.gly-met .liv-fab:hover .liv-fab__bubble,
+body.gly-met .liv-fab:focus-visible .liv-fab__bubble{opacity:1;transform:none}
+
+/* ══ DETAK ══════════════════════════════════════════════════════════════════
+   Detaknya di KANVAS, bukan di tombol — dan itu bukan selera. `.liv-fab:hover`
+   sudah memakai `transform`, dan animasi menang atas gaya biasa: menaruh detak
+   di tombol membuat efek sorotnya tidak pernah terlihat. Dua elemen berbeda,
+   dua transform, tidak ada yang saling menimpa.
+   Dua ketuk lalu diam (6%→12%→18%→24% lalu sunyi sampai 100%) — itu yang
+   membuatnya terbaca sebagai DETAK, bukan sebagai benda yang bernapas. */
+@keyframes glyBeat{
+  0%,26%,100%{transform:scale(1)}
+  6%{transform:scale(1.055)}
+  12%{transform:scale(1)}
+  18%{transform:scale(1.032)}
+}
+.liv-fab canvas{animation:glyBeat 5.2s var(--ease) infinite;transform-origin:bottom center}
+.liv-fab:hover canvas{animation:none}
 @keyframes livPing{0%{box-shadow:0 0 0 0 rgba(28,174,107,.5)}70%,100%{box-shadow:0 0 0 7px rgba(28,174,107,0)}}
 body.livchat-open .liv-fab{opacity:0;pointer-events:none;transform:scale(.4)}
 .liv-chat{position:fixed;right:20px;bottom:20px;z-index:71;width:min(374px,92vw);max-height:min(660px,86vh);background:var(--card);border:1px solid var(--hair);border-radius:22px;box-shadow:var(--sh3);display:flex;flex-direction:column;overflow:hidden;opacity:0;visibility:hidden;transform:translateY(16px) scale(.96);transform-origin:bottom right;transition:opacity .25s var(--ease),transform .25s var(--ease),visibility .25s}
@@ -669,6 +720,11 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
 .liv-bub{max-width:84%;padding:9px 13px;border-radius:14px;font-size:13.5px;line-height:1.46}
 .liv-bub.bot{background:var(--card);border:1px solid var(--hair);color:var(--ink);align-self:flex-start;border-bottom-left-radius:5px}
 .liv-bub.me{background:var(--pine);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+/* Kaki "Laporkan" di bawah tiap jawaban Gly (syarat kebijakan AI Google Play).
+   `align-self:flex-start` WAJIB: induknya `.liv-chat__msgs` adalah kolom flex,
+   dan tanpa baris ini kaki melar selebar panel lalu menabrakkan area sentuhnya
+   ke gelembung berikutnya. */
+.liv-bub__rep{align-self:flex-start;margin:-4px 0 2px 3px}
 .liv-chat__chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 14px 10px;background:var(--paper2)}
 .liv-chip{font-size:11.5px;color:var(--teal);border:1px solid var(--teal);border-radius:999px;padding:5px 11px;cursor:pointer;background:var(--card);transition:.15s}
 .liv-chip:hover{background:var(--teal);color:#fff}
@@ -818,7 +874,11 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
      tertutup bilah alamat (risiko kalau memakai 100vh polos di ponsel). */
   .vhero{min-height:100vh;min-height:100dvh}
   .liv-fab{width:84px;height:84px;right:4px;bottom:4px}
-  .liv-fab__ping{display:none}
+  /* Gelembungnya TETAP ADA di ponsel. Yang lama (`.liv-fab__ping`) disembunyikan
+     di sini karena teks 8 px di sudut tombol memang tak terbaca — tetapi
+     akibatnya pengguna ponsel tidak pernah tahu benda 3D itu bisa ditekan.
+     Gelembungnya lebih kecil, dan ia hanya tampak ±5 detik tiap 14 detik. */
+  .liv-fab__bubble{font-size:9px;padding:7px 10px;letter-spacing:.08em;max-width:calc(100vw - 108px)}
   /* ⚠︎ TINGGI 44px WAJIB, bukan lebar saja. Terukur di 390px dengan emulasi
      pointer kasar yang benar (CDP mobile:true): kedua tombol ini 150×30 —
      satu-satunya kontrol di halaman GIP yang di bawah target sentuh, dan ia
@@ -875,7 +935,13 @@ body.livchat-open .liv-chat{opacity:1;visibility:visible;transform:none}
   .mq__track{animation:none!important;flex-wrap:wrap;width:auto}
   .leak__scan{display:none!important}
   .leak__bar{transform:scaleY(1)!important;transition:none!important}
-  .liv-fab__ping::before,.liv-chat__hd .av{animation:none!important}
+  /* Gerak dimatikan, keterangannya TIDAK. `animation:none` pada gelembung
+     meninggalkannya di keadaan berangkat (`opacity:0`) — yakni pengguna yang
+     meminta gerak dikurangi kehilangan satu-satunya kalimat yang menjelaskan
+     bot itu. Karena itu ia dipaksa tampak, diam di tempat. */
+  .liv-fab__bubble::before,.liv-chat__hd .av{animation:none!important}
+  .liv-fab__bubble{animation:none!important;opacity:1!important;transform:none!important}
+  .liv-fab canvas{animation:none!important;transform:none!important}
   .dtab.on .dt-bar{animation:none!important;transform:scaleX(1)!important}
   .gcar__dot,.gcar__dot::before{transition:none!important}
 }

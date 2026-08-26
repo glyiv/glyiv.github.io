@@ -3,9 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, follow">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kabar Glyiv — Wawasan karbon yang hidup</title>
-<meta name="description" content="Kabar Glyiv: wawasan tentang karbon, regulasi, dan teknologi — dikemas hidup dan mudah dipahami. Bagian dari platform intelijen karbon Glyiv.">
+<!-- viewport-fit=cover WAJIB: tanpa itu env(safe-area-inset-bottom) selalu 0,
+     dan ruang aman bawah mode Story (lihat .kstory__scene di kabar.css) tidak
+     pernah terpasang di ponsel berbilah gestur. Ditambahkan 16 Agustus 2026. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glyiv News — Kabar ekonomi hijau yang hidup</title>
+<meta name="description" content="Glyiv News: kabar ekonomi hijau — transisi energi, industri hijau, ekonomi sirkular, keuangan berkelanjutan, adaptasi iklim, dan harga karbon. Tiap artikel menyebut sumbernya dan tanggal terbitnya.">
 <link rel="icon" href="/logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -71,15 +74,22 @@
 </header>
 
 <section class="khero"><div class="wrap">
-  <span class="kkick" data-r>Kabar &middot; Wawasan karbon</span>
-  <h1 data-r>Karbon, dijelaskan <em>dengan hidup.</em></h1>
-  <p data-r>Regulasi, teknologi, dan ekonomi karbon — tanpa jargon, tanpa membosankan. Cari, urutkan, ketuk <b>Story</b>, atau baca lengkap. <span class="klive"><i></i>engagement real-time</span></p>
+  <span class="kkick" data-r>Glyiv News &middot; Ekonomi hijau</span>
+  <h1 data-r>Ekonomi hijau, dijelaskan <em>dengan hidup.</em></h1>
+  <p data-r>Transisi energi, industri hijau, ekonomi sirkular, keuangan berkelanjutan, dan harga karbon — tanpa jargon, tanpa membosankan. Tiap artikel bertanggal dan menyebut sumbernya. <span class="klive"><i></i>engagement real-time</span></p>
 </div></section>
 
 <section><div class="wrap">
   <div class="ktoolbar">
-    <label class="ksearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input id="ksearch" type="search" placeholder="Cari artikel — CBAM, mangrove, AI…" aria-label="Cari artikel"></label>
+    <label class="ksearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input id="ksearch" type="search" placeholder="Cari artikel — CBAM, karbon, energi…" aria-label="Cari artikel"></label>
     <label class="ksort"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M6 12h12M10 18h4"/></svg><select id="ksort" aria-label="Urutkan"><option value="new">Terbaru</option><option value="old">Terlama</option><option value="az">A–Z</option></select></label>
+    <!-- ⛔ CAP KESEGARAN — SYARAT PLAY, BUKAN HIASAN.
+         Google Play menolak co.glyiv.news (19 Agu 2026) antara lain karena
+         "Content's age cannot be verified either in-app or website". Baris ini
+         menjawabnya di layar PERTAMA yang dibuka peninjau, sebelum ia menyentuh
+         satu artikel pun. Diisi `renderArchiveStamp()` di kabar.js; kosong sampai JS jalan
+         supaya tidak pernah menampilkan tanggal yang salah. -->
+    <span class="kfresh" data-archive-updated data-i18n-skip></span>
   </div>
   <div class="kgrid" id="kgrid"></div>
   <div class="kpager" id="kpager"></div>
@@ -96,9 +106,16 @@
          (yang tidak akan berpengaruh apa pun di luar konteks flex). Gaya sebaris
          karena kabar.css bukan wilayah ronde ini. -->
     <div><a class="kbrand" href="/"><img src="/logo.svg" width="26" height="26" alt="" aria-hidden="true" style="display:inline-block;vertical-align:-7px;margin-right:8px"><b>Gl<i>yiv</i></b></a>
-      <p>Kabar Glyiv &mdash; wawasan karbon yang hidup. Bagian dari platform intelijen karbon Glyiv.</p></div>
-    <div><h4>Kabar</h4><a href="/lab/kabar/index.html">Semua artikel</a><a href="/lab/green-intelligence.html#platform">Platform</a></div>
-    <div><h4>Glyiv</h4><a href="/">Beranda</a><a href="/lab/industri/fnb-ritel.html">Glyiv Outlet</a><a href="/team.html">Tim</a><a href="/lab/kabar/admin.html">Studio (admin)</a></div>
+      <p>Glyiv News &mdash; kabar ekonomi hijau yang bisa ditelusuri ke sumbernya. Data karbon adalah tulang punggung cara Glyiv mengukur, bukan keseluruhan cakupannya.</p></div>
+    <div><h4>Kabar</h4><a href="/lab/kabar/index.html">Semua artikel</a><a href="/masthead.html">Redaksi &amp; kebijakan editorial</a><a href="/contact.html">Hubungi kami</a><a href="/lab/green-intelligence.html#platform">Platform</a></div>
+    <!-- ⛔ TAUTAN "Studio (admin)" DIBUANG 16 Agustus 2026 — JANGAN DIKEMBALIKAN.
+         Studio redaksi hanya terbuka bagi dua surel pendiri. Selama tautannya
+         ada di kaki halaman PUBLIK, peninjau Google akan menemukannya, dan Play
+         mewajibkan kredensial tinjauan untuk apa pun yang bisa dicapai peninjau
+         — artinya kita harus menyerahkan akun admin ke Google, atau pengiriman
+         ditolak. Studio tetap bisa dibuka langsung lewat alamatnya oleh yang
+         berhak; ia hanya tidak lagi diiklankan di halaman publik. -->
+    <div><h4>Glyiv</h4><a href="/">Beranda</a><a href="/lab/industri/fnb-ritel.html">Glyiv Outlet</a><a href="/team.html">Tim</a></div>
   </div>
   <div class="kfoot__legal"><span>© <span data-yr>2026</span> Glyiv</span><span>Produk dari <a href="/wosu/index.html" style="color:#8affc1">PT WOSU Innovation Technology</a></span></div>
 </div></footer>

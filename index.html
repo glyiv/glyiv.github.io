@@ -411,6 +411,154 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
+   PITA MITRA — "Mitra & Jaringan"
+   ══════════════════════════════════════════════════════════════════════════
+   KENAPA ATURANNYA DI SINI, BUKAN DI lab.css: alasannya sama dengan blok hero
+   di atas — pita ini HANYA dipakai beranda. Menaruhnya di lembar bersama
+   berarti mengirim ~60 baris aturan + satu @keyframes ke 50+ halaman yang
+   tidak pernah memakainya.
+
+   ── TINGGINYA ADALAH KONTRAK, BUKAN KEBETULAN ─────────────────────────────
+   `--partner-strip-h` dipakai DUA kali: sebagai tinggi minimum pita, dan
+   sebagai angka yang DIKURANGKAN dari tinggi hero. Satu angka, satu tempat —
+   jadi keduanya tidak bisa melenceng. Kalau isi pita tumbuh melewati angka itu
+   (terjemahan Arab lebih tinggi), yang terjadi hanyalah seksi berikutnya
+   mengintip beberapa piksel; itu justru isyarat "masih ada di bawah", bukan
+   cacat.
+
+   `:has()` dipakai supaya hero di halaman LAIN (yang tidak punya pita) tidak
+   ikut dipendekkan — tidak ada kelas baru yang perlu ditempel di markup hero,
+   dan kalau peramban tidak mengenal `:has()`, yang hilang cuma pengurangannya:
+   hero tetap satu layar penuh dan pitanya turun sedikit. Rusak dengan aman. */
+:root{--partner-strip-h:150px;--partner-tile-h:66px}
+.vhero:has(+ .partner-strip){min-height:calc(100vh - var(--partner-strip-h));min-height:calc(100dvh - var(--partner-strip-h))}
+/* ── RUANG UNTUK PITA DIAMBIL DARI BANTALAN, BUKAN DARI NARASI ────────────
+   TERUKUR di 1.280×800 sebelum aturan ini: isi hero 735 px + pita 174 px =
+   909 px, yakni 109 px di bawah lipatan — separuh petak lambang terpotong tepat
+   di layar yang dipakai pemilik menguji (tablet, mode lanskap). Dari 735 px itu
+   168 px adalah BANTALAN (`padding-top` 88 + `padding-bottom` 80), bukan satu
+   kata pun narasi. Yang dipangkas bantalannya:
+     · `padding-bottom` — dulu memberi ruang bagi isyarat "scroll" dan bagi mata
+       agar hero tidak menempel pada seksi terang berikutnya. Keduanya kini
+       dikerjakan pita itu sendiri: ia GELAP (jadi hero tidak pernah menempel
+       pada putih) dan ia terpotong di tepi layar (jadi ia sendiri berkata
+       "masih ada di bawah"). Isyarat "scroll" karena itu disembunyikan — dua
+       isyarat untuk satu pesan hanya menghabiskan tinggi.
+     · `padding-top` — 88 px untuk navbar setinggi 69 px. Diturunkan ke 76 px:
+       masih 7 px lebih tinggi dari navbar, jadi moto tidak pernah tertutup.
+   Semua di dalam `:has(+ .partner-strip)`, jadi 50+ hero halaman lain tidak
+   tersentuh, dan di bawah 1024 px aturan lama tetap berlaku apa adanya. */
+@media(min-width:1024px){
+  .vhero:has(+ .partner-strip) .vhero__in--split{padding-top:clamp(72px,9vh,100px);padding-bottom:clamp(14px,2vh,26px)}
+/* ── KELONGGARAN DIBAGI, BUKAN DITUMPUK DI ATAS ────────────────────────────
+   `.vhero` memakai `align-items:flex-end` (lab.css), jadi setiap piksel sisa
+   antara tinggi hero dan tinggi isinya jatuh SELURUHNYA di atas. Di layar lebar
+   isinya justru MEMENDEK (kolom lebih lebar → kalimat lebih sedikit membungkus),
+   jadi sisanya membesar — dan yang terlihat adalah judul yang melorot.
+
+   TERUKUR di glyiv.io, 1.706×1.000 sebelum aturan ini:
+     tinggi hero 850 · tinggi isi 687 · sisa **163 px**
+     jarak navbar → garis mata          **192 px**
+     jarak baris APK → pita mitra        **20 px**
+   Sembilan banding satu untuk ruang yang sama. Itu yang pemilik lihat.
+
+   `center` membagi 163 px itu jadi ±81/81. Hasilnya garis mata naik ke ±158 px,
+   praktis tepat di tengah optis pita di BAWAH navbar (69 + (781−594)/2 ≈ 162).
+
+   ⚠︎ Kenapa ini AMAN walau komentar lama memperingatkan isi yang meluber ke atas:
+   `.vhero` memakai `min-height`, bukan `height`. Tinggi wadahnya = maksimum dari
+   min-height dan tinggi isinya, jadi isinya TIDAK PERNAH lebih tinggi dari
+   wadahnya — sisanya nol, dan `center` tidak melakukan apa pun. Bantalan atas
+   76 px tetap ada dan tetap menjadi penjaga navbar di kasus itu.
+
+   Dibatasi `:has(+ .partner-strip)` + ≥1024 px: hero 50+ halaman lain tidak
+   tersentuh sama sekali. */
+  .vhero:has(+ .partner-strip){align-items:center}
+  .vhero:has(+ .partner-strip) .vhero__scroll{display:none}
+  /* Bantalan 52 px ini ada untuk menjauhkan kaki kolom kanan dari FAB Gly yang
+     duduk `fixed` di sudut kanan bawah. Hero yang lebih pendek sudah menaikkan
+     kaki itu; 36 px cukup, dan sisanya dikembalikan ke tinggi layar. */
+  .vhero:has(+ .partner-strip) .vhero__side{margin-bottom:36px}
+}
+
+.partner-strip{position:relative;isolation:isolate;min-height:var(--partner-strip-h);
+  display:flex;align-items:center;overflow:hidden;color:#fff;
+  background:linear-gradient(180deg,#061a12 0%,#04140d 100%);
+  padding:12px 0 10px}
+/* Jahitan tipis ke hero: hero berakhir pada rgba(6,20,13,.92), jadi pita ini
+   praktis lanjutan warnanya. Garis mint tipis yang memisahkan keduanya. */
+.partner-strip::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(138,255,193,.30),transparent)}
+.partner-strip__in{width:100%;max-width:1240px;margin:0 auto;padding:0 clamp(20px,5vw,48px);min-width:0}
+.partner-strip__head{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 16px;margin:0 0 8px}
+.partner-strip__kicker{margin:0;font-family:var(--l-mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;color:#8affc1;white-space:nowrap}
+.partner-strip__lead{margin:0;font-size:13.5px;line-height:1.45;color:rgba(255,255,255,.88)}
+.partner-strip__note{margin:7px 0 0;font-family:var(--l-mono);font-size:9px;line-height:1.3;letter-spacing:.02em;color:rgba(255,255,255,.62)}
+
+/* Rel: jalur ber-width:max-content — induknya WAJIB boleh menyusut di bawahnya
+   (min-width:0), kalau tidak kolomnya melar seukuran seluruh jalur. Catatan
+   yang sama sudah tertulis di `.mq` (lab.css); ini kejadian keduanya. */
+.partner-rail{position:relative;width:100%;min-width:0;overflow:hidden;padding:3px 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.partner-rail__track{display:flex;width:max-content;gap:14px;animation:partnerRail 52s linear infinite}
+/* ⛔ JANGAN menambahkan aturan "jeda saat di luar layar" di sini. Gerbang gerak
+   global di assets/js/glyiv.js sudah MENCABUT animasi ini (kelas `gv-gerak-diam`,
+   `animation:none!important`) — terukur 6,1 ms p50 lawan 24,2 ms untuk versi
+   yang hanya menjeda, karena menjeda tidak membebaskan lapisan kompositornya. */
+.partner-rail:hover .partner-rail__track,.partner-rail:focus-within .partner-rail__track{animation-play-state:paused}
+@keyframes partnerRail{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.partner-tile{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:7px;width:208px;height:var(--partner-tile-h);padding:0 14px;border-radius:14px;
+  background:#fff;box-shadow:0 10px 26px -16px rgba(0,0,0,.8);text-decoration:none}
+a.partner-tile{transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+a.partner-tile:hover{transform:translateY(-3px);box-shadow:0 16px 30px -16px rgba(0,0,0,.85)}
+a.partner-tile:focus-visible{outline:2px solid #8affc1;outline-offset:3px}
+.partner-tile__logo{max-width:146px;max-height:32px;width:auto;height:auto;object-fit:contain;display:block}
+/* Baris peran = pagar kejujuran pita ini. Lihat komentar di markup seksinya. */
+/* ⛔ JANGAN `white-space:nowrap`. Versi pertama memakainya dan peran terpanjang —
+   "PRESIDENTIAL EMERGENCY HOSPITAL 2021", 36 huruf ≈ 198 px — MELUBER keluar
+   kartu putih ke latar gelap. Peran ini diterjemahkan ke EN dan AR, jadi
+   panjangnya tidak pernah bisa dipatok: yang benar adalah membiarkannya
+   membungkus. Dua baris muat: 32 (lambang) + 7 (jarak) + 2×10 = 59 px di dalam
+   petak 66 px. */
+.partner-tile__role{font-family:var(--l-mono);font-size:8px;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;color:rgba(18,33,27,.74);line-height:1.25;text-align:center;
+  max-width:100%;text-wrap:balance}
+/* Petak tanpa berkas lambang: nama ditulis sebagai wordmark. */
+.partner-tile__brand{display:flex;align-items:center;gap:8px;line-height:1}
+.partner-tile__hg{width:28px;height:28px;flex:0 0 auto}
+.partner-tile__brand b{font-family:var(--l-serif);font-weight:600;font-size:15px;letter-spacing:.06em;
+  color:#14402f;display:flex;flex-direction:column;gap:2px;line-height:1}
+.partner-tile__brand b i{font-style:normal;font-family:var(--l-mono);font-size:8.5px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:#B0894F}
+.partner-tile__brand--word b{font-size:16px;text-align:center}
+
+@media(max-width:1023px){
+  /* Di bawah 1024 px hero SUDAH lebih tinggi dari layar (TERUKUR: 953–1.147 px),
+     jadi pita ini tidak mungkin ikut terlihat pada layar pertama apa pun yang
+     dilakukan aturan tinggi. Yang bisa dilakukan: membuatnya murah — kalimat
+     lead turun ke barisnya sendiri dan petaknya sedikit lebih rapat. */
+  :root{--partner-strip-h:auto;--partner-tile-h:66px}
+  .partner-strip{padding:16px 0 14px}
+  .partner-strip__lead{font-size:13px}
+  .partner-tile{width:192px}
+}
+@media(prefers-reduced-motion:reduce){
+  /* Aturan menyeluruh di lab.css memangkas durasi jadi .001ms — untuk rel ini
+     hasilnya jalur yang LANGSUNG melompat ke -50%, yakni deretan petak yang
+     terpotong separuh di kiri. Karena itu geraknya dimatikan penuh dan salinan
+     penjaga-jeda (`--dup`) dibuang, menyisakan enam petak asli dalam satu baris
+     yang bisa digeser tangan. */
+  .partner-rail{overflow-x:auto;-webkit-mask-image:none;mask-image:none;scrollbar-width:thin}
+  .partner-rail__track{animation:none!important;transform:none!important}
+  .partner-tile--dup{display:none!important}
+  a.partner-tile{transition:none}
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
    HERO · CAROUSEL LANGKAH VERTIKAL + TIGA ADEGAN ISOMETRIK
    ══════════════════════════════════════════════════════════════════════════
    KENAPA DI SINI, BUKAN DI `lab/css/lab.css`. Alasannya sama persis dengan
@@ -805,6 +953,90 @@
   </div>
   <div class="vhero__scroll">scroll <i></i></div>
 </section>
+
+<!-- ══ MITRA & JARINGAN ══ pita lambang yang BERBAGI layar pertama dengan hero.
+     Kenapa seksi sendiri, bukan di dalam hero: hero beranda sudah membawa lima
+     blok narasi (garis mata, judul, lead, dua sisi pengguna, CTA + unduh APK)
+     plus satu kolom langkah. Menyisipkan pita di dalamnya menambah blok keenam
+     pada hero yang di bawah 1024 px SUDAH lebih tinggi dari layar (TERUKUR —
+     lihat catatan .vhero__in--split di berkas ini: 953–1.147 px). Sebagai seksi
+     sendiri, tingginya bisa DIKURANGKAN dari tinggi hero lewat
+     --partner-strip-h, jadi hero + pita tepat satu layar di ≥1024 px — persis
+     tujuan pemilik: kredibilitas terlihat pada detik pertama, tanpa menggeser
+     satu pun blok hero yang sudah ada.
+
+     ⚠︎ KEJUJURAN — inilah alasan tiap petak membawa baris PERAN.
+     Lambang-lambang ini akreditasi & mitra kelembagaan HIKMAH GROUP, bukan
+     milik Glyiv. Deretan lambang tanpa keterangan terbaca sebagai klaim
+     akreditasi Glyiv sendiri, dan itu persis jenis klaim berlebih yang dilarang
+     CLAUDE.md ("kontribusi", bukan "netral karbon"; "terlacak", bukan
+     "terverifikasi"). Baris peran di tiap petak DAN kalimat catatan di bawah rel
+     membuat kepemilikannya tidak bisa salah baca. Jangan hapus salah satunya.
+     Kalimat itu sengaja berukuran normal, bukan cetak kecil: keterangan yang
+     disembunyikan sebagai fine print terbaca sebagai sesuatu yang disembunyikan.
+
+     ⚠︎ Petak "Lambang Republik Indonesia" mewakili penetapan RS Darurat
+     Presiden 2021 (RS Hikmah Citra Medika Sengkang). Kalau pemilik memutuskan
+     lambang negara tidak dipakai di situs komersial, hapus SATU objek di
+     scripts-nya lalu jalankan ulang — tidak ada tempat lain yang perlu disentuh.
+
+     Sumber lambang: references/partner-logos/ (di luar dist/, tidak pernah
+     terbit) → dibangun oleh scripts/build-partner-logos.cjs. -->
+<section class="partner-strip" id="partners" aria-labelledby="partner-strip-kicker">
+  <div class="partner-strip__in">
+    <div class="partner-strip__head" data-reveal>
+      <p class="partner-strip__kicker" id="partner-strip-kicker">Mitra &amp; Jaringan</p>
+      <p class="partner-strip__lead">Glyiv bermitra dengan Hikmah Group — enam rumah sakit, dua klinik spesialis, dan sekolah di Indonesia Timur.</p>
+    </div>
+    <div class="partner-rail">
+      <div class="partner-rail__track">
+        <a class="partner-tile" href="https://hikmah-group.web.app" target="_blank" rel="noopener noreferrer"><span class="partner-tile__brand" data-i18n-skip="brand"><svg class="partner-tile__hg" viewBox="0 0 240 240" aria-hidden="true" focusable="false"><path fill="#B0894F" fill-rule="evenodd" d="M86.93 0L138.95 0L162.35 5.57L163.47 7.8L153.81 26.01L94.74 10.77L56.84 87.31L46.07 84.71L46.07 81.36L86.93 0.37Z M169.04 7.8L175.73 10.03L183.16 15.98L133.37 108.48L146.01 209.16L151.21 208.79L151.21 205.45L154.55 202.48L153.44 197.65L170.15 165.7L170.15 163.1L166.07 163.1L166.07 161.61L172.01 160.87L174.98 157.15L183.53 138.95L192.45 108.11L193.93 82.85L203.96 86.19L206.19 90.28L210.28 90.28L211.76 87.68L211.76 81.36L208.79 79.88L201.73 81.36L198.39 76.53L190.96 75.79L162.72 130.77L156.78 138.2L154.55 111.46L197.65 27.86L199.5 27.86L203.22 34.55L212.14 62.04L213.62 72.07L212.14 108.85L207.68 127.43L199.5 148.61L151.58 238.89L131.52 240L115.54 113.31L126.69 88.42L169.04 8.17Z M96.97 20.06L144.52 33.44L144.89 35.29L138.95 47.18L98.08 35.67L71.7 89.16L69.1 89.91L63.53 87.31L63.16 85.45L96.97 20.43Z M41.98 88.79L52.76 92.51L52.76 95.11L44.95 114.8L41.24 135.98L60.56 149.35L88.79 164.58L92.14 164.58L92.14 160.12L85.45 110.71L103.65 117.03L118.51 240L100.31 240L96.59 201.36L92.88 192.45L42.72 159.75L40.12 159.75L40.12 163.84L44.95 216.59L41.61 216.22L41.61 212.88L35.67 204.71L27.49 176.1L26.38 147.86L30.84 118.51L41.98 89.16Z"/></svg><b>Hikmah<i>Group</i></b></span><span class="partner-tile__role">Mitra strategis</span></a>
+        <div class="partner-tile"><img class="partner-tile__logo" src="/assets/img/partners/kars.webp" width="132" height="132" alt="KARS — Komisi Akreditasi Rumah Sakit"><span class="partner-tile__role">Akreditasi paripurna</span></div>
+        <div class="partner-tile"><img class="partner-tile__logo" src="/assets/img/partners/bpjs-kesehatan.webp" width="250" height="41" alt="BPJS Kesehatan"><span class="partner-tile__role">Jaminan kesehatan nasional</span></div>
+        <div class="partner-tile"><img class="partner-tile__logo" src="/assets/img/partners/kemenkes.webp" width="176" height="132" alt="Kementerian Kesehatan Republik Indonesia"><span class="partner-tile__role">Regulator layanan kesehatan</span></div>
+        <div class="partner-tile"><img class="partner-tile__logo" src="/assets/img/partners/republik-indonesia.webp" width="123" height="132" alt="Lambang Republik Indonesia"><span class="partner-tile__role">RS darurat presiden 2021</span></div>
+        <div class="partner-tile"><span class="partner-tile__brand partner-tile__brand--word" data-i18n-skip="brand"><b>SIT<i>Al-Hikmah</i></b></span><span class="partner-tile__role">Sekolah Islam terpadu</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><span class="partner-tile__brand" data-i18n-skip="brand"><svg class="partner-tile__hg" viewBox="0 0 240 240" aria-hidden="true" focusable="false"><path fill="#B0894F" fill-rule="evenodd" d="M86.93 0L138.95 0L162.35 5.57L163.47 7.8L153.81 26.01L94.74 10.77L56.84 87.31L46.07 84.71L46.07 81.36L86.93 0.37Z M169.04 7.8L175.73 10.03L183.16 15.98L133.37 108.48L146.01 209.16L151.21 208.79L151.21 205.45L154.55 202.48L153.44 197.65L170.15 165.7L170.15 163.1L166.07 163.1L166.07 161.61L172.01 160.87L174.98 157.15L183.53 138.95L192.45 108.11L193.93 82.85L203.96 86.19L206.19 90.28L210.28 90.28L211.76 87.68L211.76 81.36L208.79 79.88L201.73 81.36L198.39 76.53L190.96 75.79L162.72 130.77L156.78 138.2L154.55 111.46L197.65 27.86L199.5 27.86L203.22 34.55L212.14 62.04L213.62 72.07L212.14 108.85L207.68 127.43L199.5 148.61L151.58 238.89L131.52 240L115.54 113.31L126.69 88.42L169.04 8.17Z M96.97 20.06L144.52 33.44L144.89 35.29L138.95 47.18L98.08 35.67L71.7 89.16L69.1 89.91L63.53 87.31L63.16 85.45L96.97 20.43Z M41.98 88.79L52.76 92.51L52.76 95.11L44.95 114.8L41.24 135.98L60.56 149.35L88.79 164.58L92.14 164.58L92.14 160.12L85.45 110.71L103.65 117.03L118.51 240L100.31 240L96.59 201.36L92.88 192.45L42.72 159.75L40.12 159.75L40.12 163.84L44.95 216.59L41.61 216.22L41.61 212.88L35.67 204.71L27.49 176.1L26.38 147.86L30.84 118.51L41.98 89.16Z"/></svg><b>Hikmah<i>Group</i></b></span><span class="partner-tile__role">Mitra strategis</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/kars.webp" width="132" height="132" alt="KARS — Komisi Akreditasi Rumah Sakit"><span class="partner-tile__role">Akreditasi paripurna</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/bpjs-kesehatan.webp" width="250" height="41" alt="BPJS Kesehatan"><span class="partner-tile__role">Jaminan kesehatan nasional</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/kemenkes.webp" width="176" height="132" alt="Kementerian Kesehatan Republik Indonesia"><span class="partner-tile__role">Regulator layanan kesehatan</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/republik-indonesia.webp" width="123" height="132" alt="Lambang Republik Indonesia"><span class="partner-tile__role">RS darurat presiden 2021</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><span class="partner-tile__brand partner-tile__brand--word" data-i18n-skip="brand"><b>SIT<i>Al-Hikmah</i></b></span><span class="partner-tile__role">Sekolah Islam terpadu</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><span class="partner-tile__brand" data-i18n-skip="brand"><svg class="partner-tile__hg" viewBox="0 0 240 240" aria-hidden="true" focusable="false"><path fill="#B0894F" fill-rule="evenodd" d="M86.93 0L138.95 0L162.35 5.57L163.47 7.8L153.81 26.01L94.74 10.77L56.84 87.31L46.07 84.71L46.07 81.36L86.93 0.37Z M169.04 7.8L175.73 10.03L183.16 15.98L133.37 108.48L146.01 209.16L151.21 208.79L151.21 205.45L154.55 202.48L153.44 197.65L170.15 165.7L170.15 163.1L166.07 163.1L166.07 161.61L172.01 160.87L174.98 157.15L183.53 138.95L192.45 108.11L193.93 82.85L203.96 86.19L206.19 90.28L210.28 90.28L211.76 87.68L211.76 81.36L208.79 79.88L201.73 81.36L198.39 76.53L190.96 75.79L162.72 130.77L156.78 138.2L154.55 111.46L197.65 27.86L199.5 27.86L203.22 34.55L212.14 62.04L213.62 72.07L212.14 108.85L207.68 127.43L199.5 148.61L151.58 238.89L131.52 240L115.54 113.31L126.69 88.42L169.04 8.17Z M96.97 20.06L144.52 33.44L144.89 35.29L138.95 47.18L98.08 35.67L71.7 89.16L69.1 89.91L63.53 87.31L63.16 85.45L96.97 20.43Z M41.98 88.79L52.76 92.51L52.76 95.11L44.95 114.8L41.24 135.98L60.56 149.35L88.79 164.58L92.14 164.58L92.14 160.12L85.45 110.71L103.65 117.03L118.51 240L100.31 240L96.59 201.36L92.88 192.45L42.72 159.75L40.12 159.75L40.12 163.84L44.95 216.59L41.61 216.22L41.61 212.88L35.67 204.71L27.49 176.1L26.38 147.86L30.84 118.51L41.98 89.16Z"/></svg><b>Hikmah<i>Group</i></b></span><span class="partner-tile__role">Mitra strategis</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/kars.webp" width="132" height="132" alt="KARS — Komisi Akreditasi Rumah Sakit"><span class="partner-tile__role">Akreditasi paripurna</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/bpjs-kesehatan.webp" width="250" height="41" alt="BPJS Kesehatan"><span class="partner-tile__role">Jaminan kesehatan nasional</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/kemenkes.webp" width="176" height="132" alt="Kementerian Kesehatan Republik Indonesia"><span class="partner-tile__role">Regulator layanan kesehatan</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/republik-indonesia.webp" width="123" height="132" alt="Lambang Republik Indonesia"><span class="partner-tile__role">RS darurat presiden 2021</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><span class="partner-tile__brand partner-tile__brand--word" data-i18n-skip="brand"><b>SIT<i>Al-Hikmah</i></b></span><span class="partner-tile__role">Sekolah Islam terpadu</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><span class="partner-tile__brand" data-i18n-skip="brand"><svg class="partner-tile__hg" viewBox="0 0 240 240" aria-hidden="true" focusable="false"><path fill="#B0894F" fill-rule="evenodd" d="M86.93 0L138.95 0L162.35 5.57L163.47 7.8L153.81 26.01L94.74 10.77L56.84 87.31L46.07 84.71L46.07 81.36L86.93 0.37Z M169.04 7.8L175.73 10.03L183.16 15.98L133.37 108.48L146.01 209.16L151.21 208.79L151.21 205.45L154.55 202.48L153.44 197.65L170.15 165.7L170.15 163.1L166.07 163.1L166.07 161.61L172.01 160.87L174.98 157.15L183.53 138.95L192.45 108.11L193.93 82.85L203.96 86.19L206.19 90.28L210.28 90.28L211.76 87.68L211.76 81.36L208.79 79.88L201.73 81.36L198.39 76.53L190.96 75.79L162.72 130.77L156.78 138.2L154.55 111.46L197.65 27.86L199.5 27.86L203.22 34.55L212.14 62.04L213.62 72.07L212.14 108.85L207.68 127.43L199.5 148.61L151.58 238.89L131.52 240L115.54 113.31L126.69 88.42L169.04 8.17Z M96.97 20.06L144.52 33.44L144.89 35.29L138.95 47.18L98.08 35.67L71.7 89.16L69.1 89.91L63.53 87.31L63.16 85.45L96.97 20.43Z M41.98 88.79L52.76 92.51L52.76 95.11L44.95 114.8L41.24 135.98L60.56 149.35L88.79 164.58L92.14 164.58L92.14 160.12L85.45 110.71L103.65 117.03L118.51 240L100.31 240L96.59 201.36L92.88 192.45L42.72 159.75L40.12 159.75L40.12 163.84L44.95 216.59L41.61 216.22L41.61 212.88L35.67 204.71L27.49 176.1L26.38 147.86L30.84 118.51L41.98 89.16Z"/></svg><b>Hikmah<i>Group</i></b></span><span class="partner-tile__role">Mitra strategis</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/kars.webp" width="132" height="132" alt="KARS — Komisi Akreditasi Rumah Sakit"><span class="partner-tile__role">Akreditasi paripurna</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/bpjs-kesehatan.webp" width="250" height="41" alt="BPJS Kesehatan"><span class="partner-tile__role">Jaminan kesehatan nasional</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/kemenkes.webp" width="176" height="132" alt="Kementerian Kesehatan Republik Indonesia"><span class="partner-tile__role">Regulator layanan kesehatan</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><img class="partner-tile__logo" src="/assets/img/partners/republik-indonesia.webp" width="123" height="132" alt="Lambang Republik Indonesia"><span class="partner-tile__role">RS darurat presiden 2021</span></div>
+        <div class="partner-tile partner-tile--dup" aria-hidden="true"><span class="partner-tile__brand partner-tile__brand--word" data-i18n-skip="brand"><b>SIT<i>Al-Hikmah</i></b></span><span class="partner-tile__role">Sekolah Islam terpadu</span></div>
+      </div>
+    </div>
+    <p class="partner-strip__note">Lambang di atas milik Hikmah Group, bukan akreditasi Glyiv.</p>
+  </div>
+</section>
+
+<!-- ⛔ TIDAK ADA IntersectionObserver DI SINI, DAN ITU DISENGAJA.
+     Ronde ini sempat menambahkan satu — pengamat sendiri plus aturan
+     "animation-play-state:paused" — lalu TERUKUR bahwa keduanya salah:
+
+     1. GERBANGNYA SUDAH ADA. assets/js/glyiv.js memasang gerbang "gerak hanya di
+        dalam layar" untuk SETIAP animasi infinite di halaman. Dibuktikan di
+        peramban: saat pita digulir keluar layar, kelas simpulnya menjadi
+        "partner-rail__track gv-gerak-diam" dan animationName terhitung "none".
+        Pengamat kedua hanya menambah pekerjaan untuk keputusan yang sama.
+     2. MENJEDA LEBIH BURUK DARIPADA MENCABUT — sudah diukur di repo ini
+        (komentar panjang di glyiv.js): "animation-play-state:paused" = 24,2 ms
+        p50 karena lapisan kompositornya TETAP ADA, sedangkan "animation:none"
+        = 6,1 ms. Gerbang yang ada MENCABUT; aturan yang sempat saya tulis hanya
+        menjeda.
+
+     Kalau suatu hari gerbang itu dicabut, pita ini ikut kehilangan penjaganya —
+     itu memang cara kerjanya, dan itu benar: satu aturan, satu tempat. -->
 
 <!-- WHY (ekonomi hijau) -->
 <section class="lsec lsec--n1" id="why">
@@ -1319,7 +1551,7 @@
        (2) Lalu diganti tiga kartu "cara ikut sekarang": Baca Kabar ·
            Coba gratis untuk outlet · Pantau lahan hijau.
        (3) SEKARANG kisi aplikasi. Ini MENGGANTI (3), bukan menumpuk di
-           atasnya — `dokumen/PRINSIP-UIUX.md §1`, pertanyaannya "apa yang jadi
+           atasnya — `project-docs/PRINCIPLES-UIUX.md §1`, pertanyaannya "apa yang jadi
            usang karena ini?".
 
        Jawabannya konkret: ketiga kartu di (3) adalah "pilih pintu masuk ke

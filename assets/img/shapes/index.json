@@ -1,0 +1,297 @@
+{
+  "sumber": {
+    "figmaFileKey": "5bYO9NnIZFr5X1ksFrDHNu",
+    "figmaFileName": "WOSU",
+    "frame": "SHAPE SAMPLE",
+    "frameNodeId": "5:638",
+    "diambil": "2026-08-19 (9 bentuk lewat Figma MCP) · 2026-08-20 (arc, hatch) · 2026-08-20 ronde 2 (17 bentuk dari berkas SVG pemilik)",
+    "berkasLokal": "references/figma/SHAPE SAMPLE.svg — 4596 × 2585, kisi 7 × 3 = 21 sel. Kuota Figma MCP tidak lagi diperlukan."
+  },
+  "warna": "Semua isian sudah diubah jadi `currentColor`. Warna asli di Figma #9E1A14 (merah) — BUKAN warna Glyiv. Setel `color` pada elemen pembungkus dengan token Glyiv (pine/teal/brass, atau mint di atas latar gelap).",
+  "celah": "`shape-hourglass.svg` satu-satunya yang memakai `<mask>`: garis pemisah putih di Figma diubah jadi celah tembus pandang, jadi warna latar kartu yang terlihat. Kalau berkas ini disisipkan INLINE bersama SVG lain di satu halaman, id `glyiv-hourglass-gap` harus tetap unik.",
+  "bentuk": [
+    {
+      "name": "arc",
+      "file": "shape-arc.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 3 kolom 5",
+      "sumberLayer": "Ellipse (partial ring)",
+      "viewBox": "0 0 283 283",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Cincin terbuka (huruf C). DIAMBIL 20 Agustus 2026 untuk BENTUK BERSAMBUNG: satu arc raksasa (w 3200 px) diletakkan di keempat kartu dengan x mundur tepat satu lebar kartu, sehingga berjajar di feed keempatnya menyatu jadi satu lengkung. Lihat blok `strip` di card-variants.json."
+    },
+    {
+      "name": "arrow",
+      "file": "shape-arrow.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 2 kolom 7",
+      "sumberLayer": "panah serong (Union)",
+      "viewBox": "0 0 214 214",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Panah siku 45°. Di berkas pemilik panah dipakai sebagai GLIF penuh warna berukuran kecil di pojok kiri atas panel pertama (Feed - Day 1/2/3/8), bukan sebagai motif redup. Dua peran, dua alpha — jangan dicampur."
+    },
+    {
+      "name": "berry",
+      "file": "shape-berry.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 3 kolom 3",
+      "sumberLayer": "tangkai buni (Union)",
+      "viewBox": "0 0 152 301",
+      "rasio": 0.505,
+      "jenis": "padat",
+      "catatan": "Tangkai dengan 6 buni bulat + 1 pucuk. Goresan ranting 14 px sudah dijalurkan (tutup bundar). Rasio 0,505 — jangkung."
+    },
+    {
+      "name": "blossom",
+      "file": "shape-blossom.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 1 kolom 6",
+      "sumberLayer": "bunga 8 kelopak runcing",
+      "viewBox": "0 0 332 332",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Delapan kelopak runcing. Lebih tenang daripada `rosette` (12 kelopak bulat) tetapi masih ramai — satu saja per kartu."
+    },
+    {
+      "name": "bolt",
+      "file": "shape-bolt.svg",
+      "sumberNodeId": "5:682",
+      "sumberLayer": "Vector 917 (Stroke)",
+      "viewBox": "0 0 361 401",
+      "rasio": 0.9,
+      "jenis": "padat",
+      "catatan": "Kilat/petir, padat. Konotasi energi — cocok untuk kartu energi & efisiensi."
+    },
+    {
+      "name": "chevron",
+      "file": "shape-chevron.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 3 kolom 7",
+      "sumberLayer": "tanda kutip ganda (Union)",
+      "viewBox": "0 0 296 244",
+      "rasio": 1.213,
+      "jenis": "padat",
+      "catatan": "Dua siku »; di frame ia berperan sebagai tanda kutip. Pakai untuk kartu kutipan/ucapan."
+    },
+    {
+      "name": "clover",
+      "file": "shape-clover.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 1 kolom 3",
+      "sumberLayer": "4 lingkaran bertindih (Union)",
+      "viewBox": "0 0 376 376",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Semanggi: empat lingkaran bertindih. BUKAN `quatrefoil` — quatrefoil berkelopak RUNCING (4 elips), ini berlobus BULAT. Penanda lembut, aman di kartu apa pun."
+    },
+    {
+      "name": "concentric",
+      "file": "shape-concentric.svg",
+      "sumberNodeId": "5:667",
+      "sumberLayer": "Ornament 12",
+      "viewBox": "0 0 414 416",
+      "rasio": 0.995,
+      "jenis": "garis",
+      "catatan": "Lima belas cincin sepusat tipis (tebal 2,7, jarak 10,3). Sama seperti sunburst: bentuk garis, jaga jarak dari teks."
+    },
+    {
+      "name": "hatch",
+      "file": "shape-hatch.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 2 kolom 6",
+      "sumberLayer": "Diamond of bars",
+      "viewBox": "0 0 329 329",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Belah ketupat dari batang miring. Bentuk bersambung alternatif — `Feed - Day 1 (1_1, 4p).svg` memakainya melintasi batas panel 3-4. Tidak dipakai tabel saat ini; arc yang dipilih karena pemilik menyebut “satu lengkung raksasa”."
+    },
+    {
+      "name": "hourglass",
+      "file": "shape-hourglass.svg",
+      "sumberNodeId": "5:674",
+      "sumberLayer": "Group 316",
+      "viewBox": "0 0 295 461",
+      "rasio": 0.64,
+      "jenis": "padat",
+      "catatan": "Jam pasir dua lapis. Di Figma pemisahnya berupa garis PUTIH; di sini diubah jadi celah TEMBUS PANDANG (mask) supaya warna latar kartu yang muncul, bukan putih. Satu-satunya berkas yang memakai <mask> dan satu id (glyiv-hourglass-gap)."
+    },
+    {
+      "name": "leaves",
+      "file": "shape-leaves.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 1 kolom 1",
+      "sumberLayer": "2 daun runcing, cermin",
+      "viewBox": "0 0 292 258",
+      "rasio": 1.132,
+      "jenis": "padat",
+      "catatan": "Dua daun runcing yang bertemu di pangkal. BUKAN `tulip` — tulip berkelopak bulat dan simetri penuh; ini runcing dan lebih lebar daripada tinggi. Kartu agri, panen, tanam."
+    },
+    {
+      "name": "percent",
+      "file": "shape-percent.svg",
+      "sumberNodeId": "5:686",
+      "sumberLayer": "Union",
+      "viewBox": "0 0 321 321",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Tanda persen. Di Figma berisi gradien halus #C42217→#9E1A14; DIRATAKAN jadi currentColor supaya bisa diwarnai ulang. Pakai untuk kartu angka/statistik."
+    },
+    {
+      "name": "pinwheel",
+      "file": "shape-pinwheel.svg",
+      "sumberNodeId": "5:678",
+      "sumberLayer": "Group 279",
+      "viewBox": "0 0 387 387",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Baling-baling: 4 seperempat lingkaran di dalam bujur sangkar. Netral, aman untuk kartu apa pun."
+    },
+    {
+      "name": "plusgrid",
+      "file": "shape-plusgrid.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 2 kolom 4",
+      "sumberLayer": "kisi 8 × 8 tanda plus",
+      "viewBox": "0 0 338 338",
+      "rasio": 1,
+      "jenis": "garis",
+      "catatan": "Tekstur, bukan bentuk tunggal: 64 tanda plus. Dipakai pemilik sebagai latar PENUH satu panel (Feed - Day 8 panel 1, #395048 di atas #08261C). Jangan diletakkan di belakang teks pada ukuran kecil."
+    },
+    {
+      "name": "quatrefoil",
+      "file": "shape-quatrefoil.svg",
+      "sumberNodeId": "5:677",
+      "sumberLayer": "Group 39",
+      "viewBox": "0 0 478 485",
+      "rasio": 0.986,
+      "jenis": "padat",
+      "catatan": "Bunga 4 kelopak dari 4 elips. Bentuk penanda/badge yang tenang."
+    },
+    {
+      "name": "rays",
+      "file": "shape-rays.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 2 kolom 1",
+      "sumberLayer": "36 garis radial, stroke 7 → jalur",
+      "viewBox": "0 0 336 336",
+      "rasio": 1,
+      "jenis": "garis",
+      "catatan": "Berkas sinar: 36 garis SERAGAM dengan lubang di pusat. BUKAN `sunburst` — sunburst berjari BAJI yang meruncing, jumlahnya 24, dan lubang pusatnya jauh lebih kecil (6 % jari-jari lawan 31 %). Goresan 7 px sudah diubah jadi jalur isian. Jangan di belakang teks."
+    },
+    {
+      "name": "rings",
+      "file": "shape-rings.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 2 kolom 2",
+      "sumberLayer": "7 cincin sepusat, stroke 11 → jalur",
+      "viewBox": "0 0 384 384",
+      "rasio": 1,
+      "jenis": "garis",
+      "catatan": "Tujuh cincin TEBAL. BUKAN `concentric` — concentric 15 cincin tipis (tebal 2,7, jarak 10,3) dan lebih besar (414). Goresan 11 px sudah diubah jadi jalur (cincin luar + cincin dalam berlawanan arah, aturan nonzero). Jangan di belakang teks."
+    },
+    {
+      "name": "rosette",
+      "file": "shape-rosette.svg",
+      "sumberNodeId": "5:675",
+      "sumberLayer": "Union",
+      "viewBox": "0 0 384 384",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Rozet 12 kelopak, padat. Bentuk paling \"ramai\" — pakai satu saja per kartu, jangan digabung dengan sunburst."
+    },
+    {
+      "name": "splitring",
+      "file": "shape-splitring.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 2 kolom 3",
+      "sumberLayer": "cincin terbelah dua, stroke 52 → jalur",
+      "viewBox": "0 0 328 393",
+      "rasio": 0.835,
+      "jenis": "padat",
+      "catatan": "Cincin yang terputus di kiri dan kanan jadi dua busur. Sepupu `arc`, tapi simetris dua sisi — cocok untuk gagasan \"dua bagian yang sama\". Goresan 52 px sudah dijalurkan (tutup rata/butt, sesuai berkas pemilik)."
+    },
+    {
+      "name": "spool",
+      "file": "shape-spool.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 1 kolom 5",
+      "sumberLayer": "jam pasir gempal (kumparan)",
+      "viewBox": "0 0 280 308",
+      "rasio": 0.909,
+      "jenis": "padat",
+      "catatan": "Jam pasir gempal berpinggang. BUKAN `hourglass` — hourglass jangkung (rasio 0,64), dua lapis, dan satu-satunya berkas ber-<mask>; `spool` satu jalur padat tanpa celah."
+    },
+    {
+      "name": "sprout",
+      "file": "shape-sprout.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 3 kolom 6",
+      "sumberLayer": "tunas dua daun (Union)",
+      "viewBox": "0 0 240 273",
+      "rasio": 0.879,
+      "jenis": "padat",
+      "catatan": "Tunas: batang + dua daun. Bentuk yang MENYEBERANGI jahitan di Feed - Day 1 (panel 2→3) dan Day 3 (panel 1→2), digambar dua kali dengan warna berbeda per latar. Goresan batang 18 px sudah dijalurkan."
+    },
+    {
+      "name": "squiggle",
+      "file": "shape-squiggle.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 3 kolom 2",
+      "sumberLayer": "lengkung berkelok, stroke 44 → jalur",
+      "viewBox": "0 0 182 321",
+      "rasio": 0.567,
+      "jenis": "padat",
+      "catatan": "Pita berkelok tiga simpul. INILAH bentuk raksasa di Feed - Day 2: jalur yang sama, stroke 326,374, digambar identik di TIGA kelompok panel dan dipotong tepi masing-masing. Goresan 44 px sudah dijalurkan dengan tutup bundar."
+    },
+    {
+      "name": "star",
+      "file": "shape-star.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 3 kolom 4",
+      "sumberLayer": "bintang 8 sudut (Union)",
+      "viewBox": "0 0 344 344",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Bintang delapan sudut runcing. Aksen tegas; jangan digabung dengan `blossom` atau `rosette` di satu kartu."
+    },
+    {
+      "name": "starcut",
+      "file": "shape-starcut.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 1 kolom 4",
+      "sumberLayer": "bujur sangkar dengan rongga bintang 4",
+      "viewBox": "0 0 320 320",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "⚠︎ Bentuk paling BERAT di set ini: 320 × 320 hampir penuh terisi, jadi pada alpha yang sama ia terbaca sebagai PELAT, bukan motif. Pakai alpha di ujung bawah pita (0,02–0,05), atau potong sebagian besar keluar bingkai."
+    },
+    {
+      "name": "sunburst",
+      "file": "shape-sunburst.svg",
+      "sumberNodeId": "5:672",
+      "sumberLayer": "Vector",
+      "viewBox": "0 0 429 429",
+      "rasio": 1,
+      "jenis": "garis",
+      "catatan": "Sunburst 24 jari (48 jalur, dua per jari; diukur 20 Agustus 2026). Garis rapat — JANGAN diletakkan di belakang teks, hasilnya bergetar. Taruh di tepi, terpotong bingkai."
+    },
+    {
+      "name": "trianglegrid",
+      "file": "shape-trianglegrid.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 2 kolom 5",
+      "sumberLayer": "kisi 4 × 4 segitiga, padat & garis berselang",
+      "viewBox": "0 0 324 330",
+      "rasio": 0.982,
+      "jenis": "garis",
+      "catatan": "Tekstur: baris segitiga padat berselang-seling dengan baris segitiga garis. Goresan 9 px sudah dijalurkan (miter, sudutnya tetap tajam). Dipakai pemilik di Feed - Day 1 (kedua panel, #186B4B alpha 0,2)."
+    },
+    {
+      "name": "tulip",
+      "file": "shape-tulip.svg",
+      "sumberNodeId": "5:676",
+      "sumberLayer": "Union",
+      "viewBox": "0 0 376 376",
+      "rasio": 1,
+      "jenis": "padat",
+      "catatan": "Dua kelopak (tulip/daun), padat. Bentuk paling \"hijau\" — kartu tanam, lahan, agri."
+    },
+    {
+      "name": "wheat",
+      "file": "shape-wheat.svg",
+      "sumberNodeId": "SHAPE SAMPLE baris 3 kolom 1",
+      "sumberLayer": "bulir gandum (Union)",
+      "viewBox": "0 0 178 298",
+      "rasio": 0.597,
+      "jenis": "padat",
+      "catatan": "Bulir gandum/padi: batang dengan 18 gerigi. Rasio 0,6 — bentuk paling jangkung sesudah hourglass. Detailnya halus; di bawah 200 px gerigi menyatu jadi daun."
+    }
+  ],
+  "selYangDilewati": "Empat sel dari 21 TIDAK diekstrak karena motifnya sudah punya berkas: baris 1 kolom 2 (kilat → shape-bolt.svg), baris 1 kolom 7 (persen → shape-percent.svg), baris 2 kolom 6 (arsir → shape-hatch.svg, IDENTIK byte per byte sesudah digeser), baris 3 kolom 5 (busur → shape-arc.svg, sama bentuk, skala 0,99). ⚠︎ Untuk bolt dan percent, gambar di frame TIDAK identik dengan berkas yang sudah ada (kilat frame 206 × 328 berpuncak runcing vs berkas 361 × 401 berpuncak rata; persen frame 296 dengan lingkaran r54 vs berkas 321 dengan lingkaran r48). Keduanya tetap motif yang sama, jadi tidak digandakan — tetapi kalau suatu saat berkas lama diganti dengan versi frame, ganti, jangan tambah.",
+  "bedaTipis": "Dua bentuk baru sengaja TIDAK dinamai mirip yang lama karena memang beda gambar: `rays` (36 garis seragam, berlubang di pusat) bukan `sunburst` (24 baji meruncing, lubang pusat hanya 6 % jari-jari), dan `rings` (7 cincin tebal, 384) bukan `concentric` (15 cincin tipis, 414). Kalau satu kartu memakai keduanya, hasilnya terlihat seperti kesalahan — pilih satu.",
+  "goresan": "Tujuh sel di frame digambar dengan GORESAN (stroke), dan perender kartu hanya bisa menggambar ISIAN. Semua goresan itu sudah diubah jadi jalur isian di sini: rays (7 px), rings (11), splitring (52), trianglegrid (9), squiggle (44), berry (14), sprout (18). Jalur hasilnya memakai aturan nonzero — semua subjalur searah supaya bertindih jadi satu, kecuali cincin yang subjalur dalamnya sengaja dibalik arah supaya lubangnya tetap lubang. ⛔ JANGAN menambahkan bentuk bergores mentah ke folder ini: ia akan LULUS check-brand-shapes.cjs (tagnya <path>) tetapi keluar sebagai gumpalan pekat di kartu."
+}

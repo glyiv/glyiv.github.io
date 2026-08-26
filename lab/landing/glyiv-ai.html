@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyiv AI untuk mahasiswa Indonesia | Glyiv</title>
+<meta name="description" content="Glyiv AI membaca jurnal PDF-mu, menyusun kerangka bab, dan menyiapkan pertanyaan untuk pembimbing, dalam Bahasa Indonesia. Gratis dengan kunci Groq sendiri, atau mulai Rp30.000 sebulan.">
+<link rel="icon" href="/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/lab/css/lab.css">
+<link rel="stylesheet" href="/assets/css/glyiv-nav.css">
+<style>
+/* ══════════════════════════════════════════════════════════════════════════
+   GLYIV AI LANDING. Semua aturan diawali .gai- supaya tidak ada satu pun
+   yang menabrak lab.css atau glyiv-nav.css. Navigasi TIDAK dideklarasi ulang
+   di sini; ia datang utuh dari /assets/css/glyiv-nav.css.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Hero dilukis CSS, bukan foto: produk ini tidak punya foto yang jujur
+   mewakilinya, dan stok yang "mirip mahasiswa" hanya akan jadi hiasan. */
+.gai-heromedia{position:absolute;inset:0;background:
+  radial-gradient(60% 55% at 78% 12%,rgba(51,209,136,.28),transparent 62%),
+  radial-gradient(70% 60% at 12% 88%,rgba(176,137,79,.20),transparent 60%),
+  linear-gradient(155deg,#0c261c 0%,#0F2E22 42%,#123c2c 100%)}
+.gai-heromedia::after{content:"";position:absolute;inset:0;opacity:.5;
+  background-image:radial-gradient(rgba(138,255,193,.13) 1px,transparent 1px);
+  background-size:34px 34px;
+  -webkit-mask-image:radial-gradient(75% 65% at 50% 40%,#000,transparent 78%);
+  mask-image:radial-gradient(75% 65% at 50% 40%,#000,transparent 78%)}
+.gai-hero-meta{margin-top:26px;font-family:var(--l-mono);font-size:11px;letter-spacing:.05em;color:rgba(255,255,255,.66);line-height:1.7}
+.gai-hero-meta b{color:#8affc1;font-weight:500}
+
+/* Pita kejujuran, DI BAWAH hero. Aturan HERO: hero satu layar, teks pendek,
+   disclaimer tidak pernah di dalamnya. */
+.gai-strip{background:var(--pine);color:rgba(255,255,255,.85);padding:20px 0}
+.gai-strip .lwrap{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.gai-strip p{margin:0;font-size:13.5px;line-height:1.62;max-width:78ch}
+.gai-strip b{color:#8affc1;font-weight:600}
+.gai-strip a{color:#8affc1;text-decoration:underline;text-underline-offset:2px}
+.gai-strip .ic{width:30px;height:30px;flex:0 0 auto;border-radius:9px;background:rgba(138,255,193,.14);display:grid;place-items:center;color:#8affc1}
+.gai-strip .ic svg{width:16px;height:16px}
+
+/* Masalahnya, dengan kalimat mereka sendiri. */
+.gai-quotes{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px}
+.gai-quote{background:var(--card);border:1px solid var(--hair);border-radius:18px;padding:24px 26px;box-shadow:var(--sh1);position:relative}
+.gai-quote:before{content:"";position:absolute;left:0;top:22px;bottom:22px;width:3px;border-radius:0 3px 3px 0;background:var(--brass)}
+.gai-quote p{font-family:var(--l-serif);font-size:19px;line-height:1.42;color:var(--pine);margin:0 0 10px;font-style:italic}
+.gai-quote small{font-family:var(--l-mono);font-size:10.5px;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+
+/* Permintaan nyata, dan apa yang kembali. */
+.gai-prompts{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px}
+.gai-prompt{background:var(--card);border:1px solid var(--hair);border-radius:18px;overflow:hidden;box-shadow:var(--sh1);display:flex;flex-direction:column}
+.gai-prompt__q{background:var(--paper2);border-bottom:1px solid var(--hair);padding:18px 20px;font-family:var(--l-mono);font-size:12.5px;line-height:1.62;color:var(--ink)}
+.gai-prompt__q i{display:block;font-style:normal;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass2);margin-bottom:9px;font-weight:600}
+.gai-prompt__a{padding:18px 20px 20px;font-size:13.5px;line-height:1.6;color:var(--slate);flex:1}
+.gai-prompt__a b{color:var(--pine);font-weight:600}
+
+/* Tangga harga. Ini pusat halaman. */
+.gai-cycle{display:inline-flex;background:var(--card);border:1px solid var(--hair);border-radius:999px;padding:5px;gap:4px;box-shadow:var(--sh1);margin-bottom:28px}
+.gai-cycle button{border:0;background:transparent;font-family:var(--l-sans);font-weight:700;font-size:13.5px;color:var(--slate);padding:10px 18px;border-radius:999px;cursor:pointer;transition:.18s}
+.gai-cycle button.on{background:var(--pine);color:#fff}
+.gai-cycle button:hover:not(.on){color:var(--pine)}
+.gai-plans{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch}
+.gai-plan{background:var(--card);border:1px solid var(--hair);border-radius:22px;padding:28px 28px 26px;box-shadow:var(--sh1);display:flex;flex-direction:column}
+.gai-plan h3{font-family:var(--l-serif);font-weight:600;font-size:23px;color:var(--pine);margin:0 0 4px}
+.gai-plan .role{font-family:var(--l-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass2);font-weight:600}
+.gai-plan .price{font-family:var(--l-serif);font-weight:600;font-size:40px;color:var(--pine);line-height:1;margin:16px 0 4px}
+.gai-plan .per{font-family:var(--l-mono);font-size:11px;color:var(--muted)}
+.gai-plan .why{font-size:13.5px;line-height:1.6;color:var(--slate);margin:16px 0 20px;flex:1}
+.gai-plan .lbtn{align-self:flex-start}
+.gai-plan--pro{background:linear-gradient(150deg,#0f2e22,#123c2c 62%,#0c261c);border-color:transparent;box-shadow:var(--sh3);position:relative;isolation:isolate}
+.gai-plan--pro:before{content:"";position:absolute;inset:0;z-index:-1;border-radius:22px;background:radial-gradient(52% 62% at 88% 6%,rgba(51,209,136,.20),transparent 60%)}
+.gai-plan--pro h3,.gai-plan--pro .price{color:#fff}
+.gai-plan--pro .role{color:#8affc1}
+.gai-plan--pro .per{color:rgba(255,255,255,.62)}
+.gai-plan--pro .why{color:rgba(255,255,255,.84)}
+.gai-plan--pro .lbtn{background:#8affc1;color:#08301f;border-color:transparent;box-shadow:none}
+.gai-plan--pro .lbtn:hover{background:#fff}
+.gai-tag{display:inline-block;font-family:var(--l-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;border-radius:7px;padding:5px 9px;background:var(--paper2);color:var(--brass2);margin-bottom:14px}
+.gai-plan--pro .gai-tag,.gai-health .gai-tag{background:rgba(138,255,193,.16);color:#8affc1}
+
+.gai-tablewrap{margin-top:22px;overflow-x:auto;border:1px solid var(--hair);border-radius:20px;background:var(--card);box-shadow:var(--sh1)}
+.gai-table{border-collapse:collapse;width:100%;min-width:640px}
+.gai-table th,.gai-table td{text-align:left;padding:16px 20px;border-bottom:1px solid var(--hair2);vertical-align:top}
+.gai-table thead th{font-family:var(--l-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--paper2);border-bottom:1px solid var(--hair)}
+.gai-table tbody th{font-weight:600;font-size:14px;color:var(--pine);width:46%}
+.gai-table tbody th small{display:block;font-weight:400;font-size:12px;line-height:1.5;color:var(--muted);margin-top:4px}
+.gai-table td{font-family:var(--l-mono);font-size:14px;color:var(--slate);white-space:nowrap}
+.gai-table .col-pro{background:var(--paper2)}
+.gai-table thead .col-pro{color:var(--pine)}
+.gai-table td.col-pro{color:var(--pine);font-weight:600}
+.gai-table .win{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:5px;background:var(--teal);color:#fff;margin-right:8px;vertical-align:-3px}
+.gai-table .win svg{width:10px;height:10px}
+.gai-sum{padding:17px 20px;background:var(--pine);color:#fff;font-size:13.5px;line-height:1.62}
+.gai-sum b{color:#8affc1;font-weight:600}
+.gai-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.gai-ladder{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.gai-tier{background:var(--card);border:1px solid var(--hair);border-radius:18px;padding:22px 24px;box-shadow:var(--sh1)}
+.gai-tier h4{font-family:var(--l-serif);font-weight:600;font-size:19px;color:var(--pine);margin:0 0 3px}
+.gai-tier .p{font-family:var(--l-mono);font-size:12.5px;color:var(--brass2);font-weight:600;margin-bottom:10px}
+.gai-tier p{font-size:13px;line-height:1.58;color:var(--slate);margin:0}
+
+/* Tingkat gratis, dijelaskan apa adanya. */
+.gai-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+.gai-step{background:var(--card);border:1px solid var(--hair);border-radius:16px;padding:20px;box-shadow:var(--sh1)}
+.gai-step .n{font-family:var(--l-mono);font-size:11px;letter-spacing:.1em;color:var(--brass2);font-weight:600}
+.gai-step b{display:block;font-size:14.5px;color:var(--pine);margin:9px 0 5px;font-weight:700}
+.gai-step p{font-size:12.5px;line-height:1.55;color:var(--slate);margin:0}
+.gai-step a{color:var(--teal);text-decoration:underline;text-underline-offset:2px}
+.gai-honest{margin-top:22px;background:var(--card);border:1px solid var(--hair);border-left:4px solid var(--brass);border-radius:16px;padding:24px 26px;box-shadow:var(--sh1)}
+.gai-honest h4{font-family:var(--l-serif);font-weight:600;font-size:20px;color:var(--pine);margin:0 0 10px;line-height:1.25}
+.gai-honest p{font-size:14px;line-height:1.65;color:var(--slate);margin:0 0 11px;max-width:78ch}
+.gai-honest p:last-child{margin-bottom:0}
+.gai-honest b{color:var(--pine);font-weight:600}
+
+/* Blok kejujuran kesehatan. Sengaja gelap dan besar: ia harus tidak bisa
+   dilewati mata, bukan catatan kaki. Aksen di atas gelap WAJIB mint. */
+.gai-health{background:linear-gradient(150deg,#0f2e22,#123c2c 60%,#0c261c);border-radius:26px;padding:clamp(28px,4.4vw,46px);color:#fff;position:relative;overflow:hidden;isolation:isolate;margin-top:28px}
+.gai-health:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(48% 60% at 90% 6%,rgba(51,209,136,.18),transparent 62%)}
+.gai-health h3{font-family:var(--l-serif);font-weight:600;font-size:clamp(23px,3vw,32px);color:#fff;margin:12px 0 8px;line-height:1.12}
+.gai-health .intro{color:rgba(255,255,255,.84);font-size:15px;line-height:1.62;max-width:68ch;margin:0 0 24px}
+.gai-nots{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.gai-not{display:flex;gap:13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.11);border-radius:14px;padding:17px 19px}
+.gai-not .ic{width:26px;height:26px;flex:0 0 auto;border-radius:8px;background:rgba(138,255,193,.15);color:#8affc1;display:grid;place-items:center}
+.gai-not .ic svg{width:14px;height:14px}
+.gai-not b{display:block;color:#8affc1;font-size:13.5px;font-weight:700;margin-bottom:4px}
+.gai-not span{font-size:13px;line-height:1.55;color:rgba(255,255,255,.8);display:block}
+.gai-emg{margin-top:14px;display:flex;gap:13px;border-radius:14px;padding:18px 20px;background:rgba(138,255,193,.12);border:1px solid rgba(138,255,193,.3)}
+.gai-emg .ic{width:26px;height:26px;flex:0 0 auto;border-radius:8px;background:#8affc1;color:#08301f;display:grid;place-items:center}
+.gai-emg .ic svg{width:14px;height:14px}
+.gai-emg b{display:block;color:#8affc1;font-size:13.5px;font-weight:700;margin-bottom:4px}
+.gai-emg span{font-size:13.5px;line-height:1.58;color:#fff;display:block}
+.gai-emg strong{color:#8affc1}
+/* Dua baris di bawah ini DULUNYA `p.lnote`: 13px abu-abu di bawah blok.
+   WHO menolak cetakan kecil untuk penanda AI dan untuk batas evaluasi, jadi
+   keduanya dinaikkan ke dalam blok gelap dengan ukuran penuh. Jangan
+   dikembalikan ke .lnote. */
+.gai-mark{margin-top:12px;display:flex;gap:13px;border-radius:14px;padding:18px 20px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}
+.gai-mark .ic{width:26px;height:26px;flex:0 0 auto;border-radius:8px;background:rgba(138,255,193,.15);color:#8affc1;display:grid;place-items:center}
+.gai-mark .ic svg{width:14px;height:14px}
+.gai-mark b{display:block;color:#8affc1;font-size:13.5px;font-weight:700;margin-bottom:4px}
+.gai-mark span{font-size:13.5px;line-height:1.58;color:rgba(255,255,255,.88);display:block}
+.gai-mark span b{display:inline;color:#8affc1;font-size:inherit;margin:0}
+.gai-scope{display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
+.gai-scope span{font-size:12.5px;font-weight:600;color:var(--pine);background:var(--paper2);border:1px solid var(--hair);border-radius:999px;padding:7px 14px}
+
+/* Tanya jawab. */
+.gai-faq{max-width:82ch;margin-top:26px;border-top:1px solid var(--hair)}
+.gai-faq details{border-bottom:1px solid var(--hair)}
+.gai-faq summary{list-style:none;cursor:pointer;padding:20px 44px 20px 0;position:relative;font-family:var(--l-serif);font-weight:600;font-size:19px;color:var(--pine);line-height:1.3}
+.gai-faq summary::-webkit-details-marker{display:none}
+.gai-faq summary:after{content:"";position:absolute;right:8px;top:50%;width:11px;height:11px;margin-top:-8px;border-right:2px solid var(--teal);border-bottom:2px solid var(--teal);transform:rotate(45deg);transition:transform .2s var(--ease)}
+.gai-faq details[open] summary:after{transform:rotate(-135deg);margin-top:-3px}
+.gai-faq .a{padding:0 0 22px;font-size:14.5px;line-height:1.68;color:var(--slate);max-width:76ch}
+.gai-faq .a p{margin:0 0 12px}
+.gai-faq .a p:last-child{margin-bottom:0}
+.gai-faq .a b{color:var(--pine);font-weight:600}
+
+/* Ajakan penutup. */
+.gai-cta{background:linear-gradient(135deg,#0f2e22,#123c2c 60%,#0c261c);border-radius:26px;padding:clamp(30px,5vw,54px);text-align:center;color:#fff;position:relative;overflow:hidden;isolation:isolate}
+.gai-cta:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(50% 70% at 88% 8%,rgba(51,209,136,.2),transparent 60%)}
+.gai-cta h2{color:#fff;margin:12px 0 10px}
+.gai-cta p{color:rgba(255,255,255,.84);max-width:56ch;margin:0 auto 22px;font-size:15px;line-height:1.62}
+.gai-form{display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap}
+.gai-form input{flex:1;min-width:190px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;color:#fff;font-size:14px;outline:0}
+.gai-form input::placeholder{color:rgba(255,255,255,.55)}
+.gai-form button{background:#8affc1;color:#08301f;border:0;border-radius:12px;padding:14px 24px;font-weight:700;font-size:14px;cursor:pointer;white-space:nowrap}
+.gai-form button:hover{background:#fff}
+.gai-cta .fine{font-family:var(--l-mono);font-size:11px;color:rgba(255,255,255,.6);margin-top:16px;line-height:1.7;max-width:64ch}
+
+@media(max-width:900px){
+  .gai-quotes,.gai-prompts,.gai-plans,.gai-ladder,.gai-nots{grid-template-columns:1fr}
+  .gai-steps{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){.gai-steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="gv-bg-root" aria-hidden="true"></div>
+<div id="ga-nav"></div>
+
+<!-- ═══ HERO: satu layar, satu janji, satu tombol ═══════════════════════════ -->
+<section class="vhero">
+  <div class="vhero__media"><div class="gai-heromedia"></div></div>
+  <div class="vhero__scrim"></div>
+  <div class="vhero__in">
+    <div class="vhero__eyebrow" data-reveal><span class="ln"></span> Glyiv AI</div>
+    <h1 class="lh1" data-reveal data-d="1">Bab yang belum kamu mulai, <span class="lserif-accent">mulai malam ini.</span></h1>
+    <p class="vhero__lead llead" data-reveal data-d="2">Lampirkan jurnalmu, dapatkan <b>kerangka bab, tabel perbandingan sumber, dan pertanyaan untuk pembimbing</b>. Bahasa Indonesia, dari HP.</p>
+    <div class="vhero__cta" data-reveal data-d="3">
+      <a class="lbtn lbtn--solid" href="#mulai" data-magnetic>Mulai gratis <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="gai-hero-meta" data-reveal data-d="4">Tanpa kartu kredit. <b>Rp0</b> dengan kunci Groq milikmu sendiri, atau <b>Rp30.000</b> sebulan tanpa mengurus kunci.</div>
+  </div>
+  <div class="vhero__scroll">scroll <i></i></div>
+</section>
+
+<!-- Disclaimer DI BAWAH hero, tidak pernah di dalamnya. -->
+<div class="gai-strip">
+  <div class="lwrap">
+    <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg></span>
+    <p>Glyiv AI membantumu bekerja, bukan menggantikan pekerjaanmu. Aturan integritas akademik kampusmu tetap berlaku, dan tiap sitasi wajib kamu periksa ke berkas aslinya. Untuk pertanyaan kesehatan, Glyiv AI hanya memberi <b>informasi kesehatan umum</b>: tidak mendiagnosis, tidak memberi saran obat atau dosis, dan tidak membaca hasil laboratorium. <a href="#kesehatan">Baca batasnya selengkapnya</a>.</p>
+  </div>
+</div>
+
+<!-- ═══ MASALAHNYA, DENGAN KALIMAT MEREKA ═══════════════════════════════════ -->
+<section class="lsec"><div class="lwrap">
+  <div class="lhead" data-reveal>
+    <span class="lkick">Yang sebenarnya terjadi</span>
+    <h2 class="lh2" style="margin-top:12px">Bukan malas. <span class="lserif-accent">Cuma tidak tahu harus mulai dari mana.</span></h2>
+    <p class="llead" style="margin-top:12px">Halaman kosong bukan soal kemauan. Masalahnya, tumpukan bacaan yang belum terbaca membuat kalimat pertama terasa mustahil ditulis.</p>
+  </div>
+  <div class="gai-quotes">
+    <div class="gai-quote" data-reveal><p>&ldquo;Proposal masuk Jumat. Sekarang Rabu malam.&rdquo;</p><small>Tenggat yang sudah berjalan</small></div>
+    <div class="gai-quote" data-reveal data-d="1"><p>&ldquo;Pembimbing sudah dua kali menanyakan progres. Saya belum punya apa pun untuk dikirim.&rdquo;</p><small>Menunda membalas sejak dua minggu</small></div>
+    <div class="gai-quote" data-reveal data-d="2"><p>&ldquo;Ada 40 PDF di folder. Saya belum membuka satu pun.&rdquo;</p><small>Tinjauan pustaka yang tak kunjung mulai</small></div>
+    <div class="gai-quote" data-reveal data-d="3"><p>&ldquo;Bab dua saya isinya kutipan semua. Belum ada satu kalimat pun milik saya.&rdquo;</p><small>Draf yang terasa bukan tulisan sendiri</small></div>
+  </div>
+</div></section>
+
+<!-- ═══ APA YANG SEBENARNYA DILAKUKAN ═══════════════════════════════════════ -->
+<section class="lsec paper"><div class="lwrap">
+  <div class="lhead" data-reveal>
+    <span class="lkick">Cara memakainya</span>
+    <h2 class="lh2" style="margin-top:12px">Lima permintaan nyata, <span class="lserif-accent">dan apa yang kembali.</span></h2>
+    <p class="llead" style="margin-top:12px">Ini bukan contoh yang dipoles. Ketik seperti kamu bicara, dalam Bahasa Indonesia, lalu lampirkan berkasnya.</p>
+  </div>
+  <div class="gai-prompts">
+    <div class="gai-prompt" data-reveal>
+      <div class="gai-prompt__q"><i>Yang kamu ketik</i>Saya lampirkan 6 jurnal tentang perilaku belajar mahasiswa. Buatkan tabel perbandingan: metode, jumlah sampel, temuan utama, dan celah yang belum dijawab.</div>
+      <div class="gai-prompt__a">Kembali sebagai <b>tabel enam baris</b> dengan penunjuk halaman untuk tiap isian, ditambah daftar berkas yang tidak bisa dibaca utuh. Celah yang muncul di beberapa jurnal sekaligus ditandai tersendiri, sebab di situlah rumusan masalahmu biasanya bersembunyi.</div>
+    </div>
+    <div class="gai-prompt" data-reveal data-d="1">
+      <div class="gai-prompt__q"><i>Yang kamu ketik</i>Ubah kerangka ini jadi tiga pertanyaan penelitian yang bisa dijawab dengan data yang saya punya: kuesioner 120 responden, satu kampus, sekali ambil.</div>
+      <div class="gai-prompt__a">Kembali sebagai <b>tiga pertanyaan</b> yang sudah dipangkas mengikuti batas datamu, disertai alasan singkat kenapa pertanyaan keempat yang kamu bayangkan tidak bisa dijawab oleh 120 responden dari satu kampus.</div>
+    </div>
+    <div class="gai-prompt" data-reveal data-d="2">
+      <div class="gai-prompt__q"><i>Yang kamu ketik</i>Bab 2 saya isinya kutipan berurutan. Tunjukkan di mana argumen saya sendiri hilang, dan usulkan kalimat penghubung antar paragraf.</div>
+      <div class="gai-prompt__a">Kembali sebagai <b>penanda per paragraf</b>: mana yang hanya meringkas orang lain, mana yang sudah membawa sikapmu. Usulan kalimat penghubungnya ditulis sebagai saran, bukan tempelan yang langsung dipakai.</div>
+    </div>
+    <div class="gai-prompt" data-reveal data-d="3">
+      <div class="gai-prompt__q"><i>Yang kamu ketik</i>Saya punya 25 menit sebelum bimbingan. Ringkas tiga hal paling lemah dari draf ini, dan siapkan jawaban kalau ditanya.</div>
+      <div class="gai-prompt__a">Kembali sebagai <b>tiga titik lemah</b> beserta pertanyaan yang paling mungkin muncul dari masing-masing, dan jawaban yang jujur, termasuk jawaban &ldquo;itu memang batas penelitian saya&rdquo; kalau memang begitu keadaannya.</div>
+    </div>
+    <div class="gai-prompt" data-reveal data-d="4">
+      <div class="gai-prompt__q"><i>Yang kamu ketik</i>Terjemahkan abstrak ini ke Inggris akademik, lalu tandai kalimat yang klaimnya lebih kuat daripada datanya.</div>
+      <div class="gai-prompt__a">Kembali sebagai <b>dua bagian</b>: terjemahannya, lalu daftar kalimat yang melebihi bukti, dengan usulan versi yang tidak melampaui buktinya. Bagian kedua inilah yang biasanya menyelamatkanmu di ruang sidang.</div>
+    </div>
+    <div class="gai-prompt" data-reveal data-d="5">
+      <div class="gai-prompt__q"><i>Yang tidak akan terjadi</i>Glyiv AI tidak mengarang sumber untuk menambal kekosongan, dan tidak menulis skripsimu supaya kamu tinggal menyalin.</div>
+      <div class="gai-prompt__a">Model bahasa mana pun bisa keliru menuliskan judul, tahun, atau nama penulis. Karena itu satu aturan berlaku di sini seperti di alat mana pun: <b>periksa tiap sitasi ke berkas aslinya</b> sebelum masuk daftar pustaka. Kami menuliskannya di halaman penawaran, bukan menyembunyikannya di syarat dan ketentuan.</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ═══ HARGA: pusat halaman ════════════════════════════════════════════════ -->
+<a id="harga"></a>
+<section class="lsec"><div class="lwrap">
+  <div class="lhead" data-reveal>
+    <span class="lkick">Harga</span>
+    <h2 class="lh2" style="margin-top:12px">Dua tingkat berdampingan, <span class="lserif-accent">tujuh baris pembanding.</span></h2>
+    <p class="llead" style="margin-top:12px">Semua harga sudah termasuk pajak. Berlangganan tahunan membayar sepuluh bulan untuk dua belas bulan, jadi dua bulan gratis. Tiap tingkat berbayar juga <b>menghilangkan iklan di seluruh aplikasi Android Glyiv</b>, bukan hanya di Glyiv AI.</p>
+  </div>
+
+  <div class="gai-cycle" role="group" aria-label="Siklus pembayaran" data-reveal>
+    <button type="button" class="on" data-cycle="monthly">Bulanan</button>
+    <button type="button" data-cycle="annual">Tahunan, hemat 17%</button>
+  </div>
+
+  <div class="gai-plans">
+    <article class="gai-plan" data-reveal>
+      <span class="gai-tag">Tingkat menengah</span>
+      <span class="role">Glyiv AI</span>
+      <h3>Plus</h3>
+      <div class="price" data-price="plus">Rp49.000</div>
+      <div class="per" data-per="plus">per bulan, sudah termasuk pajak</div>
+      <p class="why">Cukup untuk satu semester yang padat: 700 pesan sebulan, 600 halaman dokumen, penyimpanan 3 GB. Kedalaman penalarannya tetap di setelan standar, dan modelnya satu dan tetap, tanpa perutean.</p>
+      <a class="lbtn lbtn--glass" href="#mulai">Pilih Plus</a>
+    </article>
+    <article class="gai-plan gai-plan--pro" data-reveal data-d="1">
+      <span class="gai-tag">Untuk musim skripsi</span>
+      <span class="role">Glyiv AI</span>
+      <h3>Pro</h3>
+      <div class="price" data-price="pro">Rp55.000</div>
+      <div class="per" data-per="pro">per bulan, sudah termasuk pajak</div>
+      <p class="why">Selisih Rp6.000 dari Plus, dan menang di ketujuh baris di bawah. Yang paling terasa saat tenggat: 1.200 halaman dokumen, 100 halaman hasil pindai, serta Auto-Model dan Auto-Effort yang memilihkan kedalaman penalaran per pertanyaan.</p>
+      <a class="lbtn lbtn--solid" href="#mulai">Pilih Pro</a>
+    </article>
+  </div>
+
+  <div class="gai-tablewrap" data-reveal>
+    <table class="gai-table">
+      <thead>
+        <tr><th scope="col">Yang dibandingkan</th><th scope="col">Plus, Rp49.000</th><th scope="col" class="col-pro">Pro, Rp55.000</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Pesan per bulan<small>Satu giliran tanya jawab. 900 pesan setara 30 pesan sehari, tiap hari, sebulan penuh.</small></th>
+          <td>700</td>
+          <td class="col-pro"><span class="win" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>900<span class="gai-sr"> (Pro unggul)</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Halaman dokumen per bulan<small>PDF dan Word yang teksnya sudah bisa disalin. Satu jurnal biasanya 8 sampai 20 halaman.</small></th>
+          <td>600</td>
+          <td class="col-pro"><span class="win" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>1.200<span class="gai-sr"> (Pro unggul)</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Halaman hasil pindai per bulan<small>Buku dan skripsi lama yang dipindai jadi gambar. Halaman seperti ini perlu pengenalan teks, dan biayanya jauh di atas PDF biasa, karena itu jatahnya dipisah.</small></th>
+          <td>30</td>
+          <td class="col-pro"><span class="win" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>100<span class="gai-sr"> (Pro unggul)</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Penyimpanan berkas<small>Tempat jurnal, draf, dan lampiranmu tersimpan supaya tidak perlu diunggah ulang tiap kali.</small></th>
+          <td>3 GB</td>
+          <td class="col-pro"><span class="win" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>10 GB<span class="gai-sr"> (Pro unggul)</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Konteks per pesan<small>Seberapa banyak riwayat percakapan dan isi lampiran yang ikut terkirim dalam satu pesan. Ini batas teknis, bukan jatah yang bisa kamu habiskan.</small></th>
+          <td>60.000 token</td>
+          <td class="col-pro"><span class="win" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>120.000 token<span class="gai-sr"> (Pro unggul)</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Auto-Model dan Auto-Effort<small>Sistem menimbang pertanyaanmu, lalu memilih model dan kedalaman penalaran sendiri. Pertanyaan definisi dijawab cepat, permintaan membandingkan dijawab lebih dalam, dan kamu tidak perlu memilih apa pun.</small></th>
+          <td>Tidak</td>
+          <td class="col-pro"><span class="win" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Ya<span class="gai-sr"> (Pro unggul)</span></td>
+        </tr>
+        <tr>
+          <th scope="row">Antrean prioritas<small>Saat penyedia model sedang padat, permintaan Pro didahulukan. Paling terasa pada malam menjelang tenggat, ketika semua orang mengetik bersamaan.</small></th>
+          <td>Tidak</td>
+          <td class="col-pro"><span class="win" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></span>Ya<span class="gai-sr"> (Pro unggul)</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="gai-sum"><b>Pro unggul di ketujuh baris.</b> Tidak ada satu baris pun yang dimenangkan Plus, dan itu memang disengaja: tangga yang punya satu baris terbalik akan membuat tingkat tengah terlihat lebih masuk akal daripada keadaan sebenarnya.</div>
+  </div>
+
+  <div class="gai-ladder">
+    <div class="gai-tier" data-reveal>
+      <h4>Free</h4>
+      <div class="p">Rp0</div>
+      <p>Dua pintu. Tanpa kunci sendiri: 30 pesan sebulan memakai kunci kami, sekitar satu pesan sehari, cukup untuk menilai apakah alat ini pantas dibayar. Dengan kunci Groq milikmu: gratis sungguhan, sebatas jatah gratis Groq. Penyimpanan 100 MB, 20 halaman dokumen, tanpa halaman hasil pindai.</p>
+    </div>
+    <div class="gai-tier" data-reveal data-d="1">
+      <h4>Lite</h4>
+      <div class="p">Rp30.000 per bulan</div>
+      <p>Untuk yang tidak mau mengurus kunci sama sekali: 400 pesan, 300 halaman dokumen, 10 halaman hasil pindai, penyimpanan 1 GB. Iklan hilang di seluruh aplikasi Android Glyiv sejak tingkat ini.</p>
+    </div>
+  </div>
+
+  <p class="lnote">Angka di atas disalin dari satu berkas sumber, <b>src/lib/ai/plans.ts</b>, dan berkas itulah yang memberlakukan kuotamu di dalam aplikasi. Tapi halaman ini salinan, bukan bacaan langsung: sebuah uji menahan berkas sumber itu tetap sama dengan cerminannya di server, dan tidak ada uji yang menahan halaman ini. Jadi kalau suatu saat angka di sini berbeda dengan yang kamu lihat di aplikasi, <b>yang berlaku adalah yang di aplikasi</b>, dan perbedaan itu cacat kami, bukan syarat tersembunyi. Harga tahunan: Lite Rp300.000, Plus Rp490.000, Pro Rp550.000. Biaya metode pembayaran ditanggung Glyiv dan tidak pernah dibebankan kepadamu.</p>
+</div></section>
+
+<!-- ═══ TINGKAT GRATIS, APA ADANYA ══════════════════════════════════════════ -->
+<a id="mulai"></a>
+<section class="lsec paper"><div class="lwrap">
+  <div class="lhead" data-reveal>
+    <span class="lkick">Tingkat gratis</span>
+    <h2 class="lh2" style="margin-top:12px">Bawa kunci Groq-mu sendiri, <span class="lserif-accent">dan ini gratis sungguhan.</span></h2>
+    <p class="llead" style="margin-top:12px">Bukan uji coba tujuh hari, bukan gratis sampai kartu kreditmu ditagih. Kamu memakai akun Groq milikmu sendiri, kami tidak mengeluarkan biaya apa pun, jadi tidak ada yang perlu ditagihkan.</p>
+  </div>
+  <div class="gai-steps">
+    <div class="gai-step" data-reveal><div class="n">01</div><b>Buat akun Groq</b><p>Buka <a href="https://console.groq.com/keys" rel="noopener noreferrer" target="_blank">console.groq.com/keys</a> lalu daftar. Gratis, tanpa kartu.</p></div>
+    <div class="gai-step" data-reveal data-d="1"><div class="n">02</div><b>Buat satu kunci</b><p>Kunci hanya ditampilkan sekali saat dibuat. Kalau belum sempat disalin, buat yang baru, jangan mencari yang lama.</p></div>
+    <div class="gai-step" data-reveal data-d="2"><div class="n">03</div><b>Tempel di Glyiv AI</b><p>Satu kolom, satu tempel, selesai. Tidak ada pengaturan lain yang perlu kamu pahami.</p></div>
+    <div class="gai-step" data-reveal data-d="3"><div class="n">04</div><b>Cabut kapan saja</b><p>Hapus kuncinya di konsol Groq tanpa memberi tahu kami. Kami tidak menyimpannya, jadi kami juga tidak perlu tahu.</p></div>
+  </div>
+
+  <div class="gai-honest" data-reveal>
+    <h4>Yang perlu kamu tahu sebelum mulai: percakapan panjang akan berhenti sebentar</h4>
+    <p>Jatah gratis Groq dibatasi <b>sekitar 8.000 token per menit</b>, dan itu satu anggaran untuk pertanyaan sekaligus jawabannya. Karena riwayat percakapan ikut terkirim tiap kali, obrolan yang sudah panjang akan menyentuh batas itu, lalu berhenti sebentar sebelum bisa dilanjutkan.</p>
+    <p>Kami menuliskannya di sini karena kalau kamu menemukannya sendiri sebagai galat tanpa penjelasan, yang kamu salahkan adalah Glyiv, bukan batas yang memang begitu adanya. Saat itu terjadi, Glyiv AI menyebutkan berapa detik lagi kamu bisa mengirim, bukan sekadar menampilkan kode kesalahan. Ada juga langit-langit harian sekitar 200.000 token, kira-kira seratus pesan sehari pada percakapan berukuran biasa.</p>
+    <p>Karena alasan yang sama, riwayat percakapan dipangkas lebih ketat di tingkat gratis daripada di tingkat berbayar. Itu bukan pelit: tanpa pemangkasan, jalur gratis akan menolak pesanmu terus-menerus setelah beberapa giliran, dan itu terbaca seolah produknya rusak.</p>
+    <p><b>Kuncimu tidak pernah sampai ke server Glyiv.</b> Percakapan di jalur ini berjalan langsung dari peramban ke Groq, jadi kami tidak bisa membocorkan kunci itu, staf kami tidak bisa membacanya, dan ia tidak ada di cadangan maupun catatan kami. Satu hal yang tidak bisa kami janjikan, dan tidak akan kami samarkan: kalau peramban yang kamu pakai punya ekstensi berbahaya, tidak ada aplikasi web mana pun yang mampu melindungi kunci itu. Di komputer bersama, pilih penyimpanan sesi, bukan perangkat.</p>
+  </div>
+</div></section>
+
+<!-- ═══ AUDIENS KEDUA: KESEHATAN UMUM ═══════════════════════════════════════ -->
+<a id="kesehatan"></a>
+<section class="lsec"><div class="lwrap">
+  <div class="lhead" data-reveal>
+    <span class="lkick">Bukan mahasiswa</span>
+    <h2 class="lh2" style="margin-top:12px">Pertanyaan kesehatan sehari-hari, <span class="lserif-accent">dijawab dalam batas yang jelas.</span></h2>
+    <p class="llead" style="margin-top:12px">Cakupannya mengikuti lingkup yang dipakai WHO untuk asisten kesehatannya sendiri: promosi dan informasi kesehatan, bukan layanan klinis. Artinya penjelasan umum tentang bagaimana sebuah kondisi bekerja, bukan penilaian atas tubuhmu.</p>
+  </div>
+  <div class="gai-scope" data-reveal>
+    <span>Gizi</span><span>Aktivitas fisik</span><span>Berhenti merokok</span><span>Mengurangi alkohol</span><span>Tidur</span><span>Stres dan kesehatan jiwa</span><span>Kebersihan dan pencegahan</span><span>Informasi imunisasi</span><span>Faktor risiko penyakit tidak menular</span><span>Memahami kondisi umum</span><span>Persiapan sebelum ke dokter</span>
+  </div>
+
+  <div class="gai-health" data-reveal>
+    <span class="gai-tag">Batas yang tidak bisa ditawar</span>
+    <h3>Glyiv AI bukan dokter, dan tidak berpura-pura menjadi dokter.</h3>
+    <p class="intro">Di Indonesia, menegakkan diagnosis, memberi saran tata laksana, dan mengonsultasikan hasil pemeriksaan penunjang adalah tindakan klinis yang hanya boleh dilakukan tenaga kesehatan berizin lewat fasilitas kesehatan. Glyiv bukan fasilitas kesehatan, jadi tiga hal itu tidak dilakukan di sini, bukan sekadar tidak dianjurkan.</p>
+    <div class="gai-nots">
+      <div class="gai-not"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></span><div><b>Tidak mendiagnosis</b><span>Glyiv AI tidak akan menyebutkan kamu sakit apa. Yang bisa dilakukan: menjelaskan bagaimana sebuah kondisi umumnya bekerja, dan menyusun daftar pertanyaan untuk dibawa ke dokter atau puskesmas.</span></div></div>
+      <div class="gai-not"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></span><div><b>Tidak memberi saran obat atau dosis</b><span>Tidak menyarankan obat, tidak menyebut takaran, tidak menentukan kapan sebuah obat dimulai atau dihentikan. Pertanyaan itu milik dokter atau apotekermu.</span></div></div>
+      <div class="gai-not"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></span><div><b>Tidak membaca hasil pemeriksaanmu</b><span>Hasil laboratorium, rontgen, USG, dan pemeriksaan penunjang lain tidak dibacakan di sini. Yang bisa dijelaskan: apa yang umumnya diukur oleh sebuah pemeriksaan, supaya penjelasan dokter lebih mudah kamu ikuti.</span></div></div>
+      <div class="gai-not"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6L6 18M6 6l12 12"/></svg></span><div><b>Belum divalidasi untuk kelompok tertentu</b><span>Kehamilan, bayi, dan anak berada di luar validasi, dan panduan untuk orang dewasa tidak bisa dipakai apa adanya pada mereka. Layanan ini ditujukan untuk usia 18 tahun ke atas.</span></div></div>
+    </div>
+    <div class="gai-emg">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg></span>
+      <div><b>Kondisi gawat darurat</b><span>Nyeri dada, sulit bernapas, kelemahan sebelah badan, kejang, pendarahan yang tidak berhenti, kehilangan kesadaran, atau pikiran untuk mengakhiri hidup: hubungi <strong>119</strong>, atau datang ke <strong>IGD rumah sakit terdekat</strong>. Untuk kesehatan jiwa, <strong>119 sambungan 8</strong>. Saat tanda seperti itu terbaca, Glyiv AI berhenti dan mengarahkan ke sana tanpa menebak penyebabnya, dan jawaban itu tetap diberikan walaupun jatah pesanmu sudah habis, di semua tingkat termasuk yang gratis.</span></div>
+    </div>
+    <div class="gai-mark">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.01"/></svg></span>
+      <div><b>Penanda tetap, di setiap jawaban</b><span>Tiap jawaban kesehatan membawa penanda bahwa ia dijawab oleh AI dan merupakan informasi kesehatan umum, bukan pemeriksaan atau diagnosis. Penanda itu muncul di setiap jawaban, bukan sekali saat kamu pertama mendaftar. Model juga punya batas waktu pengetahuan dan tidak tahu apa pun sesudahnya, jadi hal yang bergantung pada waktu tetap perlu dicocokkan ke sumber terkini.</span></div>
+    </div>
+    <div class="gai-mark">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v4M12 21v-4M3 12h4M21 12h-4"/><circle cx="12" cy="12" r="3.4"/></svg></span>
+      <div><b>Yang belum selesai, ditulis di sini dan bukan di catatan kaki</b><span>Sisi kesehatan ini <b>belum dievaluasi</b>: evaluasi seratus pertanyaan kesehatan berbahasa Indonesia belum dijalankan, dan daftar tanda bahayanya belum ditandatangani klinisi berizin. Nomor gawat darurat di atas juga belum kami hubungi satu per satu untuk memastikan tersambung. Ketiganya syarat rilis yang menahan peluncuran sampai selesai, bukan pekerjaan yang menyusul sesudah layanan dibuka.</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     BUKTI SOSIAL: SENGAJA KOSONG.
+
+     Bagian ini TIDAK BOLEH diisi testimoni, ulasan, kutipan pengguna, angka
+     "sudah dipakai N mahasiswa", logo kampus, atau rating bintang yang dikarang.
+     Ulasan palsu dilarang di proyek ini, dan tidak ada pengecualian untuk
+     "sekadar contoh", "nanti diganti", atau "cuma untuk mengisi tata letak".
+
+     Bagian ini boleh diisi HANYA kalau ketiganya terpenuhi:
+       1. pengguna nyata benar-benar mengatakannya,
+       2. ia memberi izin tertulis untuk dikutip, dan
+       3. angka apa pun yang menyertainya bisa ditunjuk sumbernya.
+
+     Sampai saat itu tiba, bagian ini tetap kosong. Halaman tanpa bukti sosial
+     jauh lebih murah daripada halaman dengan bukti sosial yang dikarang.
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<section id="social-proof" hidden></section>
+
+<!-- ═══ TANYA JAWAB ═════════════════════════════════════════════════════════ -->
+<section class="lsec paper"><div class="lwrap">
+  <div class="lhead" data-reveal><span class="lkick">Tanya jawab</span><h2 class="lh2" style="margin-top:12px">Lima hal yang <span class="lserif-accent">paling sering ditanyakan.</span></h2></div>
+  <div class="gai-faq" data-reveal>
+    <details open>
+      <summary>Apakah percakapan saya dipakai untuk melatih model?</summary>
+      <div class="a">
+        <p>Tidak. Di jalur bawa kunci sendiri, pertanyaanmu bahkan tidak melewati kami: percakapan berjalan langsung dari peramban ke Groq memakai akunmu, jadi tidak ada yang bisa kami pakai walaupun kami mau.</p>
+        <p>Di jalur berbayar, isi percakapan tidak dipakai untuk pelatihan, dan pengaturan itu <b>diperiksa langsung di konsol tiap penyedia</b> sebelum layanan dibuka, bukan disimpulkan dari halaman dokumentasi mereka. Pemeriksaan itu salah satu syarat rilis yang menahan peluncuran selama belum tercatat. Kami memperlakukannya seketat itu karena setidaknya satu penyedia menyetel penyimpanan nol data sebagai pilihan yang harus dinyalakan sendiri, bukan bawaan.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Bisa berhenti kapan saja?</summary>
+      <div class="a">
+        <p>Bisa. Tidak ada kontrak minimum dan tidak ada penalti. Langganan bulanan tetap aktif sampai akhir periode yang sudah kamu bayar, lalu berhenti sendiri.</p>
+        <p>Berkas yang kamu simpan <b>bertahan 30 hari</b> setelah langganan berakhir, dengan dua peringatan lebih dulu: 14 hari dan 3 hari sebelum penghapusan. Menghapus draf skripsi seseorang diam-diam adalah hal yang tidak akan dimaafkan siapa pun, walaupun menurut ketentuan boleh, jadi ada dua pemberitahuan sebelum apa pun hilang.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Apa yang terjadi kalau jatah saya habis?</summary>
+      <div class="a">
+        <p>Kuota dihitung per bulan kalender dan pulih di awal bulan berikutnya. Sebelum itu ada tiga pilihan: menunggu, naik tingkat, atau memasang kunci Groq milikmu sendiri lalu melanjutkan di jalur gratis. Kuota yang habis tidak menghapus apa pun, percakapan dan berkasmu tetap ada.</p>
+        <p>Satu pengecualian yang tidak pernah diberlakukan sebagai pembatas: <b>pesan kesehatan yang mengandung tanda bahaya tetap dijawab walaupun jatahmu nol</b>, di semua tingkat termasuk yang gratis. Jawabannya naskah tetap yang mengarahkan ke 119 atau IGD terdekat, bukan jawaban yang dikarang model. Memasang gerbang kuota di depan hal seperti itu tidak bisa dibela dengan alasan apa pun.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Apakah benar jalan dalam Bahasa Indonesia?</summary>
+      <div class="a">
+        <p>Ya, dan bukan sekadar antarmuka yang diterjemahkan. Pendeteksi keselamatan di sisi kesehatannya dibangun dua bahasa sejak awal karena orang Indonesia menulis gejala dengan cara Indonesia: pendeteksi yang hanya mengenal &ldquo;chest pain&rdquo; akan melewatkan &ldquo;dadanya sesak&rdquo;, dan yang terlewat justru pengguna yang paling membutuhkannya.</p>
+        <p>Hal yang belum selesai, dan kami sebut apa adanya: belum ada tolok ukur kesehatan berbahasa Indonesia yang tersedia untuk model-model ini, jadi evaluasi seratus pertanyaan kesehatan berbahasa Indonesia harus kami kerjakan sendiri. <b>Evaluasi itu belum dijalankan.</b> Ia syarat rilis yang menahan peluncuran sampai selesai, bukan pekerjaan yang menyusul sesudah dibuka.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Apakah ini dokter?</summary>
+      <div class="a">
+        <p>Bukan, dan tidak akan pernah diiklankan seolah begitu. Glyiv AI memberi informasi kesehatan umum. Ia tidak menegakkan diagnosis, tidak memberi saran obat atau dosis, dan tidak membaca hasil laboratorium atau rontgen milikmu.</p>
+        <p>Kalau dokter sudah memeriksamu dan keterangannya berbeda dengan yang kamu baca di sini, <b>yang berlaku adalah keterangan dokter</b>. Beliau memeriksamu, Glyiv AI tidak.</p>
+      </div>
+    </details>
+  </div>
+</div></section>
+
+<!-- ═══ AJAKAN PENUTUP ══════════════════════════════════════════════════════ -->
+<section class="lsec tight"><div class="lwrap">
+  <div class="gai-cta" data-reveal>
+    <span class="lkick" style="color:#8affc1">Mulai</span>
+    <h2 class="lh2">Tenggatnya tidak bergeser. Halaman kosongnya bisa.</h2>
+    <p>Pendaftaran belum dibuka, dan formulir di bawah masih pratinjau: ia belum tersambung ke basis data, jadi alamatmu tidak tersimpan di mana pun dan kami belum bisa menjanjikan kabar. Kami menuliskannya sebelum kamu mengetik, bukan sesudah. Kalau kamu sudah punya kunci Groq, kamu bisa mulai sekarang tanpa menunggu dan tanpa membayar apa pun.</p>
+    <form class="gai-form" id="gai-waitlist">
+      <input type="email" name="email" required placeholder="email kampus atau pribadi" aria-label="Email">
+      <button type="submit">Masuk daftar tunggu</button>
+    </form>
+    <p class="fine" id="gai-ok" style="display:none;color:#8affc1;margin-left:auto;margin-right:auto">Seperti disebut di atas: tidak ada yang tersimpan. Formulir ini pratinjau, dan alamatmu tidak dikirim ke mana pun.</p>
+    <p class="fine" style="margin-left:auto;margin-right:auto">Harga sudah termasuk pajak. Berlangganan tahunan membayar sepuluh bulan untuk dua belas bulan. Tiap tingkat berbayar menghilangkan iklan di seluruh aplikasi Android Glyiv. Layanan disediakan PT WOSU Innovation Technology.</p>
+  </div>
+</div></section>
+
+<div id="ga-foot"></div>
+<script src="/lab/apps/apps-shell.js"></script>
+<script src="/assets/js/glyiv.js"></script>
+<script src="/lab/js/lab.js"></script>
+<script src="/assets/js/glyiv-nav.js" defer></script>
+<script>
+(function(){
+  /* Angka-angka ini cerminan src/lib/ai/plans.ts. Kalau tangga di sana berubah,
+     yang di sini ikut diubah pada ronde yang sama, bukan menyusul. */
+  var PRICE={
+    monthly:{plus:{p:"Rp49.000",s:"per bulan, sudah termasuk pajak"},pro:{p:"Rp55.000",s:"per bulan, sudah termasuk pajak"}},
+    annual:{plus:{p:"Rp490.000",s:"per tahun, setara Rp40.833 sebulan"},pro:{p:"Rp550.000",s:"per tahun, setara Rp45.833 sebulan"}}
+  };
+  var btns=Array.prototype.slice.call(document.querySelectorAll("[data-cycle]"));
+  btns.forEach(function(b){
+    b.addEventListener("click",function(){
+      var set=PRICE[b.getAttribute("data-cycle")];
+      if(!set) return;
+      btns.forEach(function(o){o.classList.toggle("on",o===b);});
+      ["plus","pro"].forEach(function(id){
+        var price=document.querySelector('[data-price="'+id+'"]');
+        var per=document.querySelector('[data-per="'+id+'"]');
+        if(price) price.textContent=set[id].p;
+        if(per) per.textContent=set[id].s;
+      });
+    });
+  });
+  var form=document.getElementById("gai-waitlist");
+  if(form) form.addEventListener("submit",function(e){
+    e.preventDefault();
+    form.querySelector("input").value="";
+    document.getElementById("gai-ok").style.display="block";
+  });
+})();
+</script>
+</body>
+</html>

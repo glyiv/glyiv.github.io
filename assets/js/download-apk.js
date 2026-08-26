@@ -58,19 +58,19 @@
       Git Bash   : sha256sum Glyiv-Pocket.apk
 
    Berkas sumbernya ada di repo `glyiv-app`:
-      green-assets/rilis/apk/Glyiv-Green-Assets.apk
-      ukur/rilis/apk/Glyiv-DBH.apk
-      saku/rilis/apk/Glyiv-Pocket.apk
-      news/rilis/apk/Glyiv-News.apk
-      cip/outlet/rilis/apk/Glyiv-Outlet.apk
-      cip/outlet/rilis/apk/Glyiv-Outlet.apk
+      green-assets/release/apk/Glyiv-Green-Assets.apk
+      dbh/release/apk/Glyiv-DBH.apk
+      pocket/release/apk/Glyiv-Pocket.apk
+      news/release/apk/Glyiv-News.apk
+      cip/outlet/release/apk/Glyiv-Outlet.apk
+      cip/outlet/release/apk/Glyiv-Outlet.apk
    ═══════════════════════════════════════════════════════════════════════════ */
 (function () {
   "use strict";
 
   window.GLYIV_APK = {
     /* Tanggal berkas APK ini dibangun. Ditampilkan di layar. */
-    dibangun: "2026-08-13",
+    dibangun: "2026-08-23",
 
     /* ⛔ SAKLAR KEJUJURAN — jangan dihapus, dan jangan disetel `true` sambil
        menebak.
@@ -103,7 +103,7 @@
        membuktikan tiap tautan berisi paket yang namanya cocok dengan labelnya
        (nol tertukar), dan SHA-256 hasil unduhan cocok persis dengan angka
        `sha256` di kartunya masing-masing.
-       Catatan pemeriksaan itu lengkap di `dokumen/TAUTAN-APK.md`.
+       Catatan pemeriksaan itu lengkap di `project-docs/APK-LINKS.md`.
 
        ⚠︎ ID Drive-nya TETAP saat APK dibangun ulang — yang pemilik ganti adalah
        ISI berkas di ID yang sama, lewat "Kelola versi" di Drive. Jangan pernah

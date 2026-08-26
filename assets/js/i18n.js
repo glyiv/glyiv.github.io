@@ -40,6 +40,13 @@
   if (window.GlyivI18n) return; // satu mesin per halaman
 
   var STORE = "glyiv-lang";
+  /* Penanda "pengunjung MEMILIH sendiri", ditulis HANYA oleh setLang() — jalur
+     yang selalu berasal dari ketukan manusia (pil navbar, pil cadangan di
+     bawah, LanguageSwitcher React). `STORE` sendiri BUKAN bukti pilihan:
+     sampai 13 Agustus 2026 provider React menulisnya pada setiap mount, jadi
+     peramban yang sekadar pernah membuka satu halaman pun terbaca "sudah
+     memilih". Dipakai oleh pengecualian alur tamu outlet di resolveLang(). */
+  var STORE_PILIH = "glyiv-lang-pilih";
   var BAHASA = { id: 1, en: 1, ar: 1 };
   var RTL = { ar: 1 };
   var GLOBAL = { en: "GLYIV_EN", ar: "GLYIV_AR" };
@@ -55,23 +62,160 @@
     var m = SELF.src.match(/^(.*\/)i18n\.js(\?[^#]*)?$/);
     if (m) { DIR_JS = m[1]; VERSI = m[2] || ""; }
   }
-  var urlKamus = function (lang) { return DIR_JS + "i18n-" + lang + ".js" + VERSI; };
+  /* ⛔ CAP VERSI KAMUS HARUS MILIK KAMUS ITU SENDIRI, BUKAN MILIK `i18n.js`.
+     Sampai 18 Agustus 2026 baris ini menempelkan `VERSI` — penanda `?v=` yang
+     dibawa `i18n.js` — ke URL kamus. Itu MENDEKATI benar dan tetap salah:
+     kalau yang berubah hanya `i18n-ar.js` (kejadian paling sering; setiap
+     penambahan terjemahan), hash `i18n.js` TIDAK berubah, URL kamusnya tidak
+     berubah, dan `public/glyiv-sw.js` terus melayani salinan lama dari cache
+     *stale-while-revalidate*-nya.
+
+     Terukur di https://glyiv.web.app/news/article, SESUDAH 18 kalimat baru
+     digabung dan di-deploy:
+        kamus di disk (dist/public/build)  → 7.345 entri
+        window.GLYIV_AR di peramban        → 7.328 entri   ← salinan LAMA
+        skrip yang dimuat                  → /assets/js/i18n-ar.js (TANPA ?v=)
+     Akibatnya dialog pelaporan tetap Bahasa Indonesia di halaman berbahasa
+     Arab, meski ke-18 kalimatnya sudah ada di kedua kamus. Dan ini bukan cacat
+     ronde ini saja: SETIAP pembaruan terjemahan sejak service worker terpasang
+     tidak terlihat oleh pengunjung yang pernah datang.
+
+     `window.__GLYIV_VERSI__` (hash isi per berkas, disuntikkan ke index.html
+     yang dilayani `no-cache`) menjawabnya tepat: kamus berubah = hash berubah =
+     URL BARU, dan `terpakuIsi()` di service worker melayani URL ber-`?v=`
+     cache-first tanpa revalidasi — jadi cepat DAN tidak bisa basi.
+
+     ⚠︎ Tanpa peta (halaman statis dist/ di github.io) ia jatuh kembali ke
+     `VERSI` seperti sebelumnya. Di sana tidak ada service worker, jadi tidak
+     ada yang bisa basi. */
+  /* ⛔ KUNCI PETA ADALAH JALUR, BUKAN URL PENUH — dan `DIR_JS` bisa keduanya.
+     `DIR_JS` diturunkan dari `document.currentScript.src`, yang di aplikasi
+     React berbentuk MUTLAK: "https://glyiv.io/assets/js/". Sementara
+     `window.__GLYIV_VERSI__` (dibangun `petaVersiAset` di vite.config.ts dari
+     isi folder `public/`) berkunci JALUR saja: "/assets/js/i18n-en.js".
+
+     Versi pertama mencari dengan URL penuh, jadi ia TIDAK PERNAH cocok dan
+     selalu jatuh ke `VERSI` — cap milik `i18n.js` sendiri. Akibatnya persis
+     cacat yang hendak diperbaiki: kamus berubah, hash `i18n.js` tidak, URL
+     kamus tidak berubah, service worker terus menyajikan kamus lama.
+
+     Terukur di https://glyiv.io/masthead?lang=en, 18 Agustus 2026:
+        kamus di disk                       7.869 entri
+        window.GLYIV_EN di peramban         7.647 entri   ← tertinggal 222
+        URL kamus yang dimuat               i18n-en.js?v=498a05e8
+        __GLYIV_VERSI__['/assets/js/i18n-en.js']  1fd83edb ← ADA, tapi tak terpakai
+     dan di layar: 94 simpul teks tetap Bahasa Indonesia pada halaman berbahasa
+     Inggris, padahal SEMUA kuncinya sudah ada di kamus di disk.
+
+     `new URL(...).pathname` menormalkan keduanya; halaman statis dist/ yang
+     memakai jalur relatif tetap tertangani lewat basis `location.href`. */
+  var capIsi = function (jalur) {
+    try {
+      var peta = window.__GLYIV_VERSI__;
+      if (!peta) return null;
+      var kunci = jalur;
+      try { kunci = new URL(jalur, location.href).pathname; } catch (e) { kunci = jalur.split(/[?#]/)[0]; }
+      var v = peta[kunci] || peta[jalur.split(/[?#]/)[0]];
+      return v ? "?v=" + v : null;
+    } catch (e) { return null; }
+  };
+  var urlKamus = function (lang) {
+    var jalur = DIR_JS + "i18n-" + lang + ".js";
+    return jalur + (capIsi(jalur) || VERSI);
+  };
+  /* `glyiv-rtl.css` tetap memakai `VERSI` apa adanya: `__GLYIV_VERSI__` hanya
+     memetakan berkas `.js` (lihat `petaVersiAset` di vite.config.ts), dan
+     `/assets/css/**` dilayani `no-cache, must-revalidate` DAN tidak masuk
+     keranjang stale-while-revalidate service worker (`AWALAN_SWR` hanya
+     `/assets/js/` dan `/ikon/`). Jadi ia tidak punya jalur untuk basi. */
   var urlGayaRtl = function () { return DIR_JS.replace(/js\/$/, "css/") + "glyiv-rtl.css" + VERSI; };
 
   /* ── bahasa terpilih ───────────────────────────────────────────────────────
      Urutan: pilihan tersimpan → ?lang= → lokal peramban → en.
      Zona waktu SENGAJA tidak dipakai: ia menandakan di mana seseorang berada,
      bukan bahasa apa yang ia baca (butir 15, ronde 44). */
+  /* ⛔ SATU PENGECUALIAN: ALUR TAMU OUTLET (`/o/…`) BERBAWAAN INDONESIA.
+     ───────────────────────────────────────────────────────────────────────
+     `/o/{slug}/meja/{nomor}` adalah sasaran stiker QR di meja kafe Indonesia,
+     dan ia TIDAK punya pemilih bahasa (pilCadangan() melewati halaman ber-
+     `#root`, dan TableOrderPage tidak merender LanguageSwitcher) — jadi bawaan
+     yang salah di sana tidak bisa diperbaiki tamunya sendiri.
+     Terukur 13 Agu 2026 pada `navigator.languages = ["en-US","en"]`: chip menu
+     terbaca "All / Coffee", tombolnya "＋ Add" dan "View Cart", sementara
+     kalimat yang tidak ada di kamus tetap Bahasa ("⭐ favorit", "jejak belum
+     dihitung") — halaman SETENGAH Inggris.
+     Bawaan situs tetap Inggris (butir 15, ronde 44); hanya alur tamu yang
+     dikecualikan, dan pilihan eksplisit pengunjung tetap menang.
+     ⛔ Aturan yang sama disalin di `src/i18n/index.tsx` (resolveInitialLang)
+     dan `index.html` (pilihBahasa). Keempatnya WAJIB sepakat. */
+  var JALUR_TAMU_OUTLET = /^\/o(\/|$)/;
+  function tamuOutlet() {
+    try { return JALUR_TAMU_OUTLET.test(location.pathname); } catch (e) { return false; }
+  }
+  function pernahMemilih() {
+    try { return localStorage.getItem(STORE_PILIH) === "1"; } catch (e) { return false; }
+  }
+
+  /* ⛔ URUTAN `navigator.languages` DIHORMATI — dan keempat penyetel memakai
+     ALGORITMA YANG SAMA PERSIS.
+     ───────────────────────────────────────────────────────────────────────────
+     Sampai 14 Agustus 2026 fungsi ini menggabungkan seluruh daftar bahasa jadi
+     satu string lalu mencocokkannya dengan `/(^|,)(id|in)\b/` — yang menyala di
+     MANA PUN "id" berada di dalam daftar. Terukur dengan menjalankan berkas ini
+     sungguhan di VM, berdampingan dengan `src/i18n/index.tsx`:
+
+       navigator.languages     i18n.js   React      hasil
+       ["en-US","id-ID"]       id        en         BEDA
+       ["in-ID"]               id        en         BEDA
+       ["en-US","en"]          en        en         sepakat
+       ["id-ID","id"]          id        id         sepakat
+
+     Dua penyetel yang berbeda pendapat membuat halaman berkedip bahasa lain
+     pada bingkai pertama — masing-masing mengecat sebelum yang lain selesai.
+     Dan keduanya salah dengan cara yang berbeda: React hanya membaca
+     `navigator.language` (entri PERTAMA saja, buta pada sisa daftar), sementara
+     berkas ini membaca seluruh daftar TANPA MENGHORMATI URUTANNYA.
+
+     Yang benar adalah entri PERTAMA yang kami kenali. `navigator.languages`
+     menurut spesifikasinya adalah daftar terurut menurut preferensi: pengunjung
+     yang menaruh Inggris di urutan pertama memang meminta Inggris, walaupun ia
+     juga membaca Indonesia.
+
+     ⚠︎ "in" adalah kode Indonesia LAWAS (dipakai sebelum ISO 639-1 direvisi
+     1989) dan masih dikirim sebagian perangkat Android lama. Pemilik menguji di
+     tablet Android — ini bukan kasus teoretis.
+
+     Zona waktu SENGAJA tidak dipakai: ia menandakan di mana seseorang berada,
+     bukan bahasa apa yang ia baca (butir 15, ronde 44).
+
+     ⛔ KALAU FUNGSI INI BERUBAH, UBAH JUGA — keempatnya WAJIB menjawab sama
+     untuk masukan yang sama, dan `scripts/gerbang-bahasa-sepakat.cjs`
+     menjalankan keempatnya berdampingan untuk membuktikannya:
+        · index.html                  → pilihBahasa()
+        · src/i18n/index.tsx          → resolveInitialLang()
+        · dist/assets/js/site-lang.js → detect()                                */
+  function dariDaftarBahasa(daftar) {
+    for (var i = 0; i < daftar.length; i++) {
+      var utama = String(daftar[i] || "").toLowerCase().split(/[-_]/)[0];
+      if (utama === "in") utama = "id"; // kode Indonesia lawas
+      if (Object.prototype.hasOwnProperty.call(BAHASA, utama)) return utama;
+    }
+    return null;
+  }
+  function daftarBahasaPeramban() {
+    try {
+      if (navigator.languages && navigator.languages.length) return navigator.languages;
+      return navigator.language ? [navigator.language] : [];
+    } catch (e) { return []; }
+  }
+
   function resolveLang() {
-    try { var s = localStorage.getItem(STORE); if (BAHASA[s]) return s; } catch (e) {}
+    var tamu = tamuOutlet();
+    try { var s = localStorage.getItem(STORE); if (BAHASA[s] && (!tamu || pernahMemilih())) return s; } catch (e) {}
     try { var q = new URLSearchParams(location.search).get("lang"); if (BAHASA[q]) return q; } catch (e) {}
-    var langs = ((navigator.languages && navigator.languages.join(",")) || navigator.language || "").toLowerCase();
-    var tz = "";
-    try { tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || "").toLowerCase(); } catch (e) {}
-    if (/(^|,)(id|in)\b/.test(langs)) return "id";
-    if (/(^|,)ar\b/.test(langs)) return "ar";
-    if (langs) return "en";
-    return "en"; // cadangan terakhir: Inggris — target internasional (butir 15, ronde 44)
+    if (tamu) return "id";
+    // cadangan terakhir: Inggris — target internasional (butir 15, ronde 44)
+    return dariDaftarBahasa(daftarBahasaPeramban()) || "en";
   }
 
   var LANG = resolveLang();
@@ -166,7 +310,7 @@
      Fungsi di atas hanya menolong DAUN yang isinya murni angka/latin; ia keluar
      lebih awal begitu simpulnya juga memuat huruf Arab. Tetapi justru simpul
      campur itulah yang salah gambar, dan ini terukur di layar, bukan diduga:
-     `/ukur/antrean` AR menampilkan **«MB 7.6 من MB 10247.6»** untuk kalimat
+     `/dbh/antrean` AR menampilkan **«MB 7.6 من MB 10247.6»** untuk kalimat
      "…المساحة المستخدمة 7.6 MB من 10247.6 MB." — angka dan satuannya bertukar
      tempat. Sebabnya algoritma bidi Unicode: angka Eropa (kelas EN) diperlakukan
      sebagai R saat menyelesaikan karakter netral, jadi spasi antara "7.6" dan
@@ -451,7 +595,8 @@
   var diminta = LANG;
   function setLang(next) {
     if (!BAHASA[next]) return;
-    try { localStorage.setItem(STORE, next); } catch (e) {}
+    /* Ketukan manusia — dan hanya di sini penanda pilihan ditulis. */
+    try { localStorage.setItem(STORE, next); localStorage.setItem(STORE_PILIH, "1"); } catch (e) {}
     diminta = next;
     if (next === LANG) { umumkan(); return; }
     muatKamus(next, function (d) {

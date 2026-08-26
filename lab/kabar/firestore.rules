@@ -1,41 +1,34 @@
-rules_version = '2';
-/* =====================================================================
-   GLYIV KABAR — Firestore security rules for the newsletter collection.
-   Project: glyiv-28711.
+/* ═══════════════════════════════════════════════════════════════════════════
+   ⛔ BERKAS INI SUDAH TIDAK DIPAKAI — DAN SENGAJA TIDAK BERISI ATURAN LAGI.
 
-   HOW TO DEPLOY (one of):
-   A) Firebase Console → Firestore Database → Rules → paste the
-      `match /kabar_articles/...` block below INTO your existing rules
-      (keep any other collections you already have), then Publish.
-   B) Firebase CLI:  firebase deploy --only firestore:rules
-      (point firestore.rules at this file, or merge the block in).
+   Aturan `kabar_articles` yang BERLAKU ada di /firestore.rules di AKAR repo,
+   proyek `glyiv-5cb33`, dan hanya itu yang diterbitkan (`firebase.json` →
+   "firestore": { "rules": "firestore.rules" }).
 
-   ALSO REQUIRED (one-time):
-   - Firebase Console → Authentication → Sign-in method → enable Google.
-   - Authentication → Settings → Authorized domains → add:
-       glyiv.github.io   and   localhost   (and 127.0.0.1 for local dev).
-   ===================================================================== */
-service cloud.firestore {
-  match /databases/{database}/documents {
+   ── KENAPA BERKAS INI DIKOSONGKAN, BUKAN DIBIARKAN ─────────────────────────
+   Sampai 13 Agustus 2026 berkas ini memuat satu set aturan LENGKAP untuk proyek
+   `glyiv-28711`, beserta petunjuk "paste blok ini ke Rules lalu Publish".
+   Aturannya sendiri benar. Yang salah proyeknya — dan tidak ada satu pun
+   mekanisme yang bisa memberi tahu itu, karena berkas aturan yang tidak pernah
+   diterbitkan tidak pernah gagal.
 
-    function isKabarAdmin() {
-      return request.auth != null
-        && request.auth.token.email == 'glyiv.archourium@gmail.com'
-        && request.auth.token.email_verified == true;
-    }
+   Terukur hari itu, runQuery tanpa token:
+     status=='published' @glyiv-28711 → 200, NOL dokumen
+     status=='published' @glyiv-5cb33 → 200, 87 dokumen
 
-    match /kabar_articles/{slug} {
-      // Anyone may read PUBLISHED articles; the admin may read everything (drafts/queue).
-      allow read: if resource.data.status == 'published' || isKabarAdmin();
+   Jadi seluruh artikel ada di `glyiv-5cb33`, sementara mesin Kabar dan berkas
+   aturan ini sama-sama berbicara ke proyek yang kosong. Ini kembaran persis
+   dari kejadian QRIS: `storage.rules` benar di repo, tetapi tidak pernah
+   diterbitkan, karena `--only hosting` tidak menyentuh berkas aturan.
 
-      // The public may update ONLY the engagement counters (nothing else).
-      // The admin may write full content.
-      allow update: if isKabarAdmin()
-        || request.resource.data.diff(resource.data).affectedKeys()
-             .hasOnly(['views', 'likes', 'shares', 'storyViews']);
+   Membiarkan salinan kedua berdiri di sini akan mengundang orang berikutnya
+   menerbitkan yang salah lagi. Karena itu isinya diganti penunjuk arah.
 
-      // Only the admin can create or delete articles.
-      allow create, delete: if isKabarAdmin();
-    }
-  }
-}
+   ── YANG PINDAH KE AKAR ────────────────────────────────────────────────────
+   · baca publik untuk artikel `status == 'published'`;
+   · tulis publik HANYA untuk views/likes/shares/storyViews, dibatasi ±1 per
+     permintaan dan hanya pada artikel yang sudah terbit;
+   · create/delete/ubah isi: admin saja (kedua surel pendiri).
+   Diuji sungguhan oleh `node scripts/verify-rules.mjs` (18 kasus
+   `kabar_articles:`), bukan dibaca dengan mata.
+   ═══════════════════════════════════════════════════════════════════════════ */

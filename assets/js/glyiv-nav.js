@@ -11,6 +11,50 @@
      (`.lnav--app`) tidak memakai perilaku di bawah tetapi TETAP butuh chatbot
      dan kamus bahasanya. */
   if (!document.querySelector(".lnav")) return;
+
+  /* ⛔ CAP VERSI UNTUK SKRIP YANG DISUNTIK BERKAS INI — BUKAN KENYAMANAN,
+     MELAINKAN PERBAIKAN CACAT YANG TERUKUR DI PRODUKSI.
+
+     Terukur di https://glyiv.web.app/ pada 18 Agustus 2026, SESUDAH deploy
+     yang menambahkan tombol lapor ke `glyiv-gly.js`:
+
+       fetch('/assets/js/glyiv-gly.js')                    → 19.231 B  (BASI)
+       fetch('/assets/js/glyiv-gly.js', {cache:'reload'})  → 20.402 B  (baru)
+       navigator.serviceWorker … scope '/'                 → glyiv-sw.js aktif
+       caches.keys()                                       → ['glyiv-cangkang-v3']
+     dan sesudah MUAT ULANG PENUH kedua, angkanya TIDAK berubah: 19.231 B lagi.
+
+     Sebabnya: `public/glyiv-sw.js` melayani `/assets/js/**` TANPA query dengan
+     *stale-while-revalidate*, dan sapuan penyegarannya dijaga bendera
+     `sapuanTerjadwal` yang hanya menyala SEKALI per umur service worker. Selama
+     SW-nya belum sempat mati karena menganggur, setiap muat ulang tetap dijawab
+     dari salinan lama. Header `no-cache` di firebase.json tidak menolong sama
+     sekali — SW menjawab SEBELUM jaringan.
+
+     Kepala `glyiv-sw.js` sendiri sudah menyebut perbaikan yang benar: beri URL
+     itu `?v=<hash isi>`, sebab `terpakuIsi()` melayani URL ber-`?v=`
+     cache-first tanpa revalidasi DAN isi baru = hash baru = URL BARU, sehingga
+     entri lama tidak akan pernah cocok lagi. Basi jadi mustahil secara
+     struktur, bukan "diusahakan".
+
+     Petanya sudah ada — `window.__GLYIV_VERSI__`, hash isi per berkas yang
+     disuntikkan ke `index.html` (dilayani `no-cache`). `src/hooks/useSiteScripts.ts`
+     sudah memakainya lewat `withVersion()`; yang terlewat justru skrip yang
+     disuntik BERKAS INI sendiri, dan itulah yang membuat tombol wajib-Play
+     tidak pernah muncul di peramban meski berkasnya sudah ter-deploy.
+
+     ⚠︎ Tanpa peta (halaman statis dist/ di github.io) URL dikembalikan APA
+     ADANYA — BUKAN `?v=0`. Penanda cadangan yang tetap justru akan memakukan
+     salinan lama selamanya, persis kebalikan dari tujuannya. Di github.io tidak
+     ada service worker, jadi tanpa cap pun tidak ada yang bisa basi. */
+  function versi(src) {
+    try {
+      var peta = window.__GLYIV_VERSI__;
+      var v = peta && peta[src.split(/[?#]/)[0]];
+      return v ? src + (src.indexOf("?") >= 0 ? "&" : "?") + "v=" + v : src;
+    } catch (e) { return src; }
+  }
+
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
   /* ══ LEMBAR GAYA PASANGANNYA — DIPERIKSA, BUKAN DIPERCAYA ═══════════════════
@@ -841,7 +885,7 @@
   function muatAdmin() {
     if (document.getElementById("glyiv-admin-js")) return;
     var as = document.createElement("script");
-    as.id = "glyiv-admin-js"; as.src = "/assets/js/glyiv-admin.js";
+    as.id = "glyiv-admin-js"; as.src = versi("/assets/js/glyiv-admin.js");
     // `defer` tidak berlaku untuk skrip yang disisipkan JavaScript — hanya untuk
     // yang disisipkan parser. Yang berlaku di sini `async`, dan itu memang mau kita.
     as.async = true;
@@ -862,16 +906,28 @@
     new MutationObserver(function () { catatAdmin(document.documentElement.hasAttribute("data-admin")); })
       .observe(document.documentElement, { attributes: true, attributeFilter: ["data-admin"] });
   } catch (e) {}
+  /* ⛔ PELAPORAN ISI — DIMUAT SEBELUM Gly, DAN DI SETIAP HALAMAN.
+     Kebijakan "AI-Generated Content" Google Play menuntut cara melaporkan isi
+     yang menyinggung tanpa keluar dari aplikasi. Kelima APK memuat halaman ini
+     di WebView, jadi satu skrip di sini memenuhinya untuk kelimanya sekaligus.
+     Urutannya penting: `glyiv-gly.js` memanggil `GlyivReport.button()` saat
+     menggambar gelembung jawaban, jadi modul ini harus sudah ada lebih dulu.
+     Keduanya `defer`, dan skrip `defer` dijalankan sesuai urutan penyisipan. */
+  if (!document.getElementById("glyiv-report-js")) {
+    var rs = document.createElement("script");
+    rs.id = "glyiv-report-js"; rs.src = versi("/assets/js/content-report.js"); rs.defer = true;
+    document.head.appendChild(rs);
+  }
   /* load the context-aware Gly assistant (self-skips pages that already have one) */
   if (!document.getElementById("glyiv-gly-js")) {
     var gs = document.createElement("script");
-    gs.id = "glyiv-gly-js"; gs.src = "/assets/js/glyiv-gly.js"; gs.defer = true;
+    gs.id = "glyiv-gly-js"; gs.src = versi("/assets/js/glyiv-gly.js"); gs.defer = true;
     document.head.appendChild(gs);
   }
   /* language switcher for the site navbar (id/en/ar), shared localStorage with the app */
   if (!document.getElementById("glyiv-lang-js")) {
     var ls = document.createElement("script");
-    ls.id = "glyiv-lang-js"; ls.src = "/assets/js/site-lang.js"; ls.defer = true;
+    ls.id = "glyiv-lang-js"; ls.src = versi("/assets/js/site-lang.js"); ls.defer = true;
     document.head.appendChild(ls);
   }
 })();
@@ -969,6 +1025,25 @@
     for (var i = 0; i < JALUR_TERLARANG.length; i++) {
       if (JALUR_TERLARANG[i].test(p)) return false;
     }
+    /* ⛔ HALAMAN DOKUMEN HUKUM PUNYA NAVIGASINYA SENDIRI — REL INI MENUMPUK.
+       Terukur di https://glyiv.io/privacy, 18 Agustus 2026, lebar 1440:
+           .lsecnav  (rel seksi ini)     x = 1222
+           .dok-toc  (daftar isi dokumen) x = 165
+       Dua navigasi untuk halaman yang sama, di dua sisi layar sekaligus. Itu
+       persis yang dilarang prinsip #1 di `project-docs/PRINCIPLES-UIUX.md`
+       ("mengganti, bukan menumpuk"), dan #6 ("satu standar, tanpa varian").
+
+       Di halaman yang TIDAK punya `.dok-toc` (masthead, delete-account) rel ini
+       tetap salah dengan cara lain: ia tergambar sebagai deretan garis kecil di
+       tepi kanan yang menabrak kolom baca — pemilik membacanya sebagai sampah
+       tata letak, bukan sebagai navigasi.
+
+       ⚠︎ Diuji lewat ELEMEN, bukan lewat daftar jalur. Halaman dokumen hidup di
+       empat alamat yang tidak sepola (`/privacy`, `/terms`, `/delete-account`,
+       `/masthead`) DAN masing-masing punya alias `.html`-nya sendiri; daftar
+       jalur akan ketinggalan satu setiap kali ada dokumen baru, diam-diam.
+       `.dok-wrap` adalah penanda yang dibawa halamannya sendiri. */
+    if (document.querySelector('.dok-wrap')) return false;
     return true;
   }
 

@@ -118,7 +118,7 @@
       <div class="pg-metrics">
         <div class="pg-met"><p class="pg-met__l">Kalori</p><div class="pg-met__n"><span data-pg-kcal>0</span><span class="u">kkal</span></div></div>
         <div class="pg-met co2"><p class="pg-met__l">Emisi</p><div class="pg-met__n"><span data-pg-co2>0</span><span class="u">kg CO&#8322;e</span></div></div>
-        <div class="pg-met off"><p class="pg-met__l">Nilai tebus</p><div class="pg-met__n"><span class="u" style="margin:0 1px 0 0">Rp</span><span data-pg-rp>0</span></div></div>
+        <div class="pg-met off"><p class="pg-met__l">Nilai tebus</p><div class="pg-met__n"><span class="u" style="margin:0 1px 0 0">US$</span><span data-pg-rp>0.00</span></div></div>
       </div>
 
       <div class="pg-brk">
@@ -140,11 +140,11 @@
 
       <div class="pg-off">
         <p class="pg-off__tx">Emisi setara serapan <b data-pg-days>—</b> oleh satu pohon dewasa. Tebus sekarang, atau kaitkan ke pohonmu di <b>Glyiv Aset</b>.</p>
-        <button class="pg-off__btn" id="pgTebus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z"/></svg>Tebus <span data-pg-rp2>Rp—</span></button>
+        <button class="pg-off__btn" id="pgTebus"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 4C20 4 8 4 5 12c-2.2 5.9 1.4 8 1.4 8s2.1 3.6 8-.6C21 16 20 4 20 4Z"/></svg>Tebus <span data-pg-rp2>US$—</span></button>
       </div>
     </div>
   </div>
-  <p class="pg-note">Metodologi: emisi dihitung activity-LCA (resep &times; faktor emisi bahan) dengan fallback spend-based EXIOBASE saat data bahan belum lengkap. Faktor bahan &asymp; Poore &amp; Nemecek, <em>Science</em> (2018) &amp; ADEME Agribalyse. Dua angka berikut ilustratif &#9888;&#65038;, dipakai hanya untuk pratinjau label: harga karbon &asymp;Rp70.000/tCO&#8322;e, dan serapan 1 pohon dewasa &asymp;22 kg CO&#8322; per tahun &mdash; keduanya bervariasi menurut pasar, spesies, dan umur tegakan. Semua angka pratinjau — bukan klaim netral karbon, melainkan kontribusi yang bisa dipertanggungjawabkan.</p>
+  <p class="pg-note">Metodologi: emisi dihitung activity-LCA (resep &times; faktor emisi bahan) dengan fallback spend-based EXIOBASE saat data bahan belum lengkap. Faktor bahan &asymp; Poore &amp; Nemecek, <em>Science</em> (2018) &amp; ADEME Agribalyse. Dua angka berikut ilustratif &#9888;&#65038;, dipakai hanya untuk pratinjau label: harga karbon &asymp;US$5/tCO&#8322;e, dan serapan 1 pohon dewasa &asymp;22 kg CO&#8322; per tahun &mdash; keduanya bervariasi menurut pasar, spesies, dan umur tegakan. Semua angka pratinjau — bukan klaim netral karbon, melainkan kontribusi yang bisa dipertanggungjawabkan.</p>
 </div></section>
 
 <!-- evidence -->
@@ -173,9 +173,16 @@
   "use strict";
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
-  var PRICE = 70;            // Rp per kg CO2e (illustrative)
+  /* Harga karbon ILUSTRATIF dalam USD — mata uang default Glyiv sejak
+     16 Agustus 2026. US$5/tCO2e = US$0.005/kg. Ditetapkan LANGSUNG dalam dolar,
+     bukan dikonversi dari rupiah: tidak ada kurs di repo ini. Angka ini
+     bervariasi menurut pasar dan sudah ditandai ilustratif di catatan metodologi
+     di bawah demo. */
+  var PRICE = 0.005;         // US$ per kg CO2e (illustrative)
   var TREE_DAYS = 365 / 22;  // days one mature tree needs per kg CO2e (~16.6)
-  var idr = function (n) { return Math.round(n).toLocaleString("id-ID"); };
+  var usd = function (n) {
+    return Number(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  };
 
   // segments: [bahan(tani/panen), proses, kemas, distribusi]
   var MENU = [
@@ -192,7 +199,7 @@
     function step(ts) {
       if (t0 === null) t0 = ts; var p = Math.min(1, (ts - t0) / dur), e = 1 - Math.pow(1 - p, 3);
       var v = from + (to - from) * e;
-      el.textContent = dec ? v.toFixed(dec) : idr(v);
+      el.textContent = dec ? v.toFixed(dec) : usd(v);
       if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
@@ -217,7 +224,7 @@
     tween($("[data-pg-rp]"), m.co2 * PRICE, 0);
     var days = Math.round(m.co2 * TREE_DAYS);
     $("[data-pg-days]").textContent = days + " hari";
-    $("[data-pg-rp2]").textContent = "Rp" + idr(m.co2 * PRICE);
+    $("[data-pg-rp2]").textContent = "US$" + usd(m.co2 * PRICE);
     // breakdown bar + legend
     var seg = m.seg, total = m.co2;
     seg.forEach(function (v, k) {
@@ -238,7 +245,7 @@
   var tb = $("#pgTebus");
   if (tb) tb.addEventListener("click", function () {
     var m = MENU[current] || MENU[1];
-    var msg = "Kontribusi Rp" + idr(m.co2 * PRICE) + " untuk menebus " + m.co2.toFixed(2) + " kg CO₂e (simulasi).";
+    var msg = "Kontribusi US$" + usd(m.co2 * PRICE) + " untuk menebus " + m.co2.toFixed(2) + " kg CO₂e (simulasi).";
     if (window.GA && GA.toast) GA.toast(msg); else alert(msg);
   });
 })();
